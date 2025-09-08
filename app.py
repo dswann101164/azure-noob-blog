@@ -116,15 +116,15 @@ def healthz():
 def home():
     return render_template("index.html", posts=POSTS, site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
 
-@app.route("/about")
+@app.route("/about/")  # trailing slash for directory-style output
 def about():
     return render_template("about.html", site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
 
-@app.route("/blog")
+@app.route("/blog/")  # trailing slash for directory-style output
 def blog():
     return render_template("blog_index.html", posts=POSTS, site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
 
-@app.route("/blog/<slug>")
+@app.route("/blog/<slug>/")  # trailing slash for directory-style output
 def blog_post(slug: str):
     post = POSTS_BY_SLUG.get(slug)
     if not post:
