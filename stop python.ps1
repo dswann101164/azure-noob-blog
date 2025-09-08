@@ -1,0 +1,1 @@
+﻿Stop-Process -Id (Get-Process -Name "python").Id -Force
