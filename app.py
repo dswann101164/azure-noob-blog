@@ -35,9 +35,17 @@ def _fmt_ymd(dt):
 
 # ---- Front matter helpers ----
 def parse_front_matter(text: str):
-    """Return (meta_dict, body_str). If no front matter, meta_dict = {}."""
-    if text.startswith("---"):
-        parts = text.split("---", 2)
+    """Return (meta_dict, body_str). If no front matter, meta_dict = {}.
+
+    Robust to UTF-8 BOM and leading blank lines/whitespace.
+    """
+    # Strip UTF-8 BOM if present, then any leading whitespace/newlines
+    if text.startswith("\ufeff"):
+        text = text.lstrip("\ufeff")
+    s = text.lstrip()
+
+    if s.startswith("---"):
+        parts = s.split("---", 2)
         if len(parts) >= 3:
             _, fm, body = parts
             try:
@@ -101,6 +109,17 @@ def load_posts():
 # ---- Cached posts ----
 POSTS = load_posts()
 POSTS_BY_SLUG = {p["slug"]: p for p in POSTS}
+
+# ---- Auto-reload posts in debug so new/edited files appear without restart ----
+def _refresh_posts_cache():
+    global POSTS, POSTS_BY_SLUG
+    POSTS = load_posts()
+    POSTS_BY_SLUG = {p["slug"]: p for p in POSTS}
+
+@app.before_request
+def _reload_posts_in_debug():
+    if app.debug:
+        _refresh_posts_cache()
 
 # ---- Health checks ----
 @app.route("/ping")
