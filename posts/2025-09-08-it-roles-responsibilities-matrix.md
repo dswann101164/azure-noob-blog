@@ -15,7 +15,7 @@ It fills a real gap: Microsoftâ€™s [Cloud Adoption Framework (CAF)](https:/
 
 ---
 
-## ðŸ“¥ Download the Matrix
+##  Download the Matrix
 - [Download the CAF Roles Matrix (PDF)](/static/downloads/roles-condensed-caf.pdf)  
 - [Download the CAF Roles Matrix (Excel)](/static/downloads/roles-condensed-caf.xlsx)
 
@@ -34,6 +34,6 @@ It fills a real gap: Microsoftâ€™s [Cloud Adoption Framework (CAF)](https:/
 
 ---
 
-ðŸ“Œ Want the complete detail?  
+ Want the complete detail?  
 See the [Full Roles & Responsibilities Matrix](/blog/it-roles-responsibilities-matrix).
 
