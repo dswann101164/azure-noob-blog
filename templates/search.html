@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Search</h1>
+<p class="summary">Type to search titles, summaries, and tags.</p>
+
+<input id="q" type="search" placeholder="Search posts..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+<div id="hits" style="margin-top:16px;"></div>
+
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+<script>
+(async function(){
+  const input = document.getElementById('q');
+  const hitsEl = document.getElementById('hits');
+
+  const res = await fetch('/search.json', {cache: 'no-store'});
+  const docs = await res.json();
+
+  // Build index
+  const idx = lunr(function(){
+    this.ref('slug');
+    this.field('title', { boost: 10 });
+    this.field('summary');
+    this.field('tags');
+    docs.forEach(d => this.add({
+      slug: d.slug,
+      title: d.title || '',
+      summary: d.summary || '',
+      tags: (d.tags || []).join(' ')
+    }), this);
+  });
+
+  function render(results){
+    if(!results.length){
+      hitsEl.innerHTML = '<p class="muted">No results.</p>';
+      return;
+    }
+    hitsEl.innerHTML = '<ul class="post-list">' + results.map(r => {
+      const d = docs.find(x => x.slug === r.ref);
+      const date = d.date || '';
+      const tags = (d.tags || []).map(t => `#${t}`).join(' ');
+      return `<li>
+        <a href="/blog/${d.slug}/">${escapeHtml(d.title || d.slug)}</a>
+        <span class="muted">· ${date}</span>
+        ${d.summary ? `<p class="summary">${escapeHtml(d.summary)}</p>` : ''}
+        ${tags ? `<p class="muted">${escapeHtml(tags)}</p>` : ''}
+      </li>`;
+    }).join('') + '</ul>';
+  }
+
+  // Basic HTML escape to be safe when inserting strings
+  function escapeHtml(s){
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  // Debounce
+  let t = null;
+  function debouncedSearch(q){
+    clearTimeout(t);
+    t = setTimeout(() => {
+      try {
+        const results = q ? idx.search(q) : [];
+        render(results);
+      } catch(e){
+        hitsEl.innerHTML = '<p class="muted">Invalid query.</p>';
+      }
+    }, 120);
+  }
+
+  // Enter to open first result
+  input.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      try {
+        const q = input.value.trim();
+        if(!q) return;
+        const results = idx.search(q);
+        if(results.length){
+          const first = docs.find(x => x.slug === results[0].ref);
+          if(first){ window.location.href = `/blog/${first.slug}/`; }
+        }
+      } catch(_) {}
+    }
+  });
+
+  // On type
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    if(!q){ hitsEl.innerHTML = ''; return; }
+    debouncedSearch(q);
+  });
+
+  // Pre-populate from ?q=
+  const params = new URLSearchParams(location.search);
+  const initialQ = params.get('q');
+  if(initialQ){
+    input.value = initialQ;
+    debouncedSearch(initialQ);
+  }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+﻿param(
+  [string]$RepoRoot = (Split-Path -Parent $MyInvocation.MyCommand.Path | Split-Path -Parent)
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+function Fail($msg) {
+  Write-Host "❌ $msg" -ForegroundColor Red
+  exit 1
+}
+
+function Warn($msg) {
+  Write-Host "⚠️  $msg" -ForegroundColor Yellow
+}
+
+# Paths
+$postsDir = Join-Path $RepoRoot 'posts'
+$staticDownloads = Join-Path $RepoRoot 'static\downloads'
+$staticHero = Join-Path $RepoRoot 'static\images\hero'
+
+if(!(Test-Path $postsDir)){ Fail "Posts directory not found: $postsDir" }
+
+# Results
+$errors = @()
+$warnings = @()
+
+# Helper: parse front matter (--- ... ---)
+function Parse-FrontMatter($text){
+  $s = $text.TrimStart([char]0xFEFF)  # strip BOM if present
+  if($s -match '^\s*---\s*\r?\n'){
+    # split only first two '---'
+    $parts = $s -split '^\s*---\s*$',[System.StringSplitOptions]::None,3
+    if($parts.Count -ge 3){
+      $fm = $parts[1]
+      $body = $parts[2].TrimStart()
+      try {
+        $meta = $fm | ConvertFrom-Yaml -ErrorAction Stop
+        if($meta -eq $null){ $meta = @{} }
+      } catch {
+        throw "Invalid YAML front-matter: $($_.Exception.Message)"
+      }
+      return @($meta, $body)
+    }
+  }
+  return @(@{}, $text)
+}
+
+# Validate all posts
+$seenSlugs = @{}
+Get-ChildItem $postsDir -Filter *.md | ForEach-Object {
+  $md = $_
+  $raw = Get-Content -Path $md.FullName -Raw -Encoding UTF8
+  try {
+    $res = Parse-FrontMatter $raw
+  } catch {
+    $errors += "[$($md.Name)] $_"
+    return
+  }
+  $meta = $res[0]
+  $body = $res[1]
+
+  # slug
+  $fileSlug = [System.IO.Path]::GetFileNameWithoutExtension($md.Name)
+  $slug = $meta.slug
+  if([string]::IsNullOrWhiteSpace($slug)){ $slug = $fileSlug }
+  if($slug -ne $fileSlug){
+    $errors += "[$($md.Name)] slug '$slug' does not match filename '$fileSlug'. Either set slug: $fileSlug or rename the file."
+  }
+  if($seenSlugs.ContainsKey($slug)){
+    $errors += "[$($md.Name)] duplicate slug '$slug' also used by '$($seenSlugs[$slug])'."
+  } else {
+    $seenSlugs[$slug] = $md.Name
+  }
+
+  # title
+  if([string]::IsNullOrWhiteSpace($meta.title)){
+    $errors += "[$($md.Name)] missing required 'title' in front-matter."
+  }
+
+  # date
+  $dateOk = $false
+  if($meta.date){
+    $dateStr = [string]$meta.date
+    $formats = @('yyyy-MM-dd','yyyy-MM-dd HH:mm','yyyy-MM-dd HH:mm:ss','o')
+    foreach($fmt in $formats){
+      try {
+        [void][DateTime]::ParseExact($dateStr, $fmt, $null)
+        $dateOk = $true; break
+      } catch {}
+    }
+    if(-not $dateOk){
+      try {
+        [void][DateTime]::Parse($dateStr)
+        $dateOk = $true
+      } catch {}
+    }
+  }
+  if(-not $dateOk){ $errors += "[$($md.Name)] invalid or missing 'date' (use YYYY-MM-DD or ISO8601)." }
+
+  # summary
+  if([string]::IsNullOrWhiteSpace($meta.summary)){
+    $errors += "[$($md.Name)] missing required 'summary' in front-matter."
+  }
+
+  # tags
+  $tags = @()
+  if($meta.tags -is [System.Array]){ $tags = @($meta.tags) }
+  elseif($meta.tags){ $tags = @([string]$meta.tags) }
+  if($tags.Count -eq 0){
+    $errors += "[$($md.Name)] missing required 'tags' (must be a non-empty list)."
+  }
+
+  # cover (warn only)
+  if($meta.cover){
+    $coverPath = Join-Path $staticHero $meta.cover
+    if(!(Test-Path $coverPath)){
+      $warnings += "[$($md.Name)] cover '$($meta.cover)' not found under static/images/hero/ (this is a warning)."
+    }
+  }
+
+  # downloads referenced in body must exist (static/downloads/*)
+  $pattern = '(?:href|src)\s*=\s*["'']\/?static\/downloads\/([^"'']+)["'']'
+  $matches = [System.Text.RegularExpressions.Regex]::Matches($raw, $pattern, 'IgnoreCase')
+  foreach($m in $matches){
+    $fname = $m.Groups[1].Value
+    $fpath = Join-Path $staticDownloads $fname
+    if(!(Test-Path $fpath)){
+      $errors += "[$($md.Name)] download referenced but missing: static/downloads/$fname"
+    }
+  }
+}
+
+# Print summary
+if($warnings.Count){ $warnings | ForEach-Object { Warn $_ } }
+if($errors.Count){
+  $errors | ForEach-Object { Write-Host "❌ $_" -ForegroundColor Red }
+  Fail "Validation failed with $($errors.Count) error(s)."
+} else {
+  Write-Host "✅ Validation passed." -ForegroundColor Green
+}

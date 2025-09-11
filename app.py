@@ -4,11 +4,16 @@ from pathlib import Path
 from email.utils import format_datetime
 import os
 import re
+import json
 import markdown
 import yaml
 
 app = Flask(__name__)
 app.config["PROPAGATE_EXCEPTIONS"] = True  # show real errors in browser when debug=True
+
+@app.context_processor
+def inject_site_url():
+    return {"SITE_URL": SITE_URL}
 
 # ---- Site identity ----
 SITE_NAME = "Azure Noob"
@@ -133,15 +138,29 @@ def healthz():
 # ---- Routes ----
 @app.route("/")
 def home():
-    return render_template("index.html", posts=POSTS, site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
+    return render_template("index.html",
+                           posts=POSTS,
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"{SITE_NAME} · {SITE_TAGLINE}",
+                           meta_description="Step-by-step cloud guides, KQL, Terraform, and automation.")
 
 @app.route("/about/")  # trailing slash for directory-style output
 def about():
-    return render_template("about.html", site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
+    return render_template("about.html",
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"About · {SITE_NAME}",
+                           meta_description=f"About {SITE_NAME}.")
 
 @app.route("/blog/")  # trailing slash for directory-style output
 def blog():
-    return render_template("blog_index.html", posts=POSTS, site_name=SITE_NAME, site_tagline=SITE_TAGLINE)
+    return render_template("blog_index.html",
+                           posts=POSTS,
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"Blog · {SITE_NAME}",
+                           meta_description="Latest posts from Azure Noob.")
 
 @app.route("/blog/<slug>/")  # trailing slash for directory-style output
 def blog_post(slug: str):
@@ -168,6 +187,15 @@ def blog_post(slug: str):
     next_post = POSTS[idx - 1] if idx is not None and idx - 1 >= 0 else None
     to_obj = (lambda d: type("P", (), d) if d else None)
 
+    # --- SEO/context vars for <head> ---
+    canonical = f"{SITE_URL}{request.path}"
+    cover_name = meta.get("cover") or post.get("cover") or "logo.png"
+    og_image = url_for(
+        "static",
+        filename=f"images/hero/{cover_name}" if cover_name != "logo.png" else "images/logo.png",
+        _external=True
+    )
+
     return render_template(
         "blog_post.html",
         post=post,
@@ -178,7 +206,73 @@ def blog_post(slug: str):
         next_post=to_obj(next_post),
         site_name=SITE_NAME,
         site_tagline=SITE_TAGLINE,
+        # --- variables used by base.html head ---
+        page_title=f"{post['title']} · {SITE_NAME}",
+        meta_description=post.get("summary") or "",
+        canonical_url=canonical,
+        og_image=og_image,
+        date_published_iso=post["date"].isoformat(),
     )
+
+# ---- Tags (index and per-tag) ----
+@app.route("/tags/")
+def tags_index():
+    # Collect tag counts (case-insensitive), but display with first-seen casing
+    counts = {}
+    casing = {}
+    for p in POSTS:
+        for t in (p.get("tags") or []):
+            if not t:
+                continue
+            key = t.lower()
+            counts[key] = counts.get(key, 0) + 1
+            casing.setdefault(key, t)  # preserve first casing
+    # sort by count desc then alpha
+    items = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    tags_list = [{"tag": casing[k], "count": v} for k, v in items]
+
+    return render_template("tags_index.html",
+                           tags=tags_list,
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"Tags · {SITE_NAME}",
+                           meta_description=f"Browse all tags on {SITE_NAME}.")
+
+@app.route("/tags/<tag>/")
+def by_tag(tag):
+    tl = tag.lower()
+    matched = [p for p in POSTS if any((t or "").lower() == tl for t in p.get("tags", []))]
+    if not matched:
+        abort(404)
+    return render_template("tag_index.html",
+                           tag=tag,
+                           posts=matched,
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"Tag: {tag} · {SITE_NAME}",
+                           meta_description=f"Posts tagged {tag} on {SITE_NAME}.")
+
+# ---- Search ----
+@app.route("/search/")
+def search_page():
+    return render_template("search.html",
+                           site_name=SITE_NAME,
+                           site_tagline=SITE_TAGLINE,
+                           page_title=f"Search · {SITE_NAME}",
+                           meta_description=f"Search posts on {SITE_NAME}.")
+
+@app.route("/search.json")
+def search_json():
+    out = []
+    for p in POSTS:
+        out.append({
+            "slug": p["slug"],
+            "title": p["title"],
+            "summary": p["summary"],
+            "date": p["date"].date().isoformat(),
+            "tags": p["tags"],
+        })
+    return Response(json.dumps(out, ensure_ascii=False), mimetype="application/json")
 
 # ---- Robots / Sitemap / RSS ----
 def _absurl(endpoint, **values) -> str:
@@ -187,14 +281,36 @@ def _absurl(endpoint, **values) -> str:
 
 @app.route("/robots.txt")
 def robots_txt():
-    lines = ["User-agent: *", "Allow: /", f"Sitemap: {SITE_URL.rstrip('/')}/sitemap.xml", ""]
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        f"Sitemap: {SITE_URL.rstrip('/')}/sitemap.xml",
+        ""
+    ]
     return Response("\n".join(lines), mimetype="text/plain")
 
 @app.route("/sitemap.xml")
 def sitemap_xml():
-    urls = [{"loc": _absurl("home")}, {"loc": _absurl("blog")}, {"loc": _absurl("about")}]
+    urls = [
+        {"loc": _absurl("home")},
+        {"loc": _absurl("blog")},
+        {"loc": _absurl("about")},
+        {"loc": f"{SITE_URL.rstrip('/')}/tags/"},
+    ]
     for p in POSTS:
         urls.append({"loc": _absurl("blog_post", slug=p["slug"]), "lastmod": p["date"].date().isoformat()})
+
+    # include each tag page
+    seen_tags = set()
+    for p in POSTS:
+        for t in p.get("tags", []):
+            if not t:
+                continue
+            key = t.lower()
+            if key in seen_tags:
+                continue
+            seen_tags.add(key)
+            urls.append({"loc": f"{SITE_URL.rstrip('/')}/tags/{t}/"})
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']

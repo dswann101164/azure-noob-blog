@@ -1,55 +1,38 @@
 {% extends "base.html" %}
-{% block title %}{{ post.title }} · Azure Noob{% endblock %}
-
 {% block content %}
-  <div class="page-grid">
-    <article class="post content">
-      <header class="card" style="margin-bottom:1rem;">
-        <small class="post-meta">{{ post.date|ymd }} · ~{{ reading_min }} min read</small>
-        <h1 style="margin-top:.35rem">{{ post.title }}</h1>
-        {% if post.summary %}<p>{{ post.summary }}</p>{% endif %}
+<article class="post">
+  {# Hero image (only if provided in front matter or metadata) #}
+  {% if cover %}
+  <figure class="hero">
+    <img src="{{ url_for('static', filename='images/hero/' ~ cover) }}" alt="{{ post.title }}">
+  </figure>
+  {% endif %}
 
-        {% if post.tags %}
-        <div style="margin-top:.5rem;">
-          {% for t in post.tags %}
-            <span style="
-              display:inline-block; font-size:.8rem; font-weight:600;
-              padding:.2rem .5rem; border:1px solid var(--border);
-              border-radius:999px; background:var(--card); margin-right:.35rem;">
-              #{{ t }}
-            </span>
-          {% endfor %}
-        </div>
-        {% endif %}
-      </header>
+  <header>
+    <h1>{{ post.title }}</h1>
+    <p class="meta">
+      {{ post.date.strftime('%B %d, %Y') }} · ~{{ reading_min }} min read
+    </p>
+  </header>
 
-      <div class="post-body card">
-        {{ content|safe }}
-      </div>
-
-      <div class="card" style="margin-top:1rem; display:flex; justify-content:space-between;">
-        <p style="margin:0;"><a href="{{ url_for('blog') }}">← Back to all posts</a></p>
-        <p style="margin:0;">
-          {% if prev_post %}<a href="{{ url_for('blog_post', slug=prev_post.slug) }}">← {{ prev_post.title }}</a>{% endif %}
-          {% if next_post %}{% if prev_post %} · {% endif %}<a href="{{ url_for('blog_post', slug=next_post.slug) }}">{{ next_post.title }} →</a>{% endif %}
-        </p>
-      </div>
-    </article>
-
-    <aside class="sidebar">
-      <div class="widget">
-        <h3>About</h3>
-        <p>{{ site_tagline }}</p>
-        <p><a href="{{ url_for('about') }}">Learn more →</a></p>
-      </div>
-      <div class="widget">
-        <h3>On this page</h3>
-        <p>Use your browser’s find (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>F</kbd>) to jump.</p>
-      </div>
-      <div class="widget">
-        <h3>Share</h3>
-        <p><a href="" onclick="navigator.clipboard.writeText(location.href); return false;">Copy link</a></p>
-      </div>
-    </aside>
+  {# Download buttons (optional — adjust filenames as needed) #}
+  <div class="downloads">
+    <a class="btn" href="{{ url_for('static', filename='downloads/roles-caf-matrix.xlsx') }}">Download Excel</a>
+    <a class="btn" href="{{ url_for('static', filename='downloads/roles-condensed-caf.pdf') }}">Download PDF</a>
   </div>
+
+  <div class="post-body">
+    {{ content|safe }}
+  </div>
+
+  {# Prev/Next navigation #}
+  <nav class="post-nav">
+    {% if prev_post %}
+      <a class="prev" href="/blog/{{ prev_post.slug }}/">← {{ prev_post.title }}</a>
+    {% endif %}
+    {% if next_post %}
+      <a class="next" href="/blog/{{ next_post.slug }}/">{{ next_post.title }} →</a>
+    {% endif %}
+  </nav>
+</article>
 {% endblock %}

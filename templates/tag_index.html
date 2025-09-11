@@ -1,22 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Blog</h1>
-<p class="summary">All posts from {{ site_name }}.</p>
-
+<h1>Tag: {{ tag }}</h1>
 <ul class="post-list">
   {% for p in posts %}
     <li>
       <a href="/blog/{{ p.slug }}/">{{ p.title }}</a>
       <span class="muted">· {{ p.date|ymd }}</span>
       {% if p.summary %}<p class="summary">{{ p.summary }}</p>{% endif %}
-      {% if p.tags and p.tags|length %}
-        <p class="muted">
-          {% for t in p.tags %}
-            <span>#{{ t }}</span>{% if not loop.last %} {% endif %}
-          {% endfor %}
-        </p>
-      {% endif %}
     </li>
   {% endfor %}
 </ul>
+<p><a class="btn" href="/tags/">← All tags</a></p>
 {% endblock %}

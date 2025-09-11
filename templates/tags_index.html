@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Tags</h1>
+<p class="summary">Browse all tags across {{ site_name }}.</p>
+
+{% if tags and tags|length %}
+<ul class="tags-cloud" style="list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:10px;">
+  {% for t in tags %}
+    <li>
+      <a class="tag-chip" href="/tags/{{ t.tag }}/" style="display:inline-block;padding:6px 10px;border:1px solid #ddd;border-radius:999px;text-decoration:none;color:#111;background:#fafafa;">
+        #{{ t.tag }} <span class="muted">({{ t.count }})</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="muted">No tags yet.</p>
+{% endif %}
+{% endblock %}

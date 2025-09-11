@@ -3,86 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}Azure Noob{% endblock %}</title>
 
-  <!-- Primary SEO -->
-  <meta name="description" content="Azure Noob — step-by-step cloud guides, KQL, Terraform, and automation.">
-  <link rel="canonical" href="https://azure-noob.com/" />
+  <title>{{ page_title or "Azure Noob · Practical Cloud Guides" }}</title>
+  <meta name="description" content="{{ meta_description or 'Step-by-step cloud guides, KQL, Terraform, and automation.' }}">
 
-  <!-- Favicons -->
+  <link rel="canonical" href="{{ canonical_url or SITE_URL }}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ page_title or 'Azure Noob' }}">
+  <meta property="og:description" content="{{ meta_description or '' }}">
+  <meta property="og:url" content="{{ canonical_url or SITE_URL }}">
+  <meta property="og:image" content="{{ og_image or url_for('static', filename='images/logo.png', _external=True) }}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title or 'Azure Noob' }}">
+  <meta name="twitter:description" content="{{ meta_description or '' }}">
+  <meta name="twitter:image" content="{{ og_image or url_for('static', filename='images/logo.png', _external=True) }}">
+
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS" href="/rss.xml">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="application/ld+json">
+  {{ {
+    "@context":"https://schema.org",
+    "@type":"Article",
+    "headline": page_title,
+    "description": meta_description,
+    "datePublished": date_published_iso if date_published_iso is defined else None,
+    "dateModified": date_published_iso if date_published_iso is defined else None,
+    "mainEntityOfPage":{"@type":"WebPage","@id": canonical_url or SITE_URL},
+    "image": og_image or url_for('static', filename='images/logo.png', _external=True),
+    "author":{"@type":"Person","name":"David Swann"},
+    "publisher":{"@type":"Organization","name":"Azure Noob","logo":{"@type":"ImageObject","url": url_for('static', filename='images/logo.png', _external=True)}}
+  }|tojson }}
+  </script>
+
   <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
-  <!-- <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}"> -->
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Azure Noob">
-  <meta property="og:description" content="Step-by-step cloud guides, KQL, Terraform, and automation.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://azure-noob.com/">
-  <meta property="og:image" content="{{ url_for('static', filename='images/logo.png') }}">
-  <meta property="og:site_name" content="Azure Noob">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Azure Noob">
-  <meta name="twitter:description" content="Step-by-step cloud guides, KQL, Terraform, and automation.">
-  <meta name="twitter:image" content="{{ url_for('static', filename='images/logo.png') }}">
-
-  <!-- Feeds & discovery -->
-  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS" href="{{ url_for('rss_xml') }}">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-
-  <!-- Robots hint -->
-  <meta name="robots" content="index,follow">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=3">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav-wrap">
-      <div class="brand-block">
-        <a href="{{ url_for('home') }}" class="brand-link">
-          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Azure Noob Logo" class="logo">
-        </a>
-        <span class="brand-text">
-          <small>Practical Cloud Guides</small>
-          <strong>Azure Noob</strong>
-        </span>
-      </div>
-
-      <nav class="nav">
-        <a href="{{ url_for('home') }}" class="{{ 'is-active' if request and request.endpoint=='home' else '' }}">Home</a>
-        <a href="{{ url_for('blog') }}" class="{{ 'is-active' if request and request.endpoint=='blog' else '' }}">Blog</a>
-        <a href="{{ url_for('about') }}" class="{{ 'is-active' if request and request.endpoint=='about' else '' }}">About</a>
+      <a class="brand" href="/">{{ site_name or "Azure Noob" }}</a>
+      <nav>
+        <a href="/blog/">Blog</a>
+        <a href="/tags/">Tags</a>
+        <a href="/search/">Search</a>
+        <a href="/about/">About</a>
+        <a href="/rss.xml">RSS</a>
       </nav>
     </div>
   </header>
 
-  <main class="page wrap">
+  <main class="wrap">
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="site-footer dark">
-    <div class="wrap">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Azure Noob Logo" class="footer-logo">
-          <div>
-            <strong>Azure Noob</strong><br>
-            Practical Cloud Guides
-          </div>
-        </div>
-        <nav class="footer-nav">
-          <a href="{{ url_for('home') }}">Home</a>
-          <a href="{{ url_for('blog') }}">Blog</a>
-          <a href="{{ url_for('about') }}">About</a>
-        </nav>
-      </div>
-      <div class="footer-bottom">
-        <small>© 2025 Azure Noob</small>
-        <small class="muted">Views are my own. Educational purposes only. No confidential or proprietary info.</small>
-      </div>
-    </div>
+  <footer class="site-footer wrap">
+    <p>© {{ now().year if now is defined else '' }} Azure Noob</p>
   </footer>
 </body>
 </html>

@@ -1,56 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Azure Noob · Practical Cloud Guides{% endblock %}
-
 {% block content %}
-  <section class="content">
-    <h1>Practical Cloud Guides</h1>
-    <p class="lead">
-      Step-by-step Azure, KQL, Terraform, and VMware→Azure notes — screenshot-heavy, copy-paste friendly.
-    </p>
+<section class="home-hero">
+  <h1>{{ site_name }} — {{ site_tagline }}</h1>
+  <p class="summary">
+    Step-by-step Azure, KQL, Terraform, and automation—practical guides you can copy-paste and ship.
+  </p>
+</section>
 
-    <div class="page-grid" style="margin-top:1.5rem;">
-      <div class="content">
-        <div class="card">
-          <h2 style="margin-top:0;">Latest Posts</h2>
-
-          {% set recent = (posts or [])[:3] %}
-          {% if recent %}
-          <ul class="post-list">
-            {% for post in recent %}
-            <li>
-              <div class="post-meta">{{ post.date|ymd }}</div>
-              <h2 style="margin: .1rem 0 .35rem;">
-                <a href="{{ url_for('blog_post', slug=post.slug) }}">{{ post.title }}</a>
-              </h2>
-              <p>{{ post.summary }}</p>
-            </li>
+<section class="latest">
+  <h2>Latest Posts</h2>
+  <ul class="post-list">
+    {% for p in posts[:5] %}
+      <li>
+        <a href="/blog/{{ p.slug }}/">{{ p.title }}</a>
+        <span class="muted">· {{ p.date|ymd }}</span>
+        {% if p.summary %}<p class="summary">{{ p.summary }}</p>{% endif %}
+        {% if p.tags and p.tags|length %}
+          <p class="muted">
+            {% for t in p.tags %}
+              <span>#{{ t }}</span>{% if not loop.last %} {% endif %}
             {% endfor %}
-          </ul>
-          {% else %}
-            <p>No posts yet — check back soon.</p>
-          {% endif %}
-
-          <p><a href="{{ url_for('blog') }}">Browse all posts →</a></p>
-        </div>
-      </div>
-
-      <aside class="sidebar">
-        <div class="widget">
-          <h3>Start Here</h3>
-          <p>New? Read the intro and how I structure guides.</p>
-          <p><a href="{{ url_for('about') }}">About Azure Noob →</a></p>
-        </div>
-
-        <div class="widget">
-          <h3>Popular Topics</h3>
-          <ul style="margin:0; padding-left:1rem;">
-            <li>KQL basics &amp; patterns</li>
-            <li>Terraform on Azure</li>
-            <li>VMware → Azure migration</li>
-            <li>Automation snippets</li>
-          </ul>
-        </div>
-      </aside>
-    </div>
-  </section>
+          </p>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a class="btn" href="/blog/">Browse all posts →</a></p>
+</section>
 {% endblock %}

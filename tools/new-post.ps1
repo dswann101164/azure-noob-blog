@@ -1,5 +1,5 @@
 ﻿param(
-  [Parameter(Mandatory=$true)][string]$Title,     # e.g. 'My First Azure VM'
+  [Parameter(Mandatory=$true)][string]$Title,
   [string]$Slug = $null
 )
 
@@ -18,6 +18,9 @@ description: ""
 tags: [azure]
 cover: /static/images/logo.png
 ---
+# $Title
+
+Write your intro here…
 "@
 
 Set-Content $path $front -Encoding UTF8
