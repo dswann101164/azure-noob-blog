@@ -18,13 +18,13 @@ $py = Join-Path $root '.venv\Scripts\python.exe'
 if(!(Test-Path $py)) { $py = 'python' }
 & $py (Join-Path $root 'freeze.py')
 
-# (Optional) legacy static sync — freezer already includes static; keep as no-op fallback
+# Freezer already copies static, but keep mirror as safety
 if (Test-Path $staticSrc) {
   Write-Host "📦 Ensuring static/ mirrored to docs/static/..."
   robocopy $staticSrc $staticDst /MIR | Out-Null
 }
 
-# Guarantee minimal 404/index for Pages
+# Minimal 404 for Pages
 $docs404 = Join-Path $docs '404.html'
 if (!(Test-Path $docs404)) {
 @'
@@ -46,14 +46,23 @@ if (!(Test-Path (Join-Path $root '.git'))) {
 Write-Host "📝 Committing and pushing..."
 Push-Location $root
 try {
-  git add .
+  # Capture stderr so warnings don't halt the script
+  & git add . 2>&1 | Write-Host
+
   & git commit -m "Publish: $hash" 2>&1 | Write-Host
   $branch = (& git rev-parse --abbrev-ref HEAD).Trim()
   if (-not $branch) { $branch = 'main' }
+
   $hasUpstream = $true
   try { & git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null | Out-Null; if ($LASTEXITCODE -ne 0) { $hasUpstream = $false } } catch { $hasUpstream = $false }
-  if (-not $hasUpstream) { & git push -u origin $branch 2>&1 | Write-Host } else { & git push 2>&1 | Write-Host }
+
+  if (-not $hasUpstream) {
+    & git push -u origin $branch 2>&1 | Write-Host
+  } else {
+    & git push 2>&1 | Write-Host
+  }
   if ($LASTEXITCODE -ne 0) { throw "Git push failed." }
+
   Write-Host "✅ Pushed. Build ID: $hash"
 } finally {
   Pop-Location
