@@ -19,32 +19,18 @@
   <meta name="twitter:description" content="{{ meta_description or '' }}">
   <meta name="twitter:image" content="{{ og_image or url_for('static', filename='images/logo.png', _external=True) }}">
 
-  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS" href="/rss.xml">
-  <meta name="theme-color" content="#ffffff">
-
-  <script type="application/ld+json">
-  {{ {
-    "@context":"https://schema.org",
-    "@type":"Article",
-    "headline": page_title,
-    "description": meta_description,
-    "datePublished": date_published_iso if date_published_iso is defined else None,
-    "dateModified": date_published_iso if date_published_iso is defined else None,
-    "mainEntityOfPage":{"@type":"WebPage","@id": canonical_url or SITE_URL},
-    "image": og_image or url_for('static', filename='images/logo.png', _external=True),
-    "author":{"@type":"Person","name":"David Swann"},
-    "publisher":{"@type":"Organization","name":"Azure Noob","logo":{"@type":"ImageObject","url": url_for('static', filename='images/logo.png', _external=True)}}
-  }|tojson }}
-  </script>
-
   <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav-wrap">
-      <a class="brand" href="/">{{ site_name or "Azure Noob" }}</a>
+      <a class="brand" href="/">
+        <img class="brand-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Azure Noob">
+        <span>Azure Noob</span>
+      </a>
       <nav>
+        <a href="/">Home</a>
         <a href="/blog/">Blog</a>
         <a href="/tags/">Tags</a>
         <a href="/search/">Search</a>
@@ -58,8 +44,10 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="site-footer wrap">
-    <p>© {{ now().year if now is defined else '' }} Azure Noob</p>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© {{ now().year if now is defined else '' }} Azure Noob · <a href="/rss.xml">RSS</a></p>
+    </div>
   </footer>
 </body>
 </html>
