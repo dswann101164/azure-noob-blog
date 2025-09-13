@@ -8,7 +8,7 @@
   <meta name="description" content="{{ meta_description or 'Step-by-step cloud guides, KQL, Terraform, and automation.' }}">
 
   <link rel="canonical" href="{{ canonical_url or SITE_URL }}">
-  <meta property="og:type" content="article">
+  <meta property="og:type" content="{{ og_type or 'website' }}">
   <meta property="og:title" content="{{ page_title or 'Azure Noob' }}">
   <meta property="og:description" content="{{ meta_description or '' }}">
   <meta property="og:url" content="{{ canonical_url or SITE_URL }}">
@@ -21,6 +21,7 @@
 
   <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS" href="/rss.xml">
 </head>
 <body>
   <header class="site-header">
@@ -31,11 +32,11 @@
         <span class="brand-slogan">{{ site_tagline }}</span>
       </a>  
       <nav>
-        <a href="/">Home</a>
-        <a href="/blog/">Blog</a>
-        <a href="/tags/">Tags</a>
-        <a href="/search/">Search</a>
-        <a href="/about/">About</a>
+        <a href="/"        class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+        <a href="/blog/"   class="{{ 'active' if request.path.startswith('/blog/') else '' }}">Blog</a>
+        <a href="/tags/"   class="{{ 'active' if request.path.startswith('/tags/') else '' }}">Tags</a>
+        <a href="/search/" class="{{ 'active' if request.path.startswith('/search') else '' }}">Search</a>
+        <a href="/about/"  class="{{ 'active' if request.path.startswith('/about/') else '' }}">About</a>
         <a href="/rss.xml">RSS</a>
       </nav>
     </div>
@@ -47,7 +48,7 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>© {{ now().year if now is defined else '' }} Azure Noob · <a href="/rss.xml">RSS</a></p>
+      <p>© {{ now().year }} Azure Noob · <a href="/rss.xml">RSS</a></p>
     </div>
   </footer>
 </body>

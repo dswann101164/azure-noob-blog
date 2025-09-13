@@ -45,7 +45,7 @@ def about():
 # SEARCH (page + JSON)
 # These names must match your @app.route handlers in app.py
 @freezer.register_generator
-def search():            # /search/
+def search_page():       # /search/  <-- renamed from `search` to match endpoint
     yield {}
 
 @freezer.register_generator

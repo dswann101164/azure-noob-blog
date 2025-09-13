@@ -1,53 +1,83 @@
 {% extends "base.html" %}
+{% block title %}Search · {{ site_name }}{% endblock %}
+
 {% block content %}
-<h1>Search</h1>
-<p class="summary">Type to search titles, summaries, and tags.</p>
+<section class="container">
+  <h1>Search</h1>
+  <div class="search-box">
+    <input id="searchBox" type="search" placeholder="Type to search posts, summaries, or tags…" autofocus>
+  </div>
 
-<input id="q" type="search" placeholder="Search posts..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
-<div id="hits" style="margin-top:16px;"></div>
+  <div id="searchHint" class="muted">Start typing to see results.</div>
+  <ul id="results" class="search-results"></ul>
+</section>
 
-<script src="https://unpkg.com/lunr/lunr.js"></script>
+<!-- Fuse.js (no build step needed) -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 <script>
-(async function(){
-  const input = document.getElementById('q');
-  const hitsEl = document.getElementById('hits');
+(async function () {
+  const res = await fetch("/search.json");
+  const data = await res.json();
 
-  const res = await fetch('{{ url_for("search_json") }}', {cache: 'no-store'});
-  const docs = await res.json();
-
-  const idx = lunr(function(){
-    this.ref('slug');
-    this.field('title', { boost: 10 });
-    this.field('summary');
-    this.field('tags');
-    docs.forEach(d => this.add({
-      slug: d.slug,
-      title: d.title || '',
-      summary: d.summary || '',
-      tags: (d.tags || []).join(' ')
-    }), this);
+  const fuse = new Fuse(data, {
+    keys: [
+      { name: "title",   weight: 0.55 },
+      { name: "summary", weight: 0.30 },
+      { name: "tags",    weight: 0.15 }
+    ],
+    threshold: 0.3,
+    ignoreLocation: true,
+    includeScore: true,
+    minMatchCharLength: 2
   });
 
-  function render(results){
-    if(!results.length){ hitsEl.innerHTML = '<p class="muted">No results.</p>'; return; }
-    hitsEl.innerHTML = '<ul class="post-list">' + results.map(r => {
-      const d = docs.find(x => x.slug === r.ref);
-      const date = d.date || '';
-      const tags = (d.tags || []).map(t => `#${t}`).join(' ');
-      return `<li>
-        <a href="/blog/${d.slug}/">${d.title}</a>
-        <span class="muted">· ${date}</span>
-        ${d.summary ? `<p class="summary">${d.summary}</p>` : ''}
-        ${tags ? `<p class="muted">${tags}</p>` : ''}
-      </li>`;
-    }).join('') + '</ul>';
+  const box = document.getElementById("searchBox");
+  const list = document.getElementById("results");
+  const hint = document.getElementById("searchHint");
+
+  function render(items) {
+    list.innerHTML = "";
+    if (!items.length) {
+      list.innerHTML = "<li class='muted'>No results.</li>";
+      return;
+    }
+    for (const r of items.slice(0, 20)) {
+      const p = r.item;
+      const tags = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join(" ");
+      const date = p.date ? `<time class="date">${p.date}</time>` : "";
+      const summary = p.summary ? `<p class="summary">${p.summary}</p>` : "";
+      const li = document.createElement("li");
+      li.className = "result";
+      li.innerHTML = `
+        <a class="result-title" href="${p.url}">${p.title}</a>
+        <div class="meta">${date} ${tags}</div>
+        ${summary}
+      `;
+      list.appendChild(li);
+    }
   }
 
-  input.addEventListener('input', () => {
-    const q = input.value.trim();
-    if(!q){ hitsEl.innerHTML = ''; return; }
-    try { render(idx.search(q)); } catch(e){ hitsEl.innerHTML = '<p class="muted">Invalid query.</p>'; }
+  box.addEventListener("input", () => {
+    const q = box.value.trim();
+    hint.style.display = q ? "none" : "block";
+    if (!q) { list.innerHTML = ""; return; }
+    const results = fuse.search(q);
+    render(results);
   });
 })();
 </script>
+
+<style>
+.container { max-width: 800px; margin: 0 auto; }
+.search-box { margin: 1rem 0; }
+#searchBox { width: 100%; padding: .8rem 1rem; font-size: 1rem; }
+.search-results { list-style: none; padding: 0; }
+.result { padding: .75rem 0; border-bottom: 1px solid #eee; }
+.result-title { font-weight: 600; text-decoration: none; }
+.result-title:hover { text-decoration: underline; }
+.meta { font-size: .85rem; opacity: .75; margin: .25rem 0 .5rem; }
+.tag { display: inline-block; font-size: .75rem; border: 1px solid #ddd; padding: .1rem .4rem; border-radius: .35rem; margin-right: .25rem; }
+.muted { opacity: .6; }
+.summary { margin: 0; }
+</style>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, Response, url_for, request
+from flask import Flask, render_template, abort, Response, url_for, request, jsonify
 from datetime import datetime
 from pathlib import Path
 from email.utils import format_datetime
@@ -33,6 +33,11 @@ def inject_globals():
         "site_name": SITE_NAME,
         "site_tagline": SITE_TAGLINE,
     }
+
+# Provide {{ now().year }} in templates
+@app.context_processor
+def inject_time_utils():
+    return {"now": datetime.utcnow}
 
 # ---- Template helpers ----
 @app.template_filter("ymd")
@@ -154,15 +159,15 @@ def healthz():
 # ---- Routes ----
 @app.route("/")
 def home():
-    return render_template("index.html", posts=POSTS)
+    return render_template("index.html", posts=POSTS, og_type="website")
 
 @app.route("/about/")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", og_type="website")
 
 @app.route("/blog/")
 def blog():
-    return render_template("blog_index.html", posts=POSTS)
+    return render_template("blog_index.html", posts=POSTS, og_type="website")
 
 @app.route("/blog/<slug>/")
 def blog_post(slug: str):
@@ -208,6 +213,7 @@ def blog_post(slug: str):
         meta_description=meta_description,
         canonical_url=SITE_URL.rstrip("/") + request.path,
         og_image=og_image,
+        og_type="article",  # <--- correct OG type for posts
         date_published_iso=post["date"].isoformat() if isinstance(post["date"], datetime) else str(post["date"]),
     )
 
@@ -216,14 +222,37 @@ def blog_post(slug: str):
 def tags_index():
     # list of (tag, count), alpha sort
     items = sorted([(t, len(posts)) for t, posts in TAGS.items()], key=lambda x: x[0].lower())
-    return render_template("tags_index.html", tags=items)
+    return render_template("tags_index.html", tags=items, og_type="website")
 
 @app.route("/tags/<tag>/")
 def tag_page(tag: str):
     posts = TAGS.get(tag)
     if not posts:
         abort(404)
-    return render_template("tag_index.html", tag=tag, posts=posts)
+    return render_template("tag_index.html", tag=tag, posts=posts, og_type="website")
+
+# ---- Search ----
+@app.route("/search/")
+def search_page():
+    # Renders the search UI (Fuse.js on the client hits /search.json)
+    return render_template("search.html", og_type="website")
+
+@app.route("/search.json")
+def search_json():
+    # Convert POSTS to a minimal index that’s safe for the client
+    data = []
+    for p in POSTS:
+        data.append({
+            "title": p["title"],
+            "summary": p.get("summary", ""),
+            "url": url_for("blog_post", slug=p["slug"]),
+            "tags": p.get("tags", []),
+            "date": p["date"].strftime("%Y-%m-%d") if isinstance(p["date"], datetime) else str(p["date"]),
+        })
+    resp = jsonify(data)
+    # Small cache to help on GitHub Pages / CDN; tweak if needed
+    resp.headers["Cache-Control"] = "public, max-age=300"
+    return resp
 
 # ---- Robots / Sitemap / RSS ----
 def _absurl(endpoint, **values) -> str:
@@ -237,7 +266,13 @@ def robots_txt():
 
 @app.route("/sitemap.xml")
 def sitemap_xml():
-    urls = [{"loc": _absurl("home")}, {"loc": _absurl("blog")}, {"loc": _absurl("about")}, {"loc": _absurl("tags_index")}]
+    urls = [
+        {"loc": _absurl("home")},
+        {"loc": _absurl("blog")},
+        {"loc": _absurl("about")},
+        {"loc": _absurl("tags_index")},
+        {"loc": _absurl("search_page")},
+    ]
     for t in TAGS:
         urls.append({"loc": f"{SITE_URL.rstrip('/')}/tags/{t}/"})
     for p in POSTS:
@@ -284,14 +319,14 @@ def rss_xml():
 @app.errorhandler(404)
 def not_found(e):
     try:
-        return render_template("404.html"), 404
+        return render_template("404.html", og_type="website"), 404
     except Exception:
         return "404 Not Found", 404
 
 @app.errorhandler(500)
 def server_error(e):
     try:
-        return render_template("500.html"), 500
+        return render_template("500.html", og_type="website"), 500
     except Exception:
         return "500 Internal Server Error", 500
 
