@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Azure Noob · Practical Cloud Guides</title>
+  <meta name="description" content="Step-by-step cloud guides, KQL, Terraform, and automation.">
+
+  <link rel="canonical" href="http://127.0.0.1:5000">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="http://127.0.0.1:5000">
+  <meta property="og:image" content="https://azure-noob.com/static/images/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/logo.png">
+
+  <link rel="icon" href="../static/images/logo.png">
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS" href="/rss.xml">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="/">
+        <img class="brand-logo" src="../static/images/logo.png" alt="Azure Noob">
+        <span>Azure Noob</span>
+        <span class="brand-slogan">Don&#39;t be a Noob</span>
+      </a>  
+      <nav>
+        <a href="/"        class="">Home</a>
+        <a href="/blog/"   class="">Blog</a>
+        <a href="/tags/"   class="">Tags</a>
+        <a href="/search/" class="active">Search</a>
+        <a href="/about/"  class="">About</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    
+<section class="container">
+  <h1>Search</h1>
+  <div class="search-box">
+    <input id="searchBox" type="search" placeholder="Type to search posts, summaries, or tags…" autofocus>
+  </div>
+
+  <div id="searchHint" class="muted">Start typing to see results.</div>
+  <ul id="results" class="search-results"></ul>
+</section>
+
+<!-- Fuse.js (no build step needed) -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<script>
+(async function () {
+  const res = await fetch("/search.json");
+  const data = await res.json();
+
+  const fuse = new Fuse(data, {
+    keys: [
+      { name: "title",   weight: 0.55 },
+      { name: "summary", weight: 0.30 },
+      { name: "tags",    weight: 0.15 }
+    ],
+    threshold: 0.3,
+    ignoreLocation: true,
+    includeScore: true,
+    minMatchCharLength: 2
+  });
+
+  const box = document.getElementById("searchBox");
+  const list = document.getElementById("results");
+  const hint = document.getElementById("searchHint");
+
+  function render(items) {
+    list.innerHTML = "";
+    if (!items.length) {
+      list.innerHTML = "<li class='muted'>No results.</li>";
+      return;
+    }
+    for (const r of items.slice(0, 20)) {
+      const p = r.item;
+      const tags = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join(" ");
+      const date = p.date ? `<time class="date">${p.date}</time>` : "";
+      const summary = p.summary ? `<p class="summary">${p.summary}</p>` : "";
+      const li = document.createElement("li");
+      li.className = "result";
+      li.innerHTML = `
+        <a class="result-title" href="${p.url}">${p.title}</a>
+        <div class="meta">${date} ${tags}</div>
+        ${summary}
+      `;
+      list.appendChild(li);
+    }
+  }
+
+  box.addEventListener("input", () => {
+    const q = box.value.trim();
+    hint.style.display = q ? "none" : "block";
+    if (!q) { list.innerHTML = ""; return; }
+    const results = fuse.search(q);
+    render(results);
+  });
+})();
+</script>
+
+<style>
+.container { max-width: 800px; margin: 0 auto; }
+.search-box { margin: 1rem 0; }
+#searchBox { width: 100%; padding: .8rem 1rem; font-size: 1rem; }
+.search-results { list-style: none; padding: 0; }
+.result { padding: .75rem 0; border-bottom: 1px solid #eee; }
+.result-title { font-weight: 600; text-decoration: none; }
+.result-title:hover { text-decoration: underline; }
+.meta { font-size: .85rem; opacity: .75; margin: .25rem 0 .5rem; }
+.tag { display: inline-block; font-size: .75rem; border: 1px solid #ddd; padding: .1rem .4rem; border-radius: .35rem; margin-right: .25rem; }
+.muted { opacity: .6; }
+.summary { margin: 0; }
+</style>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© 2025 Azure Noob · <a href="/rss.xml">RSS</a></p>
+    </div>
+  </footer>
+</body>
+</html>
