@@ -3,7 +3,8 @@
 <h1>Search</h1>
 <p class="summary">Type to search titles, summaries, and tags.</p>
 
-<input id="q" type="search" placeholder="Search posts..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+<input id="q" type="search" placeholder="Search posts..."
+       style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
 <div id="hits" style="margin-top:16px;"></div>
 
 <script src="https://unpkg.com/lunr/lunr.js"></script>
@@ -12,7 +13,8 @@
   const input = document.getElementById('q');
   const hitsEl = document.getElementById('hits');
 
-  const res = await fetch('/search.json', {cache: 'no-store'});
+  // Use Flask url_for so it works when frozen with relative URLs
+  const res = await fetch('{{ url_for("search_json") }}', { cache: 'no-store' });
   const docs = await res.json();
 
   // Build index
@@ -39,67 +41,20 @@
       const date = d.date || '';
       const tags = (d.tags || []).map(t => `#${t}`).join(' ');
       return `<li>
-        <a href="/blog/${d.slug}/">${escapeHtml(d.title || d.slug)}</a>
+        <a href="/blog/${d.slug}/">${d.title}</a>
         <span class="muted">· ${date}</span>
-        ${d.summary ? `<p class="summary">${escapeHtml(d.summary)}</p>` : ''}
-        ${tags ? `<p class="muted">${escapeHtml(tags)}</p>` : ''}
+        ${d.summary ? `<p class="summary">${d.summary}</p>` : ''}
+        ${tags ? `<p class="muted">${tags}</p>` : ''}
       </li>`;
     }).join('') + '</ul>';
   }
 
-  // Basic HTML escape to be safe when inserting strings
-  function escapeHtml(s){
-    return String(s)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;')
-      .replace(/'/g,'&#39;');
-  }
-
-  // Debounce
-  let t = null;
-  function debouncedSearch(q){
-    clearTimeout(t);
-    t = setTimeout(() => {
-      try {
-        const results = q ? idx.search(q) : [];
-        render(results);
-      } catch(e){
-        hitsEl.innerHTML = '<p class="muted">Invalid query.</p>';
-      }
-    }, 120);
-  }
-
-  // Enter to open first result
-  input.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter'){
-      try {
-        const q = input.value.trim();
-        if(!q) return;
-        const results = idx.search(q);
-        if(results.length){
-          const first = docs.find(x => x.slug === results[0].ref);
-          if(first){ window.location.href = `/blog/${first.slug}/`; }
-        }
-      } catch(_) {}
-    }
-  });
-
-  // On type
   input.addEventListener('input', () => {
     const q = input.value.trim();
     if(!q){ hitsEl.innerHTML = ''; return; }
-    debouncedSearch(q);
+    try { render(idx.search(q)); }
+    catch(e){ hitsEl.innerHTML = '<p class="muted">Invalid query.</p>'; }
   });
-
-  // Pre-populate from ?q=
-  const params = new URLSearchParams(location.search);
-  const initialQ = params.get('q');
-  if(initialQ){
-    input.value = initialQ;
-    debouncedSearch(initialQ);
-  }
 })();
 </script>
 {% endblock %}
