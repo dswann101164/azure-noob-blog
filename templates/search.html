@@ -3,8 +3,7 @@
 <h1>Search</h1>
 <p class="summary">Type to search titles, summaries, and tags.</p>
 
-<input id="q" type="search" placeholder="Search posts..."
-       style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+<input id="q" type="search" placeholder="Search posts..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
 <div id="hits" style="margin-top:16px;"></div>
 
 <script src="https://unpkg.com/lunr/lunr.js"></script>
@@ -13,11 +12,9 @@
   const input = document.getElementById('q');
   const hitsEl = document.getElementById('hits');
 
-  // Use Flask url_for so it works when frozen with relative URLs
-  const res = await fetch('{{ url_for("search_json") }}', { cache: 'no-store' });
+  const res = await fetch('{{ url_for("search_json") }}', {cache: 'no-store'});
   const docs = await res.json();
 
-  // Build index
   const idx = lunr(function(){
     this.ref('slug');
     this.field('title', { boost: 10 });
@@ -32,10 +29,7 @@
   });
 
   function render(results){
-    if(!results.length){
-      hitsEl.innerHTML = '<p class="muted">No results.</p>';
-      return;
-    }
+    if(!results.length){ hitsEl.innerHTML = '<p class="muted">No results.</p>'; return; }
     hitsEl.innerHTML = '<ul class="post-list">' + results.map(r => {
       const d = docs.find(x => x.slug === r.ref);
       const date = d.date || '';
@@ -52,8 +46,7 @@
   input.addEventListener('input', () => {
     const q = input.value.trim();
     if(!q){ hitsEl.innerHTML = ''; return; }
-    try { render(idx.search(q)); }
-    catch(e){ hitsEl.innerHTML = '<p class="muted">Invalid query.</p>'; }
+    try { render(idx.search(q)); } catch(e){ hitsEl.innerHTML = '<p class="muted">Invalid query.</p>'; }
   });
 })();
 </script>
