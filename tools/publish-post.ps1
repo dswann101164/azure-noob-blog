@@ -60,7 +60,6 @@ Write-Host "📝 Committing and pushing..."
 Push-Location $root
 try {
   # 0) Make sure 'docs/' is actually tracked even if .gitignore is misconfigured
-  #    - Use force add for docs first, then add everything else
   & git add -f docs 2>&1 | Write-Host
   & git add .       2>&1 | Write-Host
 
@@ -69,15 +68,24 @@ try {
   if (-not $branch) { $branch = 'main' }
 
   Write-Host "🔄 Fetching & rebasing onto origin/$branch..."
-  & git fetch origin 2>&1 | Write-Host
-  # If there are local staged changes already, commit them first with a temp msg before rebase
-  $hasStaged = $false
-  & git diff --cached --quiet; if ($LASTEXITCODE -ne 0) { $hasStaged = $true }
-  if ($hasStaged) {
-    & git commit -m "Publish (pre-rebase stash): $hash" 2>&1 | Write-Host
+
+  # Temporarily relax error handling so git's stderr chatter doesn't terminate the script
+  $prevEAP = $ErrorActionPreference
+  $ErrorActionPreference = 'Continue'
+  try {
+    & git fetch origin 2>&1 | Out-Host
+
+    # If there are staged changes already, commit them before the rebase
+    & git diff --cached --quiet
+    if ($LASTEXITCODE -ne 0) {
+      & git commit -m "Publish (pre-rebase stash): $hash" 2>&1 | Out-Host
+    }
+
+    & git pull --rebase origin $branch 2>&1 | Out-Host
   }
-  # Now rebase
-  & git pull --rebase origin $branch 2>&1 | Write-Host
+  finally {
+    $ErrorActionPreference = $prevEAP
+  }
 
   # 2) Stage again in case rebase changed anything + ensure docs forced
   & git add -f docs 2>&1 | Write-Host
@@ -95,7 +103,7 @@ try {
   # 4) Push (set upstream if needed)
   $hasUpstream = $true
   try {
-    & git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null | Out-Null
+    & git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null | Out-Host
     if ($LASTEXITCODE -ne 0) { $hasUpstream = $false }
   } catch { $hasUpstream = $false }
 
@@ -107,6 +115,7 @@ try {
   if ($LASTEXITCODE -ne 0) { throw "Git push failed." }
 
   Write-Host "✅ Pushed. Build ID: $hash"
-} finally {
+}
+finally {
   Pop-Location
 }
