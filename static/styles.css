@@ -23,25 +23,30 @@ body {
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
 
 /* ---- Header / Nav (dark) ---- */
-header.site-header {
-  background: var(--header-bg);
-  color: var(--header-fg);
-  position: sticky; top: 0; z-index: 10;
-  box-shadow: 0 1px 0 rgba(0,0,0,.25);
+header.site-header{
+  background:var(--header-bg);
+  color:var(--header-fg);
+  position:sticky; top:0; z-index:10;
+  box-shadow:0 1px 0 rgba(0,0,0,.25);
 }
-.nav-wrap {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0;
+.nav-wrap{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 0;
 }
-.brand {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-weight: 800; text-decoration: none; color: var(--header-fg);
+.brand{
+  display:inline-flex; align-items:center; gap:10px;
+  font-weight:800; text-decoration:none; color:var(--header-fg);
 }
-.brand-logo { height: 28px; width: auto; display: block; border-radius: 6px; }
-header.site-header nav a {
-  color: var(--header-fg-muted); text-decoration: none; margin-left: 16px; font-weight: 600;
+.brand-logo{ height:36px; width:auto; display:block; border-radius:6px; }
+.brand-slogan{
+  margin-left:10px; padding:2px 8px; border-radius:999px;
+  background:#111827; color:#fff; font-size:.80rem; font-weight:700;
+  letter-spacing:.2px; opacity:.95;
 }
-header.site-header nav a:hover { color: var(--header-fg); text-decoration: underline; }
+header.site-header nav a{
+  color:var(--header-fg-muted); text-decoration:none; margin-left:16px; font-weight:600;
+}
+header.site-header nav a:hover{ color:var(--header-fg); text-decoration:underline; }
 
 /* ---- Footer ---- */
 .site-footer {
@@ -78,8 +83,9 @@ a:hover { color: var(--link-hover); }
 .btn:hover { background: #f0f0f0; }
 
 /* ---- Post body ---- */
-.post-body { margin-top: 20px; }
-.post-body img { max-width: 100%; border-radius: 6px; }
+.post-body { margin-top: 20px; line-height: 1.65; font-size: 1.05rem; }
+.post-body img { max-width: 100%; height: auto; border-radius: 6px; }
+.post-body p { margin: 1rem 0; }
 .post-body pre code {
   display: block; overflow: auto; padding: 12px;
   background: var(--code-bg); color: var(--code-fg);
@@ -87,53 +93,27 @@ a:hover { color: var(--link-hover); }
 }
 .post-body code { background: #f2f2f7; padding: 2px 4px; border-radius: 4px; }
 
-/* ---- Tables ---- */
-table { border-collapse: collapse; width: 100%; margin: 16px 0; }
-th, td { border: 1px solid #e6e6e6; padding: 8px 10px; text-align: left; }
-tr:nth-child(even) { background: #fbfbfb; }
+/* ---- Tables (responsive + readable) ---- */
+.post-body .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+.post-body .table-wrap table { min-width: 720px; }
+
+.post-body table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 0.95rem; }
+.post-body th, .post-body td { border: 1px solid #e6e6e6; padding: 8px 10px; text-align: left; vertical-align: top; }
+.post-body thead th { background: #f8fafc; position: sticky; top: 0; z-index: 1; }
+.post-body tr:nth-child(even) td { background: #fbfdff; }
+
+/* Sticky first column for wide matrices */
+.post-body td:first-child, .post-body th:first-child {
+  position: sticky; left: 0; background: #fff; z-index: 2;
+  box-shadow: 1px 0 0 rgba(0,0,0,0.05);
+}
 
 /* ---- Prev/Next ---- */
-.post-nav { display: flex; justify-content: space-between; margin-top: 28px; }
+.post-nav { display: flex; justify-content: space-between; margin-top: 28px; gap: 1rem; }
 .post-nav a { text-decoration: none; color: var(--link); font-weight: 600; }
 .post-nav a:hover { text-decoration: underline; }
 
-/* ---- Misc ---- */
-.about h2 { margin-top: 1.25rem; }
-.error-page { padding: 24px 0; }
-.error-page h1 { margin-bottom: 8px; }
-.tags-cloud .tag-chip { transition: background .15s ease; }
-.tags-cloud .tag-chip:hover { background: #f0f0f0; }
-
-/* ---- Small screens ---- */
-@media (max-width: 640px){
-  header.site-header nav a { margin-left: 10px; }
-}
-
-/* --- Dark header & brand --- */
-header.site-header{
-  background:#0b0d10; color:#fff; border-bottom:none;
-  position:sticky; top:0; z-index:10; box-shadow:0 1px 0 rgba(0,0,0,.25);
-}
-.nav-wrap{ padding:12px 0; }
-.brand{
-  color:#fff; display:inline-flex; gap:10px; align-items:center;
-  font-weight:800; text-decoration:none;
-}
-.brand-logo{ height:28px; width:auto; display:block; border-radius:6px; }
-header.site-header nav a{
-  color:#cbd5e1; text-decoration:none; margin-left:16px; font-weight:600;
-}
-header.site-header nav a:hover{ color:#fff; text-decoration:underline; }
-
-/* --- Brand: larger duck + tagline --- */
-.brand-logo{ height:36px; width:auto; display:block; border-radius:6px; }
-.brand-slogan{
-  margin-left:10px; padding:2px 8px; border-radius:999px;
-  background:#111827; color:#fff; font-size:.80rem; font-weight:700;
-  letter-spacing:.2px; opacity:.95;
-}
-
-/* --- Tags chips --- */
+/* ---- Tags cloud ---- */
 .tags-cloud{ display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 16px; }
 .tag-chip{
   display:inline-block; padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px;
@@ -141,3 +121,12 @@ header.site-header nav a:hover{ color:#fff; text-decoration:underline; }
 }
 .tag-chip:hover{ background:#f5f7fb; }
 
+/* ---- Misc ---- */
+.about h2 { margin-top: 1.25rem; }
+.error-page { padding: 24px 0; }
+.error-page h1 { margin-bottom: 8px; }
+
+/* ---- Small screens ---- */
+@media (max-width: 640px){
+  header.site-header nav a { margin-left: 10px; }
+}

@@ -1,38 +1,16 @@
-{% extends "base.html" %}
-{% block content %}
-<article class="post">
-  {# Hero image (only if provided in front matter or metadata) #}
-  {% if cover %}
-  <figure class="hero">
-    <img src="{{ url_for('static', filename='images/hero/' ~ cover) }}" alt="{{ post.title }}">
-  </figure>
-  {% endif %}
-
-  <header>
-    <h1>{{ post.title }}</h1>
-    <p class="meta">
-      {{ post.date.strftime('%B %d, %Y') }} · ~{{ reading_min }} min read
-    </p>
-  </header>
-
-  {# Download buttons (optional — adjust filenames as needed) #}
-  <div class="downloads">
-    <a class="btn" href="{{ url_for('static', filename='downloads/roles-caf-matrix.xlsx') }}">Download Excel</a>
-    <a class="btn" href="{{ url_for('static', filename='downloads/roles-condensed-caf.pdf') }}">Download PDF</a>
-  </div>
-
-  <div class="post-body">
-    {{ content|safe }}
-  </div>
-
-  {# Prev/Next navigation #}
-  <nav class="post-nav">
-    {% if prev_post %}
-      <a class="prev" href="/blog/{{ prev_post.slug }}/">← {{ prev_post.title }}</a>
-    {% endif %}
-    {% if next_post %}
-      <a class="next" href="/blog/{{ next_post.slug }}/">{{ next_post.title }} →</a>
-    {% endif %}
-  </nav>
-</article>
-{% endblock %}
+<div class="post-body" id="post-content">
+  {{ content|safe }}
+</div>
+<script>
+(function () {
+  const root = document.getElementById('post-content');
+  if (!root) return;
+  root.querySelectorAll('table').forEach(tbl => {
+    if (tbl.parentElement && tbl.parentElement.classList.contains('table-wrap')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    tbl.replaceWith(wrap);
+    wrap.appendChild(tbl);
+  });
+})();
+</script>
