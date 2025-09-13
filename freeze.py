@@ -12,6 +12,7 @@ app.config["FREEZER_DESTINATION"] = DEST
 app.config["FREEZER_BASE_URL"] = BASE_URL
 app.config["FREEZER_IGNORE_MIMETYPE_WARNINGS"] = True
 app.config["FREEZER_REMOVE_EXTRA_FILES"] = False
+app.config["FREEZER_RELATIVE_URLS"] = True
 
 freezer = Freezer(app)
 
