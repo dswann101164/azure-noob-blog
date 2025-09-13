@@ -1,4 +1,11 @@
-﻿$ErrorActionPreference = 'Stop'
+﻿# publish-post.ps1
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+# PS7+: ensure native tool stderr doesn't terminate the script
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+  $global:PSNativeCommandUseErrorActionPreference = $false
+}
 
 # Resolve paths relative to this script
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -6,6 +13,7 @@ $root = Split-Path -Parent $here
 $docs = Join-Path $root 'docs'
 $staticSrc = Join-Path $root 'static'
 $staticDst = Join-Path $docs 'static'
+$freezePy = Join-Path $root 'freeze.py'
 
 Write-Host "🔍 Running content validation..."
 & pwsh -File (Join-Path $here 'validate-content.ps1') -RepoRoot $root
@@ -15,16 +23,19 @@ Write-Host "✅ Validation passed."
 Write-Host "❄️  Freezing site to docs/..."
 # Prefer venv python if present
 $py = Join-Path $root '.venv\Scripts\python.exe'
-if(!(Test-Path $py)) { $py = 'python' }
-& $py (Join-Path $root 'freeze.py')
+if (!(Test-Path $py)) { $py = 'python' }
 
-# Freezer already copies static, but keep mirror as safety
+# Run freeze.py (prints traceback itself if it fails)
+if (!(Test-Path $freezePy)) { throw "freeze.py not found at $freezePy" }
+& $py $freezePy
+
+# Belt & suspenders: mirror static → docs/static
 if (Test-Path $staticSrc) {
   Write-Host "📦 Ensuring static/ mirrored to docs/static/..."
   robocopy $staticSrc $staticDst /MIR | Out-Null
 }
 
-# Minimal 404 for Pages
+# Minimal 404 for Pages (handy for bad links)
 $docs404 = Join-Path $docs '404.html'
 if (!(Test-Path $docs404)) {
 @'
@@ -33,10 +44,12 @@ if (!(Test-Path $docs404)) {
 '@ | Set-Content -Encoding UTF8 $docs404
 }
 
+# Build id for commit message
 $hash = $null
 try { $hash = (git -C $root rev-parse --short HEAD) 2>$null } catch {}
 if (-not $hash) { $hash = Get-Date -Format 'yyyyMMddHHmmss' }
 
+# If not a git repo, we're done locally
 if (!(Test-Path (Join-Path $root '.git'))) {
   Write-Host "ℹ️  No .git folder found. Skipping commit/push." -ForegroundColor Yellow
   Write-Host "✅ Publish complete (local). Build ID: $hash"
@@ -46,15 +59,45 @@ if (!(Test-Path (Join-Path $root '.git'))) {
 Write-Host "📝 Committing and pushing..."
 Push-Location $root
 try {
-  # Capture stderr so warnings don't halt the script
-  & git add . 2>&1 | Write-Host
+  # 0) Make sure 'docs/' is actually tracked even if .gitignore is misconfigured
+  #    - Use force add for docs first, then add everything else
+  & git add -f docs 2>&1 | Write-Host
+  & git add .       2>&1 | Write-Host
 
-  & git commit -m "Publish: $hash" 2>&1 | Write-Host
+  # 1) If remote has new commits, rebase before committing to avoid non-fast-forward rejections
   $branch = (& git rev-parse --abbrev-ref HEAD).Trim()
   if (-not $branch) { $branch = 'main' }
 
+  Write-Host "🔄 Fetching & rebasing onto origin/$branch..."
+  & git fetch origin 2>&1 | Write-Host
+  # If there are local staged changes already, commit them first with a temp msg before rebase
+  $hasStaged = $false
+  & git diff --cached --quiet; if ($LASTEXITCODE -ne 0) { $hasStaged = $true }
+  if ($hasStaged) {
+    & git commit -m "Publish (pre-rebase stash): $hash" 2>&1 | Write-Host
+  }
+  # Now rebase
+  & git pull --rebase origin $branch 2>&1 | Write-Host
+
+  # 2) Stage again in case rebase changed anything + ensure docs forced
+  & git add -f docs 2>&1 | Write-Host
+  & git add .       2>&1 | Write-Host
+
+  # 3) Commit if there are changes; else make an empty commit to trigger Pages redeploy
+  & git diff --cached --quiet
+  if ($LASTEXITCODE -ne 0) {
+    & git commit -m "Publish: $hash" 2>&1 | Write-Host
+  } else {
+    Write-Host "ℹ️  No content changes detected. Creating an empty commit to trigger Pages..."
+    & git commit --allow-empty -m "Publish (no changes): $hash" 2>&1 | Write-Host
+  }
+
+  # 4) Push (set upstream if needed)
   $hasUpstream = $true
-  try { & git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null | Out-Null; if ($LASTEXITCODE -ne 0) { $hasUpstream = $false } } catch { $hasUpstream = $false }
+  try {
+    & git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) { $hasUpstream = $false }
+  } catch { $hasUpstream = $false }
 
   if (-not $hasUpstream) {
     & git push -u origin $branch 2>&1 | Write-Host
