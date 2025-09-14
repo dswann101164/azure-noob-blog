@@ -23,13 +23,13 @@
         {% elif cover.startswith('images/') or cover.startswith('img/') %}
           {% set cover_url = url_for('static', filename=cover) %}
         {% else %}
-          {# treat bare filenames as /static/images/<file> #}
-          {% set cover_url = url_for('static', filename='images/' ~ cover) %}
+          {# treat bare filenames as /static/images/hero/<file> to match post template #}
+          {% set cover_url = url_for('static', filename='images/hero/' ~ cover) %}
         {% endif %}
 
         <div class="hero hero-index">
           <a href="{{ url_for('blog_post', slug=p.slug) }}">
-            <img src="{{ cover_url }}" alt="{{ p.title }}">
+            <img src="{{ cover_url }}" alt="{{ p.title }}" loading="lazy">
           </a>
         </div>
       {% endif %}
