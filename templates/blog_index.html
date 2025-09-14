@@ -1,22 +1,42 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1>Blog</h1>
-<p class="summary">All posts from {{ site_name }}.</p>
+<header class="post-header">
+  <h1>Blog</h1>
+  <p class="summary">Latest posts from {{ site_name }}.</p>
+</header>
+
+<div class="tags-cloud" style="margin-bottom: 16px;">
+  <a class="tag-chip" href="{{ url_for('tags_index') }}">Browse all tags →</a>
+  <a class="tag-chip" href="{{ url_for('search_page') }}">Search</a>
+</div>
 
 <ul class="post-list">
   {% for p in posts %}
-    <li>
-      <a href="/blog/{{ p.slug }}/">{{ p.title }}</a>
-      <span class="muted">· {{ p.date|ymd }}</span>
-      {% if p.summary %}<p class="summary">{{ p.summary }}</p>{% endif %}
-      {% if p.tags and p.tags|length %}
-        <p class="muted">
-          {% for t in p.tags %}
-            <span>#{{ t }}</span>{% if not loop.last %} {% endif %}
-          {% endfor %}
-        </p>
+  <li>
+    <article class="post">
+      <header>
+        <h2 style="margin: 0 0 .25rem;">
+          <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
+        </h2>
+        <p class="meta">{{ p.date|ymd }}{% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}</p>
+      </header>
+
+      {% if p.cover %}
+        {# Handle both cases: filename OR absolute /static path #}
+        {% set cover_url = p.cover if p.cover.startswith('/') else url_for('static', filename='images/hero/' ~ p.cover) %}
+        <a href="{{ url_for('blog_post', slug=p.slug) }}">
+          <img class="thumb" src="{{ cover_url }}" alt="{{ p.title }}">
+        </a>
       {% endif %}
-    </li>
+
+      {% if p.summary %}
+        <p class="summary">{{ p.summary }}</p>
+      {% endif %}
+
+      <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read more →</a>
+    </article>
+  </li>
   {% endfor %}
 </ul>
 {% endblock %}
