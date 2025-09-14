@@ -1,24 +1,53 @@
-<header class="post-header">
-  <h1>{{ post.title }}</h1>
-  <p class="muted">{{ post.date|ymd }} · {{ reading_min }} min read</p>
-</header>
+{% extends "base.html" %}
 
-<div class="post-body" id="post-content">
-  {{ content|safe }}
-</div>
+{% block content %}
+<article class="post">
+
+  {# Optional hero image if defined in front matter #}
+  {% if cover %}
+  <div class="hero">
+    <img src="{{ url_for('static', filename='images/hero/' ~ cover) }}" alt="{{ post.title }}">
+  </div>
+  {% endif %}
+
+  <header class="post-header">
+    <h1>{{ post.title }}</h1>
+    <p class="muted">{{ post.date|ymd }} · {{ reading_min }} min read</p>
+    {% if post.summary %}
+      <p class="summary">{{ post.summary }}</p>
+    {% endif %}
+  </header>
+
+  <div class="post-body" id="post-content">
+    {{ content|safe }}
+  </div>
+
+  <nav class="post-nav">
+    {% if prev_post %}
+      <a href="{{ url_for('blog_post', slug=prev_post.slug) }}">&larr; {{ prev_post.title }}</a>
+    {% endif %}
+    {% if next_post %}
+      <a href="{{ url_for('blog_post', slug=next_post.slug) }}">{{ next_post.title }} &rarr;</a>
+    {% endif %}
+  </nav>
+
+</article>
 
 <script>
 (function () {
   const root = document.getElementById('post-content');
   if (!root) return;
-  // Wrap wide tables for horizontal scroll
+
+  // Wrap wide tables for scroll
   root.querySelectorAll('table').forEach(tbl => {
     if (tbl.parentElement?.classList.contains('table-wrap')) return;
     const wrap = document.createElement('div');
     wrap.className = 'table-wrap';
-    tbl.replaceWith(wrap); wrap.appendChild(tbl);
+    tbl.replaceWith(wrap);
+    wrap.appendChild(tbl);
   });
-  // Convert a UL immediately following a "Jump to a section" heading into chips
+
+  // Convert UL after "Jump to a section" into chips
   root.querySelectorAll('h2, h3').forEach(h => {
     if (/jump to a section/i.test(h.textContent.trim())) {
       const next = h.nextElementSibling;
@@ -27,3 +56,4 @@
   });
 })();
 </script>
+{% endblock %}
