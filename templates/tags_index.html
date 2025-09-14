@@ -1,13 +1,16 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1>Tags</h1>
-<p class="summary">Browse posts by tag.</p>
+<header class="post-header">
+  <h1>Tags</h1>
+  <p class="summary"><a href="{{ url_for('blog') }}">Back to all posts</a></p>
+</header>
 
 <div class="tags-cloud">
-  {% for tag, count in tags %}
-    <a class="tag-chip" href="/tags/{{ tag }}/">#{{ tag }} <span class="muted">({{ count }})</span></a>
-  {% else %}
-    <p class="muted">No tags yet.</p>
+  {% for t, count in tags %}
+    <a class="tag-chip" href="{{ url_for('tag_page', tag=t) }}">
+      {{ t }} <span style="opacity:.65;">({{ count }})</span>
+    </a>
   {% endfor %}
 </div>
 {% endblock %}
