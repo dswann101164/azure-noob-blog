@@ -14,27 +14,37 @@
 <ul class="post-list">
   {% for p in posts %}
   <li>
-    <article class="post">
-      <header>
-        <h2 style="margin: 0 0 .25rem;">
-          <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
-        </h2>
-        <p class="meta">{{ p.date|ymd }}{% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}</p>
-      </header>
-
+    <article class="post post-row">
       {% if p.cover %}
-        {# Handle both cases: filename OR absolute /static path #}
-        {% set cover_url = p.cover if p.cover.startswith('/') else url_for('static', filename='images/hero/' ~ p.cover) %}
-        <a href="{{ url_for('blog_post', slug=p.slug) }}">
-          <img class="thumb" src="{{ cover_url }}" alt="{{ p.title }}">
+        {# Build a safe URL from either absolute or relative cover paths #}
+        {% if p.cover.startswith('/') %}
+          {% set cover_url = p.cover %}
+        {% elif p.cover.startswith('images/') or p.cover.startswith('img/') %}
+          {% set cover_url = url_for('static', filename=p.cover) %}
+        {% else %}
+          {# treat bare filenames as /static/images/<file> #}
+          {% set cover_url = url_for('static', filename='images/' ~ p.cover) %}
+        {% endif %}
+
+        <a class="thumb-wrap" href="{{ url_for('blog_post', slug=p.slug) }}">
+          <img class="thumb" src="{{ cover_url }}" alt="{{ p.title }}" loading="lazy" width="320" height="180">
         </a>
       {% endif %}
 
-      {% if p.summary %}
-        <p class="summary">{{ p.summary }}</p>
-      {% endif %}
+      <div class="post-meta">
+        <header>
+          <h2 class="post-title">
+            <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
+          </h2>
+          <p class="meta">{{ p.date|ymd }}{% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}</p>
+        </header>
 
-      <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read more →</a>
+        {% if p.summary %}
+          <p class="summary">{{ p.summary }}</p>
+        {% endif %}
+
+        <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read more →</a>
+      </div>
     </article>
   </li>
   {% endfor %}

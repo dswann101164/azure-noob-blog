@@ -4,9 +4,15 @@
 <article class="post">
 
   {# Optional hero image if defined in front matter #}
-  {% if cover %}
+  {% set _cover = (post.cover if post is defined and post.cover else cover) %}
+  {% if _cover %}
   <div class="hero">
-    <img src="{{ url_for('static', filename='images/hero/' ~ cover) }}" alt="{{ post.title }}">
+    {% if _cover.startswith('/') %}
+      <img src="{{ _cover }}" alt="{{ post.title }}">
+    {% else %}
+      {# Treat as relative path under /static #}
+      <img src="{{ url_for('static', filename=_cover) }}" alt="{{ post.title }}">
+    {% endif %}
   </div>
   {% endif %}
 

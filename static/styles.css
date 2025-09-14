@@ -67,14 +67,24 @@ h1, h2, h3 { line-height: 1.2; }
 .post-list li { padding: 12px 0; border-bottom: 1px solid var(--border); }
 .post-list li:last-child { border-bottom: 0; }
 
-/* Thumbnails on blog index */
+/* ---- Index thumbnails + grid row ---- */
+.post-row {
+  display: grid;
+  grid-template-columns: 320px 1fr; /* thumb | text */
+  gap: 16px;
+  align-items: start;
+}
+
+.thumb-wrap { display: block; }
 img.thumb {
-  max-width: 200px;
-  height: 140px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;   /* keeps nice card shape */
   object-fit: cover;
   border-radius: 10px;
   display: block;
-  margin: .25rem 0 .5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  margin: 0 0 .5rem;
 }
 
 /* ---- Post meta ---- */
@@ -162,4 +172,14 @@ img.thumb {
 /* ---- Small screens ---- */
 @media (max-width: 640px){
   header.site-header nav a { margin-left: 10px; }
+
+  /* stack post rows on phones */
+  .post-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* soften hero crop on small screens */
+  .hero img {
+    height: 200px;
+  }
 }
