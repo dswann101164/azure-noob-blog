@@ -67,7 +67,7 @@ h1, h2, h3 { line-height: 1.2; }
 .post-list li { padding: 20px 0; border-bottom: 1px solid var(--border); }
 .post-list li:last-child { border-bottom: 0; }
 
-/* ---- (Old) index grid support (unused with hero banners, keep if needed) ---- */
+/* ---- (Old) index grid support (kept for flexibility) ---- */
 .post-row {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -98,12 +98,14 @@ img.thumb {
   width:100%;
   height:auto;           /* keep full aspect ratio */
   max-height:500px;      /* don’t overtake page */
-  object-fit:contain;    /* no cropping on post page */
+  object-fit:cover;    /* no cropping on post page */
   border-radius:12px;
   margin:0 auto 1rem;
 }
 
 /* ---- Blog index hero (tight, uniform crop) ---- */
+.hero.hero-index { margin: 0 0 .75rem; }
+.hero.hero-index a { display:block; }
 .hero.hero-index img {
   display:block;
   width:100%;
@@ -112,6 +114,11 @@ img.thumb {
   object-position:center;
   border-radius:12px;
   box-shadow:0 2px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease; /* polish */
+}
+.hero.hero-index a:hover img {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0,0,0,.10);
 }
 
 /* ---- Buttons / Downloads ---- */
@@ -188,7 +195,7 @@ img.thumb {
 @media (max-width: 640px){
   header.site-header nav a { margin-left: 10px; }
 
-  /* stack post rows if you ever use post-row again */
+  /* if you use post-row elsewhere */
   .post-row { grid-template-columns: 1fr; }
 
   /* slightly shorter index banners on phones */
