@@ -64,22 +64,21 @@ h1, h2, h3 { line-height: 1.2; }
 
 /* ---- Blog list ---- */
 .post-list { list-style: none; padding: 0; margin: 0; }
-.post-list li { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.post-list li { padding: 20px 0; border-bottom: 1px solid var(--border); }
 .post-list li:last-child { border-bottom: 0; }
 
-/* ---- Index thumbnails + grid row ---- */
+/* ---- (Old) index grid support (unused with hero banners, keep if needed) ---- */
 .post-row {
   display: grid;
-  grid-template-columns: 320px 1fr; /* thumb | text */
+  grid-template-columns: 320px 1fr;
   gap: 16px;
   align-items: start;
 }
-
 .thumb-wrap { display: block; }
 img.thumb {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;   /* keeps nice card shape */
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 10px;
   display: block;
@@ -90,13 +89,29 @@ img.thumb {
 /* ---- Post meta ---- */
 .post .meta { color: #666; font-size: 0.9em; margin-bottom: 12px; }
 
-/* ---- Hero image (controlled height) ---- */
+/* ---- Hero (shared wrapper) ---- */
 .hero { margin: 0 0 16px; }
-.hero img {
-  width: 100%;
-  height: 260px;           /* adjust to taste */
-  object-fit: cover;       /* crop nicely */
-  border-radius: 12px;
+
+/* ---- Post page hero (full image, but capped) ---- */
+.hero:not(.hero-index) img {
+  display:block;
+  width:100%;
+  height:auto;           /* keep full aspect ratio */
+  max-height:500px;      /* don’t overtake page */
+  object-fit:contain;    /* no cropping on post page */
+  border-radius:12px;
+  margin:0 auto 1rem;
+}
+
+/* ---- Blog index hero (tight, uniform crop) ---- */
+.hero.hero-index img {
+  display:block;
+  width:100%;
+  height:220px;          /* uniform banner height on index */
+  object-fit:cover;      /* consistent crop */
+  object-position:center;
+  border-radius:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 
 /* ---- Buttons / Downloads ---- */
@@ -122,7 +137,7 @@ img.thumb {
 }
 .post-body code { background: #f2f2f7; padding: 2px 4px; border-radius: 4px; }
 
-/* ---- TOC chips (for “Jump to a section”) ---- */
+/* ---- TOC chips ---- */
 .toc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 16px; padding: 0; list-style: none; }
 .toc-chips a {
   display: inline-block; padding: 6px 10px; border-radius: 999px;
@@ -130,7 +145,7 @@ img.thumb {
 }
 .toc-chips a:hover { background: #f5f7fb; }
 
-/* ---- Tables (responsive + readable) ---- */
+/* ---- Tables ---- */
 .post-body .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
 .post-body .table-wrap table { min-width: 720px; }
 
@@ -173,19 +188,9 @@ img.thumb {
 @media (max-width: 640px){
   header.site-header nav a { margin-left: 10px; }
 
-  /* stack post rows on phones */
-  .post-row {
-    grid-template-columns: 1fr;
-  }
+  /* stack post rows if you ever use post-row again */
+  .post-row { grid-template-columns: 1fr; }
 
-  /* soften hero crop on small screens */
-  .hero img {
-  display: block;
-  width: 100%;
-  height: auto;             /* keep full aspect ratio */
-  max-height: 500px;        /* cap so it doesn’t overtake the page */
-  object-fit: contain;      /* show whole image, no cropping */
-  margin: 0 auto 1rem;
-  border-radius: 12px;
-}
+  /* slightly shorter index banners on phones */
+  .hero.hero-index img { height: 180px; }
 }
