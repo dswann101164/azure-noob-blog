@@ -49,9 +49,7 @@ def _fmt_ymd(dt):
 
 # ---- Front matter helpers ----
 def parse_front_matter(text: str):
-    """Return (meta_dict, body_str). If no front matter, meta_dict = {}.
-    Robust to UTF-8 BOM and leading blank lines/whitespace.
-    """
+    """Return (meta_dict, body_str). If no front matter, meta_dict = {}."""
     if text.startswith("\ufeff"):
         text = text.lstrip("\ufeff")
     s = text.lstrip()
@@ -67,18 +65,19 @@ def parse_front_matter(text: str):
             return meta, body.lstrip()
     return {}, text
 
-def strip_leading_h1(md_text: str, title: str) -> str:
-    """If markdown starts with '# <title>', strip that first H1.
-    Case-insensitive; handles CRLF/LF; leaves content intact if no match.
+def strip_top_h1(md_text: str) -> str:
     """
-    if not md_text or not title:
+    If the markdown starts with a top-level '# Heading',
+    strip JUST that first H1 (regardless of the text).
+    Case-insensitive; handles CRLF/LF; never returns empty by mistake.
+    """
+    if not md_text:
         return md_text
-    # normalize to avoid weird leading BOM/whitespace issues
     s = md_text.lstrip()
-    # Match `# <title>` then 1+ blank line(s)
-    pattern = rf'^\s*#\s*{re.escape(title)}\s*(\r?\n)+'
-    stripped = re.sub(pattern, '', s, count=1, flags=re.IGNORECASE)
-    # If we accidentally removed everything (super-rare), keep original
+    m = re.match(r'^\s*#\s+[^\r\n]+(\r?\n)+', s, flags=re.IGNORECASE)
+    if not m:
+        return md_text
+    stripped = s[m.end():]
     return stripped if stripped.strip() else md_text
 
 def coerce_date(value, default_dt: datetime):
@@ -97,10 +96,7 @@ def coerce_date(value, default_dt: datetime):
     return default_dt
 
 def load_posts():
-    """
-    Scan ./posts/*.md. Supported FM keys: slug, title, date, summary/description, tags (list), cover
-    Returns list of dicts (newest first).
-    """
+    """Scan ./posts/*.md and build the post list (newest first)."""
     posts = []
     for md_file in POSTS_DIR.glob("*.md"):
         raw = md_file.read_text(encoding="utf-8")
@@ -115,7 +111,6 @@ def load_posts():
         default_dt = datetime.fromtimestamp(md_file.stat().st_mtime)
         date = coerce_date(meta.get("date"), default_dt)
 
-        # support 'summary' or 'description'
         summary = (meta.get("summary") or meta.get("description") or "").strip()
         tags = meta.get("tags") or []
         cover = (meta.get("cover") or "").strip() or None
@@ -139,7 +134,6 @@ def build_tags(posts):
     for p in posts:
         for t in p.get("tags", []):
             tmap.setdefault(t, []).append(p)
-    # ensure newest-first inside each tag
     for t in tmap:
         tmap[t].sort(key=lambda p: p["date"], reverse=True)
     return tmap
@@ -149,7 +143,7 @@ POSTS = load_posts()
 TAGS = build_tags(POSTS)
 POSTS_BY_SLUG = {p["slug"]: p for p in POSTS}
 
-# ---- Auto-reload posts in debug so new/edited files appear without restart ----
+# ---- Auto-reload posts in debug ----
 def _refresh_posts_cache():
     global POSTS, POSTS_BY_SLUG, TAGS
     POSTS = load_posts()
@@ -192,8 +186,8 @@ def blog_post(slug: str):
     raw = post["md_path"].read_text(encoding="utf-8")
     meta, body = parse_front_matter(raw)
 
-    # 🔹 Auto-remove duplicated "# Title" from the body (safe)
-    body = strip_leading_h1(body, post["title"])
+    # Remove a duplicated top '# Heading' if present
+    body = strip_top_h1(body)
 
     html = markdown.markdown(
         body,
@@ -215,7 +209,6 @@ def blog_post(slug: str):
     meta_description = post.get("summary", "")
     og_image = None
     if post.get("cover"):
-        # Prefer hero/ path if you use bare names in front matter; otherwise absolute is fine
         cov = post["cover"]
         if cov.startswith("/"):
             og_image = SITE_URL.rstrip("/") + cov
@@ -225,7 +218,7 @@ def blog_post(slug: str):
     return render_template(
         "blog_post.html",
         post=post,
-        content=html,            # template uses {{ content|safe }}
+        content=html,
         reading_min=reading_min,
         cover=(meta.get("cover") or post.get("cover")),
         prev_post=to_obj(prev_post),

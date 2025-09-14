@@ -3,63 +3,32 @@
 {% block content %}
 <article class="post">
 
-  {# Optional hero image if defined in front matter #}
-  {% set _cover = (post.cover if post is defined and post.cover else cover) %}
-  {% if _cover %}
-  <div class="hero">
-    {% if _cover.startswith('/') %}
-      <img src="{{ _cover }}" alt="{{ post.title }}">
+  {# ----- HERO IMAGE ----- #}
+  {% if post.cover %}
+    {% if post.cover.startswith('/') %}
+      {% set cover_url = post.cover %}
+    {% elif post.cover.startswith('images/') or post.cover.startswith('img/') %}
+      {% set cover_url = url_for('static', filename=post.cover) %}
     {% else %}
-      {# Treat as relative path under /static #}
-      <img src="{{ url_for('static', filename=_cover) }}" alt="{{ post.title }}">
+      {% set cover_url = url_for('static', filename='images/' ~ post.cover) %}
     {% endif %}
-  </div>
+    <div class="hero">
+      <img src="{{ cover_url }}" alt="{{ post.title }}">
+    </div>
   {% endif %}
 
-  <header class="post-header">
-    <h1>{{ post.title }}</h1>
-    <p class="muted">{{ post.date|ymd }} · {{ reading_min }} min read</p>
-    {% if post.summary %}
-      <p class="summary">{{ post.summary }}</p>
-    {% endif %}
+  {# ----- POST TITLE + META ----- #}
+  <header>
+    <h1 class="post-title">{{ post.title }}</h1>
+    <p class="meta">
+      {{ post.date|ymd }} · {{ post.read_time }} min read
+    </p>
   </header>
 
-  <div class="post-body" id="post-content">
-    {{ content|safe }}
+  {# ----- POST BODY (markdown) ----- #}
+  <div class="post-body">
+    {{ post.body|safe }}
   </div>
 
-  <nav class="post-nav">
-    {% if prev_post %}
-      <a href="{{ url_for('blog_post', slug=prev_post.slug) }}">&larr; {{ prev_post.title }}</a>
-    {% endif %}
-    {% if next_post %}
-      <a href="{{ url_for('blog_post', slug=next_post.slug) }}">{{ next_post.title }} &rarr;</a>
-    {% endif %}
-  </nav>
-
 </article>
-
-<script>
-(function () {
-  const root = document.getElementById('post-content');
-  if (!root) return;
-
-  // Wrap wide tables for scroll
-  root.querySelectorAll('table').forEach(tbl => {
-    if (tbl.parentElement?.classList.contains('table-wrap')) return;
-    const wrap = document.createElement('div');
-    wrap.className = 'table-wrap';
-    tbl.replaceWith(wrap);
-    wrap.appendChild(tbl);
-  });
-
-  // Convert UL after "Jump to a section" into chips
-  root.querySelectorAll('h2, h3').forEach(h => {
-    if (/jump to a section/i.test(h.textContent.trim())) {
-      const next = h.nextElementSibling;
-      if (next && next.tagName === 'UL') next.classList.add('toc-chips');
-    }
-  });
-})();
-</script>
 {% endblock %}
