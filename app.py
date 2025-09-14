@@ -67,6 +67,14 @@ def parse_front_matter(text: str):
             return meta, body.lstrip()
     return {}, text
 
+def strip_leading_h1(md_text: str, title: str) -> str:
+    """If the markdown starts with '# <title>', strip that first H1.
+    Case-insensitive; ignores leading whitespace."""
+    if not md_text or not title:
+        return md_text
+    pattern = rf'^\s*#\s*{re.escape(title)}\s*\n+'
+    return re.sub(pattern, '', md_text, count=1, flags=re.IGNORECASE)
+
 def coerce_date(value, default_dt: datetime):
     if isinstance(value, datetime):
         return value
@@ -178,6 +186,9 @@ def blog_post(slug: str):
     raw = post["md_path"].read_text(encoding="utf-8")
     meta, body = parse_front_matter(raw)
 
+    # 🔹 Auto-remove duplicated "# Title" from the body
+    body = strip_leading_h1(body, post["title"])
+
     html = markdown.markdown(
         body,
         extensions=MD_EXTENSIONS,
@@ -198,13 +209,12 @@ def blog_post(slug: str):
     meta_description = post.get("summary", "")
     og_image = None
     if post.get("cover"):
-        # Treat cover as relative under /static/images/hero/
         og_image = url_for('static', filename=f'images/hero/{post["cover"]}', _external=True)
 
     return render_template(
         "blog_post.html",
         post=post,
-        content=html,            # template uses {{ content|safe }}
+        content=html,
         reading_min=reading_min,
         cover=(meta.get("cover") or post.get("cover")),
         prev_post=to_obj(prev_post),
@@ -213,14 +223,13 @@ def blog_post(slug: str):
         meta_description=meta_description,
         canonical_url=SITE_URL.rstrip("/") + request.path,
         og_image=og_image,
-        og_type="article",  # <--- correct OG type for posts
+        og_type="article",
         date_published_iso=post["date"].isoformat() if isinstance(post["date"], datetime) else str(post["date"]),
     )
 
 # ---- Tags ----
 @app.route("/tags/")
 def tags_index():
-    # list of (tag, count), alpha sort
     items = sorted([(t, len(posts)) for t, posts in TAGS.items()], key=lambda x: x[0].lower())
     return render_template("tags_index.html", tags=items, og_type="website")
 
@@ -234,12 +243,10 @@ def tag_page(tag: str):
 # ---- Search ----
 @app.route("/search/")
 def search_page():
-    # Renders the search UI (Fuse.js on the client hits /search.json)
     return render_template("search.html", og_type="website")
 
 @app.route("/search.json")
 def search_json():
-    # Convert POSTS to a minimal index that’s safe for the client
     data = []
     for p in POSTS:
         data.append({
@@ -250,7 +257,6 @@ def search_json():
             "date": p["date"].strftime("%Y-%m-%d") if isinstance(p["date"], datetime) else str(p["date"]),
         })
     resp = jsonify(data)
-    # Small cache to help on GitHub Pages / CDN; tweak if needed
     resp.headers["Cache-Control"] = "public, max-age=300"
     return resp
 
