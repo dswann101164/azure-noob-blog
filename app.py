@@ -68,12 +68,18 @@ def parse_front_matter(text: str):
     return {}, text
 
 def strip_leading_h1(md_text: str, title: str) -> str:
-    """If the markdown starts with '# <title>', strip that first H1.
-    Case-insensitive; ignores leading whitespace."""
+    """If markdown starts with '# <title>', strip that first H1.
+    Case-insensitive; handles CRLF/LF; leaves content intact if no match.
+    """
     if not md_text or not title:
         return md_text
-    pattern = rf'^\s*#\s*{re.escape(title)}\s*\n+'
-    return re.sub(pattern, '', md_text, count=1, flags=re.IGNORECASE)
+    # normalize to avoid weird leading BOM/whitespace issues
+    s = md_text.lstrip()
+    # Match `# <title>` then 1+ blank line(s)
+    pattern = rf'^\s*#\s*{re.escape(title)}\s*(\r?\n)+'
+    stripped = re.sub(pattern, '', s, count=1, flags=re.IGNORECASE)
+    # If we accidentally removed everything (super-rare), keep original
+    return stripped if stripped.strip() else md_text
 
 def coerce_date(value, default_dt: datetime):
     if isinstance(value, datetime):
@@ -186,7 +192,7 @@ def blog_post(slug: str):
     raw = post["md_path"].read_text(encoding="utf-8")
     meta, body = parse_front_matter(raw)
 
-    # 🔹 Auto-remove duplicated "# Title" from the body
+    # 🔹 Auto-remove duplicated "# Title" from the body (safe)
     body = strip_leading_h1(body, post["title"])
 
     html = markdown.markdown(
@@ -209,12 +215,17 @@ def blog_post(slug: str):
     meta_description = post.get("summary", "")
     og_image = None
     if post.get("cover"):
-        og_image = url_for('static', filename=f'images/hero/{post["cover"]}', _external=True)
+        # Prefer hero/ path if you use bare names in front matter; otherwise absolute is fine
+        cov = post["cover"]
+        if cov.startswith("/"):
+            og_image = SITE_URL.rstrip("/") + cov
+        else:
+            og_image = url_for('static', filename=f'images/hero/{cov}', _external=True)
 
     return render_template(
         "blog_post.html",
         post=post,
-        content=html,
+        content=html,            # template uses {{ content|safe }}
         reading_min=reading_min,
         cover=(meta.get("cover") or post.get("cover")),
         prev_post=to_obj(prev_post),
