@@ -1,32 +1,27 @@
 ﻿---
-title: "IT Roles & Responsibilities — The Practical Matrix"
-date: "2025-09-08"
-slug: it-roles-responsibilities-matrix
-summary: "A practical roles & responsibilities matrix you can lift into your runbooks. Now aligned to Microsoft CAF."
-tags: ["roles", "azure", "governance", "operations"]
-cover: "caf-roles-matrix.png"
+title: IT Roles & Responsibilities — The Practical Matrix
+date: 2025-09-08
+summary: A practical roles & responsibilities matrix you can lift into your runbooks. Now aligned to Microsoft CAF.
+tags: [roles, azure, governance, operations]
+cover: caf-roles-hero.png
 ---
 
-![CAF Roles Matrix](/static/images/hero/caf-roles-matrix.png)
-
-> **TL;DR:** A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.
+<span class="lead"><strong>TL;DR:</strong> A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.</span>
 
 It fills a real gap: Microsoft’s [Cloud Adoption Framework (CAF)](https://learn.microsoft.com/azure/cloud-adoption-framework/) defines **functions** (Strategy, Plan, Ready, Adopt, Govern, Manage) but doesn’t give you a practical RACI or matrix.  
 This post bridges that gap with a ready-to-use tool.
 
 ---
 
-## Downloads
-- ➜ **[CAF Roles Matrix (Excel)](/static/downloads/roles-caf-matrix.xlsx)**
-- ➜ **[CAF Roles Matrix (PDF)](/static/downloads/roles-condensed-caf.pdf)**
+### Downloads
+<div class="downloads">
+  <a class="btn" href="/static/downloads/roles-caf-matrix.xlsx">CAF Roles Matrix (Excel)</a>
+  <a class="btn" href="/static/downloads/roles-condensed-caf.pdf">CAF Roles Matrix (PDF)</a>
+</div>
 
 ### Jump to a section
-- [Strategy](#strategy)
-- [Plan](#plan)
-- [Ready](#ready)
-- [Adopt](#adopt)
-- [Govern](#govern)
-- [Manage](#manage)
+- [CAF Mapping Overview](#caf-mapping-overview)
+- [How this maps to Microsoft’s CAF](#how-this-maps-to-microsofts-caf)
 
 ---
 
@@ -43,7 +38,7 @@ This post bridges that gap with a ready-to-use tool.
 
 ---
 
-### How this maps to Microsoft’s CAF
+## How this maps to Microsoft’s CAF
 
 CAF defines six functions across the adoption lifecycle — **Strategy, Plan, Ready, Adopt, Govern, Manage** — but stops short of a practical RACI.  
 This matrix fills that gap by mapping common **IT roles** to CAF responsibilities so you can assign ownership decisively.
