@@ -25,3 +25,4 @@ This is **bold**, this is *italic*, and here’s a [link](https://azure-noob.com
 ```python
 def hello():
     print("Hello, Azure Noob!")
+```
