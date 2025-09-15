@@ -64,29 +64,62 @@ h1, h2, h3 { line-height: 1.2; }
 
 /* ---- Blog list ---- */
 .post-list { list-style: none; padding: 0; margin: 0; }
-.post-list li { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.post-list li { padding: 20px 0; border-bottom: 1px solid var(--border); }
 .post-list li:last-child { border-bottom: 0; }
 
-/* Thumbnails on blog index */
+/* ---- (Old) index grid support (kept for flexibility) ---- */
+.post-row {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.thumb-wrap { display: block; }
 img.thumb {
-  max-width: 200px;
-  height: 140px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 10px;
   display: block;
-  margin: .25rem 0 .5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  margin: 0 0 .5rem;
 }
 
 /* ---- Post meta ---- */
 .post .meta { color: #666; font-size: 0.9em; margin-bottom: 12px; }
 
-/* ---- Hero image (controlled height) ---- */
+/* ---- Hero (shared wrapper) ---- */
 .hero { margin: 0 0 16px; }
-.hero img {
+
+/* ---- Post page hero (full image, but capped) ---- */
+.hero:not(.hero-index) img {
+  display: block;
   width: 100%;
-  height: 260px;           /* adjust to taste */
-  object-fit: cover;       /* crop nicely */
+  height: 320px;        /* match index or slightly taller */
+  object-fit: cover;    /* crop like index for consistency */
+  object-position: center;
   border-radius: 12px;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+}
+
+/* ---- Blog index hero (tight, uniform crop) ---- */
+.hero.hero-index { margin: 0 0 .75rem; }
+.hero.hero-index a { display:block; }
+.hero.hero-index img {
+  display:block;
+  width:100%;
+  height:220px;          /* uniform banner height on index */
+  object-fit:cover;      /* consistent crop */
+  object-position:center;
+  border-radius:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease; /* polish */
+}
+.hero.hero-index a:hover img {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0,0,0,.10);
 }
 
 /* ---- Buttons / Downloads ---- */
@@ -112,7 +145,7 @@ img.thumb {
 }
 .post-body code { background: #f2f2f7; padding: 2px 4px; border-radius: 4px; }
 
-/* ---- TOC chips (for “Jump to a section”) ---- */
+/* ---- TOC chips ---- */
 .toc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 16px; padding: 0; list-style: none; }
 .toc-chips a {
   display: inline-block; padding: 6px 10px; border-radius: 999px;
@@ -120,7 +153,7 @@ img.thumb {
 }
 .toc-chips a:hover { background: #f5f7fb; }
 
-/* ---- Tables (responsive + readable) ---- */
+/* ---- Tables ---- */
 .post-body .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
 .post-body .table-wrap table { min-width: 720px; }
 
@@ -154,6 +187,98 @@ img.thumb {
 }
 .tag-chip:hover{ background:#f5f7fb; }
 
+/* ---- Syntax highlighting (Pygments via Markdown codehilite) ---- */
+.codehilite,
+.highlight {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow: auto;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+/* If you prefer light blocks instead of dark, use this instead:
+.codehilite, .highlight { background:#f6f8fa; color:#24292e; }
+*/
+
+/* Keep inner pre/code tidy */
+.codehilite pre, .highlight pre { margin: 0; }
+.codehilite code, .highlight code { background: transparent; padding: 0; }
+
+/* GitHub-ish token colors */
+.codehilite .hll      { background-color: #ffffcc }
+.codehilite .c        { color: #8b949e }         /* Comment */
+.codehilite .err      { color: #f85149 }         /* Error */
+.codehilite .k        { color: #ff7b72 }         /* Keyword */
+.codehilite .o        { color: #79c0ff }         /* Operator */
+.codehilite .cm       { color: #8b949e }
+.codehilite .cp       { color: #8b949e }
+.codehilite .c1       { color: #8b949e }
+.codehilite .cs       { color: #8b949e }
+.codehilite .gd       { color: #f85149 }         /* Deleted */
+.codehilite .ge       { font-style: italic }
+.codehilite .gr       { color: #f85149 }
+.codehilite .gh       { color: #79c0ff; font-weight: bold }
+.codehilite .gi       { color: #3fb950 }         /* Inserted */
+.codehilite .go       { color: #8b949e }
+.codehilite .gp       { color: #8b949e }
+.codehilite .gs       { font-weight: bold }
+.codehilite .gu       { color: #79c0ff; font-weight: bold }
+.codehilite .kc       { color: #ff7b72 }
+.codehilite .kd       { color: #ff7b72 }
+.codehilite .kn       { color: #ff7b72 }
+.codehilite .kp       { color: #ff7b72 }
+.codehilite .kr       { color: #ff7b72 }
+.codehilite .kt       { color: #79c0ff }         /* Type */
+.codehilite .m        { color: #79c0ff }         /* Number */
+.codehilite .s        { color: #a5d6ff }         /* String */
+.codehilite .na       { color: #e6edf3 }         /* Name.Attribute */
+.codehilite .nb       { color: #d2a8ff }         /* Builtin */
+.codehilite .nc       { color: #79c0ff }
+.codehilite .no       { color: #e6edf3 }
+.codehilite .nd       { color: #d2a8ff }
+.codehilite .ni       { color: #e6edf3 }
+.codehilite .ne       { color: #d2a8ff }
+.codehilite .nf       { color: #d2a8ff }         /* Function */
+.codehilite .nl       { color: #e6edf3 }
+.codehilite .nn       { color: #79c0ff }
+.codehilite .nt       { color: #79c0ff }
+.codehilite .nv       { color: #e6edf3 }         /* Variable */
+.codehilite .ow       { color: #79c0ff }
+.codehilite .w        { color: #e6edf3 }
+.codehilite .mb       { color: #79c0ff }
+.codehilite .mf       { color: #79c0ff }
+.codehilite .mh       { color: #79c0ff }
+.codehilite .mi       { color: #79c0ff }
+.codehilite .mo       { color: #79c0ff }
+.codehilite .sb       { color: #a5d6ff }
+.codehilite .sc       { color: #a5d6ff }
+.codehilite .sd       { color: #a5d6ff }
+.codehilite .s2       { color: #a5d6ff }
+.codehilite .se       { color: #a5d6ff }
+.codehilite .sh       { color: #a5d6ff }
+.codehilite .si       { color: #a5d6ff }
+.codehilite .sx       { color: #a5d6ff }
+.codehilite .sr       { color: #a5d6ff }
+.codehilite .s1       { color: #a5d6ff }
+.codehilite .ss       { color: #a5d6ff }
+.codehilite .bp       { color: #d2a8ff }
+.codehilite .vc       { color: #e6edf3 }
+.codehilite .vg       { color: #e6edf3 }
+.codehilite .vi       { color: #e6edf3 }
+.codehilite .il       { color: #79c0ff }
+
+/* Inline code polish (outside code blocks) */
+.post-body p code,
+.post-body li code {
+  background: rgba(2, 6, 23, 0.06);
+  color: #111;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
 /* ---- Misc ---- */
 .about h2 { margin-top: 1.25rem; }
 .error-page { padding: 24px 0; }
@@ -162,4 +287,10 @@ img.thumb {
 /* ---- Small screens ---- */
 @media (max-width: 640px){
   header.site-header nav a { margin-left: 10px; }
+
+  /* if you use post-row elsewhere */
+  .post-row { grid-template-columns: 1fr; }
+
+  /* slightly shorter index banners on phones */
+  .hero.hero-index img { height: 180px; }
 }
