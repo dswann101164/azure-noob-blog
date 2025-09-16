@@ -4,8 +4,10 @@
 {% block content %}
 <section class="container">
   <h1>Search</h1>
+
   <div class="search-box">
-    <input id="searchBox" type="search" placeholder="Type to search posts, summaries, or tags…" autofocus>
+    <input id="searchBox" type="search"
+           placeholder="Type to search posts, summaries, or tags…" autofocus>
   </div>
 
   <div id="searchHint" class="muted">Start typing to see results.</div>
@@ -16,22 +18,24 @@
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 <script>
 (async function () {
-  const res = await fetch("/search.json");
+  // Load searchable data from Flask (title, summary, url, tags, date)
+  const res = await fetch("{{ url_for('search_json') }}");
   const data = await res.json();
 
+  // Configure fuzzy search
   const fuse = new Fuse(data, {
     keys: [
       { name: "title",   weight: 0.55 },
       { name: "summary", weight: 0.30 },
       { name: "tags",    weight: 0.15 }
     ],
-    threshold: 0.3,
+    threshold: 0.30,
     ignoreLocation: true,
     includeScore: true,
     minMatchCharLength: 2
   });
 
-  const box = document.getElementById("searchBox");
+  const box  = document.getElementById("searchBox");
   const list = document.getElementById("results");
   const hint = document.getElementById("searchHint");
 
@@ -43,7 +47,9 @@
     }
     for (const r of items.slice(0, 20)) {
       const p = r.item;
-      const tags = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join(" ");
+      const tags = (p.tags || [])
+        .map(t => `<span class="tag">${t}</span>`)
+        .join(" ");
       const date = p.date ? `<time class="date">${p.date}</time>` : "";
       const summary = p.summary ? `<p class="summary">${p.summary}</p>` : "";
       const li = document.createElement("li");
@@ -57,12 +63,16 @@
     }
   }
 
+  // Debounce input for smoother UX
+  let t;
   box.addEventListener("input", () => {
+    clearTimeout(t);
     const q = box.value.trim();
-    hint.style.display = q ? "none" : "block";
-    if (!q) { list.innerHTML = ""; return; }
-    const results = fuse.search(q);
-    render(results);
+    t = setTimeout(() => {
+      hint.style.display = q ? "none" : "block";
+      if (!q) { list.innerHTML = ""; return; }
+      render(fuse.search(q));
+    }, 120);
   });
 })();
 </script>
@@ -71,12 +81,17 @@
 .container { max-width: 800px; margin: 0 auto; }
 .search-box { margin: 1rem 0; }
 #searchBox { width: 100%; padding: .8rem 1rem; font-size: 1rem; }
-.search-results { list-style: none; padding: 0; }
-.result { padding: .75rem 0; border-bottom: 1px solid #eee; }
+
+.search-results { list-style: none; padding: 0; margin: 0; }
+.result { padding: .75rem 0; border-bottom: 1px solid #2a2a2a22; }
 .result-title { font-weight: 600; text-decoration: none; }
 .result-title:hover { text-decoration: underline; }
 .meta { font-size: .85rem; opacity: .75; margin: .25rem 0 .5rem; }
-.tag { display: inline-block; font-size: .75rem; border: 1px solid #ddd; padding: .1rem .4rem; border-radius: .35rem; margin-right: .25rem; }
+.tag {
+  display: inline-block; font-size: .75rem;
+  border: 1px solid #ddd; padding: .1rem .4rem;
+  border-radius: .35rem; margin-right: .25rem;
+}
 .muted { opacity: .6; }
 .summary { margin: 0; }
 </style>
