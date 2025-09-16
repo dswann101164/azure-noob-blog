@@ -3,6 +3,7 @@ title: "Azure Cost Reporting for the Boardroom: Turning Receipts Into Stories"
 date: 2025-09-14
 summary: "Your Azure invoice isn’t a report — it’s a receipt. What your board needs is a story about cloud spend, risk, and ROI. Learn how to connect Azure costs to departments, apps, and business units with reporting and tags."
 tags: ["Azure", "Cost Management", "FinOps", "Cloud Governance"]
+slug: azure-cost-reporting-boardroom
 cover: "images/hero/azure-cost-reporting.png"
 ---
 

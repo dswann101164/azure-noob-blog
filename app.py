@@ -39,7 +39,7 @@ def inject_globals():
 def inject_time_utils():
     return {"now": datetime.utcnow}
 
-# ---- Template helpers ----
+# ---- Template filters ----
 @app.template_filter("ymd")
 def _fmt_ymd(dt):
     try:
@@ -121,7 +121,7 @@ def load_posts():
             "date": date,
             "summary": summary,
             "tags": [str(t).strip() for t in tags if str(t).strip()],
-            "cover": cover,
+            "cover": cover,            # raw value from front matter (e.g., "images/hero/foo.png")
             "md_path": md_file,
         })
 
@@ -137,6 +137,27 @@ def build_tags(posts):
     for t in tmap:
         tmap[t].sort(key=lambda p: p["date"], reverse=True)
     return tmap
+
+# ---- Cover/OG helpers ----
+def build_cover_url(cover_value: str, absolute: bool = False):
+    """
+    Normalize a cover path and return its URL via url_for('static', ...).
+    Accepts any of:
+      - "images/hero/foo.png"          (preferred)
+      - "static/images/hero/foo.png"   (we'll strip 'static/')
+      - "/static/images/hero/foo.png"  (we'll strip leading '/')
+    """
+    if not cover_value:
+        return None
+    c = cover_value.strip()
+    if c.startswith("/"):
+        c = c[1:]
+    if c.startswith("static/"):
+        c = c[len("static/"):]
+    try:
+        return url_for("static", filename=c, _external=absolute)
+    except Exception:
+        return None
 
 # ---- Cached posts/tags ----
 POSTS = load_posts()
@@ -175,7 +196,13 @@ def about():
 
 @app.route("/blog/")
 def blog():
-    return render_template("blog_index.html", posts=POSTS, og_type="website")
+    # Enrich posts with normalized cover URLs for the template
+    enriched = []
+    for p in POSTS:
+        q = dict(p)
+        q["cover_url"] = build_cover_url(p.get("cover"), absolute=False)
+        enriched.append(q)
+    return render_template("blog_index.html", posts=enriched, og_type="website")
 
 @app.route("/blog/<slug>/")
 def blog_post(slug: str):
@@ -207,20 +234,25 @@ def blog_post(slug: str):
     # SEO bits for base.html
     page_title = f"{post['title']} · {SITE_NAME}"
     meta_description = post.get("summary", "")
-    og_image = None
-    if post.get("cover"):
-        cov = post["cover"]
-        if cov.startswith("/"):
-            og_image = SITE_URL.rstrip("/") + cov
-        else:
-            og_image = url_for('static', filename=f'images/hero/{cov}', _external=True)
+
+    # Normalize cover for both on-page hero and OG image
+    cover_raw = (meta.get("cover") or post.get("cover"))
+    cover_url = build_cover_url(cover_raw, absolute=False)
+    og_image  = build_cover_url(cover_raw, absolute=True)
+
+    # ---- New: article meta for OpenGraph ----
+    author_name = (meta.get("author") or "").strip() or None
+    og_tags = post.get("tags", []) or []
+    # modified date: front matter "modified" OR file mtime
+    modified_dt = coerce_date(meta.get("modified"), datetime.fromtimestamp(post["md_path"].stat().st_mtime))
+    date_modified_iso = modified_dt.isoformat() if isinstance(modified_dt, datetime) else str(modified_dt)
 
     return render_template(
         "blog_post.html",
         post=post,
         content=html,
         reading_min=reading_min,
-        cover=(meta.get("cover") or post.get("cover")),
+        cover_url=cover_url,  # normalized hero image URL for the template
         prev_post=to_obj(prev_post),
         next_post=to_obj(next_post),
         page_title=page_title,
@@ -229,6 +261,10 @@ def blog_post(slug: str):
         og_image=og_image,
         og_type="article",
         date_published_iso=post["date"].isoformat() if isinstance(post["date"], datetime) else str(post["date"]),
+        # New OG fields:
+        author_name=author_name,
+        og_tags=og_tags,
+        date_modified_iso=date_modified_iso,
     )
 
 # ---- Tags ----
@@ -291,7 +327,8 @@ def sitemap_xml():
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
         xml += ["<url>", f"<loc>{u['loc']}</loc>"]
-        if "lastmod" in u: xml.append(f"<lastmod>{u['lastmod']}</lastmod>")
+        if "lastmod" in u:
+            xml.append(f"<lastmod>{u['lastmod']}</lastmod>")
         xml.append("</url>")
     xml.append("</urlset>")
     return Response("\n".join(xml), mimetype="application/xml")
