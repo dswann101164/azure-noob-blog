@@ -1,9 +1,14 @@
 {% extends "base.html" %}
+{% block title %}Home · {{ site_name }}{% endblock %}
+
 {% block content %}
 <section class="home-hero">
   <h1>{{ site_name }} — {{ site_tagline }}</h1>
   <p class="summary">
-    Step-by-step Azure, KQL, Terraform, and automation—practical guides you can copy-paste and ship.
+    Step-by-step Azure, KQL, Terraform, and automation — practical guides you can copy-paste and ship.
+  </p>
+  <p class="cta">
+    <a class="btn" href="{{ url_for('blog') }}">Browse all posts →</a>
   </p>
 </section>
 
@@ -11,20 +16,47 @@
   <h2>Latest Posts</h2>
   <ul class="post-list">
     {% for p in posts[:5] %}
-      <li>
-        <a href="/blog/{{ p.slug }}/">{{ p.title }}</a>
-        <span class="muted">· {{ p.date|ymd }}</span>
-        {% if p.summary %}<p class="summary">{{ p.summary }}</p>{% endif %}
-        {% if p.tags and p.tags|length %}
-          <p class="muted">
-            {% for t in p.tags %}
-              <span>#{{ t }}</span>{% if not loop.last %} {% endif %}
-            {% endfor %}
-          </p>
+      <li class="post-teaser">
+        <h3 class="post-title">
+          <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
+        </h3>
+        <p class="meta">
+          {{ p.date|ymd }}
+          {% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}
+        </p>
+        {% if p.summary %}
+          <p class="summary">{{ p.summary }}</p>
         {% endif %}
       </li>
     {% endfor %}
   </ul>
-  <p><a class="btn" href="/blog/">Browse all posts →</a></p>
+  <p class="more"><a class="btn" href="{{ url_for('blog') }}">See more posts →</a></p>
 </section>
+
+<style>
+.home-hero {
+  text-align: left;
+  margin: 1.5rem 0 2rem;
+}
+.home-hero h1 {
+  margin: 0 0 .5rem;
+  line-height: 1.2;
+}
+.home-hero .summary { opacity: .8; margin: 0 0 1rem; }
+.home-hero .cta .btn { display: inline-block; margin-top: .25rem; }
+
+.latest h2 { margin: 0 0 1rem; }
+.post-list { list-style: none; padding: 0; margin: 0; }
+.post-teaser { padding: .9rem 0; border-bottom: 1px solid #2a2a2a22; }
+.post-title { margin: 0 0 .25rem; font-size: 1.05rem; }
+.post-title a { text-decoration: none; }
+.post-title a:hover { text-decoration: underline; }
+.meta { margin: 0 0 .35rem; opacity: .7; font-size: .9rem; }
+.summary { margin: 0; }
+.more { margin-top: 1rem; }
+.btn {
+  display: inline-block; padding: .45rem .75rem; border: 1px solid #ccc;
+  border-radius: .4rem; text-decoration: none; font-size: .95rem;
+}
+</style>
 {% endblock %}
