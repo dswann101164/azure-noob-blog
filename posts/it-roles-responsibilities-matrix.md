@@ -3,7 +3,7 @@ title: IT Roles & Responsibilities — The Practical Matrix
 date: 2025-09-08
 summary: A practical roles & responsibilities matrix you can lift into your runbooks. Now aligned to Microsoft CAF.
 tags: [roles, azure, governance, operations]
-cover: caf-roles-matrix.png
+cover: images/hero/caf-roles-matrix.png
 ---
 
 <span class="lead"><strong>TL;DR:</strong> A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.</span>
