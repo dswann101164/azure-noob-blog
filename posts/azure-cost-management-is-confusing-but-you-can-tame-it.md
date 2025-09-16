@@ -1,5 +1,6 @@
 ---
 title: "Azure Cost Management is Confusing (But You Can Tame It)"
+slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15
 summary: "Azure bills are messy, dashboards don’t always add up, and tags are a nightmare. Here’s how I’m making sense of it — and how you can too."
 tags: ["Azure", "FinOps", "Cost Management", "Governance"]
