@@ -75,6 +75,7 @@ Our objective is to write one query that:
 ## The Complete Query
 
 ```kusto
+
 Resources
 | where type == "microsoft.compute/virtualmachines"
 | extend NetworkInterfaceId = tostring(properties.networkProfile.networkInterfaces[0].id)
@@ -163,7 +164,7 @@ Resources
     AllTags = tags
 | order by RemediationWorkflow, ResourceGroup, VMName asc
 
-## Why This Mat
+## Why This Matters
 By using KQL this way, you move from reactive troubleshooting to proactive governance.
 This query:
 - Eliminates manual patch-tracking  
