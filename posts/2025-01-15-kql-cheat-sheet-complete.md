@@ -311,7 +311,7 @@ In Resource Graph Explorer, select "Pie chart" in the portal to visualize.
 
 Want this cheat sheet as a PDF for easy reference? Enter your email below and I'll send you the complete guide plus bonus queries for security auditing and cost optimization.
 
-<form name="kql-cheat-sheet" method="POST" data-netlify="true" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+<form name="kql-cheat-sheet" method="POST" data-netlify="true" action="/thank-you/" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
   <input type="hidden" name="form-name" value="kql-cheat-sheet">
   
   <div style="margin-bottom: 15px;">
