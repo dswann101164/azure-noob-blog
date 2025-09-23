@@ -3,7 +3,7 @@ title: "What I Wish I Knew About Azure Resource Tags"
 date: 2025-09-23
 summary: "Order, capitalization, spelling, and the Type tag that will save your sanity. Hard-earned lessons from real Azure environments."
 tags: ["Azure", "Tags", "Governance", "FinOps", "Cost Management"]
-cover: "/static/images/hero/azure-resource-tags.png"
+
 ---
 
 
