@@ -1,0 +1,283 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title>From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL · Azure Noob</title>
+  <meta name="description" content="Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers.">
+  <link rel="canonical" href="https://azure-noob.com/blog/azure-vm-inventory-kql/" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL · Azure Noob">
+  <meta property="og:description" content="Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azure-vm-inventory-kql/">
+  
+    <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-vm-inventory-kql.png">
+  
+
+  
+    <meta property="article:published_time" content="2025-09-23T10:28:49.139462">
+    
+      <meta property="article:modified_time" content="2025-09-23T10:28:49.139462">
+    
+    
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="KQL">
+      
+        <meta property="article:tag" content="Update Management">
+      
+        <meta property="article:tag" content="Intune">
+      
+        <meta property="article:tag" content="VM Inventory">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL · Azure Noob">
+  <meta name="twitter:description" content="Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers.">
+  
+    <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-vm-inventory-kql.png">
+  
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/azure-vm-inventory-kql.png" alt="From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL</h1>
+    <p class="muted">
+      2025-09-23 · ~4 min read
+       · Azure, KQL, Update Management, Intune, VM Inventory
+    </p>
+    
+      <p class="summary">Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers.</p>
+    
+  </header>
+
+  
+  <div class="post-body">
+    <h2>What problem are we solving?</h2>
+<p>As an Azure administrator, your environment is a sprawling landscape of Windows Servers, Linux boxes, and Windows clients. The challenge: <strong>Which ones are patched by Azure Update Manager and which fall under Intune?</strong><br>
+Without a unified view, you risk compliance gaps and manual guesswork. This post shows how a single KQL query can deliver clarity and save hours of troubleshooting.</p>
+<hr>
+<h2>Why I Wrote This Query</h2>
+<p>I built this query to <strong>prepare my environment for Azure Update Manager (AUM)</strong>.<br>
+AUM is powerful for managing Windows Server patching, but it does <strong>not support Windows 10/11 clients or Databricks VMs</strong>. That means I needed a way to:</p>
+<ul>
+<li>Inventory <em>every</em> VM across subscriptions  </li>
+<li>Clearly separate the workloads AUM can handle (Windows Server)  </li>
+<li>Automatically flag those that must be handled by <strong>Intune</strong> (Windows clients)  </li>
+<li>Exclude or classify special cases like <strong>Databricks</strong> and Linux workloads  </li>
+</ul>
+<p>By setting this foundation, I could confidently plan patching strategy across the tenant and avoid surprises when adopting AUM.</p>
+<hr>
+<h2>The Goal: A Unified VM Report</h2>
+<p>Our objective is to write one query that:</p>
+<ul>
+<li>Gathers all Azure VMs  </li>
+<li>Enriches with networking and subscription context  </li>
+<li>Classifies OS types into clean names  </li>
+<li>Assigns the correct patching workflow (Intune, AUM, or Linux PM)  </li>
+<li>Surfaces useful metadata like Owner, CostCenter, Application  </li>
+</ul>
+<hr>
+<h2>Breaking Down the Query</h2>
+<h3>Step 1: Gather Core Ingredients</h3>
+<ul>
+<li>Start with all VMs from <code>Resources</code></li>
+<li>Join to NICs for <code>PrivateIP</code> and <code>SubnetId</code></li>
+</ul>
+<h3>Step 2: Add Human-Readable Context</h3>
+<ul>
+<li>Join subscription IDs to <code>SubscriptionName</code></li>
+</ul>
+<h3>Step 3: Extend with New Insights</h3>
+<ul>
+<li>Parse <code>VNetName</code> and <code>SubnetName</code></li>
+<li>Extract OS details (<code>OSType</code>, <code>OSPublisher</code>, <code>OSVersion</code>)</li>
+<li>Add <code>PowerState</code>, <code>CreatedBy</code>, <code>CreatedTime</code></li>
+</ul>
+<h3>Step 4: Apply Logic with <code>case</code></h3>
+<ul>
+<li>Build <strong>DetailedOS</strong> (Ubuntu Linux, Windows Server 2022, Windows 11, etc.)</li>
+<li>Assign <strong>RemediationWorkflow</strong>:</li>
+<li>Windows 10/11 → Intune  </li>
+<li>Windows Server → Azure Update Manager  </li>
+<li>Linux → Native package manager  </li>
+<li>Databricks / others → Investigation  </li>
+<li>Add <strong>AzureUpdateManagerSupported</strong> for clarity</li>
+</ul>
+<h3>Step 5: Project a Clean Report</h3>
+<ul>
+<li>Select core IDs (<code>VMName</code>, <code>DNSName</code>, <code>PrivateIP</code>)</li>
+<li>Include tags (<code>Owner</code>, <code>CostCenter</code>, <code>Application</code>)</li>
+<li>Keep only the columns you need</li>
+</ul>
+<h3>Step 6: Order for Readability</h3>
+<ul>
+<li>Sort by <code>RemediationWorkflow</code>, then <code>ResourceGroup</code>, then <code>VMName</code></li>
+</ul>
+<hr>
+<h2>The Complete Query</h2>
+<p>```kusto
+Resources
+| where type == "microsoft.compute/virtualmachines"
+| extend NetworkInterfaceId = tostring(properties.networkProfile.networkInterfaces[0].id)
+| join kind=leftouter (
+    Resources
+    | where type == "microsoft.network/networkinterfaces"
+    | project
+        NetworkInterfaceId = id,
+        PrivateIP = tostring(properties.ipConfigurations[0].properties.privateIPAddress),
+        SubnetId = tostring(properties.ipConfigurations[0].properties.subnet.id)
+) on NetworkInterfaceId
+| join kind=leftouter (
+    ResourceContainers
+    | where type == "microsoft.resources/subscriptions"
+    | project subscriptionId, SubscriptionName = name
+) on subscriptionId
+| extend
+    VNetName = tostring(split(SubnetId, "/")[8]),
+    SubnetName = tostring(split(SubnetId, "/")[10]),
+    OSType      = tostring(properties.storageProfile.osDisk.osType),
+    OSPublisher = tostring(properties.storageProfile.imageReference.publisher),
+    OSProduct   = tostring(properties.storageProfile.imageReference.offer),
+    OSVersion   = tostring(properties.storageProfile.imageReference.sku),
+    PowerState  = tostring(properties.extended.instanceView.powerState.displayStatus),
+    CreatedTime = todatetime(properties.timeCreated),
+    CreatedBy   = tostring(properties.createdBy.userPrincipalName)
+| extend
+    DetailedOS = case(
+        OSType == "Linux" and OSPublisher == "Canonical", "Ubuntu Linux",
+        OSType == "Linux" and OSPublisher == "RedHat", "Red Hat Linux",
+        OSType == "Linux", strcat("Linux - ", OSPublisher),
+        OSProduct contains "WindowsServer" and OSVersion contains "2022", "Windows Server 2022",
+        OSProduct contains "WindowsServer" and OSVersion contains "2019", "Windows Server 2019",
+        OSProduct contains "WindowsServer" and OSVersion contains "2016", "Windows Server 2016",
+        OSProduct contains "WindowsServer", strcat("Windows Server - ", OSVersion),
+        OSProduct contains "Windows-10" or OSProduct contains "windows-10", strcat("Windows 10 - ", OSVersion),
+        OSProduct contains "Windows-11" or OSProduct contains "windows-11", strcat("Windows 11 - ", OSVersion),
+        OSProduct contains "Databricks", "Azure Databricks VM",
+        OSType == "Windows", strcat("Windows - ", OSProduct),
+        "Unknown"
+    ),
+    RemediationWorkflow = case(
+        OSProduct contains "Windows-10" or OSProduct contains "windows-10", "Updated by Intune",
+        OSProduct contains "Windows-11" or OSProduct contains "windows-11", "Updated by Intune",
+        OSProduct contains "WindowsServer", "Azure Update Manager",
+        OSProduct contains "Databricks", "Excluded - Databricks",
+        OSType == "Linux", "Linux Package Manager",
+        OSType == "Windows", "Investigation Required - Windows",
+        "Investigation Required"
+    ),
+    AzureUpdateManagerSupported = case(
+        OSProduct contains "WindowsServer", "Yes",
+        OSProduct contains "Windows-10" or OSProduct contains "windows-10", "No - Win10 client",
+        OSProduct contains "Windows-11" or OSProduct contains "windows-11", "No - Win11 client",
+        OSProduct contains "Databricks", "No - Databricks VM",
+        OSType == "Linux", "No - Linux",
+        OSType == "Windows", "No - Other Windows Client",
+        "Unknown"
+    )
+| project
+    VMName = name,
+    DNSName = strcat(name, ".snv.net"),
+    PrivateIP,
+    ResourceGroup = resourceGroup,
+    SubscriptionName,
+    SubscriptionId = subscriptionId,
+    Location = location,
+    VNetName,
+    SubnetName,
+    OSType,
+    OSPublisher,
+    OSProduct,
+    OSVersion,
+    DetailedOS,
+    PowerState,
+    CreatedTime,
+    CreatedBy,
+    RemediationWorkflow,
+    AzureUpdateManagerSupported,
+    VMSize = tostring(properties.hardwareProfile.vmSize),
+    CostCenter = tostring(tags["CostCenter"]),
+    Owner = tostring(tags["Owner"]),
+    Environment = tostring(tags["Environment"]),
+    Department = tostring(tags["Department"]),
+    Application = tostring(tags["Application"]),
+    AllTags = tags
+| order by RemediationWorkflow, ResourceGroup, VMName asc</p>
+<h2>Why This Mat</h2>
+<p>By using KQL this way, you move from reactive troubleshooting to proactive governance.
+This query:
+- Eliminates manual patch-tracking<br>
+- Makes AUM adoption smooth by pre-classifying unsupported systems<br>
+- Provides clarity on Intune vs. AUM vs. Linux responsibilities<br>
+- Surfaces Databricks as out-of-scope for AUM<br>
+- Serves as a foundation for dashboards and alerts </p>
+  </div>
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-cost-reporting-boardroom/index.html">← Azure Cost Reporting for the Boardroom: Turning Receipts Into Stories</a>
+    
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+</body>
+</html>
