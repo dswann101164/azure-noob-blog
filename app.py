@@ -13,7 +13,7 @@ app.config["PROPAGATE_EXCEPTIONS"] = True  # show real errors in browser when de
 # ---- Site identity ----
 SITE_NAME = "Azure Noob"
 SITE_TAGLINE = "Don't be a Noob"
-SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:5000")  # set to https://azure-noob.com in prod
+SITE_URL = os.getenv("SITE_URL", "https://azure-noob.com")  # set to https://azure-noob.com in prod
 
 # ---- Content paths ----
 ROOT_DIR = Path(__file__).parent
