@@ -122,7 +122,7 @@ def tags_index():
     for tag in tags:
         tag_posts[tag] = [p for p in posts if tag in p['tags']]
     
-    return render_template('tags.html', tags=tags, tag_posts=tag_posts)
+    return render_template('tags_index.html', tags=tags, tag_posts=tag_posts)
 
 @app.route('/tags/<tag>/')
 def tag_posts(tag):
