@@ -160,9 +160,7 @@ def search_json():
 def about():
     return render_template('about.html')
 
-@app.route('/contact/')
-def contact():
-    return render_template('contact.html')
+# Remove contact route for now
 
 @app.route('/sitemap.xml')
 def sitemap():
@@ -252,7 +250,7 @@ def inject_navigation():
             {'name': 'Blog', 'url': url_for('blog_index')},
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
-            {'name': 'Contact', 'url': url_for('contact')},
+            {'name': 'Search', 'url': url_for('search')},
         ]
     }
 
