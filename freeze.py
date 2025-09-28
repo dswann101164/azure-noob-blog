@@ -31,11 +31,11 @@ def prepare_dest():
 
 # ---- Generators for all routes we need to freeze ----
 @freezer.register_generator
-def home():
+def index():  # Changed from 'home' to match Flask route
     yield {}
 
 @freezer.register_generator
-def blog():
+def blog_index():  # Changed from 'blog' to match Flask route
     yield {}
 
 @freezer.register_generator
@@ -45,7 +45,7 @@ def about():
 # SEARCH (page + JSON)
 # These names must match your @app.route handlers in app.py
 @freezer.register_generator
-def search_page():       # /search/  <-- renamed from `search` to match endpoint
+def search():  # Changed from 'search_page' to match Flask route
     yield {}
 
 @freezer.register_generator
@@ -64,9 +64,8 @@ def tags_index():
     yield {}
 
 @freezer.register_generator
-def tag_page():
-    posts = load_posts()
-    tags = build_tags(posts)
+def tag_posts():  # Changed from 'tag_page' to match Flask route
+    tags = build_tags()  # Fixed: build_tags() doesn't take parameters
     for tag in tags.keys():
         yield {"tag": tag}
 
@@ -90,7 +89,7 @@ def write_sitemap_and_robots():
     ]
 
     posts = load_posts()
-    tags = build_tags(posts)
+    tags = build_tags()  # Fixed: build_tags() doesn't take parameters
 
     for t in tags.keys():
         urls.append({"loc": f"{base}/tags/{t}/", "changefreq": "monthly", "priority": "0.4"})
