@@ -227,8 +227,29 @@ def rss_feed():
     """Generate RSS feed."""
     posts = load_posts()[:10]  # Latest 10 posts
     
+    # Generate RSS XML directly
+    rss_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    rss_content += '<rss version="2.0">\n'
+    rss_content += '  <channel>\n'
+    rss_content += '    <title>Azure Noob Blog</title>\n'
+    rss_content += '    <description>Azure tips and tutorials</description>\n'
+    rss_content += f'    <link>{url_for("index", _external=True)}</link>\n'
+    rss_content += '    <language>en-us</language>\n'
+    
+    for post in posts:
+        rss_content += '    <item>\n'
+        rss_content += f'      <title>{post["title"]}</title>\n'
+        rss_content += f'      <description>{post["summary"]}</description>\n'
+        rss_content += f'      <link>{url_for("blog_post", slug=post["slug"], _external=True)}</link>\n'
+        rss_content += f'      <pubDate>{post["date"].strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>\n'
+        rss_content += f'      <guid>{url_for("blog_post", slug=post["slug"], _external=True)}</guid>\n'
+        rss_content += '    </item>\n'
+    
+    rss_content += '  </channel>\n'
+    rss_content += '</rss>'
+    
     response = app.response_class(
-        render_template('rss.xml', posts=posts),
+        rss_content,
         mimetype='application/rss+xml'
     )
     return response
