@@ -114,15 +114,18 @@ def blog_post(slug):
 
 @app.route('/tags/')
 def tags_index():
-    tags = get_all_tags()
+    all_tags = get_all_tags()
     posts = load_posts()
     
-    # Group posts by tag
+    # Group posts by tag and create (tag, count) tuples
     tag_posts = {}
-    for tag in tags:
-        tag_posts[tag] = [p for p in posts if tag in p['tags']]
+    tags_with_counts = []
     
-    return render_template('tags_index.html', tags=tags, tag_posts=tag_posts)
+    for tag in all_tags:
+        tag_posts[tag] = [p for p in posts if tag in p['tags']]
+        tags_with_counts.append((tag, len(tag_posts[tag])))
+    
+    return render_template('tags_index.html', tags=tags_with_counts, tag_posts=tag_posts)
 
 @app.route('/tags/<tag>/')
 def tag_posts(tag):
