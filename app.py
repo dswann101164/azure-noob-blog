@@ -234,6 +234,11 @@ def inject_navigation():
         ]
     }
 
+@app.template_global()
+def now():
+    """Make current datetime available to templates."""
+    return datetime.now()
+
 def build_tags():
     """Build tag pages for frozen site generation."""
     tags = get_all_tags()
