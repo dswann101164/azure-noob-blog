@@ -137,6 +137,25 @@ def tag_posts(tag):
 def search():
     return render_template('search.html')
 
+@app.route('/search.json')
+def search_json():
+    """Return all posts as JSON for client-side search."""
+    posts = load_posts()
+    # Return simplified post data for search
+    search_data = []
+    for post in posts:
+        search_data.append({
+            'title': post['title'],
+            'summary': post['summary'],
+            'slug': post['slug'],
+            'date': post['date'].strftime('%Y-%m-%d'),
+            'tags': post['tags'],
+            'url': url_for('blog_post', slug=post['slug'])
+        })
+    
+    from flask import jsonify
+    return jsonify(search_data)
+
 @app.route('/about/')
 def about():
     return render_template('about.html')
