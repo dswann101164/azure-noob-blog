@@ -131,7 +131,7 @@ def tags_index():
 def tag_posts(tag):
     posts = load_posts()
     tagged_posts = [p for p in posts if tag in p['tags']]
-    return render_template('tag_posts.html', tag=tag, posts=tagged_posts)
+    return render_template('tags.html', tag=tag, posts=tagged_posts)
 
 @app.route('/search/')
 def search():
