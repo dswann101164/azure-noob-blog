@@ -210,6 +210,16 @@ def urlencode_filter(s):
     """URL encode strings for templates."""
     return quote(str(s))
 
+@app.template_filter('ymd')
+def ymd_filter(date):
+    """Format date as YYYY-MM-DD for templates."""
+    if isinstance(date, str):
+        try:
+            date = datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            return date
+    return date.strftime('%Y-%m-%d')
+
 # Template context processors
 @app.context_processor
 def inject_navigation():
