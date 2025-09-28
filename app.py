@@ -110,7 +110,27 @@ def blog_post(slug):
     post = next((p for p in posts if p['slug'] == slug), None)
     if not post:
         abort(404)
-    return render_template('blog_post.html', post=post)
+    
+    # Find current post index for prev/next navigation
+    current_index = next((i for i, p in enumerate(posts) if p['slug'] == slug), None)
+    prev_post = posts[current_index + 1] if current_index is not None and current_index + 1 < len(posts) else None
+    next_post = posts[current_index - 1] if current_index is not None and current_index > 0 else None
+    
+    # Process variables the template expects
+    content = post['content']  # Extract content
+    cover_url = post['cover'] if post['cover'] else None  # Use cover as-is
+    
+    # Calculate reading time (rough estimate: 200 words per minute)
+    word_count = len(content.split())
+    reading_min = max(1, round(word_count / 200))
+    
+    return render_template('blog_post.html', 
+                         post=post,
+                         content=content,
+                         cover_url=cover_url,
+                         reading_min=reading_min,
+                         prev_post=prev_post,
+                         next_post=next_post)
 
 @app.route('/tags/')
 def tags_index():
