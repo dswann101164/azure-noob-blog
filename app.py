@@ -4,6 +4,7 @@ import frontmatter
 from datetime import datetime
 import re
 from urllib.parse import quote
+import markdown
 
 app = Flask(__name__)
 
@@ -117,7 +118,7 @@ def blog_post(slug):
     next_post = posts[current_index - 1] if current_index is not None and current_index > 0 else None
     
     # Process variables the template expects
-    content = post['content']  # Extract content
+    content = markdown.markdown(post['content'])  # Process markdown
     cover_url = post['cover'] if post['cover'] else None  # Use cover as-is
     
     # Calculate reading time (rough estimate: 200 words per minute)
