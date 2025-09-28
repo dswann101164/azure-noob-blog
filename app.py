@@ -211,8 +211,13 @@ def sitemap():
 @app.route('/robots.txt')
 def robots():
     """Generate robots.txt file."""
+    robots_content = """User-agent: *
+Allow: /
+
+Sitemap: /sitemap.xml"""
+    
     response = app.response_class(
-        render_template('robots.txt'),
+        robots_content,
         mimetype='text/plain'
     )
     return response
