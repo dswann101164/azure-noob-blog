@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Posts tagged "{{ tag }}" - Azure Noob{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Posts tagged "{{ tag }}"</h1>
+    
+    {% if posts %}
+        <div class="space-y-6">
+            {% for post in posts %}
+            <article class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h2 class="text-xl font-semibold mb-2">
+                    <a href="{{ url_for('blog_post', slug=post.slug) }}" class="text-blue-600 hover:text-blue-800">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                
+                {% if post.date %}
+                <p class="text-gray-500 text-sm mb-3">{{ post.date.strftime('%B %d, %Y') }}</p>
+                {% endif %}
+                
+                {% if post.summary %}
+                <p class="text-gray-700 mb-3">{{ post.summary }}</p>
+                {% endif %}
+                
+                {% if post.tags %}
+                <div class="flex flex-wrap gap-2">
+                    {% for tag_name in post.tags %}
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">{{ tag_name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600">No posts found with this tag.</p>
+    {% endif %}
+    
+    <div class="mt-8">
+        <a href="{{ url_for('tags_index') }}" class="text-blue-600 hover:text-blue-800">← View all tags</a>
+    </div>
+</div>
+{% endblock %}
