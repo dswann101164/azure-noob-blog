@@ -190,8 +190,20 @@ def sitemap():
             'lastmod': datetime.now().strftime('%Y-%m-%d')
         })
     
+    # Generate XML directly
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for page in pages:
+        xml_content += '  <url>\n'
+        xml_content += f'    <loc>{page["url"]}</loc>\n'
+        xml_content += f'    <lastmod>{page["lastmod"]}</lastmod>\n'
+        xml_content += '  </url>\n'
+    
+    xml_content += '</urlset>'
+    
     response = app.response_class(
-        render_template('sitemap.xml', pages=pages),
+        xml_content,
         mimetype='application/xml'
     )
     return response
