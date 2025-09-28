@@ -173,7 +173,6 @@ def sitemap():
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
-        {'url': url_for('contact', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
     ]
     
     # Add blog posts
