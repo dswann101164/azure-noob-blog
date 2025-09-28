@@ -224,5 +224,17 @@ def inject_navigation():
         ]
     }
 
+def build_tags():
+    """Build tag pages for frozen site generation."""
+    tags = get_all_tags()
+    posts = load_posts()
+    
+    # Group posts by tag
+    tag_posts = {}
+    for tag in tags:
+        tag_posts[tag] = [p for p in posts if tag in p['tags']]
+    
+    return tag_posts
+
 if __name__ == '__main__':
     app.run(debug=True)
