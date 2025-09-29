@@ -1,0 +1,262 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title></title>
+  <meta name="description" content="">
+  <link rel="canonical" href="" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="">
+  
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt=" logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong></strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/azure-workbook-enhancement.png" alt="Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering</h1>
+    <p class="muted">
+      2025-09-28 · ~5 min read
+       · Azure, KQL, Monitoring, Workbooks, Community, Open Source
+    </p>
+    
+      <p class="summary">How I enhanced Billy York&#39;s Azure Inventory Workbook with modern service support, global filtering, portal integration, and security hygiene monitoring for 2025 Azure environments.</p>
+    
+  </header>
+
+  
+  <div class="post-body">
+    <p>Azure Monitor Workbooks are powerful tools for creating custom dashboards and reports, but keeping them current with Azure's rapidly expanding service catalog can be challenging. Recently, I enhanced Billy York's excellent Azure Inventory Workbook to support modern Azure environments while fixing several technical issues that had accumulated over time.</p>
+<h2>Building on Solid Foundations</h2>
+<p>Billy York created the original Azure Inventory Workbook as a comprehensive tool for analyzing Azure resources using Azure Resource Graph queries. His work provided an excellent foundation with well-structured KQL queries and a logical organization that made it easy to navigate different resource types.</p>
+<p>However, as Azure has evolved significantly since 2022, several gaps had emerged:<br />
+- Limited support for modern services introduced between 2020-2025<br />
+- Broken conditional visibility in some tabs<br />
+- Missing global filtering capabilities<br />
+- No direct portal integration for resource management</p>
+<h2>Key Technical Enhancements</h2>
+<h3>Expanded Service Coverage (50+ to 200+ Services)</h3>
+<p>The original workbook supported common Azure services, but modern environments often include newer offerings like Azure Container Apps, Static Web Apps, and enhanced AI services. I systematically expanded the resource type mappings:</p>
+<pre class="codehilite"><code class="language-kql">| extend type = case(
+    type contains 'microsoft.containerservice/managedclusters', 'AKS Clusters',
+    type contains 'microsoft.web/staticsites', 'Static Web Apps',
+    type contains 'microsoft.cognitiveservices/accounts', 'Cognitive Services',
+    type contains 'microsoft.machinelearningservices/workspaces', 'ML Workspaces',
+    // ... 200+ service mappings
+    strcat(&quot;Not Translated: &quot;, type))
+</code></pre>
+
+<p>This expansion ensures that modern Azure environments display meaningful service names rather than cryptic resource provider identifiers.</p>
+<h3>Fixed Conditional Visibility Issues</h3>
+<p>One significant problem was the Security Hygiene Issues tab, which was completely non-functional due to missing conditional visibility parameters. The fix involved:</p>
+<ol>
+<li><strong>Adding proper parameter definitions:</strong></li>
+</ol>
+<pre class="codehilite"><code class="language-json">{
+  &quot;id&quot;: &quot;main-tab-parameter&quot;,
+  &quot;version&quot;: &quot;KqlParameterItem/1.0&quot;, 
+  &quot;name&quot;: &quot;selectedTab&quot;,
+  &quot;type&quot;: 1,
+  &quot;value&quot;: &quot;overview&quot;
+}
+</code></pre>
+
+<ol>
+<li><strong>Implementing working conditional visibility:</strong></li>
+</ol>
+<pre class="codehilite"><code class="language-json">&quot;conditionalVisibility&quot;: {
+  &quot;parameterName&quot;: &quot;selectedTab&quot;,
+  &quot;comparison&quot;: &quot;isEqualTo&quot;, 
+  &quot;value&quot;: &quot;Security Hygiene Issues&quot;
+}
+</code></pre>
+
+<h3>Global Filtering System</h3>
+<p>Enterprise environments often need to focus on specific resource groups or tagged resources. I implemented global filtering that works across all tabs:</p>
+<pre class="codehilite"><code class="language-kql">| where resourceGroup =~ '{ResourceGroup}' or '{ResourceGroup}' == ''
+| where tostring(tags) contains '{TagFilter}' or '{TagFilter}' == ''
+</code></pre>
+
+<p>The key technical detail here is using <code>tostring(tags)</code> to enable the <code>contains</code> operator, since tags are stored as complex objects in Azure Resource Graph.</p>
+<h3>Portal Integration and User Experience</h3>
+<p>Resource management often requires jumping to the Azure portal. I added clickable resource links throughout the workbook:</p>
+<pre class="codehilite"><code class="language-kql">| extend ResourceLink = strcat('https://portal.azure.com/#resource', id)
+</code></pre>
+
+<p>Combined with formatter configurations that make resource names clickable:</p>
+<pre class="codehilite"><code class="language-json">{
+  &quot;columnMatch&quot;: &quot;name&quot;,
+  &quot;formatter&quot;: 7,
+  &quot;formatOptions&quot;: {
+    &quot;linkTarget&quot;: &quot;Url&quot;,
+    &quot;linkColumnName&quot;: &quot;ResourceLink&quot;,
+    &quot;showIcon&quot;: true
+  }
+}
+</code></pre>
+
+<h3>Intelligent Resource Naming</h3>
+<p>Azure Advisor recommendations often display GUIDs instead of meaningful resource names. I solved this with intelligent name resolution:</p>
+<pre class="codehilite"><code class="language-kql">| extend resourceName = case(
+    isempty(rawResourceName) or strlen(rawResourceName) &gt; 50, split(affectedResource, '/')[8],
+    rawResourceName contains &quot;-&quot; and strlen(rawResourceName) &gt; 30, &quot;Subscription-level&quot;,
+    rawResourceName
+)
+</code></pre>
+
+<p>This logic extracts the actual resource name from the resource ID when the displayed name is unhelpful.</p>
+<h2>New Functional Capabilities</h2>
+<h3>Security Hygiene Monitoring</h3>
+<p>The enhanced workbook includes proactive security monitoring that identifies common misconfigurations:</p>
+<pre class="codehilite"><code class="language-kql">| extend Issue = case(
+    type =~ 'microsoft.storage/storageaccounts' and tostring(properties.supportsHttpsTrafficOnly) != 'true', 
+    'Storage allows HTTP traffic',
+    type =~ 'microsoft.keyvault/vaults' and tostring(properties.enableSoftDelete) != 'true', 
+    'Key Vault soft delete disabled',
+    type =~ 'microsoft.compute/virtualmachines' and tostring(identity.type) in ('', 'None'), 
+    'VM without managed identity',
+    'No issues detected'
+)
+</code></pre>
+
+<h3>Cost and Advisor Integration</h3>
+<p>A dedicated tab surfaces Azure Advisor recommendations with proper resource context, helping teams prioritize cost optimization and performance improvements.</p>
+<h3>Enhanced Visual Indicators</h3>
+<p>Modern workbooks benefit from clear visual cues. I implemented consistent icon usage throughout:</p>
+<pre class="codehilite"><code class="language-json">&quot;formatOptions&quot;: {
+  &quot;thresholdsOptions&quot;: &quot;icons&quot;,
+  &quot;thresholdsGrid&quot;: [
+    {
+      &quot;operator&quot;: &quot;==&quot;,
+      &quot;thresholdValue&quot;: &quot;PowerState/running&quot;,
+      &quot;representation&quot;: &quot;Available&quot;,
+      &quot;text&quot;: &quot;{0}{1}&quot;
+    },
+    {
+      &quot;operator&quot;: &quot;==&quot;, 
+      &quot;thresholdValue&quot;: &quot;PowerState/deallocated&quot;,
+      &quot;representation&quot;: &quot;disabled&quot;,
+      &quot;text&quot;: &quot;{0}{1}&quot;
+    }
+  ]
+}
+</code></pre>
+
+<h2>Community Collaboration Approach</h2>
+<p>This enhancement project reinforced several important principles for working with community tools:</p>
+<p><strong>Proper Attribution</strong>: Billy York's original work deserved full credit. The enhanced version clearly builds upon his foundation rather than replacing it.</p>
+<p><strong>Transparent Communication</strong>: I created a GitHub issue on the original repository to inform Billy York about the enhancements, opening the door for potential collaboration.</p>
+<p><strong>Independent Value</strong>: While respecting the original project, the enhanced version provides immediate value to users who need modern service support.</p>
+<h2>Installation and Usage</h2>
+<p>The enhanced workbook is available at: https://github.com/dswann101164/azure-inventory-workbook-enhanced</p>
+<p><strong>Installation steps:</strong><br />
+1. Download the <code>.workbook</code> file from the repository<br />
+2. In Azure Monitor, navigate to Workbooks<br />
+3. Click "New" then "Advanced Editor"<br />
+4. Paste the workbook content and save<br />
+5. Ensure you have Reader access to the resources you want to inventory</p>
+<p><strong>Key features to explore:</strong><br />
+- Global filtering by resource group and tags<br />
+- Modern service support across all tabs<br />
+- Security hygiene monitoring for compliance checks<br />
+- Cost optimization recommendations from Azure Advisor<br />
+- Direct portal links for resource management</p>
+<h2>Technical Lessons Learned</h2>
+<p>Working with Azure Monitor Workbooks highlighted several important considerations:</p>
+<p><strong>Parameter Management</strong>: Complex workbooks need careful parameter organization. Global parameters should be defined early and referenced consistently.</p>
+<p><strong>Conditional Visibility</strong>: This powerful feature requires precise parameter matching. Small typos can break entire sections.</p>
+<p><strong>KQL Performance</strong>: Resource Graph queries should filter early and extend late to optimize performance across large Azure environments.</p>
+<p><strong>Community Engagement</strong>: The Azure community values tools that solve real operational problems. Proper attribution and collaborative approaches build trust and encourage adoption.</p>
+<h2>Looking Forward</h2>
+<p>The enhanced workbook demonstrates how community tools can evolve to meet changing needs while respecting original contributors. Azure's service catalog continues expanding rapidly, and community-driven tools like this help practitioners keep pace with new capabilities.</p>
+<p>For Azure administrators and architects managing complex environments, having comprehensive visibility into resource inventory, security posture, and cost optimization opportunities is essential. Tools like this enhanced workbook provide that visibility while integrating seamlessly into existing Azure workflows.</p>
+<h2>Repository and Community</h2>
+<p>The enhanced Azure Inventory Workbook is available on GitHub with full documentation and installation instructions. Community feedback and contributions are welcome as Azure continues evolving and new services emerge.</p>
+<p><strong>GitHub Repository</strong>: https://github.com/dswann101164/azure-inventory-workbook-enhanced<br />
+<strong>Original Work by Billy York</strong>: https://github.com/scautomation/Azure-Inventory-Workbook</p>
+<p>This project exemplifies how the Azure community can collaborate to maintain and improve valuable tools, ensuring they remain relevant and useful as the platform evolves.</p>
+  </div>
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-cost-reports-business-reality/index.html">← Why Your Azure Cost Reports Don&#39;t Match Your Business Reality</a>
+    
+    
+      <a href="../azure-vm-automation-dependency-hell/index.html">Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It) →</a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025  — </p>
+    </div>
+  </footer>
+</body>
+</html>

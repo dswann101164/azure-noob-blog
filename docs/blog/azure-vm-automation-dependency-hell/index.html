@@ -1,0 +1,182 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title></title>
+  <meta name="description" content="">
+  <link rel="canonical" href="" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="">
+  
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt=" logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong></strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/azure-automation-debugging.png" alt="Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)</h1>
+    <p class="muted">
+      2025-09-29 · ~2 min read
+       · Azure, PowerShell, Automation, DevOps, Troubleshooting
+    </p>
+    
+      <p class="summary">Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.</p>
+    
+  </header>
+
+  
+  <div class="post-body">
+    <p>I built a PowerShell script to automate Azure admin workstation setup. Tested on my VM - worked perfectly. Deployed a fresh Windows 11 Enterprise N from Azure marketplace to document the process - total failure. Every package install failed with cryptic certificate errors.</p>
+<p>Three hours later, I discovered why Microsoft's package manager doesn't work on Microsoft's marketplace images.</p>
+<h2>The Certificate Validation Error</h2>
+<p>Fresh Windows 11 Enterprise N VMs fail every winget package install:</p>
+<pre class="codehilite"><code>0x8a15005e : The server certificate did not match any of the expected values.
+</code></pre>
+
+<p>PowerShell 7? Failed. VS Code? Failed. Git, Python, Azure CLI - all failed.</p>
+<h2>The Debugging Rabbit Hole</h2>
+<p><strong>First attempt: Run Windows Update</strong></p>
+<p>Maybe the VM just needs updates? I wrote a script using PSWindowsUpdate module, waited 90 minutes for patches and reboot.</p>
+<pre class="codehilite"><code class="language-powershell">Get-AppxPackage -Name &quot;Microsoft.VCLibs.140.00.UWPDesktop&quot; | Select-Object Version
+# Version: 14.0.30704.0
+</code></pre>
+
+<p>Still the old version. Windows Update doesn't include framework updates.</p>
+<p><strong>Second attempt: Manual dependency updates</strong></p>
+<p>Winget requires VCLibs.140.00.UWPDesktop version 14.0.33728.0+ to work properly. Downloaded from Microsoft's official URLs:</p>
+<pre class="codehilite"><code class="language-powershell">Invoke-WebRequest -Uri &quot;https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx&quot;
+Add-AppxPackage -Path $downloaded
+</code></pre>
+
+<p>Installed version: 14.0.33321.0</p>
+<p>Still too old. Microsoft's download URL doesn't provide the version their software requires.</p>
+<p><strong>The dependency trap:</strong></p>
+<ul>
+<li>Fresh marketplace VMs ship with winget v1.19 (certificate validation broken)</li>
+<li>Updating to winget v1.26 requires App Installer v1.26</li>
+<li>App Installer v1.26 requires VCLibs 14.0.33728.0+</li>
+<li>Microsoft's URLs only provide VCLibs 14.0.33321.0</li>
+<li>Windows Update doesn't include these frameworks</li>
+</ul>
+<p>Stuck in a loop with no Microsoft-provided solution.</p>
+<h2>The Working Solution: Chocolatey</h2>
+<p>Chocolatey doesn't depend on AppX frameworks. It just works.</p>
+<p>Rewrote the script using Chocolatey instead of winget. Tested on a fresh marketplace VM:</p>
+<pre class="codehilite"><code>14/14 packages installed successfully
+0 failures
+</code></pre>
+
+<h2>Deployment Timeline</h2>
+<p>From Azure Portal to fully configured workstation: <strong>30-60 minutes</strong></p>
+<ul>
+<li>Deploy Windows 11 VM: 5-10 min</li>
+<li>Download script: 2 min</li>
+<li>Chocolatey installs everything: 20-40 min</li>
+<li>Reboot and verify: 5 min</li>
+</ul>
+<p><strong>What gets installed:</strong><br />
+- Dev tools: PowerShell 7, VS Code, Git, Python, Node.js<br />
+- Azure tools: Azure CLI, Storage Explorer, Terraform, Bicep<br />
+- Utilities: Windows Terminal, Docker Desktop, Postman, 7-Zip, Notepad++</p>
+<p>Plus desktop shortcuts for the key applications.</p>
+<h2>Usage</h2>
+<p>One command on any fresh Azure VM:</p>
+<pre class="codehilite"><code class="language-powershell"># Download and run
+Invoke-WebRequest -Uri &quot;https://raw.githubusercontent.com/dswann101164/azure-admin-workstation-setup/main/Setup-AzureAdminWorkstation-Chocolatey.ps1&quot; -OutFile &quot;Setup.ps1&quot;
+
+.\Setup.ps1 -NoPrompts
+</code></pre>
+
+<p>Source code and documentation: <a href="https://github.com/dswann101164/azure-admin-workstation-setup">github.com/dswann101164/azure-admin-workstation-setup</a></p>
+<h2>Key Takeaways</h2>
+<p><strong>Test on actual fresh VMs.</strong> Your dev machine that's been running for weeks has accumulated updates that fresh marketplace images don't have.</p>
+<p><strong>Marketplace images are outdated.</strong> Windows 11 Enterprise N ships with 9-month-old package managers and frameworks.</p>
+<p><strong>Microsoft's infrastructure has gaps.</strong> Their download URLs serve versions too old for their own software requirements.</p>
+<p><strong>Chocolatey avoids the problem entirely.</strong> No AppX dependencies, no certificate validation issues, no version mismatches.</p>
+<p>The irony: Microsoft's package manager doesn't work on Microsoft's marketplace images because Microsoft's download infrastructure is outdated.</p>
+<p>Save yourself three hours - use Chocolatey for Azure VM automation.</p>
+<hr />
+<p><em>Tested on Windows 11 Enterprise N (22H2) from Azure Marketplace - September 2025</em></p>
+  </div>
+
+  
+  <nav class="post-nav">
+    
+      <a href="../modernizing-azure-workbooks/index.html">← Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering</a>
+    
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025  — </p>
+    </div>
+  </footer>
+</body>
+</html>
