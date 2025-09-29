@@ -5,6 +5,8 @@ from datetime import datetime
 import re
 from urllib.parse import quote
 import markdown
+from markdown.extensions.codehilite import CodeHiliteExtension
+from markdown.extensions.fenced_code import FencedCodeExtension
 
 app = Flask(__name__)
 
@@ -117,9 +119,18 @@ def blog_post(slug):
     prev_post = posts[current_index + 1] if current_index is not None and current_index + 1 < len(posts) else None
     next_post = posts[current_index - 1] if current_index is not None and current_index > 0 else None
     
-    # Process variables the template expects
-    content = markdown.markdown(post['content'])  # Process markdown
-    cover_url = post['cover'] if post['cover'] else None  # Use cover as-is
+    # Process markdown with syntax highlighting
+    content = markdown.markdown(
+        post['content'],
+        extensions=[
+            CodeHiliteExtension(linenums=False, css_class='codehilite'),
+            FencedCodeExtension(),
+            'tables',
+            'nl2br'
+        ]
+    )
+    
+    cover_url = post['cover'] if post['cover'] else None
     
     # Calculate reading time (rough estimate: 200 words per minute)
     word_count = len(content.split())
@@ -180,8 +191,6 @@ def search_json():
 @app.route('/about/')
 def about():
     return render_template('about.html')
-
-# Remove contact route for now
 
 @app.route('/sitemap.xml')
 def sitemap():
