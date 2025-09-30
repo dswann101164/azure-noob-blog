@@ -102,6 +102,29 @@ def get_all_tags():
         tags.update(post['tags'])
     return sorted(tags)
 
+def get_related_posts(current_post, limit=3):
+    """Get related posts based on shared tags."""
+    all_posts = load_posts()
+    
+    # Remove current post from candidates
+    candidates = [p for p in all_posts if p['slug'] != current_post['slug']]
+    
+    # Score each post by number of shared tags
+    scored_posts = []
+    current_tags = set(current_post['tags'])
+    
+    for post in candidates:
+        post_tags = set(post['tags'])
+        shared_tags = current_tags.intersection(post_tags)
+        if shared_tags:
+            scored_posts.append((len(shared_tags), post))
+    
+    # Sort by score (descending), then by date (newest first)
+    scored_posts.sort(key=lambda x: (x[0], x[1]['date']), reverse=True)
+    
+    # Return top N posts
+    return [post for score, post in scored_posts[:limit]]
+
 @app.route('/')
 def index():
     posts = load_posts()
@@ -141,13 +164,17 @@ def blog_post(slug):
     word_count = len(content.split())
     reading_min = max(1, round(word_count / 200))
     
+    # Get related posts
+    related = get_related_posts(post, limit=3)
+    
     return render_template('blog_post.html', 
                          post=post,
                          content=content,
                          cover_url=cover_url,
                          reading_min=reading_min,
                          prev_post=prev_post,
-                         next_post=next_post)
+                         next_post=next_post,
+                         related_posts=related)
 
 @app.route('/tags/')
 def tags_index():

@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <article class="post">
@@ -25,6 +25,23 @@
   <div class="post-body">
     {{ content|safe }}
   </div>
+
+  {# ---- RELATED POSTS ---- #}
+  {% if related_posts %}
+  <aside class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      {% for related in related_posts %}
+      <li>
+        <a href="{{ url_for('blog_post', slug=related.slug) }}">
+          <span class="related-title">{{ related.title }}</span>
+          <span class="related-meta">{{ related.date|ymd }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
 
   {# ---- PREV/NEXT ---- #}
   <nav class="post-nav">
