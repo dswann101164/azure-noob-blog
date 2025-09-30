@@ -10,6 +10,11 @@ from markdown.extensions.fenced_code import FencedCodeExtension
 
 app = Flask(__name__)
 
+# Site configuration
+app.config['SITE_NAME'] = 'Azure Noob'
+app.config['SITE_TAGLINE'] = "Don't be a Noob"
+app.config['SITE_URL'] = 'https://azure-noob.com'
+
 def coerce_date(value, default_dt):
     """Convert various date formats to datetime object."""
     if isinstance(value, datetime):
@@ -261,8 +266,8 @@ def rss_feed():
     rss_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     rss_content += '<rss version="2.0">\n'
     rss_content += '  <channel>\n'
-    rss_content += '    <title>Azure Noob Blog</title>\n'
-    rss_content += '    <description>Azure tips and tutorials</description>\n'
+    rss_content += f'    <title>{app.config["SITE_NAME"]}</title>\n'
+    rss_content += f'    <description>{app.config["SITE_TAGLINE"]}</description>\n'
     rss_content += f'    <link>{url_for("index", _external=True)}</link>\n'
     rss_content += '    <language>en-us</language>\n'
     
@@ -310,7 +315,7 @@ def ymd_filter(date):
 # Template context processors
 @app.context_processor
 def inject_navigation():
-    """Inject navigation data into all templates."""
+    """Inject navigation data and site config into all templates."""
     return {
         'nav_items': [
             {'name': 'Home', 'url': url_for('index')},
@@ -318,7 +323,10 @@ def inject_navigation():
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
             {'name': 'Search', 'url': url_for('search')},
-        ]
+        ],
+        'site_name': app.config.get('SITE_NAME', 'Azure Noob'),
+        'site_tagline': app.config.get('SITE_TAGLINE', "Don't be a Noob"),
+        'SITE_URL': app.config.get('SITE_URL', 'https://azure-noob.com')
     }
 
 @app.template_global()
