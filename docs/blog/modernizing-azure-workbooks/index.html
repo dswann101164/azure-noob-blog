@@ -77,7 +77,7 @@
   <header class="post-header">
     <h1>Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering</h1>
     <p class="muted">
-      2025-09-28 · ~5 min read
+      2025-09-28 · ~8 min read
        · Azure, KQL, Monitoring, Workbooks, Community, Open Source
     </p>
     
@@ -98,14 +98,14 @@
 <h2>Key Technical Enhancements</h2>
 <h3>Expanded Service Coverage (50+ to 200+ Services)</h3>
 <p>The original workbook supported common Azure services, but modern environments often include newer offerings like Azure Container Apps, Static Web Apps, and enhanced AI services. I systematically expanded the resource type mappings:</p>
-<pre class="codehilite"><code class="language-kql">| extend type = case(
-    type contains 'microsoft.containerservice/managedclusters', 'AKS Clusters',
-    type contains 'microsoft.web/staticsites', 'Static Web Apps',
-    type contains 'microsoft.cognitiveservices/accounts', 'Cognitive Services',
-    type contains 'microsoft.machinelearningservices/workspaces', 'ML Workspaces',
-    // ... 200+ service mappings
-    strcat(&quot;Not Translated: &quot;, type))
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.containerservice/managedclusters&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;AKS Clusters&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.web/staticsites&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Static Web Apps&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.cognitiveservices/accounts&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Cognitive Services&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.machinelearningservices/workspaces&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ML Workspaces&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="c">// ... 200+ service mappings</span>
+<span class="w">    </span><span class="n">strcat</span><span class="p">(</span><span class="s">&quot;Not Translated: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">))</span>
+</code></pre></div>
 
 <p>This expansion ensures that modern Azure environments display meaningful service names rather than cryptic resource provider identifiers.</p>
 <h3>Fixed Conditional Visibility Issues</h3>
@@ -113,95 +113,95 @@
 <ol>
 <li><strong>Adding proper parameter definitions:</strong></li>
 </ol>
-<pre class="codehilite"><code class="language-json">{
-  &quot;id&quot;: &quot;main-tab-parameter&quot;,
-  &quot;version&quot;: &quot;KqlParameterItem/1.0&quot;, 
-  &quot;name&quot;: &quot;selectedTab&quot;,
-  &quot;type&quot;: 1,
-  &quot;value&quot;: &quot;overview&quot;
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main-tab-parameter&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;KqlParameterItem/1.0&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;selectedTab&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;overview&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <ol>
 <li><strong>Implementing working conditional visibility:</strong></li>
 </ol>
-<pre class="codehilite"><code class="language-json">&quot;conditionalVisibility&quot;: {
-  &quot;parameterName&quot;: &quot;selectedTab&quot;,
-  &quot;comparison&quot;: &quot;isEqualTo&quot;, 
-  &quot;value&quot;: &quot;Security Hygiene Issues&quot;
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nt">&quot;conditionalVisibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;parameterName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;selectedTab&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;comparison&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;isEqualTo&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Security Hygiene Issues&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <h3>Global Filtering System</h3>
 <p>Enterprise environments often need to focus on specific resource groups or tagged resources. I implemented global filtering that works across all tabs:</p>
-<pre class="codehilite"><code class="language-kql">| where resourceGroup =~ '{ResourceGroup}' or '{ResourceGroup}' == ''
-| where tostring(tags) contains '{TagFilter}' or '{TagFilter}' == ''
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;{ResourceGroup}&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s">&#39;{ResourceGroup}&#39;</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;{TagFilter}&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s">&#39;{TagFilter}&#39;</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;&#39;</span>
+</code></pre></div>
 
 <p>The key technical detail here is using <code>tostring(tags)</code> to enable the <code>contains</code> operator, since tags are stored as complex objects in Azure Resource Graph.</p>
 <h3>Portal Integration and User Experience</h3>
 <p>Resource management often requires jumping to the Azure portal. I added clickable resource links throughout the workbook:</p>
-<pre class="codehilite"><code class="language-kql">| extend ResourceLink = strcat('https://portal.azure.com/#resource', id)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceLink</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="s">&#39;https://portal.azure.com/#resource&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Combined with formatter configurations that make resource names clickable:</p>
-<pre class="codehilite"><code class="language-json">{
-  &quot;columnMatch&quot;: &quot;name&quot;,
-  &quot;formatter&quot;: 7,
-  &quot;formatOptions&quot;: {
-    &quot;linkTarget&quot;: &quot;Url&quot;,
-    &quot;linkColumnName&quot;: &quot;ResourceLink&quot;,
-    &quot;showIcon&quot;: true
-  }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;columnMatch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formatOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;linkTarget&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Url&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;linkColumnName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceLink&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;showIcon&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <h3>Intelligent Resource Naming</h3>
 <p>Azure Advisor recommendations often display GUIDs instead of meaningful resource names. I solved this with intelligent name resolution:</p>
-<pre class="codehilite"><code class="language-kql">| extend resourceName = case(
-    isempty(rawResourceName) or strlen(rawResourceName) &gt; 50, split(affectedResource, '/')[8],
-    rawResourceName contains &quot;-&quot; and strlen(rawResourceName) &gt; 30, &quot;Subscription-level&quot;,
-    rawResourceName
-)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">resourceName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">isempty</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">affectedResource</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">8</span><span class="p">],</span>
+<span class="w">    </span><span class="n">rawResourceName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Subscription-level&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rawResourceName</span>
+<span class="p">)</span>
+</code></pre></div>
 
 <p>This logic extracts the actual resource name from the resource ID when the displayed name is unhelpful.</p>
 <h2>New Functional Capabilities</h2>
 <h3>Security Hygiene Monitoring</h3>
 <p>The enhanced workbook includes proactive security monitoring that identifies common misconfigurations:</p>
-<pre class="codehilite"><code class="language-kql">| extend Issue = case(
-    type =~ 'microsoft.storage/storageaccounts' and tostring(properties.supportsHttpsTrafficOnly) != 'true', 
-    'Storage allows HTTP traffic',
-    type =~ 'microsoft.keyvault/vaults' and tostring(properties.enableSoftDelete) != 'true', 
-    'Key Vault soft delete disabled',
-    type =~ 'microsoft.compute/virtualmachines' and tostring(identity.type) in ('', 'None'), 
-    'VM without managed identity',
-    'No issues detected'
-)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Issue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.storage/storageaccounts&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">supportsHttpsTrafficOnly</span><span class="p">)</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;Storage allows HTTP traffic&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.keyvault/vaults&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">enableSoftDelete</span><span class="p">)</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;Key Vault soft delete disabled&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">identity</span><span class="err">.</span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;None&#39;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;VM without managed identity&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&#39;No issues detected&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
 
 <h3>Cost and Advisor Integration</h3>
 <p>A dedicated tab surfaces Azure Advisor recommendations with proper resource context, helping teams prioritize cost optimization and performance improvements.</p>
 <h3>Enhanced Visual Indicators</h3>
 <p>Modern workbooks benefit from clear visual cues. I implemented consistent icon usage throughout:</p>
-<pre class="codehilite"><code class="language-json">&quot;formatOptions&quot;: {
-  &quot;thresholdsOptions&quot;: &quot;icons&quot;,
-  &quot;thresholdsGrid&quot;: [
-    {
-      &quot;operator&quot;: &quot;==&quot;,
-      &quot;thresholdValue&quot;: &quot;PowerState/running&quot;,
-      &quot;representation&quot;: &quot;Available&quot;,
-      &quot;text&quot;: &quot;{0}{1}&quot;
-    },
-    {
-      &quot;operator&quot;: &quot;==&quot;, 
-      &quot;thresholdValue&quot;: &quot;PowerState/deallocated&quot;,
-      &quot;representation&quot;: &quot;disabled&quot;,
-      &quot;text&quot;: &quot;{0}{1}&quot;
-    }
-  ]
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nt">&quot;formatOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;thresholdsOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;icons&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;thresholdsGrid&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;thresholdValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PowerState/running&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;representation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Available&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{0}{1}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;thresholdValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PowerState/deallocated&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;representation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{0}{1}&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <h2>Community Collaboration Approach</h2>
 <p>This enhancement project reinforced several important principles for working with community tools:</p>

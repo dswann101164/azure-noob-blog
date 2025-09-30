@@ -77,7 +77,7 @@
   <header class="post-header">
     <h1>Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported</h1>
     <p class="muted">
-      2025-09-24 · ~6 min read
+      2025-09-24 · ~7 min read
        · Azure, Update Manager, KQL, Azure Governance, VM Management
     </p>
     
@@ -166,17 +166,17 @@
 <p>Instead of trying to manage all 1,791 VMs, I used Azure Resource Graph queries to identify which systems should actually be excluded from Azure Update Manager.</p>
 <h3>Query 1: Identify Unsupported Systems</h3>
 <p>This query finds all the VMs that should be managed by other tools:</p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend publisher = tostring(properties.storageProfile.imageReference.publisher)
-| extend rgName = tostring(resourceGroup)
-| where publisher in (&quot;AzureDatabricks&quot;, &quot;tenable&quot;, &quot;paloaltonetworks&quot;, &quot;MicrosoftWindowsDesktop&quot;) or
-        subscriptionDisplayName contains &quot;Citrix&quot; or
-        rgName contains &quot;citrix&quot; or
-        rgName contains &quot;databricks&quot;
-| project VMName = name, Publisher = publisher, Subscription = subscriptionDisplayName, ResourceGroup = rgName
-| order by Subscription, ResourceGroup, VMName
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">rgName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">resourceGroup</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;AzureDatabricks&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tenable&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;paloaltonetworks&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MicrosoftWindowsDesktop&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">subscriptionDisplayName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Citrix&quot;</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">rgName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;citrix&quot;</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">rgName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;databricks&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="n">Subscription</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionDisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rgName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Subscription</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">VMName</span>
+</code></pre></div>
 
 <p>This query identified our 1,187 unsupported systems by looking for:<br />
 - <strong>Publisher patterns</strong>: Databricks VMs, security appliances, Windows Desktop images<br />
@@ -184,17 +184,17 @@
 - <strong>Resource group patterns</strong>: Groups containing "citrix" or "databricks"</p>
 <h3>Query 2: Count Unsupported Systems by Type</h3>
 <p>To understand the scope of what we're excluding:</p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend publisher = tostring(properties.storageProfile.imageReference.publisher)
-| extend rgName = tostring(resourceGroup)
-| where publisher in (&quot;AzureDatabricks&quot;, &quot;tenable&quot;, &quot;paloaltonetworks&quot;, &quot;MicrosoftWindowsDesktop&quot;) or
-        subscriptionDisplayName contains &quot;Citrix&quot; or
-        rgName contains &quot;citrix&quot; or
-        rgName contains &quot;databricks&quot;
-| summarize VMCount = count(), VMNames = make_list(name) by publisher, subscriptionDisplayName, rgName
-| order by VMCount desc
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">rgName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">resourceGroup</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">publisher</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;AzureDatabricks&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tenable&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;paloaltonetworks&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MicrosoftWindowsDesktop&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">subscriptionDisplayName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Citrix&quot;</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">rgName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;citrix&quot;</span><span class="w"> </span><span class="k">or</span>
+<span class="w">        </span><span class="n">rgName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;databricks&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span><span class="w"> </span><span class="n">VMNames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_list</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">publisher</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionDisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">rgName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
 
 <p>This showed us exactly where our unsupported VMs were concentrated and helped validate our filtering logic.</p>
 <h2>The Filter Effect: From Chaos to Clarity</h2>

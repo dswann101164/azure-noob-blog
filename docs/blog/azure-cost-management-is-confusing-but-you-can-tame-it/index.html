@@ -181,33 +181,33 @@ When they’re missing? I may as well be reading hieroglyphics.</p>
 <em>“How much does that app cost me a day?”</em></p>
 <p><img alt="DAX tag extraction demo" src="/static/images/hero/azure-dax-extract.png" /></p>
 <p><strong>Calculated column on <code>Resources</code>:</strong></p>
-<pre class="codehilite"><code class="language-DAX">Tags.Application_clean =
-VAR Key1     = &quot;Application=&quot;
-VAR Key2     = &quot;ApplicationId=&quot;
-VAR Src      = Resources[Tags]
-VAR p1       = FIND(Key1, Src, 1, 0)
-VAR p2       = FIND(Key2, Src, 1, 0)
-VAR UseKey   = IF(p1 &gt; 0, Key1, IF(p2 &gt; 0, Key2, BLANK()))
-VAR StartPos = IF(ISBLANK(UseKey), 0, FIND(UseKey, Src, 1, 0) + LEN(UseKey))
-VAR EndSemi  = FIND(&quot;;&quot;, Src, StartPos, LEN(Src) + 1)
-VAR EndComma = FIND(&quot;,&quot;, Src, StartPos, LEN(Src) + 1)
-VAR EndPos   = MIN(EndSemi, EndComma)
-VAR RawValue = IF(StartPos &gt; 0, MID(Src, StartPos, EndPos - StartPos), BLANK())
-RETURN
-    TRIM(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(RawValue, &quot;&quot;&quot;&quot;, &quot;&quot;), &quot;'&quot;, &quot;&quot;), &quot;/&quot;, &quot;&quot;))
+<div class="codehilite"><pre><span></span><code>Tags.Application_clean =
+<span class="nb">VAR</span><span class="w"> </span>Key1     = &quot;Application=&quot;
+<span class="nb">VAR</span><span class="w"> </span>Key2     = &quot;ApplicationId=&quot;
+<span class="nb">VAR</span><span class="w"> </span>Src      = Resources[Tags]
+<span class="nb">VAR</span><span class="w"> </span>p1       = FIND(Key1, Src, 1, 0)
+<span class="nb">VAR</span><span class="w"> </span>p2       = FIND(Key2, Src, 1, 0)
+<span class="nb">VAR</span><span class="w"> </span>UseKey   = IF(p1 &gt; 0, Key1, IF(p2 &gt; 0, Key2, BLANK()))
+<span class="nb">VAR</span><span class="w"> </span>StartPos = IF(ISBLANK(UseKey), 0, FIND(UseKey, Src, 1, 0) + LEN(UseKey))
+<span class="nb">VAR</span><span class="w"> </span>EndSemi  = FIND(&quot;;&quot;, Src, StartPos, LEN(Src) + 1)
+<span class="nb">VAR</span><span class="w"> </span>EndComma = FIND(&quot;,&quot;, Src, StartPos, LEN(Src) + 1)
+<span class="nb">VAR</span><span class="w"> </span>EndPos   = MIN(EndSemi, EndComma)
+<span class="nb">VAR</span><span class="w"> </span>RawValue = IF(StartPos &gt; 0, MID(Src, StartPos, EndPos - StartPos), BLANK())
+<span class="nb">RETURN</span>
+<span class="w">    </span><span class="nf">TRIM</span><span class="p">(</span><span class="nf">SUBSTITUTE</span><span class="p">(</span><span class="nf">SUBSTITUTE</span><span class="p">(</span><span class="nf">SUBSTITUTE</span><span class="p">(</span>RawValue, &quot;&quot;&quot;&quot;, &quot;&quot;), &quot;&#39;&quot;, &quot;&quot;), &quot;/&quot;, &quot;&quot;))
 
-**Helper measures:**
+<span class="o">**</span>Helper measures:**
 
-```DAX
-[Daily Cost] =
-SUM ( 'Usage Details'[Cost] )
+<span class="p">```</span>DAX
+<span class="na">[Daily Cost]</span><span class="w"> </span><span class="o">=</span>
+<span class="nf">SUM</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="na">&#39;Usage Details&#39;[Cost]</span><span class="w"> </span><span class="p">)</span>
 
-[Untagged App Cost] =
-CALCULATE (
-    [Daily Cost],
-    FILTER ( Resources, ISBLANK ( Resources[Tags.Application_clean] ) )
-)
-</code></pre>
+<span class="na">[Untagged App Cost]</span><span class="w"> </span><span class="o">=</span>
+<span class="nf">CALCULATE</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="na">[Daily Cost]</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">FILTER</span><span class="w"> </span><span class="p">(</span><span class="w"> </span>Resources, ISBLANK ( Resources[Tags.Application_clean] ) )
+<span class="p">)</span>
+</code></pre></div>
   </div>
 
   

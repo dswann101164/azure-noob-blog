@@ -77,7 +77,7 @@
   <header class="post-header">
     <h1>KQL Cheat Sheet for Azure Admins: Complete Resource Graph Guide</h1>
     <p class="muted">
-      2025-01-15 · ~9 min read
+      2025-01-15 · ~16 min read
        · Azure, KQL, Resource Graph, PowerShell
     </p>
     
@@ -100,23 +100,23 @@
 <p><strong>Resource Graph Notes:</strong> Queries resource metadata (not logs or metrics). No <code>TimeGenerated</code> field, unlike Log Analytics.</p>
 <h2>Quick Start: Your First 3 Queries</h2>
 <p><strong>1. List all your VMs:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| project name, location, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <p><strong>2. Find VMs in a specific resource group:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources  
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| where resourceGroup == &quot;MyResourceGroup&quot;
-| project name, location
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w">  </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MyResourceGroup&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
+</code></pre></div>
 
 <p><strong>3. Show VM count by location:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot; 
-| summarize count() by location
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
+</code></pre></div>
 
 <h2>Core KQL Concepts</h2>
 <p><strong>Tables = Your Data Sources</strong><br />
@@ -168,11 +168,11 @@
 </tbody>
 </table>
 <p><strong>Example: List VMs in a specific resource group:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| where resourceGroup == &quot;MyResourceGroup&quot;
-| project name, location, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MyResourceGroup&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Joining Resources</h2>
 <p>Use <code>join</code> to correlate VMs with NICs, disks, or subscriptions. The <code>properties</code> column is JSON, so use <code>tostring</code> or <code>parse_json</code> to extract fields.</p>
@@ -203,21 +203,21 @@
 </tbody>
 </table>
 <p><strong>Example: VMs with NIC and subscription details:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend NetworkInterfaceId = tostring(properties.networkProfile.networkInterfaces[0].id)
-| join kind=leftouter (
-    Resources
-    | where type == &quot;microsoft.network/networkinterfaces&quot;
-    | project NetworkInterfaceId = id, PrivateIP = tostring(properties.ipConfigurations[0].properties.privateIPAddress)
-) on NetworkInterfaceId
-| join kind=leftouter (
-    ResourceContainers
-    | where type == &quot;microsoft.resources/subscriptions&quot;
-    | project subscriptionId, SubscriptionName = name
-) on subscriptionId
-| project VMName = name, PrivateIP, SubscriptionName, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ResourceContainers</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.resources/subscriptions&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionName</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Extracting JSON Properties</h2>
 <p>Parse JSON fields from the <code>properties</code> column to get detailed resource information:</p>
@@ -258,12 +258,12 @@
 </tbody>
 </table>
 <p><strong>Example: Get VM OS and disk details:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend OSType = tostring(properties.storageProfile.osDisk.osType),
-         DiskSizeGB = toint(properties.storageProfile.osDisk.diskSizeGB)
-| project VMName = name, OSType, DiskSizeGB, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">),</span>
+<span class="w">         </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">OSType</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Custom Fields and Conditional Logic</h2>
 <p>Use <code>case()</code> to create custom fields and business logic:</p>
@@ -294,17 +294,17 @@
 </tbody>
 </table>
 <p><strong>Example: VMs with OS details and tags:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend OSType = tostring(properties.storageProfile.osDisk.osType),
-         DetailedOS = case(
-             OSType == &quot;Linux&quot; and properties.storageProfile.imageReference.publisher == &quot;Canonical&quot;, &quot;Ubuntu Linux&quot;,
-             OSType == &quot;Windows&quot; and properties.storageProfile.imageReference.offer contains &quot;WindowsServer&quot;, &quot;Windows Server&quot;,
-             &quot;Unknown&quot;
-         ),
-         Environment = tostring(tags[&quot;Environment&quot;])
-| project VMName = name, DetailedOS, Environment, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">),</span>
+<span class="w">         </span><span class="n">DetailedOS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Canonical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ubuntu Linux&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Windows Server&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="s">&quot;Unknown&quot;</span>
+<span class="w">         </span><span class="p">),</span>
+<span class="w">         </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">DetailedOS</span><span class="p">,</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Disk Queries</h2>
 <p>Query disks directly or join with VMs to check configurations:</p>
@@ -335,99 +335,99 @@
 </tbody>
 </table>
 <p><strong>Example: VMs with OS disk sizes:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend DiskId = tostring(properties.storageProfile.osDisk.managedDisk.id)
-| join kind=leftouter (
-    Resources
-    | where type == &quot;microsoft.compute/disks&quot;
-    | project DiskId = id, DiskSizeGB = toint(properties.diskSizeGB)
-) on DiskId
-| project VMName = name, DiskSizeGB, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DiskId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">managedDisk</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">DiskId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">DiskId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Copy-Paste Ready Queries for Common Tasks</h2>
 <h3>1. Complete VM Inventory</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend NetworkInterfaceId = tostring(properties.networkProfile.networkInterfaces[0].id),
-         DiskId = tostring(properties.storageProfile.osDisk.managedDisk.id),
-         OSType = tostring(properties.storageProfile.osDisk.osType),
-         Environment = tostring(tags[&quot;Environment&quot;])
-| join kind=leftouter (
-    Resources
-    | where type == &quot;microsoft.network/networkinterfaces&quot;
-    | project NetworkInterfaceId = id, PrivateIP = tostring(properties.ipConfigurations[0].properties.privateIPAddress)
-) on NetworkInterfaceId
-| join kind=leftouter (
-    Resources
-    | where type == &quot;microsoft.compute/disks&quot;
-    | project DiskId = id, DiskSizeGB = toint(properties.diskSizeGB)
-) on DiskId
-| project VMName = name, PrivateIP, OSType, DiskSizeGB, Environment, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">),</span>
+<span class="w">         </span><span class="n">DiskId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">managedDisk</span><span class="err">.</span><span class="n">id</span><span class="p">),</span>
+<span class="w">         </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">),</span>
+<span class="w">         </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">DiskId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">DiskId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="p">,</span><span class="w"> </span><span class="n">OSType</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h3>2. Cost Analysis: Resources by Type and Location</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| summarize ResourceCount = count() by type, location
-| order by ResourceCount desc
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">ResourceCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ResourceCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
 
 <h3>3. Security Audit: Find Untagged Resources</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type in (&quot;microsoft.compute/virtualmachines&quot;, &quot;microsoft.storage/storageaccounts&quot;, &quot;microsoft.network/networksecuritygroups&quot;)
-| where isnull(tags) or array_length(bag_keys(tags)) == 0
-| project name, type, resourceGroup, location
-| order by type, name
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.network/networksecuritygroups&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">bag_keys</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
+</code></pre></div>
 
 <h3>4. VMs by Subscription and VNet</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend NetworkInterfaceId = tostring(properties.networkProfile.networkInterfaces[0].id)
-| join kind=leftouter (
-    Resources
-    | where type == &quot;microsoft.network/networkinterfaces&quot;
-    | extend VNetName = split(tostring(properties.ipConfigurations[0].properties.subnet.id), &quot;/&quot;)[8]
-    | project NetworkInterfaceId = id, VNetName
-) on NetworkInterfaceId
-| join kind=leftouter (
-    ResourceContainers
-    | where type == &quot;microsoft.resources/subscriptions&quot;
-    | project subscriptionId, SubscriptionName = name
-) on subscriptionId
-| project VMName = name, VNetName, SubscriptionName, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VNetName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">subnet</span><span class="err">.</span><span class="n">id</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">VNetName</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ResourceContainers</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.resources/subscriptions&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">VNetName</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionName</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h3>5. Find Production VMs with Specific Tags</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend Environment = tostring(tags[&quot;Environment&quot;]),
-         Owner = tostring(tags[&quot;Owner&quot;])
-| where Environment == &quot;Production&quot;
-| project VMName = name, Environment, Owner, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Owner&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h3>6. OS Distribution and Update Strategy</h3>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend OSType = tostring(properties.storageProfile.osDisk.osType),
-         OSProduct = tostring(properties.storageProfile.imageReference.offer),
-         OSVersion = tostring(properties.storageProfile.imageReference.sku),
-         DetailedOS = case(
-             OSType == &quot;Linux&quot; and properties.storageProfile.imageReference.publisher == &quot;Canonical&quot;, &quot;Ubuntu Linux&quot;,
-             OSType == &quot;Linux&quot; and properties.storageProfile.imageReference.publisher == &quot;RedHat&quot;, &quot;Red Hat Linux&quot;,
-             OSType == &quot;Windows&quot; and OSProduct contains &quot;WindowsServer&quot; and OSVersion contains &quot;2022&quot;, &quot;Windows Server 2022&quot;,
-             OSType == &quot;Windows&quot; and OSProduct contains &quot;WindowsServer&quot;, &quot;Windows Server - Other&quot;,
-             &quot;Unknown&quot;
-         ),
-         UpdateMethod = case(
-             OSType == &quot;Windows&quot; and OSProduct contains &quot;WindowsServer&quot;, &quot;Azure Update Manager&quot;,
-             OSType == &quot;Linux&quot;, &quot;Linux Package Manager&quot;,
-             &quot;Manual&quot;
-         )
-| project VMName = name, DetailedOS, UpdateMethod, resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">),</span>
+<span class="w">         </span><span class="n">OSProduct</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="p">),</span>
+<span class="w">         </span><span class="n">OSVersion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">sku</span><span class="p">),</span>
+<span class="w">         </span><span class="n">DetailedOS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Canonical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ubuntu Linux&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;RedHat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Red Hat Linux&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSProduct</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSVersion</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;2022&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Windows Server 2022&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSProduct</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Windows Server - Other&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="s">&quot;Unknown&quot;</span>
+<span class="w">         </span><span class="p">),</span>
+<span class="w">         </span><span class="n">UpdateMethod</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSProduct</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Azure Update Manager&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Linux Package Manager&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="s">&quot;Manual&quot;</span>
+<span class="w">         </span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">DetailedOS</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateMethod</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <h2>Visualizing in Resource Graph</h2>
 <p>Resource Graph Explorer supports visualizations like tables or pie charts. Use <code>summarize</code> to prepare data:</p>
@@ -453,10 +453,10 @@
 </tbody>
 </table>
 <p><strong>Example: Chart VMs by OS type:</strong></p>
-<pre class="codehilite"><code class="language-kql">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| summarize count() by OSType = tostring(properties.storageProfile.osDisk.osType)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+</code></pre></div>
 
 <p>In Resource Graph Explorer, select "Pie chart" in the portal to visualize.</p>
 <h2>Troubleshooting Common Errors</h2>

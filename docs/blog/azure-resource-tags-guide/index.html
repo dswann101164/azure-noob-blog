@@ -77,7 +77,7 @@
   <header class="post-header">
     <h1>What I Wish I Knew About Azure Resource Tags</h1>
     <p class="muted">
-      2025-09-23 · ~7 min read
+      2025-09-23 · ~9 min read
        · Azure, Tags, Governance, FinOps, Cost Management
     </p>
     
@@ -119,13 +119,13 @@
 <p><strong>One misspelled tag in production can take weeks to clean up</strong> because you have to identify every affected resource and update tags individually.</p>
 <h3>Alphabetical Order Matters</h3>
 <p>Define your tag order and stick to it. When you're looking at hundreds of resources, consistent ordering prevents mistakes:</p>
-<pre class="codehilite"><code>Application: customer-portal
-CostCenter: 12345  
-Department: engineering
-Environment: prod
-Owner: john.smith
-Type: Server
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Application</span><span class="o">:</span><span class="w"> </span><span class="n">customer</span><span class="o">-</span><span class="n">portal</span>
+<span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="mi">12345</span><span class="w">  </span>
+<span class="n">Department</span><span class="o">:</span><span class="w"> </span><span class="n">engineering</span>
+<span class="n">Environment</span><span class="o">:</span><span class="w"> </span><span class="n">prod</span>
+<span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">john</span><span class="o">.</span><span class="na">smith</span>
+<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span>
+</code></pre></div>
 
 <p><strong>Enforce with Azure Policy:</strong> Manual compliance doesn't work. Use Azure Policy to enforce exact spelling, capitalization, and allowed values.</p>
 <h2>The Required vs. Optional Tag Strategy</h2>
@@ -137,11 +137,11 @@ Type: Server
 - <code>Type</code> - Resource classification (critical for operations)</p>
 <p><strong>The Type Tag: You'll Thank Me Later</strong></p>
 <p>This is the most important tag you're not using:</p>
-<pre class="codehilite"><code>Type: Server    - Production workloads, patching schedules, backup requirements
-Type: Desktop   - VDI, different lifecycle, user-focused policies  
-Type: Appliance - Network devices, specialized maintenance windows
-Type: Databricks - Data platform, different scaling and cost patterns
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Server</span><span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">Production</span><span class="w"> </span><span class="n">workloads</span><span class="p">,</span><span class="w"> </span><span class="n">patching</span><span class="w"> </span><span class="n">schedules</span><span class="p">,</span><span class="w"> </span><span class="n">backup</span><span class="w"> </span><span class="n">requirements</span>
+<span class="n">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Desktop</span><span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="n">VDI</span><span class="p">,</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">lifecycle</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="o">-</span><span class="n">focused</span><span class="w"> </span><span class="n">policies</span><span class="w">  </span>
+<span class="n">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Appliance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="n">devices</span><span class="p">,</span><span class="w"> </span><span class="n">specialized</span><span class="w"> </span><span class="n">maintenance</span><span class="w"> </span><span class="n">windows</span>
+<span class="n">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Databricks</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">platform</span><span class="p">,</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">scaling</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="n">patterns</span>
+</code></pre></div>
 
 <p><strong>Why Type matters:</strong><br />
 - <strong>Patching strategies:</strong> Servers vs Desktops have different update schedules<br />
@@ -149,12 +149,12 @@ Type: Databricks - Data platform, different scaling and cost patterns
 - <strong>Lifecycle management:</strong> Appliances follow vendor support cycles<br />
 - <strong>Security policies:</strong> Each type needs different hardening approaches</p>
 <p>Your KQL queries become infinitely more useful when you can filter by Type:</p>
-<pre class="codehilite"><code class="language-kusto">Resources
-| where type == &quot;microsoft.compute/virtualmachines&quot;
-| extend ResourceType = tostring(tags[&quot;Type&quot;])
-| where ResourceType == &quot;Server&quot;
-| summarize count() by tostring(tags[&quot;Environment&quot;])
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Type&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])</span>
+</code></pre></div>
 
 <p><strong>Optional but valuable:</strong><br />
 - <code>Application</code> - Groups related resources<br />
@@ -166,11 +166,11 @@ Type: Databricks - Data platform, different scaling and cost patterns
 <p>Resource Groups pass tags to resources, but only at creation time. If you update the Resource Group tags later, existing resources keep their old tags.</p>
 <p><strong>This breaks cost allocation:</strong> Your new tagging strategy won't apply to existing resources until you manually update them.</p>
 <p><strong>Solution:</strong> Use Azure Resource Graph to find untagged resources and bulk-update them.</p>
-<pre class="codehilite"><code class="language-kusto">Resources
-| where tags !has &quot;CostCenter&quot;
-| project name, resourceGroup, type, tags
-| limit 100
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&quot;CostCenter&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
+<span class="p">|</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">100</span>
+</code></pre></div>
 
 <h2>Tag Limits Are Real and Painful</h2>
 <ul>
@@ -182,54 +182,54 @@ Type: Databricks - Data platform, different scaling and cost patterns
 <p><strong>My rule:</strong> Reserve 3-4 tag slots for future requirements. Don't use all 15 on day one.</p>
 <h2>The Empty Tag Problem</h2>
 <p>This query from my VM inventory shows the issue:</p>
-<pre class="codehilite"><code class="language-kusto">CostCenter = tostring(tags[&quot;CostCenter&quot;]),
-Owner = tostring(tags[&quot;Owner&quot;])
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]),</span>
+<span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Owner&quot;</span><span class="p">])</span>
+</code></pre></div>
 
 <p>If the tag doesn't exist, you get empty cells in your report. Finance sees blank cost centers and assumes it's a data problem.</p>
 <p><strong>Better approach:</strong> Provide defaults in your queries.</p>
-<pre class="codehilite"><code class="language-kusto">CostCenter = iif(isempty(tags[&quot;CostCenter&quot;]), &quot;Unassigned&quot;, tostring(tags[&quot;CostCenter&quot;]))
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iif</span><span class="p">(</span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]),</span><span class="w"> </span><span class="s">&quot;Unassigned&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]))</span>
+</code></pre></div>
 
 <h2>Azure Policy: The Only Way Tag Governance Actually Works</h2>
 <p><strong>Manual tagging doesn't scale.</strong> Period. You need Azure Policy to enforce your standards, or you'll be chasing tag compliance forever.</p>
 <p><strong>Required tag policies that prevent deployment without proper tags:</strong></p>
-<pre class="codehilite"><code class="language-json">{
-  &quot;if&quot;: {
-    &quot;field&quot;: &quot;tags['CostCenter']&quot;,
-    &quot;exists&quot;: &quot;false&quot;
-  },
-  &quot;then&quot;: {
-    &quot;effect&quot;: &quot;deny&quot;
-  }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;CostCenter&#39;]&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p><strong>Allowed values policies that prevent typos and variations:</strong></p>
-<pre class="codehilite"><code class="language-json">{
-  &quot;if&quot;: {
-    &quot;allOf&quot;: [
-      {
-        &quot;field&quot;: &quot;tags['Environment']&quot;,
-        &quot;exists&quot;: &quot;true&quot;
-      },
-      {
-        &quot;field&quot;: &quot;tags['Environment']&quot;,
-        &quot;notIn&quot;: [&quot;prod&quot;, &quot;dev&quot;, &quot;test&quot;]
-      }
-    ]
-  },
-  &quot;then&quot;: {
-    &quot;effect&quot;: &quot;deny&quot;
-  }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Environment&#39;]&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Environment&#39;]&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;notIn&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;prod&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p><strong>Automatic value policies for Type tag:</strong></p>
-<pre class="codehilite"><code class="language-json">// If VM size starts with &quot;Standard_D&quot;, auto-tag as Type: Server
-// If in VDI resource group, auto-tag as Type: Desktop
-// If resource name contains &quot;databricks&quot;, auto-tag as Type: Databricks
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1">// If VM size starts with &quot;Standard_D&quot;, auto-tag as Type: Server</span>
+<span class="c1">// If in VDI resource group, auto-tag as Type: Desktop</span>
+<span class="c1">// If resource name contains &quot;databricks&quot;, auto-tag as Type: Databricks</span>
+</code></pre></div>
 
 <p><strong>Without Azure Policy:</strong> Someone will deploy resources with <code>Environemnt: Production</code> and break your reporting.</p>
 <p><strong>With Azure Policy:</strong> Deployment fails immediately with a clear error message.</p>
@@ -252,25 +252,25 @@ Owner = tostring(tags[&quot;Owner&quot;])
 <p><strong>Common failure:</strong> Trying to design the perfect tagging system upfront. Start simple, iterate based on real reporting needs.</p>
 <h2>Practical Tag Queries for Operations</h2>
 <p><strong>Find untagged resources:</strong></p>
-<pre class="codehilite"><code class="language-kusto">Resources 
-| where isnull(tags) or array_length(todynamic(tostring(tags))) == 0
-| project name, resourceGroup, type, location
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">todynamic</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">)))</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
+</code></pre></div>
 
 <p><strong>Cost center compliance check:</strong></p>
-<pre class="codehilite"><code class="language-kusto">Resources 
-| extend CostCenter = tags[&quot;CostCenter&quot;]
-| where isempty(CostCenter)
-| summarize UntaggedResources = count() by resourceGroup
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">CostCenter</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">UntaggedResources</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
 
 <p><strong>Tag standardization audit:</strong></p>
-<pre class="codehilite"><code class="language-kusto">Resources 
-| extend Environment = tags[&quot;Environment&quot;]
-| where isnotempty(Environment)
-| summarize count() by Environment
-// Look for variations: prod, Prod, PROD, production
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnotempty</span><span class="p">(</span><span class="n">Environment</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Environment</span>
+<span class="c">// Look for variations: prod, Prod, PROD, production</span>
+</code></pre></div>
 
 <h2>What I'd Do Differently</h2>
 <ol>
