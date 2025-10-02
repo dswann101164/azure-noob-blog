@@ -19,7 +19,7 @@ def coerce_date(value, default_dt):
     """Convert various date formats to datetime object."""
     if isinstance(value, datetime):
         return value
-    
+
     if isinstance(value, str):
         # Try various date formats
         for fmt in ['%Y-%m-%d', '%Y/%m/%d', '%d/%m/%Y', '%m/%d/%Y']:
@@ -27,7 +27,7 @@ def coerce_date(value, default_dt):
                 return datetime.strptime(value, fmt)
             except ValueError:
                 continue
-    
+
     # Return None instead of file modification time
     return None
 
@@ -42,19 +42,19 @@ def load_posts():
     """Load all posts from the posts directory."""
     posts_dir = Path('posts')
     posts = []
-    
+
     if not posts_dir.exists():
         return posts
-    
+
     for md_file in posts_dir.glob('*.md'):
         try:
             with open(md_file, 'r', encoding='utf-8') as f:
                 post = frontmatter.load(f)
-            
+
             # Extract metadata
             meta = post.metadata
             slug = extract_slug_from_filename(md_file)
-            
+
             # Handle date with proper fallback
             date = coerce_date(meta.get("date"), None)
             if date is None:
@@ -66,12 +66,12 @@ def load_posts():
                         date = datetime.strptime(date_match.group(1), '%Y-%m-%d')
                     except ValueError:
                         pass
-                
+
                 # If still no date, use a fixed fallback date instead of file mtime
                 if date is None:
                     print(f"WARNING: No valid date found for {slug}, using default date")
                     date = datetime(2024, 1, 1)  # Fixed fallback date
-            
+
             # Build post data
             post_data = {
                 'title': meta.get('title', slug.replace('-', ' ').title()),
@@ -83,13 +83,13 @@ def load_posts():
                 'content': post.content,
                 'filename': md_file.name
             }
-            
+
             posts.append(post_data)
-            
+
         except Exception as e:
             print(f"Error loading post {md_file}: {e}")
             continue
-    
+
     # Sort by date (newest first)
     posts.sort(key=lambda x: x['date'], reverse=True)
     return posts
@@ -105,23 +105,23 @@ def get_all_tags():
 def get_related_posts(current_post, limit=3):
     """Get related posts based on shared tags."""
     all_posts = load_posts()
-    
+
     # Remove current post from candidates
     candidates = [p for p in all_posts if p['slug'] != current_post['slug']]
-    
+
     # Score each post by number of shared tags
     scored_posts = []
     current_tags = set(current_post['tags'])
-    
+
     for post in candidates:
         post_tags = set(post['tags'])
         shared_tags = current_tags.intersection(post_tags)
         if shared_tags:
             scored_posts.append((len(shared_tags), post))
-    
+
     # Sort by score (descending), then by date (newest first)
     scored_posts.sort(key=lambda x: (x[0], x[1]['date']), reverse=True)
-    
+
     # Return top N posts
     return [post for score, post in scored_posts[:limit]]
 
@@ -141,12 +141,12 @@ def blog_post(slug):
     post = next((p for p in posts if p['slug'] == slug), None)
     if not post:
         abort(404)
-    
+
     # Find current post index for prev/next navigation
     current_index = next((i for i, p in enumerate(posts) if p['slug'] == slug), None)
     prev_post = posts[current_index + 1] if current_index is not None and current_index + 1 < len(posts) else None
     next_post = posts[current_index - 1] if current_index is not None and current_index > 0 else None
-    
+
     # Process markdown with syntax highlighting
     content = markdown.markdown(
         post['content'],
@@ -157,38 +157,38 @@ def blog_post(slug):
             'nl2br'
         ]
     )
-    
+
     cover_url = post['cover'] if post['cover'] else None
-    
+
     # Calculate reading time (rough estimate: 200 words per minute)
     word_count = len(content.split())
     reading_min = max(1, round(word_count / 200))
-    
+
     # Get related posts
     related = get_related_posts(post, limit=3)
-    
-    return render_template('blog_post.html', 
-                         post=post,
-                         content=content,
-                         cover_url=cover_url,
-                         reading_min=reading_min,
-                         prev_post=prev_post,
-                         next_post=next_post,
-                         related_posts=related)
+
+    return render_template('blog_post.html',
+                           post=post,
+                           content=content,
+                           cover_url=cover_url,
+                           reading_min=reading_min,
+                           prev_post=prev_post,
+                           next_post=next_post,
+                           related_posts=related)
 
 @app.route('/tags/')
 def tags_index():
     all_tags = get_all_tags()
     posts = load_posts()
-    
+
     # Group posts by tag and create (tag, count) tuples
     tag_posts = {}
     tags_with_counts = []
-    
+
     for tag in all_tags:
         tag_posts[tag] = [p for p in posts if tag in p['tags']]
         tags_with_counts.append((tag, len(tag_posts[tag])))
-    
+
     return render_template('tags_index.html', tags=tags_with_counts, tag_posts=tag_posts)
 
 @app.route('/tags/<tag>/')
@@ -216,7 +216,7 @@ def search_json():
             'tags': post['tags'],
             'url': url_for('blog_post', slug=post['slug'])
         })
-    
+
     from flask import jsonify
     return jsonify(search_data)
 
@@ -224,26 +224,32 @@ def search_json():
 def about():
     return render_template('about.html')
 
+@app.route('/quest-hub')
+def quest_hub():
+    """WW2 'Cloud Wars' War Room page for gamified missions."""
+    return render_template('quest_hub.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     """Generate XML sitemap for SEO."""
     posts = load_posts()
-    
+
     # Static pages
     pages = [
         {'url': url_for('index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
+        {'url': url_for('quest_hub', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},  # added
     ]
-    
+
     # Add blog posts
     for post in posts:
         pages.append({
             'url': url_for('blog_post', slug=post['slug'], _external=True),
             'lastmod': post['date'].strftime('%Y-%m-%d')
         })
-    
+
     # Add tag pages
     tags = get_all_tags()
     for tag in tags:
@@ -251,19 +257,19 @@ def sitemap():
             'url': url_for('tag_posts', tag=tag, _external=True),
             'lastmod': datetime.now().strftime('%Y-%m-%d')
         })
-    
+
     # Generate XML directly
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    
+
     for page in pages:
         xml_content += '  <url>\n'
         xml_content += f'    <loc>{page["url"]}</loc>\n'
         xml_content += f'    <lastmod>{page["lastmod"]}</lastmod>\n'
         xml_content += '  </url>\n'
-    
+
     xml_content += '</urlset>'
-    
+
     response = app.response_class(
         xml_content,
         mimetype='application/xml'
@@ -277,7 +283,7 @@ def robots():
 Allow: /
 
 Sitemap: /sitemap.xml"""
-    
+
     response = app.response_class(
         robots_content,
         mimetype='text/plain'
@@ -288,7 +294,7 @@ Sitemap: /sitemap.xml"""
 def rss_feed():
     """Generate RSS feed."""
     posts = load_posts()[:10]  # Latest 10 posts
-    
+
     # Generate RSS XML directly
     rss_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     rss_content += '<rss version="2.0">\n'
@@ -297,7 +303,7 @@ def rss_feed():
     rss_content += f'    <description>{app.config["SITE_TAGLINE"]}</description>\n'
     rss_content += f'    <link>{url_for("index", _external=True)}</link>\n'
     rss_content += '    <language>en-us</language>\n'
-    
+
     for post in posts:
         rss_content += '    <item>\n'
         rss_content += f'      <title>{post["title"]}</title>\n'
@@ -306,10 +312,10 @@ def rss_feed():
         rss_content += f'      <pubDate>{post["date"].strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>\n'
         rss_content += f'      <guid>{url_for("blog_post", slug=post["slug"], _external=True)}</guid>\n'
         rss_content += '    </item>\n'
-    
+
     rss_content += '  </channel>\n'
     rss_content += '</rss>'
-    
+
     response = app.response_class(
         rss_content,
         mimetype='application/rss+xml'
@@ -347,6 +353,7 @@ def inject_navigation():
         'nav_items': [
             {'name': 'Home', 'url': url_for('index')},
             {'name': 'Blog', 'url': url_for('blog_index')},
+            {'name': 'Quest', 'url': url_for('quest_hub')},  # added
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
             {'name': 'Search', 'url': url_for('search')},
@@ -365,12 +372,12 @@ def build_tags():
     """Build tag pages for frozen site generation."""
     tags = get_all_tags()
     posts = load_posts()
-    
+
     # Group posts by tag
     tag_posts = {}
     for tag in tags:
         tag_posts[tag] = [p for p in posts if tag in p['tags']]
-    
+
     return tag_posts
 
 if __name__ == '__main__':
