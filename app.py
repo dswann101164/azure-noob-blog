@@ -15,19 +15,23 @@ app.config['SITE_NAME'] = 'Azure Noob'
 app.config['SITE_TAGLINE'] = "Don't be a Noob"
 app.config['SITE_URL'] = 'https://azure-noob.com'
 
+# Quiet missing-date warnings + accept more formats
+WARNED_SLUGS = set()
+
 def coerce_date(value, default_dt):
     """Convert various date formats to datetime object."""
     if isinstance(value, datetime):
         return value
-
     if isinstance(value, str):
-        # Try various date formats
-        for fmt in ['%Y-%m-%d', '%Y/%m/%d', '%d/%m/%Y', '%m/%d/%Y']:
+        for fmt in [
+            '%Y-%m-%d', '%Y/%m/%d', '%d/%m/%Y', '%m/%d/%Y',
+            '%Y-%m-%dT%H:%M:%SZ',   # e.g., 2025-10-02T14:20:00Z
+            '%Y-%m-%dT%H:%M:%S',    # e.g., 2025-10-02T14:20:00
+        ]:
             try:
                 return datetime.strptime(value, fmt)
             except ValueError:
                 continue
-
     # Return None instead of file modification time
     return None
 
@@ -67,9 +71,11 @@ def load_posts():
                     except ValueError:
                         pass
 
-                # If still no date, use a fixed fallback date instead of file mtime
+                # If still no date, use a fixed fallback date (quietly)
                 if date is None:
-                    print(f"WARNING: No valid date found for {slug}, using default date")
+                    if slug not in WARNED_SLUGS:
+                        app.logger.debug(f"No valid date found for '{slug}', defaulting to 2024-01-01")
+                        WARNED_SLUGS.add(slug)
                     date = datetime(2024, 1, 1)  # Fixed fallback date
 
             # Build post data
@@ -87,7 +93,8 @@ def load_posts():
             posts.append(post_data)
 
         except Exception as e:
-            print(f"Error loading post {md_file}: {e}")
+            # Keep this error to help diagnose malformed frontmatter or encoding issues
+            app.logger.error(f"Error loading post {md_file}: {e}")
             continue
 
     # Sort by date (newest first)
@@ -224,11 +231,6 @@ def search_json():
 def about():
     return render_template('about.html')
 
-@app.route('/quest-hub')
-def quest_hub():
-    """WW2 'Cloud Wars' War Room page for gamified missions."""
-    return render_template('quest_hub.html')
-
 @app.route('/sitemap.xml')
 def sitemap():
     """Generate XML sitemap for SEO."""
@@ -240,7 +242,6 @@ def sitemap():
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
-        {'url': url_for('quest_hub', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},  # added
     ]
 
     # Add blog posts
@@ -353,7 +354,6 @@ def inject_navigation():
         'nav_items': [
             {'name': 'Home', 'url': url_for('index')},
             {'name': 'Blog', 'url': url_for('blog_index')},
-            {'name': 'Quest', 'url': url_for('quest_hub')},  # added
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
             {'name': 'Search', 'url': url_for('search')},
