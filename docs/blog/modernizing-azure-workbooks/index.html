@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+  <!-- Quest styles -->
+
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- WW2 Quest banner (appears on all pages; remove if you want home-only) -->
+  <!-- Audio (tiny files; optional) -->
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/azure-workbook-enhancement.png" alt="Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering</h1>
+    <p class="muted">
+      2025-09-28 · ~8 min read
+       · Azure, KQL, Monitoring, Workbooks, Community, Open Source
+    </p>
+    
+      <p class="summary">How I enhanced Billy York&#39;s Azure Inventory Workbook with modern service support, global filtering, portal integration, and security hygiene monitoring for 2025 Azure environments.</p>
+    
+  </header>
+
+  
+  <div class="post-body">
+    <p>Azure Monitor Workbooks are powerful tools for creating custom dashboards and reports, but keeping them current with Azure's rapidly expanding service catalog can be challenging. Recently, I enhanced Billy York's excellent Azure Inventory Workbook to support modern Azure environments while fixing several technical issues that had accumulated over time.</p>
+<h2>Building on Solid Foundations</h2>
+<p>Billy York created the original Azure Inventory Workbook as a comprehensive tool for analyzing Azure resources using Azure Resource Graph queries. His work provided an excellent foundation with well-structured KQL queries and a logical organization that made it easy to navigate different resource types.</p>
+<p>However, as Azure has evolved significantly since 2022, several gaps had emerged:<br />
+- Limited support for modern services introduced between 2020-2025<br />
+- Broken conditional visibility in some tabs<br />
+- Missing global filtering capabilities<br />
+- No direct portal integration for resource management</p>
+<h2>Key Technical Enhancements</h2>
+<h3>Expanded Service Coverage (50+ to 200+ Services)</h3>
+<p>The original workbook supported common Azure services, but modern environments often include newer offerings like Azure Container Apps, Static Web Apps, and enhanced AI services. I systematically expanded the resource type mappings:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.containerservice/managedclusters&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;AKS Clusters&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.web/staticsites&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Static Web Apps&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.cognitiveservices/accounts&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Cognitive Services&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;microsoft.machinelearningservices/workspaces&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ML Workspaces&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="c">// ... 200+ service mappings</span>
+<span class="w">    </span><span class="n">strcat</span><span class="p">(</span><span class="s">&quot;Not Translated: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">))</span>
+</code></pre></div>
+
+<p>This expansion ensures that modern Azure environments display meaningful service names rather than cryptic resource provider identifiers.</p>
+<h3>Fixed Conditional Visibility Issues</h3>
+<p>One significant problem was the Security Hygiene Issues tab, which was completely non-functional due to missing conditional visibility parameters. The fix involved:</p>
+<ol>
+<li><strong>Adding proper parameter definitions:</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main-tab-parameter&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;KqlParameterItem/1.0&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;selectedTab&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;overview&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li><strong>Implementing working conditional visibility:</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="nt">&quot;conditionalVisibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;parameterName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;selectedTab&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;comparison&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;isEqualTo&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Security Hygiene Issues&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Global Filtering System</h3>
+<p>Enterprise environments often need to focus on specific resource groups or tagged resources. I implemented global filtering that works across all tabs:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;{ResourceGroup}&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s">&#39;{ResourceGroup}&#39;</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&#39;{TagFilter}&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s">&#39;{TagFilter}&#39;</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;&#39;</span>
+</code></pre></div>
+
+<p>The key technical detail here is using <code>tostring(tags)</code> to enable the <code>contains</code> operator, since tags are stored as complex objects in Azure Resource Graph.</p>
+<h3>Portal Integration and User Experience</h3>
+<p>Resource management often requires jumping to the Azure portal. I added clickable resource links throughout the workbook:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceLink</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="s">&#39;https://portal.azure.com/#resource&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Combined with formatter configurations that make resource names clickable:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;columnMatch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formatOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;linkTarget&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Url&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;linkColumnName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceLink&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;showIcon&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Intelligent Resource Naming</h3>
+<p>Azure Advisor recommendations often display GUIDs instead of meaningful resource names. I solved this with intelligent name resolution:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">resourceName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">isempty</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">affectedResource</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">8</span><span class="p">],</span>
+<span class="w">    </span><span class="n">rawResourceName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">rawResourceName</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Subscription-level&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rawResourceName</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>This logic extracts the actual resource name from the resource ID when the displayed name is unhelpful.</p>
+<h2>New Functional Capabilities</h2>
+<h3>Security Hygiene Monitoring</h3>
+<p>The enhanced workbook includes proactive security monitoring that identifies common misconfigurations:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Issue</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.storage/storageaccounts&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">supportsHttpsTrafficOnly</span><span class="p">)</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;Storage allows HTTP traffic&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.keyvault/vaults&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">enableSoftDelete</span><span class="p">)</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;Key Vault soft delete disabled&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">identity</span><span class="err">.</span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;None&#39;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&#39;VM without managed identity&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&#39;No issues detected&#39;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3>Cost and Advisor Integration</h3>
+<p>A dedicated tab surfaces Azure Advisor recommendations with proper resource context, helping teams prioritize cost optimization and performance improvements.</p>
+<h3>Enhanced Visual Indicators</h3>
+<p>Modern workbooks benefit from clear visual cues. I implemented consistent icon usage throughout:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&quot;formatOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;thresholdsOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;icons&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;thresholdsGrid&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;thresholdValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PowerState/running&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;representation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Available&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{0}{1}&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;thresholdValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PowerState/deallocated&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;representation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{0}{1}&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>Community Collaboration Approach</h2>
+<p>This enhancement project reinforced several important principles for working with community tools:</p>
+<p><strong>Proper Attribution</strong>: Billy York's original work deserved full credit. The enhanced version clearly builds upon his foundation rather than replacing it.</p>
+<p><strong>Transparent Communication</strong>: I created a GitHub issue on the original repository to inform Billy York about the enhancements, opening the door for potential collaboration.</p>
+<p><strong>Independent Value</strong>: While respecting the original project, the enhanced version provides immediate value to users who need modern service support.</p>
+<h2>Installation and Usage</h2>
+<p>The enhanced workbook is available at: https://github.com/dswann101164/azure-inventory-workbook-enhanced</p>
+<p><strong>Installation steps:</strong><br />
+1. Download the <code>.workbook</code> file from the repository<br />
+2. In Azure Monitor, navigate to Workbooks<br />
+3. Click "New" then "Advanced Editor"<br />
+4. Paste the workbook content and save<br />
+5. Ensure you have Reader access to the resources you want to inventory</p>
+<p><strong>Key features to explore:</strong><br />
+- Global filtering by resource group and tags<br />
+- Modern service support across all tabs<br />
+- Security hygiene monitoring for compliance checks<br />
+- Cost optimization recommendations from Azure Advisor<br />
+- Direct portal links for resource management</p>
+<h2>Technical Lessons Learned</h2>
+<p>Working with Azure Monitor Workbooks highlighted several important considerations:</p>
+<p><strong>Parameter Management</strong>: Complex workbooks need careful parameter organization. Global parameters should be defined early and referenced consistently.</p>
+<p><strong>Conditional Visibility</strong>: This powerful feature requires precise parameter matching. Small typos can break entire sections.</p>
+<p><strong>KQL Performance</strong>: Resource Graph queries should filter early and extend late to optimize performance across large Azure environments.</p>
+<p><strong>Community Engagement</strong>: The Azure community values tools that solve real operational problems. Proper attribution and collaborative approaches build trust and encourage adoption.</p>
+<h2>Looking Forward</h2>
+<p>The enhanced workbook demonstrates how community tools can evolve to meet changing needs while respecting original contributors. Azure's service catalog continues expanding rapidly, and community-driven tools like this help practitioners keep pace with new capabilities.</p>
+<p>For Azure administrators and architects managing complex environments, having comprehensive visibility into resource inventory, security posture, and cost optimization opportunities is essential. Tools like this enhanced workbook provide that visibility while integrating seamlessly into existing Azure workflows.</p>
+<h2>Repository and Community</h2>
+<p>The enhanced Azure Inventory Workbook is available on GitHub with full documentation and installation instructions. Community feedback and contributions are welcome as Azure continues evolving and new services emerge.</p>
+<p><strong>GitHub Repository</strong>: https://github.com/dswann101164/azure-inventory-workbook-enhanced<br />
+<strong>Original Work by Billy York</strong>: https://github.com/scautomation/Azure-Inventory-Workbook</p>
+<p>This project exemplifies how the Azure community can collaborate to maintain and improve valuable tools, ensuring they remain relevant and useful as the platform evolves.</p>
+  </div>
+
+  
+  
+  <aside class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      
+      <li>
+        <a href="../azure-update-manager-reality-check/index.html">
+          <span class="related-title">Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported</span>
+          <span class="related-meta">2025-09-24</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../azure-vm-inventory-kql/index.html">
+          <span class="related-title">From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL</span>
+          <span class="related-meta">2025-09-23</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../kql-cheat-sheet-complete/index.html">
+          <span class="related-title">KQL Cheat Sheet for Azure Admins: Complete Resource Graph Guide</span>
+          <span class="related-meta">2025-01-15</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-cost-reports-business-reality/index.html">← Why Your Azure Cost Reports Don&#39;t Match Your Business Reality</a>
+    
+    
+      <a href="../azure-vm-automation-dependency-hell/index.html">Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It) →</a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE -->
+  <section class="email-signup">
+    <div class="wrap">
+      <div class="email-box">
+        <h3>Get Azure tips in your inbox</h3>
+        <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+        <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+  <!-- Quest JS (SFX toggle, embers, typewriter) -->
+</body>
+</html>
