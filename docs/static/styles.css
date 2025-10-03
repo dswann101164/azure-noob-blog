@@ -599,7 +599,7 @@ h3 { font-size: 1.25rem; }
 /* Style ConvertKit form when it loads */
 .email-signup .formkit-form { margin-top: var(--space-md); }
 
-/* === FINAL OVERRIDE: make all code blocks readable (place LAST) === */
+/* === FINAL OVERRIDE: make all code blocks readable (place LAST before print) === */
 .post-body :is(pre, .codehilite pre, .highlight pre, figure.highlight pre, .code-wrapper pre){
   background: var(--code-bg) !important;
   color: var(--code-fg) !important;
@@ -626,4 +626,52 @@ h3 { font-size: 1.25rem; }
   color: var(--code-fg) !important;
   border: 1px solid var(--border);
   border-radius: 8px;
+}
+
+/* ---------- Print styling (OneNote / PDF) ---------- */
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Hide site chrome */
+  header.site-header,
+  .site-footer,
+  .hero,
+  .hero img,
+  .toc-chips,
+  .email-signup,
+  .post-nav { display: none !important; }
+
+  /* Page margins */
+  @page { margin: 12.7mm; } /* ~0.5" */
+
+  /* Typography for paper */
+  body { background: #fff !important; }
+  .post-body { font-size: 11pt; line-height: 1.5; color: #111; }
+
+  /* Avoid awkward breaks */
+  h1, h2, h3 { page-break-after: avoid; break-after: avoid-page; }
+  img, table, pre, blockquote { page-break-inside: avoid; break-inside: avoid; }
+
+  /* Tables */
+  .post-body table { width: 100%; }
+  .post-body thead th { position: static; } /* sticky headers not useful on paper */
+
+  /* Code blocks: readable on paper */
+  .post-body pre,
+  .codehilite pre {
+    background: var(--code-bg) !important;
+    color: var(--code-fg) !important;
+    border: 1px solid var(--border);
+    white-space: pre-wrap;   /* wrap long lines for paper */
+    word-break: break-word;
+  }
+
+  /* Show link targets on paper */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+  }
+
+  /* Remove “Copy” buttons in print */
+  .copy-button { display: none !important; }
 }
