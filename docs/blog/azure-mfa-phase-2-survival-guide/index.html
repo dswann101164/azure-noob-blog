@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+  <!-- Quest styles -->
+
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- WW2 Quest banner (appears on all pages; remove if you want home-only) -->
+  <!-- Audio (tiny files; optional) -->
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/azure-mfa-phase2.png" alt="Azure MFA Phase 2 Survival Guide: When Resource Manager Demands More Than Your Login">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Azure MFA Phase 2 Survival Guide: When Resource Manager Demands More Than Your Login</h1>
+    <p class="muted">
+      2025-10-06 · ~7 min read
+       · Azure, Security, MFA, Governance, Automation, Terraform, FinOps
+    </p>
+    
+      <p class="summary">Microsoft’s second wave of MFA enforcement is breaking pipelines, PowerShell scripts, and Terraform runs across Azure tenants. Here’s how to audit what’s affected and fix it before it breaks production.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0;">
+    <button class="btn print-trigger"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page">🖨️ Print this page</button>
+  </p>
+
+  
+  <div class="post-body">
+    <h2>Prerequisites</h2>
+<p>Before running any queries or scripts:</p>
+<ul>
+<li><strong>Activity Log → Log Analytics</strong>: Enable an Activity Log <em>diagnostic setting</em> to send to your Log Analytics workspace (for <code>AzureActivity</code>).  </li>
+<li><strong>Entra Sign-in Logs → Log Analytics</strong>: Turn on export for <strong>SigninLogs</strong>, <strong>AADServicePrincipalSignInLogs</strong>, and <strong>NonInteractiveUserSignInLogs</strong>.  </li>
+<li><strong>Modules / CLI</strong>: Install <code>Az</code> and <code>Microsoft.Graph</code> modules. Keep Azure CLI updated to at least v2.62+.  </li>
+</ul>
+<hr />
+<h2>What changed — and why you suddenly can’t deploy</h2>
+<p>Microsoft’s <strong>MFA Phase 2</strong> enforcement isn’t about your sign-in experience — it’s about protecting the <strong>Azure control plane</strong>.<br />
+Beginning <strong>October 2025</strong>, Azure Resource Manager (ARM) operations require MFA compliance, even for automation identities that never logged in interactively.</p>
+<p>That means:</p>
+<ul>
+<li>Service principals and managed identities used in pipelines may be blocked.  </li>
+<li>Non-compliant accounts get 401/403 errors when running PowerShell or Azure CLI.  </li>
+<li>Conditional Access policies that once covered only the portal now extend to ARM API calls.  </li>
+</ul>
+<p><strong>In short:</strong> if it can change a resource, it now needs stronger authentication.</p>
+<hr />
+<h2>Step 1 – Identify what’s failing</h2>
+<p>Start by checking <strong>Activity Log</strong> for ARM auth failures and <strong>Entra sign-in logs</strong> for Conditional Access blocks.</p>
+<h3>Option A — Log Analytics (recommended)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// AzureActivity (requires Activity Log export)</span>
+<span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Failure&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">StatusCode</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;401&quot;</span><span class="p">,</span><span class="s">&quot;403&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">ActivitySubstatusValue</span><span class="w"> </span><span class="n">has_any</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;AuthorizationFailed&quot;</span><span class="p">,</span><span class="s">&quot;ClientAuthenticationError&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="p">,</span><span class="w"> </span><span class="n">ActivitySubstatusValue</span><span class="p">,</span><span class="w"> </span><span class="n">StatusCode</span><span class="p">,</span><span class="w"> </span><span class="n">CorrelationId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<h3>Option B — Azure CLI (quick triage)</h3>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>monitor<span class="w"> </span>activity-log<span class="w"> </span>list<span class="w">   </span>--status<span class="w"> </span>Failed<span class="w"> </span>--max-events<span class="w"> </span><span class="m">100</span><span class="w">   </span>--query<span class="w"> </span><span class="s2">&quot;[?contains(status.value,&#39;Failed&#39;) &amp;&amp; (contains(properties.statusCode,&#39;401&#39;) || contains(properties.statusCode,&#39;403&#39;) || contains(properties.subStatus,&#39;AuthorizationFailed&#39;))].{time:eventTimestamp,caller:caller,op:operationName.value,code:properties.statusCode}&quot;</span><span class="w"> </span>-o<span class="w"> </span>table
+</code></pre></div>
+
+<h3>Option C — PowerShell</h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">Get-AzActivityLog</span> <span class="n">-Status</span> <span class="n">Failed</span> <span class="n">-MaxRecord</span> <span class="n">200</span> <span class="p">|</span>
+  <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">StatusCode</span> <span class="n">-in</span> <span class="p">@(</span><span class="s1">&#39;401&#39;</span><span class="p">,</span><span class="s1">&#39;403&#39;</span><span class="p">)</span> <span class="o">-or</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SubStatus</span> <span class="o">-like</span> <span class="s1">&#39;*AuthorizationFailed*&#39;</span> <span class="p">}</span> <span class="p">|</span>
+  <span class="nb">Select-Object</span> <span class="n">EventTimestamp</span><span class="p">,</span> <span class="n">Caller</span><span class="p">,</span> <span class="n">OperationName</span><span class="p">,</span> <span class="n">ResourceGroupName</span><span class="p">,</span> <span class="n">Status</span><span class="p">,</span> <span class="p">@{</span><span class="n">n</span><span class="p">=</span><span class="s1">&#39;StatusCode&#39;</span><span class="p">;</span><span class="n">e</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">StatusCode</span><span class="p">}},</span> <span class="n">SubStatus</span> <span class="p">|</span>
+  <span class="nb">Sort-Object</span> <span class="n">EventTimestamp</span> <span class="n">-Descending</span>
+</code></pre></div>
+
+<blockquote>
+<p>💡 <strong>Resource Graph ≠ Log Analytics</strong><br />
+Resource Graph shows <em>what exists now</em>.<br />
+Log Analytics shows <em>what happened</em>.<br />
+Authentication and policy failures always live in Log Analytics.</p>
+</blockquote>
+<hr />
+<h2>Step 2 – Audit your non-interactive accounts</h2>
+<p>List service principals and managed identities:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">Get-MgServicePrincipal</span> <span class="n">-All</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">DisplayName</span><span class="p">,</span> <span class="n">AppId</span><span class="p">,</span> <span class="n">AccountEnabled</span><span class="p">,</span> <span class="n">Tags</span>
+</code></pre></div>
+
+<p>Focus on accounts used by:<br />
+- Azure DevOps or GitHub Actions pipelines<br />
+- Terraform or ARM deployments<br />
+- Automation Runbooks  </p>
+<p>If any authenticate with <em>user credentials</em> instead of a proper identity, they’ll fail Phase 2 enforcement.</p>
+<hr />
+<h2>Step 3 – Fix it the right way</h2>
+<ol>
+<li><strong>Convert scripts and pipelines</strong> to use <strong>Managed Identity</strong> or <strong>Federated Credentials</strong> instead of secrets.  </li>
+<li><strong>Assign roles with least privilege</strong> — preferably at the resource-group or workload scope.  </li>
+<li><strong>Review Conditional Access policies</strong> that “Require MFA.” Exclude automation identities via security groups, not blanket exceptions.  </li>
+<li><strong>Validate deployments</strong> before production:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>deployment<span class="w"> </span>group<span class="w"> </span>validate<span class="w">   </span>--resource-group<span class="w"> </span>rg-test<span class="w">   </span>--template-file<span class="w"> </span>main.bicep
+</code></pre></div>
+
+<p>If validation succeeds, your identity type satisfies MFA.</p>
+<hr />
+<h2>Step 3a – Terraform Pipeline Alignment</h2>
+<p>Terraform relies on AzureRM provider authentication — MFA Phase 2 directly impacts this.</p>
+<table>
+<thead>
+<tr>
+<th>Auth Method</th>
+<th>What It Uses</th>
+<th>Impact</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Service Principal (Secret)</strong></td>
+<td>Static credentials</td>
+<td>❌ Non-compliant; often blocked</td>
+<td>Switch to <strong>Federated Credential</strong> or <strong>Managed Identity</strong></td>
+</tr>
+<tr>
+<td><strong>Service Principal (Cert)</strong></td>
+<td>X.509 cert</td>
+<td>⚠️ May still fail</td>
+<td>Move to Federated Cred</td>
+</tr>
+<tr>
+<td><strong>Managed Identity</strong></td>
+<td>VM / pipeline identity</td>
+<td>✅ Compliant</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td><strong>OIDC Federated Credential</strong></td>
+<td>Token exchange (GitHub/DevOps)</td>
+<td>✅ MFA-safe, passwordless</td>
+<td>Best practice</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example — Create Federated Credential</strong></p>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>ad<span class="w"> </span>app<span class="w"> </span>federated-credential<span class="w"> </span>create<span class="w">   </span>--id<span class="w"> </span>&lt;appId&gt;<span class="w">   </span>--parameters<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;name&quot;: &quot;github-terraform&quot;,</span>
+<span class="s1">    &quot;issuer&quot;: &quot;https://token.actions.githubusercontent.com&quot;,</span>
+<span class="s1">    &quot;subject&quot;: &quot;repo:azure-noob/infrastructure:ref:refs/heads/main&quot;,</span>
+<span class="s1">    &quot;audiences&quot;: [&quot;api://AzureADTokenExchange&quot;]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+
+<p><strong>Terraform Provider Example</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="na">use_oidc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>GitHub Actions</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Azure login (OIDC)</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">azure/login@v2</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">client-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_CLIENT_ID }}</span>
+<span class="w">          </span><span class="nt">tenant-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_TENANT_ID }}</span>
+<span class="w">          </span><span class="nt">subscription-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AZURE_SUBSCRIPTION_ID }}</span>
+</code></pre></div>
+
+<p>✅ This satisfies MFA enforcement because the federated token already passed Azure’s MFA checks — no prompt, no stored secret.</p>
+<hr />
+<h2>Step 4 – Add visibility for ongoing compliance</h2>
+<p>Track non-MFA compliant callers:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Authentication&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ConditionalAccessStatus</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;satisfied&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Attempts</span><span class="p">=</span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span>
+</code></pre></div>
+
+<p>Embed it in a Workbook.<br />
+Tag automation identities that are MFA-exempt and review quarterly.</p>
+<hr />
+<h2>Step 5 – Educate and document</h2>
+<p>Phase 2 caught many orgs off-guard because it’s an <strong>API-layer enforcement</strong>, not a UX change.<br />
+Document:</p>
+<ul>
+<li>Owners of each automation identity  </li>
+<li>Exclusion expirations  </li>
+<li>How new pipelines must authenticate  </li>
+</ul>
+<p>A simple wiki table saves hours of failed deploys.</p>
+<hr />
+<h2>TL;DR – Survival Checklist</h2>
+<p>✅ Identify failed deployments &amp; MFA-blocked accounts<br />
+✅ Move to Managed Identity / Federated Credentials<br />
+✅ Remove wildcard RBAC roles<br />
+✅ Monitor non-MFA logins via Workbook<br />
+✅ Track ownership &amp; renewal dates  </p>
+<hr />
+<h2>FinOps Note – Cost of Broken Automation</h2>
+<p>Every failed pipeline can quietly raise spend:</p>
+<ul>
+<li>Missed VM deallocations  </li>
+<li>Re-tried deployments  </li>
+<li>Extra log ingestion  </li>
+</ul>
+<p>Tie failures to cost data:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Failure&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">FailCount</span><span class="p">=</span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Usage</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DailyCost</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">PreTaxCost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">UsageDate</span><span class="p">=</span><span class="n">bin</span><span class="p">(</span><span class="n">UsageDate</span><span class="p">,</span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">Caller</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">Caller</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">FailCount</span><span class="p">,</span><span class="w"> </span><span class="n">DailyCost</span>
+</code></pre></div>
+
+<p>Even security baselines have FinOps impact.</p>
+<hr />
+<h2>Trending Now (October 2025)</h2>
+<p>Microsoft’s <strong>Phase 2 MFA enforcement for Azure Resource Manager (ARM)</strong> is live —<br />
+admins everywhere are reporting “401 Unauthorized” errors in pipelines.</p>
+<p><strong>Where it’s trending</strong><br />
+- Reddit <code>r/AZURE</code> threads on failed deployments<br />
+- Microsoft Tech Community discussions on <em>automation identity MFA</em><br />
+- X / LinkedIn chatter around <em>service principal → federated credential migration</em>  </p>
+<p>If you landed here from those searches, this guide shows how to survive, fix pipelines, and prove compliance.</p>
+<p><em>Also trending:</em> research on <strong>RBAC wildcard overreach</strong> — stay tuned for<br />
+<a href="/posts/2025-10-12-azure-rbac-wildcard-audit.md">“RBAC Wildcards Are the Next Breach (Audit Guide)”</a></p>
+<hr />
+<p><em>SEO keywords: Azure MFA Phase 2, ARM API MFA enforcement, service principal federated credentials, Azure automation identity MFA compliance, terraform oidc login, azure terraform mfa.</em></p>
+<hr />
+<p><em>Written by David Swann for <a href="https://azure-noob.com">Azure-Noob.com</a> — translating real admin chaos into calm dashboards.</em></p>
+  </div>
+
+  
+  
+  <aside class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      
+      <li>
+        <a href="../azure-ipam-tool/index.html">
+          <span class="related-title">IP Address Management for Azure Subscription Consolidation - What Nobody Tells You About Cloud Mergers</span>
+          <span class="related-meta">2025-10-06</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../azure-resource-tags-guide/index.html">
+          <span class="related-title">What I Wish I Knew About Azure Resource Tags</span>
+          <span class="related-meta">2025-09-23</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../azure-cost-management-is-confusing-but-you-can-tame-it/index.html">
+          <span class="related-title">Azure Cost Management is Confusing (But You Can Tame It)</span>
+          <span class="related-meta">2024-01-01</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-scripts-break-server-2025/index.html">← Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won&#39;t Tell You)</a>
+    
+    
+      <a href="../azure-ipam-tool/index.html">IP Address Management for Azure Subscription Consolidation - What Nobody Tells You About Cloud Mergers →</a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE -->
+  <section class="email-signup">
+    <div class="wrap">
+      <div class="email-box">
+        <h3>Get Azure tips in your inbox</h3>
+        <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+        <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+  <!-- Quest JS (SFX toggle, embers, typewriter) -->
+</body>
+</html>
