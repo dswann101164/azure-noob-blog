@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+  <!-- Quest styles -->
+
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- WW2 Quest banner (appears on all pages; remove if you want home-only) -->
+  <!-- Audio (tiny files; optional) -->
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    <div class="hero">
+      <img src="/static/images/hero/private-endpoint-dns.png" alt="Private Endpoints in Hybrid AD Environments: Why We Duplicate DNS Zones Instead of Using Forwarders">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Private Endpoints in Hybrid AD Environments: Why We Duplicate DNS Zones Instead of Using Forwarders</h1>
+    <p class="muted">
+      2025-10-06 · ~10 min read
+       · Azure, Private Endpoints, Active Directory, DNS, Hybrid Cloud, Networking
+    </p>
+    
+      <p class="summary">Microsoft recommends DNS forwarders and Azure Private Resolver for private endpoints. We just duplicate the DNS zones in on-prem AD. Simpler architecture, clearer ownership, no shared infrastructure.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0;">
+    <button class="btn print-trigger"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page">🖨️ Print this page</button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>Microsoft's documentation for private endpoint DNS resolution in hybrid environments is comprehensive. It's also complicated.</p>
+<p>Conditional forwarders. Azure Private Resolver. DNS forwarding rulesets. Virtual machines running DNS services. Multiple hops between on-prem and Azure.</p>
+<p>We don't do any of that.</p>
+<p>We duplicate the DNS zones in both places and move on.</p>
+<h2>The Problem Microsoft Solves (Correctly)</h2>
+<p>When you create a private endpoint in Azure, it needs DNS resolution to work:</p>
+<ul>
+<li><strong>Azure workloads</strong> need to resolve <code>storage123.privatelink.blob.core.windows.net</code> → <code>10.5.2.45</code></li>
+<li><strong>On-prem workloads</strong> need to resolve the same FQDN → same private IP</li>
+</ul>
+<p>Microsoft's solution:<br />
+1. Azure Private DNS zones linked to VNets (Azure side resolves correctly)<br />
+2. On-prem DNS has conditional forwarders pointing to Azure Private Resolver or DNS forwarder VM<br />
+3. DNS queries flow: On-prem → Conditional forwarder → Azure DNS forwarder → Azure Private DNS → Response</p>
+<p>This works. It's architecturally correct. It's what Microsoft documents.</p>
+<p>It's also more complex than necessary if you have existing Active Directory DNS infrastructure.</p>
+<h2>Our Pattern: Duplicate the Zones</h2>
+<p>We create the same <code>privatelink.*</code> zones in both Azure Private DNS and on-prem Active Directory DNS.</p>
+<p><strong>Azure side:</strong><br />
+- Private endpoint created<br />
+- Azure Private DNS zone: <code>privatelink.blob.core.windows.net</code><br />
+- A record added automatically: <code>storage123.privatelink.blob.core.windows.net</code> → <code>10.5.2.45</code><br />
+- Azure VMs resolve through Azure DNS (168.63.129.16)</p>
+<p><strong>On-prem side:</strong><br />
+- AD DNS zone created: <code>privatelink.blob.core.windows.net</code><br />
+- Same A record added manually: <code>storage123.privatelink.blob.core.windows.net</code> → <code>10.5.2.45</code><br />
+- Domain-joined machines resolve through AD DNS</p>
+<p>No forwarders. No cross-environment dependencies. Each side maintains its own zones.</p>
+<h2>Why This Works Better for Enterprises</h2>
+<h3><strong>1. Clear Team Ownership</strong></h3>
+<p>Our environment has separate teams:</p>
+<p><strong>Azure infrastructure team:</strong><br />
+- Builds VMs, joins to domain<br />
+- Creates private endpoints<br />
+- Documents what was created (FQDN, IP, target resource)<br />
+- Hands off to AD team via ticket</p>
+<p><strong>Active Directory team:</strong><br />
+- Manages on-prem DNS infrastructure<br />
+- Adds A records to AD DNS based on Azure team documentation<br />
+- Maintains DNS records lifecycle</p>
+<p>No shared infrastructure to manage. No cross-team coordination on DNS forwarders or Azure Private Resolver deployments.</p>
+<h3><strong>2. Simpler Architecture</strong></h3>
+<p>Microsoft's recommended pattern requires:<br />
+- Azure Private Resolver (managed service with costs)<br />
+- OR DNS forwarder VM in Azure (more infrastructure to manage)<br />
+- Conditional forwarders configured on-prem DNS<br />
+- DNS forwarding rulesets<br />
+- Multiple network hops for resolution</p>
+<p>Our pattern requires:<br />
+- Azure Private DNS zones (already created with private endpoints)<br />
+- Matching zones in on-prem AD DNS<br />
+- A records replicated between them</p>
+<p>One less layer. One less thing to troubleshoot.</p>
+<h3><strong>3. Works With Existing AD Infrastructure</strong></h3>
+<p>Enterprise AD DNS already manages thousands of records. Adding a few more <code>privatelink.*</code> zones is not a burden.</p>
+<p>Most enterprises already have:<br />
+- Mature change control processes for DNS<br />
+- Backup and DR for AD DNS<br />
+- Monitoring and alerting for DNS services<br />
+- Trained staff managing AD infrastructure</p>
+<p>Why introduce a new DNS layer (Azure Private Resolver) when existing infrastructure works?</p>
+<h3><strong>4. No Shared Dependencies</strong></h3>
+<p>With conditional forwarders, both teams depend on:<br />
+- Azure Private Resolver availability<br />
+- Network connectivity between on-prem and Azure for DNS queries<br />
+- Proper configuration of forwarding rules<br />
+- Shared responsibility for troubleshooting</p>
+<p>With duplicated zones:<br />
+- Azure team owns Azure Private DNS<br />
+- AD team owns on-prem AD DNS<br />
+- Each works independently<br />
+- Failures don't cascade across environments</p>
+<h2>The Operational Reality</h2>
+<p><strong>How many private endpoints does this pattern scale to?</strong></p>
+<p>We checked using Resource Graph:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">PrivateEndpointCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">PrivateEndpointCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Result: Over 1,000 private endpoints across multiple subscriptions</strong></p>
+<p>Breakdown by resource type:<br />
+- Storage Accounts (largest portion)<br />
+- App Services (second largest)<br />
+- Key Vaults<br />
+- Data Factory instances<br />
+- Plus Synapse, AKS, SQL, Recovery Services Vaults, etc.</p>
+<p><strong>Created over several years.</strong></p>
+<p>Most are created in batches during planned deployments:<br />
+- Storage account migrations: dozens of endpoints in one week<br />
+- App Service consolidations: 50-100 endpoints in one month<br />
+- Not evenly distributed</p>
+<p><strong>Time to maintain AD DNS records:</strong><br />
+- 5 minutes per private endpoint (add A record via change ticket)<br />
+- Part of normal deployment process<br />
+- Manageable within existing change control workflows</p>
+<p>Not overwhelming. Not automated. Just normal enterprise change management.</p>
+<h2>When Does This Pattern Break Down?</h2>
+<p>This pattern works when:<br />
+- ✅ You have mature AD DNS infrastructure<br />
+- ✅ Private endpoints created through controlled deployments<br />
+- ✅ Separate teams with clear handoff processes<br />
+- ✅ Change control is acceptable overhead</p>
+<p>This pattern struggles when:<br />
+- ❌ Private endpoints created constantly by developers (self-service)<br />
+- ❌ Need real-time automation (no manual steps)<br />
+- ❌ No on-prem AD infrastructure (cloud-native startup)<br />
+- ❌ Hundreds of subscriptions with autonomous teams</p>
+<p>For cloud-native environments or massive scale, Microsoft's automation-first approach makes more sense.</p>
+<p>For enterprises with legacy AD infrastructure and controlled deployments, duplicating zones is simpler.</p>
+<h2>The Resource Graph Query</h2>
+<p>Here's the complete query to inventory all your private endpoints:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">PrivateEndpointName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ResourceGroup</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">,</span>
+<span class="w">    </span><span class="n">SubscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">ipAddresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">fqdn</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TargetResource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ConnectionState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnectionState</span><span class="err">.</span><span class="n">status</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Subnet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">subnet</span><span class="err">.</span><span class="n">id</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">PrivateEndpointName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">SubscriptionName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ResourceGroup</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Location</span><span class="p">,</span>
+<span class="w">    </span><span class="n">PrivateIP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">FQDN</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TargetResource</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ConnectionState</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Subnet</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">PrivateEndpointName</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p>Run this to see:<br />
+- All private endpoints across all subscriptions<br />
+- The private IP each one uses<br />
+- The FQDN that needs DNS resolution<br />
+- What resource it connects to</p>
+<p>Export to CSV. Hand to AD team. They have everything needed to add records.</p>
+<h2>The Handoff Process</h2>
+<p><strong>Azure team creates private endpoint:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Private endpoint for storage account</span>
+<span class="nv">$pe</span> <span class="p">=</span> <span class="nb">New-AzPrivateEndpoint</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">&quot;pe-storage-prod&quot;</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-networking&quot;</span> <span class="p">`</span>
+    <span class="n">-Location</span> <span class="s2">&quot;eastus&quot;</span> <span class="p">`</span>
+    <span class="n">-Subnet</span> <span class="nv">$subnet</span> <span class="p">`</span>
+    <span class="n">-PrivateLinkServiceConnection</span> <span class="nv">$connection</span> <span class="p">`</span>
+    <span class="n">-PrivateDnsZone</span> <span class="nv">$azurePrivateDnsZone</span>
+
+<span class="c"># Document what was created</span>
+<span class="nv">$documentation</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">FQDN</span> <span class="p">=</span> <span class="s2">&quot;storage123.privatelink.blob.core.windows.net&quot;</span>
+    <span class="n">PrivateIP</span> <span class="p">=</span> <span class="nv">$pe</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">IpAddresses</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
+    <span class="n">TargetResource</span> <span class="p">=</span> <span class="s2">&quot;storage123 (storageAccounts)&quot;</span>
+    <span class="n">Zone</span> <span class="p">=</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span>
+    <span class="n">CreatedDate</span> <span class="p">=</span> <span class="nb">Get-Date</span>
+    <span class="n">CreatedBy</span> <span class="p">=</span> <span class="nv">$env:USERNAME</span>
+<span class="p">}</span>
+
+<span class="c"># Export for AD team</span>
+<span class="nv">$documentation</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;privateendpoint-handoff.csv&quot;</span> <span class="n">-Append</span>
+</code></pre></div>
+
+<p><strong>AD team adds record to on-prem DNS:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Add A record to on-prem AD DNS</span>
+<span class="nb">Add-DnsServerResourceRecordA</span> <span class="p">`</span>
+    <span class="n">-ZoneName</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">&quot;storage123&quot;</span> <span class="p">`</span>
+    <span class="n">-IPv4Address</span> <span class="s2">&quot;10.5.2.45&quot;</span> <span class="p">`</span>
+    <span class="n">-ComputerName</span> <span class="s2">&quot;dc01.contoso.com&quot;</span>
+</code></pre></div>
+
+<p>Done. Azure resolves through Azure Private DNS. On-prem resolves through AD DNS. No forwarders needed.</p>
+<h2>What About DNS Synchronization?</h2>
+<p>"But what if DNS records get out of sync?"</p>
+<p>Valid concern. Here's how we handle it:</p>
+<p><strong>Private endpoint lifecycle is tied to tickets:</strong><br />
+- Private endpoint creation = deployment ticket<br />
+- Ticket includes DNS record addition<br />
+- Private endpoint deletion = change ticket<br />
+- Ticket includes DNS record removal</p>
+<p><strong>If records drift:</strong><br />
+- Resource Graph query shows truth (what exists in Azure)<br />
+- Compare against AD DNS records<br />
+- Remediate discrepancies during change windows</p>
+<p><strong>Automation option:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Weekly sync check (read-only)</span>
+<span class="nv">$azureEndpoints</span> <span class="p">=</span> <span class="nb">Get-AzPrivateEndpoint</span> <span class="n">-ResourceGroupName</span> <span class="p">*</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;FQDN&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">Fqdn</span><span class="p">}},</span> 
+                  <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;IP&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">IpAddresses</span><span class="p">}}</span>
+
+<span class="nv">$adRecords</span> <span class="p">=</span> <span class="nb">Get-DnsServerResourceRecord</span> <span class="n">-ZoneName</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span> <span class="n">-ComputerName</span> <span class="s2">&quot;dc01&quot;</span>
+
+<span class="c"># Compare and report drift</span>
+<span class="nb">Compare-Object</span> <span class="nv">$azureEndpoints</span> <span class="nv">$adRecords</span> <span class="n">-Property</span> <span class="n">FQDN</span><span class="p">,</span> <span class="n">IP</span>
+</code></pre></div>
+
+<p>Run weekly. Email discrepancies. Fix during next change window.</p>
+<p>Not real-time. Not fully automated. But sufficient for controlled enterprise environments.</p>
+<h2>Why Microsoft Doesn't Document This</h2>
+<p>Microsoft's private endpoint DNS documentation assumes:<br />
+- Greenfield deployments (no legacy infrastructure)<br />
+- Automation-first mindset (minimal manual processes)<br />
+- Single team managing both Azure and networking<br />
+- Scale requires real-time synchronization</p>
+<p>Enterprise reality:<br />
+- Legacy AD infrastructure already in place<br />
+- Change control processes are acceptable<br />
+- Separate teams with clear boundaries<br />
+- Controlled deployments, not constant churn</p>
+<p>Microsoft can't document every enterprise pattern. Their docs cover the general case.</p>
+<p>This pattern is the enterprise-specific case.</p>
+<h2>The Bottom Line</h2>
+<p>We've managed 1,572 private endpoints over 4 years using duplicated DNS zones.</p>
+<p>Azure team creates endpoints. AD team maintains on-prem DNS records. No forwarders. No Azure Private Resolver. No shared infrastructure.</p>
+<p>Time investment: ~30 minutes per week maintaining DNS records.</p>
+<p>Alternative (Microsoft's way): Deploy Azure Private Resolver, configure conditional forwarders, train both teams on new architecture, troubleshoot DNS forwarding issues, maintain shared infrastructure.</p>
+<p>For us, duplicating zones is simpler.</p>
+<p>If you have existing AD DNS infrastructure and controlled deployment processes, it might be simpler for you too.</p>
+<p>Not what Microsoft documents. But it works.</p>
+<hr />
+<h2>Resource Graph Queries</h2>
+<p><strong>Count private endpoints by subscription:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Find private endpoints by resource type:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">TargetType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TargetType</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>List all privatelink DNS zones needed:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">fqdn</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="n">indexof</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">EndpointCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Zone</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">EndpointCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>Use these to understand what DNS zones you actually need before creating them.</p>
+<hr />
+<p><em>Managing hybrid Azure environments? Check out our <a href="/blog/azure-ipam-tool/">Azure IPAM Tool</a> for cross-subscription IP visibility, or our <a href="/blog/it-roles-responsibilities-matrix/">CAF Roles Matrix</a> for practical Azure governance.</em></p>
+  </div>
+
+  
+  
+  <aside class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      
+      <li>
+        <a href="../azure-debugging-ai-rule/index.html">
+          <span class="related-title">The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;</span>
+          <span class="related-meta">2025-10-06</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../azure-ipam-tool/index.html">
+          <span class="related-title">IP Address Management for Azure Subscription Consolidation - What Nobody Tells You About Cloud Mergers</span>
+          <span class="related-meta">2025-10-06</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="../azure-scripts-break-server-2025/index.html">
+          <span class="related-title">Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won&#39;t Tell You)</span>
+          <span class="related-meta">2025-10-06</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../stop-reading-caf/index.html">← Stop Reading the 1,500-Page Cloud Adoption Framework - Here&#39;s What Actually Matters</a>
+    
+    
+      <a href="../onenote-azure-admin-tool/index.html">OneNote: The Azure Admin Tool Nobody Tells You About →</a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE -->
+  <section class="email-signup">
+    <div class="wrap">
+      <div class="email-box">
+        <h3>Get Azure tips in your inbox</h3>
+        <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+        <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+  <!-- Quest JS (SFX toggle, embers, typewriter) -->
+</body>
+</html>
