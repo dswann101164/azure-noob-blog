@@ -134,6 +134,8 @@ It's **58 specific Azure governance operations**:
 
 Not "Do you know HTML?"
 
+*Need to assign these 58 operations to actual people? I've created a [CAF-aligned Roles & Responsibilities Matrix](/blog/it-roles-responsibilities-matrix/) that maps every operation to roles like Azure Admin, Security Engineer, and Platform Engineer. It's the practical RACI matrix Microsoft never published. Available as downloadable Excel and PDF templates.*
+
 ## Why This Keeps Happening
 
 Leadership gets directive: "Use the Cloud Adoption Framework"
@@ -276,6 +278,8 @@ Those six questions tell you everything about CAF readiness.
 
 The other 62 skills on that spreadsheet? Consultant fluff.
 
+**Next step:** Once you've answered these questions, use my [CAF Roles & Responsibilities Matrix](/blog/it-roles-responsibilities-matrix/) to assign specific owners to each operation. It's the spreadsheet you can't find anywhere else - a practical RACI for all 58 CAF operations.
+
 ## The Bottom Line
 
 You can't Google your way to an Azure team.
@@ -313,6 +317,7 @@ Microsoft just forgot to say so on page 1.
 **Official Microsoft CAF:** https://aka.ms/caf (if you want the full 1,500 pages)
 
 **What you actually need:**
+- **[IT Roles & Responsibilities Matrix](/blog/it-roles-responsibilities-matrix/)** - Map the 58 CAF operations to your team with downloadable Excel/PDF templates. This is the practical RACI matrix Microsoft never published.
 - Management Groups: How to structure Azure hierarchy
 - Azure Policy: How to enforce governance automatically
 - Landing Zones: The actual implementation of CAF structure
