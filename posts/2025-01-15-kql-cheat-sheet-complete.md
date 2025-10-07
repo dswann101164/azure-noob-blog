@@ -1,7 +1,7 @@
 ---
-title: "KQL Cheat Sheet for Azure Admins: Complete Resource Graph Guide"
+title: "KQL Cheat Sheet for Azure Resource Graph | Free PDF Download + Examples"
 date: 2025-09-23
-summary: "Master Azure Resource Graph with this comprehensive KQL cheat sheet. Query VMs, NICs, disks, and more with practical examples and copy-paste queries."
+summary: "Complete KQL cheat sheet for Azure admins. Query VMs, NICs, disks with Resource Graph. Copy-paste examples, join patterns, troubleshooting tips. Free PDF download via email."
 tags: ["Azure", "KQL", "Resource Graph", "PowerShell"]
 cover: "/static/images/hero/kql-cheat-sheet.png"
 ---

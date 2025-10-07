@@ -1,7 +1,7 @@
 ---
-title: "Modernizing Azure Monitor Workbooks: Adding 200+ Services and Global Filtering"
+title: "Enhanced Azure Inventory Workbook: 200+ Services, Security Hygiene, Global Filters"
 date: 2025-09-28
-summary: "How I enhanced Billy York's Azure Inventory Workbook with modern service support, global filtering, portal integration, and security hygiene monitoring for 2025 Azure environments."
+summary: "Free Azure Monitor Workbook template with 200+ services, security monitoring, cost optimization, and global filtering. Enhanced version of Billy York's inventory workbook with full source code on GitHub."
 tags: ["Azure", "KQL", "Monitoring", "Workbooks", "Community", "Open Source"]
 cover: "/static/images/hero/azure-workbook-enhancement.png"
 ---
