@@ -295,11 +295,11 @@ This pattern is the enterprise-specific case.
 
 ## The Bottom Line
 
-We've managed 1,572 private endpoints over 4 years using duplicated DNS zones.
+We've managed over 1,000 private endpoints over several years using duplicated DNS zones.
 
 Azure team creates endpoints. AD team maintains on-prem DNS records. No forwarders. No Azure Private Resolver. No shared infrastructure.
 
-Time investment: ~30 minutes per week maintaining DNS records.
+Time investment: Manageable within existing change control workflows.
 
 Alternative (Microsoft's way): Deploy Azure Private Resolver, configure conditional forwarders, train both teams on new architecture, troubleshoot DNS forwarding issues, maintain shared infrastructure.
 
