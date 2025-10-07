@@ -1,8 +1,8 @@
 ---
-title: "IP Address Management for Azure Subscription Consolidation - What Nobody Tells You About Cloud Mergers"
+title: "Azure IPAM Tool for Multi-Subscription Environments | Free Open Source IP Tracking"
 date: 2025-10-06
-summary: "Azure native tools can't answer 'which subnet contains this IP?' across 44 subscriptions. Here's the IPAM tool I built for enterprise consolidation."
-tags: ["Azure", "FinOps", "Governance", "Migration"]
+summary: "Track IPs across Azure subscriptions with this free IPAM tool. Search IPs, detect conflicts, reserve ranges, visualize network topology. Built for enterprise consolidation managing 44+ subscriptions. Full source code on GitHub."
+tags: ["Azure", "FinOps", "Governance", "Migration", "Networking", "Open Source"]
 cover: "/static/images/hero/azure-ipam.png"
 ---
 

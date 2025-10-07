@@ -1,7 +1,7 @@
 ---
-title: "Stop Reading the 1,500-Page Cloud Adoption Framework - Here's What Actually Matters"
+title: "Azure Cloud Adoption Framework Explained: 3 Layers That Actually Matter"
 date: 2025-10-06
-summary: "Microsoft's CAF is 1,500 pages. Leadership downloads generic 'cloud skills' templates with HTML and Edge Computing. Here's what CAF actually means: 3 layers, 58 operations, zero buzzwords."
+summary: "Microsoft's Cloud Adoption Framework is 1,500 pages. Here's what matters: Structure (Management Groups, Subscriptions), Governance (Policy, RBAC), Operations (Monitor, Backup). CAF simplified for real Azure teams without the consultant buzzwords."
 tags: ["Azure", "CAF", "Cloud Adoption Framework", "Governance", "Azure Policy", "Management Groups"]
 cover: "/static/images/hero/caf-simplified.png"
 ---
