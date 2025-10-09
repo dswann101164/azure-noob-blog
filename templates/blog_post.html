@@ -4,7 +4,39 @@
 <article class="post">
 
   {# --- HERO IMAGE (use normalized cover_url from app.py) --- #}
-  {% if cover_url %}
+  {% if post.animated_hero %}
+    {# Animated hero for special posts #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='hero-animated.css') }}">
+    <div class="hero-animated">
+      <div class="grid-bg"></div>
+      <div class="glow"></div>
+      <div class="glow"></div>
+      
+      <div class="question-mark">?</div>
+      <div class="question-mark">?</div>
+      <div class="question-mark">?</div>
+      
+      <div class="arrow"></div>
+      <div class="arrow"></div>
+      <div class="arrow"></div>
+      <div class="arrow"></div>
+      
+      <div class="tool-badge wsus">WSUS</div>
+      <div class="tool-badge sccm">SCCM</div>
+      <div class="tool-badge azure">Azure Update Manager</div>
+      <div class="tool-badge intune">Intune</div>
+      
+      <div class="content">
+        <div class="question">Three Microsoft reps, three different answers</div>
+        <h1>Which One?</h1>
+        <div class="subtitle">
+          SCCM, WSUS, Azure Update Manager, Intune—<br>
+          <span class="highlight">nobody will tell you which tool to actually use</span>
+        </div>
+      </div>
+    </div>
+  {% elif cover_url %}
+    {# Static hero image #}
     <div class="hero">
       <img src="{{ cover_url }}" alt="{{ post.title }}">
     </div>
