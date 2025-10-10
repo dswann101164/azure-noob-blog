@@ -293,6 +293,54 @@ No RVtools export. No ManageEngine query. No ServiceNow cross-reference. No manu
 
 **One query. 30 seconds. Accurate.**
 
+## Resource Graph Doesn't Fix On-Premises (And That's The Point)
+
+**Critical clarification:** Azure Resource Graph only works for resources IN Azure. It doesn't help with your on-premises discovery.
+
+**You still need the 3-month archaeology project** to inventory on-prem infrastructure before migration:
+- RVtools exports from multiple VMware vCenters
+- ManageEngine queries for physical servers and AD domain mapping
+- ServiceNow CMDB archaeology
+- Excel cross-referencing
+- Email searches and meetings to find owners
+- Manual correlation across systems that don't talk to each other
+
+**Azure Resource Graph cannot see:**
+- VMware VMs (until they're migrated to Azure)
+- Physical servers (until they're migrated or Arc-enabled)
+- On-premises infrastructure of any kind
+- Anything not in Azure's control plane
+
+**The payoff comes AFTER migration, not during discovery:**
+
+**On-premises inventory:**
+- 3 months of manual work
+- Multiple tools that don't integrate
+- Manual correlation required
+- Immediately out of date
+- Must repeat for every major initiative
+
+**Azure inventory (post-migration):**
+- 30-second queries
+- Single source of truth
+- Automatically maintained
+- Always current
+- Never requires manual archaeology again
+
+**You're not avoiding the discovery pain.** The 3-month project still happens. But it's the LAST TIME you have to do it.
+
+**Going forward:**
+- New resources created in Azure → Automatically tracked with enforced tags
+- Changes to existing resources → Automatically updated in Resource Graph
+- Resources decommissioned → Automatically removed from queries
+- No manual CMDB maintenance required
+- No RVtools exports needed
+- No cross-referencing between systems
+
+**The investment is front-loaded:** Spend 3 months getting accurate on-prem inventory for migration planning, properly tag everything during migration, then never do manual inventory work again.
+
+That's why cloud migration fixes the CMDB problem. Not by avoiding the discovery work, but by ensuring you never have to repeat it.
+
 ## Azure Resource Graph: The CMDB That Works
 
 Azure Resource Graph is fundamentally different because it doesn't rely on people maintaining documentation:
