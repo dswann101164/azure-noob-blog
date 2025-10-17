@@ -1,57 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
-<header class="post-header">
-  <h1>Blog</h1>
-  <p class="summary">Latest posts from {{ site_name }}.</p>
-</header>
 
-<!-- HERO SECTION WITH CONVERTKIT -->
-<div style="max-width: 800px; margin: 2rem auto 3rem auto; padding: 2rem; background: #f8f9fa; border-radius: 8px; border: 1px solid #e1e4e8;">
-    <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.8rem;">Azure FinOps for Enterprise Infrastructure</h2>
-    <p style="font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.6;">
-        I'm an Azure Architect managing 31,000 assets at a regional bank. 
-        I write about the Azure problems Microsoft doesn't document.
-    </p>
-    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; line-height: 1.8;">
-        <li>→ Cost reporting that actually works</li>
-        <li>→ Governance at scale</li>
-        <li>→ Real KQL queries, not theory</li>
-    </ul>
-    <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
-</div>
-<!-- END HERO SECTION -->
+<!-- GRADIENT HERO BANNER -->
+<section class="hero-banner">
+  <h1>Azure FinOps for Enterprise Infrastructure</h1>
+  <p class="tagline">I'm an Azure Architect managing 31,000 assets at a regional bank.<br>
+  I write about the Azure problems Microsoft doesn't document.</p>
+  
+  <ul class="features">
+    <li>Cost reporting that actually works</li>
+    <li>Governance at scale</li>
+    <li>Real KQL queries, not theory</li>
+  </ul>
+  
+  <a href="#subscribe" class="btn-subscribe">Subscribe for FinOps Insights</a>
+</section>
 
-<div class="tags-cloud" style="margin-bottom: 16px;">
-  <a class="tag-chip" href="{{ url_for('tags_index') }}">Browse all tags →</a>
-  <a class="tag-chip" href="{{ url_for('search') }}">Search</a>
+<!-- Tags Navigation -->
+<div style="text-align: center; margin-bottom: 2rem;">
+  <a class="tag-badge" href="{{ url_for('tags_index') }}" style="margin-right: 0.5rem;">Browse all tags →</a>
+  <a class="tag-badge" href="{{ url_for('search') }}">Search</a>
 </div>
 
-<ul class="post-list">
+<!-- CARD-BASED POST GRID -->
+<div class="post-grid">
   {% for p in posts %}
-  <li>
-    <article class="post">
-      {% if p.cover_url %}
-        <div class="hero hero-index">
-          <a href="{{ url_for('blog_post', slug=p.slug) }}">
-            <img src="{{ p.cover_url }}" alt="{{ p.title }}" loading="lazy">
-          </a>
-        </div>
+  <article class="post-card">
+    {% if p.cover_url %}
+    <a href="{{ url_for('blog_post', slug=p.slug) }}">
+      <img src="{{ p.cover_url }}" alt="{{ p.title }}" class="post-card-image" loading="lazy">
+    </a>
+    {% endif %}
+    
+    <div class="post-card-content">
+      <h2 class="post-card-title">
+        <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
+      </h2>
+      
+      <p class="post-card-meta">
+        {{ p.date|ymd }}
+      </p>
+      
+      {% if p.summary %}
+      <p class="post-card-summary">{{ p.summary }}</p>
       {% endif %}
-
-      <header>
-        <h2 class="post-title">
-          <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
-        </h2>
-        <p class="meta">
-          {{ p.date|ymd }}
-          {% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}
-        </p>
-      </header>
-
-      {% if p.summary %}<p class="summary">{{ p.summary }}</p>{% endif %}
-      <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read more →</a>
-    </article>
-  </li>
+      
+      <div class="post-card-footer">
+        {% if p.tags and p.tags|length %}
+        <ul class="tags-list">
+          {% for tag in p.tags[:3] %}
+          <li><a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge">{{ tag }}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        
+        <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read →</a>
+      </div>
+    </div>
+  </article>
   {% endfor %}
-</ul>
+</div>
+
 {% endblock %}

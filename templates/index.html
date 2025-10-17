@@ -2,73 +2,66 @@
 {% block title %}Home · {{ site_name }}{% endblock %}
 
 {% block content %}
-<section class="home-hero">
+
+<!-- GRADIENT HERO BANNER (same as blog index) -->
+<section class="hero-banner">
   <h1>{{ site_name }}</h1>
   <p class="tagline">{{ site_tagline }}</p>
-  <p class="summary">
-    Azure solutions that survive production. Real KQL queries, working automation scripts, and the uncomfortable truths about cost management, migrations, and Microsoft's marketplace images that official docs won't tell you.
+  <p class="tagline" style="font-size: 1.1rem; margin-top: 1rem;">
+    Azure solutions that survive production. Real KQL queries, working automation scripts, 
+    and the uncomfortable truths about cost management that official docs won't tell you.
   </p>
-  <p class="cta">
-    <a class="btn" href="{{ url_for('blog_index') }}">Browse all posts →</a>
-  </p>
+  
+  <a href="{{ url_for('blog_index') }}" class="btn-subscribe">Read the Blog</a>
 </section>
 
+<!-- LATEST POSTS GRID -->
 <section class="latest">
-  <h2>Latest Posts</h2>
-  <ul class="post-list">
-    {% for p in posts[:5] %}
-      <li class="post-teaser">
-        <h3 class="post-title">
+  <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Latest Posts</h2>
+  
+  <div class="post-grid">
+    {% for p in posts[:6] %}
+    <article class="post-card">
+      {% if p.cover_url %}
+      <a href="{{ url_for('blog_post', slug=p.slug) }}">
+        <img src="{{ p.cover_url }}" alt="{{ p.title }}" class="post-card-image" loading="lazy">
+      </a>
+      {% endif %}
+      
+      <div class="post-card-content">
+        <h2 class="post-card-title">
           <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
-        </h3>
-        <p class="meta">
+        </h2>
+        
+        <p class="post-card-meta">
           {{ p.date|ymd }}
-          {% if p.tags and p.tags|length %} · {{ p.tags|join(", ") }}{% endif %}
         </p>
+        
         {% if p.summary %}
-          <p class="summary">{{ p.summary }}</p>
+        <p class="post-card-summary">{{ p.summary }}</p>
         {% endif %}
-      </li>
+        
+        <div class="post-card-footer">
+          {% if p.tags and p.tags|length %}
+          <ul class="tags-list">
+            {% for tag in p.tags[:3] %}
+            <li><a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge">{{ tag }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          
+          <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read →</a>
+        </div>
+      </div>
+    </article>
     {% endfor %}
-  </ul>
-  <p class="more"><a class="btn" href="{{ url_for('blog_index') }}">See more posts →</a></p>
+  </div>
+  
+  <p style="text-align: center; margin-top: 3rem;">
+    <a class="btn" href="{{ url_for('blog_index') }}" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">
+      See all posts →
+    </a>
+  </p>
 </section>
 
-<style>
-.home-hero {
-  text-align: left;
-  margin: 1.5rem 0 2rem;
-}
-.home-hero h1 {
-  margin: 0 0 .5rem;
-  line-height: 1.2;
-}
-.home-hero .tagline {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 1rem;
-  color: var(--link);
-}
-.home-hero .summary { 
-  opacity: .8; 
-  margin: 0 0 1rem;
-  font-size: 1.05rem;
-  line-height: 1.6;
-}
-.home-hero .cta .btn { display: inline-block; margin-top: .25rem; }
-
-.latest h2 { margin: 0 0 1rem; }
-.post-list { list-style: none; padding: 0; margin: 0; }
-.post-teaser { padding: .9rem 0; border-bottom: 1px solid #2a2a2a22; }
-.post-title { margin: 0 0 .25rem; font-size: 1.05rem; }
-.post-title a { text-decoration: none; }
-.post-title a:hover { text-decoration: underline; }
-.meta { margin: 0 0 .35rem; opacity: .7; font-size: .9rem; }
-.summary { margin: 0; }
-.more { margin-top: 1rem; }
-.btn {
-  display: inline-block; padding: .45rem .75rem; border: 1px solid #ccc;
-  border-radius: .4rem; text-decoration: none; font-size: .95rem;
-}
-</style>
 {% endblock %}
