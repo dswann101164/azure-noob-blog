@@ -3,7 +3,7 @@ title: "How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)"
 date: 2025-10-13
 summary: "Chris Bowman's CCO Dashboard is 200+ pages of Power BI. I needed to understand it to build CCO 2.0. Built a tool that extracts all queries, measures, and relationships in seconds. .pbix files are just ZIP archives."
 tags: ["Azure", "Power BI", "Python", "Tools", "CCO Dashboard"]
-cover: "/static/images/hero/pbix-modernizer.svg"
+cover: "static/images/hero/pbix-modernizer.svg"
 ---
 
 Chris Bowman's CCO (Continuous Cloud Optimization) Dashboard is 200+ pages of Power BI showing Azure resource inventory, cost analysis, and security recommendations. I needed to understand how it worked to build a better version.

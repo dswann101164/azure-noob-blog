@@ -3,7 +3,7 @@ title: "Extract KQL Queries from Azure Workbooks (Workbook → App Tool)"
 date: 2025-10-13
 summary: "Azure Workbooks hide 110+ items and complex KQL queries in nested JSON. Built a Streamlit tool that extracts everything in seconds. Parsed Billy York's workbook: 41 queries, full structure, exportable. No more clicking through Azure Portal."
 tags: ["Azure", "Workbooks", "KQL", "Python", "Tools", "Streamlit"]
-cover: "/static/images/hero/workbook-app-tool.svg"
+cover: "static/images/hero/workbook-app-tool.svg"
 ---
 
 Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ Azure services across compute, networking, PaaS, monitoring, and security. When I needed to enhance it, I hit a problem.

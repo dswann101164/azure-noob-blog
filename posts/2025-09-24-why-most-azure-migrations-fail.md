@@ -3,7 +3,7 @@ title: "Why Most Azure Migrations Fail: The Institutional Knowledge Problem"
 date: 2025-09-24
 summary: "Azure Migrate works perfectly. The problem is no one remembers how their applications actually work. Here's why enterprise migrations fail before they start."
 tags: ["Azure", "Migration", "Technical Debt", "Enterprise", "Application Discovery"]
-cover: "/static/images/hero/azure-migration-failure.png"
+cover: "static/images/hero/azure-migration-failure.png"
 ---
 
 # Why Most Azure Migrations Fail: The Institutional Knowledge Problem

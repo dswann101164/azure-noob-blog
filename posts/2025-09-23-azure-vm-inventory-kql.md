@@ -3,7 +3,7 @@ title: "From Raw Data to Actionable Insights: Mastering Azure VM Inventory with 
 date: 2025-09-23
 summary: "Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers."
 tags: ["Azure", "KQL", "Update Management", "Intune", "VM Inventory"]
-cover: "/static/images/hero/azure-vm-inventory-kql.png"
+cover: "static/images/hero/azure-vm-inventory-kql.png"
 ---
 
 ## What problem are we solving?

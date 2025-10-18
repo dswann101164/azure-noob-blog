@@ -3,7 +3,7 @@ title: "Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported"
 date: 2025-09-24
 summary: "Opened Azure Update Manager and saw 1,791 VMs that need updates? Here's the uncomfortable truth about what that number really means and the KQL queries to find your real target."
 tags: ["Azure", "Update Manager", "KQL", "Azure Governance", "VM Management"]
-cover: "/static/images/hero/azure-update-manager.png"
+cover: "static/images/hero/azure-update-manager.png"
 ---
 
 # Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported

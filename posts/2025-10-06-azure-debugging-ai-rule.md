@@ -3,7 +3,7 @@ title: "The New Azure Debugging Rule: When AI Says 'I Don't Know'"
 date: 2025-10-06
 summary: "AI has changed when you should stop debugging and open a Microsoft support ticket. If Claude can't solve your Azure problem after reading every doc, GitHub issue, and Stack Overflow post, you've hit the boundary of public knowledge. Time to use the support you're paying for."
 tags: ["Azure", "AI", "Operations", "Support"]
-cover: "/static/images/hero/azure-debugging-ai.png"
+cover: "static/images/hero/azure-debugging-ai.png"
 ---
 
 I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.

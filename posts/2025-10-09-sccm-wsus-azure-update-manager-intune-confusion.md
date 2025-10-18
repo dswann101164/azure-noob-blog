@@ -3,7 +3,7 @@ title: "SCCM, WSUS, Azure Update Manager, Intune: Which One Do I Actually Use?"
 date: 2025-10-09
 summary: "Three Microsoft reps gave me three different answers about patching Azure VMs. Here's what each tool actually does, which workloads need which tool, and why you need multiple tools during enterprise migration. The decision matrix Microsoft won't publish."
 tags: ["Azure", "SCCM", "WSUS", "Intune", "Azure Update Manager", "Patch Management", "Operations"]
-cover: "/static/images/hero/patch-management-confusion.svg"
+cover: "static/images/hero/patch-management-confusion.svg"
 animated_hero: true
 ---
 

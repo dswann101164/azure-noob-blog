@@ -3,7 +3,7 @@ title: "Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)"
 date: 2025-09-29
 summary: "Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft's own infrastructure serving outdated dependencies."
 tags: ["Azure", "PowerShell", "Automation", "DevOps", "Troubleshooting"]
-cover: "/static/images/hero/azure-automation-debugging.png"
+cover: "static/images/hero/azure-automation-debugging.png"
 ---
 
 I built a PowerShell script to automate Azure admin workstation setup. Tested on my VM - worked perfectly. Deployed a fresh Windows 11 Enterprise N from Azure marketplace to document the process - total failure. Every package install failed with cryptic certificate errors.

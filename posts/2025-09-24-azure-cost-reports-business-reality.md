@@ -3,7 +3,7 @@ title: "Why Your Azure Cost Reports Don't Match Your Business Reality"
 date: 2025-09-24
 summary: "Azure Cost Management works perfectly. Your finance team still can't figure out who should pay for what. Here's why cost center tagging doesn't solve enterprise chargeback."
 tags: ["Azure", "Cost Management", "FinOps", "Chargeback", "Enterprise"]
-cover: "/static/images/hero/azure-cost-allocation.png"
+cover: "static/images/hero/azure-cost-allocation.png"
 ---
 
 # Why Your Azure Cost Reports Don't Match Your Business Reality

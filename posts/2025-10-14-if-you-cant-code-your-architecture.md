@@ -3,7 +3,7 @@ title: "If You Can't Code Your Architecture, You're Not an Architect"
 date: 2025-10-14
 summary: "Deploy one VM to learn the variables. Deploy three VMs to learn you're wasting time. Code your fourth deployment or admit you're just clicking buttons for a living."
 tags: ["Azure", "Architecture", "Terraform", "IaC", "Career"]
-cover: "/static/images/hero/code-architecture.svg"
+cover: "static/images/hero/code-architecture.svg"
 ---
 
 # If You Can't Code Your Architecture, You're Not an Architect

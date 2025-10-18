@@ -3,7 +3,7 @@ title: "The Azure Console Button Is a Lie (And You Don't Need AMA)"
 date: 2025-10-09
 summary: "VMware admins: That 'Connect' button isn't console access. Serial Console is hidden in Help > Boot Diagnostics, works without networking, and doesn't require Azure Monitor Agent. Here's what Microsoft didn't tell you."
 tags: ["Azure", "VMware", "Migration", "Troubleshooting", "Serial Console"]
-cover: "/static/images/hero/azure-serial-console.png"
+cover: "static/images/hero/azure-serial-console.png"
 ---
 
 I clicked the **Connect** button in Azure Portal. The VM won't boot. The Console requires networking to work. The VM's network is broken. This is useless.

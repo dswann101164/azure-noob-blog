@@ -3,7 +3,7 @@ title: "Your CMDB Is Wrong (And Cloud Migration Fixes It)"
 date: 2025-10-11
 summary: "I spent 3 months bridging the gap between ServiceNow records with no context, RVtools exports mixing servers with virtual desktops, and ManageEngine tracking 21 AD domains. Then Azure Resource Graph gave me 31,000 accurate, tagged resources in 30 seconds."
 tags: ["Azure", "CMDB", "Migration", "Resource Graph", "Operations"]
-cover: "/static/images/hero/cmdb-wrong.png"
+cover: "static/images/hero/cmdb-wrong.png"
 ---
 
 ServiceNow CMDB said we had 8,000 resources. I opened the report:

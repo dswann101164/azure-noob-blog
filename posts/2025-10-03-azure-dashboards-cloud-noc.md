@@ -3,7 +3,7 @@ title: "Azure Dashboards Are Your Cloud NOC (And Nobody Told You)"
 date: 2025-10-03
 summary: "New Azure admins are told to 'use workbooks' the same way students are told to 'solve for X' - without understanding what problem it solves."
 tags: ["Azure", "Azure Monitor", "Workbooks", "Governance"]
-cover: "/static/images/hero/cloud-noc.png"
+cover: "static/images/hero/cloud-noc.png"
 ---
 
 ## The Problem Nobody Explains

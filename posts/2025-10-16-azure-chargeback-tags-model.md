@@ -3,7 +3,7 @@ title: "Six Azure Tags That Make Chargeback and Showback Actually Work"
 date: 2025-10-16
 summary: "One tag can’t tell the whole story. Here’s how I built a practical Azure tagging model that connects operations, finance, and security — and finally made chargeback for shared services accurate and defensible."
 tags: ["Azure", "FinOps", "Governance", "Tags"]
-cover: "/static/images/hero/azure-tags-shared-services.png"
+cover: "static/images/hero/azure-tags-shared-services.png"
 ---
 
 ## The story (from the trenches)

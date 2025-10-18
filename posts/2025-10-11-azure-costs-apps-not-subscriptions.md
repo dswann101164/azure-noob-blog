@@ -3,7 +3,7 @@ title: "Understanding Azure Costs: Start with Apps, Not Subscriptions"
 date: 2025-10-11
 summary: "Microsoft says subscriptions are billing boundaries. Two years later you're maintaining manual spreadsheets. Here's what nobody tells you: count your applications first, then design subscriptions around teams."
 tags: ["Azure", "FinOps", "Cost Management", "Subscriptions"]
-cover: "/static/images/hero/azure-costs-apps-not-subscriptions.png"
+cover: "static/images/hero/azure-costs-apps-not-subscriptions.png"
 ---
 
 **You start with the billing stupidly. Understanding how many apps you have helps get you to where you want to be.**
