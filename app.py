@@ -79,12 +79,14 @@ def load_posts():
                     date = datetime(2024, 1, 1)  # Fixed fallback date
 
             # Build post data
+            cover = meta.get('cover', '')
             post_data = {
                 'title': meta.get('title', slug.replace('-', ' ').title()),
                 'date': date,
                 'summary': meta.get('summary', ''),
                 'tags': meta.get('tags', []),
-                'cover': meta.get('cover', ''),
+                'cover': cover,
+                'cover_url': cover,  # Add cover_url for template compatibility
                 'slug': slug,
                 'content': post.content,
                 'filename': md_file.name
