@@ -80,13 +80,17 @@ def load_posts():
 
             # Build post data
             cover = meta.get('cover', '')
+            # Normalize cover path: remove leading slash if present
+            if cover and cover.startswith('/'):
+                cover = cover[1:]  # Remove leading slash
+            
             post_data = {
                 'title': meta.get('title', slug.replace('-', ' ').title()),
                 'date': date,
                 'summary': meta.get('summary', ''),
                 'tags': meta.get('tags', []),
                 'cover': cover,
-                'cover_url': cover,  # Add cover_url for template compatibility
+                'cover_url': f"/{cover}" if cover else '',  # Always use absolute path for templates
                 'slug': slug,
                 'content': post.content,
                 'filename': md_file.name
