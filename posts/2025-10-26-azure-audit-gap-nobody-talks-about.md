@@ -208,7 +208,7 @@ Let me show you the questions you get constantly and why they're so painful to a
 
 ## The Solution Architecture
 
-Here's how to fix this before your next audit. This is not theoretical - this is what I implemented at a regional bank handling SOX compliance.
+Here's how to fix this before your next audit. This is not theoretical - this is what I've implemented in production handling SOX compliance.
 
 ### Step 1: Configure Log Export
 
@@ -683,15 +683,15 @@ Don't wait for a real audit to discover your logging is broken. Run drills.
 
 Let me show you what this setup looks like at scale.
 
-### Synovus Example (Regional Bank, SOX Compliance)
+### Enterprise Bank Example (SOX Compliance)
 
 **Environment:**
-- 44 Azure subscriptions
-- 21 Active Directory domains (consolidating)
+- 40+ Azure subscriptions
+- Multiple Active Directory domains (consolidation project)
 - 300+ applications
 - SOX audit requirement: 7 years
 
-**What we implemented:**
+**What was implemented:**
 
 1. **Centralized Log Analytics Workspace**
    - One workspace for all subscriptions
