@@ -1,0 +1,1723 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="../../static/images/hero/azure-ad-audit-logs.svg" alt="SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)</h1>
+    <p class="muted">
+      2025-10-27 · ~46 min read
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="../../tags/Azure/index.html" class="tag-badge">Azure</a></li>
+      
+      <li><a href="../../tags/Compliance/index.html" class="tag-badge">Compliance</a></li>
+      
+      <li><a href="../../tags/Auditing/index.html" class="tag-badge">Auditing</a></li>
+      
+      <li><a href="../../tags/Azure%20AD/index.html" class="tag-badge">Azure AD</a></li>
+      
+      <li><a href="../../tags/Entra%20ID/index.html" class="tag-badge">Entra ID</a></li>
+      
+      <li><a href="../../tags/Security/index.html" class="tag-badge">Security</a></li>
+      
+      <li><a href="../../tags/SOC%202/index.html" class="tag-badge">SOC 2</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">The grill assembly manual for capturing Azure AD audit logs - app registrations, consent grants, sign-ins, and role assignments. Every click, every command, every verification. Part 2 of fixing the 90-day audit gap.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <h2>What This Is</h2>
+<p>This is Part 2 of fixing the Azure audit gap. <strong><a href="/blog/2025-10-27-soc2-activity-log-step-by-step/">Part 1 covered Activity Logs</a></strong> (ARM resources like VMs and storage accounts). This post covers <strong>Azure AD Audit Logs</strong> (identity layer: app registrations, consent grants, sign-ins, role assignments).</p>
+<p>Same format: every click, every command, every field. Grill assembly manual level detail.</p>
+<p><strong>What you'll configure:</strong><br />
+- Azure AD diagnostic settings export<br />
+- Five separate log categories (AuditLogs, SignInLogs, etc.)<br />
+- Long-term retention in Log Analytics Workspace<br />
+- Archive to Storage Account<br />
+- Verification queries to prove it's working<br />
+- App registration tracking (external spreadsheet)</p>
+<p><strong>Time required:</strong> 45-60 minutes</p>
+<p><strong>Cost:</strong> $50-200/month (depending on user count and sign-in volume)</p>
+<h2>Who This Is For</h2>
+<p>You need this if:</p>
+<ul>
+<li>You get Tenable alerts about "unused app registrations"</li>
+<li>Security asks "who granted admin consent to this app?"</li>
+<li>Auditors want to see sign-in activity from 6 months ago</li>
+<li>You can't answer "who created this app registration?"</li>
+<li>You're preparing for SOC 2, HIPAA, PCI-DSS, or similar audits</li>
+<li>Your Azure AD logs only go back 30 days (the default)</li>
+</ul>
+<p><strong>Critical context:</strong> Azure AD logs are SEPARATE from Activity Logs. You're not done after Part 1. You need both.</p>
+<h2>Prerequisites</h2>
+<p>Before you start:</p>
+<ol>
+<li><strong>Azure AD Premium P1 or P2 license</strong> (REQUIRED)</li>
+<li>Check: Azure Portal → Azure Active Directory → Licenses</li>
+<li>If you see "Free" tier → You can't export Azure AD logs</li>
+<li>
+<p>You need at least one P1 license to unlock diagnostic settings</p>
+</li>
+<li>
+<p><strong>Log Analytics Workspace</strong> (from Part 1)</p>
+</li>
+<li>If you completed Part 1, reuse the same workspace</li>
+<li>
+<p>If you're starting here, create one first (instructions below)</p>
+</li>
+<li>
+<p><strong>Permissions Required:</strong></p>
+</li>
+<li>Global Administrator OR</li>
+<li>
+<p>Security Administrator + Log Analytics Contributor</p>
+</li>
+<li>
+<p><strong>Storage Account</strong> (optional but recommended)</p>
+</li>
+<li>For long-term archive (7 years)</li>
+<li>Can reuse from Part 1</li>
+</ol>
+<p><strong>License check:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check your Azure AD license tier</span>
+<span class="nb">Connect-AzureAD</span>
+<span class="nb">Get-AzureADSubscribedSku</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">SkuPartNumber</span><span class="p">,</span> <span class="n">ConsumedUnits</span>
+
+<span class="c"># Look for:</span>
+<span class="c"># - AAD_PREMIUM or AAD_PREMIUM_P1 → You&#39;re good</span>
+<span class="c"># - AAD_PREMIUM2 → Even better</span>
+<span class="c"># - AAD_BASIC or AAD_FREE → Can&#39;t export Azure AD logs</span>
+</code></pre></div>
+
+<p><strong>If you don't have Azure AD Premium:</strong> Stop here. Talk to procurement. You CANNOT export Azure AD diagnostic logs without it. This is a hard requirement.</p>
+<h2>The Five Log Categories (What You're Capturing)</h2>
+<p>Azure AD has five separate log types. Here's what each one captures and why you need it:</p>
+<h3>1. AuditLogs - The "Who Did What" Log</h3>
+<p><strong>What it captures:</strong><br />
+- App registration creation/deletion/modification<br />
+- Service principal changes<br />
+- User/group creation and updates<br />
+- Admin role assignments<br />
+- Directory settings changes<br />
+- Policy modifications</p>
+<p><strong>Why you need it:</strong><br />
+- Answers "who created this app registration?"<br />
+- Tracks admin role grants<br />
+- Documents consent grants<br />
+- Shows configuration changes</p>
+<p><strong>Example audit question:</strong> "Who added John Doe to Global Administrator role?"</p>
+<h3>2. SignInLogs - User Authentication Events</h3>
+<p><strong>What it captures:</strong><br />
+- Interactive user sign-ins (username/password)<br />
+- Failed login attempts<br />
+- Multi-factor authentication events<br />
+- Conditional Access policy evaluations<br />
+- Device compliance checks</p>
+<p><strong>Why you need it:</strong><br />
+- Tracks user access patterns<br />
+- Identifies brute force attempts<br />
+- Validates MFA enforcement<br />
+- Documents access from specific locations/devices</p>
+<p><strong>Example audit question:</strong> "Show me all sign-ins from Russia in the last 90 days"</p>
+<h3>3. NonInteractiveUserSignInLogs - Background Authentication</h3>
+<p><strong>What it captures:</strong><br />
+- Token refresh events (user not typing password)<br />
+- Background authentication for apps<br />
+- Delegated permission flows<br />
+- Modern auth token exchanges</p>
+<p><strong>Why you need it:</strong><br />
+- Tracks how apps use delegated permissions<br />
+- Shows background access patterns<br />
+- Identifies token-based access</p>
+<p><strong>Example audit question:</strong> "Is this user's token still being used after offboarding?"</p>
+<h3>4. ServicePrincipalSignInLogs - App Registration Usage</h3>
+<p><strong>What it captures:</strong><br />
+- Service principal authentication (client credentials flow)<br />
+- App registration sign-ins<br />
+- Managed identity authentication<br />
+- Application access to Azure resources</p>
+<p><strong>Why you need it:</strong><br />
+- <strong>THIS IS THE BIG ONE FOR APP REGISTRATIONS</strong><br />
+- Answers "is this app registration actually being used?"<br />
+- Tracks which resources an app accesses<br />
+- Documents app behavior</p>
+<p><strong>Example audit question:</strong> "Has this app registration been used in the last 90 days?"</p>
+<h3>5. ManagedIdentitySignInLogs - System Identities</h3>
+<p><strong>What it captures:</strong><br />
+- Managed identity authentication events<br />
+- System-assigned identity access<br />
+- User-assigned identity access</p>
+<p><strong>Why you need it:</strong><br />
+- Tracks managed identity usage<br />
+- Documents zero-credential access patterns<br />
+- Validates least privilege enforcement</p>
+<p><strong>Example audit question:</strong> "What resources does this managed identity access?"</p>
+<p><strong>The reality:</strong> You need ALL FIVE. Don't pick and choose. Enable all of them.</p>
+<h2>Step 1: Create Log Analytics Workspace (If You Don't Have One)</h2>
+<p>If you completed Part 1, <strong>skip this section</strong> and reuse your existing workspace.</p>
+<p>If you're starting here:</p>
+<h3>Portal Method</h3>
+<p><strong>1. Navigate to Log Analytics Workspaces</strong></p>
+<ul>
+<li>Azure Portal → Search bar → Type "Log Analytics workspaces"</li>
+<li>Click <strong>Log Analytics workspaces</strong> (the service, not a specific workspace)</li>
+</ul>
+<p><strong>2. Click "+ Create"</strong></p>
+<p>Top left corner. Blue button. Click it.</p>
+<p><strong>3. Fill in the basics:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What To Enter</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Subscription</strong></td>
+<td>Your production subscription</td>
+<td>Where the workspace will be billed</td>
+</tr>
+<tr>
+<td><strong>Resource Group</strong></td>
+<td><code>governance-rg</code> or <code>security-rg</code></td>
+<td>Logical grouping for audit resources</td>
+</tr>
+<tr>
+<td><strong>Name</strong></td>
+<td><code>audit-logs-workspace</code></td>
+<td>Clear naming convention</td>
+</tr>
+<tr>
+<td><strong>Region</strong></td>
+<td>Same as your resources</td>
+<td>Reduces egress costs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. Click "Review + create"</strong></p>
+<p>Skip the Tags tab unless you have required tags.</p>
+<p><strong>5. Click "Create"</strong></p>
+<p>Wait 2-3 minutes for deployment.</p>
+<p><strong>6. Write down the Workspace ID</strong></p>
+<p>After deployment:<br />
+- Click "Go to resource"<br />
+- Left menu → <strong>Properties</strong><br />
+- Copy the <strong>Resource ID</strong> (long path starting with <code>/subscriptions/...</code>)<br />
+- Save it. You'll need it in the next step.</p>
+<h3>PowerShell Method (Faster)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set variables</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;governance-rg&quot;</span>
+<span class="nv">$workspaceName</span> <span class="p">=</span> <span class="s2">&quot;audit-logs-workspace&quot;</span>
+<span class="nv">$location</span> <span class="p">=</span> <span class="s2">&quot;eastus&quot;</span>  <span class="c"># Change to your region</span>
+<span class="nv">$retentionDays</span> <span class="p">=</span> <span class="n">730</span>  <span class="c"># 2 years</span>
+
+<span class="c"># Create resource group if it doesn&#39;t exist</span>
+<span class="nb">New-AzResourceGroup</span> <span class="n">-Name</span> <span class="nv">$resourceGroup</span> <span class="n">-Location</span> <span class="nv">$location</span> <span class="n">-Force</span>
+
+<span class="c"># Create workspace</span>
+<span class="nv">$workspace</span> <span class="p">=</span> <span class="nb">New-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$workspaceName</span> <span class="p">`</span>
+    <span class="n">-Location</span> <span class="nv">$location</span> <span class="p">`</span>
+    <span class="n">-RetentionInDays</span> <span class="nv">$retentionDays</span> <span class="p">`</span>
+    <span class="n">-Sku</span> <span class="s2">&quot;PerGB2018&quot;</span>
+
+<span class="c"># Show workspace ID (save this)</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Workspace ID: </span><span class="p">$(</span><span class="nv">$workspace</span><span class="p">.</span><span class="n">ResourceId</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="c"># Show workspace key (for API access if needed)</span>
+<span class="nv">$workspaceKey</span> <span class="p">=</span> <span class="nb">Get-AzOperationalInsightsWorkspaceSharedKey</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$workspaceName</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Workspace Key: </span><span class="p">$(</span><span class="nv">$workspaceKey</span><span class="p">.</span><span class="n">PrimarySharedKey</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+</code></pre></div>
+
+<p><strong>Verification:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Verify workspace exists and is active</span>
+<span class="nb">Get-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$workspaceName</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Location</span><span class="p">,</span> <span class="n">Sku</span><span class="p">,</span> <span class="n">RetentionInDays</span><span class="p">,</span> <span class="n">ProvisioningState</span>
+
+<span class="c"># Expected output:</span>
+<span class="c"># Name                   : audit-logs-workspace</span>
+<span class="c"># Location               : eastus</span>
+<span class="c"># Sku                    : PerGB2018</span>
+<span class="c"># RetentionInDays        : 730</span>
+<span class="c"># ProvisioningState      : Succeeded</span>
+</code></pre></div>
+
+<h2>Step 2: Configure Azure AD Diagnostic Settings</h2>
+<p>This is where we export Azure AD logs to the workspace.</p>
+<h3>Portal Method</h3>
+<p><strong>1. Navigate to Azure Active Directory</strong></p>
+<ul>
+<li>Azure Portal → Search bar → Type "Azure Active Directory"</li>
+<li>Click <strong>Azure Active Directory</strong> (NOT "Azure AD users" or other sub-services)</li>
+</ul>
+<p><strong>2. Find Diagnostic Settings</strong></p>
+<ul>
+<li>Left menu → <strong>Monitoring</strong> section</li>
+<li>Click <strong>Diagnostic settings</strong></li>
+</ul>
+<p><strong>What you see:</strong><br />
+- A list of diagnostic settings (probably empty)<br />
+- A note: "Requires Azure AD Premium P1 or P2"<br />
+- If you see "This feature requires premium licenses" → Stop. You don't have the right license.</p>
+<p><strong>3. Click "+ Add diagnostic setting"</strong></p>
+<p>Top of the page.</p>
+<p><strong>4. Name your setting:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What To Enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Diagnostic setting name</strong></td>
+<td><code>export-azuread-to-law</code></td>
+</tr>
+</tbody>
+</table>
+<p>Clear naming. You'll see this in automation scripts later.</p>
+<p><strong>5. Select ALL FIVE log categories:</strong></p>
+<p>Check these boxes:</p>
+<ul>
+<li>☑ <strong>AuditLogs</strong></li>
+<li>☑ <strong>SignInLogs</strong></li>
+<li>☑ <strong>NonInteractiveUserSignInLogs</strong></li>
+<li>☑ <strong>ServicePrincipalSignInLogs</strong></li>
+<li>☑ <strong>ManagedIdentitySignInLogs</strong></li>
+</ul>
+<p><strong>Why all five?</strong> Because you don't know which log will answer tomorrow's audit question. Enable them all.</p>
+<p><strong>6. Select destination:</strong></p>
+<p>Under "Destination details":</p>
+<ul>
+<li>☑ <strong>Send to Log Analytics workspace</strong></li>
+</ul>
+<p><strong>Workspace selection:</strong><br />
+- Subscription: (should auto-select your current subscription)<br />
+- Log Analytics workspace: Select <code>audit-logs-workspace</code></p>
+<p><strong>7. (Optional) Add Storage Account for long-term archive:</strong></p>
+<p>If you want 7-year retention:</p>
+<ul>
+<li>☑ <strong>Archive to a storage account</strong></li>
+<li>Storage account: Select your audit storage account</li>
+<li>Retention (days): <strong>2555</strong> (7 years)</li>
+</ul>
+<p><strong>8. Click "Save"</strong></p>
+<p>Top of the page.</p>
+<p><strong>Wait 5-10 minutes.</strong> Logs don't appear instantly. Azure needs to start the export pipeline.</p>
+<h3>PowerShell Method (Recommended for Automation)</h3>
+<p>This requires Microsoft Graph PowerShell module:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Install Microsoft Graph module (if not already installed)</span>
+<span class="nb">Install-Module</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">Graph</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Force</span>
+
+<span class="c"># Connect with required permissions</span>
+<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">&quot;AuditLog.Read.All&quot;</span><span class="p">,</span><span class="s2">&quot;Directory.Read.All&quot;</span>
+
+<span class="c"># Set variables</span>
+<span class="nv">$workspaceResourceId</span> <span class="p">=</span> <span class="s2">&quot;/subscriptions/YOUR-SUB-ID/resourceGroups/governance-rg/providers/Microsoft.OperationalInsights/workspaces/audit-logs-workspace&quot;</span>
+
+<span class="c"># Get current tenant ID</span>
+<span class="nv">$tenantId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-MgContext</span><span class="p">).</span><span class="n">TenantId</span>
+
+<span class="c"># Define diagnostic setting</span>
+<span class="nv">$diagnosticSetting</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">name</span> <span class="p">=</span> <span class="s2">&quot;export-azuread-to-law&quot;</span>
+    <span class="n">workspaceId</span> <span class="p">=</span> <span class="nv">$workspaceResourceId</span>
+    <span class="n">logs</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;AuditLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;SignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;NonInteractiveUserSignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;ServicePrincipalSignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;ManagedIdentitySignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c"># Apply diagnostic setting</span>
+<span class="c"># Note: This uses REST API because there&#39;s no direct PowerShell cmdlet yet</span>
+<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">&quot;https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings&quot;</span>
+
+<span class="nb">Invoke-MgGraphRequest</span> <span class="n">-Method</span> <span class="n">POST</span> <span class="n">-Uri</span> <span class="nv">$uri</span> <span class="n">-Body</span> <span class="p">(</span><span class="nv">$diagnosticSetting</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span><span class="p">)</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Azure AD diagnostic settings configured successfully!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<p><strong>If you get "Insufficient privileges":</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># You need Global Administrator or Security Administrator role</span>
+<span class="c"># Check your role:</span>
+<span class="nb">Get-MgUserMemberOf</span> <span class="n">-UserId</span> <span class="p">(</span><span class="nb">Get-MgContext</span><span class="p">).</span><span class="n">Account</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">AdditionalProperties</span>
+
+<span class="c"># If you don&#39;t have the right role, ask someone who does to run this script</span>
+</code></pre></div>
+
+<h3>Azure CLI Method (Alternative)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Login</span>
+az<span class="w"> </span>login
+
+<span class="c1"># Get workspace ID</span>
+<span class="nv">workspaceId</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>monitor<span class="w"> </span>log-analytics<span class="w"> </span>workspace<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resource-group<span class="w"> </span>governance-rg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--workspace-name<span class="w"> </span>audit-logs-workspace<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--query<span class="w"> </span>id<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Note: Azure CLI doesn&#39;t fully support Azure AD diagnostic settings yet</span>
+<span class="c1"># Use Portal or PowerShell for now</span>
+<span class="c1"># This is a known limitation as of October 2025</span>
+</code></pre></div>
+
+<h2>Step 3: Verify Logs Are Flowing</h2>
+<p>Wait 10-15 minutes after configuration, then verify.</p>
+<h3>Portal Verification</h3>
+<p><strong>1. Navigate to Log Analytics Workspace</strong></p>
+<ul>
+<li>Azure Portal → Search for your workspace name</li>
+<li>Click on <code>audit-logs-workspace</code></li>
+</ul>
+<p><strong>2. Open Logs blade</strong></p>
+<ul>
+<li>Left menu → <strong>Logs</strong></li>
+<li>Close the "Queries" popup (X in top right)</li>
+</ul>
+<p><strong>3. Run verification queries:</strong></p>
+<h4>Query 1: Check for AuditLogs</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">OperationName</span><span class="p">,</span><span class="w"> </span><span class="n">Identity</span><span class="p">,</span><span class="w"> </span><span class="n">Result</span>
+</code></pre></div>
+
+<p><strong>Expected result:</strong> 10 rows of audit events (user actions, admin changes, etc.)</p>
+<p><strong>If you see "Table not found" or zero rows:</strong><br />
+- Wait another 10 minutes<br />
+- Check diagnostic settings are saved (Portal → Azure AD → Diagnostic settings)<br />
+- Verify you have Azure AD Premium P1/P2</p>
+<h4>Query 2: Check for SignInLogs</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">SignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">AppDisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">ResultType</span>
+</code></pre></div>
+
+<p><strong>Expected result:</strong> User sign-in events from the last hour</p>
+<p><strong>If zero rows:</strong><br />
+- Wait longer (sign-ins might be sparse in dev environments)<br />
+- Try <code>ago(24h)</code> instead of <code>ago(1h)</code></p>
+<h4>Query 3: Check for Service Principal Activity</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">AADServicePrincipalSignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">AppId</span><span class="p">,</span><span class="w"> </span><span class="n">ServicePrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceDisplayName</span>
+</code></pre></div>
+
+<p><strong>Expected result:</strong> App registration sign-in events</p>
+<p><strong>If zero rows:</strong><br />
+- This is normal if no apps are currently authenticating<br />
+- Try <code>ago(7d)</code> for a wider window<br />
+- Not all environments have high app activity</p>
+<h4>Query 4: Verify All Log Types Exist</h4>
+<div class="codehilite"><pre><span></span><code><span class="c">// Check which log types are present</span>
+<span class="k">search</span><span class="w"> </span><span class="p">*</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="err">$</span><span class="n">table</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">&quot;AAD&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="err">$</span><span class="n">table</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;AuditLogs&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="err">$</span><span class="n">table</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;SignIn&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">RowCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">FirstSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">LastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span>
+<span class="w">    </span><span class="k">by</span><span class="w"> </span><span class="err">$</span><span class="n">table</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">RowCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Expected output:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Table Name</th>
+<th>RowCount</th>
+<th>FirstSeen</th>
+<th>LastSeen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SignInLogs</td>
+<td>4,523</td>
+<td>2025-10-27 08:00:00</td>
+<td>2025-10-27 09:30:00</td>
+</tr>
+<tr>
+<td>AuditLogs</td>
+<td>342</td>
+<td>2025-10-27 08:15:00</td>
+<td>2025-10-27 09:25:00</td>
+</tr>
+<tr>
+<td>AADServicePrincipalSignInLogs</td>
+<td>156</td>
+<td>2025-10-27 08:30:00</td>
+<td>2025-10-27 09:20:00</td>
+</tr>
+<tr>
+<td>AADNonInteractiveUserSignInLogs</td>
+<td>89</td>
+<td>2025-10-27 08:45:00</td>
+<td>2025-10-27 09:15:00</td>
+</tr>
+<tr>
+<td>AADManagedIdentitySignInLogs</td>
+<td>12</td>
+<td>2025-10-27 09:00:00</td>
+<td>2025-10-27 09:10:00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>If you see fewer than 5 tables:</strong><br />
+- Check which log categories you enabled in diagnostic settings<br />
+- Wait longer (some logs are infrequent)<br />
+- Verify you selected all five checkboxes in Step 2</p>
+<h3>PowerShell Verification</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Install Az.OperationalInsights if needed</span>
+<span class="nb">Install-Module</span> <span class="n">Az</span><span class="p">.</span><span class="n">OperationalInsights</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Force</span>
+
+<span class="c"># Connect</span>
+<span class="nb">Connect-AzAccount</span>
+
+<span class="c"># Run query to check for logs</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;governance-rg&quot;</span>
+<span class="nv">$workspaceName</span> <span class="p">=</span> <span class="s2">&quot;audit-logs-workspace&quot;</span>
+
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">search *</span>
+<span class="sh">| where TimeGenerated &gt; ago(24h)</span>
+<span class="sh">| where `$table startswith &quot;AAD&quot; or `$table == &quot;AuditLogs&quot; or `$table contains &quot;SignIn&quot;</span>
+<span class="sh">| summarize RowCount = count() by `$table</span>
+<span class="sh">&quot;@</span>
+
+<span class="nv">$result</span> <span class="p">=</span> <span class="nb">Invoke-AzOperationalInsightsQuery</span> <span class="p">`</span>
+    <span class="n">-WorkspaceId</span> <span class="p">(</span><span class="nb">Get-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
+        <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+        <span class="n">-Name</span> <span class="nv">$workspaceName</span><span class="p">).</span><span class="n">CustomerId</span> <span class="p">`</span>
+    <span class="n">-Query</span> <span class="nv">$query</span>
+
+<span class="nv">$result</span><span class="p">.</span><span class="n">Results</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+
+<span class="c"># Should show multiple log types with row counts</span>
+</code></pre></div>
+
+<h2>Step 4: Build Your Azure AD Query Library</h2>
+<p>These are the queries auditors WILL ask for. Build them now.</p>
+<h3>Query 1: Who Created This App Registration?</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Find app registration creation events</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add application&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AppId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CreatedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CreatedByObjectId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CreatedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CorrelationId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Security flags an app registration. You need to know who created it.</p>
+<p><strong>Save this query as:</strong> <code>App Registration Creation History</code></p>
+<h3>Query 2: Who Granted Admin Consent?</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Track admin consent grants to apps</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Consent to application&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">ConsentedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">ConsentType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">modifiedProperties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">newValue</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Permissions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">modifiedProperties</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ConsentedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ConsentType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Permissions</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CorrelationId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> "Who approved Graph API permissions for this app?"</p>
+<p><strong>Save as:</strong> <code>Admin Consent Grants</code></p>
+<h3>Query 3: Is This App Registration Being Used?</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Check service principal sign-in activity</span>
+<span class="n">let</span><span class="w"> </span><span class="n">appId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;YOUR-APP-ID-GUID&quot;</span><span class="p">;</span><span class="w">  </span><span class="c">// Replace with actual App ID</span>
+<span class="n">AADServicePrincipalSignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AppId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">appId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">SignInCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">FirstSignIn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">LastSignIn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">UniqueResources</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dcount</span><span class="p">(</span><span class="n">ResourceDisplayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Resources</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">ResourceDisplayName</span><span class="p">)</span>
+<span class="w">    </span><span class="k">by</span><span class="w"> </span><span class="n">AppDisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">AppId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DaysSinceLastUse</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">LastSignIn</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">AppDisplayName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">SignInCount</span><span class="p">,</span>
+<span class="w">    </span><span class="n">FirstSignIn</span><span class="p">,</span>
+<span class="w">    </span><span class="n">LastSignIn</span><span class="p">,</span>
+<span class="w">    </span><span class="n">DaysSinceLastUse</span><span class="p">,</span>
+<span class="w">    </span><span class="n">UniqueResources</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Resources</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Tenable alert "unused app registration" - verify if it's actually unused.</p>
+<p><strong>Save as:</strong> <code>App Registration Usage Check</code></p>
+<p><strong>Pro tip:</strong> Run this for ALL app registrations monthly. Automate it. Find the truly unused ones.</p>
+<h3>Query 4: Failed Sign-In Attempts (Brute Force Detection)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Find repeated failed sign-in attempts</span>
+<span class="n">SignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="c">// 0 = success, anything else = failure</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">FirstAttempt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">LastAttempt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">UniqueIPs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dcount</span><span class="p">(</span><span class="n">IPAddress</span><span class="p">),</span>
+<span class="w">    </span><span class="n">IPList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">IPAddress</span><span class="p">),</span>
+<span class="w">    </span><span class="n">ErrorCodes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">ResultType</span><span class="p">)</span>
+<span class="w">    </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">AppDisplayName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="c">// Threshold for investigation</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Security incident response - identify brute force attempts.</p>
+<p><strong>Save as:</strong> <code>Brute Force Detection - Failed Logins</code></p>
+<h3>Query 5: New Admin Role Assignments</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Track who was granted admin roles</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add member to role&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">RoleName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">UserAdded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">UserAdded</span><span class="p">,</span>
+<span class="w">    </span><span class="n">RoleName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CorrelationId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Quarterly access review - "who has Global Administrator?"</p>
+<p><strong>Save as:</strong> <code>Admin Role Grants</code></p>
+<h3>Query 6: Sign-Ins from Specific Country</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Find sign-ins from specific location (adjust for your compliance needs)</span>
+<span class="n">SignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">countryOrRegion</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;RU&quot;</span><span class="w">  </span><span class="c">// Russia, adjust as needed</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="c">// Successful sign-ins only</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">UserPrincipalName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppDisplayName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">IPAddress</span><span class="p">,</span>
+<span class="w">    </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">city</span><span class="p">,</span>
+<span class="w">    </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">countryOrRegion</span><span class="p">,</span>
+<span class="w">    </span><span class="n">DeviceDetail</span><span class="err">.</span><span class="n">operatingSystem</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Compliance review - "show me all successful sign-ins from [restricted country]"</p>
+<p><strong>Save as:</strong> <code>Sign-Ins from [Country]</code></p>
+<h3>Query 7: Conditional Access Policy Changes</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Track changes to Conditional Access policies</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Policy&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;conditional access policy&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">PolicyName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">OperationName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ChangedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Changes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">modifiedProperties</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ChangedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">PolicyName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Action</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Changes</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> "Who changed the MFA policy last week?"</p>
+<p><strong>Save as:</strong> <code>Conditional Access Policy Changes</code></p>
+<h3>Query 8: Service Principal Secret/Certificate Additions</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Track when secrets or certificates are added to app registrations</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Add service principal credentials&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Update application – Certificates and secrets management&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CredentialType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">modifiedProperties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CredentialType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CorrelationId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Security review - "who added credentials to this app this month?"</p>
+<p><strong>Save as:</strong> <code>App Registration Credential Additions</code></p>
+<h2>Step 5: App Registration External Tracking</h2>
+<p>App registrations <strong>cannot be tagged</strong> because they're Azure AD objects, not ARM resources.</p>
+<p>You need external tracking. Here's how.</p>
+<h3>Option 1: Spreadsheet (Quick Start)</h3>
+<p>Create this in Excel/Google Sheets:</p>
+<table>
+<thead>
+<tr>
+<th>App Name</th>
+<th>App ID</th>
+<th>Object ID</th>
+<th>Created By</th>
+<th>Created Date</th>
+<th>Purpose</th>
+<th>Owner Email</th>
+<th>Status</th>
+<th>Last Reviewed</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MyApp-Prod</td>
+<td>guid</td>
+<td>guid</td>
+<td>john.doe</td>
+<td>2024-03-15</td>
+<td>Production API</td>
+<td>jane.smith@company.com</td>
+<td>Active</td>
+<td>2025-10-01</td>
+<td>Accesses Graph API</td>
+</tr>
+<tr>
+<td>TestApp-042</td>
+<td>guid</td>
+<td>guid</td>
+<td>old.employee</td>
+<td>2023-08-22</td>
+<td>Testing</td>
+<td>unknown@company.com</td>
+<td>Review</td>
+<td>2025-10-01</td>
+<td>No usage in 90 days</td>
+</tr>
+<tr>
+<td>DevTool</td>
+<td>guid</td>
+<td>guid</td>
+<td>current.user</td>
+<td>2025-01-10</td>
+<td>Local dev</td>
+<td>current.user@company.com</td>
+<td>Active</td>
+<td>2025-10-15</td>
+<td>Personal use</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Required columns:</strong><br />
+- App Name (from Azure AD)<br />
+- App ID (GUID)<br />
+- Created By (from audit logs or Azure AD)<br />
+- Owner Email (current owner contact)<br />
+- Status (Active / Review / Decommission)<br />
+- Last Reviewed (date)</p>
+<p><strong>Update cadence:</strong><br />
+- New app created → Add row immediately<br />
+- Monthly → Run export script (below) and cross-check<br />
+- Quarterly → Full review with security team<br />
+- Tenable alert → Check this sheet first</p>
+<h3>Option 2: Automated Export Script</h3>
+<p>Run this monthly to keep your spreadsheet current:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Export all app registrations to CSV</span>
+<span class="nb">Connect-AzureAD</span>
+
+<span class="c"># Get all applications</span>
+<span class="nv">$apps</span> <span class="p">=</span> <span class="nb">Get-AzureADApplication</span> <span class="n">-All</span> <span class="nv">$true</span>
+
+<span class="c"># Build detailed report</span>
+<span class="nv">$report</span> <span class="p">=</span> <span class="p">@()</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$app</span> <span class="k">in</span> <span class="nv">$apps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c"># Get owners</span>
+    <span class="nv">$owners</span> <span class="p">=</span> <span class="nb">Get-AzureADApplicationOwner</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">ObjectId</span> <span class="n">-All</span> <span class="nv">$true</span>
+    <span class="nv">$ownerEmails</span> <span class="p">=</span> <span class="nv">$owners</span><span class="p">.</span><span class="n">UserPrincipalName</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span>
+
+    <span class="c"># Get credentials (secrets and certificates)</span>
+    <span class="nv">$secrets</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">PasswordCredentials</span>
+    <span class="nv">$certs</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">KeyCredentials</span>
+
+    <span class="c"># Check for expiring credentials</span>
+    <span class="nv">$expiringSecrets</span> <span class="p">=</span> <span class="nv">$secrets</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">EndDate</span> <span class="o">-lt</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(</span><span class="n">60</span><span class="p">)</span> <span class="p">}</span>
+
+    <span class="nv">$report</span> <span class="p">+=</span> <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">DisplayName</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">DisplayName</span>
+        <span class="n">AppId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
+        <span class="n">ObjectId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">ObjectId</span>
+        <span class="n">CreatedDateTime</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">CreatedDateTime</span>
+        <span class="n">Owners</span> <span class="p">=</span> <span class="nv">$ownerEmails</span>
+        <span class="n">OwnerCount</span> <span class="p">=</span> <span class="nv">$owners</span><span class="p">.</span><span class="n">Count</span>
+        <span class="n">SecretCount</span> <span class="p">=</span> <span class="nv">$secrets</span><span class="p">.</span><span class="n">Count</span>
+        <span class="n">CertCount</span> <span class="p">=</span> <span class="nv">$certs</span><span class="p">.</span><span class="n">Count</span>
+        <span class="n">ExpiringSecretsIn60Days</span> <span class="p">=</span> <span class="nv">$expiringSecrets</span><span class="p">.</span><span class="n">Count</span>
+        <span class="n">SignInAudience</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">SignInAudience</span>
+        <span class="n">PublisherDomain</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">PublisherDomain</span>
+        <span class="n">ReplyUrls</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$app</span><span class="p">.</span><span class="n">ReplyUrls</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># Export to CSV with timestamp</span>
+<span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd&quot;</span>
+<span class="nv">$outputFile</span> <span class="p">=</span> <span class="s2">&quot;app-registrations-inventory-$timestamp.csv&quot;</span>
+<span class="nv">$report</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="nv">$outputFile</span> <span class="n">-NoTypeInformation</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Exported </span><span class="p">$(</span><span class="nv">$report</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> app registrations to: $outputFile&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="c"># Show apps without owners (RED FLAG)</span>
+<span class="nv">$noOwners</span> <span class="p">=</span> <span class="nv">$report</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">OwnerCount</span> <span class="o">-eq</span> <span class="n">0</span> <span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$noOwners</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">WARNING: </span><span class="p">$(</span><span class="nv">$noOwners</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> apps have NO OWNERS:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nv">$noOwners</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">AppId</span><span class="p">,</span> <span class="n">CreatedDateTime</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+<span class="p">}</span>
+
+<span class="c"># Show apps with expiring secrets</span>
+<span class="nv">$expiring</span> <span class="p">=</span> <span class="nv">$report</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ExpiringSecretsIn60Days</span> <span class="o">-gt</span> <span class="n">0</span> <span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$expiring</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">ATTENTION: </span><span class="p">$(</span><span class="nv">$expiring</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> apps have secrets expiring in 60 days:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nv">$expiring</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">AppId</span><span class="p">,</span> <span class="n">ExpiringSecretsIn60Days</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Run this:</strong><br />
+- Monthly (1st of the month)<br />
+- Before quarterly access reviews<br />
+- After Tenable scan reports<br />
+- When security asks "what apps do we have?"</p>
+<p><strong>Compare reports:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Compare this month vs last month to find NEW apps</span>
+<span class="nv">$thisMonth</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;app-registrations-inventory-2025-10-01.csv&quot;</span>
+<span class="nv">$lastMonth</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;app-registrations-inventory-2025-09-01.csv&quot;</span>
+
+<span class="nv">$newApps</span> <span class="p">=</span> <span class="nv">$thisMonth</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-notin</span> <span class="nv">$lastMonth</span><span class="p">.</span><span class="n">AppId</span> <span class="p">}</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;New apps created this month: </span><span class="p">$(</span><span class="nv">$newApps</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nv">$newApps</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">AppId</span><span class="p">,</span> <span class="n">CreatedDateTime</span><span class="p">,</span> <span class="n">Owners</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+</code></pre></div>
+
+<h3>Option 3: CMDB Integration (Enterprise)</h3>
+<p>If you have ServiceNow, Jira, or Azure DevOps:</p>
+<p><strong>Create CI Type: "Azure App Registration"</strong></p>
+<p>Fields:<br />
+- Name (String)<br />
+- App ID (String/GUID)<br />
+- Object ID (String/GUID)<br />
+- Owner (Reference to User)<br />
+- Created By (String)<br />
+- Created Date (Date)<br />
+- Purpose (Text)<br />
+- Status (Choice: Active/Review/Decommission)<br />
+- Last Sign-In (Date) - updated from KQL query<br />
+- API Permissions (Text)</p>
+<p><strong>Automated sync:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Pseudo-code for CMDB sync</span>
+<span class="nv">$apps</span> <span class="p">=</span> <span class="nb">Get-AzureADApplication</span> <span class="n">-All</span> <span class="nv">$true</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$app</span> <span class="k">in</span> <span class="nv">$apps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c"># Check if exists in CMDB</span>
+    <span class="nv">$cmdbRecord</span> <span class="p">=</span> <span class="nb">Get-CMDBRecord</span> <span class="n">-Type</span> <span class="s2">&quot;AzureAppRegistration&quot;</span> <span class="n">-AppId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$cmdbRecord</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c"># Update existing record</span>
+        <span class="nb">Update-CMDBRecord</span> <span class="n">-Id</span> <span class="nv">$cmdbRecord</span><span class="p">.</span><span class="n">Id</span> <span class="n">-Data</span> <span class="p">@{</span>
+            <span class="n">LastVerified</span> <span class="p">=</span> <span class="nb">Get-Date</span>
+            <span class="n">OwnerCount</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzureADApplicationOwner</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">ObjectId</span><span class="p">).</span><span class="n">Count</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c"># Create new record</span>
+        <span class="nb">New-CMDBRecord</span> <span class="n">-Type</span> <span class="s2">&quot;AzureAppRegistration&quot;</span> <span class="n">-Data</span> <span class="p">@{</span>
+            <span class="n">Name</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">DisplayName</span>
+            <span class="n">AppId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
+            <span class="n">ObjectId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">ObjectId</span>
+            <span class="n">CreatedDate</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">CreatedDateTime</span>
+            <span class="n">Status</span> <span class="p">=</span> <span class="s2">&quot;Review&quot;</span>  <span class="c"># New apps default to review status</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Run weekly via Azure Automation Runbook.</p>
+<h2>Step 6: Storage Account Archive (7-Year Retention)</h2>
+<p>Log Analytics retention (730 days max) costs ~$0.12/GB/month. Storage costs ~$0.01/GB/month.</p>
+<p>For 7-year compliance: export to storage.</p>
+<h3>Create Storage Account (If Needed)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set variables</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;governance-rg&quot;</span>
+<span class="nv">$storageAccountName</span> <span class="p">=</span> <span class="s2">&quot;auditarchive</span><span class="p">$(</span><span class="nb">Get-Random</span><span class="p">)</span><span class="s2">&quot;</span>  <span class="c"># Must be globally unique</span>
+<span class="nv">$location</span> <span class="p">=</span> <span class="s2">&quot;eastus&quot;</span>
+
+<span class="c"># Create storage account</span>
+<span class="nb">New-AzStorageAccount</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$storageAccountName</span> <span class="p">`</span>
+    <span class="n">-Location</span> <span class="nv">$location</span> <span class="p">`</span>
+    <span class="n">-SkuName</span> <span class="n">Standard_LRS</span> <span class="p">`</span>
+    <span class="n">-Kind</span> <span class="n">StorageV2</span> <span class="p">`</span>
+    <span class="n">-AccessTier</span> <span class="n">Cool</span> <span class="p">`</span>
+    <span class="n">-MinimumTlsVersion</span> <span class="n">TLS1_2</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Storage account created: $storageAccountName&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="c"># Enable soft delete (protection against accidental deletion)</span>
+<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="nb">Get-AzStorageAccount</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$storageAccountName</span>
+
+<span class="nv">$ctx</span> <span class="p">=</span> <span class="nv">$storageAccount</span><span class="p">.</span><span class="n">Context</span>
+<span class="nb">Enable-AzStorageBlobDeleteRetentionPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-RetentionDays</span> <span class="n">30</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Soft delete enabled (30-day retention)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<h3>Add Storage to Diagnostic Settings</h3>
+<p><strong>Portal method:</strong><br />
+1. Azure Portal → Azure Active Directory → Diagnostic settings<br />
+2. Click on your existing diagnostic setting (<code>export-azuread-to-law</code>)<br />
+3. Add destination:<br />
+   - ☑ <strong>Archive to a storage account</strong><br />
+   - Select your storage account<br />
+   - Retention (days): <strong>2555</strong> (7 years)<br />
+4. Click "Save"</p>
+<p><strong>PowerShell method:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Get storage account resource ID</span>
+<span class="nv">$storageId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$storageAccountName</span><span class="p">).</span><span class="n">Id</span>
+
+<span class="c"># Update diagnostic settings to include storage</span>
+<span class="c"># Note: This updates the existing diagnostic setting</span>
+<span class="c"># Run the same diagnostic setting creation command from Step 2</span>
+<span class="c"># but add storage configuration:</span>
+
+<span class="nv">$diagnosticSetting</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">name</span> <span class="p">=</span> <span class="s2">&quot;export-azuread-to-law&quot;</span>
+    <span class="n">workspaceId</span> <span class="p">=</span> <span class="nv">$workspaceResourceId</span>
+    <span class="n">storageAccountId</span> <span class="p">=</span> <span class="nv">$storageId</span>
+    <span class="n">logRetentionDays</span> <span class="p">=</span> <span class="n">2555</span>  <span class="c"># 7 years</span>
+    <span class="n">logs</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;AuditLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">retentionPolicy</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">days</span> <span class="p">=</span> <span class="n">2555</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;SignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">retentionPolicy</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">days</span> <span class="p">=</span> <span class="n">2555</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;NonInteractiveUserSignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">retentionPolicy</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">days</span> <span class="p">=</span> <span class="n">2555</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;ServicePrincipalSignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">retentionPolicy</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">days</span> <span class="p">=</span> <span class="n">2555</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">category</span> <span class="p">=</span> <span class="s2">&quot;ManagedIdentitySignInLogs&quot;</span><span class="p">;</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">retentionPolicy</span> <span class="p">=</span> <span class="p">@{</span> <span class="n">enabled</span> <span class="p">=</span> <span class="nv">$true</span><span class="p">;</span> <span class="n">days</span> <span class="p">=</span> <span class="n">2555</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c"># Apply via REST API (same as Step 2 but with storage added)</span>
+</code></pre></div>
+
+<h3>Verify Storage Archive</h3>
+<p>After 24 hours, check that logs are appearing in storage:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># List containers in storage account</span>
+<span class="nv">$ctx</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$storageAccountName</span><span class="p">).</span><span class="n">Context</span>
+
+<span class="nb">Get-AzStorageContainer</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span>
+
+<span class="c"># Expected containers:</span>
+<span class="c"># insights-logs-auditlogs</span>
+<span class="c"># insights-logs-signin</span>
+<span class="c"># insights-logs-noninteractiveusersignin</span>
+<span class="c"># insights-logs-serviceprincipalsignin</span>
+<span class="c"># insights-logs-managedidentitysignin</span>
+</code></pre></div>
+
+<p><strong>Browse logs:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># List blobs in a specific container</span>
+<span class="nv">$containerName</span> <span class="p">=</span> <span class="s2">&quot;insights-logs-auditlogs&quot;</span>
+<span class="nb">Get-AzStorageBlob</span> <span class="n">-Container</span> <span class="nv">$containerName</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">LastModified</span><span class="p">,</span> <span class="n">Length</span> <span class="p">|</span> 
+    <span class="nb">Sort-Object</span> <span class="n">LastModified</span> <span class="n">-Descending</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span>
+</code></pre></div>
+
+<p><strong>Log structure:</strong></p>
+<div class="codehilite"><pre><span></span><code>/insights-logs-auditlogs/
+  resourceId=/TENANTS/YOUR-TENANT-ID/y=2025/m=10/d=27/h=14/m=00/
+    PT1H.json
+</code></pre></div>
+
+<p><strong>Immutability (optional but recommended):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Enable legal hold (prevents deletion)</span>
+<span class="nb">Set-AzRmStorageContainerImmutabilityPolicy</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-StorageAccountName</span> <span class="nv">$storageAccountName</span> <span class="p">`</span>
+    <span class="n">-ContainerName</span> <span class="nv">$containerName</span> <span class="p">`</span>
+    <span class="n">-ImmutabilityPeriod</span> <span class="n">2555</span>  <span class="c"># 7 years in days</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Immutability policy set - logs cannot be deleted for 7 years&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<h2>Cost Breakdown</h2>
+<p>Let's talk money. Here's what this actually costs.</p>
+<h3>Small Environment (100-500 users)</h3>
+<p><strong>Assumptions:</strong><br />
+- 100 users<br />
+- 500 sign-ins/day<br />
+- 50 audit events/day<br />
+- Minimal app registration activity</p>
+<p><strong>Monthly costs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Volume</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Log Analytics ingestion</strong></td>
+<td>~2 GB/month</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td><strong>Log Analytics retention</strong> (730 days)</td>
+<td>2 GB × 24 months</td>
+<td>$5.76</td>
+</tr>
+<tr>
+<td><strong>Storage Account</strong> (Cool tier)</td>
+<td>50 GB (7 years accumulated)</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td><strong>Azure AD Premium P1</strong> (per user)</td>
+<td>100 users × $6/user</td>
+<td>$600.00</td>
+</tr>
+<tr>
+<td><strong>Total (excluding Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$11.26</strong></td>
+</tr>
+<tr>
+<td><strong>Total (including Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$611.26</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reality check:</strong> The Azure AD Premium license is the big cost. The logging infrastructure itself is cheap.</p>
+<h3>Medium Environment (500-2,000 users)</h3>
+<p><strong>Assumptions:</strong><br />
+- 1,000 users<br />
+- 5,000 sign-ins/day<br />
+- 200 audit events/day<br />
+- Moderate app activity</p>
+<p><strong>Monthly costs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Volume</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Log Analytics ingestion</strong></td>
+<td>~15 GB/month</td>
+<td>$37.50</td>
+</tr>
+<tr>
+<td><strong>Log Analytics retention</strong> (730 days)</td>
+<td>15 GB × 24 months</td>
+<td>$43.20</td>
+</tr>
+<tr>
+<td><strong>Storage Account</strong></td>
+<td>360 GB (7 years)</td>
+<td>$3.60</td>
+</tr>
+<tr>
+<td><strong>Azure AD Premium P1</strong></td>
+<td>1,000 users × $6/user</td>
+<td>$6,000.00</td>
+</tr>
+<tr>
+<td><strong>Total (excluding Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$84.30</strong></td>
+</tr>
+<tr>
+<td><strong>Total (including Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$6,084.30</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>Enterprise Environment (5,000+ users)</h3>
+<p><strong>Assumptions:</strong><br />
+- 10,000 users<br />
+- 50,000 sign-ins/day<br />
+- 1,000 audit events/day<br />
+- Heavy app/automation activity</p>
+<p><strong>Monthly costs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Volume</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Log Analytics ingestion</strong></td>
+<td>~100 GB/month</td>
+<td>$250.00</td>
+</tr>
+<tr>
+<td><strong>Log Analytics retention</strong> (730 days)</td>
+<td>100 GB × 24 months</td>
+<td>$288.00</td>
+</tr>
+<tr>
+<td><strong>Storage Account</strong></td>
+<td>2.4 TB (7 years)</td>
+<td>$24.00</td>
+</tr>
+<tr>
+<td><strong>Azure AD Premium P1</strong></td>
+<td>10,000 users × $6/user</td>
+<td>$60,000.00</td>
+</tr>
+<tr>
+<td><strong>Total (excluding Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$562.00</strong></td>
+</tr>
+<tr>
+<td><strong>Total (including Azure AD licenses)</strong></td>
+<td></td>
+<td><strong>$60,562.00</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>Cost Optimization Tips</h3>
+<p><strong>1. Reduce Log Analytics retention:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set to 90 days instead of 730 days</span>
+<span class="nb">Set-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$workspaceName</span> <span class="p">`</span>
+    <span class="n">-RetentionInDays</span> <span class="n">90</span>
+
+<span class="c"># Savings: ~75% on retention costs</span>
+<span class="c"># Trade-off: Less query-able history (rely more on storage archive)</span>
+</code></pre></div>
+
+<p><strong>2. Filter sign-in logs:</strong></p>
+<p>You can exclude specific sign-in types from export:</p>
+<ul>
+<li>NonInteractiveUserSignInLogs can be disabled if you only care about interactive logins</li>
+<li>ManagedIdentitySignInLogs can be disabled if you don't use managed identities heavily</li>
+</ul>
+<p><strong>Trade-off:</strong> Less complete audit trail. Only do this if you're confident you don't need certain log types.</p>
+<p><strong>3. Use commitment tiers:</strong></p>
+<p>If you're ingesting 100+ GB/month:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set commitment tier (100 GB/day minimum)</span>
+<span class="nb">Set-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$workspaceName</span> <span class="p">`</span>
+    <span class="n">-Sku</span> <span class="n">CapacityReservation</span> <span class="p">`</span>
+    <span class="n">-CapacityReservationLevel</span> <span class="n">100</span>
+
+<span class="c"># Pricing: $196/day ($5,880/month) for 100 GB/day</span>
+<span class="c"># vs. $250/month on Pay-As-You-Go</span>
+<span class="c"># Savings kick in above ~78 GB/month</span>
+</code></pre></div>
+
+<p><strong>4. Storage lifecycle management:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Automatically move old blobs to Archive tier after 365 days</span>
+<span class="nv">$rule</span> <span class="p">=</span> <span class="nb">Add-AzStorageAccountManagementPolicyAction</span> <span class="p">`</span>
+    <span class="n">-BaseBlobAction</span> <span class="n">TierToArchive</span> <span class="p">`</span>
+    <span class="n">-DaysAfterModificationGreaterThan</span> <span class="n">365</span>
+
+<span class="nb">Add-AzStorageAccountManagementPolicyRule</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-AccountName</span> <span class="nv">$storageAccountName</span> <span class="p">`</span>
+    <span class="n">-Rules</span> <span class="nv">$rule</span>
+
+<span class="c"># Archive tier: $0.002/GB/month (vs. Cool tier $0.01/GB/month)</span>
+<span class="c"># Savings: 80% on old logs you rarely access</span>
+</code></pre></div>
+
+<h2>Troubleshooting Common Issues</h2>
+<h3>Issue 1: "Table not found" in Log Analytics</h3>
+<p><strong>Symptoms:</strong><br />
+- Query returns "Table 'AuditLogs' not found"<br />
+- Or: "Table 'SignInLogs' not found"</p>
+<p><strong>Causes:</strong><br />
+1. Diagnostic settings not configured correctly<br />
+2. Not enough time has passed (logs take 10-30 minutes to appear)<br />
+3. No activity to log (empty tenant, dev environment)<br />
+4. Azure AD Premium not properly licensed</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check diagnostic settings exist</span>
+<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">&quot;AuditLog.Read.All&quot;</span>
+<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">&quot;https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings&quot;</span>
+<span class="nb">Invoke-MgGraphRequest</span> <span class="n">-Method</span> <span class="n">GET</span> <span class="n">-Uri</span> <span class="nv">$uri</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span>
+
+<span class="c"># Should show your diagnostic setting with all log categories enabled</span>
+</code></pre></div>
+
+<p><strong>If no diagnostic settings found:</strong><br />
+- Go back to Step 2 and reconfigure<br />
+- Verify you have Azure AD Premium P1/P2</p>
+<p><strong>If diagnostic settings exist but no logs:</strong><br />
+- Wait 30 minutes<br />
+- Generate some activity (sign in, create a test app registration)<br />
+- Query again</p>
+<h3>Issue 2: SignInLogs Present, But AuditLogs Missing</h3>
+<p><strong>Symptoms:</strong><br />
+- <code>SignInLogs</code> table exists and has data<br />
+- <code>AuditLogs</code> table missing or empty</p>
+<p><strong>Cause:</strong> Not all log categories were selected in diagnostic settings</p>
+<p><strong>Fix:</strong></p>
+<ol>
+<li>Portal → Azure AD → Diagnostic settings</li>
+<li>Click on your diagnostic setting</li>
+<li>Verify ALL FIVE categories are checked:</li>
+<li>☑ AuditLogs</li>
+<li>☑ SignInLogs  </li>
+<li>☑ NonInteractiveUserSignInLogs</li>
+<li>☑ ServicePrincipalSignInLogs</li>
+<li>☑ ManagedIdentitySignInLogs</li>
+<li>Click "Save"</li>
+<li>Wait 15 minutes</li>
+</ol>
+<h3>Issue 3: High Costs (Unexpected Log Analytics Bill)</h3>
+<p><strong>Symptoms:</strong><br />
+- Log Analytics ingestion costs higher than expected<br />
+- SignInLogs consuming most of the data volume</p>
+<p><strong>Causes:</strong><br />
+- High sign-in volume (common with automation/service accounts)<br />
+- NonInteractiveUserSignInLogs capturing every token refresh<br />
+- No retention policy optimization</p>
+<p><strong>Fix:</strong></p>
+<p><strong>Check ingestion volume:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// See which log types consume most data</span>
+<span class="n">Usage</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">IsBillable</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">true</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DataVolume_GB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DataType</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DataVolume_GB</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Expected output:</strong></p>
+<table>
+<thead>
+<tr>
+<th>DataType</th>
+<th>DataVolume_GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SignInLogs</td>
+<td>45.2</td>
+</tr>
+<tr>
+<td>AADNonInteractiveUserSignInLogs</td>
+<td>23.1</td>
+</tr>
+<tr>
+<td>AuditLogs</td>
+<td>8.5</td>
+</tr>
+<tr>
+<td>AADServicePrincipalSignInLogs</td>
+<td>3.2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>If SignInLogs &gt; 80% of total:</strong><br />
+- This is normal for high-user environments<br />
+- Consider filtering or sampling (advanced topic, ask security first)</p>
+<p><strong>If you're over budget:</strong><br />
+1. Reduce retention from 730 days to 90 days<br />
+2. Rely on storage account for long-term archive<br />
+3. Disable NonInteractiveUserSignInLogs (if security approves)</p>
+<h3>Issue 4: Can't Find Specific App Registration in Logs</h3>
+<p><strong>Symptoms:</strong><br />
+- Query for app registration creation returns no results<br />
+- You know the app exists, but can't find the audit trail</p>
+<p><strong>Causes:</strong><br />
+1. App created before diagnostic settings were configured<br />
+2. Audit log retention expired (30 days default)<br />
+3. Search query incorrect (app name vs. app ID)</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// Search by app name (partial match)</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add application&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AppName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;MyApp&quot;</span><span class="w">  </span><span class="c">// Replace with partial name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">AppName</span><span class="p">,</span><span class="w"> </span><span class="n">InitiatedBy</span>
+</code></pre></div>
+
+<p><strong>If still no results:</strong><br />
+- The app was created before logs were exported<br />
+- Check Azure AD → App registrations → [Your App] → Properties → Created date<br />
+- If created date is older than your log retention, you won't find the audit event</p>
+<p><strong>Workaround:</strong><br />
+- Document app registration details NOW (use the export script from Step 5)<br />
+- Going forward, you'll have the audit trail</p>
+<h3>Issue 5: Storage Account Access Denied</h3>
+<p><strong>Symptoms:</strong><br />
+- Can't browse blobs in storage account<br />
+- "AuthorizationPermissionMismatch" error</p>
+<p><strong>Cause:</strong> Missing RBAC role on storage account</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Grant yourself Storage Blob Data Reader role</span>
+<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="nb">Get-AzStorageAccount</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="nv">$storageAccountName</span>
+
+<span class="nv">$userId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzADUser</span> <span class="n">-SignedIn</span><span class="p">).</span><span class="n">Id</span>
+
+<span class="nb">New-AzRoleAssignment</span> <span class="p">`</span>
+    <span class="n">-ObjectId</span> <span class="nv">$userId</span> <span class="p">`</span>
+    <span class="n">-RoleDefinitionName</span> <span class="s2">&quot;Storage Blob Data Reader&quot;</span> <span class="p">`</span>
+    <span class="n">-Scope</span> <span class="nv">$storageAccount</span><span class="p">.</span><span class="n">Id</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Role assigned - wait 5 minutes for permission propagation&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<h2>Quarterly Testing Checklist</h2>
+<p>Test your setup every quarter. This catches issues before audits.</p>
+<h3>Q4 2025 Azure AD Audit Drill</h3>
+<p><strong>Test Date:</strong> October 27, 2025<br />
+<strong>Tester:</strong> [Your Name]</p>
+<h4>Test 1: Log Retention Verification</h4>
+<div class="codehilite"><pre><span></span><code><span class="c">// Verify logs exist from 90+ days ago</span>
+<span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">OldestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">NewestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
+</code></pre></div>
+
+<ul>
+<li>[ ] AuditLogs retention: _____ days (expected: 90+)</li>
+<li>[ ] SignInLogs retention: _____ days (expected: 90+)</li>
+<li>[ ] Storage account has logs older than 90 days: ☐ Yes ☐ No</li>
+</ul>
+<p><strong>Pass/Fail:</strong> _____</p>
+<h4>Test 2: Query Execution</h4>
+<ul>
+<li>[ ] Run Query 1 (Who created app registration): Works? ☐ Yes ☐ No</li>
+<li>[ ] Run Query 2 (Admin consent grants): Works? ☐ Yes ☐ No</li>
+<li>[ ] Run Query 3 (App usage check): Pick random app, verify results</li>
+<li>[ ] Run Query 5 (Admin role assignments): Shows recent changes</li>
+</ul>
+<p><strong>Pass/Fail:</strong> _____</p>
+<h4>Test 3: App Registration Inventory</h4>
+<ul>
+<li>[ ] Open tracking spreadsheet/CMDB</li>
+<li>[ ] Last updated date: <strong><em>_</em></strong>____</li>
+<li>[ ] Spot check 5 random apps: Owners match Azure AD? ☐ Yes ☐ No</li>
+<li>[ ] New apps created this quarter: _____ (compare to last export)</li>
+</ul>
+<p><strong>Pass/Fail:</strong> _____</p>
+<h4>Test 4: Storage Archive Verification</h4>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check storage containers exist and have recent data</span>
+<span class="nv">$containers</span> <span class="p">=</span> <span class="nb">Get-AzStorageContainer</span> <span class="n">-Context</span> <span class="nv">$ctx</span>
+<span class="nv">$containers</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$latest</span> <span class="p">=</span> <span class="nb">Get-AzStorageBlob</span> <span class="n">-Container</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="p">|</span> 
+        <span class="nb">Sort-Object</span> <span class="n">LastModified</span> <span class="n">-Descending</span> <span class="p">|</span> 
+        <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span>
+    <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">Container</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
+        <span class="n">LatestBlob</span> <span class="p">=</span> <span class="nv">$latest</span><span class="p">.</span><span class="n">Name</span>
+        <span class="n">LastModified</span> <span class="p">=</span> <span class="nv">$latest</span><span class="p">.</span><span class="n">LastModified</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>[ ] All 5 log containers present: ☐ Yes ☐ No</li>
+<li>[ ] Latest blob timestamp is within 24 hours: ☐ Yes ☐ No</li>
+<li>[ ] Total storage size: _____ GB (expected: increasing monthly)</li>
+</ul>
+<p><strong>Pass/Fail:</strong> _____</p>
+<h4>Test 5: Access &amp; Documentation</h4>
+<ul>
+<li>[ ] Compliance team has Log Analytics access: ☐ Yes ☐ No</li>
+<li>[ ] Storage account access restricted (RBAC verified): ☐ Yes ☐ No</li>
+<li>[ ] Query library documentation up to date: ☐ Yes ☐ No</li>
+<li>[ ] App registration inventory accessible: ☐ Yes ☐ No</li>
+</ul>
+<p><strong>Pass/Fail:</strong> _____</p>
+<h3>Issues Found</h3>
+<p>[List any issues discovered during drill]</p>
+<h3>Action Items</h3>
+<ul>
+<li>[ ] Fix issue #1: <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+<li>[ ] Update documentation: <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+<li>[ ] Retest failed items in 30 days</li>
+</ul>
+<p><strong>Next Drill:</strong> January 27, 2026</p>
+<h2>Real-World Audit Scenarios</h2>
+<p>Here's what this looks like when auditors actually ask questions:</p>
+<h3>Scenario 1: SOX Quarterly Access Review</h3>
+<p><strong>Auditor request:</strong><br />
+<em>"Provide a list of all users granted Global Administrator role in Q3 2025, including who granted the role and when."</em></p>
+<p><strong>Your response time:</strong> 5 minutes</p>
+<p><strong>Query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">AuditLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">07</span><span class="p">-</span><span class="mi">01</span><span class="p">)</span><span class="w"> </span><span class="err">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">30</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add member to role&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">RoleName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">UserAdded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">RoleName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Global Administrator&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Date</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;yyyy-MM-dd&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">UserAdded</span><span class="p">,</span>
+<span class="w">    </span><span class="n">RoleName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p><strong>Export to Excel:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$results</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;Q3-2025-Global-Admin-Grants.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+</code></pre></div>
+
+<p><strong>Auditor reaction:</strong> ✅ Satisfied. Documentation clear. Closed finding.</p>
+<h3>Scenario 2: Security Incident - Compromised Account</h3>
+<p><strong>Security team request:</strong><br />
+<em>"User john.doe@company.com's credentials were compromised. Show all sign-in activity for the last 90 days, including IP addresses and locations."</em></p>
+<p><strong>Your response time:</strong> 10 minutes</p>
+<p><strong>Query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">SignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;john.doe@company.com&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ResultType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ResultDescription</span><span class="p">,</span>
+<span class="w">    </span><span class="n">IPAddress</span><span class="p">,</span>
+<span class="w">    </span><span class="n">City</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">city</span><span class="p">,</span>
+<span class="w">    </span><span class="n">State</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">state</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Country</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">countryOrRegion</span><span class="p">,</span>
+<span class="w">    </span><span class="n">AppDisplayName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">DeviceOS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DeviceDetail</span><span class="err">.</span><span class="n">operatingSystem</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Browser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DeviceDetail</span><span class="err">.</span><span class="n">browser</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Export and analysis:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Export to CSV</span>
+<span class="nv">$signIns</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;incident-john-doe-signins.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+
+<span class="c"># Identify suspicious patterns</span>
+<span class="nv">$signIns</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">IPAddress</span> <span class="p">|</span> 
+    <span class="nb">Sort-Object</span> <span class="n">Count</span> <span class="n">-Descending</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Count</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;Countries&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Group</span><span class="p">.</span><span class="n">Country</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Unique</span><span class="p">)</span> <span class="n">-join</span> <span class="s1">&#39;, &#39;</span><span class="p">}}</span>
+</code></pre></div>
+
+<p><strong>Security team reaction:</strong> ✅ Full visibility. Identified compromise window. Remediation plan confirmed.</p>
+<h3>Scenario 3: Tenable Scanner Alert</h3>
+<p><strong>Alert:</strong><br />
+<em>"50 app registrations detected with client secrets expiring in 30 days. Identify owner and usage."</em></p>
+<p><strong>Your response time:</strong> 30 minutes (bulk analysis)</p>
+<p><strong>Step 1: Get list of expiring apps from Tenable export</strong></p>
+<p><strong>Step 2: Check each app's usage:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// Run for each app ID from Tenable report</span>
+<span class="n">let</span><span class="w"> </span><span class="n">appIds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dynamic</span><span class="p">([</span><span class="s">&quot;app-id-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;app-id-2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;app-id-3&quot;</span><span class="p">]);</span><span class="w">  </span><span class="c">// Up to 50</span>
+<span class="n">AADServicePrincipalSignInLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AppId</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">appIds</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">SignInCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">LastUsed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Resources</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">ResourceDisplayName</span><span class="p">)</span>
+<span class="w">    </span><span class="k">by</span><span class="w"> </span><span class="n">AppId</span><span class="p">,</span><span class="w"> </span><span class="n">AppDisplayName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DaysSinceLastUse</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">LastUsed</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">SignInCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Step 3: Cross-reference with tracking spreadsheet:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Load spreadsheet</span>
+<span class="nv">$inventory</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;app-registrations-inventory-2025-10-01.csv&quot;</span>
+
+<span class="c"># Match Tenable alerts to inventory</span>
+<span class="nv">$tenableApps</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;tenable-expiring-secrets-2025-10-27.csv&quot;</span>
+<span class="nv">$analysis</span> <span class="p">=</span> <span class="nv">$tenableApps</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$appId</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">AppId</span>
+    <span class="nv">$inventoryRecord</span> <span class="p">=</span> <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">AppId</span> <span class="o">-eq</span> <span class="nv">$appId</span> <span class="p">}</span>
+    <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">AppName</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">AppName</span>
+        <span class="n">AppId</span> <span class="p">=</span> <span class="nv">$appId</span>
+        <span class="n">ExpirationDate</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SecretExpiration</span>
+        <span class="n">LastUsed</span> <span class="p">=</span> <span class="nv">$kqlResults</span><span class="p">[</span><span class="nv">$appId</span><span class="p">].</span><span class="n">LastUsed</span>
+        <span class="n">Owner</span> <span class="p">=</span> <span class="nv">$inventoryRecord</span><span class="p">.</span><span class="n">Owners</span>
+        <span class="n">Status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$kqlResults</span><span class="p">[</span><span class="nv">$appId</span><span class="p">].</span><span class="n">SignInCount</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;UNUSED - SAFE TO DELETE&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;IN USE - RENEW SECRET&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$analysis</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;tenable-app-analysis-2025-10-27.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+</code></pre></div>
+
+<p><strong>Security team reaction:</strong> ✅ Clear action plan. Unused apps identified for deletion. Active apps flagged for renewal.</p>
+<h2>Integration with Part 1 (Activity Logs)</h2>
+<p>You've now configured both systems:</p>
+<p><strong>Part 1 (Activity Logs):</strong><br />
+- ARM resources (VMs, storage, networks, etc.)<br />
+- Who created/deleted/modified resources<br />
+- Resource-level operations</p>
+<p><strong>Part 2 (Azure AD Logs):</strong><br />
+- Identity layer (users, apps, roles, consent)<br />
+- Who authenticated and from where<br />
+- App registration lifecycle</p>
+<p><strong>Together, you have:</strong><br />
+- Complete audit trail across Azure<br />
+- 7-year retention compliance<br />
+- Query-able history for investigations<br />
+- External tracking for untaggable resources</p>
+<p><strong>The workflow:</strong></p>
+<ol>
+<li><strong>Daily:</strong> Logs automatically export to Log Analytics + Storage</li>
+<li><strong>Weekly:</strong> Run app registration export script</li>
+<li><strong>Monthly:</strong> Review new apps, check usage, update inventory</li>
+<li><strong>Quarterly:</strong> Run audit drill, verify retention, test queries</li>
+<li><strong>Annually:</strong> Present to auditors with confidence</li>
+</ol>
+<h2>Next Steps</h2>
+<p>You're done with the technical setup. Now:</p>
+<h3>Immediate Actions (This Week)</h3>
+<ol>
+<li>✅ Verify logs are flowing (Step 3 queries)</li>
+<li>✅ Save query library to workspace</li>
+<li>✅ Export app registrations to spreadsheet</li>
+<li>✅ Document your architecture (one-page reference)</li>
+</ol>
+<h3>Short Term (This Month)</h3>
+<ol>
+<li>Run first monthly export of app registrations</li>
+<li>Cross-check with Tenable alerts</li>
+<li>Identify and flag apps without owners</li>
+<li>Schedule first quarterly audit drill</li>
+</ol>
+<h3>Ongoing (Every Quarter)</h3>
+<ol>
+<li>Run audit drill (testing checklist above)</li>
+<li>Review app registration inventory</li>
+<li>Update query library based on actual audit requests</li>
+<li>Verify retention is working (storage + Log Analytics)</li>
+</ol>
+<h2>The Takeaway</h2>
+<p>Azure AD logs are <strong>separate</strong> from Activity Logs. You need both.</p>
+<p><strong>Part 1 (Activity Logs):</strong> Covers ARM resources<br />
+<strong>Part 2 (Azure AD Logs):</strong> Covers identity layer</p>
+<p><strong>The cost:</strong> $50-200/month (excluding Azure AD Premium licenses)</p>
+<p><strong>The ROI:</strong> When security asks "who created this app registration 6 months ago?" - you have the answer in 30 seconds instead of 30 hours.</p>
+<p><strong>The reality:</strong> Most organizations only monitor Activity Logs and completely miss app registrations, consent grants, and sign-in patterns. Don't be most organizations.</p>
+<hr />
+<p><strong>Questions?</strong> Email me or drop a comment. I've implemented this at scale (10,000+ users, SOX compliance) and I'm happy to help troubleshoot.</p>
+<p><strong>Found this useful?</strong> Share it with your security team. They'll thank you during the next audit cycle.</p>
+<p><strong>Up next:</strong> Part 3 will cover automated alerting on high-risk Azure AD events (unusual sign-ins, new admin roles, consent grants to suspicious apps). Stay tuned.</p>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="../azure-audit-gap-nobody-talks-about/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won&#39;t Survive a 7-Year Audit</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-26</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../azure-ai-30-day-test/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">I Spent 30 Days Testing Azure AI in a Regulated Environment. Here&#39;s What Actually Works.</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-17</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../soc2-activity-log-step-by-step/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-27</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-audit-gap-nobody-talks-about/index.html">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won&#39;t Survive a 7-Year Audit</strong>
+      </a>
+    
+    
+      <a href="../soc2-activity-log-step-by-step/index.html" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+</body>
+</html>
