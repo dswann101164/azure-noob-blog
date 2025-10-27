@@ -393,6 +393,132 @@ Most common issues:
 
 ---
 
+
+---
+
+## CRITICAL: Verify Your Configuration (Before Testing Queries)
+
+**The problem your screenshot revealed:** The diagnostic settings list view shows a setting exists, but doesn't prove what categories are enabled.
+
+### Step 2a: Verify Categories Are Actually Enabled
+
+**Don't trust the list view.** You need to click "Edit setting" to see the actual configuration.
+
+**Portal verification (DO THIS NOW):**
+
+1. Navigate to your diagnostic settings:
+   - **For Activity Logs:** Monitor → Activity Log → Diagnostic settings
+   - **For Azure AD:** Azure Active Directory → Diagnostic settings
+
+2. You'll see your diagnostic setting in a table (like "soc2-activity-logs" or "export-azuread-to-law")
+
+3. **Click on the setting name** (not Edit, just click the name to open it)
+
+4. **Scroll to the Logs section** and verify checkboxes:
+
+**For Activity Logs - ALL 8 must be checked:**
+```
+☑ Administrative
+☑ Security
+☑ ServiceHealth
+☑ Alert
+☑ Recommendation
+☑ Policy
+☑ Autoscale
+☑ ResourceHealth
+```
+
+**For Azure AD - ALL 5 must be checked:**
+```
+☑ AuditLogs
+☑ SignInLogs
+☑ NonInteractiveUserSignInLogs
+☑ ServicePrincipalSignInLogs
+☑ ManagedIdentitySignInLogs
+```
+
+5. **Verify destination** shows your Log Analytics workspace
+
+6. **Take a screenshot of this screen** - This is what auditors want, not the list view
+
+**If any boxes are unchecked:**
+- Click "Edit"
+- Check the missing boxes
+- Click "Save"
+- Wait 15 minutes
+- Recheck
+
+### PowerShell Verification (Proves Configuration)
+
+This exports exactly what's configured - run this and save the output:
+
+**For Activity Logs:**
+```powershell
+# Get subscription diagnostic settings
+$subscriptionId = (Get-AzContext).Subscription.Id
+$diagnosticSettings = Get-AzDiagnosticSetting -ResourceId "/subscriptions/$subscriptionId"
+
+# Show what's actually configured
+foreach ($setting in $diagnosticSettings) {
+    Write-Host "`n=== Diagnostic Setting: $($setting.Name) ===" -ForegroundColor Cyan
+    
+    Write-Host "`nEnabled Categories:" -ForegroundColor Yellow
+    foreach ($log in $setting.Logs) {
+        $status = if ($log.Enabled) { "✓" } else { "✗" }
+        $color = if ($log.Enabled) { "Green" } else { "Red" }
+        Write-Host "  $status $($log.Category)" -ForegroundColor $color
+    }
+    
+    if ($setting.WorkspaceId) {
+        Write-Host "`n✓ Sending to Log Analytics" -ForegroundColor Green
+    }
+}
+```
+
+**For Azure AD:**
+```powershell
+# Check Azure AD diagnostic settings
+Connect-MgGraph -Scopes "AuditLog.Read.All"
+$uri = "https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings"
+$settings = Invoke-MgGraphRequest -Method GET -Uri $uri
+
+# Show configured categories
+$settings.value | ForEach-Object {
+    Write-Host "`n=== $($_.name) ===" -ForegroundColor Cyan
+    $_.logs | ForEach-Object {
+        $status = if ($_.enabled) { "✓" } else { "✗" }
+        Write-Host "  $status $($_.category)" -ForegroundColor $(if ($_.enabled) { "Green" } else { "Red" })
+    }
+}
+```
+
+**Save this output** - It's proof of configuration for auditors.
+
+**What you should see:**
+- ALL categories show ✓ (green checkmark)
+- Workspace ID displayed
+- If any show ✗ (red X), go back and fix the configuration
+
+**Export for compliance documentation:**
+```powershell
+# Create timestamped proof
+$timestamp = Get-Date -Format "yyyy-MM-dd-HHmm"
+$diagnosticSettings | ConvertTo-Json -Depth 10 | 
+    Out-File "diagnostic-settings-proof-$timestamp.json"
+
+Write-Host "`nConfiguration proof saved: diagnostic-settings-proof-$timestamp.json" -ForegroundColor Green
+```
+
+**This file proves:**
+1. What you configured
+2. When you verified it  
+3. Which categories are enabled
+4. Where logs are going
+
+**Save these monthly** - Creates audit trail showing continuous compliance.
+
+---
+
 ## Part 4: Verify It's Working (Critical - Don't Skip)
 
 This is how you know it actually worked. I've seen people skip this step and discover 6 months later during an audit that logs weren't being exported.

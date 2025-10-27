@@ -79,7 +79,7 @@
   <header class="post-header">
     <h1>SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)</h1>
     <p class="muted">
-      2025-10-27 · ~46 min read
+      2025-10-27 · ~49 min read
     </p>
     
     
@@ -467,6 +467,122 @@ az<span class="w"> </span>login
 <span class="c1"># This is a known limitation as of October 2025</span>
 </code></pre></div>
 
+<hr />
+<h2>CRITICAL: Verify Your Configuration (Before Testing Queries)</h2>
+<p><strong>The problem your screenshot revealed:</strong> The diagnostic settings list view shows a setting exists, but doesn't prove what categories are enabled.</p>
+<h3>Step 2a: Verify Categories Are Actually Enabled</h3>
+<p><strong>Don't trust the list view.</strong> You need to click "Edit setting" to see the actual configuration.</p>
+<p><strong>Portal verification (DO THIS NOW):</strong></p>
+<ol>
+<li>Navigate to your diagnostic settings:</li>
+<li><strong>For Activity Logs:</strong> Monitor → Activity Log → Diagnostic settings</li>
+<li>
+<p><strong>For Azure AD:</strong> Azure Active Directory → Diagnostic settings</p>
+</li>
+<li>
+<p>You'll see your diagnostic setting in a table (like "soc2-activity-logs" or "export-azuread-to-law")</p>
+</li>
+<li>
+<p><strong>Click on the setting name</strong> (not Edit, just click the name to open it)</p>
+</li>
+<li>
+<p><strong>Scroll to the Logs section</strong> and verify checkboxes:</p>
+</li>
+</ol>
+<p><strong>For Activity Logs - ALL 8 must be checked:</strong></p>
+<div class="codehilite"><pre><span></span><code>☑ Administrative
+☑ Security
+☑ ServiceHealth
+☑ Alert
+☑ Recommendation
+☑ Policy
+☑ Autoscale
+☑ ResourceHealth
+</code></pre></div>
+
+<p><strong>For Azure AD - ALL 5 must be checked:</strong></p>
+<div class="codehilite"><pre><span></span><code>☑ AuditLogs
+☑ SignInLogs
+☑ NonInteractiveUserSignInLogs
+☑ ServicePrincipalSignInLogs
+☑ ManagedIdentitySignInLogs
+</code></pre></div>
+
+<ol>
+<li>
+<p><strong>Verify destination</strong> shows your Log Analytics workspace</p>
+</li>
+<li>
+<p><strong>Take a screenshot of this screen</strong> - This is what auditors want, not the list view</p>
+</li>
+</ol>
+<p><strong>If any boxes are unchecked:</strong><br />
+- Click "Edit"<br />
+- Check the missing boxes<br />
+- Click "Save"<br />
+- Wait 15 minutes<br />
+- Recheck</p>
+<h3>PowerShell Verification (Proves Configuration)</h3>
+<p>This exports exactly what's configured - run this and save the output:</p>
+<p><strong>For Activity Logs:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Get subscription diagnostic settings</span>
+<span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Subscription</span><span class="p">.</span><span class="n">Id</span>
+<span class="nv">$diagnosticSettings</span> <span class="p">=</span> <span class="nb">Get-AzDiagnosticSetting</span> <span class="n">-ResourceId</span> <span class="s2">&quot;/subscriptions/$subscriptionId&quot;</span>
+
+<span class="c"># Show what&#39;s actually configured</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$setting</span> <span class="k">in</span> <span class="nv">$diagnosticSettings</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">=== Diagnostic Setting: </span><span class="p">$(</span><span class="nv">$setting</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Enabled Categories:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$log</span> <span class="k">in</span> <span class="nv">$setting</span><span class="p">.</span><span class="n">Logs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;✓&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;✗&quot;</span> <span class="p">}</span>
+        <span class="nv">$color</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;Green&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;Red&quot;</span> <span class="p">}</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  $status </span><span class="p">$(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Category</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="nv">$color</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$setting</span><span class="p">.</span><span class="n">WorkspaceId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Sending to Log Analytics&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>For Azure AD:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check Azure AD diagnostic settings</span>
+<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">&quot;AuditLog.Read.All&quot;</span>
+<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">&quot;https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings&quot;</span>
+<span class="nv">$settings</span> <span class="p">=</span> <span class="nb">Invoke-MgGraphRequest</span> <span class="n">-Method</span> <span class="n">GET</span> <span class="n">-Uri</span> <span class="nv">$uri</span>
+
+<span class="c"># Show configured categories</span>
+<span class="nv">$settings</span><span class="p">.</span><span class="n">value</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">=== </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2"> ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">logs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;✓&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;✗&quot;</span> <span class="p">}</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  $status </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">category</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="p">$(</span><span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;Green&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;Red&quot;</span> <span class="p">})</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Save this output</strong> - It's proof of configuration for auditors.</p>
+<p><strong>What you should see:</strong><br />
+- ALL categories show ✓ (green checkmark)<br />
+- Workspace ID displayed<br />
+- If any show ✗ (red X), go back and fix the configuration</p>
+<p><strong>Export for compliance documentation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Create timestamped proof</span>
+<span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd-HHmm&quot;</span>
+<span class="nv">$diagnosticSettings</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span> <span class="p">|</span> 
+    <span class="nb">Out-File</span> <span class="s2">&quot;diagnostic-settings-proof-$timestamp.json&quot;</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Configuration proof saved: diagnostic-settings-proof-$timestamp.json&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<p><strong>This file proves:</strong><br />
+1. What you configured<br />
+2. When you verified it<br />
+3. Which categories are enabled<br />
+4. Where logs are going</p>
+<p><strong>Save these monthly</strong> - Creates audit trail showing continuous compliance.</p>
+<hr />
 <h2>Step 3: Verify Logs Are Flowing</h2>
 <p>Wait 10-15 minutes after configuration, then verify.</p>
 <h3>Portal Verification</h3>
