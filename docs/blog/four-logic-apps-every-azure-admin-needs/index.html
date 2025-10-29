@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="../../static/images/hero/logic-apps-automation.svg" alt="4 Logic Apps Every Azure Admin Should Build">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>4 Logic Apps Every Azure Admin Should Build</h1>
+    <p class="muted">
+      2025-10-29 · ~17 min read
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="../../tags/Azure/index.html" class="tag-badge">Azure</a></li>
+      
+      <li><a href="../../tags/Logic%20Apps/index.html" class="tag-badge">Logic Apps</a></li>
+      
+      <li><a href="../../tags/Automation/index.html" class="tag-badge">Automation</a></li>
+      
+      <li><a href="../../tags/Operations/index.html" class="tag-badge">Operations</a></li>
+      
+      <li><a href="../../tags/Cost%20Management/index.html" class="tag-badge">Cost Management</a></li>
+      
+      <li><a href="../../tags/Governance/index.html" class="tag-badge">Governance</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Stop clicking buttons. These 4 Logic Apps automate the boring operational tasks that break when ignored: unused resources, certificate expiration, tag compliance, and backup verification.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>Everyone writes about Logic Apps for business process automation. SaaS integration. Order processing.</p>
+<p>Nobody writes about the <strong>boring operational tasks</strong> Azure admins deal with daily.</p>
+<p>This post delivers 4 working Logic App implementations:</p>
+<ol>
+<li><strong>Unused Resource Cleanup</strong> - Stop paying for orphaned disks and stale snapshots</li>
+<li><strong>Certificate Expiration Monitor</strong> - Know before services break at 2 AM</li>
+<li><strong>Tag Compliance Enforcement</strong> - Make governance actually stick  </li>
+<li><strong>Backup Verification Report</strong> - Backups fail silently until you need them</li>
+</ol>
+<p>These run in production managing 31,000+ resources across 44 subscriptions.</p>
+<h2>Why These 4</h2>
+<p>Here's what actually breaks in production:</p>
+<p><strong>Cost Waste</strong><br />
+- Disks detached from deleted VMs (still billing)<br />
+- Snapshots from 2 years ago<br />
+- Old NICs consuming IP addresses<br />
+- Result: Thousands/month wasted</p>
+<p><strong>Certificate Expiration</strong><br />
+- App Service certs expire<br />
+- Key Vault certs expire<br />
+- App Registration secrets expire<br />
+- Result: 2 AM outages</p>
+<p><strong>Tag Chaos</strong><br />
+- 5,000 untagged resources<br />
+- Chargeback fails<br />
+- Cost allocation impossible<br />
+- Result: Finance can't trust Azure reporting</p>
+<p><strong>Backup Failures</strong><br />
+- Recovery Services Vault runs daily<br />
+- Some VMs fail silently<br />
+- Nobody checks until restore needed<br />
+- Result: No backup for 3 months</p>
+<p>Let's fix them.</p>
+<h2>Logic App #1: Unused Resource Cleanup</h2>
+<p><strong>What It Does:</strong><br />
+- Scans all subscriptions weekly<br />
+- Identifies orphaned disks, old snapshots, unattached NICs<br />
+- Sends digest with deletion candidates<br />
+- Calculates potential savings</p>
+<p><strong>Why It Matters:</strong><br />
+When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6 months ago.</p>
+<p>Result: Hundreds of orphaned resources billing silently.</p>
+<p>At 31,000 resources, this recovered <strong>$4,200/month</strong> in wasted spend.</p>
+<h3>The Resource Graph Queries</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// Orphaned Disks</span>
+<span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">,</span>
+<span class="w">         </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">sku</span><span class="err">.</span><span class="n">name</span><span class="p">,</span>
+<span class="w">         </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">monthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Premium_LRS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.16</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;StandardSSD_LRS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span>
+<span class="w">    </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.05</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
+<span class="w">          </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="n">monthlyCost</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">monthlyCost</span><span class="w"> </span><span class="n">desc</span>
+
+<span class="c">// Old Snapshots (&gt;90 days)</span>
+<span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/snapshots&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">createdTime</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">90</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeBytes</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">1073741824</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">monthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.05</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">ageInDays</span><span class="p">,</span><span class="w"> </span><span class="n">monthlyCost</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="n">desc</span>
+
+<span class="c">// Unattached NICs</span>
+<span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networkinterfaces&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">virtualMachine</span><span class="p">)</span><span class="w"> </span>
+<span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">privateEndpoint</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
+<span class="w">          </span><span class="n">privateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span>
+</code></pre></div>
+
+<h3>Deployment Steps</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Create Logic App</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;rg-automation&quot;</span>
+<span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-unused-resource-cleanup&quot;</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="c"># Enable managed identity</span>
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">assign</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="c"># Assign Reader role</span>
+<span class="nv">$principalId</span> <span class="p">=</span> <span class="p">(</span><span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">show</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-query</span> <span class="n">principalId</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Logic App Flow</h3>
+<ol>
+<li><strong>Trigger:</strong> Recurrence - Weekly (Monday 8 AM)</li>
+<li><strong>HTTP:</strong> Query Resource Graph for orphaned disks</li>
+<li><strong>HTTP:</strong> Query Resource Graph for old snapshots  </li>
+<li><strong>HTTP:</strong> Query Resource Graph for unattached NICs</li>
+<li><strong>Compose:</strong> Calculate total monthly cost</li>
+<li><strong>Compose:</strong> Generate HTML report</li>
+<li><strong>Send Email:</strong> Weekly digest to admins</li>
+</ol>
+<h3>Expected Output</h3>
+<p>Every Monday at 8 AM:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Weekly</span><span class="w"> </span><span class="n">Unused</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Report</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$4</span><span class="o">,</span><span class="mi">187</span>
+
+<span class="n">SUMMARY</span>
+<span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="n">Resource</span><span class="w"> </span><span class="n">Type</span><span class="w">           </span><span class="n">Count</span><span class="w">    </span><span class="n">Monthly</span><span class="w"> </span><span class="n">Cost</span>
+<span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="n">Orphaned</span><span class="w"> </span><span class="n">Disks</span><span class="w">            </span><span class="mi">47</span><span class="w">       </span><span class="n">$3</span><span class="o">,</span><span class="mi">240</span>
+<span class="n">Old</span><span class="w"> </span><span class="n">Snapshots</span><span class="w"> </span><span class="o">(&gt;</span><span class="mi">90</span><span class="n">d</span><span class="o">)</span><span class="w">     </span><span class="mi">156</span><span class="w">         </span><span class="n">$892</span>
+<span class="n">Unattached</span><span class="w"> </span><span class="n">NICs</span><span class="w">           </span><span class="mi">23</span><span class="w">          </span><span class="n">N</span><span class="o">/</span><span class="n">A</span>
+<span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="n">TOTAL</span><span class="w">                    </span><span class="mi">226</span><span class="w">       </span><span class="n">$4</span><span class="o">,</span><span class="mi">132</span>
+
+<span class="n">TOP</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">ORPHANED</span><span class="w"> </span><span class="n">DISKS</span>
+<span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">old</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">vm</span><span class="o">-</span><span class="mi">01</span><span class="w">    </span><span class="mi">512</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Premium</span><span class="w">    </span><span class="n">$81</span><span class="o">.</span><span class="mi">92</span><span class="o">/</span><span class="n">mo</span>
+<span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">backup</span><span class="o">-</span><span class="mi">2023</span><span class="w">      </span><span class="mi">1024</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Standard</span><span class="w">   </span><span class="n">$51</span><span class="o">.</span><span class="mi">20</span><span class="o">/</span><span class="n">mo</span>
+<span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">archive</span><span class="w">       </span><span class="mi">256</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Premium</span><span class="w">    </span><span class="n">$40</span><span class="o">.</span><span class="mi">96</span><span class="o">/</span><span class="n">mo</span>
+</code></pre></div>
+
+<p><strong>Value:</strong> 3 hours/week saved, $4,000+/month recovered</p>
+<hr />
+<h2>Logic App #2: Certificate Expiration Monitor</h2>
+<p><strong>What It Does:</strong><br />
+- Scans App Service + Key Vault certificates daily<br />
+- Alerts 30/15/7 days before expiration<br />
+- Posts to Teams with severity color-coding<br />
+- Includes owner information</p>
+<p><strong>Why It Matters:</strong><br />
+Certificate expiration is the #1 cause of preventable outages.</p>
+<p>Services break at 2 AM. Nobody knows why. Certificate expired 4 hours ago.</p>
+<p>This prevents that entire class of incident.</p>
+<h3>The Certificate Query</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// App Service Certificates</span>
+<span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.web/certificates&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">expirationDate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">expirationDate</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expirationDate</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">severity</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Critical&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;High&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&#39;Medium&#39;</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">expirationDate</span><span class="p">,</span>
+<span class="w">          </span><span class="n">daysUntilExpiry</span><span class="p">,</span><span class="w"> </span><span class="n">severity</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<h3>Deployment</h3>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-certificate-monitor&quot;</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">assign</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="nv">$principalId</span> <span class="p">=</span> <span class="p">(</span><span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">show</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-query</span> <span class="n">principalId</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+
+<span class="c"># Reader role</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+
+<span class="c"># Key Vault Reader (if monitoring Key Vault certs)</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Key Vault Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Teams Webhook Setup</h3>
+<ol>
+<li>Go to Teams channel → Connectors</li>
+<li>Add "Incoming Webhook"  </li>
+<li>Name: "Certificate Alerts"</li>
+<li>Copy webhook URL</li>
+<li>Use in Logic App HTTP action</li>
+</ol>
+<h3>Logic App Flow</h3>
+<ol>
+<li><strong>Trigger:</strong> Recurrence - Daily at 6 AM</li>
+<li><strong>HTTP:</strong> Query App Service certificates</li>
+<li><strong>HTTP:</strong> Query Key Vault certificates  </li>
+<li><strong>Parse:</strong> Group by severity</li>
+<li><strong>Compose:</strong> Teams Adaptive Card</li>
+<li><strong>HTTP:</strong> Post to Teams webhook</li>
+</ol>
+<h3>Expected Output</h3>
+<p>Daily Teams notification:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">🔴</span><span class="w"> </span><span class="n">CRITICAL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">expiring</span><span class="w"> </span><span class="k">within</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span>
+
+<span class="n">CRITICAL</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">days</span><span class="p">)</span><span class="err">:</span>
+<span class="err">🔴</span><span class="w"> </span><span class="n">app</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">ssl</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@john</span><span class="p">.</span><span class="n">smith</span>
+<span class="err">🔴</span><span class="w"> </span><span class="n">api</span><span class="o">-</span><span class="n">auth</span><span class="o">-</span><span class="n">cert</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">Key</span><span class="w"> </span><span class="n">Vault</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@jane</span><span class="p">.</span><span class="n">doe</span>
+
+<span class="n">HIGH</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">days</span><span class="p">)</span><span class="err">:</span>
+<span class="err">🟠</span><span class="w"> </span><span class="n">api</span><span class="o">-</span><span class="n">backend</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">Key</span><span class="w"> </span><span class="n">Vault</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@bob</span><span class="p">.</span><span class="n">jones</span>
+<span class="err">🟠</span><span class="w"> </span><span class="n">auth</span><span class="o">-</span><span class="n">service</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@alice</span>
+
+<span class="n">MEDIUM</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span><span class="p">)</span><span class="err">:</span>
+<span class="err">🟡</span><span class="w"> </span><span class="n">dev</span><span class="o">-</span><span class="n">wildcard</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">Key</span><span class="w"> </span><span class="n">Vault</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@charlie</span>
+<span class="err">🟡</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">ssl</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">@diana</span>
+</code></pre></div>
+
+<p><strong>Value:</strong> Every cert-related outage prevented, 2-4 hours/incident saved</p>
+<hr />
+<h2>Logic App #3: Tag Compliance Enforcement</h2>
+<p><strong>What It Does:</strong><br />
+- Scans all resources daily for required tags<br />
+- Groups non-compliant by owner<br />
+- Emails resource owners with remediation links<br />
+- Tracks compliance over time<br />
+- Escalates repeat violations</p>
+<p><strong>Why It Matters:</strong><br />
+Without tag enforcement, FinOps dies.</p>
+<p>Cost allocation fails. Chargeback fails. Backup policies fail.</p>
+<p>At 31,000 resources, manual cleanup is impossible.</p>
+<h3>The Tag Query</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environmentTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Environment&#39;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">costCenterTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;CostCenter&#39;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">ownerTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Owner&#39;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">applicationTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Application&#39;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">environmentTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">environmentTag</span><span class="p">)</span>
+<span class="w">     </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">costCenterTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">costCenterTag</span><span class="p">)</span>
+<span class="w">     </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">ownerTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">ownerTag</span><span class="p">)</span>
+<span class="w">     </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">applicationTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">applicationTag</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
+<span class="w">          </span><span class="n">ownerTag</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<h3>Deployment</h3>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-tag-compliance&quot;</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">assign</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="nv">$principalId</span> <span class="p">=</span> <span class="p">(</span><span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">show</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-query</span> <span class="n">principalId</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+
+<span class="c"># Reader for queries</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+
+<span class="c"># Optional: Tag Contributor for automated remediation</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Tag Contributor&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Logic App Flow</h3>
+<ol>
+<li><strong>Trigger:</strong> Recurrence - Daily at 7 AM</li>
+<li><strong>HTTP:</strong> Query all resources for missing tags</li>
+<li><strong>Parse:</strong> Group by Owner tag</li>
+<li><strong>For Each Owner:</strong></li>
+<li>Compose personalized email</li>
+<li>Include direct Portal links</li>
+<li>Send with 7-day deadline</li>
+<li><strong>Compose:</strong> Admin summary</li>
+<li><strong>Send:</strong> Summary to admins</li>
+</ol>
+<h3>Expected Output</h3>
+<p><strong>To Resource Owners:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nl">Subject</span><span class="p">:</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="n">Required</span><span class="o">:</span><span class="w"> </span><span class="n">Tag</span><span class="w"> </span><span class="n">Compliance</span>
+
+<span class="n">Hello</span><span class="w"> </span><span class="n">John</span><span class="w"> </span><span class="n">Smith</span><span class="p">,</span>
+
+<span class="n">Resources</span><span class="w"> </span><span class="n">missing</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">tags</span><span class="o">:</span>
+
+<span class="n">RESOURCE</span><span class="w">          </span><span class="n">GROUP</span><span class="w">           </span><span class="n">MISSING</span><span class="w"> </span><span class="n">TAGS</span><span class="w">           </span><span class="n">ACTION</span>
+<span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="n">vm</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">app</span><span class="mo">-01</span><span class="w">    </span><span class="n">rg</span><span class="o">-</span><span class="n">production</span><span class="w">   </span><span class="n">CostCenter</span><span class="p">,</span><span class="w"> </span><span class="n">Owner</span><span class="w">      </span><span class="p">[</span><span class="n">Add</span><span class="w"> </span><span class="n">Tags</span><span class="p">]</span>
+<span class="n">storage</span><span class="o">-</span><span class="n">backups</span><span class="w">   </span><span class="n">rg</span><span class="o">-</span><span class="n">storage</span><span class="w">      </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">App</span><span class="w">       </span><span class="p">[</span><span class="n">Add</span><span class="w"> </span><span class="n">Tags</span><span class="p">]</span>
+<span class="n">sql</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">db</span><span class="w">       </span><span class="n">rg</span><span class="o">-</span><span class="n">databases</span><span class="w">    </span><span class="n">CostCenter</span><span class="w">             </span><span class="p">[</span><span class="n">Add</span><span class="w"> </span><span class="n">Tags</span><span class="p">]</span>
+
+<span class="nl">Required</span><span class="p">:</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">CostCenter</span><span class="p">,</span><span class="w"> </span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">Application</span>
+<span class="nl">Deadline</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">days</span>
+</code></pre></div>
+
+<p><strong>Value:</strong> 10+ hours/week saved, FinOps reporting actually works</p>
+<hr />
+<h2>Logic App #4: Backup Verification Report</h2>
+<p><strong>What It Does:</strong><br />
+- Queries all Recovery Services Vaults daily<br />
+- Identifies backup job failures in last 24 hours<br />
+- Groups by vault, VM, and error type<br />
+- Highlights consecutive failures</p>
+<p><strong>Why It Matters:</strong><br />
+Backups fail silently.</p>
+<p>You discover failures when you need to restore. Too late.</p>
+<p>This surfaces failures within 24 hours.</p>
+<h3>Deployment</h3>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-rsv-backup-report&quot;</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">assign</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="nv">$principalId</span> <span class="p">=</span> <span class="p">(</span><span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">show</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-query</span> <span class="n">principalId</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+
+<span class="c"># Reader + Backup Reader roles</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Backup Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Logic App Flow</h3>
+<ol>
+<li><strong>Trigger:</strong> Recurrence - Daily at 9 AM</li>
+<li><strong>HTTP:</strong> Query Resource Graph for all RSVs</li>
+<li><strong>For Each Vault:</strong></li>
+<li>Query Backup Jobs API</li>
+<li>Filter for Failed status (last 24h)</li>
+<li>Parse error details</li>
+<li><strong>If failures:</strong></li>
+<li>Compose HTML report</li>
+<li>Send high-priority email</li>
+<li><strong>If all successful:</strong></li>
+<li>Send confirmation email</li>
+</ol>
+<h3>Expected Output</h3>
+<p><strong>When failures occur:</strong></p>
+<div class="codehilite"><pre><span></span><code>Subject: 🚨 ALERT: 3 Backup Failures (Last 24h)
+
+BACKUP FAILURE REPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Vault              VM Name           Error Code
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+rsv-prod-backups   vm-sql-prod-01    UserErrorVmNotFound
+rsv-prod-backups   vm-app-prod-03    UserErrorDiskQuota
+rsv-dev-backups    vm-test-server    UserErrorVMAgentOffline
+
+COMMON FIXES
+UserErrorVmNotFound     → VM deleted, remove from policy
+UserErrorDiskQuota      → Increase storage, review retention
+UserErrorVMAgentOffline → Check agent, restart VM
+
+ACTION REQUIRED: Remediate within 24 hours
+</code></pre></div>
+
+<p><strong>When successful:</strong></p>
+<div class="codehilite"><pre><span></span><code>Subject: ✅ All Backups Successful (Last 24h)
+
+Total Vaults: 12
+Total Successful Jobs: 247
+
+No action required.
+</code></pre></div>
+
+<p><strong>Value:</strong> 4+ hours per restore crisis avoided, compliance verified</p>
+<hr />
+<h2>Deployment Strategy</h2>
+<p>Don't deploy all 4 at once. Prioritize by pain:</p>
+<h3>Week 1: Backup Verification</h3>
+<p>Highest risk - deploy first<br />
+- Test with existing vaults<br />
+- Validate email delivery<br />
+- Run for 1 week</p>
+<h3>Week 2: Certificate Monitor</h3>
+<p>Outage prevention<br />
+- Set up Teams webhook<br />
+- Test with expiring cert<br />
+- Run for 1 week</p>
+<h3>Week 3: Unused Resource Cleanup</h3>
+<p>Cost savings<br />
+- Review first report<br />
+- Identify safe deletions<br />
+- Calculate savings</p>
+<h3>Week 4: Tag Compliance</h3>
+<p>Organizational buy-in<br />
+- Socialize with owners<br />
+- Information-only mode<br />
+- Enable enforcement after 2 weeks</p>
+<h2>Cost Analysis</h2>
+<p><strong>Logic App Costs (Consumption):</strong><br />
+- ~$0.012 per Logic App/month<br />
+- All 4: <strong>~$0.05/month</strong></p>
+<p><strong>Connector Costs:</strong><br />
+- Office 365: Included with M365<br />
+- Resource Graph: Free<br />
+- Teams: Free</p>
+<p><strong>Total: &lt; $1/month</strong></p>
+<p><strong>Value:</strong><br />
+- Unused resources: $4,000/month recovered<br />
+- Certificates: Outage prevention<br />
+- Tags: FinOps enablement<br />
+- Backups: Compliance verified</p>
+<p><strong>ROI: Infinite</strong></p>
+<h2>Common Issues</h2>
+<p><strong>Issue 1: Permission Errors</strong></p>
+<div class="codehilite"><pre><span></span><code>HTTP 403 Forbidden
+</code></pre></div>
+
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Verify identity</span>
+<span class="nv">$identity</span> <span class="p">=</span> <span class="n">az</span> <span class="n">logicapp</span> <span class="n">identity</span> <span class="n">show</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="nv">$logicAppName</span>
+
+<span class="c"># Re-assign role</span>
+<span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$identity</span><span class="p">.</span><span class="n">principalId</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Issue 2: Email Not Sending</strong></p>
+<ol>
+<li>Check spam folder</li>
+<li>Verify email address</li>
+<li>Re-authenticate O365 connector:</li>
+<li>Go to API Connections</li>
+<li>Edit connection</li>
+<li>Re-authenticate</li>
+<li>Check O365 audit logs</li>
+</ol>
+<p><strong>Issue 3: Query Timeout</strong></p>
+<p>Split by subscription:</p>
+<div class="codehilite"><pre><span></span><code><span class="c">// Query specific subscription</span>
+<span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;YOUR-SUB-ID&#39;</span>
+</code></pre></div>
+
+<h2>Bottom Line</h2>
+<p>Stop clicking buttons. Build these 4 Logic Apps.</p>
+<ol>
+<li><strong>Unused Resource Cleanup</strong> - Recover thousands/month</li>
+<li><strong>Certificate Monitor</strong> - Prevent outages</li>
+<li><strong>Tag Compliance</strong> - Enable FinOps</li>
+<li><strong>Backup Verification</strong> - Verify before you need it</li>
+</ol>
+<p>Running in production managing 31,000+ resources.</p>
+<p>They work.</p>
+<hr />
+<p><strong>Questions?</strong> Leave a comment or reach out.</p>
+<p><strong>Want more automation?</strong> Check out <a href="https://azure-noob.com">azure-noob.com</a> for practical Azure ops content.</p>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="../azure-resource-tags-guide/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">What I Wish I Knew About Azure Resource Tags</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-09-23</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../azure-cost-management-is-confusing-but-you-can-tame-it/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Cost Management is Confusing (But You Can Tame It)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2024-01-01</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../kql-query-library-git/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You About</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-28</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../azure-ai-collaboration-gap/index.html">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>The AI Collaboration Gap: What Azure Admins Need to Know About Claude vs Copilot</strong>
+      </a>
+    
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+</body>
+</html>
