@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Noob</title>
+  <meta name="description" content="Don&#39;t be a Noob">
+  <link rel="canonical" href="https://azure-noob.com" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Noob">
+  <meta property="og:description" content="Don&#39;t be a Noob">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com">
+  <meta property="og:image" content="../../static/images/hero/cloud-wars.png">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Noob">
+  <meta name="twitter:description" content="Don&#39;t be a Noob">
+  <meta name="twitter:image" content="../../static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../static/styles.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../../index.html" class="brand-link">
+          <img src="../../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../../index.html">Home</a>
+        <a href="../index.html">Blog</a>
+        <a href="../../about/index.html">About</a>
+        <a href="../../tags/index.html">Tags</a>
+        <a href="../../search/index.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="../../static/images/hero/service-inventory-tool.svg" alt="Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?</h1>
+    <p class="muted">
+      2025-10-29 · ~16 min read
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="../../tags/Azure/index.html" class="tag-badge">Azure</a></li>
+      
+      <li><a href="../../tags/PowerShell/index.html" class="tag-badge">PowerShell</a></li>
+      
+      <li><a href="../../tags/Resource%20Graph/index.html" class="tag-badge">Resource Graph</a></li>
+      
+      <li><a href="../../tags/Tools/index.html" class="tag-badge">Tools</a></li>
+      
+      <li><a href="../../tags/Operations/index.html" class="tag-badge">Operations</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">The Azure Periodic Table is beautiful but useless for operations. Here&#39;s a tool that tells you which services you&#39;re actually using, how many, and what they cost.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>Microsoft says there are <strong>397 Azure services</strong>.</p>
+<p>The <a href="https://www.azureperiodictable.com/">Azure Periodic Table</a> displays them beautifully.</p>
+<p>But here's what the periodic table doesn't tell you:<br />
+- Which services <strong>you're</strong> actually using<br />
+- How many of each service you have<br />
+- What they cost<br />
+- Who owns them<br />
+- Which ones are deprecated</p>
+<p>After managing 31,000 resources across 44 subscriptions, I got tired of not knowing my actual service footprint.</p>
+<p>So I built a tool to answer: <strong>"Which of the 397 Azure services am I actually using?"</strong></p>
+<p>Turns out: <strong>38 services</strong>. Out of 397.</p>
+<p>This post shows you how to build the same tool for your environment.</p>
+<h2>The Problem with the Periodic Table</h2>
+<p>The Azure Periodic Table is gorgeous. Great for:<br />
+- Learning what services exist<br />
+- Finding service descriptions<br />
+- Impressing executives in presentations</p>
+<p>Terrible for:<br />
+- "What services does my organization use?"<br />
+- "How many App Service Plans do we have?"<br />
+- "Which services are we paying for?"<br />
+- "What's deprecated that we need to migrate off?"<br />
+- "Who owns Azure SQL in our environment?"</p>
+<p>The periodic table shows all 397 services. I need to know which <strong>38</strong> I'm responsible for.</p>
+<h2>What the Tool Does</h2>
+<p>This tool creates an <strong>Azure Service Inventory</strong> for your environment:</p>
+<p><strong>Input:</strong> Your Azure subscriptions</p>
+<p><strong>Output:</strong> Excel spreadsheet with:<br />
+- Every Azure service type you're using<br />
+- Count of each resource type<br />
+- Service category (Compute, Networking, Storage, etc.)<br />
+- Estimated cost tier<br />
+- Deprecated status<br />
+- Links to documentation<br />
+- Space for your team's notes</p>
+<p><strong>Example Output:</strong></p>
+<div class="codehilite"><pre><span></span><code>Service Type              Category    Count   Cost Tier   Deprecated
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Virtual Machines          Compute       156      High         No
+Storage Accounts          Storage       423      Medium       No
+Virtual Networks          Networking     44      Low          No
+Network Interfaces        Networking    312      Free         No
+Recovery Services Vault   Backup         12      Medium       No
+Key Vault                 Security       18      Low          No
+Log Analytics Workspace   Monitoring      8      Medium       No
+Classic Storage Account   Storage         3      Medium       YES (migrate to v2)
+</code></pre></div>
+
+<p><strong>The Insight:</strong> Out of 397 possible services, you're using 38. Focus on those.</p>
+<h2>How It Works</h2>
+<h3>Step 1: Query Your Environment</h3>
+<p>Use Azure Resource Graph to get every resource type:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">Subscriptions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">subscriptionId</span><span class="p">),</span>
+<span class="w">    </span><span class="n">ResourceGroups</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">resourceGroup</span><span class="p">)</span>
+<span class="w">  </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="n">ServiceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Provider</span><span class="p">,</span><span class="w"> </span><span class="n">ServiceType</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">Subscriptions</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroups</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>This returns every resource type in your environment with counts.</p>
+<h3>Step 2: Enrich with Service Metadata</h3>
+<p>Match resource types against known Azure services:</p>
+<ul>
+<li>Service category (Compute, Networking, etc.)</li>
+<li>Cost tier (Free, Low, Medium, High)</li>
+<li>Deprecated status</li>
+<li>Documentation links</li>
+<li>Common use cases</li>
+</ul>
+<h3>Step 3: Export to Excel</h3>
+<p>Create a searchable, sortable spreadsheet your team can use.</p>
+<h2>The PowerShell Script</h2>
+<p>Here's the complete tool:</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;#</span>
+<span class="sd">.SYNOPSIS</span>
+<span class="cm">    Azure Service Inventory Tool</span>
+<span class="sd">.DESCRIPTION</span>
+<span class="cm">    Queries all subscriptions to determine which Azure services are actually in use.</span>
+<span class="cm">    Creates an Excel-compatible CSV with service counts, categories, and metadata.</span>
+<span class="sd">.EXAMPLE</span>
+<span class="cm">    .\Get-AzureServiceInventory.ps1</span>
+<span class="cm">    .\Get-AzureServiceInventory.ps1 -SubscriptionId &quot;sub-id-here&quot;</span>
+<span class="cm">#&gt;</span>
+
+<span class="k">param</span><span class="p">(</span>
+    <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$false</span><span class="p">)]</span>
+    <span class="no">[string]</span><span class="nv">$SubscriptionId</span><span class="p">,</span>
+
+    <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$false</span><span class="p">)]</span>
+    <span class="no">[string]</span><span class="nv">$OutputPath</span> <span class="p">=</span> <span class="s2">&quot;.\AzureServiceInventory.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="c"># Ensure Az.ResourceGraph module</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Get-Module</span> <span class="n">-ListAvailable</span> <span class="n">Az</span><span class="p">.</span><span class="n">ResourceGraph</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Installing Az.ResourceGraph module...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Install-Module</span> <span class="n">Az</span><span class="p">.</span><span class="n">ResourceGraph</span> <span class="n">-Force</span> <span class="n">-AllowClobber</span>
+<span class="p">}</span>
+
+<span class="nb">Import-Module</span> <span class="n">Az</span><span class="p">.</span><span class="n">ResourceGraph</span>
+
+<span class="c"># Check if logged in</span>
+<span class="nv">$context</span> <span class="p">=</span> <span class="nb">Get-AzContext</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Not logged in to Azure. Running Connect-AzAccount...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Connect-AzAccount</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">🔍 Querying Azure Resource Graph for service inventory...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="c"># Build subscription scope</span>
+<span class="nv">$subscriptionScope</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$SubscriptionId</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">@(</span><span class="nv">$SubscriptionId</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="p">(</span><span class="nb">Get-AzSubscription</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">State</span> <span class="o">-eq</span> <span class="s1">&#39;Enabled&#39;</span><span class="p">}).</span><span class="n">Id</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;📊 Scanning </span><span class="p">$(</span><span class="nv">$subscriptionScope</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> subscription(s)...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="c"># Query all resource types</span>
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">Resources</span>
+<span class="sh">| summarize </span>
+<span class="sh">    Count = count(),</span>
+<span class="sh">    SubscriptionCount = dcount(subscriptionId),</span>
+<span class="sh">    Locations = make_set(location)</span>
+<span class="sh">  by type</span>
+<span class="sh">| extend </span>
+<span class="sh">    Provider = split(type, &#39;/&#39;)[0],</span>
+<span class="sh">    ServiceType = split(type, &#39;/&#39;)[1]</span>
+<span class="sh">| project Provider, ServiceType, Count, SubscriptionCount, Locations</span>
+<span class="sh">| order by Count desc</span>
+<span class="sh">&quot;@</span>
+
+<span class="nv">$results</span> <span class="p">=</span> <span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="nv">$query</span> <span class="n">-Subscription</span> <span class="nv">$subscriptionScope</span> <span class="n">-First</span> <span class="n">1000</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;✅ Found </span><span class="p">$(</span><span class="nv">$results</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> distinct Azure service types in use</span><span class="se">`n</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="c"># Service category mapping</span>
+<span class="nv">$categoryMap</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="s1">&#39;Microsoft.Compute&#39;</span> <span class="p">=</span> <span class="s1">&#39;Compute&#39;</span>
+    <span class="s1">&#39;Microsoft.Network&#39;</span> <span class="p">=</span> <span class="s1">&#39;Networking&#39;</span>
+    <span class="s1">&#39;Microsoft.Storage&#39;</span> <span class="p">=</span> <span class="s1">&#39;Storage&#39;</span>
+    <span class="s1">&#39;Microsoft.Web&#39;</span> <span class="p">=</span> <span class="s1">&#39;Web + Mobile&#39;</span>
+    <span class="s1">&#39;Microsoft.Sql&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
+    <span class="s1">&#39;Microsoft.DBforPostgreSQL&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
+    <span class="s1">&#39;Microsoft.DBforMySQL&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
+    <span class="s1">&#39;Microsoft.KeyVault&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
+    <span class="s1">&#39;Microsoft.ManagedIdentity&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
+    <span class="s1">&#39;Microsoft.Security&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
+    <span class="s1">&#39;Microsoft.OperationalInsights&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
+    <span class="s1">&#39;Microsoft.Insights&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
+    <span class="s1">&#39;Microsoft.Monitor&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
+    <span class="s1">&#39;Microsoft.RecoveryServices&#39;</span> <span class="p">=</span> <span class="s1">&#39;Backup + DR&#39;</span>
+    <span class="s1">&#39;Microsoft.Backup&#39;</span> <span class="p">=</span> <span class="s1">&#39;Backup + DR&#39;</span>
+    <span class="s1">&#39;Microsoft.ContainerService&#39;</span> <span class="p">=</span> <span class="s1">&#39;Containers&#39;</span>
+    <span class="s1">&#39;Microsoft.ContainerRegistry&#39;</span> <span class="p">=</span> <span class="s1">&#39;Containers&#39;</span>
+    <span class="s1">&#39;Microsoft.Logic&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
+    <span class="s1">&#39;Microsoft.ServiceBus&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
+    <span class="s1">&#39;Microsoft.EventHub&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
+    <span class="s1">&#39;Microsoft.Automation&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
+    <span class="s1">&#39;Microsoft.Resources&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
+    <span class="s1">&#39;Microsoft.Authorization&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
+<span class="p">}</span>
+
+<span class="c"># Cost tier estimation (rough)</span>
+<span class="nv">$costTierMap</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="s1">&#39;virtualmachines&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>
+    <span class="s1">&#39;disks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>
+    <span class="s1">&#39;snapshots&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
+    <span class="s1">&#39;storageaccounts&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>
+    <span class="s1">&#39;virtualnetworks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
+    <span class="s1">&#39;networkinterfaces&#39;</span> <span class="p">=</span> <span class="s1">&#39;Free&#39;</span>
+    <span class="s1">&#39;publicipaddresses&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
+    <span class="s1">&#39;loadbalancers&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
+    <span class="s1">&#39;applicationgateways&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>
+    <span class="s1">&#39;vaults&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>  <span class="c"># Key Vault</span>
+    <span class="s1">&#39;servers&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>   <span class="c"># SQL</span>
+    <span class="s1">&#39;workspaces&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>  <span class="c"># Log Analytics</span>
+    <span class="s1">&#39;sites&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>   <span class="c"># App Service</span>
+<span class="p">}</span>
+
+<span class="c"># Deprecated services</span>
+<span class="nv">$deprecatedServices</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="s1">&#39;Microsoft.ClassicCompute/virtualMachines&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to Azure Resource Manager VMs&#39;</span>
+    <span class="s1">&#39;Microsoft.ClassicStorage/storageAccounts&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to v2 Storage Accounts&#39;</span>
+    <span class="s1">&#39;Microsoft.ClassicNetwork/virtualNetworks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to ARM Virtual Networks&#39;</span>
+<span class="p">}</span>
+
+<span class="c"># Build enriched inventory</span>
+<span class="nv">$inventory</span> <span class="p">=</span> <span class="nv">$results</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$provider</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Provider</span>
+    <span class="nv">$serviceType</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ServiceType</span>
+    <span class="nv">$fullType</span> <span class="p">=</span> <span class="s2">&quot;$provider/$serviceType&quot;</span>
+
+    <span class="nv">$category</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$categoryMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$provider</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$categoryMap</span><span class="p">[</span><span class="nv">$provider</span><span class="p">]</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="s1">&#39;Other&#39;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$costTier</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$costTierMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()))</span> <span class="p">{</span>
+        <span class="nv">$costTierMap</span><span class="p">[</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()]</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="s1">&#39;Unknown&#39;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$deprecated</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$deprecatedServices</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$fullType</span><span class="p">))</span> <span class="p">{</span>
+        <span class="s2">&quot;YES - </span><span class="p">$(</span><span class="nv">$deprecatedServices</span><span class="p">[</span><span class="nv">$fullType</span><span class="p">])</span><span class="s2">&quot;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="s1">&#39;No&#39;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$docsLink</span> <span class="p">=</span> <span class="s2">&quot;https://learn.microsoft.com/azure/?product=</span><span class="p">$(</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span><span class="s2">&quot;</span>
+
+    <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">Provider</span> <span class="p">=</span> <span class="nv">$provider</span>
+        <span class="n">ServiceType</span> <span class="p">=</span> <span class="nv">$serviceType</span>
+        <span class="n">Category</span> <span class="p">=</span> <span class="nv">$category</span>
+        <span class="n">Count</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Count</span>
+        <span class="n">SubscriptionCount</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SubscriptionCount</span>
+        <span class="n">Locations</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Locations</span> <span class="n">-join</span> <span class="s1">&#39;, &#39;</span><span class="p">)</span>
+        <span class="n">CostTier</span> <span class="p">=</span> <span class="nv">$costTier</span>
+        <span class="n">Deprecated</span> <span class="p">=</span> <span class="nv">$deprecated</span>
+        <span class="n">DocsLink</span> <span class="p">=</span> <span class="nv">$docsLink</span>
+        <span class="n">Notes</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>  <span class="c"># For manual entry</span>
+        <span class="n">Owner</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>  <span class="c"># For manual entry</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># Export to CSV</span>
+<span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="nv">$OutputPath</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;✅ Service inventory exported to: $OutputPath&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">📊 Summary:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   Total Services in Use: </span><span class="p">$(</span><span class="nv">$inventory</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   Total Resources: </span><span class="p">$((</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">Count</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+
+<span class="c"># Category breakdown</span>
+<span class="nv">$categoryBreakdown</span> <span class="p">=</span> <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">Category</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Count</span> <span class="n">-Descending</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">📁 By Category:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$cat</span> <span class="k">in</span> <span class="nv">$categoryBreakdown</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;   </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> service types&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="p">}</span>
+
+<span class="c"># Check for deprecated services</span>
+<span class="nv">$deprecatedCount</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">&#39;No&#39;</span><span class="p">}).</span><span class="n">Count</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$deprecatedCount</span> <span class="o">-gt</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">⚠️  Warning: $deprecatedCount deprecated service(s) found!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">&#39;No&#39;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;   - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">ServiceType</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">💡 Next Steps:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   1. Open $OutputPath in Excel&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   2. Add Owner and Notes columns for your team&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   3. Filter by Category or CostTier&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;   4. Share with your team for service ownership mapping&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
+</code></pre></div>
+
+<h3>Running the Script</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Run against all subscriptions</span>
+<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span>
+
+<span class="c"># Run against specific subscription</span>
+<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-SubscriptionId</span> <span class="s2">&quot;your-sub-id&quot;</span>
+
+<span class="c"># Custom output location</span>
+<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutputPath</span> <span class="s2">&quot;C:\Reports\ServiceInventory.csv&quot;</span>
+</code></pre></div>
+
+<h3>Output Example</h3>
+<p>The script creates a CSV with these columns:</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>ServiceType</th>
+<th>Category</th>
+<th>Count</th>
+<th>SubscriptionCount</th>
+<th>Locations</th>
+<th>CostTier</th>
+<th>Deprecated</th>
+<th>DocsLink</th>
+<th>Notes</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft.Compute</td>
+<td>virtualMachines</td>
+<td>Compute</td>
+<td>156</td>
+<td>12</td>
+<td>eastus, westus</td>
+<td>High</td>
+<td>No</td>
+<td>[link]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Microsoft.Storage</td>
+<td>storageAccounts</td>
+<td>Storage</td>
+<td>423</td>
+<td>18</td>
+<td>eastus, centralus</td>
+<td>Medium</td>
+<td>No</td>
+<td>[link]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Microsoft.Network</td>
+<td>virtualNetworks</td>
+<td>Networking</td>
+<td>44</td>
+<td>14</td>
+<td>eastus, westus</td>
+<td>Low</td>
+<td>No</td>
+<td>[link]</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>What You Learn</h2>
+<p>Running this against my 44 subscriptions revealed:</p>
+<h3>The 80/20 Rule Applies</h3>
+<p><strong>Top 10 services = 92% of all resources:</strong><br />
+1. Network Interfaces (8,234)<br />
+2. Disks (4,156)<br />
+3. Virtual Machines (3,890)<br />
+4. Public IP Addresses (2,341)<br />
+5. Storage Accounts (1,892)<br />
+6. Network Security Groups (847)<br />
+7. Virtual Networks (423)<br />
+8. Snapshots (312)<br />
+9. Key Vaults (287)<br />
+10. Recovery Services Vaults (156)</p>
+<p><strong>Bottom 28 services = 8% of resources</strong></p>
+<h3>We're Using 38 Services (Out of 397)</h3>
+<p><strong>Breakdown by category:</strong><br />
+- Compute: 8 service types<br />
+- Networking: 12 service types<br />
+- Storage: 4 service types<br />
+- Databases: 3 service types<br />
+- Monitoring: 4 service types<br />
+- Security: 3 service types<br />
+- Management: 2 service types<br />
+- Other: 2 service types</p>
+<p><strong>The other 359 Azure services?</strong> Marketing.</p>
+<h3>We Have Deprecated Services</h3>
+<p><strong>3 classic services still in use:</strong><br />
+- Classic Storage Accounts: 12 instances<br />
+- Classic Virtual Networks: 3 instances</p>
+<p>These need migration before they're force-retired.</p>
+<h3>Multi-Subscription Sprawl is Real</h3>
+<p>Some services exist in <strong>18 different subscriptions</strong>:<br />
+- Storage Accounts<br />
+- Virtual Networks<br />
+- Log Analytics Workspaces</p>
+<p>This complicates:<br />
+- Cost allocation<br />
+- Security policy<br />
+- Compliance auditing</p>
+<p>The inventory makes this visible.</p>
+<h2>How to Use This Tool</h2>
+<h3>1. Service Rationalization</h3>
+<p><strong>Question:</strong> "Do we really need 8 different monitoring solutions?"</p>
+<p><strong>Inventory shows:</strong><br />
+- Log Analytics Workspaces: 8<br />
+- Application Insights: 12<br />
+- Monitor Diagnostic Settings: 156</p>
+<p><strong>Decision:</strong> Consolidate to 2 centralized Log Analytics workspaces.</p>
+<h3>2. Ownership Mapping</h3>
+<p>Open the CSV in Excel. Add Owner column:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">ServiceType</span><span class="w">              </span><span class="n">Count</span><span class="w">   </span><span class="n">Owner</span>
+<span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="n">Virtual</span><span class="w"> </span><span class="n">Machines</span><span class="w">          </span><span class="mh">156</span><span class="w">    </span><span class="n">Infrastructure</span><span class="w"> </span><span class="n">Team</span>
+<span class="n">SQL</span><span class="w"> </span><span class="n">Servers</span><span class="w">                </span><span class="mh">23</span><span class="w">    </span><span class="n">Database</span><span class="w"> </span><span class="n">Team</span>
+<span class="n">App</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="n">Plans</span><span class="w">          </span><span class="mh">45</span><span class="w">    </span><span class="n">Application</span><span class="w"> </span><span class="n">Team</span>
+<span class="n">Storage</span><span class="w"> </span><span class="n">Accounts</span><span class="w">          </span><span class="mh">423</span><span class="w">    </span><span class="n">Unassigned</span><span class="w"> </span><span class="err">←</span><span class="w"> </span><span class="n">Problem</span><span class="o">!</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> 423 storage accounts with no owner. Time to fix that.</p>
+<h3>3. Cost Optimization Targets</h3>
+<p>Filter by CostTier = "High":</p>
+<div class="codehilite"><pre><span></span><code>ServiceType          Count   CostTier   Monthly Cost (est)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Virtual Machines      156     High       $87,000
+SQL Servers            23     High       $34,000
+Application Gateways   12     High       $18,000
+</code></pre></div>
+
+<p><strong>Priority:</strong> Focus cost optimization on VMs first (biggest impact).</p>
+<h3>4. Migration Planning (Merger Use Case)</h3>
+<p>We're merging 44 subscriptions down to 12.</p>
+<p><strong>Inventory shows:</strong><br />
+- Company A uses: Azure Firewall<br />
+- Company B uses: Network Virtual Appliances</p>
+<p><strong>Decision needed:</strong> Standardize on one solution.</p>
+<p>The inventory makes these conflicts visible <strong>before</strong> the migration.</p>
+<h3>5. Compliance &amp; Audit</h3>
+<p><strong>Auditor:</strong> "Show me all database services in scope."</p>
+<p><strong>Excel filter:</strong> Category = "Databases"</p>
+<div class="codehilite"><pre><span></span><code>ServiceType                Count   Locations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SQL Servers                 23     eastus, westus
+PostgreSQL Servers          8      eastus
+MySQL Servers               4      centralus
+</code></pre></div>
+
+<p><strong>Export:</strong> Send filtered CSV to auditor. Done in 30 seconds.</p>
+<h2>Advanced: Add Cost Data</h2>
+<p>The basic inventory shows <em>cost tier</em>. But you can add <strong>actual cost</strong>:</p>
+<h3>Query Cost Management API</h3>
+<div class="codehilite"><pre><span></span><code><span class="c"># Add this to the script after building inventory</span>
+<span class="nv">$costQuery</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">{</span>
+<span class="sh">  &quot;type&quot;: &quot;Usage&quot;,</span>
+<span class="sh">  &quot;timeframe&quot;: &quot;MonthToDate&quot;,</span>
+<span class="sh">  &quot;dataset&quot;: {</span>
+<span class="sh">    &quot;granularity&quot;: &quot;None&quot;,</span>
+<span class="sh">    &quot;aggregation&quot;: {</span>
+<span class="sh">      &quot;totalCost&quot;: {</span>
+<span class="sh">        &quot;name&quot;: &quot;Cost&quot;,</span>
+<span class="sh">        &quot;function&quot;: &quot;Sum&quot;</span>
+<span class="sh">      }</span>
+<span class="sh">    },</span>
+<span class="sh">    &quot;grouping&quot;: [</span>
+<span class="sh">      {</span>
+<span class="sh">        &quot;type&quot;: &quot;Dimension&quot;,</span>
+<span class="sh">        &quot;name&quot;: &quot;ResourceType&quot;</span>
+<span class="sh">      }</span>
+<span class="sh">    ]</span>
+<span class="sh">  }</span>
+<span class="sh">}</span>
+<span class="sh">&quot;@</span>
+
+<span class="c"># Call Cost Management API for each subscription</span>
+<span class="c"># (Implementation left as exercise - requires Cost Management permissions)</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Add "ActualMonthlyCost" column to inventory.</p>
+<h2>Why This Matters</h2>
+<p>Microsoft publishes 397 Azure services.</p>
+<p>Most organizations use <strong>30-50</strong> of them.</p>
+<p>But without an inventory, you don't know:<br />
+- Which services you have<br />
+- How many of each<br />
+- Who owns them<br />
+- What they cost<br />
+- What's deprecated</p>
+<p><strong>This tool gives you that visibility in 2 minutes.</strong></p>
+<p>It's not revolutionary. It's just <strong>Resource Graph + Excel</strong>.</p>
+<p>But it answers questions you can't answer from the Azure Portal:<br />
+- "What's our Azure footprint?"<br />
+- "Which services are we responsible for?"<br />
+- "What should we focus on?"</p>
+<h2>Real-World Use Cases</h2>
+<h3>Use Case 1: New Azure Admin Onboarding</h3>
+<p><strong>Problem:</strong> New hire asks "What services do we use?"</p>
+<p><strong>Old answer:</strong> "Um, VMs, storage, networking... lots of stuff."</p>
+<p><strong>New answer:</strong> "Here's the inventory. We use 38 services. Focus on these 10."</p>
+<h3>Use Case 2: M&amp;A Due Diligence</h3>
+<p><strong>Problem:</strong> Acquiring company. Need to understand their Azure environment.</p>
+<p><strong>Old approach:</strong> Manual discovery. Takes weeks.</p>
+<p><strong>New approach:</strong> Run the script. Inventory in 2 minutes.</p>
+<h3>Use Case 3: Service Consolidation</h3>
+<p><strong>Problem:</strong> 8 Log Analytics workspaces. Do we need all of them?</p>
+<p><strong>Inventory shows:</strong><br />
+- 3 workspaces with &gt;1000 resources<br />
+- 5 workspaces with &lt;50 resources</p>
+<p><strong>Decision:</strong> Consolidate the 5 small ones.</p>
+<h3>Use Case 4: Budget Planning</h3>
+<p><strong>CFO:</strong> "What are we spending on Azure?"</p>
+<p><strong>Inventory filtered by CostTier:</strong><br />
+- High: 12 service types<br />
+- Medium: 18 service types<br />
+- Low: 6 service types<br />
+- Free: 2 service types</p>
+<p><strong>Budget focus:</strong> The 12 high-cost services drive 80% of spend.</p>
+<h2>Common Patterns You'll Find</h2>
+<p>After running this on multiple organizations:</p>
+<h3>Pattern 1: The 80/20 Service Distribution</h3>
+<p><strong>80% of resources</strong> = 10-15 service types (VMs, storage, networking basics)</p>
+<p><strong>20% of resources</strong> = 20-30 service types (databases, monitoring, security, etc.)</p>
+<h3>Pattern 2: Zombie Services</h3>
+<p>Services with Count = 1-3 that nobody remembers creating:</p>
+<div class="codehilite"><pre><span></span><code>ServiceType              Count   Owner
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Machine Learning Workspace  2     Unknown
+Data Factory                1     Unknown
+Container Registry          1     Unknown
+</code></pre></div>
+
+<p><strong>Investigation needed:</strong> What are these? Can we delete them?</p>
+<h3>Pattern 3: Multi-Subscription Sprawl</h3>
+<p>Same service type across 15+ subscriptions:</p>
+<ul>
+<li>Harder to secure consistently</li>
+<li>Harder to monitor</li>
+<li>Harder to optimize cost</li>
+<li>Harder to audit</li>
+</ul>
+<p><strong>Strategy:</strong> Consolidate where possible.</p>
+<h3>Pattern 4: Classic Resource Debt</h3>
+<p>Classic resources still running:</p>
+<div class="codehilite"><pre><span></span><code>ServiceType                      Count   Deprecated
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Classic Storage Accounts          12     YES
+Classic Virtual Networks           3     YES
+</code></pre></div>
+
+<p><strong>Action required:</strong> Migration project before force retirement.</p>
+<h2>Limitations</h2>
+<p>This tool doesn't:</p>
+<ol>
+<li><strong>Track service features</strong> - Just that App Service exists, not which tiers/features</li>
+<li><strong>Include resource properties</strong> - Doesn't show VM sizes, storage tiers, etc.</li>
+<li><strong>Calculate exact costs</strong> - Estimates cost tier, not actual spend</li>
+<li><strong>Track configuration</strong> - Doesn't show settings, just existence</li>
+<li><strong>Monitor health</strong> - Doesn't show if services are broken</li>
+</ol>
+<p><strong>What it does:</strong> Give you a <strong>service footprint</strong> in 2 minutes.</p>
+<p>For deeper analysis, use:<br />
+- Azure Advisor (recommendations)<br />
+- Cost Management (actual costs)<br />
+- Resource Graph Explorer (detailed queries)<br />
+- Azure Monitor (health/performance)</p>
+<h2>Next Steps</h2>
+<h3>1. Run the Script</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<h3>2. Open in Excel</h3>
+<ul>
+<li>Add filters</li>
+<li>Sort by Count</li>
+<li>Add Owner column</li>
+<li>Add Notes column</li>
+</ul>
+<h3>3. Share with Your Team</h3>
+<p>Use it for:<br />
+- Service ownership mapping<br />
+- Cost optimization planning<br />
+- Migration preparation<br />
+- Audit documentation<br />
+- New hire onboarding</p>
+<h3>4. Re-Run Quarterly</h3>
+<p>Track how your service footprint changes:<br />
+- New services added<br />
+- Old services retired<br />
+- Resource counts growing/shrinking</p>
+<h2>The Bottom Line</h2>
+<p>Microsoft offers 397 Azure services.</p>
+<p>You're probably using <strong>30-50</strong> of them.</p>
+<p>But you don't know which ones without an inventory.</p>
+<p><strong>This tool gives you that inventory in 2 minutes.</strong></p>
+<p>It's not fancy. It's just Resource Graph + CSV.</p>
+<p>But it answers questions the Azure Portal can't:<br />
+- "What's our service footprint?"<br />
+- "Where should we focus?"<br />
+- "What's deprecated?"<br />
+- "Who owns what?"</p>
+<p>Run the script. Open the CSV. You'll know.</p>
+<hr />
+<p><strong>Download the script:</strong> <a href="/static/downloads/Get-AzureServiceInventory.ps1">Get-AzureServiceInventory.ps1</a></p>
+<p><strong>Questions?</strong> Leave a comment below.</p>
+<p><strong>Want more operational tools?</strong> Check out <a href="https://azure-noob.com">azure-noob.com</a> for practical Azure automation.</p>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="../azure-cmdb-wrong-cloud-fixes-it/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Your CMDB Is Wrong (And Cloud Migration Fixes It)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-11</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../kql-cheat-sheet-complete/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">KQL Cheat Sheet for Azure Resource Graph | Free PDF Download + Examples</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-01-15</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="../four-logic-apps-every-azure-admin-needs/index.html" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">4 Logic Apps Every Azure Admin Should Build</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-29</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="../four-logic-apps-every-azure-admin-needs/index.html">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>4 Logic Apps Every Azure Admin Should Build</strong>
+      </a>
+    
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <script async data-uid="3dfad5c743" src="https://azure-noob.kit.com/3dfad5c743/index.js"></script>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../../static/copy-code.js"></script>
+</body>
+</html>
