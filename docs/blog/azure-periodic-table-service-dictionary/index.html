@@ -79,7 +79,7 @@
   <header class="post-header">
     <h1>I Scraped the Azure Periodic Table to Build a Service Dictionary (And You Can Use It)</h1>
     <p class="muted">
-      2025-10-29 · ~12 min read
+      2025-10-29 · ~14 min read
     </p>
     
     
@@ -134,6 +134,149 @@ networkinterfaces   8234
 - Icons</p>
 <p>But it's a website. I needed it <strong>programmatically</strong>.</p>
 <p>So I scraped it.</p>
+<h2>What the Scraped Data Looks Like</h2>
+<p>Here's what I extracted from the Azure Periodic Table - the "Excel spreadsheet" with all the metadata:</p>
+<table>
+<thead>
+<tr>
+<th>Service Name</th>
+<th>Resource Type</th>
+<th>Category</th>
+<th>Description</th>
+<th>Naming</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Virtual Machine</strong></td>
+<td>virtualmachines</td>
+<td>Compute</td>
+<td>On-demand, high-scale, secure infrastructure</td>
+<td>vmw-/vml-</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Storage Account</strong></td>
+<td>storageaccounts</td>
+<td>Storage</td>
+<td>Secure, scalable, durable cloud storage</td>
+<td>st-</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Virtual Network</strong></td>
+<td>virtualnetworks</td>
+<td>Networking</td>
+<td>Private network in Azure</td>
+<td>vnet-</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Key Vault</strong></td>
+<td>keyvaults</td>
+<td>Security</td>
+<td>Securely store and access secrets</td>
+<td>kv-</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>SQL Server</strong></td>
+<td>servers</td>
+<td>Databases</td>
+<td>Fully managed relational database</td>
+<td>sql-</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>App Service</strong></td>
+<td>sites</td>
+<td>Web + Mobile</td>
+<td>Fully managed web application platform</td>
+<td>app-</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Network Security Group</strong></td>
+<td>networksecuritygroups</td>
+<td>Networking</td>
+<td>Security rules for network traffic</td>
+<td>nsg-</td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>Managed Disk</strong></td>
+<td>disks</td>
+<td>Storage</td>
+<td>Block-level storage volumes</td>
+<td>disk-</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Function App</strong></td>
+<td>functionapps</td>
+<td>Compute</td>
+<td>Serverless compute service</td>
+<td>func-</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Load Balancer</strong></td>
+<td>loadbalancers</td>
+<td>Networking</td>
+<td>Load balancing for traffic</td>
+<td>lbi-/lbe-</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>AKS Cluster</strong></td>
+<td>managedclusters</td>
+<td>Containers</td>
+<td>Managed Kubernetes service</td>
+<td>aks-</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Container Registry</strong></td>
+<td>registries</td>
+<td>Containers</td>
+<td>Store container images</td>
+<td>cr-</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Cosmos DB</strong></td>
+<td>databaseaccounts</td>
+<td>Databases</td>
+<td>Globally distributed database</td>
+<td>cosmos-</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Application Gateway</strong></td>
+<td>applicationgateways</td>
+<td>Networking</td>
+<td>Web traffic load balancer</td>
+<td>agw-</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Azure Firewall</strong></td>
+<td>azurefirewalls</td>
+<td>Security</td>
+<td>Highly available firewall</td>
+<td>afw-</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<p><strong>That's just 15 services.</strong> The full dictionary has <strong>200+ services</strong> with this same structured data.</p>
+<p>This is the value - you can now programmatically look up:<br />
+- ✅ Service descriptions (what it does)<br />
+- ✅ Naming conventions (how to name it)<br />
+- ✅ Categories (where it fits)<br />
+- ✅ Cost tiers (relative expense)</p>
+<p>All from a simple PowerShell hashtable.</p>
 <h2>The Problem: Great Reference, Not Operational</h2>
 <p>The Azure Periodic Table is <strong>gorgeous</strong>.</p>
 <p>It catalogs all 397 Azure services with:<br />

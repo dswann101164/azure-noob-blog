@@ -33,6 +33,38 @@ But it's a website. I needed it **programmatically**.
 
 So I scraped it.
 
+## What the Scraped Data Looks Like
+
+Here's what I extracted from the Azure Periodic Table - the "Excel spreadsheet" with all the metadata:
+
+| Service Name | Resource Type | Category | Description | Naming | Cost |
+|--------------|---------------|----------|-------------|--------|------|
+| **Virtual Machine** | virtualmachines | Compute | On-demand, high-scale, secure infrastructure | vmw-/vml- | High |
+| **Storage Account** | storageaccounts | Storage | Secure, scalable, durable cloud storage | st- | Medium |
+| **Virtual Network** | virtualnetworks | Networking | Private network in Azure | vnet- | Low |
+| **Key Vault** | keyvaults | Security | Securely store and access secrets | kv- | Low |
+| **SQL Server** | servers | Databases | Fully managed relational database | sql- | High |
+| **App Service** | sites | Web + Mobile | Fully managed web application platform | app- | Medium |
+| **Network Security Group** | networksecuritygroups | Networking | Security rules for network traffic | nsg- | Free |
+| **Managed Disk** | disks | Storage | Block-level storage volumes | disk- | Medium |
+| **Function App** | functionapps | Compute | Serverless compute service | func- | Low |
+| **Load Balancer** | loadbalancers | Networking | Load balancing for traffic | lbi-/lbe- | Medium |
+| **AKS Cluster** | managedclusters | Containers | Managed Kubernetes service | aks- | High |
+| **Container Registry** | registries | Containers | Store container images | cr- | Medium |
+| **Cosmos DB** | databaseaccounts | Databases | Globally distributed database | cosmos- | High |
+| **Application Gateway** | applicationgateways | Networking | Web traffic load balancer | agw- | High |
+| **Azure Firewall** | azurefirewalls | Security | Highly available firewall | afw- | High |
+
+**That's just 15 services.** The full dictionary has **200+ services** with this same structured data.
+
+This is the value - you can now programmatically look up:
+- ✅ Service descriptions (what it does)
+- ✅ Naming conventions (how to name it)  
+- ✅ Categories (where it fits)
+- ✅ Cost tiers (relative expense)
+
+All from a simple PowerShell hashtable.
+
 ## The Problem: Great Reference, Not Operational
 
 The Azure Periodic Table is **gorgeous**.
