@@ -1,7 +1,7 @@
 ---
 title: "Azure Icons Reference - All 284 Icons Searchable"
 date: 2025-10-29
-summary: "Complete searchable reference of all Azure service icons with descriptions. Stop hunting through Microsoft's icon sets - everything in one Excel file."
+summary: "Complete searchable reference of all Azure service icons with descriptions. Stop hunting through Microsoft's icon sets - everything in one interactive table."
 tags: ["Azure", "Documentation", "Reference"]
 cover: "/static/images/hero/azure-icons-reference.png"
 ---
@@ -10,29 +10,43 @@ cover: "/static/images/hero/azure-icons-reference.png"
 
 **The Problem:** You're building architecture diagrams, documentation, or presentations and need the right Azure icon. You know Microsoft publishes them somewhere. You spend 20 minutes clicking through GitHub repos, icon collections, and outdated documentation trying to find "that Storage Account icon" or "whatever that Kubernetes thing is called."
 
-**The Solution:** All 284 Azure service icons in one searchable Excel file. Icon name, service name, description, and direct SVG URL. Filter, search, done.
+**The Solution:** All 284 Azure service icons in one searchable interactive table. See the icon, service name, and description. Filter, search, export. Done.
 
 ## What You Get
 
-[**Download: Azure Icons Reference Spreadsheet**](/static/files/Azure-Icons-Reference.xlsx)
+**[Interactive Table Reference](/static/azure-icons-table.html)** ← Open this now
 
-- 284 Azure service icons documented
-- Searchable by icon name, service name, or description
-- Direct URLs to SVG files (use them anywhere)
-- Organized with Excel filters
-- One file, no hunting
+- 284 Azure service icons with visual thumbnails
+- Real-time search filtering
+- Download filtered results to Excel or CSV
+- Clean table format (Service Name | Description | Icon URL)
+- Works offline after first load
+
+**[Excel Spreadsheet Download](/static/files/Azure-Icons-Reference.xlsx)**
+
+- Same 284 icons with direct SVG URLs
+- Searchable by service name or description
+- Enable filters, sort, analyze
+
+## The Interactive Table
+
+The HTML table shows all 284 icons in a clean format - just like Microsoft docs pages. Search instantly, see icon thumbnails, export your filtered results.
+
+**[See it live →](/static/azure-icons-table.html)**
+
+Press `Ctrl+K` to jump to search from anywhere.
 
 ## Why This Exists
 
-I was documenting a migration architecture. Needed icons. Found [Ben Coleman's excellent Azure icon collection](https://code.benco.io/icon-collection/azure-icons/) - it's the de facto standard. But I wanted searchable metadata, not a visual grid.
+I was documenting a migration architecture. Needed icons. Found [Ben Coleman's excellent Azure icon collection](https://code.benco.io/icon-collection/azure-icons/) - it's the de facto standard. But I wanted searchable metadata with visual thumbnails, not just a grid.
 
-Built what I needed: scraped the collection, added service names and descriptions based on actual Azure service definitions, packaged it as Excel.
+Built what I needed: scraped the collection, added service names and descriptions based on actual Azure service definitions, packaged it as both interactive HTML and Excel.
 
 You're welcome to use it.
 
 ## Quick Icon Reference Table
 
-Here's a sample of commonly-used services. Full list is in the Excel file.
+Here's a sample of commonly-used services. Full list is in the interactive table.
 
 | Icon | Service Name | Description |
 |------|-------------|-------------|
@@ -57,10 +71,19 @@ Here's a sample of commonly-used services. Full list is in the Excel file.
 | ![Azure Policy](https://code.benco.io/icon-collection/azure-icons/Policy.svg) | Azure Policy | Governance service for enforcing standards and compliance |
 | ![Cost Management](https://code.benco.io/icon-collection/azure-icons/Cost-Management.svg) | Cost Management | FinOps platform for monitoring and optimizing cloud spending |
 
-## How to Use the Excel File
+## How to Use It
+
+### Option 1: Interactive Table (Fastest)
+
+1. **Open the table**: [azure-icons-table.html](/static/azure-icons-table.html)
+2. **Search**: Type "storage" or "key vault" or "network"
+3. **Browse**: Scroll through all icons visually
+4. **Export**: Click "Download Excel" or "Download CSV"
+
+### Option 2: Excel Spreadsheet
 
 1. **Download** the spreadsheet
-2. **Filter** by any column (Icon Name, Service Name, or Description)
+2. **Filter** by any column (Service Name, Description, or Icon URL)
 3. **Copy** the Icon URL for use in diagrams or documentation
 4. **Search** using Excel's Ctrl+F
 
@@ -83,7 +106,7 @@ Here's a sample of commonly-used services. Full list is in the Excel file.
 
 ## Full Icon Categories Included
 
-The spreadsheet covers every Azure service category:
+The reference covers every Azure service category:
 
 - **Compute:** VMs, App Service, Functions, AKS, Batch
 - **Storage:** Blob, Files, Disks, Data Lake, NetApp Files
@@ -155,77 +178,31 @@ You'll notice some icons have names that don't perfectly match what you see in t
 - **"Azure-AD-B2C"** → Official name is "Azure Active Directory B2C"
 - **"HDInsight-Clusters"** → Portal calls it "Azure HDInsight"
 
-Use the Excel **Description** column to find the right icon. I wrote descriptions based on actual portal names and service definitions.
+Use the **Description** column to find the right icon. I wrote descriptions based on actual portal names and service definitions.
 
-## Python Generation Script
+## Interactive Table Features
 
-Want to regenerate this yourself or customize it? Here's the full script:
+**What makes the HTML table great:**
 
-```python
-#!/usr/bin/env python3
-"""
-Azure Icons Reference Generator
-Scrapes Ben Coleman's Azure icon collection and creates searchable Excel reference
-"""
+1. **Visual Scanning**
+   - See 20-30 icons at once
+   - Quick visual identification
+   - Familiar table format
 
-import openpyxl
-from openpyxl.styles import Font, Alignment, PatternFill
-from datetime import datetime
+2. **Fast Search**
+   - Type-ahead filtering
+   - Searches name AND description
+   - Results update instantly
 
-def create_azure_icons_excel():
-    """Create Excel workbook with Azure icons reference"""
-    
-    # Icon data structure
-    # Format: (icon_filename, service_name, description)
-    AZURE_ICONS = [
-        # ... 284 icons with metadata ...
-        # See full code in GitHub repo
-    ]
-    
-    # Create workbook
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Azure Icons Reference"
-    
-    # Header styling
-    header_font = Font(bold=True, color="FFFFFF", size=12)
-    header_fill = PatternFill(start_color="0078D4", end_color="0078D4", fill_type="solid")
-    
-    # Set headers
-    headers = ["Icon Name", "Azure Service", "Description", "Icon URL"]
-    for col_num, header in enumerate(headers, 1):
-        cell = ws.cell(row=1, column=col_num)
-        cell.value = header
-        cell.font = header_font
-        cell.fill = header_fill
-    
-    # Add data with URLs
-    base_url = "https://code.benco.io/icon-collection/azure-icons/"
-    for row_num, (icon_file, service_name, description) in enumerate(AZURE_ICONS, 2):
-        ws.cell(row=row_num, column=1).value = icon_file
-        ws.cell(row=row_num, column=2).value = service_name
-        ws.cell(row=row_num, column=3).value = description
-        ws.cell(row=row_num, column=4).value = f"{base_url}{icon_file}.svg"
-    
-    # Enable filtering
-    ws.auto_filter.ref = f"A1:D{len(AZURE_ICONS) + 1}"
-    
-    # Save
-    wb.save("Azure-Icons-Reference.xlsx")
+3. **One-Click Export**
+   - Download Excel (.xls format)
+   - Download CSV (.csv format)
+   - Exports your current filtered view
 
-if __name__ == "__main__":
-    create_azure_icons_excel()
-```
-
-**Dependencies:**
-```bash
-pip install openpyxl
-```
-
-**Run it:**
-```bash
-python azure_icons_generator.py
-```
+4. **Professional Look**
+   - Clean Microsoft-style design
+   - Responsive (works on mobile)
+   - Sticky header while scrolling
 
 ## Real-World Usage
 
@@ -253,7 +230,8 @@ python azure_icons_generator.py
 
 ## Download
 
-[**Download: Azure Icons Reference.xlsx**](/static/files/Azure-Icons-Reference.xlsx)
+**[Interactive Table Reference](/static/azure-icons-table.html)** ← Best option  
+**[Excel Spreadsheet](/static/files/Azure-Icons-Reference.xlsx)** ← For data analysis
 
 284 icons. Fully searchable. Direct URLs. No hunting through Microsoft docs.
 
@@ -261,7 +239,8 @@ python azure_icons_generator.py
 
 - **Icons:** [Ben Coleman's Azure Icon Collection](https://code.benco.io/icon-collection/azure-icons/)
 - **Descriptions:** Written from Azure documentation and real-world usage
-- **Generation Script:** Custom Python using openpyxl
+- **Table Format:** Custom HTML/JavaScript
+- **Excel Generation:** Python openpyxl
 - **Maintenance:** Ben Coleman updates the source icons regularly
 
 If this saves you time, thank Ben. His collection is the foundation that makes this possible.
@@ -269,6 +248,6 @@ If this saves you time, thank Ben. His collection is the foundation that makes t
 ---
 
 **Related Posts You Might Like:**
-- [Azure Resource Graph - Your Cloud CMDB](#) (coming soon)
+- [Azure Periodic Table Service Dictionary](/blog/azure-periodic-table-service-dictionary)
 - [KQL Cheat Sheet](/blog/kql-cheat-sheet)
 - [Azure Workbooks - Modernization Guide](/blog/azure-workbooks-modernization)
