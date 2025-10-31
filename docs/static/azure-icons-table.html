@@ -3,94 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azure Icons Reference - Interactive Table</title>
+    <title>Azure Icons Reference - Azure Noob</title>
+    <link rel="stylesheet" href="/static/styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
+        /* Additional styles for the icons table */
+        .icons-page {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 2rem 1rem;
         }
         
-        h1 {
-            color: #0078d4;
-            margin-bottom: 10px;
-            font-size: 2em;
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+        .page-header h1 {
+            color: var(--azure-blue);
+            margin-bottom: 0.5rem;
         }
         
-        .search-container {
-            margin-bottom: 20px;
+        .page-header .subtitle {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        
+        .actions-bar {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
         }
         
         #searchInput {
-            flex: 1;
-            min-width: 300px;
+            width: 100%;
             padding: 12px 16px;
             font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
             transition: border-color 0.3s;
         }
         
         #searchInput:focus {
             outline: none;
-            border-color: #0078d4;
+            border-color: var(--azure-blue);
         }
         
-        .btn {
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-excel {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             padding: 12px 24px;
-            font-size: 14px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background: #0078d4;
+            background: #217346;
             color: white;
-            transition: background 0.3s;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
         }
         
-        .btn:hover {
-            background: #005a9e;
+        .btn-excel:hover {
+            background: #185c37;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-csv {
+            padding: 12px 24px;
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-csv:hover {
+            background: var(--azure-dark);
         }
         
         .stats {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         
         thead {
-            background: #0078d4;
+            background: var(--azure-blue);
             color: white;
             position: sticky;
             top: 0;
@@ -98,21 +122,21 @@
         }
         
         th {
-            padding: 14px;
+            padding: 1rem;
             text-align: left;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
         td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #eee;
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border);
         }
         
         tbody tr:hover {
-            background: #f8f9fa;
+            background: var(--bg-light);
         }
         
         .icon-cell {
@@ -128,97 +152,137 @@
         
         .service-name {
             font-weight: 600;
-            color: #333;
+            color: var(--text-dark);
             min-width: 200px;
         }
         
         .description {
-            color: #666;
-            font-size: 14px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
         }
         
         .no-results {
             text-align: center;
-            padding: 40px;
-            color: #999;
-            font-size: 18px;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.125rem;
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
             }
             
-            h1 {
-                font-size: 1.5em;
+            .btn-group {
+                width: 100%;
             }
             
-            table {
-                font-size: 12px;
-            }
-            
-            .icon-cell img {
-                width: 30px;
-                height: 30px;
+            .btn-excel,
+            .btn-csv {
+                flex: 1;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Azure Icons Reference</h1>
-        <p class="subtitle">All 284 Azure service icons - searchable and filterable</p>
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <div class="nav-wrap">
+                <div class="brand-block">
+                    <a href="/" class="brand-link">
+                        <img src="/static/images/azure-noob-logo.png" alt="Azure Noob Logo" class="logo">
+                    </a>
+                    <div class="brand-text">
+                        <strong>Azure Noob</strong>
+                        <small>Real Azure Problems, Working Solutions</small>
+                    </div>
+                </div>
+                <nav>
+                    <a href="/">Home</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/tags">Tags</a>
+                    <a href="/static/azure-icons-table.html">Icons</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="icons-page wrap">
+        <div class="page-header">
+            <h1>Azure Icons Reference</h1>
+            <p class="subtitle">All 284 Azure service icons - searchable and filterable</p>
+        </div>
         
-        <div class="search-container">
-            <input 
-                type="text" 
-                id="searchInput" 
-                placeholder="Search by service name or description... (e.g., 'storage', 'kubernetes', 'monitoring')"
-                autofocus
-            >
-            <button class="btn" onclick="exportToCSV()">Download CSV</button>
+        <div class="actions-bar">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by service name or description... (e.g., 'storage', 'kubernetes', 'monitoring')"
+                    autofocus
+                >
+            </div>
+            <div class="btn-group">
+                <a href="/static/files/Azure-Icons-Reference.xlsx" class="btn-excel" download>
+                    📊 Download Excel
+                </a>
+                <button class="btn-csv" onclick="exportToCSV()">
+                    📄 Download CSV
+                </button>
+            </div>
         </div>
         
         <div class="stats">
-            Showing <span id="resultCount">284</span> of 284 icons
+            Showing <strong id="resultCount">284</strong> of 284 icons
         </div>
         
-        <table id="iconTable">
-            <thead>
-                <tr>
-                    <th class="icon-cell">Icon</th>
-                    <th class="service-name">Service Name</th>
-                    <th class="description">Description</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
-        
-        <div id="noResults" class="no-results" style="display: none;">
-            No icons found matching your search.
+        <div class="table-container">
+            <table id="iconTable">
+                <thead>
+                    <tr>
+                        <th class="icon-cell">Icon</th>
+                        <th class="service-name">Service Name</th>
+                        <th class="description">Description</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+            
+            <div id="noResults" class="no-results" style="display: none;">
+                No icons found matching your search.
+            </div>
         </div>
     </div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <p>&copy; 2025 Azure Noob. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load the icons data as a script -->
+    <script src="/static/azure-icons-data.js"></script>
     
     <script>
-        // Icon data will be loaded here
-        const iconData = [
-        ];
-        
         const searchInput = document.getElementById('searchInput');
         const tableBody = document.getElementById('tableBody');
         const resultCount = document.getElementById('resultCount');
         const noResults = document.getElementById('noResults');
         const iconTable = document.getElementById('iconTable');
         
-        // Populate table
         let allRows = [];
         
-        // Load icons from external file or embed them here
-        fetch('/static/azure-icons-data.js')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(icon => {
+        // Wait for DOM to be fully loaded, then populate table
+        window.addEventListener('load', function() {
+            // icons variable is now available from azure-icons-data.js
+            if (typeof icons !== 'undefined') {
+                icons.forEach(icon => {
                     const row = tableBody.insertRow();
                     row.innerHTML = `
                         <td class="icon-cell"><img src="${icon.url}" alt="${icon.service}" loading="lazy"></td>
@@ -227,7 +291,8 @@
                     `;
                 });
                 allRows = Array.from(tableBody.getElementsByTagName('tr'));
-            });
+            }
+        });
         
         // Search functionality
         searchInput.addEventListener('input', function() {
@@ -270,7 +335,7 @@
         function exportToCSV() {
             const visibleRows = allRows.filter(row => row.style.display !== 'none');
             
-            let csv = 'Service Name,Description,Icon URL\\n';
+            let csv = 'Service Name,Description,Icon URL\n';
             
             visibleRows.forEach(row => {
                 const serviceName = row.cells[1].textContent;
@@ -281,7 +346,7 @@
                 const escapedService = '"' + serviceName.replace(/"/g, '""') + '"';
                 const escapedDesc = '"' + description.replace(/"/g, '""') + '"';
                 
-                csv += escapedService + ',' + escapedDesc + ',' + iconUrl + '\\n';
+                csv += escapedService + ',' + escapedDesc + ',' + iconUrl + '\n';
             });
             
             // Create download
