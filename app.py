@@ -237,6 +237,10 @@ def search_json():
 def about():
     return render_template('about.html')
 
+@app.route('/start-here/')
+def start_here():
+    return render_template('start_here.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     """Generate XML sitemap for SEO."""
@@ -247,6 +251,7 @@ def sitemap():
         {'url': url_for('index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
+        {'url': url_for('start_here', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
     ]
 
@@ -360,6 +365,7 @@ def inject_navigation():
         'nav_items': [
             {'name': 'Home', 'url': url_for('index')},
             {'name': 'Blog', 'url': url_for('blog_index')},
+            {'name': 'Start Here', 'url': url_for('start_here')},
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
             {'name': 'Search', 'url': url_for('search')},
