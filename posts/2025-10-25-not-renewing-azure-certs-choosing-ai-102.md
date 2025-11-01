@@ -18,7 +18,7 @@ The data from my last 30 days makes this decision obvious.
 
 ## The Numbers That Changed My Mind
 
-I tracked every Copilot interaction for 30 days while working on real Azure infrastructure projects at Synovus:
+I tracked every Copilot interaction for 30 days while working on real Azure infrastructure projects in my current role:
 
 **Daily Copilot Usage:**
 - **74 prompts/day average** (2,220 total prompts)
@@ -61,13 +61,13 @@ Microsoft's renewal process wants me to prove I'm current with traditional admin
 
 ### 2. The Market Already Validated My Skills
 
-My current role at Synovus:
-- Azure Architect position at regional bank
+My current role:
+- Azure Architect position at regional financial institution
 - One of two cloud experts supporting merger of 44 subscriptions
 - Building IPAM tool, migration checklists, and automation frameworks
 - Remote position (full autonomy, trusted authority)
 
-**Job security through Synovus-Pinnacle merger (Q1 2026):**
+**Job security through upcoming merger (Q1 2026):**
 - Position strengthens post-merger
 - Specialized knowledge becomes more valuable as scale increases
 - Proven track record delivering infrastructure at enterprise scale
@@ -212,7 +212,7 @@ I'm not winging this. Here's the actual plan:
 
 **Week 3-4: Document Intelligence**
 - Deploy Document Intelligence service
-- Train custom model on Synovus forms
+- Train custom model on company forms
 - Extract structured data from invoices
 - Compare built-in vs custom models
 - **Deliverable:** Invoice processing automation proof-of-concept
@@ -264,7 +264,7 @@ This strategy works for me because:
 
 1. **I already have the fundamentals** - 5 years using Azure daily in production
 2. **My work validates my skills** - Delivering infrastructure at enterprise scale
-3. **I have clear AI use cases** - Real problems at Synovus that AI can solve
+3. **I have clear AI use cases** - Real problems at my organization that AI can solve
 4. **I'm tracking actual AI usage** - 74 prompts/day of real data, not theory
 
 **You should NOT copy this if:**

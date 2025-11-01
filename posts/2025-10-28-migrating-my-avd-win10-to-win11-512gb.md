@@ -203,7 +203,7 @@ Write-Host "Base tools installed. Office/Teams/Visio require manual installation
 - Teams (VDI-optimized version)
 - Visio (requires specific licensing)
 
-These can't be easily scripted due to licensing activation requirements at Synovus.
+These can't be easily scripted due to licensing activation requirements in our environment.
 
 ## The Authentication Puzzle
 
@@ -386,7 +386,7 @@ The cost of running both (~$50/month extra for a few weeks) was worth the peace 
 - Build automation for app installation
 - Plan broader Win 11 migration rollout
 
-**For the Synovus-Pinnacle merger:**
+**For the upcoming enterprise merger:**
 - This migration pattern will scale to 300+ users
 - Win 11 ready when Pinnacle users need AVD access
 - Proven playbook for Personal pool migrations
@@ -411,4 +411,4 @@ Your future self (and your team) will thank you.
 
 ---
 
-*This post documents the actual migration of my production AVD environment at Synovus. All commands, scripts, and gotchas are from real experience. Your mileage may vary, but the patterns should apply to any Personal AVD pool migration.*
+*This post documents the actual migration of my production AVD environment. All commands, scripts, and gotchas are from real experience. Your mileage may vary, but the patterns should apply to any Personal AVD pool migration.*

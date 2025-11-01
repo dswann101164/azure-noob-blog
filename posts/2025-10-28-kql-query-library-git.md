@@ -357,7 +357,7 @@ Git history shows you every version of every query. You can always roll back.
 
 ## My Real-World Query Library Stats
 
-At Synovus, I maintain ~80 KQL queries across 12 folders:
+In my current environment, I maintain ~80 KQL queries across 12 folders:
 
 | Folder | Queries | Most Used |
 |--------|---------|-----------|
