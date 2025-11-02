@@ -1,6 +1,44 @@
 {% extends "base.html" %}
 
+{% block title %}{{ post.title }} · {{ site_name }}{% endblock %}
+
 {% block content %}
+
+{# JSON-LD Structured Data for SEO #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title }}",
+  "description": "{{ post.summary or post.title }}",
+  "image": "{{ SITE_URL }}{{ url_for('static', filename=cover_url.lstrip('/').replace('static/', '')) if cover_url else '' }}",
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "{{ SITE_URL }}{{ url_for('about') }}",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site_name }}",
+    "url": "{{ SITE_URL }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ SITE_URL }}{{ url_for('static', filename='images/logo.png') }}"
+    }
+  },
+  "datePublished": "{{ post.date.strftime('%Y-%m-%d') }}",
+  "dateModified": "{{ post.date.strftime('%Y-%m-%d') }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ SITE_URL }}{{ url_for('blog_post', slug=post.slug) }}"
+  },
+  "keywords": "{{ post.tags|join(', ') }}",
+  "articleSection": "{{ post.tags[0] if post.tags else 'Azure' }}",
+  "wordCount": "{{ content.split()|length }}"
+}
+</script>
+
 <article class="post">
 
   {# --- HERO IMAGE --- #}
