@@ -2,7 +2,8 @@
 import os, shutil, sys, traceback
 from datetime import datetime
 from flask_frozen import Freezer
-from app import app, load_posts, build_tags   # make sure build_tags is exported in app.py
+from app import app, load_posts, build_tags
+from hubs_config import get_all_hubs   # import hub configuration
 
 DEST = "docs"
 BASE_URL = os.environ.get("SITE_URL", "https://azure-noob.com").rstrip("/")
@@ -69,6 +70,17 @@ def tag_posts():  # Changed from 'tag_page' to match Flask route
     for tag in tags.keys():
         yield {"tag": tag}
 
+# Content Hubs
+@freezer.register_generator
+def hubs_index():
+    yield {}
+
+@freezer.register_generator
+def hub_page():
+    hubs = get_all_hubs()
+    for hub_slug in hubs.keys():
+        yield {"slug": hub_slug}
+
 # ---- Sitemap & robots.txt ----
 def _fmt_lastmod(dt):
     try:
@@ -83,6 +95,7 @@ def write_sitemap_and_robots():
     urls = [
         {"loc": f"{base}/", "changefreq": "weekly", "priority": "1.0"},
         {"loc": f"{base}/blog/", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": f"{base}/hubs/", "changefreq": "weekly", "priority": "0.9"},
         {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base}/tags/", "changefreq": "monthly", "priority": "0.4"},
         {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
@@ -90,9 +103,13 @@ def write_sitemap_and_robots():
 
     posts = load_posts()
     tags = build_tags()  # Fixed: build_tags() doesn't take parameters
+    hubs = get_all_hubs()
 
     for t in tags.keys():
         urls.append({"loc": f"{base}/tags/{t}/", "changefreq": "monthly", "priority": "0.4"})
+    
+    for hub_slug in hubs.keys():
+        urls.append({"loc": f"{base}/hub/{hub_slug}/", "changefreq": "weekly", "priority": "0.9"})
 
     for p in posts:
         urls.append({

@@ -15,6 +15,48 @@
   <a href="{{ url_for('blog_index') }}" class="btn-subscribe">Read the Blog</a>
 </section>
 
+<!-- CONTENT HUBS SECTION -->
+<section style="background: var(--bg-light); padding: var(--space-3xl) 0; margin: var(--space-3xl) 0; border-radius: 12px;">
+  <div class="wrap">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: var(--space-md);">Explore by Topic</h2>
+    <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem; margin-bottom: var(--space-2xl); max-width: 700px; margin-left: auto; margin-right: auto;">
+      Curated learning paths for Azure FinOps, KQL mastery, governance at scale, and operational excellence.
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-lg);">
+      {% for hub in hub_nav %}
+      <a href="{{ url_for('hub_page', slug=hub.slug) }}" style="
+        background: white;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: var(--space-xl);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+      " class="hub-card-mini">
+        <div style="font-size: 2.5rem; margin-bottom: var(--space-md);">{{ hub.icon }}</div>
+        <h3 style="font-size: 1.25rem; margin-bottom: var(--space-sm); color: var(--text-dark);">{{ hub.title }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">{{ hub.tagline }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    
+    <p style="text-align: center; margin-top: var(--space-xl);">
+      <a class="btn" href="{{ url_for('hubs_index') }}" style="font-size: 1rem; padding: 0.65rem 1.25rem;">
+        View All Content Hubs →
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .hub-card-mini:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--azure-blue);
+  }
+</style>
+
 <!-- LATEST POSTS GRID -->
 <section class="latest">
   <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Latest Posts</h2>

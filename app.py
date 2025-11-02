@@ -7,6 +7,7 @@ from urllib.parse import quote
 import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.fenced_code import FencedCodeExtension
+from hubs_config import get_hub_config, get_all_hubs, get_hub_navigation
 
 app = Flask(__name__)
 
@@ -241,6 +242,49 @@ def about():
 def start_here():
     return render_template('start_here.html')
 
+@app.route('/hubs/')
+def hubs_index():
+    """List all content hubs."""
+    hubs = get_all_hubs()
+    return render_template('hubs_index.html', hubs=hubs)
+
+@app.route('/hub/<slug>/')
+def hub_page(slug):
+    """Display a specific content hub."""
+    hub_config = get_hub_config(slug)
+    if not hub_config:
+        abort(404)
+    
+    # Load all posts
+    all_posts = load_posts()
+    
+    # Build organized sections with actual post data
+    sections_with_posts = []
+    for section in hub_config['sections']:
+        section_posts = []
+        for post_slug in section['posts']:
+            post = next((p for p in all_posts if p['slug'] == post_slug), None)
+            if post:
+                section_posts.append(post)
+        
+        if section_posts:  # Only include sections that have posts
+            sections_with_posts.append({
+                'title': section['title'],
+                'description': section['description'],
+                'posts': section_posts
+            })
+    
+    # Get all posts for this hub's tags (for "More Posts" section)
+    related_posts = [p for p in all_posts if any(tag in hub_config['related_tags'] for tag in p['tags'])]
+    # Remove duplicates that are already in sections
+    section_slugs = [slug for section in hub_config['sections'] for slug in section['posts']]
+    additional_posts = [p for p in related_posts if p['slug'] not in section_slugs][:5]
+    
+    return render_template('hub.html',
+                         hub=hub_config,
+                         sections=sections_with_posts,
+                         additional_posts=additional_posts)
+
 @app.route('/sitemap.xml')
 def sitemap():
     """Generate XML sitemap for SEO."""
@@ -250,10 +294,18 @@ def sitemap():
     pages = [
         {'url': url_for('index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
+        {'url': url_for('hubs_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('start_here', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
     ]
+    
+    # Add hub pages
+    for hub_slug in get_all_hubs().keys():
+        pages.append({
+            'url': url_for('hub_page', slug=hub_slug, _external=True),
+            'lastmod': datetime.now().strftime('%Y-%m-%d')
+        })
 
     # Add blog posts
     for post in posts:
@@ -365,6 +417,7 @@ def inject_navigation():
         'nav_items': [
             {'name': 'Home', 'url': url_for('index')},
             {'name': 'Blog', 'url': url_for('blog_index')},
+            {'name': 'Content Hubs', 'url': url_for('hubs_index')},
             {'name': 'Start Here', 'url': url_for('start_here')},
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
@@ -372,7 +425,8 @@ def inject_navigation():
         ],
         'site_name': app.config.get('SITE_NAME', 'Azure Noob'),
         'site_tagline': app.config.get('SITE_TAGLINE', "Don't be a Noob"),
-        'SITE_URL': app.config.get('SITE_URL', 'https://azure-noob.com')
+        'SITE_URL': app.config.get('SITE_URL', 'https://azure-noob.com'),
+        'hub_nav': get_hub_navigation()
     }
 
 @app.template_global()
