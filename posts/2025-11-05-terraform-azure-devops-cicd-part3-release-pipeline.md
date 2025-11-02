@@ -557,6 +557,6 @@ Next, we wire up pull request automation and branch policies to enforce this wor
 
 ---
 
-**Next:** [Part 4 - Branch Policies & Pull Request Automation](#)
+**Next:** [Part 4 - Branch Policies & Pull Request Automation](/blog/terraform-azure-devops-cicd-part4-branch-policies/)
 
 *All code and pipeline configurations from this series are available in my [GitHub repo](https://github.com/dswann101164).*

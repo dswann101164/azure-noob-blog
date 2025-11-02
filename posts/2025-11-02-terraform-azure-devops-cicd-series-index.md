@@ -24,7 +24,7 @@ This series covers:
 ## The Complete Series
 
 ### Part 1: Prerequisites & Architecture
-**[Read Part 1](/blog/2025-11-03-terraform-azure-devops-cicd-part1-prerequisites/)**
+**[Read Part 1](/blog/terraform-azure-devops-cicd-part1-prerequisites/)**
 
 What you'll build:
 - Azure Storage Account for remote state backend
@@ -38,7 +38,7 @@ What you'll build:
 ---
 
 ### Part 2: Build Pipelines (Status Check & Plan)
-**[Read Part 2](/blog/2025-11-04-terraform-azure-devops-cicd-part2-build-pipelines/)**
+**[Read Part 2](/blog/terraform-azure-devops-cicd-part2-build-pipelines/)**
 
 What you'll build:
 - **Terraform Status Check** pipeline (runs on PRs)
@@ -51,7 +51,7 @@ What you'll build:
 ---
 
 ### Part 3: Release Pipeline & Approval Gates
-**[Read Part 3](/blog/2025-11-05-terraform-azure-devops-cicd-part3-release-pipeline/)**
+**[Read Part 3](/blog/terraform-azure-devops-cicd-part3-release-pipeline/)**
 
 What you'll build:
 - Release pipeline with pre-deployment approval gates
@@ -64,7 +64,7 @@ What you'll build:
 ---
 
 ### Part 4: Branch Policies & Pull Request Automation
-**[Read Part 4](/blog/2025-11-06-terraform-azure-devops-cicd-part4-branch-policies/)**
+**[Read Part 4](/blog/terraform-azure-devops-cicd-part4-branch-policies/)**
 
 What you'll build:
 - Branch policies that enforce pull request workflow
@@ -77,7 +77,7 @@ What you'll build:
 ---
 
 ### Part 5: Production Best Practices & Multi-Environment Setup
-**[Read Part 5](/blog/2025-11-07-terraform-azure-devops-cicd-part5-production-best-practices/)**
+**[Read Part 5](/blog/terraform-azure-devops-cicd-part5-production-best-practices/)**
 
 What you'll build:
 - Dev/Test/Prod environment separation
@@ -91,7 +91,7 @@ What you'll build:
 ---
 
 ### Part 6: Troubleshooting & Common Production Issues
-**[Read Part 6](/blog/2025-11-08-terraform-azure-devops-cicd-part6-troubleshooting/)**
+**[Read Part 6](/blog/terraform-azure-devops-cicd-part6-troubleshooting/)**
 
 What you'll learn:
 - Authentication and permission issues
@@ -325,12 +325,12 @@ I can't use LinkedIn because of my employer, so:
 
 ## Quick Links
 
-- [Part 1: Prerequisites & Architecture](/blog/2025-11-03-terraform-azure-devops-cicd-part1-prerequisites/)
-- [Part 2: Build Pipelines](/blog/2025-11-04-terraform-azure-devops-cicd-part2-build-pipelines/)
-- [Part 3: Release Pipeline & Approval Gates](/blog/2025-11-05-terraform-azure-devops-cicd-part3-release-pipeline/)
-- [Part 4: Branch Policies](/blog/2025-11-06-terraform-azure-devops-cicd-part4-branch-policies/)
-- [Part 5: Production Best Practices](/blog/2025-11-07-terraform-azure-devops-cicd-part5-production-best-practices/)
-- [Part 6: Troubleshooting](/blog/2025-11-08-terraform-azure-devops-cicd-part6-troubleshooting/)
+- [Part 1: Prerequisites & Architecture](/blog/terraform-azure-devops-cicd-part1-prerequisites/)
+- [Part 2: Build Pipelines](/blog/terraform-azure-devops-cicd-part2-build-pipelines/)
+- [Part 3: Release Pipeline & Approval Gates](/blog/terraform-azure-devops-cicd-part3-release-pipeline/)
+- [Part 4: Branch Policies](/blog/terraform-azure-devops-cicd-part4-branch-policies/)
+- [Part 5: Production Best Practices](/blog/terraform-azure-devops-cicd-part5-production-best-practices/)
+- [Part 6: Troubleshooting](/blog/terraform-azure-devops-cicd-part6-troubleshooting/)
 
 [View code on GitHub](https://github.com/dswann101164)
 

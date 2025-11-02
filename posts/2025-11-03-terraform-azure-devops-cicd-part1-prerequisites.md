@@ -527,6 +527,6 @@ This foundation enables secure, auditable, team-friendly infrastructure deployme
 
 ---
 
-**Next:** [Part 2 - Build Pipelines (Status Check & Terraform Plan)](#)
+**Next:** [Part 2 - Build Pipelines (Status Check & Terraform Plan)](/blog/terraform-azure-devops-cicd-part2-build-pipelines/)
 
 *All code and pipeline configurations from this series are available in my [GitHub repo](https://github.com/dswann101164).*

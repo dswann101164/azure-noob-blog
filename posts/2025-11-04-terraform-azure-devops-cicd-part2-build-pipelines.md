@@ -476,6 +476,6 @@ The foundation is solid. Now we build the release pipeline and wire up pull requ
 
 ---
 
-**Next:** [Part 3 - Release Pipeline & Approval Gates](#)
+**Next:** [Part 3 - Release Pipeline & Approval Gates](/blog/terraform-azure-devops-cicd-part3-release-pipeline/)
 
 *All code and pipeline configurations from this series are available in my [GitHub repo](https://github.com/dswann101164).*

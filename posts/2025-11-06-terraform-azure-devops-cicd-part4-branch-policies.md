@@ -610,6 +610,6 @@ You now have a fully automated, policy-enforced infrastructure deployment workfl
 
 ---
 
-**Next:** [Part 5 - Production Best Practices & Multi-Environment Setup](#)
+**Next:** [Part 5 - Production Best Practices & Multi-Environment Setup](/blog/terraform-azure-devops-cicd-part5-production-best-practices/)
 
 *All code and pipeline configurations from this series are available in my [GitHub repo](https://github.com/dswann101164).*

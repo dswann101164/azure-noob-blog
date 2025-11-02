@@ -751,6 +751,6 @@ You now have an enterprise-grade, multi-environment Terraform CI/CD pipeline.
 
 ---
 
-**Next:** [Part 6 - Troubleshooting & Common Production Issues](#)
+**Next:** [Part 6 - Troubleshooting & Common Production Issues](/blog/terraform-azure-devops-cicd-part6-troubleshooting/)
 
 *All code and pipeline configurations from this series are available in my [GitHub repo](https://github.com/dswann101164).*
