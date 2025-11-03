@@ -3,7 +3,7 @@ title: "Azure Cost Optimization Is A Façade (And Microsoft Knows It)"
 date: 2025-11-03
 summary: "Azure Advisor promises 'potential savings' but delivers theater. Here's why 90% of cost optimization recommendations are useless—and what actually works."
 tags: ["Azure", "FinOps", "Cost Management", "Azure Advisor"]
-cover: "/static/images/hero/azure-cost-optimization-facade.png"
+cover: "/static/images/hero/azure-cost-optimization-facade.svg"
 ---
 
 **Your CFO just forwarded you another email**: *"Azure Advisor says we can save $47,000/month. Why haven't we acted on this?"*
