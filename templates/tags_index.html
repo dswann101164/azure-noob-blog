@@ -1,16 +1,282 @@
 {% extends "base.html" %}
 
 {% block content %}
-<header class="post-header">
-  <h1>Tags</h1>
-  <p class="summary"><a href="{{ url_for('blog_index') }}">Back to all posts</a></p>
-</header>
 
-<div class="tags-cloud">
-  {% for t, count in tags %}
-    <a class="tag-chip" href="{{ url_for('tag_posts', tag=t) }}">
-      {{ t }} <span style="opacity:.65;">({{ count }})</span>
-    </a>
-  {% endfor %}
+<!-- HERO SECTION -->
+<div style="
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  padding: 3rem 0;
+  margin: -1rem -1.5rem 2rem;
+  color: white;
+  text-align: center;
+  border-radius: 0 0 16px 16px;
+">
+  <div class="wrap">
+    <h1 style="font-size: 2.5rem; margin: 0 0 0.75rem; font-weight: 800;">Browse by Topic</h1>
+    <p style="font-size: 1.2rem; opacity: 0.95; max-width: 650px; margin: 0 auto;">
+      Explore Azure content organized by topic, or dive into curated learning paths
+    </p>
+  </div>
 </div>
+
+<!-- FEATURED CONTENT HUBS -->
+<section style="margin-bottom: 3rem;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; text-align: center; color: #1a202c;">
+    🌟 Featured Learning Paths
+  </h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+    
+    <!-- FinOps Hub Card -->
+    <a href="{{ url_for('hub_page', slug='finops') }}" style="
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 24px rgba(16, 185, 129, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.2)'">
+      <div style="font-size: 3rem; margin-bottom: 0.75rem;">💰</div>
+      <h3 style="font-size: 1.4rem; margin: 0 0 0.5rem; color: white; font-weight: 700;">FinOps Hub</h3>
+      <p style="margin: 0 0 0.75rem; opacity: 0.95; font-size: 0.95rem; line-height: 1.5;">
+        Cost optimization and governance at scale
+      </p>
+      <div style="font-size: 0.9rem; opacity: 0.9;">
+        14 articles →
+      </div>
+    </a>
+
+    <!-- KQL Hub Card -->
+    <a href="{{ url_for('hub_page', slug='kql') }}" style="
+      background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 24px rgba(124, 58, 237, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(124, 58, 237, 0.2)'">
+      <div style="font-size: 3rem; margin-bottom: 0.75rem;">🔍</div>
+      <h3 style="font-size: 1.4rem; margin: 0 0 0.5rem; color: white; font-weight: 700;">KQL Mastery</h3>
+      <p style="margin: 0 0 0.75rem; opacity: 0.95; font-size: 0.95rem; line-height: 1.5;">
+        Production-ready queries for Azure
+      </p>
+      <div style="font-size: 0.9rem; opacity: 0.9;">
+        9 articles →
+      </div>
+    </a>
+
+    <!-- Governance Hub Card -->
+    <a href="{{ url_for('hub_page', slug='governance') }}" style="
+      background: linear-gradient(135deg, #0078d4 0%, #003d6b 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 120, 212, 0.2);
+    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 24px rgba(0, 120, 212, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 120, 212, 0.2)'">
+      <div style="font-size: 3rem; margin-bottom: 0.75rem;">🎯</div>
+      <h3 style="font-size: 1.4rem; margin: 0 0 0.5rem; color: white; font-weight: 700;">Governance</h3>
+      <p style="margin: 0 0 0.75rem; opacity: 0.95; font-size: 0.95rem; line-height: 1.5;">
+        Tags, policies, and compliance
+      </p>
+      <div style="font-size: 0.9rem; opacity: 0.9;">
+        10 articles →
+      </div>
+    </a>
+
+    <!-- Monitoring Hub Card -->
+    <a href="{{ url_for('hub_page', slug='monitoring') }}" style="
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 8px 24px rgba(245, 158, 11, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(245, 158, 11, 0.2)'">
+      <div style="font-size: 3rem; margin-bottom: 0.75rem;">📊</div>
+      <h3 style="font-size: 1.4rem; margin: 0 0 0.5rem; color: white; font-weight: 700;">Monitoring</h3>
+      <p style="margin: 0 0 0.75rem; opacity: 0.95; font-size: 0.95rem; line-height: 1.5;">
+        Dashboards and workbooks
+      </p>
+      <div style="font-size: 0.9rem; opacity: 0.9;">
+        5 articles →
+      </div>
+    </a>
+
+  </div>
+
+  <p style="text-align: center; margin-top: 1.5rem;">
+    <a href="{{ url_for('hubs_index') }}" class="btn" style="font-size: 1rem; padding: 0.65rem 1.25rem;">
+      View All Content Hubs →
+    </a>
+  </p>
+</section>
+
+<!-- DIVIDER -->
+<div style="border-top: 2px solid #e2e8f0; margin: 3rem 0;"></div>
+
+<!-- TAG CATEGORIES -->
+<section style="margin-bottom: 3rem;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; text-align: center; color: #1a202c;">
+    📑 Browse All Topics
+  </h2>
+
+  <!-- Popular Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">🔥</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Popular Topics</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags[:10] %}
+      <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        background: white;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+      ">
+        {{ tag }} <span style="opacity: 0.6;">({{ count }})</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Cost & FinOps Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">💰</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Cost & FinOps</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+        {% if tag in ['FinOps', 'Cost Management', 'Chargeback', 'ROI', 'Business Value', 'OpEx', 'Procurement'] %}
+        <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+          background: #dcfce7;
+          color: #166534;
+          border: 1px solid #bbf7d0;
+        ">
+          {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Governance & Compliance Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">🎯</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Governance & Compliance</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+        {% if tag in ['Governance', 'Azure Governance', 'Cloud Governance', 'Compliance', 'Azure Policy', 'Tags', 'Management Groups', 'SOC 2', 'SOC2', 'Auditing'] %}
+        <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+          background: #dbeafe;
+          color: #1e40af;
+          border: 1px solid #bfdbfe;
+        ">
+          {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Operations & Monitoring Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">📊</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Operations & Monitoring</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+        {% if tag in ['Monitoring', 'Azure Monitor', 'Workbooks', 'Operations', 'Azure Update Manager', 'Update Management', 'Update Manager', 'Patch Management', 'VM Management', 'Automation'] %}
+        <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+          background: #fed7aa;
+          color: #9a3412;
+          border: 1px solid #fdba74;
+        ">
+          {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Development & Tools Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">🛠️</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Development & Tools</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+        {% if tag in ['KQL', 'PowerShell', 'Terraform', 'Python', 'Azure DevOps', 'DevOps', 'CICD', 'IaC', 'GitOps', 'Git', 'Tools', 'Open Source'] %}
+        <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+          background: #e9d5ff;
+          color: #6b21a8;
+          border: 1px solid #d8b4fe;
+        ">
+          {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Cloud Architecture Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">🏗️</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">Cloud Architecture</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+        {% if tag in ['Architecture', 'Migration', 'Enterprise', 'Hybrid', 'Hybrid Cloud', 'CAF', 'Cloud Adoption Framework', 'Networking', 'DNS', 'Private Endpoints'] %}
+        <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+          background: #fae8ff;
+          color: #86198f;
+          border: 1px solid #f5d0fe;
+        ">
+          {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- All Other Tags -->
+  <div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.5rem;">📂</span>
+      <h3 style="font-size: 1.35rem; margin: 0; color: #1a202c;">All Topics</h3>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      {% for tag, count in tags %}
+      <a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge" style="
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+      ">
+        {{ tag }} <span style="opacity: 0.7;">({{ count }})</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .tag-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+</style>
+
 {% endblock %}
