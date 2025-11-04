@@ -4,29 +4,19 @@
 
 {% block content %}
 
-{# JSON-LD Structured Data for SEO - ENHANCED #}
+{# JSON-LD Structured Data for SEO #}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "{{ post.title }}",
-  "description": "{{ meta_description }}",
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ og_image }}",
-    "width": 1200,
-    "height": 630
-  },
+  "description": "{{ post.summary or post.title }}",
+  "image": "{{ SITE_URL }}{{ url_for('static', filename=cover_url.lstrip('/').replace('static/', '')) if cover_url else '' }}",
   "author": {
     "@type": "Person",
     "name": "David Swann",
     "url": "{{ SITE_URL }}{{ url_for('about') }}",
-    "description": "Azure Architect specializing in enterprise cloud infrastructure",
-    "jobTitle": "Azure Architect",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Synovus"
-    }
+    "description": "Azure Architect specializing in enterprise cloud infrastructure"
   },
   "publisher": {
     "@type": "Organization",
@@ -37,74 +27,17 @@
       "url": "{{ SITE_URL }}{{ url_for('static', filename='images/logo.png') }}"
     }
   },
-  "datePublished": "{{ date_published_iso }}",
-  "dateModified": "{{ date_modified_iso }}",
+  "datePublished": "{{ post.date.strftime('%Y-%m-%d') }}",
+  "dateModified": "{{ post.date.strftime('%Y-%m-%d') }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ canonical_url }}"
+    "@id": "{{ SITE_URL }}{{ url_for('blog_post', slug=post.slug) }}"
   },
   "keywords": "{{ post.tags|join(', ') }}",
   "articleSection": "{{ post.tags[0] if post.tags else 'Azure' }}",
-  "wordCount": "{{ word_count }}",
-  "timeRequired": "PT{{ reading_min }}M",
-  "inLanguage": "en-US",
-  "isAccessibleForFree": "True",
-  "about": {
-    "@type": "Thing",
-    "name": "{{ post.tags[0] if post.tags else 'Microsoft Azure' }}"
-  }
+  "wordCount": "{{ content.split()|length }}"
 }
 </script>
-
-{# BreadcrumbList Schema - NEW FOR RICH RESULTS #}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ SITE_URL }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "{{ SITE_URL }}{{ url_for('blog_index') }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ post.title }}",
-      "item": "{{ canonical_url }}"
-    }
-  ]
-}
-</script>
-
-{# FAQ Schema - If post has common questions (optional) #}
-{% if post.faq %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for faq in post.faq %}
-    {
-      "@type": "Question",
-      "name": "{{ faq.question }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ faq.answer }}"
-      }
-    }{% if not loop.last %},{% endif %}
-    {% endfor %}
-  ]
-}
-</script>
-{% endif %}
 
 <article class="post">
 
@@ -143,7 +76,7 @@
   {% elif cover_url %}
     {# Static hero image #}
     <div class="hero">
-      <img src="{{ url_for('static', filename=cover_url.lstrip('/').replace('static/', '')) }}" alt="{{ post.title }}" loading="eager">
+      <img src="{{ url_for('static', filename=cover_url.lstrip('/').replace('static/', '')) }}" alt="{{ post.title }}">
     </div>
   {% endif %}
 
@@ -151,9 +84,6 @@
     <h1>{{ post.title }}</h1>
     <p class="muted">
       {{ post.date|ymd }} · ~{{ reading_min }} min read
-      {% if date_modified_iso != date_published_iso %}
-        · Updated {{ post.modified|ymd }}
-      {% endif %}
     </p>
     
     {% if post.tags and post.tags|length %}
@@ -169,7 +99,7 @@
     {% endif %}
   </header>
 
-  {# ---- POST ACTIONS (print/share) ---- #}
+  {# ---- POST ACTIONS (print) ---- #}
   <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
     <button class="btn"
             onclick="window.print(); return false;"
