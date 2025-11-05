@@ -283,16 +283,26 @@ az resource delete --ids $resources
 
 ---
 
-## Coming Soon: The Rationalization Toolkit
+## ✅ NOW AVAILABLE: The Azure Rationalization Toolkit
 
-I'm building a complete **open-source toolkit** with:
-- Azure Policy definitions (ready to deploy)
-- KQL queries (copy-paste into Resource Graph)
-- PowerShell automation scripts
-- Power BI dashboard template
-- GitHub Actions workflows
+**Open-source, production-ready, tested at enterprise scale.**
 
-**Watch this space.** Code drops tomorrow.
+👉 **[Get the toolkit on GitHub](https://github.com/dswann101164/azure-rationalization-toolkit)**
+
+**What's included:**
+- ✅ Azure Policy definitions (ready to deploy)
+- ✅ KQL queries (copy-paste into Resource Graph)
+- ✅ PowerShell automation scripts
+- ✅ Complete documentation with examples
+- ✅ Zero setup required — just copy/paste queries
+
+**Tested at scale:**
+- 44 subscriptions
+- 31,000+ resources
+- 13+ months cost history
+- Sub-3-second queries
+
+All queries are ready to use in Azure Resource Graph Explorer today.
 
 ---
 
