@@ -1,6 +1,7 @@
-name: Distribute Blog Post
+name: Distribute Blog Post (X only)
 
 on:
+  workflow_dispatch: {}
   push:
     branches: ["main"]
     paths:
@@ -14,40 +15,46 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Detect new post
+    - name: Detect new post (robust parsing)
       run: |
-        FILE=$(git diff --name-only HEAD~1 HEAD | grep posts/ | head -n 1)
+        set -e
+        FILE=$(git diff --name-only HEAD~1 HEAD | grep '^posts/.*\.md$' | head -n 1)
+        if [ -z "$FILE" ]; then
+          echo "No post change under posts/. Exiting."
+          exit 1
+        fi
         echo "FILE=$FILE" >> $GITHUB_ENV
-        TITLE=$(grep '^title:' "$FILE" | sed 's/title:[ ]*//; s/"//g')
-        SUMMARY=$(grep '^summary:' "$FILE" | sed 's/summary:[ ]*//; s/"//g')
+
+        TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+        SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+        HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+
         SLUG=$(basename "$FILE" .md)
         URL="https://azure-noob.com/blog/${SLUG}/index.html"
-        HERO=$(grep '^cover:' "$FILE" | sed 's/cover:[ ]*//; s/"//g')
+
         echo "TITLE=$TITLE" >> $GITHUB_ENV
         echo "SUMMARY=$SUMMARY" >> $GITHUB_ENV
-        echo "URL=$URL" >> $GITHUB_ENV
         echo "HERO=$HERO" >> $GITHUB_ENV
-        echo "Post: $FILE"
-        echo "Hero: $HERO"
-        echo "URL : $URL"
+        echo "URL=$URL" >> $GITHUB_ENV
 
-    - name: Install ffmpeg
-      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        echo "Detected:"
+        echo "  FILE  = $FILE"
+        echo "  TITLE = $TITLE"
+        echo "  HERO  = $HERO"
+        echo "  URL   = $URL"
 
-    - name: Generate vertical teaser video (10s)
+    # Optional: ensure the page exists before posting
+    - name: Wait for page to be live (max ~3 min)
       run: |
-        # Copy hero from repo (cover starts with /static/…)
-        cp ".$HERO" hero.png
-        echo "$TITLE" > title.txt
-        ffmpeg -y -loop 1 -i hero.png -t 10 \
-          -vf "scale=1080:1920,format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=title.txt:fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=black@0.4:boxborderw=20" \
-          -c:v libx264 teaser.mp4
-
-    - name: Upload teaser artifact (for TikTok manual upload if desired)
-      uses: actions/upload-artifact@v4
-      with:
-        name: teaser-video
-        path: teaser.mp4
+        for i in {1..18}; do
+          code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
+          if [ "$code" = "200" ]; then
+            echo "Page is live."; exit 0
+          fi
+          echo "Not live yet (HTTP $code). Sleeping 10s..."
+          sleep 10
+        done
+        echo "Page never went live in time." && exit 1
 
     - name: Setup Node
       uses: actions/setup-node@v4
