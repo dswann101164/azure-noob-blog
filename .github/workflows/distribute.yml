@@ -1,0 +1,80 @@
+name: Distribute Blog Post
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "posts/*.md"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Detect new post
+      run: |
+        FILE=$(git diff --name-only HEAD~1 HEAD | grep posts/ | head -n 1)
+        echo "FILE=$FILE" >> $GITHUB_ENV
+        TITLE=$(grep '^title:' "$FILE" | sed 's/title:[ ]*//; s/"//g')
+        SUMMARY=$(grep '^summary:' "$FILE" | sed 's/summary:[ ]*//; s/"//g')
+        SLUG=$(basename "$FILE" .md)
+        URL="https://azure-noob.com/blog/${SLUG}/index.html"
+        HERO=$(grep '^cover:' "$FILE" | sed 's/cover:[ ]*//; s/"//g')
+        echo "TITLE=$TITLE" >> $GITHUB_ENV
+        echo "SUMMARY=$SUMMARY" >> $GITHUB_ENV
+        echo "URL=$URL" >> $GITHUB_ENV
+        echo "HERO=$HERO" >> $GITHUB_ENV
+        echo "Post: $FILE"
+        echo "Hero: $HERO"
+        echo "URL : $URL"
+
+    - name: Install ffmpeg
+      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+    - name: Generate vertical teaser video (10s)
+      run: |
+        # Copy hero from repo (cover starts with /static/…)
+        cp ".$HERO" hero.png
+        echo "$TITLE" > title.txt
+        ffmpeg -y -loop 1 -i hero.png -t 10 \
+          -vf "scale=1080:1920,format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=title.txt:fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=black@0.4:boxborderw=20" \
+          -c:v libx264 teaser.mp4
+
+    - name: Upload teaser artifact (for TikTok manual upload if desired)
+      uses: actions/upload-artifact@v4
+      with:
+        name: teaser-video
+        path: teaser.mp4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install deps
+      run: npm i twitter-api-v2
+
+    - name: Post to X (calm tone)
+      env:
+        X_APP_KEY: ${{ secrets.X_APP_KEY }}
+        X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
+        X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+        X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        TITLE: ${{ env.TITLE }}
+        URL: ${{ env.URL }}
+      run: |
+        node - << 'EOF'
+        import { TwitterApi } from 'twitter-api-v2';
+        const client = new TwitterApi({
+          appKey: process.env.X_APP_KEY,
+          appSecret: process.env.X_APP_SECRET,
+          accessToken: process.env.X_ACCESS_TOKEN,
+          accessSecret: process.env.X_ACCESS_SECRET,
+        });
+        const text = `${process.env.TITLE}\n\n${process.env.URL}`;
+        await client.v2.tweet(text);
+        console.log("Posted to X.");
+        EOF
