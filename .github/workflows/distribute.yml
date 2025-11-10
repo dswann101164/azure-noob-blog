@@ -1,4 +1,4 @@
-name: Distribute Blog Post (X only)
+name: Distribute Blog Post (X + Reddit)
 
 on:
   workflow_dispatch: {}
@@ -32,10 +32,10 @@ jobs:
         SLUG=$(basename "$FILE" .md)
         URL="https://azure-noob.com/blog/${SLUG}/index.html"
 
-        echo "TITLE=$TITLE" >> $GITHUB_ENV
+        echo "TITLE=$TITLE"   >> $GITHUB_ENV
         echo "SUMMARY=$SUMMARY" >> $GITHUB_ENV
-        echo "HERO=$HERO" >> $GITHUB_ENV
-        echo "URL=$URL" >> $GITHUB_ENV
+        echo "HERO=$HERO"     >> $GITHUB_ENV
+        echo "URL=$URL"       >> $GITHUB_ENV
 
         echo "Detected:"
         echo "  FILE  = $FILE"
@@ -61,8 +61,10 @@ jobs:
       with:
         node-version: 20
 
-    - name: Install deps
-      run: npm i twitter-api-v2
+    - name: Install deps (X + Reddit)
+      run: |
+        npm i twitter-api-v2
+        npm i snoowrap
 
     - name: Post to X (calm tone)
       env:
@@ -82,6 +84,50 @@ jobs:
           accessSecret: process.env.X_ACCESS_SECRET,
         });
         const text = `${process.env.TITLE}\n\n${process.env.URL}`;
-        await client.v2.tweet(text);
-        console.log("Posted to X.");
+        const res = await client.v2.tweet(text);
+        const id = res?.data?.id;
+        const handle = 'SwannDavid83405';
+        console.log(id ? `Tweet posted: https://x.com/${handle}/status/${id}` : 'Posted to X.');
+        EOF
+
+    - name: Post to Reddit (self-post with summary + link)
+      env:
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+        REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+        REDDIT_SUBREDDIT: ${{ secrets.REDDIT_SUBREDDIT }}
+        TITLE: ${{ env.TITLE }}
+        SUMMARY: ${{ env.SUMMARY }}
+        URL: ${{ env.URL }}
+      run: |
+        node - << 'EOF'
+        import snoowrap from 'snoowrap';
+
+        const r = new snoowrap({
+          userAgent: 'azure-noob-blog-publisher',
+          clientId: process.env.REDDIT_CLIENT_ID,
+          clientSecret: process.env.REDDIT_CLIENT_SECRET,
+          username: process.env.REDDIT_USERNAME,
+          password: process.env.REDDIT_PASSWORD,
+        });
+
+        const subreddit = (process.env.REDDIT_SUBREDDIT || 'azure').toLowerCase();
+        const title = (process.env.TITLE || '').slice(0, 299);
+
+        // Friendly, non-promotional body to avoid removals
+        const body =
+`${process.env.SUMMARY || ''}
+
+Full write-up: ${process.env.URL}
+
+Context: real-world admin perspective (44 subscriptions). Calm breakdown of Excel vs Power BI vs Azure Resource Graph, plus a tenant-wide query you can run anywhere.`;
+
+        // Submit as a self-post (safer across most subs)
+        const res = await r.getSubreddit(subreddit).submitSelfpost({
+          title,
+          text: body
+        });
+
+        console.log('Reddit post created: https://www.reddit.com' + res?.permalink);
         EOF
