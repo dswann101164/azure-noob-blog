@@ -18,12 +18,12 @@ on:
         default: true
         type: boolean
       subreddit:
-        description: "Target subreddit (no r/). Example: AZURE"
+        description: "Subreddit (no r/)"
         required: true
         default: "AZURE"
         type: string
       dry_run:
-        description: "Preview only (no posts sent)"
+        description: "Preview only (no posting)"
         required: true
         default: true
         type: boolean
@@ -36,51 +36,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Detect post metadata from slug
+      - name: Detect post metadata
         id: meta
         shell: bash
         run: |
           set -euo pipefail
           FILE="posts/${{ inputs.slug }}.md"
-          if [ ! -f "$FILE" ]; then
-            echo "❌ Not found: $FILE"
-            exit 1
-          fi
-
           TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           URL="https://azure-noob.com/blog/${{ inputs.slug }}/index.html"
-
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
-          echo "hero=$HERO" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
-
-          echo "📄 FILE   : $FILE"
-          echo "🧾 TITLE  : $TITLE"
-          echo "📝 SUMMARY: ${SUMMARY:0:120}..."
-          echo "🖼️  HERO   : $HERO"
-          echo "🔗 URL    : $URL"
-
-      - name: Wait for page to be live (skips when dry_run = true)
-        if: ${{ inputs.dry_run == false }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          URL="${{ steps.meta.outputs.url }}"
-          echo "Waiting for $URL to return 200..."
-          for i in {1..60}; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
-            if [ "$code" = "200" ]; then
-              echo "✅ Page is live."
-              exit 0
-            fi
-            echo "Still not live (HTTP $code). Sleeping 5s..."
-            sleep 5
-          done
-          echo "❌ Page did not go live in time."
-          exit 1
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -90,69 +57,19 @@ jobs:
       - name: Install deps
         run: npm i twitter-api-v2 snoowrap
 
-      - name: Dry-run preview
+      - name: DRY RUN Preview
         if: ${{ inputs.dry_run == true }}
         run: |
-          echo "----- DRY RUN PREVIEW -----"
-          echo "Target URL   : ${{ steps.meta.outputs.url }}"
-          echo "Title        : ${{ steps.meta.outputs.title }}"
-          echo "Reddit body  : ${{ steps.meta.outputs.summary }}"
-          echo "Will Post To :"
-          echo "  X (Twitter): ${{ inputs.post_to_x }}"
-          echo "  Reddit     : ${{ inputs.post_to_reddit }} (r/${{ inputs.subreddit }})"
-          echo "---------------------------"
+          echo "URL: ${{ steps.meta.outputs.url }}"
+          echo "Title: ${{ steps.meta.outputs.title }}"
+          echo "Reddit: r/${{ inputs.subreddit }}"
+          echo "Post to X: ${{ inputs.post_to_x }}"
+          echo "Post to Reddit: ${{ inputs.post_to_reddit }}"
 
-      - name: Post to X (Twitter)
+      - name: Post to X
         if: ${{ inputs.dry_run == false && inputs.post_to_x == true }}
-        env:
-          X_APP_KEY: ${{ secrets.X_APP_KEY }}
-          X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          TITLE: ${{ steps.meta.outputs.title }}
-          URL: ${{ steps.meta.outputs.url }}
-        run: |
-          node <<'EOF'
-          const { TwitterApi } = require('twitter-api-v2');
-          (async () => {
-            const client = new TwitterApi({
-              appKey: process.env.X_APP_KEY,
-              appSecret: process.env.X_APP_SECRET,
-              accessToken: process.env.X_ACCESS_TOKEN,
-              accessSecret: process.env.X_ACCESS_SECRET,
-            });
-            const text = `${process.env.TITLE}\n\n${process.env.URL}`;
-            const res = await client.v2.tweet(text);
-            console.log('✅ Tweeted. ID:', res?.data?.id);
-          })().catch(e => { console.error('❌ X post failed:', e); process.exit(1); });
-          EOF
+        run: echo "Would post to X here"
 
       - name: Post to Reddit
         if: ${{ inputs.dry_run == false && inputs.post_to_reddit == true }}
-        env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
-          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
-          TITLE: ${{ steps.meta.outputs.title }}
-          SUMMARY: ${{ steps.meta.outputs.summary }}
-          URL: ${{ steps.meta.outputs.url }}
-          SUBREDDIT: ${{ inputs.subreddit }}
-        run: |
-          node <<'EOF'
-          const Snoowrap = require('snoowrap');
-          (async () => {
-            const r = new Snoowrap({
-              userAgent: 'azure-noob-blog-publisher',
-              clientId: process.env.REDDIT_CLIENT_ID,
-              clientSecret: process.env.REDDIT_CLIENT_SECRET,
-              username: process.env.REDDIT_USERNAME,
-              password: process.env.REDDIT_PASSWORD,
-            });
-            const title = (process.env.TITLE || '').slice(0, 299);
-            const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
-            const sub = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
-            const post = await r.getSubreddit(sub).submitSelfpost({ title, text: body });
-            console.log('✅ Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
-          })().catch(e => { console.error('❌ Reddit post failed:', e); process.exit(1); });
-          EOF
+        run: echo "Would post to Reddit here"
