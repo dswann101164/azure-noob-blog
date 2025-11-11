@@ -1,43 +1,138 @@
-      - name: Post to Reddit (r/AZURE or custom)
+name: Distribute Blog Post (X + Reddit)
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_wait:
+        description: "Skip waiting for the page to be live"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - "posts/*.md"
+
+concurrency:
+  group: distribute-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Detect post (works for push or manual)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          FILE="$(git log -1 --pretty=format: --name-only -- posts/*.md | grep -E '^posts/.*\.md$' | head -n 1 || true)"
+          if [[ -z "${FILE:-}" ]]; then
+            FILE="$(ls -t posts/*.md | head -n 1 || true)"
+          fi
+          if [[ -z "${FILE:-}" ]]; then
+            echo "No post found under posts/"; exit 1
+          fi
+
+          TITLE="$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
+          SUMMARY="$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
+
+          SLUG="$(basename "$FILE" .md)"
+          URL="https://azure-noob.com/blog/${SLUG}/index.html"
+
+          {
+            echo "FILE=$FILE"
+            echo "TITLE=$TITLE"
+            echo "SUMMARY=$SUMMARY"
+            echo "SLUG=$SLUG"
+            echo "URL=$URL"
+          } >> "$GITHUB_ENV"
+
+          echo "Detected:"
+          echo "  FILE  = $FILE"
+          echo "  TITLE = $TITLE"
+          echo "  URL   = $URL"
+
+      - name: Wait for page to be live (max ~10 min)
+        if: ${{ github.event.inputs.skip_wait != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          try_url () { code="$(curl -sS -o /dev/null -w '%{http_code}' -L -I "$1" || echo 000)"; echo "Checked $1 -> HTTP $code"; [[ "$code" = "200" ]]; }
+          INDEX_URL="${URL%/}/index.html"
+          SLASH_URL="${URL%/}/"
+          echo "Waiting for page to be live:"; echo "  $INDEX_URL"; echo "  $SLASH_URL"
+          for i in {1..120}; do
+            if try_url "$INDEX_URL" || try_url "$SLASH_URL"; then echo "Page is live."; exit 0; fi
+            echo "Not live yet. Sleeping 5s… ($i/120)"; sleep 5
+          done
+          echo "Page never went live in time."; exit 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm i --no-fund --no-audit twitter-api-v2 snoowrap
+
+      - name: Post to X (Twitter)
         env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_SUBREDDIT: ${{ secrets.REDDIT_SUBREDDIT }} # optional; defaults to AZURE
+          X_APP_KEY: ${{ secrets.X_APP_KEY }}
+          X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
           TITLE: ${{ env.TITLE }}
-          SUMMARY: ${{ env.SUMMARY }}
           URL: ${{ env.URL }}
         shell: bash
         run: |
           node <<'EOF'
-          const Snoowrap = require('snoowrap');
-
+          const { TwitterApi } = require('twitter-api-v2');
           (async () => {
-            const clientId = process.env.REDDIT_CLIENT_ID;
-            const refreshToken = process.env.REDDIT_REFRESH_TOKEN;
-            const userAgent = process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher';
+            const { X_APP_KEY: appKey, X_APP_SECRET: appSecret, X_ACCESS_TOKEN: accessToken, X_ACCESS_SECRET: accessSecret, TITLE, URL } = process.env;
+            if (!appKey || !appSecret || !accessToken || !accessSecret) { console.log('X secrets missing; skipping tweet.'); return; }
+            const client = new TwitterApi({ appKey, appSecret, accessToken, accessSecret });
+            const text = `${(TITLE||'').trim()}\n\n${(URL||'').trim()}`.slice(0, 275);
+            const res = await client.v2.tweet(text);
+            console.log('Tweeted:', res?.data?.id || '(no id)');
+          })().catch(e => { console.error(e); process.exit(1); });
+          EOF
 
-            if (!clientId || !refreshToken) {
-              console.log('Reddit refresh-token secrets missing; skipping Reddit post.');
-              return;
-            }
+      - name: Post to Reddit (r/AZURE or custom)
+        env:
+          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_SUBREDDIT:     ${{ secrets.REDDIT_SUBREDDIT }} # optional; defaults to AZURE
+          TITLE:   ${{ env.TITLE }}
+          SUMMARY: ${{ env.SUMMARY }}
+          URL:     ${{ env.URL }}
+        shell: bash
+        run: |
+          node <<'EOF'
+          const Snoowrap = require('snoowrap');
+          (async () => {
+            const clientId     = process.env.REDDIT_CLIENT_ID;
+            const refreshToken = process.env.REDDIT_REFRESH_TOKEN;
+            const userAgent    = process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher';
+            if (!clientId || !refreshToken) { console.log('Reddit refresh-token secrets missing; skipping Reddit post.'); return; }
 
             // Installed-app OAuth: empty clientSecret + refreshToken
             const r = new Snoowrap({
               userAgent,
               clientId,
               clientSecret: '',
-              refreshToken
+              refreshToken,
             });
 
-            const title = (process.env.TITLE || 'New post').slice(0, 299);
-            const text  = `${(process.env.SUMMARY || '').trim()}\n\nFull write-up: ${process.env.URL}`;
-            const sub   = (process.env.REDDIT_SUBREDDIT || 'AZURE').replace(/^r\//i, '');
+            const subreddit = (process.env.REDDIT_SUBREDDIT || 'AZURE').replace(/^r\//i,'');
+            const title  = (process.env.TITLE || 'New post').slice(0, 299);
+            const body   = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
+                           `Full write-up: ${process.env.URL || ''}`;
 
-            const post = await r.getSubreddit(sub).submitSelfpost({ title, text });
+            const post = await r.getSubreddit(subreddit).submitSelfpost({ title, text: body });
             console.log('✅ Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
-          })().catch(e => {
-            console.error('❌ Reddit post failed:', e?.response?.json || e);
-            process.exit(1);
-          });
+          })().catch(e => { console.error('❌ Reddit post failed:', e); process.exit(1); });
           EOF
