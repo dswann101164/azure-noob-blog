@@ -10,146 +10,101 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    - name: Detect new post (robust parsing)
-      shell: bash
-      run: |
-        set -euo pipefail
-        FILE=$(git diff --name-only HEAD~1 HEAD | grep '^posts/.*\.md$' | head -n 1 || true)
-        if [ -z "$FILE" ]; then
-          echo "No post change under posts/. Exiting."
-          exit 1
-        fi
-        echo "FILE=$FILE" >> "$GITHUB_ENV"
-
-        TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-        SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-        HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-
-        SLUG=$(basename "$FILE" .md)
-        URL="https://azure-noob.com/blog/${SLUG}/index.html"
-
-        {
-          echo "TITLE=$TITLE"
-          echo "SUMMARY=$SUMMARY"
-          echo "HERO=$HERO"
-          echo "URL=$URL"
-        } >> "$GITHUB_ENV"
-
-        echo "Detected:"
-        echo "  FILE  = $FILE"
-        echo "  TITLE = $TITLE"
-        echo "  HERO  = $HERO"
-        echo "  URL   = $URL"
-
-    - name: Wait for page to be live (max ~3 min)
-      shell: bash
-      run: |
-        set -euo pipefail
-        for i in {1..18}; do
-          code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
-          if [ "$code" = "200" ]; then
-            echo "Page is live."
-            exit 0
+      - name: Detect new post (robust parsing)
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE=$(git diff --name-only HEAD~1 HEAD | grep '^posts/.*\.md$' | head -n 1 || true)
+          if [ -z "$FILE" ]; then
+            echo "No post change under posts/. Exiting."
+            exit 1
           fi
-          echo "Not live yet (HTTP $code). Sleeping 10s..."
-          sleep 10
-        done
-        echo "Page never went live in time."
-        exit 1
+          echo "FILE=$FILE" >> "$GITHUB_ENV"
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+          TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+          SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+          HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+          SLUG=$(basename "$FILE" .md)
+          URL="https://azure-noob.com/blog/${SLUG}/index.html"
 
-    - name: Install deps (X + Reddit)
-      shell: bash
-      run: npm i twitter-api-v2 snoowrap
+          {
+            echo "TITLE=$TITLE"
+            echo "SUMMARY=$SUMMARY"
+            echo "HERO=$HERO"
+            echo "URL=$URL"
+          } >> "$GITHUB_ENV"
 
-    - name: Post to X (calm tone)
-      shell: bash
-      env:
-        X_APP_KEY: ${{ secrets.X_APP_KEY }}
-        X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
-        X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-        X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-        TITLE: ${{ env.TITLE }}
-        URL: ${{ env.URL }}
-      run: |
-        set -euo pipefail
-        cat > post-x.js <<'JS'
-        const { TwitterApi } = require('twitter-api-v2');
+          echo "Detected:"
+          echo "  FILE  = $FILE"
+          echo "  TITLE = $TITLE"
+          echo "  HERO  = $HERO"
+          echo "  URL   = $URL"
 
-        (async () => {
-          const client = new TwitterApi({
-            appKey: process.env.X_APP_KEY,
-            appSecret: process.env.X_APP_SECRET,
-            accessToken: process.env.X_ACCESS_TOKEN,
-            accessSecret: process.env.X_ACCESS_SECRET,
-          });
+      - name: Wait for page to be live (max ~3 min)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..18}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
+            if [ "$code" = "200" ]; then
+              echo "Page is live."
+              exit 0
+            fi
+            echo "Not live yet (HTTP $code). Sleeping 10s..."
+            sleep 10
+          done
+          echo "Page never went live in time."
+          exit 1
 
-          const text = `${process.env.TITLE}\n\n${process.env.URL}`;
-          const res = await client.v2.tweet(text);
-          const id = res && res.data && res.data.id;
-          const handle = 'SwannDavid83405';
-          console.log(id ? `Tweet posted: https://x.com/${handle}/status/${id}` : 'Posted to X.');
-        })().catch((e) => {
-          console.error('X post failed:', e);
-          process.exit(1);
-        });
-        JS
-        node post-x.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: Post to Reddit (self-post in r/AZURE)
-      shell: bash
-      env:
-        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-        REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
-        REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
-        TITLE: ${{ env.TITLE }}
-        SUMMARY: ${{ env.SUMMARY }}
-        URL: ${{ env.URL }}
-      run: |
-        set -euo pipefail
-        cat > post-reddit.js <<'JS'
-        const Snoowrap = require('snoowrap');
+      - name: Install deps (X + Reddit)
+        shell: bash
+        run: npm i twitter-api-v2 snoowrap
 
-        (async () => {
-          const r = new Snoowrap({
-            userAgent: 'azure-noob-blog-publisher',
-            clientId: process.env.REDDIT_CLIENT_ID,
-            clientSecret: process.env.REDDIT_CLIENT_SECRET,
-            username: process.env.REDDIT_USERNAME,
-            password: process.env.REDDIT_PASSWORD,
-          });
+      - name: Post to X (calm tone)
+        shell: bash
+        env:
+          X_APP_KEY: ${{ secrets.X_APP_KEY }}
+          X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          TITLE: ${{ env.TITLE }}
+          URL: ${{ env.URL }}
+        run: >
+          node -e "const {TwitterApi}=require('twitter-api-v2');
+          (async()=>{
+            const c=new TwitterApi({appKey:process.env.X_APP_KEY,appSecret:process.env.X_APP_SECRET,accessToken:process.env.X_ACCESS_TOKEN,accessSecret:process.env.X_ACCESS_SECRET});
+            const text=`${process.env.TITLE}\n\n${process.env.URL}`;
+            const r=await c.v2.tweet(text);
+            const id=r&&r.data&&r.data.id;
+            const handle='SwannDavid83405';
+            console.log(id?`Tweet posted: https://x.com/${handle}/status/${id}`:'Posted to X.');
+          })().catch(e=>{console.error('X post failed:',e);process.exit(1)});"
 
-          const subreddit = 'azure';
-          const title = (process.env.TITLE || '').slice(0, 299);
-
-          const body =
-            (process.env.SUMMARY || '') +
-            `
-
-Full write-up: ${process.env.URL}
-
-Context: real-world Azure admin perspective (44 subscriptions). Calm breakdown of Excel vs Power BI vs Azure Resource Graph, plus a tenant-wide query you can run anywhere.`;
-
-          const res = await r.getSubreddit(subreddit).submitSelfpost({
-            title,
-            text: body,
-          });
-
-          const permalink = res && res.permalink ? `https://www.reddit.com${res.permalink}` : '(no link)';
-          console.log('Reddit post created:', permalink);
-        })().catch((e) => {
-          console.error('Reddit post failed:', e);
-          process.exit(1);
-        });
-        JS
-        node post-reddit.js
+      - name: Post to Reddit (self-post in r/AZURE)
+        shell: bash
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+          TITLE: ${{ env.TITLE }}
+          SUMMARY: ${{ env.SUMMARY }}
+          URL: ${{ env.URL }}
+        run: >
+          node -e "const Snoowrap=require('snoowrap');
+          (async()=>{
+            const r=new Snoowrap({userAgent:'azure-noob-blog-publisher',clientId:process.env.REDDIT_CLIENT_ID,clientSecret:process.env.REDDIT_CLIENT_SECRET,username:process.env.REDDIT_USERNAME,password:process.env.REDDIT_PASSWORD});
+            const title=(process.env.TITLE||'').slice(0,299);
+            const body=(process.env.SUMMARY||'')+`\n\nFull write-up: ${process.env.URL}\n\nContext: real-world Azure admin perspective (44 subscriptions). Calm breakdown of Excel vs Power BI vs Azure Resource Graph, plus a tenant-wide query you can run anywhere.`;
+            const res=await r.getSubreddit('azure').submitSelfpost({title,text:body});
+            console.log('Reddit post created: https://www.reddit.com'+(res&&res.permalink?res.permalink:'')); 
+          })().catch(e=>{console.error('Reddit post failed:',e);process.exit(1)});"
