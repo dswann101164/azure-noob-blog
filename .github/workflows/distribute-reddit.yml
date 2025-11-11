@@ -1,0 +1,171 @@
+name: Distribute Blog Post (Reddit)
+
+on:
+  # Run automatically AFTER your site finishes deploying to GitHub Pages
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+
+  # Or run manually to post any existing slug
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Slug of the post, e.g. 2025-01-15-kql-cheat-sheet-complete (optional)"
+        required: false
+        type: string
+      subreddit:
+        description: "Subreddit name without r/ (default: AZURE)"
+        required: false
+        default: "AZURE"
+        type: string
+      title_override:
+        description: "Optional custom Reddit title (otherwise uses post title)"
+        required: false
+        type: string
+      url_override:
+        description: "Optional full URL (overrides slug & live-wait)"
+        required: false
+        type: string
+      dry_run:
+        description: "If true, only print what would be posted"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve post metadata
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          INPUT_SLUG="${{ github.event.inputs.slug || '' }}"
+          INPUT_URL="${{ github.event.inputs.url_override || '' }}"
+          INPUT_SUB="${{ github.event.inputs.subreddit || '' }}"
+          SUBREDDIT="${INPUT_SUB:-AZURE}"
+
+          # Determine FILE/SLUG
+          if [[ -n "$INPUT_SLUG" ]]; then
+            FILE="posts/${INPUT_SLUG}.md"
+            if [[ -f "$FILE" ]]; then
+              SLUG="$INPUT_SLUG"
+            else
+              echo "Warning: $FILE not found. Continuing with slug only."
+              SLUG="$INPUT_SLUG"
+              FILE=""
+            fi
+          else
+            # Use last changed post in last commit, else newest post
+            FILE=$(git log -1 --pretty=format: --name-only -- posts/*.md | head -n 1 || true)
+            [[ -z "$FILE" ]] && FILE=$(ls -t posts/*.md | head -n 1)
+            SLUG=$(basename "$FILE" .md)
+          fi
+
+          # Parse front-matter if file exists
+          TITLE=""
+          SUMMARY=""
+          HERO=""
+          if [[ -n "${FILE:-}" && -f "$FILE" ]]; then
+            TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+            SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+            HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
+          fi
+
+          # Build URL (clean URLs)
+          if [[ -n "$INPUT_URL" ]]; then
+            URL="$INPUT_URL"
+          else
+            URL="https://azure-noob.com/blog/${SLUG}/"
+          fi
+
+          {
+            echo "FILE=$FILE"
+            echo "SLUG=$SLUG"
+            echo "SUBREDDIT=$SUBREDDIT"
+            echo "TITLE=$TITLE"
+            echo "SUMMARY=$SUMMARY"
+            echo "HERO=$HERO"
+            echo "URL=$URL"
+          } >> "$GITHUB_ENV"
+
+          echo "Resolved:"
+          echo "  FILE      = $FILE"
+          echo "  SLUG      = $SLUG"
+          echo "  SUBREDDIT = $SUBREDDIT"
+          echo "  URL       = $URL"
+
+      - name: Wait for page to be live (skipped if manual URL)
+        if: ${{ !github.event.inputs.url_override }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..120}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
+            if [[ "$code" == "200" ]]; then
+              echo "Page is live -> ${URL}"
+              exit 0
+            fi
+            echo "Not live yet (HTTP $code). Sleeping 5s… ($i/120)"
+            sleep 5
+          done
+          echo "URL did not go live in time: ${URL}"
+          exit 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm i snoowrap
+
+      - name: Post to Reddit
+        env:
+          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USERNAME:      ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD:      ${{ secrets.REDDIT_PASSWORD }}
+          SUBREDDIT:            ${{ env.SUBREDDIT }}
+          TITLE:                ${{ env.TITLE }}
+          SUMMARY:              ${{ env.SUMMARY }}
+          URL:                  ${{ env.URL }}
+          TITLE_OVERRIDE:       ${{ github.event.inputs.title_override }}
+          DRY_RUN:              ${{ github.event.inputs.dry_run }}
+        run: |
+          node <<'EOF'
+          const Snoowrap = require('snoowrap');
+
+          const title = (process.env.TITLE_OVERRIDE || process.env.TITLE || 'New post').slice(0, 299);
+          const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
+          const subreddit = process.env.SUBREDDIT || 'AZURE';
+
+          if (process.env.DRY_RUN === 'true') {
+            console.log('[DRY RUN] Would post to r/' + subreddit);
+            console.log('Title:', title);
+            console.log('Body:\n', body);
+            process.exit(0);
+          }
+
+          const r = new Snoowrap({
+            userAgent: 'azure-noob-blog-publisher',
+            clientId: process.env.REDDIT_CLIENT_ID,
+            clientSecret: process.env.REDDIT_CLIENT_SECRET,
+            username: process.env.REDDIT_USERNAME,
+            password: process.env.REDDIT_PASSWORD,
+          });
+
+          r.getSubreddit(subreddit)
+            .submitSelfpost({ title, text: body })
+            .then(p => console.log('Reddit permalink: https://www.reddit.com' + p.permalink))
+            .catch(err => { console.error(err); process.exit(1); });
+          EOF
