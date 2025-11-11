@@ -3,51 +3,41 @@ name: Distribute Blog Post (X + Reddit)
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: [main]
     paths:
-      - "posts/*.md"
+      - 'posts/*.md'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Detect the post both on push and manual runs
-      - name: Detect new post (robust parsing: push or manual)
+      - name: Detect post (works for push or manual)
         shell: bash
         run: |
           set -euo pipefail
-          # 1) Try: file changed in most recent commit under posts/
+          # Try file changed in last commit; fall back to newest post
           FILE=$(git log -1 --pretty=format: --name-only -- posts/*.md | grep '^posts/.*\.md$' | head -n 1 || true)
-          # 2) Fallback: newest post by modification time (works for manual runs)
           if [ -z "${FILE:-}" ]; then
             FILE=$(ls -t posts/*.md | head -n 1 || true)
           fi
           if [ -z "${FILE:-}" ]; then
-            echo "No post file found under posts/. Exiting."
-            exit 1
+            echo "No post found under posts/"; exit 1
           fi
-
-          echo "FILE=$FILE" >> "$GITHUB_ENV"
-
           TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           SLUG=$(basename "$FILE" .md)
           URL="https://azure-noob.com/blog/${SLUG}/index.html"
-
-          {
-            echo "TITLE=$TITLE"
-            echo "SUMMARY=$SUMMARY"
-            echo "HERO=$HERO"
-            echo "URL=$URL"
-          } >> "$GITHUB_ENV"
-
-          echo "::notice::Detected FILE=$FILE"
-          echo "::notice::TITLE=$TITLE"
-          echo "::notice::URL=$URL"
+          echo "FILE=$FILE"       >> "$GITHUB_ENV"
+          echo "TITLE=$TITLE"     >> "$GITHUB_ENV"
+          echo "SUMMARY=$SUMMARY" >> "$GITHUB_ENV"
+          echo "HERO=$HERO"       >> "$GITHUB_ENV"
+          echo "URL=$URL"         >> "$GITHUB_ENV"
+          echo "Detected $FILE -> $URL"
 
       - name: Wait for page to be live (max ~3 min)
         shell: bash
@@ -56,60 +46,63 @@ jobs:
           for i in {1..18}; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
             if [ "$code" = "200" ]; then
-              echo "Page is live."
-              exit 0
+              echo "Page is live."; exit 0
             fi
-            echo "Not live yet (HTTP $code). Sleeping 10s..."
+            echo "Not live yet (HTTP $code). Sleeping 10s…"
             sleep 10
           done
-          echo "Page never went live in time."
-          exit 1
+          echo "Page never went live in time." ; exit 1
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install deps (X + Reddit)
-        shell: bash
+      - name: Install deps
         run: npm i twitter-api-v2 snoowrap
 
-      - name: Post to X (calm tone)
-        shell: bash
+      - name: Post to X
         env:
           X_APP_KEY: ${{ secrets.X_APP_KEY }}
           X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          TITLE: ${{ env.TITLE }}
-          URL: ${{ env.URL }}
-        run: >
-          node -e "const {TwitterApi}=require('twitter-api-v2');
-          (async()=>{
-            const c=new TwitterApi({appKey:process.env.X_APP_KEY,appSecret:process.env.X_APP_SECRET,accessToken:process.env.X_ACCESS_TOKEN,accessSecret:process.env.X_ACCESS_SECRET});
-            const text=`${process.env.TITLE}\n\n${process.env.URL}`;
-            const r=await c.v2.tweet(text);
-            const id=r&&r.data&&r.data.id;
-            const handle='SwannDavid83405';
-            console.log(id?`Tweet posted: https://x.com/${handle}/status/${id}`:'Posted to X.');
-          })().catch(e=>{console.error('X post failed:',e);process.exit(1)});"
+        run: |
+          node <<'EOF'
+          const { TwitterApi } = require('twitter-api-v2');
+          (async () => {
+            const client = new TwitterApi({
+              appKey: process.env.X_APP_KEY,
+              appSecret: process.env.X_APP_SECRET,
+              accessToken: process.env.X_ACCESS_TOKEN,
+              accessSecret: process.env.X_ACCESS_SECRET,
+            });
+            const text = `${process.env.TITLE}\n\n${process.env.URL}`;
+            const res = await client.v2.tweet(text);
+            console.log('Tweet ID:', res?.data?.id);
+          })().catch(e => { console.error(e); process.exit(1); });
+          EOF
 
-      - name: Post to Reddit (self-post in r/AZURE)
-        shell: bash
+      - name: Post to Reddit (r/AZURE)
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
-          TITLE: ${{ env.TITLE }}
-          SUMMARY: ${{ env.SUMMARY }}
-          URL: ${{ env.URL }}
-        run: >
-          node -e "const Snoowrap=require('snoowrap');
-          (async()=>{
-            const r=new Snoowrap({userAgent:'azure-noob-blog-publisher',clientId:process.env.REDDIT_CLIENT_ID,clientSecret:process.env.REDDIT_CLIENT_SECRET,username:process.env.REDDIT_USERNAME,password:process.env.REDDIT_PASSWORD});
-            const title=(process.env.TITLE||'').slice(0,299);
-            const body=(process.env.SUMMARY||'')+`\n\nFull write-up: ${process.env.URL}\n\nContext: real-world Azure admin perspective (44 subscriptions). Calm breakdown of Excel vs Power BI vs Azure Resource Graph, plus a tenant-wide query you can run anywhere.`;
-            const res=await r.getSubreddit('azure').submitSelfpost({title,text:body});
-            console.log('Reddit post created: https://www.reddit.com'+(res&&res.permalink?res.permalink:'')); 
-          })().catch(e=>{console.error('Reddit post failed:',e);process.exit(1)});"
+        run: |
+          node <<'EOF'
+          const Snoowrap = require('snoowrap');
+          (async () => {
+            const r = new Snoowrap({
+              userAgent: 'azure-noob-blog-publisher',
+              clientId: process.env.REDDIT_CLIENT_ID,
+              clientSecret: process.env.REDDIT_CLIENT_SECRET,
+              username: process.env.REDDIT_USERNAME,
+              password: process.env.REDDIT_PASSWORD,
+            });
+            const title = (process.env.TITLE || '').slice(0, 299);
+            const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
+            const post = await r.getSubreddit('azure').submitSelfpost({ title, text: body });
+            console.log('Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
+          })().catch(e => { console.error(e); process.exit(1); });
+          EOF
