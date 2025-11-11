@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repo
@@ -20,31 +21,40 @@ jobs:
         run: |
           set -euo pipefail
           # Try file changed in last commit; fall back to newest post
-          FILE=$(git log -1 --pretty=format: --name-only -- posts/*.md | grep '^posts/.*\.md$' | head -n 1 || true)
+          FILE="$(git log -1 --pretty=format: --name-only -- posts/*.md | grep -E '^posts/.*\.md$' | head -n 1 || true)"
           if [ -z "${FILE:-}" ]; then
-            FILE=$(ls -t posts/*.md | head -n 1 || true)
+            FILE="$(ls -t posts/*.md | head -n 1 || true)"
           fi
           if [ -z "${FILE:-}" ]; then
             echo "No post found under posts/"; exit 1
           fi
-          TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          HERO=$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          SLUG=$(basename "$FILE" .md)
-          URL="https://azure-noob.com/blog/${SLUG}/index.html"
-          echo "FILE=$FILE"       >> "$GITHUB_ENV"
-          echo "TITLE=$TITLE"     >> "$GITHUB_ENV"
-          echo "SUMMARY=$SUMMARY" >> "$GITHUB_ENV"
-          echo "HERO=$HERO"       >> "$GITHUB_ENV"
-          echo "URL=$URL"         >> "$GITHUB_ENV"
-          echo "Detected $FILE -> $URL"
 
+          # Extract YAML front matter fields (title/summary/cover)
+          TITLE="$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
+          SUMMARY="$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
+          HERO="$(awk -F': ' '/^cover:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
+
+          SLUG="$(basename "$FILE" .md)"
+          URL="https://azure-noob.com/blog/${SLUG}/index.html"
+
+          {
+            echo "FILE=$FILE"
+            echo "TITLE=$TITLE"
+            echo "SUMMARY=$SUMMARY"
+            echo "HERO=$HERO"
+            echo "URL=$URL"
+          } >> "$GITHUB_ENV"
+
+          echo "Detected $FILE"
+          echo "Title: $TITLE"
+          echo "URL  : $URL"
+      
       - name: Wait for page to be live (max ~3 min)
         shell: bash
         run: |
           set -euo pipefail
           for i in {1..18}; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
+            code="$(curl -s -o /dev/null -w "%{http_code}" "${URL}")"
             if [ "$code" = "200" ]; then
               echo "Page is live."; exit 0
             fi
@@ -61,16 +71,24 @@ jobs:
       - name: Install deps
         run: npm i twitter-api-v2 snoowrap
 
-      - name: Post to X
+      - name: Post to X (Twitter)
+        if: ${{ env.TITLE != '' && env.URL != '' }}
         env:
           X_APP_KEY: ${{ secrets.X_APP_KEY }}
           X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          TITLE: ${{ env.TITLE }}
+          URL: ${{ env.URL }}
         run: |
           node <<'EOF'
           const { TwitterApi } = require('twitter-api-v2');
+
           (async () => {
+            if (!process.env.X_APP_KEY) {
+              console.log('Skipping X: no credentials present.');
+              return;
+            }
             const client = new TwitterApi({
               appKey: process.env.X_APP_KEY,
               appSecret: process.env.X_APP_SECRET,
@@ -80,29 +98,42 @@ jobs:
             const text = `${process.env.TITLE}\n\n${process.env.URL}`;
             const res = await client.v2.tweet(text);
             console.log('Tweet ID:', res?.data?.id);
-          })().catch(e => { console.error(e); process.exit(1); });
+          })().catch(e => { console.error('X post failed:', e); process.exit(1); });
           EOF
 
       - name: Post to Reddit (r/AZURE)
+        if: ${{ env.TITLE != '' && env.URL != '' }}
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+          TITLE: ${{ env.TITLE }}
+          SUMMARY: ${{ env.SUMMARY }}
+          URL: ${{ env.URL }}
         run: |
           node <<'EOF'
           const Snoowrap = require('snoowrap');
+
           (async () => {
+            if (!process.env.REDDIT_CLIENT_ID) {
+              console.log('Skipping Reddit: no credentials present.');
+              return;
+            }
+
             const r = new Snoowrap({
-              userAgent: 'azure-noob-blog-publisher',
+              userAgent: 'azure-noob-blog-publisher-script',
               clientId: process.env.REDDIT_CLIENT_ID,
               clientSecret: process.env.REDDIT_CLIENT_SECRET,
               username: process.env.REDDIT_USERNAME,
               password: process.env.REDDIT_PASSWORD,
             });
+
+            const subreddit = 'AZURE';
             const title = (process.env.TITLE || '').slice(0, 299);
-            const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
-            const post = await r.getSubreddit('azure').submitSelfpost({ title, text: body });
+            const body = `${process.env.SUMMARY || ''}\n\nFull post: ${process.env.URL}`;
+
+            const post = await r.getSubreddit(subreddit).submitSelfpost({ title, text: body });
             console.log('Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
-          })().catch(e => { console.error(e); process.exit(1); });
+          })().catch(e => { console.error('Reddit post failed:', e); process.exit(1); });
           EOF
