@@ -18,7 +18,7 @@ jobs:
     - name: Detect new post (robust parsing)
       shell: bash
       run: |
-        set -e
+        set -euo pipefail
         FILE=$(git diff --name-only HEAD~1 HEAD | grep '^posts/.*\.md$' | head -n 1 || true)
         if [ -z "$FILE" ]; then
           echo "No post change under posts/. Exiting."
@@ -33,10 +33,12 @@ jobs:
         SLUG=$(basename "$FILE" .md)
         URL="https://azure-noob.com/blog/${SLUG}/index.html"
 
-        echo "TITLE=$TITLE"       >> "$GITHUB_ENV"
-        echo "SUMMARY=$SUMMARY"   >> "$GITHUB_ENV"
-        echo "HERO=$HERO"         >> "$GITHUB_ENV"
-        echo "URL=$URL"           >> "$GITHUB_ENV"
+        {
+          echo "TITLE=$TITLE"
+          echo "SUMMARY=$SUMMARY"
+          echo "HERO=$HERO"
+          echo "URL=$URL"
+        } >> "$GITHUB_ENV"
 
         echo "Detected:"
         echo "  FILE  = $FILE"
@@ -47,6 +49,7 @@ jobs:
     - name: Wait for page to be live (max ~3 min)
       shell: bash
       run: |
+        set -euo pipefail
         for i in {1..18}; do
           code=$(curl -s -o /dev/null -w "%{http_code}" "${URL}")
           if [ "$code" = "200" ]; then
@@ -69,6 +72,7 @@ jobs:
       run: npm i twitter-api-v2 snoowrap
 
     - name: Post to X (calm tone)
+      shell: bash
       env:
         X_APP_KEY: ${{ secrets.X_APP_KEY }}
         X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
@@ -76,12 +80,12 @@ jobs:
         X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
         TITLE: ${{ env.TITLE }}
         URL: ${{ env.URL }}
-      shell: bash
       run: |
-        node - <<'EOF'
+        set -euo pipefail
+        cat > post-x.js <<'JS'
         const { TwitterApi } = require('twitter-api-v2');
 
-        async function main() {
+        (async () => {
           const client = new TwitterApi({
             appKey: process.env.X_APP_KEY,
             appSecret: process.env.X_APP_SECRET,
@@ -91,18 +95,18 @@ jobs:
 
           const text = `${process.env.TITLE}\n\n${process.env.URL}`;
           const res = await client.v2.tweet(text);
-          const id = res?.data?.id;
+          const id = res && res.data && res.data.id;
           const handle = 'SwannDavid83405';
           console.log(id ? `Tweet posted: https://x.com/${handle}/status/${id}` : 'Posted to X.');
-        }
-
-        main().catch((e) => {
+        })().catch((e) => {
           console.error('X post failed:', e);
           process.exit(1);
         });
-        EOF
+        JS
+        node post-x.js
 
     - name: Post to Reddit (self-post in r/AZURE)
+      shell: bash
       env:
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
@@ -111,12 +115,12 @@ jobs:
         TITLE: ${{ env.TITLE }}
         SUMMARY: ${{ env.SUMMARY }}
         URL: ${{ env.URL }}
-      shell: bash
       run: |
-        node - <<'EOF'
+        set -euo pipefail
+        cat > post-reddit.js <<'JS'
         const Snoowrap = require('snoowrap');
 
-        async function main() {
+        (async () => {
           const r = new Snoowrap({
             userAgent: 'azure-noob-blog-publisher',
             clientId: process.env.REDDIT_CLIENT_ID,
@@ -125,12 +129,12 @@ jobs:
             password: process.env.REDDIT_PASSWORD,
           });
 
-          const subreddit = 'azure'; // r/AZURE
+          const subreddit = 'azure';
           const title = (process.env.TITLE || '').slice(0, 299);
 
-          // Friendly body to avoid removals
           const body =
-`${process.env.SUMMARY || ''}
+            (process.env.SUMMARY || '') +
+            `
 
 Full write-up: ${process.env.URL}
 
@@ -141,11 +145,11 @@ Context: real-world Azure admin perspective (44 subscriptions). Calm breakdown o
             text: body,
           });
 
-          console.log('Reddit post created: https://www.reddit.com' + (res?.permalink || ''));
-        }
-
-        main().catch((e) => {
+          const permalink = res && res.permalink ? `https://www.reddit.com${res.permalink}` : '(no link)';
+          console.log('Reddit post created:', permalink);
+        })().catch((e) => {
           console.error('Reddit post failed:', e);
           process.exit(1);
         });
-        EOF
+        JS
+        node post-reddit.js
