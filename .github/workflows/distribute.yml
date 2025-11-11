@@ -14,15 +14,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Detect new post (robust parsing)
+      # Detect the post both on push and manual runs
+      - name: Detect new post (robust parsing: push or manual)
         shell: bash
         run: |
           set -euo pipefail
-          FILE=$(git diff --name-only HEAD~1 HEAD | grep '^posts/.*\.md$' | head -n 1 || true)
-          if [ -z "$FILE" ]; then
-            echo "No post change under posts/. Exiting."
+          # 1) Try: file changed in most recent commit under posts/
+          FILE=$(git log -1 --pretty=format: --name-only -- posts/*.md | grep '^posts/.*\.md$' | head -n 1 || true)
+          # 2) Fallback: newest post by modification time (works for manual runs)
+          if [ -z "${FILE:-}" ]; then
+            FILE=$(ls -t posts/*.md | head -n 1 || true)
+          fi
+          if [ -z "${FILE:-}" ]; then
+            echo "No post file found under posts/. Exiting."
             exit 1
           fi
+
           echo "FILE=$FILE" >> "$GITHUB_ENV"
 
           TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
@@ -38,11 +45,9 @@ jobs:
             echo "URL=$URL"
           } >> "$GITHUB_ENV"
 
-          echo "Detected:"
-          echo "  FILE  = $FILE"
-          echo "  TITLE = $TITLE"
-          echo "  HERO  = $HERO"
-          echo "  URL   = $URL"
+          echo "::notice::Detected FILE=$FILE"
+          echo "::notice::TITLE=$TITLE"
+          echo "::notice::URL=$URL"
 
       - name: Wait for page to be live (max ~3 min)
         shell: bash
