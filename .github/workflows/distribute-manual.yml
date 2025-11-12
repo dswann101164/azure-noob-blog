@@ -22,6 +22,10 @@ on:
         required: true
         default: "AZURE"
         type: string
+      flair_id:
+        description: "Reddit flair ID (optional - use 'list' to see available flairs)"
+        required: false
+        type: string
       dry_run:
         description: "Preview only (no posting)"
         required: true
@@ -73,12 +77,43 @@ jobs:
           echo "Title:         ${{ steps.meta.outputs.title }}"
           echo "Summary:       ${{ steps.meta.outputs.summary }}"
           echo "Subreddit:     r/${{ inputs.subreddit }}"
+          echo "Flair ID:      ${{ inputs.flair_id || '(none)' }}"
           echo "Post to X:     ${{ inputs.post_to_x }}"
           echo "Post to Reddit: ${{ inputs.post_to_reddit }}"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+      - name: List available flairs (if requested)
+        if: ${{ inputs.flair_id == 'list' }}
+        env:
+          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
+          SUBREDDIT:            ${{ inputs.subreddit }}
+        run: |
+          node <<'EOF'
+          const Snoowrap = require('snoowrap');
+          (async () => {
+            const r = new Snoowrap({
+              userAgent: process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher',
+              clientId: process.env.REDDIT_CLIENT_ID,
+              clientSecret: '',
+              refreshToken: process.env.REDDIT_REFRESH_TOKEN,
+            });
+            
+            const sub = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
+            console.log(`\n📋 Available flairs for r/${sub}:\n`);
+            
+            const flairs = await r.getSubreddit(sub).getLinkFlairTemplates();
+            flairs.forEach(f => {
+              console.log(`  ID: ${f.flair_template_id}`);
+              console.log(`  Text: ${f.flair_text}`);
+              console.log(`  ───────────────────────────`);
+            });
+          })().catch(e => { console.error('❌ Failed to list flairs:', e); process.exit(1); });
+          EOF
+
       - name: Post to X
-        if: ${{ inputs.dry_run == false && inputs.post_to_x == true }}
+        if: ${{ inputs.dry_run == false && inputs.post_to_x == true && inputs.flair_id != 'list' }}
         env:
           X_APP_KEY: ${{ secrets.X_APP_KEY }}
           X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
@@ -114,7 +149,7 @@ jobs:
           EOF
 
       - name: Post to Reddit
-        if: ${{ inputs.dry_run == false && inputs.post_to_reddit == true }}
+        if: ${{ inputs.dry_run == false && inputs.post_to_reddit == true && inputs.flair_id != 'list' }}
         env:
           REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
@@ -123,6 +158,7 @@ jobs:
           SUMMARY:              ${{ steps.meta.outputs.summary }}
           URL:                  ${{ steps.meta.outputs.url }}
           SUBREDDIT:            ${{ inputs.subreddit }}
+          FLAIR_ID:             ${{ inputs.flair_id }}
         run: |
           node <<'EOF'
           const Snoowrap = require('snoowrap');
@@ -136,7 +172,6 @@ jobs:
               return;
             }
 
-            // Installed-app OAuth: empty clientSecret + refreshToken
             const r = new Snoowrap({
               userAgent,
               clientId,
@@ -148,8 +183,15 @@ jobs:
             const body = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
                          `Full write-up: ${process.env.URL || ''}`;
             const sub = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
+            const flairId = process.env.FLAIR_ID || '';
 
-            const post = await r.getSubreddit(sub).submitSelfpost({ title, text: body });
+            const postOptions = { title, text: body };
+            if (flairId) {
+              postOptions.flairId = flairId;
+              console.log(`📌 Using flair ID: ${flairId}`);
+            }
+
+            const post = await r.getSubreddit(sub).submitSelfpost(postOptions);
             console.log('✅ Posted to Reddit: https://www.reddit.com' + (post?.permalink || ''));
           })().catch(e => { 
             console.error('❌ Reddit post failed:', e); 

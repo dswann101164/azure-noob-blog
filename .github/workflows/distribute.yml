@@ -7,6 +7,10 @@ on:
         description: "Skip waiting for the page to be live"
         type: boolean
         default: false
+      flair_id:
+        description: "Reddit flair ID (optional)"
+        type: string
+        required: false
   push:
     branches: [main]
     paths:
@@ -121,9 +125,11 @@ jobs:
           REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
           REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
           REDDIT_SUBREDDIT:     ${{ secrets.REDDIT_SUBREDDIT }}
+          REDDIT_FLAIR_ID:      ${{ secrets.REDDIT_FLAIR_ID }}
           TITLE:   ${{ env.TITLE }}
           SUMMARY: ${{ env.SUMMARY }}
           URL:     ${{ env.URL }}
+          FLAIR_ID_OVERRIDE: ${{ github.event.inputs.flair_id }}
         shell: bash
         run: |
           node <<'EOF'
@@ -138,7 +144,6 @@ jobs:
               return; 
             }
 
-            // Installed-app OAuth: empty clientSecret + refreshToken
             const r = new Snoowrap({
               userAgent,
               clientId,
@@ -150,8 +155,19 @@ jobs:
             const title  = (process.env.TITLE || 'New post').slice(0, 299);
             const body   = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
                            `Full write-up: ${process.env.URL || ''}`;
+            
+            // Use flair from input override, then secret, then none
+            const flairId = process.env.FLAIR_ID_OVERRIDE || process.env.REDDIT_FLAIR_ID || '';
 
-            const post = await r.getSubreddit(subreddit).submitSelfpost({ title, text: body });
+            const postOptions = { title, text: body };
+            if (flairId) {
+              postOptions.flairId = flairId;
+              console.log(`📌 Using flair ID: ${flairId}`);
+            } else {
+              console.log('⚠️ No flair ID provided - post may be rejected by r/AZURE');
+            }
+
+            const post = await r.getSubreddit(subreddit).submitSelfpost(postOptions);
             console.log('✅ Posted to Reddit: https://www.reddit.com' + (post?.permalink || ''));
           })().catch(e => { 
             console.error('❌ Reddit post failed:', e); 

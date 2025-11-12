@@ -18,6 +18,10 @@ on:
         required: false
         default: "AZURE"
         type: string
+      flair_id:
+        description: "Reddit flair ID (optional - overrides secret)"
+        required: false
+        type: string
       title_override:
         description: "Optional custom Reddit title (otherwise uses post title)"
         required: false
@@ -134,11 +138,13 @@ jobs:
           REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
           REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_FLAIR_ID:      ${{ secrets.REDDIT_FLAIR_ID }}
           SUBREDDIT:            ${{ env.SUBREDDIT }}
           TITLE:                ${{ env.TITLE }}
           SUMMARY:              ${{ env.SUMMARY }}
           URL:                  ${{ env.URL }}
           TITLE_OVERRIDE:       ${{ github.event.inputs.title_override }}
+          FLAIR_ID_OVERRIDE:    ${{ github.event.inputs.flair_id }}
           DRY_RUN:              ${{ github.event.inputs.dry_run }}
         run: |
           node <<'EOF'
@@ -156,11 +162,15 @@ jobs:
           const title = (process.env.TITLE_OVERRIDE || process.env.TITLE || 'New post').slice(0, 299);
           const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
           const subreddit = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
+          
+          // Use flair from input override, then secret, then none
+          const flairId = process.env.FLAIR_ID_OVERRIDE || process.env.REDDIT_FLAIR_ID || '';
 
           if (process.env.DRY_RUN === 'true') {
             console.log('[DRY RUN] Would post to r/' + subreddit);
             console.log('Title:', title);
             console.log('Body:\n', body);
+            console.log('Flair ID:', flairId || '(none)');
             process.exit(0);
           }
 
@@ -172,8 +182,16 @@ jobs:
             refreshToken,
           });
 
+          const postOptions = { title, text: body };
+          if (flairId) {
+            postOptions.flairId = flairId;
+            console.log(`📌 Using flair ID: ${flairId}`);
+          } else {
+            console.log('⚠️ No flair ID provided - post may be rejected by r/AZURE');
+          }
+
           r.getSubreddit(subreddit)
-            .submitSelfpost({ title, text: body })
+            .submitSelfpost(postOptions)
             .then(p => console.log('✅ Reddit permalink: https://www.reddit.com' + p.permalink))
             .catch(err => { 
               console.error('❌ Reddit post failed:', err); 
