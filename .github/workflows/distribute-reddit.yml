@@ -132,9 +132,8 @@ jobs:
       - name: Post to Reddit
         env:
           REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USERNAME:      ${{ secrets.REDDIT_USERNAME }}
-          REDDIT_PASSWORD:      ${{ secrets.REDDIT_PASSWORD }}
+          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
           SUBREDDIT:            ${{ env.SUBREDDIT }}
           TITLE:                ${{ env.TITLE }}
           SUMMARY:              ${{ env.SUMMARY }}
@@ -145,9 +144,18 @@ jobs:
           node <<'EOF'
           const Snoowrap = require('snoowrap');
 
+          const clientId     = process.env.REDDIT_CLIENT_ID;
+          const refreshToken = process.env.REDDIT_REFRESH_TOKEN;
+          const userAgent    = process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher';
+
+          if (!clientId || !refreshToken) {
+            console.log('❌ Reddit secrets missing (CLIENT_ID or REFRESH_TOKEN)');
+            process.exit(1);
+          }
+
           const title = (process.env.TITLE_OVERRIDE || process.env.TITLE || 'New post').slice(0, 299);
           const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
-          const subreddit = process.env.SUBREDDIT || 'AZURE';
+          const subreddit = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
 
           if (process.env.DRY_RUN === 'true') {
             console.log('[DRY RUN] Would post to r/' + subreddit);
@@ -156,16 +164,19 @@ jobs:
             process.exit(0);
           }
 
+          // Installed-app OAuth: empty clientSecret + refreshToken
           const r = new Snoowrap({
-            userAgent: 'azure-noob-blog-publisher',
-            clientId: process.env.REDDIT_CLIENT_ID,
-            clientSecret: process.env.REDDIT_CLIENT_SECRET,
-            username: process.env.REDDIT_USERNAME,
-            password: process.env.REDDIT_PASSWORD,
+            userAgent,
+            clientId,
+            clientSecret: '',
+            refreshToken,
           });
 
           r.getSubreddit(subreddit)
             .submitSelfpost({ title, text: body })
-            .then(p => console.log('Reddit permalink: https://www.reddit.com' + p.permalink))
-            .catch(err => { console.error(err); process.exit(1); });
+            .then(p => console.log('✅ Reddit permalink: https://www.reddit.com' + p.permalink))
+            .catch(err => { 
+              console.error('❌ Reddit post failed:', err); 
+              process.exit(1); 
+            });
           EOF

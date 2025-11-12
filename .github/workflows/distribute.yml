@@ -33,14 +33,14 @@ jobs:
             FILE="$(ls -t posts/*.md | head -n 1 || true)"
           fi
           if [[ -z "${FILE:-}" ]]; then
-            echo "No post found under posts/"; exit 1
+            echo "❌ No post found under posts/"; exit 1
           fi
 
           TITLE="$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
           SUMMARY="$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')"
 
           SLUG="$(basename "$FILE" .md)"
-          URL="https://azure-noob.com/blog/${SLUG}/index.html"
+          URL="https://azure-noob.com/blog/${SLUG}/"
 
           {
             echo "FILE=$FILE"
@@ -63,12 +63,19 @@ jobs:
           try_url () { code="$(curl -sS -o /dev/null -w '%{http_code}' -L -I "$1" || echo 000)"; echo "Checked $1 -> HTTP $code"; [[ "$code" = "200" ]]; }
           INDEX_URL="${URL%/}/index.html"
           SLASH_URL="${URL%/}/"
-          echo "Waiting for page to be live:"; echo "  $INDEX_URL"; echo "  $SLASH_URL"
+          echo "Waiting for page to be live:"
+          echo "  $INDEX_URL"
+          echo "  $SLASH_URL"
           for i in {1..120}; do
-            if try_url "$INDEX_URL" || try_url "$SLASH_URL"; then echo "Page is live."; exit 0; fi
-            echo "Not live yet. Sleeping 5s… ($i/120)"; sleep 5
+            if try_url "$INDEX_URL" || try_url "$SLASH_URL"; then 
+              echo "✅ Page is live."; 
+              exit 0; 
+            fi
+            echo "Not live yet. Sleeping 5s… ($i/120)"; 
+            sleep 5
           done
-          echo "Page never went live in time."; exit 1
+          echo "❌ Page never went live in time."; 
+          exit 1
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -92,12 +99,20 @@ jobs:
           const { TwitterApi } = require('twitter-api-v2');
           (async () => {
             const { X_APP_KEY: appKey, X_APP_SECRET: appSecret, X_ACCESS_TOKEN: accessToken, X_ACCESS_SECRET: accessSecret, TITLE, URL } = process.env;
-            if (!appKey || !appSecret || !accessToken || !accessSecret) { console.log('X secrets missing; skipping tweet.'); return; }
+            
+            if (!appKey || !appSecret || !accessToken || !accessSecret) { 
+              console.log('❌ X secrets missing; skipping tweet.'); 
+              return; 
+            }
+            
             const client = new TwitterApi({ appKey, appSecret, accessToken, accessSecret });
             const text = `${(TITLE||'').trim()}\n\n${(URL||'').trim()}`.slice(0, 275);
             const res = await client.v2.tweet(text);
-            console.log('Tweeted:', res?.data?.id || '(no id)');
-          })().catch(e => { console.error(e); process.exit(1); });
+            console.log('✅ Posted to X (Twitter). Tweet ID:', res?.data?.id || '(no id)');
+          })().catch(e => { 
+            console.error('❌ X post failed:', e); 
+            process.exit(1); 
+          });
           EOF
 
       - name: Post to Reddit (r/AZURE or custom)
@@ -105,7 +120,7 @@ jobs:
           REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
           REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_SUBREDDIT:     ${{ secrets.REDDIT_SUBREDDIT }} # optional; defaults to AZURE
+          REDDIT_SUBREDDIT:     ${{ secrets.REDDIT_SUBREDDIT }}
           TITLE:   ${{ env.TITLE }}
           SUMMARY: ${{ env.SUMMARY }}
           URL:     ${{ env.URL }}
@@ -117,7 +132,11 @@ jobs:
             const clientId     = process.env.REDDIT_CLIENT_ID;
             const refreshToken = process.env.REDDIT_REFRESH_TOKEN;
             const userAgent    = process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher';
-            if (!clientId || !refreshToken) { console.log('Reddit refresh-token secrets missing; skipping Reddit post.'); return; }
+            
+            if (!clientId || !refreshToken) { 
+              console.log('❌ Reddit refresh-token secrets missing; skipping Reddit post.'); 
+              return; 
+            }
 
             // Installed-app OAuth: empty clientSecret + refreshToken
             const r = new Snoowrap({
@@ -133,6 +152,9 @@ jobs:
                            `Full write-up: ${process.env.URL || ''}`;
 
             const post = await r.getSubreddit(subreddit).submitSelfpost({ title, text: body });
-            console.log('✅ Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
-          })().catch(e => { console.error('❌ Reddit post failed:', e); process.exit(1); });
+            console.log('✅ Posted to Reddit: https://www.reddit.com' + (post?.permalink || ''));
+          })().catch(e => { 
+            console.error('❌ Reddit post failed:', e); 
+            process.exit(1); 
+          });
           EOF

@@ -48,11 +48,13 @@ jobs:
           fi
           TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          URL="https://azure-noob.com/blog/${{ inputs.slug }}/index.html"
+          URL="https://azure-noob.com/blog/${{ inputs.slug }}/"
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
-          echo "FILE=$FILE"
+          echo "✅ Detected post: $FILE"
+          echo "   Title: $TITLE"
+          echo "   URL: $URL"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -65,11 +67,15 @@ jobs:
       - name: DRY RUN Preview
         if: ${{ inputs.dry_run == true }}
         run: |
-          echo "URL:      ${{ steps.meta.outputs.url }}"
-          echo "Title:    ${{ steps.meta.outputs.title }}"
-          echo "Subreddit r/${{ inputs.subreddit }}"
-          echo "Post to X:       ${{ inputs.post_to_x }}"
-          echo "Post to Reddit:  ${{ inputs.post_to_reddit }}"
+          echo "🔍 DRY RUN MODE - No actual posting will occur"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "URL:           ${{ steps.meta.outputs.url }}"
+          echo "Title:         ${{ steps.meta.outputs.title }}"
+          echo "Summary:       ${{ steps.meta.outputs.summary }}"
+          echo "Subreddit:     r/${{ inputs.subreddit }}"
+          echo "Post to X:     ${{ inputs.post_to_x }}"
+          echo "Post to Reddit: ${{ inputs.post_to_reddit }}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
       - name: Post to X
         if: ${{ inputs.dry_run == false && inputs.post_to_x == true }}
@@ -84,46 +90,69 @@ jobs:
           node <<'EOF'
           const { TwitterApi } = require('twitter-api-v2');
           (async () => {
+            const { X_APP_KEY, X_APP_SECRET, X_ACCESS_TOKEN, X_ACCESS_SECRET, TITLE, URL } = process.env;
+            
+            if (!X_APP_KEY || !X_APP_SECRET || !X_ACCESS_TOKEN || !X_ACCESS_SECRET) {
+              console.log('❌ X (Twitter) secrets missing - skipping tweet');
+              return;
+            }
+
             const client = new TwitterApi({
-              appKey: process.env.X_APP_KEY,
-              appSecret: process.env.X_APP_SECRET,
-              accessToken: process.env.X_ACCESS_TOKEN,
-              accessSecret: process.env.X_ACCESS_SECRET,
+              appKey: X_APP_KEY,
+              appSecret: X_APP_SECRET,
+              accessToken: X_ACCESS_TOKEN,
+              accessSecret: X_ACCESS_SECRET,
             });
-            const text = `${process.env.TITLE}\n\n${process.env.URL}`;
+            
+            const text = `${TITLE}\n\n${URL}`.slice(0, 275);
             const res = await client.v2.tweet(text);
-            console.log('✅ Tweeted. ID:', res?.data?.id);
-          })().catch(e => { console.error('❌ X post failed:', e); process.exit(1); });
+            console.log('✅ Posted to X (Twitter). Tweet ID:', res?.data?.id);
+          })().catch(e => { 
+            console.error('❌ X post failed:', e); 
+            process.exit(1); 
+          });
           EOF
 
       - name: Post to Reddit
         if: ${{ inputs.dry_run == false && inputs.post_to_reddit == true }}
         env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
-          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
-          TITLE: ${{ steps.meta.outputs.title }}
-          SUMMARY: ${{ steps.meta.outputs.summary }}
-          URL: ${{ steps.meta.outputs.url }}
-          SUBREDDIT: ${{ inputs.subreddit }}
+          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
+          TITLE:                ${{ steps.meta.outputs.title }}
+          SUMMARY:              ${{ steps.meta.outputs.summary }}
+          URL:                  ${{ steps.meta.outputs.url }}
+          SUBREDDIT:            ${{ inputs.subreddit }}
         run: |
           node <<'EOF'
           const Snoowrap = require('snoowrap');
           (async () => {
+            const clientId     = process.env.REDDIT_CLIENT_ID;
+            const refreshToken = process.env.REDDIT_REFRESH_TOKEN;
+            const userAgent    = process.env.REDDIT_USER_AGENT || 'azure-noob-blog-publisher';
+
+            if (!clientId || !refreshToken) {
+              console.log('❌ Reddit secrets missing (CLIENT_ID or REFRESH_TOKEN) - skipping Reddit post');
+              return;
+            }
+
+            // Installed-app OAuth: empty clientSecret + refreshToken
             const r = new Snoowrap({
-              userAgent: 'azure-noob-blog-publisher',
-              clientId: process.env.REDDIT_CLIENT_ID,
-              clientSecret: process.env.REDDIT_CLIENT_SECRET,
-              username: process.env.REDDIT_USERNAME,
-              password: process.env.REDDIT_PASSWORD,
+              userAgent,
+              clientId,
+              clientSecret: '',
+              refreshToken,
             });
+
             const title = (process.env.TITLE || '').slice(0, 299);
-            const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
+            const body = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
+                         `Full write-up: ${process.env.URL || ''}`;
             const sub = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
+
             const post = await r.getSubreddit(sub).submitSelfpost({ title, text: body });
-            console.log('✅ Reddit permalink: https://www.reddit.com' + (post?.permalink || ''));
-          })().catch(e => { console.error('❌ Reddit post failed:', e); process.exit(1); });
+            console.log('✅ Posted to Reddit: https://www.reddit.com' + (post?.permalink || ''));
+          })().catch(e => { 
+            console.error('❌ Reddit post failed:', e); 
+            process.exit(1); 
+          });
           EOF
-
-
