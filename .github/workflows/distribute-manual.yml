@@ -52,7 +52,9 @@ jobs:
           fi
           TITLE=$(awk -F': ' '/^title:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
           SUMMARY=$(awk -F': ' '/^summary:/{print $2; exit}' "$FILE" | tr -d '"' | tr -d '\r')
-          URL="https://azure-noob.com/blog/${{ inputs.slug }}/"
+          # Strip date prefix (YYYY-MM-DD-) from slug for clean URL
+          CLEAN_SLUG=$(echo "${{ inputs.slug }}" | sed 's/^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}-//')
+          URL="https://azure-noob.com/blog/${CLEAN_SLUG}/"
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
