@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
       flair_id:
-        description: "Reddit flair ID (optional)"
+        description: "Reddit flair ID (optional - leave blank to use default secret)"
         type: string
         required: false
   push:
@@ -121,15 +121,15 @@ jobs:
 
       - name: Post to Reddit (r/AZURE or custom)
         env:
-          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
-          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_SUBREDDIT:     ${{ secrets.REDDIT_SUBREDDIT }}
-          REDDIT_FLAIR_ID:      ${{ secrets.REDDIT_FLAIR_ID }}
+          REDDIT_CLIENT_ID:       ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN:   ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:      ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_SUBREDDIT:       ${{ secrets.REDDIT_SUBREDDIT }}
+          REDDIT_FLAIR_ID_SECRET: ${{ secrets.REDDIT_FLAIR_ID }}
           TITLE:   ${{ env.TITLE }}
           SUMMARY: ${{ env.SUMMARY }}
           URL:     ${{ env.URL }}
-          FLAIR_ID_OVERRIDE: ${{ github.event.inputs.flair_id }}
+          FLAIR_ID_INPUT: ${{ github.event.inputs.flair_id }}
         shell: bash
         run: |
           node <<'EOF'
@@ -156,8 +156,8 @@ jobs:
             const body   = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
                            `Full write-up: ${process.env.URL || ''}`;
             
-            // Use flair from input override, then secret, then none
-            const flairId = process.env.FLAIR_ID_OVERRIDE || process.env.REDDIT_FLAIR_ID || '';
+            // Use input flair if provided, otherwise fall back to secret
+            const flairId = process.env.FLAIR_ID_INPUT || process.env.REDDIT_FLAIR_ID_SECRET || '';
 
             const postOptions = { title, text: body };
             if (flairId) {

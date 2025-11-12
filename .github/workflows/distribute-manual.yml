@@ -23,7 +23,7 @@ on:
         default: "AZURE"
         type: string
       flair_id:
-        description: "Reddit flair ID (optional - use 'list' to see available flairs)"
+        description: "Reddit flair ID (optional - leave blank to use default secret)"
         required: false
         type: string
       dry_run:
@@ -77,7 +77,7 @@ jobs:
           echo "Title:         ${{ steps.meta.outputs.title }}"
           echo "Summary:       ${{ steps.meta.outputs.summary }}"
           echo "Subreddit:     r/${{ inputs.subreddit }}"
-          echo "Flair ID:      ${{ inputs.flair_id || '(none)' }}"
+          echo "Flair ID:      ${{ inputs.flair_id || '(using default secret)' }}"
           echo "Post to X:     ${{ inputs.post_to_x }}"
           echo "Post to Reddit: ${{ inputs.post_to_reddit }}"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -151,14 +151,15 @@ jobs:
       - name: Post to Reddit
         if: ${{ inputs.dry_run == false && inputs.post_to_reddit == true && inputs.flair_id != 'list' }}
         env:
-          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
-          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
-          TITLE:                ${{ steps.meta.outputs.title }}
-          SUMMARY:              ${{ steps.meta.outputs.summary }}
-          URL:                  ${{ steps.meta.outputs.url }}
-          SUBREDDIT:            ${{ inputs.subreddit }}
-          FLAIR_ID:             ${{ inputs.flair_id }}
+          REDDIT_CLIENT_ID:       ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN:   ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:      ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_FLAIR_ID_SECRET: ${{ secrets.REDDIT_FLAIR_ID }}
+          TITLE:                  ${{ steps.meta.outputs.title }}
+          SUMMARY:                ${{ steps.meta.outputs.summary }}
+          URL:                    ${{ steps.meta.outputs.url }}
+          SUBREDDIT:              ${{ inputs.subreddit }}
+          FLAIR_ID_INPUT:         ${{ inputs.flair_id }}
         run: |
           node <<'EOF'
           const Snoowrap = require('snoowrap');
@@ -183,12 +184,16 @@ jobs:
             const body = ((process.env.SUMMARY || '').trim() ? process.env.SUMMARY.trim() + '\n\n' : '') +
                          `Full write-up: ${process.env.URL || ''}`;
             const sub = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
-            const flairId = process.env.FLAIR_ID || '';
+            
+            // Use input flair if provided, otherwise fall back to secret
+            const flairId = process.env.FLAIR_ID_INPUT || process.env.REDDIT_FLAIR_ID_SECRET || '';
 
             const postOptions = { title, text: body };
             if (flairId) {
               postOptions.flairId = flairId;
               console.log(`📌 Using flair ID: ${flairId}`);
+            } else {
+              console.log('⚠️ No flair ID provided - post may be rejected by r/AZURE');
             }
 
             const post = await r.getSubreddit(sub).submitSelfpost(postOptions);

@@ -19,7 +19,7 @@ on:
         default: "AZURE"
         type: string
       flair_id:
-        description: "Reddit flair ID (optional - overrides secret)"
+        description: "Reddit flair ID (optional - leave blank to use default secret)"
         required: false
         type: string
       title_override:
@@ -135,17 +135,17 @@ jobs:
 
       - name: Post to Reddit
         env:
-          REDDIT_CLIENT_ID:     ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_REFRESH_TOKEN: ${{ secrets.REDDIT_REFRESH_TOKEN }}
-          REDDIT_USER_AGENT:    ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_FLAIR_ID:      ${{ secrets.REDDIT_FLAIR_ID }}
-          SUBREDDIT:            ${{ env.SUBREDDIT }}
-          TITLE:                ${{ env.TITLE }}
-          SUMMARY:              ${{ env.SUMMARY }}
-          URL:                  ${{ env.URL }}
-          TITLE_OVERRIDE:       ${{ github.event.inputs.title_override }}
-          FLAIR_ID_OVERRIDE:    ${{ github.event.inputs.flair_id }}
-          DRY_RUN:              ${{ github.event.inputs.dry_run }}
+          REDDIT_CLIENT_ID:       ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_REFRESH_TOKEN:   ${{ secrets.REDDIT_REFRESH_TOKEN }}
+          REDDIT_USER_AGENT:      ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_FLAIR_ID_SECRET: ${{ secrets.REDDIT_FLAIR_ID }}
+          SUBREDDIT:              ${{ env.SUBREDDIT }}
+          TITLE:                  ${{ env.TITLE }}
+          SUMMARY:                ${{ env.SUMMARY }}
+          URL:                    ${{ env.URL }}
+          TITLE_OVERRIDE:         ${{ github.event.inputs.title_override }}
+          FLAIR_ID_INPUT:         ${{ github.event.inputs.flair_id }}
+          DRY_RUN:                ${{ github.event.inputs.dry_run }}
         run: |
           node <<'EOF'
           const Snoowrap = require('snoowrap');
@@ -163,8 +163,8 @@ jobs:
           const body = `${process.env.SUMMARY || ''}\n\nFull write-up: ${process.env.URL}`;
           const subreddit = (process.env.SUBREDDIT || 'AZURE').replace(/^r\//i,'');
           
-          // Use flair from input override, then secret, then none
-          const flairId = process.env.FLAIR_ID_OVERRIDE || process.env.REDDIT_FLAIR_ID || '';
+          // Use input flair if provided, otherwise fall back to secret
+          const flairId = process.env.FLAIR_ID_INPUT || process.env.REDDIT_FLAIR_ID_SECRET || '';
 
           if (process.env.DRY_RUN === 'true') {
             console.log('[DRY RUN] Would post to r/' + subreddit);
