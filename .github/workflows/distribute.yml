@@ -11,10 +11,13 @@ on:
         description: "Reddit flair ID (optional - leave blank to use default secret)"
         type: string
         required: false
-  push:
-    branches: [main]
-    paths:
-      - "posts/*.md"
+  # DISABLED: Build Reddit credibility manually first (100+ karma, 2+ weeks)
+  # Automated posting from new accounts triggers spam filters
+  # Re-enable after establishing authentic presence in r/Azure
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "posts/*.md"
 
 concurrency:
   group: distribute-${{ github.ref }}
@@ -170,7 +173,15 @@ jobs:
             }
 
             const post = await r.getSubreddit(subreddit).submitSelfpost(postOptions);
-            console.log('✅ Posted to Reddit: https://www.reddit.com' + (post?.permalink || ''));
+            // Properly fetch the permalink
+            const permalink = await post.fetch().then(p => p.permalink);
+            console.log('✅ Posted to Reddit: https://www.reddit.com' + permalink);
+            
+            // Also check if post was removed/spam filtered
+            const isRemoved = await post.fetch().then(p => p.removed || p.spam);
+            if (isRemoved) {
+              console.warn('⚠️ WARNING: Post may be in spam filter or removed by automod');
+            }
           })().catch(e => { 
             console.error('❌ Reddit post failed:', e); 
             process.exit(1); 
