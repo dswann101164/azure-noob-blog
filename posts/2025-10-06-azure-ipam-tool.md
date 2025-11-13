@@ -1,9 +1,9 @@
 ---
-title: "Azure IPAM Tool for Multi-Subscription Environments | Free Open Source IP Tracking"
+title: "Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks"
 date: 2025-10-06
-summary: "Track IPs across Azure subscriptions with this free IPAM tool. Search IPs, detect conflicts, reserve ranges, visualize network topology. Built for enterprise consolidation managing 44+ subscriptions. Full source code on GitHub."
-tags: ["Azure", "FinOps", "Governance", "Migration", "Networking", "Open Source"]
-cover: "static/images/hero/azure-ipam.png"
+summary: "Custom Azure IPAM tool for managing IP addresses across multiple subscriptions and VNets. Track subnets, prevent conflicts, reserve ranges, and maintain network documentation. Free open source solution."
+tags: ["Azure", "IPAM", "Networking", "IP Management", "Multi-Subscription", "Tools"]
+cover: "/static/images/hero/azure-ipam.png"
 ---
 
 ## The Problem Leadership Doesn't Understand

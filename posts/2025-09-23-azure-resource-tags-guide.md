@@ -1,9 +1,9 @@
 ---
-title: "What I Wish I Knew About Azure Resource Tags"
+title: "Azure Resource Tagging Best Practices | Enterprise Tag Strategy for Cost Allocation"
 date: 2025-09-23
-summary: "Order, capitalization, spelling, and the Type tag that will save your sanity. Hard-earned lessons from real Azure environments."
-tags: ["Azure", "Tags", "Governance", "FinOps", "Cost Management"]
-cover: "static/images/hero/azure-resource-tags.png"
+summary: "Enterprise Azure tagging best practices for cost allocation and governance. Why basic tagging fails at scale, required vs optional tags, and the Type tag that saves operations teams."
+tags: ["Azure", "Tags", "Best Practices", "FinOps", "Cost Management"]
+cover: "/static/images/hero/azure-resource-tags.png"
 ---
 
 

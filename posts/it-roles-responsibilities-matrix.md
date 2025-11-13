@@ -1,9 +1,9 @@
 ﻿---
-title: IT Roles & Responsibilities — The Practical Matrix
+title: "Azure RACI Matrix | Cloud Responsibility Assignment for Enterprise IT"
 date: 2025-09-08
-summary: A practical roles & responsibilities matrix you can lift into your runbooks. Now aligned to Microsoft CAF.
-tags: [roles, azure, governance, operations]
-cover: images/hero/caf-roles-matrix.png
+summary: "RACI matrix template for Azure operations aligned to Microsoft CAF. Define responsibilities across security, networking, compute, and cost management. Free downloadable template."
+tags: ["Azure", "RACI", "Governance", "CAF", "Enterprise"]
+cover: "/static/images/hero/caf-roles-matrix.png"
 ---
 
 <span class="lead"><strong>TL;DR:</strong> A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.</span>

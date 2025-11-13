@@ -1,8 +1,9 @@
 ---
-title: "Fix Azure Private Endpoint DNS in Hybrid AD | DNS Resolution Without Azure Private Resolver"
+title: "Azure Private DNS Resolver Alternative | Fix Private Endpoint DNS in Hybrid Environments"
 date: 2025-10-06
-summary: "Azure Private Endpoint DNS not working in hybrid environments? Learn how to fix DNS resolution by duplicating zones in on-prem AD instead of using forwarders or Azure Private Resolver. Real-world solution managing 1,500+ private endpoints."
-tags: ["Azure", "Private Endpoints", "Active Directory", "DNS", "Hybrid Cloud", "Networking"]
+summary: "Azure Private DNS Resolver alternative for hybrid environments. Fix private endpoint DNS resolution by duplicating zones in on-prem AD instead of forwarders. Real-world solution managing 1,500+ private endpoints."
+tags: ["Azure", "Private DNS", "DNS Resolver", "Private Endpoints", "Hybrid Cloud", "Networking"]
+keywords: ["azure private dns resolver", "azure private dns", "hybrid dns azure", "private endpoint dns"]
 cover: "static/images/hero/private-endpoint-dns.png"
 ---
 

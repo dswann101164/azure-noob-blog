@@ -1,9 +1,9 @@
 ---
-title: "Your CMDB Is Wrong (And Cloud Migration Fixes It)"
+title: "Building an Azure CMDB | Resource Inventory with Azure Resource Graph and KQL"
 date: 2025-10-11
-summary: "I spent 3 months bridging the gap between ServiceNow records with no context, RVtools exports mixing servers with virtual desktops, and ManageEngine tracking 21 AD domains. Then Azure Resource Graph gave me 31,000 accurate, tagged resources in 30 seconds."
-tags: ["Azure", "CMDB", "Migration", "Resource Graph", "Operations"]
-cover: "static/images/hero/cmdb-wrong.png"
+summary: "How to build a Configuration Management Database for Azure using Resource Graph and KQL queries. Track 31,000+ resources across 44 subscriptions with real-time accuracy. Why traditional CMDBs fail and Azure Resource Graph succeeds."
+tags: ["Azure", "CMDB", "Resource Graph", "KQL", "Inventory"]
+cover: "/static/images/hero/cmdb-wrong.png"
 ---
 
 ServiceNow CMDB said we had 8,000 resources. I opened the report:

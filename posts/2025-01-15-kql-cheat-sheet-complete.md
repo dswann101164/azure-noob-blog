@@ -1,9 +1,9 @@
 ---
-title: "KQL Cheat Sheet for Azure Resource Graph | Free PDF Download + Examples"
+title: "Azure Log Analytics Query Language Cheat Sheet | KQL Examples + Free PDF"
 date: 2025-09-23
-summary: "Complete KQL cheat sheet for Azure admins. Query VMs, NICs, disks with Resource Graph. Copy-paste examples, join patterns, troubleshooting tips. Free PDF download via email."
-tags: ["Azure", "KQL", "Resource Graph", "PowerShell"]
-cover: "static/images/hero/kql-cheat-sheet.png"
+summary: "Complete KQL cheat sheet for Azure Log Analytics and Resource Graph. Query VMs, NICs, disks with copy-paste examples. Free PDF download for Azure admins."
+tags: ["Azure", "KQL", "Log Analytics", "Resource Graph", "Cheat Sheet"]
+cover: "/static/images/hero/kql-cheat-sheet.png"
 ---
 
 # KQL Cheat Sheet for Azure Admins: Azure Resource Graph (VMs, NICs, Disks)

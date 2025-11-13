@@ -1,9 +1,9 @@
 ---
-title: "Why Most Azure Migrations Fail: The Institutional Knowledge Problem"
+title: "Common Azure Migration Mistakes | Why Enterprise Cloud Migrations Fail"
 date: 2025-09-24
-summary: "Azure Migrate works perfectly. The problem is no one remembers how their applications actually work. Here's why enterprise migrations fail before they start."
-tags: ["Azure", "Migration", "Technical Debt", "Enterprise", "Application Discovery"]
-cover: "static/images/hero/azure-migration-failure.png"
+summary: "The biggest Azure migration mistakes enterprises make: moving applications nobody understands. Real migration failures, institutional knowledge loss, and what actually works."
+tags: ["Azure", "Migration", "Cloud Strategy", "Enterprise", "Mistakes"]
+cover: "/static/images/hero/azure-migration-failure.png"
 ---
 
 # Why Most Azure Migrations Fail: The Institutional Knowledge Problem
