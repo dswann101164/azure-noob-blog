@@ -3,7 +3,7 @@ title: "The Application Migration Checklist Nobody Gave You (And Why Your Migrat
 date: 2025-11-14
 summary: "Microsoft's migration docs won't tell you this: 80% of migration failures happen because you didn't ask these 8 questions BEFORE you started. Here's the checklist that actually works in enterprise environments."
 tags: ["Azure", "Migration", "Operations", "Enterprise"]
-cover: "/static/images/hero/application-migration-checklist.svg"
+cover: "/static/images/hero/application-migration-checklist.png"
 ---
 
 ## The Problem Nobody Talks About
