@@ -18,7 +18,7 @@ Then you start the actual migration and discover:
 
 **Sound familiar?**
 
-I'm currently managing the Synovus-Pinnacle merger, consolidating 44 Azure subscriptions with 31,000+ resources. After migrating dozens of applications, I've learned this hard truth:
+After managing large-scale enterprise Azure migrations involving thousands of resources across dozens of subscriptions, I've learned this hard truth:
 
 **Migrations don't fail because of technical problems. They fail because of institutional knowledge problems.**
 
@@ -176,7 +176,7 @@ Here's what I actually use before approving any application migration. This isn'
 
 **Follow-up questions you need to ask:**
 
-**8a. Is the certificate provided by a Synovus Certificate Authority (CA)?**
+**8a. Is the certificate provided by an internal Certificate Authority (CA)?**
 - If yes: Contact your internal CA team BEFORE migration
 - They need to issue new certificates for the Azure environment
 - Verify the CA is still operational (I've seen internal CAs decommissioned)
