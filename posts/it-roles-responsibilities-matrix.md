@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure RACI Matrix | Cloud Responsibility Assignment for Enterprise IT"
 date: 2025-09-08
 summary: "RACI matrix template for Azure operations aligned to Microsoft CAF. Define responsibilities across security, networking, compute, and cost management. Free downloadable template."
@@ -8,7 +8,7 @@ cover: "/static/images/hero/caf-roles-matrix.png"
 
 <span class="lead"><strong>TL;DR:</strong> A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.</span>
 
-It fills a real gap: Microsoft’s [Cloud Adoption Framework (CAF)](https://learn.microsoft.com/azure/cloud-adoption-framework/) defines **functions** (Strategy, Plan, Ready, Adopt, Govern, Manage) but doesn’t give you a practical RACI or matrix.  
+It fills a real gap: Microsoft's [Cloud Adoption Framework (CAF)](https://learn.microsoft.com/azure/cloud-adoption-framework/) defines **functions** (Strategy, Plan, Ready, Adopt, Govern, Manage) but doesn't give you a practical RACI or matrix.  
 This post bridges that gap with a ready-to-use tool.
 
 ---
@@ -21,7 +21,7 @@ This post bridges that gap with a ready-to-use tool.
 
 ### Jump to a section
 - [CAF Mapping Overview](#caf-mapping-overview)
-- [How this maps to Microsoft’s CAF](#how-this-maps-to-microsofts-caf)
+- [How this maps to Microsoft's CAF](#how-this-maps-to-microsofts-caf)
 
 ---
 
@@ -38,7 +38,7 @@ This post bridges that gap with a ready-to-use tool.
 
 ---
 
-## How this maps to Microsoft’s CAF
+## How this maps to Microsoft's CAF
 
 CAF defines six functions across the adoption lifecycle — **Strategy, Plan, Ready, Adopt, Govern, Manage** — but stops short of a practical RACI.  
 This matrix fills that gap by mapping common **IT roles** to CAF responsibilities so you can assign ownership decisively.

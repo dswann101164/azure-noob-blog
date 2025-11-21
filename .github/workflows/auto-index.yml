@@ -1,0 +1,121 @@
+name: Auto-Index New Posts in Google
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'posts/*.md'
+      - 'docs/blog/**'
+
+permissions:
+  contents: read
+
+jobs:
+  submit-to-google:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need previous commit for diff
+
+      - name: Find new/updated posts
+        id: changed_posts
+        run: |
+          set -e
+
+          # If this is the first commit, treat all posts as changed
+          if [ "$(git rev-list --count HEAD)" -eq 1 ]; then
+            echo "First commit – treating all posts as changed."
+            CHANGED_FILES=$(ls posts/*.md 2>/dev/null || echo "")
+          else
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- 'posts/*.md' 2>/dev/null || echo "")
+          fi
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No post changes detected."
+            echo "slugs=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Strip posts/ prefix and .md suffix → slugs
+          SLUGS=$(echo "$CHANGED_FILES" | sed 's|^posts/||g' | sed 's|\.md$||g' | tr '\n' ' ')
+          echo "Found changed posts: $SLUGS"
+          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        if: steps.changed_posts.outputs.slugs != ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: steps.changed_posts.outputs.slugs != ''
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-api-python-client google-auth
+
+      - name: Submit URLs to Google Indexing API
+        if: steps.changed_posts.outputs.slugs != ''
+        env:
+          GOOGLE_INDEXING_CREDENTIALS: ${{ secrets.GOOGLE_INDEXING_CREDENTIALS }}
+          SLUGS: ${{ steps.changed_posts.outputs.slugs }}
+        run: |
+          python - << 'EOF'
+          import os
+          import json
+          import re
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.errors import HttpError
+
+          # --- Load credentials from GitHub secret ---
+          creds_json = os.environ.get("GOOGLE_INDEXING_CREDENTIALS")
+          if not creds_json:
+            print("❌ GOOGLE_INDEXING_CREDENTIALS secret not found")
+            raise SystemExit(1)
+
+          try:
+            creds_info = json.loads(creds_json)
+          except json.JSONDecodeError as e:
+            print(f"❌ Failed to parse GOOGLE_INDEXING_CREDENTIALS JSON: {e}")
+            raise SystemExit(1)
+
+          try:
+            credentials = service_account.Credentials.from_service_account_info(
+              creds_info,
+              scopes=["https://www.googleapis.com/auth/indexing"],
+            )
+            service = build("indexing", "v3", credentials=credentials)
+          except Exception as e:
+            print(f"❌ Failed to create Indexing API client: {e}")
+            raise SystemExit(1)
+
+          # --- Slugs from previous step ---
+          slugs_raw = os.environ.get("SLUGS", "")
+          slugs = [s for s in slugs_raw.split() if s]
+
+          if not slugs:
+            print("No slugs to submit, exiting.")
+            raise SystemExit(0)
+
+          for slug in slugs:
+            # Remove date prefix (YYYY-MM-DD-) if present
+            clean_slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", slug)
+            url = f"https://azure-noob.com/blog/{clean_slug}"
+
+            body = {
+              "url": url,
+              "type": "URL_UPDATED",
+            }
+
+            try:
+              service.urlNotifications().publish(body=body).execute()
+              print(f"✓ Submitted to Google: {url}")
+            except HttpError as e:
+              print(f"⚠️ Failed to submit {url}: {e}")
+              continue
+
+          print("\n✓ Google Indexing API submission complete")
+          EOF
