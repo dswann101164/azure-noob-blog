@@ -62,7 +62,57 @@ But here's what Microsoft doesn't explain clearly: **connecting vCenter to Azure
 
 This is where everyone gets confused. Azure Arc for VMware has two distinct deployment phases.
 
-### Phase 1: Deploy the Arc Resource Bridge
+But before you can even start Phase 1, you need a **jump box**.
+
+### Phase 0: Deploy the Jump Box (The Prerequisite Nobody Mentions)
+
+Before you can deploy the Arc Resource Bridge, you need a Windows VM in your vCenter environment to run the deployment scripts from.
+
+**What the jump box is:**
+- A Windows Server 2019/2022 or Windows 10/11 VM
+- Deployed IN your vCenter environment (not in Azure, not on your laptop)
+- Has network access to vCenter (port 443)
+- Has outbound internet access to Azure and GitHub
+- Serves as the deployment tool for Arc Resource Bridge
+
+**Why you need it:**
+- The Arc deployment scripts must run from a system WITH network access to vCenter
+- You can't deploy from Azure Cloud Shell (no vCenter access)
+- You can't deploy from your laptop over VPN (too slow, will timeout)
+- The scripts download a large OVA file and deploy it into vCenter
+
+**Jump box specifications:**
+- 2-4 vCPU
+- 8GB RAM
+- 50GB disk (minimum 20GB free for OVA download)
+- Windows Server 2019+ or Windows 10/11
+- Network connectivity to vCenter management network
+- Outbound HTTPS to internet
+
+**Software to install on jump box:**
+```powershell
+# Install Azure CLI
+Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi
+Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
+
+# Install PowerShell 7
+winget install Microsoft.PowerShell
+
+# Install VMware PowerCLI
+Install-Module -Name VMware.PowerCLI -Force -AllowClobber
+
+# Install Arc appliance extensions
+az extension add --name arcappliance
+az extension add --name connectedvmware
+
+# Login to Azure
+az login
+```
+
+**One jump box can deploy multiple Resource Bridges:**
+You can use the same jump box to deploy Arc Resource Bridges for vcenter-01, vcenter-02, and vcenter-03. You don't need a separate jump box per vCenter.
+
+### Phase 1: Deploy the Arc Resource Bridge (FROM the Jump Box)
 
 The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of it as the "connector" layer.
 
@@ -412,6 +462,32 @@ Here's the step-by-step process that actually works.
 
 **Reality check:** This phase takes longer than the actual deployment. Don't skip it. Deploying Arc without this planning creates an unfixable mess.
 
+### Phase 0: Jump Box Deployment (Week 4)
+
+```
+☐ Deploy Jump Box VM in vCenter
+  ☐ Create new Windows Server 2019/2022 VM in vCenter (or identify existing)
+  ☐ Allocate 2-4 vCPU, 8GB RAM, 50GB disk
+  ☐ Place on network with access to vCenter management interface
+  ☐ Configure outbound internet access (direct or via proxy)
+  ☐ Install Windows updates
+  ☐ Join to domain (if required for your environment)
+
+☐ Install Required Software on Jump Box
+  ☐ Install Azure CLI (az)
+  ☐ Install PowerShell 7+
+  ☐ Install VMware PowerCLI module
+  ☐ Install Azure Arc appliance extensions (arcappliance, connectedvmware)
+  ☐ Test Azure connectivity (az login)
+  ☐ Test vCenter connectivity (Connect-VIServer)
+
+☐ Validate Jump Box Prerequisites
+  ☐ Verify 20GB+ free disk space for OVA downloads
+  ☐ Verify network access to vCenter (port 443)
+  ☐ Verify outbound HTTPS to Azure (management.azure.com, login.microsoftonline.com)
+  ☐ Verify outbound HTTPS to GitHub (to download OVA files)
+  ☐ Test RDP access to jump box for deployment sessions
+
 ### Phase 1: Arc Resource Bridge Deployment (Week 5)
 
 ```
@@ -421,17 +497,6 @@ Here's the step-by-step process that actually works.
   ☐ Create service principals for Arc authentication
   ☐ Assign RBAC permissions (custom roles may be required)
   ☐ Configure Azure Policy for Arc governance
-
-☐ Prepare Jump Box for Deployment
-  ☐ Provision Windows VM in vCenter environment (or use existing jump box)
-  ☐ Install Azure CLI
-  ☐ Install PowerShell 7+
-  ☐ Install VMware PowerCLI
-  ☐ Install Arc appliance extensions (arcappliance, connectedvmware)
-  ☐ Verify network access to vCenter (port 443)
-  ☐ Verify outbound HTTPS to Azure (management.azure.com, login.microsoftonline.com)
-  ☐ Verify outbound HTTPS to GitHub (to download OVA)
-  ☐ Allocate 20GB free disk space for OVA download
 
 ☐ Prepare vCenter for Arc
   ☐ Create service account with required permissions:

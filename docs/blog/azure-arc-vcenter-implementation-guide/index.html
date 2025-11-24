@@ -133,8 +133,8 @@
   },
   "keywords": "Azure Arc, VMware, vCenter, Migration, Enterprise, Governance",
   "articleSection": "Azure Arc",
-  "wordCount": "9330",
-  "timeRequired": "PT47M",
+  "wordCount": "8995",
+  "timeRequired": "PT45M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "about": {
@@ -188,7 +188,7 @@
   <header class="post-header">
     <h1>The Azure Arc Multi-vCenter Implementation Guide That Actually Works</h1>
     <p class="muted">
-      2025-11-24 · ~47 min read
+      2025-11-24 · ~45 min read
       
     </p>
     
@@ -267,7 +267,49 @@
 <p>But here's what Microsoft doesn't explain clearly: <strong>connecting vCenter to Azure is a two-phase process.</strong></p>
 <h2>The Two-Phase Deployment Nobody Explains</h2>
 <p>This is where everyone gets confused. Azure Arc for VMware has two distinct deployment phases.</p>
-<h3>Phase 1: Deploy the Arc Resource Bridge</h3>
+<p>But before you can even start Phase 1, you need a <strong>jump box</strong>.</p>
+<h3>Phase 0: Deploy the Jump Box (The Prerequisite Nobody Mentions)</h3>
+<p>Before you can deploy the Arc Resource Bridge, you need a Windows VM in your vCenter environment to run the deployment scripts from.</p>
+<p><strong>What the jump box is:</strong><br />
+- A Windows Server 2019/2022 or Windows 10/11 VM<br />
+- Deployed IN your vCenter environment (not in Azure, not on your laptop)<br />
+- Has network access to vCenter (port 443)<br />
+- Has outbound internet access to Azure and GitHub<br />
+- Serves as the deployment tool for Arc Resource Bridge</p>
+<p><strong>Why you need it:</strong><br />
+- The Arc deployment scripts must run from a system WITH network access to vCenter<br />
+- You can't deploy from Azure Cloud Shell (no vCenter access)<br />
+- You can't deploy from your laptop over VPN (too slow, will timeout)<br />
+- The scripts download a large OVA file and deploy it into vCenter</p>
+<p><strong>Jump box specifications:</strong><br />
+- 2-4 vCPU<br />
+- 8GB RAM<br />
+- 50GB disk (minimum 20GB free for OVA download)<br />
+- Windows Server 2019+ or Windows 10/11<br />
+- Network connectivity to vCenter management network<br />
+- Outbound HTTPS to internet</p>
+<p><strong>Software to install on jump box:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Install Azure CLI</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">https</span><span class="p">://</span><span class="n">aka</span><span class="p">.</span><span class="n">ms</span><span class="p">/</span><span class="n">installazurecliwindows</span> <span class="n">-OutFile</span> <span class="p">.\</span><span class="n">AzureCLI</span><span class="p">.</span><span class="n">msi</span>
+<span class="nb">Start-Process</span> <span class="n">msiexec</span><span class="p">.</span><span class="n">exe</span> <span class="n">-Wait</span> <span class="n">-ArgumentList</span> <span class="s1">&#39;/I AzureCLI.msi /quiet&#39;</span>
+
+<span class="c"># Install PowerShell 7</span>
+<span class="n">winget</span> <span class="n">install</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span>
+
+<span class="c"># Install VMware PowerCLI</span>
+<span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">VMware</span><span class="p">.</span><span class="n">PowerCLI</span> <span class="n">-Force</span> <span class="n">-AllowClobber</span>
+
+<span class="c"># Install Arc appliance extensions</span>
+<span class="n">az</span> <span class="n">extension</span> <span class="n">add</span> <span class="p">-</span><span class="n">-name</span> <span class="n">arcappliance</span>
+<span class="n">az</span> <span class="n">extension</span> <span class="n">add</span> <span class="p">-</span><span class="n">-name</span> <span class="n">connectedvmware</span>
+
+<span class="c"># Login to Azure</span>
+<span class="n">az</span> <span class="n">login</span>
+</code></pre></div>
+
+<p><strong>One jump box can deploy multiple Resource Bridges:</strong><br />
+You can use the same jump box to deploy Arc Resource Bridges for vcenter-01, vcenter-02, and vcenter-03. You don't need a separate jump box per vCenter.</p>
+<h3>Phase 1: Deploy the Arc Resource Bridge (FROM the Jump Box)</h3>
 <p>The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of it as the "connector" layer.</p>
 <p><strong>What the Resource Bridge actually is:</strong><br />
 - A Kubernetes-based appliance VM deployed INTO your vCenter environment<br />
@@ -574,98 +616,105 @@ Your vCenter appears as a resource in Azure. All VMs from that vCenter are now v
 </code></pre></div>
 
 <p><strong>Reality check:</strong> This phase takes longer than the actual deployment. Don't skip it. Deploying Arc without this planning creates an unfixable mess.</p>
-<h3>Phase 1: Arc Resource Bridge Deployment (Week 5)</h3>
-<div class="codehilite"><pre><span></span><code><span class="err">☐</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Infrastructure</span><span class="w"> </span><span class="n">Setup</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">subscriptions</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">multiple</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">groups</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">infrastructure</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">principals</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">authentication</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Assign</span><span class="w"> </span><span class="n">RBAC</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="p">(</span><span class="n">custom</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">required</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Policy</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">governance</span>
+<h3>Phase 0: Jump Box Deployment (Week 4)</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Jump</span><span class="w"> </span><span class="n">Box</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Windows</span><span class="w"> </span><span class="n">Server</span><span class="w"> </span><span class="mi">2019</span><span class="o">/</span><span class="mi">2022</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="p">(</span><span class="ow">or</span><span class="w"> </span><span class="n">identify</span><span class="w"> </span><span class="n">existing</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Allocate</span><span class="w"> </span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="w"> </span><span class="n">vCPU</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="n">GB</span><span class="w"> </span><span class="n">RAM</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="n">GB</span><span class="w"> </span><span class="n">disk</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Place</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">management</span><span class="w"> </span><span class="n">interface</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">internet</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="p">(</span><span class="n">direct</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">proxy</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Windows</span><span class="w"> </span><span class="n">updates</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Join</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">domain</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">environment</span><span class="p">)</span>
 
-<span class="err">☐</span><span class="w"> </span><span class="n">Prepare</span><span class="w"> </span><span class="n">Jump</span><span class="w"> </span><span class="n">Box</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Deployment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Provision</span><span class="w"> </span><span class="n">Windows</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">(</span><span class="ow">or</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">jump</span><span class="w"> </span><span class="n">box</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">CLI</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Required</span><span class="w"> </span><span class="n">Software</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">Jump</span><span class="w"> </span><span class="n">Box</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">CLI</span><span class="w"> </span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">PowerShell</span><span class="w"> </span><span class="mi">7</span><span class="o">+</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">VMware</span><span class="w"> </span><span class="n">PowerCLI</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="p">(</span><span class="n">arcappliance</span><span class="p">,</span><span class="w"> </span><span class="n">connectedvmware</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">VMware</span><span class="w"> </span><span class="n">PowerCLI</span><span class="w"> </span><span class="n">module</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="p">(</span><span class="n">arcappliance</span><span class="p">,</span><span class="w"> </span><span class="n">connectedvmware</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">connectivity</span><span class="w"> </span><span class="p">(</span><span class="n">az</span><span class="w"> </span><span class="n">login</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">connectivity</span><span class="w"> </span><span class="p">(</span><span class="n">Connect</span><span class="o">-</span><span class="n">VIServer</span><span class="p">)</span>
+
+<span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">Jump</span><span class="w"> </span><span class="n">Box</span><span class="w"> </span><span class="n">Prerequisites</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="mi">20</span><span class="n">GB</span><span class="o">+</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">disk</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">OVA</span><span class="w"> </span><span class="n">downloads</span>
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="p">(</span><span class="n">port</span><span class="w"> </span><span class="mi">443</span><span class="p">)</span>
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="p">(</span><span class="n">management</span><span class="o">.</span><span class="n">azure</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="w"> </span><span class="n">login</span><span class="o">.</span><span class="n">microsoftonline</span><span class="o">.</span><span class="n">com</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="p">(</span><span class="n">to</span><span class="w"> </span><span class="n">download</span><span class="w"> </span><span class="n">OVA</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Allocate</span><span class="w"> </span><span class="mi">20</span><span class="n">GB</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">disk</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">OVA</span><span class="w"> </span><span class="n">download</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="p">(</span><span class="n">to</span><span class="w"> </span><span class="n">download</span><span class="w"> </span><span class="n">OVA</span><span class="w"> </span><span class="n">files</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">jump</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">deployment</span><span class="w"> </span><span class="n">sessions</span>
 
-<span class="err">☐</span><span class="w"> </span><span class="n">Prepare</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">permissions</span><span class="p">:</span>
-<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Read</span><span class="o">-</span><span class="n">only</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">VMs</span>
-<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">OVF</span><span class="w"> </span><span class="n">template</span>
-<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="o">/</span><span class="n">delete</span><span class="w"> </span><span class="n">VMs</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Identify</span><span class="w"> </span><span class="n">datastore</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">deployment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Identify</span><span class="w"> </span><span class="n">network</span><span class="o">/</span><span class="n">VLAN</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="p">(</span><span class="n">needs</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">address</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Reserve</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">configure</span><span class="w"> </span><span class="n">DHCP</span><span class="w"> </span><span class="n">reservation</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">01</span><span class="w"> </span><span class="p">(</span><span class="n">Production</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">jump</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">environment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">createconfig</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="n">files</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Edit</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">yaml</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">details</span><span class="w"> </span><span class="p">(</span><span class="n">IP</span><span class="p">,</span><span class="w"> </span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">datastore</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">deploy</span><span class="w"> </span><span class="p">(</span><span class="n">takes</span><span class="w"> </span><span class="mi">30</span><span class="o">-</span><span class="mi">45</span><span class="w"> </span><span class="n">minutes</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">connect</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Azure</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">connectedvmware</span><span class="w"> </span><span class="n">vcenter</span><span class="w"> </span><span class="n">connect</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">register</span><span class="w"> </span><span class="n">vCenter</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">inventory</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">02</span><span class="w"> </span><span class="p">(</span><span class="n">Non</span><span class="o">-</span><span class="n">Production</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Repeat</span><span class="w"> </span><span class="n">deployment</span><span class="w"> </span><span class="n">process</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">separate</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">naming</span><span class="w"> </span><span class="n">convention</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">inventory</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">03</span><span class="w"> </span><span class="p">(</span><span class="n">DR</span><span class="w"> </span><span class="n">Site</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Repeat</span><span class="w"> </span><span class="n">deployment</span><span class="w"> </span><span class="n">process</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Tag</span><span class="w"> </span><span class="n">infrastructure</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">dr</span><span class="o">-</span><span class="n">site</span><span class="w"> </span><span class="n">designation</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">inventory</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="n">Deployment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">vCenters</span><span class="w"> </span><span class="n">visible</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="p">(</span><span class="n">CPU</span><span class="p">,</span><span class="w"> </span><span class="n">memory</span><span class="p">,</span><span class="w"> </span><span class="n">OS</span><span class="p">)</span><span class="w"> </span><span class="n">populated</span><span class="w"> </span><span class="n">correctly</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="n">status</span><span class="p">:</span><span class="w"> </span><span class="n">healthy</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">authentication</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">connectivity</span><span class="w"> </span><span class="n">errors</span>
+<span class="c1">### Phase 1: Arc Resource Bridge Deployment (Week 5)</span>
 </code></pre></div>
 
-<h3>Phase 2: Arc Agent Deployment with Tags (Week 6-8)</h3>
-<div class="codehilite"><pre><span></span><code><span class="err">☐</span><span class="w"> </span><span class="nx">Prepare</span><span class="w"> </span><span class="nx">Agent</span><span class="w"> </span><span class="nx">Deployment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Load</span><span class="w"> </span><span class="nx">metadata</span><span class="w"> </span><span class="nx">spreadsheet</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">tag</span><span class="w"> </span><span class="nx">values</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Create</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="nx">scripts</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">tag</span><span class="w"> </span><span class="nx">application</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Test</span><span class="w"> </span><span class="nx">agent</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="nx">VMs</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">vCenter</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Validate</span><span class="w"> </span><span class="nx">tags</span><span class="w"> </span><span class="nx">appear</span><span class="w"> </span><span class="nx">correctly</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">Azure</span><span class="w"> </span><span class="nx">Portal</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Test</span><span class="w"> </span><span class="nx">Resource</span><span class="w"> </span><span class="nx">Graph</span><span class="w"> </span><span class="nx">queries</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">filtering</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">tags</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="nx">Arc</span><span class="w"> </span><span class="nx">Agents</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">Wave</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nx">vcenter</span><span class="o">-</span><span class="mi">02</span><span class="w"> </span><span class="nx">Non</span><span class="o">-</span><span class="nx">Production</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="nx">agents</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">development</span><span class="w"> </span><span class="nx">VMs</span><span class="w"> </span><span class="nx">first</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Apply</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">required</span><span class="w"> </span><span class="nx">tags</span><span class="w"> </span><span class="nx">during</span><span class="w"> </span><span class="nx">deployment</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Monitor</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="nx">failures</span><span class="w"> </span><span class="p">(</span><span class="nx">network</span><span class="p">,</span><span class="w"> </span><span class="nx">permissions</span><span class="p">,</span><span class="w"> </span><span class="nx">TLS</span><span class="w"> </span><span class="nx">issues</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Validate</span><span class="w"> </span><span class="nx">agent</span><span class="w"> </span><span class="nx">connectivity</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">health</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Verify</span><span class="w"> </span><span class="nx">tags</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">Azure</span><span class="w"> </span><span class="nx">Portal</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">Resource</span><span class="w"> </span><span class="nx">Graph</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Wait</span><span class="w"> </span><span class="mi">48</span><span class="w"> </span><span class="nx">hours</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="k">observe</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">issues</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="nx">Arc</span><span class="w"> </span><span class="nx">Agents</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">Wave</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">(</span><span class="nx">vcenter</span><span class="o">-</span><span class="mi">03</span><span class="w"> </span><span class="nx">DR</span><span class="w"> </span><span class="nx">Site</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">DR</span><span class="w"> </span><span class="nx">VMs</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Monitor</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">performance</span><span class="w"> </span><span class="nx">impact</span><span class="w"> </span><span class="p">(</span><span class="nx">DR</span><span class="w"> </span><span class="nx">sites</span><span class="w"> </span><span class="nx">often</span><span class="w"> </span><span class="nx">have</span><span class="w"> </span><span class="nx">lower</span><span class="w"> </span><span class="nx">specs</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Validate</span><span class="w"> </span><span class="nx">agent</span><span class="w"> </span><span class="nx">health</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Verify</span><span class="w"> </span><span class="nx">no</span><span class="w"> </span><span class="nx">impact</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">DR</span><span class="w"> </span><span class="nx">replication</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">failover</span><span class="w"> </span><span class="nx">capability</span>
-
-<span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="nx">Arc</span><span class="w"> </span><span class="nx">Agents</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">Wave</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">(</span><span class="nx">vcenter</span><span class="o">-</span><span class="mi">01</span><span class="w"> </span><span class="nx">Production</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Schedule</span><span class="w"> </span><span class="nx">during</span><span class="w"> </span><span class="nx">maintenance</span><span class="w"> </span><span class="nx">window</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Deploy</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">batches</span><span class="w"> </span><span class="p">(</span><span class="mi">200</span><span class="w"> </span><span class="nx">VMs</span><span class="w"> </span><span class="nx">at</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">time</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Monitor</span><span class="w"> </span><span class="nx">application</span><span class="w"> </span><span class="nx">health</span><span class="w"> </span><span class="nx">after</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">batch</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Have</span><span class="w"> </span><span class="nx">rollback</span><span class="w"> </span><span class="nx">plan</span><span class="w"> </span><span class="nx">ready</span><span class="w"> </span><span class="p">(</span><span class="nx">uninstall</span><span class="w"> </span><span class="nx">script</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="nx">Complete</span><span class="w"> </span><span class="nx">deployment</span><span class="w"> </span><span class="nx">over</span><span class="w"> </span><span class="mi">2</span><span class="o">-</span><span class="mi">3</span><span class="w"> </span><span class="nx">weeks</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">minimize</span><span class="w"> </span><span class="nx">risk</span>
+<p>☐ Azure Infrastructure Setup<br />
+  ☐ Create subscriptions (if using multiple)<br />
+  ☐ Create resource groups for Arc infrastructure<br />
+  ☐ Create service principals for Arc authentication<br />
+  ☐ Assign RBAC permissions (custom roles may be required)<br />
+  ☐ Configure Azure Policy for Arc governance</p>
+<p>☐ Prepare vCenter for Arc<br />
+  ☐ Create service account with required permissions:<br />
+    ☐ Read-only on VMs<br />
+    ☐ Deploy OVF template<br />
+    ☐ Create/delete VMs<br />
+  ☐ Identify datastore for appliance VM deployment<br />
+  ☐ Identify network/VLAN for appliance VM (needs IP address)<br />
+  ☐ Reserve static IP or configure DHCP reservation for appliance</p>
+<p>☐ Deploy Arc Resource Bridge - vcenter-01 (Production)<br />
+  ☐ RDP to jump box in vCenter environment<br />
+  ☐ Run az arcappliance createconfig to generate config files<br />
+  ☐ Edit config.yaml with vCenter details (IP, credentials, network, datastore)<br />
+  ☐ Run az arcappliance deploy (takes 30-45 minutes)<br />
+  ☐ Run az arcappliance create to connect to Azure<br />
+  ☐ Run az connectedvmware vcenter connect to register vCenter<br />
+  ☐ Validate appliance VM appears in vCenter<br />
+  ☐ Validate vCenter resource appears in Azure Portal<br />
+  ☐ Verify VM inventory appears in Azure Portal</p>
+<p>☐ Deploy Arc Resource Bridge - vcenter-02 (Non-Production)<br />
+  ☐ Repeat deployment process<br />
+  ☐ Use separate resource group or naming convention<br />
+  ☐ Validate connection and inventory</p>
+<p>☐ Deploy Arc Resource Bridge - vcenter-03 (DR Site)<br />
+  ☐ Repeat deployment process<br />
+  ☐ Tag infrastructure with dr-site designation<br />
+  ☐ Validate connection and inventory</p>
+<p>☐ Validate Resource Bridge Deployment<br />
+  ☐ All VMs from all vCenters visible in Azure Portal<br />
+  ☐ VM metadata (CPU, memory, OS) populated correctly<br />
+  ☐ Resource Bridge health status: healthy<br />
+  ☐ No authentication or connectivity errors</p>
+<div class="codehilite"><pre><span></span><code>### Phase 2: Arc Agent Deployment with Tags (Week 6-8)
 </code></pre></div>
 
-<p><strong>Common deployment failures:</strong></p>
-<p><strong>TLS 1.2 not enabled (Windows Server 2012):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c"># Enable TLS 1.2 before Arc agent installation</span>
-<span class="nb">Set-ItemProperty</span> <span class="n">-Path</span> <span class="s1">&#39;HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319&#39;</span> <span class="n">-Name</span> <span class="s1">&#39;SchemeUseStrongCrypto&#39;</span> <span class="n">-Value</span> <span class="n">1</span> <span class="n">-Type</span> <span class="n">DWord</span>
-<span class="nb">Set-ItemProperty</span> <span class="n">-Path</span> <span class="s1">&#39;HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319&#39;</span> <span class="n">-Name</span> <span class="s1">&#39;SchemeUseStrongCrypto&#39;</span> <span class="n">-Value</span> <span class="n">1</span> <span class="n">-Type</span> <span class="n">DWord</span>
-<span class="nb">Restart-Computer</span> <span class="n">-Force</span>
+<p>☐ Prepare Agent Deployment<br />
+  ☐ Load metadata spreadsheet with tag values<br />
+  ☐ Create deployment scripts with tag application<br />
+  ☐ Test agent deployment on 5 VMs from each vCenter<br />
+  ☐ Validate tags appear correctly in Azure Portal<br />
+  ☐ Test Resource Graph queries for filtering by tags</p>
+<p>☐ Deploy Arc Agents - Wave 1 (vcenter-02 Non-Production)<br />
+  ☐ Deploy agents to development VMs first<br />
+  ☐ Apply all required tags during deployment<br />
+  ☐ Monitor for deployment failures (network, permissions, TLS issues)<br />
+  ☐ Validate agent connectivity and health<br />
+  ☐ Verify tags in Azure Portal and Resource Graph<br />
+  ☐ Wait 48 hours to observe for issues</p>
+<p>☐ Deploy Arc Agents - Wave 2 (vcenter-03 DR Site)<br />
+  ☐ Deploy to DR VMs<br />
+  ☐ Monitor for performance impact (DR sites often have lower specs)<br />
+  ☐ Validate agent health<br />
+  ☐ Verify no impact to DR replication or failover capability</p>
+<p>☐ Deploy Arc Agents - Wave 3 (vcenter-01 Production)<br />
+  ☐ Schedule during maintenance window<br />
+  ☐ Deploy in batches (200 VMs at a time)<br />
+  ☐ Monitor application health after each batch<br />
+  ☐ Have rollback plan ready (uninstall script)<br />
+  ☐ Complete deployment over 2-3 weeks to minimize risk</p>
+<div class="codehilite"><pre><span></span><code>**Common deployment failures:**
+
+**TLS 1.2 not enabled (Windows Server 2012):**
+```powershell
+<span class="gh">#</span> Enable TLS 1.2 before Arc agent installation
+Set-ItemProperty -Path &#39;HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319&#39; -Name &#39;SchemeUseStrongCrypto&#39; -Value 1 -Type DWord
+Set-ItemProperty -Path &#39;HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319&#39; -Name &#39;SchemeUseStrongCrypto&#39; -Value 1 -Type DWord
+Restart-Computer -Force
 </code></pre></div>
 
 <p><strong>Firewall blocking Arc endpoints:</strong></p>
