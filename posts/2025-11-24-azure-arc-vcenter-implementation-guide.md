@@ -37,6 +37,98 @@ The problem isn't the technology. Azure Arc works. The problem is nobody documen
 
 This guide fixes that.
 
+## How Azure Arc Actually Connects to vCenter
+
+Before we dive into implementation, here's what the architecture actually looks like:
+
+![Azure Arc vCenter Architecture](/static/images/hero/azure-arc-vcenter-guide.png)
+
+**What this diagram shows:**
+1. **Left side (On-Premises):** Your vCenter environment with VMs and the vCenter Server
+2. **Middle (The Bridge):** Arc Resource Bridge appliance deployed FROM a jump box
+3. **Right side (Azure Cloud):** Azure Arc services that manage your on-prem VMs
+
+**The critical flow:**
+- Jump box (admin workstation) runs deployment scripts
+- Scripts create the Arc Resource Bridge as a Kubernetes appliance VM in vCenter
+- Resource Bridge connects to Azure and registers your vCenter
+- Azure Portal now shows vCenter inventory
+- You then Arc-enable individual VMs for management
+
+Keep this diagram in mind - it's the foundation for everything that follows.
+
+## Quick Start: Single vCenter POC (Skip the Enterprise Complexity)
+
+If you're testing Arc with a single vCenter and <50 VMs, here's the fast path:
+
+**30-Minute POC Setup:**
+
+```powershell
+# 1. Deploy jump box (or use your admin workstation)
+# Install prerequisites:
+winget install Microsoft.Azure.CLI
+winget install Microsoft.PowerShell
+Install-Module VMware.PowerCLI -Force
+az extension add --name arcappliance
+az extension add --name connectedvmware
+
+# 2. Create resource group
+az group create --name arc-poc-rg --location eastus
+
+# 3. Create Arc config (interactive prompts will guide you)
+az arcappliance createconfig vmware `
+  --resource-group arc-poc-rg `
+  --name arc-poc `
+  --location eastus `
+  --out-dir ./arc-poc-config
+
+# Edit arc-poc-config/config.yaml with your vCenter details
+# (IP, credentials, network - takes 5 minutes)
+
+# 4. Deploy Resource Bridge (30-45 minutes)
+az arcappliance deploy vmware `
+  --config-file ./arc-poc-config/config.yaml `
+  --outfile ./arc-poc-config/kubeconfig
+
+az arcappliance create vmware `
+  --config-file ./arc-poc-config/config.yaml `
+  --kubeconfig ./arc-poc-config/kubeconfig `
+  --resource-group arc-poc-rg `
+  --name arc-poc `
+  --location eastus
+
+# 5. Connect vCenter
+az connectedvmware vcenter connect `
+  --resource-group arc-poc-rg `
+  --name vcenter-poc `
+  --custom-location arc-poc-cl `
+  --location eastus `
+  --fqdn vcenter.company.local `
+  --username administrator@vsphere.local `
+  --password "YourPassword"
+
+# 6. Enable guest management on 5 test VMs from Azure Portal
+# (Click VM -> Enable guest management -> Apply)
+
+# Done. You now have Arc visibility into vCenter.
+```
+
+**POC Success Criteria:**
+- VMs visible in Azure Portal
+- Can query VM inventory with Resource Graph
+- Guest management enabled on test VMs
+- Total setup time: 2-3 hours
+
+**When to graduate to enterprise deployment:**
+- You've proven Arc works in your environment
+- Leadership approved budget
+- You've collected tagging metadata (or accepted you'll fix it later)
+- You're ready to deploy to 100+ VMs
+
+For POCs, skip the tagging complexity. Get it working first, add governance when you scale.
+
+---
+
 ## Understanding Multi-vCenter Environments
 
 Most enterprises don't have one vCenter. You have:
