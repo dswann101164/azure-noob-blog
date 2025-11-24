@@ -131,8 +131,8 @@
   },
   "keywords": "Azure, KQL, Log Analytics, Resource Graph, Cheat Sheet",
   "articleSection": "Azure",
-  "wordCount": "3144",
-  "timeRequired": "PT16M",
+  "wordCount": "7776",
+  "timeRequired": "PT39M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "about": {
@@ -186,7 +186,7 @@
   <header class="post-header">
     <h1>Azure Log Analytics Query Language Cheat Sheet | KQL Examples + Free PDF</h1>
     <p class="muted">
-      2025-01-15 · ~16 min read
+      2025-01-15 · ~39 min read
       
     </p>
     
@@ -596,11 +596,565 @@
 </code></pre></div>
 
 <p>In Resource Graph Explorer, select "Pie chart" in the portal to visualize.</p>
+<h2>KQL Performance Optimization: Query Speed Matters at Scale</h2>
+<p><strong>When you're querying 31,000+ resources across 44 subscriptions, query performance matters.</strong></p>
+<p>Here's what I learned managing enterprise-scale Azure environments.</p>
+<h3>Why Query Performance Matters</h3>
+<p><strong>Slow query symptoms:</strong><br />
+- Query timeout errors in Resource Graph Explorer<br />
+- 30+ second wait times for results<br />
+- Portal becomes unresponsive<br />
+- Can't run queries during business hours (too slow)</p>
+<p><strong>The cost of slow queries:</strong><br />
+- Wasted time (30 seconds × 50 queries/day = 25 minutes daily)<br />
+- Delayed incident response<br />
+- Frustrated stakeholders waiting for reports<br />
+- Can't use queries in automation (timeout kills scripts)</p>
+<h3>Performance Rule #1: Filter Early, Filter Often</h3>
+<p><strong>Bad query (slow):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production-RG&quot;</span>
+</code></pre></div>
+
+<p><strong>Why it's slow:</strong> Projects ALL columns from ALL resources BEFORE filtering</p>
+<p><strong>Good query (fast):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production-RG&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
+</code></pre></div>
+
+<p><strong>Why it's fast:</strong> Filters FIRST to reduce data, projects ONLY needed columns</p>
+<p><strong>Performance improvement: 10-20x faster</strong></p>
+<h3>Performance Rule #2: Project Only What You Need</h3>
+<p><strong>Bad query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">AllProperties</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">parse_json</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+<span class="c">// Pulls entire properties JSON for every VM</span>
+</code></pre></div>
+
+<p><strong>Good query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="c">// Extracts only the specific field needed</span>
+</code></pre></div>
+
+<p><strong>Why:</strong> Parsing entire JSON objects is expensive. Extract only the fields you actually use.</p>
+<h3>Performance Rule #3: Use <code>in</code> Instead of Multiple <code>or</code> Conditions</h3>
+<p><strong>Bad query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="w"> </span>
+<span class="w">   </span><span class="k">or</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span>
+<span class="w">   </span><span class="k">or</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networksecuritygroups&quot;</span>
+<span class="w">   </span><span class="k">or</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.sql/servers&quot;</span>
+</code></pre></div>
+
+<p><strong>Good query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                 </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s">&quot;microsoft.network/networksecuritygroups&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s">&quot;microsoft.sql/servers&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Performance improvement: 3-5x faster</strong> for multiple conditions</p>
+<h3>Performance Rule #4: Limit Results During Testing</h3>
+<p><strong>Testing queries:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="c">// Test with 10 VMs first</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">OSType</span>
+</code></pre></div>
+
+<p><strong>Once query works, remove <code>take</code> for full results.</strong></p>
+<p><strong>Why:</strong> Testing on 10 rows is instant. Testing on 10,000 rows wastes time if query has errors.</p>
+<h3>Performance Rule #5: Join Efficiently</h3>
+<p><strong>Bad join (slow):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="p">(</span><span class="n">Resources</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">subscriptionId</span>
+<span class="c">// Joins to entire Resources table (millions of rows)</span>
+</code></pre></div>
+
+<p><strong>Good join (fast):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span><span class="w">  </span><span class="c">// Filter BEFORE join</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">NetworkInterfaceId</span>
+</code></pre></div>
+
+<p><strong>Why:</strong> Filter both sides of join to smallest dataset possible BEFORE joining.</p>
+<h3>Real-World Performance Example</h3>
+<p><strong>Scenario:</strong> Get all VMs with their private IPs across 44 subscriptions</p>
+<p><strong>Bad query (45 seconds):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="p">(</span><span class="n">Resources</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">id</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">virtualMachine</span><span class="err">.</span><span class="n">id</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Good query (3 seconds):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span>
+</code></pre></div>
+
+<p><strong>Performance improvement: 15x faster</strong></p>
+<p><strong>Why the difference:</strong><br />
+1. Filter VMs first (reduces dataset)<br />
+2. Filter NICs before join (reduces join size)<br />
+3. Project only needed columns (reduces memory)<br />
+4. Use efficient join key (NetworkInterfaceId)</p>
+<hr />
+<h2>KQL vs SQL: Translation Guide for SQL Developers</h2>
+<p><strong>Coming from SQL? Here's how KQL compares.</strong></p>
+<p>Many Azure admins know SQL but not KQL. This translation guide helps you leverage existing knowledge.</p>
+<h3>Basic Syntax Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>SQL</th>
+<th>KQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Select all</td>
+<td><code>SELECT * FROM VMs</code></td>
+<td><code>Resources \| where type == "microsoft.compute/virtualmachines"</code></td>
+</tr>
+<tr>
+<td>Filter rows</td>
+<td><code>WHERE location = 'eastus'</code></td>
+<td><code>\| where location == "eastus"</code></td>
+</tr>
+<tr>
+<td>Select columns</td>
+<td><code>SELECT name, location</code></td>
+<td><code>\| project name, location</code></td>
+</tr>
+<tr>
+<td>Count rows</td>
+<td><code>SELECT COUNT(*) FROM VMs</code></td>
+<td><code>Resources \| where type == "microsoft.compute/virtualmachines" \| count</code></td>
+</tr>
+<tr>
+<td>Group by</td>
+<td><code>GROUP BY location</code></td>
+<td><code>\| summarize count() by location</code></td>
+</tr>
+<tr>
+<td>Order results</td>
+<td><code>ORDER BY name</code></td>
+<td><code>\| order by name</code></td>
+</tr>
+<tr>
+<td>Limit results</td>
+<td><code>LIMIT 10</code></td>
+<td><code>\| take 10</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Key Conceptual Differences</h3>
+<p><strong>SQL thinks in tables. KQL thinks in pipelines.</strong></p>
+<p><strong>SQL:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="k">location</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">privateIP</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="n">v</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">NICs</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="k">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;eastus&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">name</span>
+</code></pre></div>
+
+<p><strong>KQL equivalent:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;eastus&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span>
+</code></pre></div>
+
+<p><strong>Differences:</strong><br />
+- KQL uses pipes (<code>|</code>) to chain operations sequentially<br />
+- SQL uses JOIN at clause level, KQL uses <code>join</code> as an operator<br />
+- KQL requires <code>extend</code> to create new columns before using them<br />
+- SQL's <code>SELECT</code> combines column selection and calculation; KQL separates (<code>project</code> vs <code>extend</code>)</p>
+<h3>Aggregation Translation</h3>
+<p><strong>SQL:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">location</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">VMCount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">VMs</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">location</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="k">DESC</span>
+</code></pre></div>
+
+<p><strong>KQL:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Key difference:</strong> KQL's <code>summarize</code> combines <code>GROUP BY</code> and aggregation. <code>HAVING</code> becomes a <code>where</code> after <code>summarize</code>.</p>
+<h3>Subquery Translation</h3>
+<p><strong>SQL:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">VMs</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">location</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="k">location</span><span class="w"> </span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">location</span><span class="w"> </span>
+<span class="w">    </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>KQL:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">LocationsWithManyVMs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">location</span><span class="p">;</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">LocationsWithManyVMs</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Key difference:</strong> KQL uses <code>let</code> to define reusable subqueries. Think of it like SQL CTEs (Common Table Expressions).</p>
+<h3>String Operations</h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>SQL</th>
+<th>KQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contains</td>
+<td><code>WHERE name LIKE '%prod%'</code></td>
+<td><code>\| where name contains "prod"</code></td>
+</tr>
+<tr>
+<td>Starts with</td>
+<td><code>WHERE name LIKE 'vm-%'</code></td>
+<td><code>\| where name startswith "vm-"</code></td>
+</tr>
+<tr>
+<td>Ends with</td>
+<td><code>WHERE name LIKE '%-prod'</code></td>
+<td><code>\| where name endswith "-prod"</code></td>
+</tr>
+<tr>
+<td>Case insensitive</td>
+<td><code>WHERE LOWER(name) = 'vmname'</code></td>
+<td><code>\| where name =~ "vmname"</code></td>
+</tr>
+<tr>
+<td>Concat</td>
+<td><code>CONCAT(name, '-', location)</code></td>
+<td><code>strcat(name, "-", location)</code> or <code>name + "-" + location</code></td>
+</tr>
+<tr>
+<td>Substring</td>
+<td><code>SUBSTRING(name, 1, 5)</code></td>
+<td><code>substring(name, 0, 5)</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Date/Time Operations (Log Analytics)</h3>
+<p><strong>Note:</strong> Resource Graph doesn't have time-based data. These examples are for Log Analytics queries.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>SQL</th>
+<th>KQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Last 24 hours</td>
+<td><code>WHERE timestamp &gt; NOW() - INTERVAL 1 DAY</code></td>
+<td><code>\| where TimeGenerated &gt; ago(24h)</code></td>
+</tr>
+<tr>
+<td>Between dates</td>
+<td><code>WHERE timestamp BETWEEN '2024-01-01' AND '2024-01-31'</code></td>
+<td><code>\| where TimeGenerated between (datetime(2024-01-01) .. datetime(2024-01-31))</code></td>
+</tr>
+<tr>
+<td>Date part</td>
+<td><code>EXTRACT(HOUR FROM timestamp)</code></td>
+<td><code>format_datetime(TimeGenerated, 'HH')</code> or <code>bin(TimeGenerated, 1h)</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Common KQL Functions SQL Developers Should Know</h3>
+<p><strong>Case statements:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: CASE WHEN ... THEN ... ELSE ... END</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSCategory</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Microsoft&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Open Source&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Unknown&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Coalesce (NULL handling):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: COALESCE(column1, column2, &#39;default&#39;)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Owner&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CreatedBy&quot;</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;Unassigned&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>String splitting:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: SPLIT_PART or STRING_SPLIT</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VNetName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">SubnetId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span><span class="w">  </span><span class="c">// Get 8th element from path</span>
+</code></pre></div>
+
+<p><strong>Array operations:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// Get first element</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">FirstNIC</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span>
+
+<span class="c">// Array length</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NICCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Common SQL Patterns → KQL</h3>
+<p><strong>Get top N:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: SELECT TOP 10 * FROM VMs ORDER BY DiskSizeGB DESC</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">top</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Distinct values:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: SELECT DISTINCT location FROM VMs</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">location</span>
+</code></pre></div>
+
+<p><strong>Count distinct:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// SQL: SELECT COUNT(DISTINCT location) FROM VMs</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">UniqueLocations</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dcount</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2>Advanced KQL Techniques for Azure Resource Graph</h2>
+<p><strong>Beyond basics: techniques for complex queries.</strong></p>
+<h3>Dynamic Columns and Arrays</h3>
+<p><strong>Problem:</strong> You need to work with arrays in JSON properties.</p>
+<p><strong>Extract all NICs from a VM (not just first):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">NIC</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">NIC</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">NICs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_list</span><span class="p">(</span><span class="n">PrivateIP</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="p">,</span><span class="w"> </span><span class="n">AllPrivateIPs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">NICs</span>
+</code></pre></div>
+
+<p><strong>What <code>mv-expand</code> does:</strong> Expands arrays into separate rows (like SQL's UNNEST or CROSS APPLY).</p>
+<h3>Working with Tags at Scale</h3>
+<p><strong>Find resources missing critical tags:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">HasEnvironmentTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">isnotnull</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">HasOwnerTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">isnotnull</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Owner&quot;</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">HasCostCenterTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">isnotnull</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">HasEnvironmentTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">HasOwnerTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">HasCostCenterTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">MissingTags</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">HasEnvironmentTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Environment &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">HasOwnerTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Owner &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">HasCostCenterTag</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CostCenter&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">MissingTags</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Clear report showing exactly which tags are missing per resource.</p>
+<h3>Complex JSON Parsing</h3>
+<p><strong>Extract nested properties:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ImagePublisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">),</span>
+<span class="w">         </span><span class="n">ImageOffer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="p">),</span>
+<span class="w">         </span><span class="n">ImageSku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">sku</span><span class="p">),</span>
+<span class="w">         </span><span class="n">ImageVersion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">version</span><span class="p">),</span>
+<span class="w">         </span><span class="n">FullImageString</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="n">ImagePublisher</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ImageOffer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ImageSku</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ImageVersion</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FullImageString</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Understand image distribution across your environment.</p>
+<h3>Cross-Subscription Resource Relationships</h3>
+<p><strong>Find VMs connected to VNets in different subscriptions:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">SubnetId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">subnet</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VNetSubscription</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">SubnetId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">VNetSubscription</span><span class="p">,</span><span class="w"> </span><span class="n">NICSubscription</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">NetworkInterfaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">VNetSubscription</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="n">NICSubscription</span><span class="w">  </span><span class="c">// Cross-subscription connection</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">VMSubscription</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">VNetSubscription</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
+
+<p><strong>Why this matters:</strong> Cross-subscription networking creates security and cost allocation complexity.</p>
+<h3>Bulk Compliance Checking</h3>
+<p><strong>Check for specific security configurations across all VMs:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">BootDiagEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tobool</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diagnosticsProfile</span><span class="err">.</span><span class="n">bootDiagnostics</span><span class="err">.</span><span class="n">enabled</span><span class="p">),</span>
+<span class="w">         </span><span class="n">ManagedDisk</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">isnotnull</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">managedDisk</span><span class="p">),</span>
+<span class="w">         </span><span class="n">VMAgent</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">osProfile</span><span class="err">.</span><span class="n">windowsConfiguration</span><span class="err">.</span><span class="n">provisionVMAgent</span><span class="p">,</span>
+<span class="w">         </span><span class="n">SecurityType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">securityProfile</span><span class="err">.</span><span class="n">securityType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ComplianceScore</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">BootDiagEnabled</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">+</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">ManagedDisk</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">+</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">VMAgent</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">true</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">+</span>
+<span class="w">    </span><span class="n">iff</span><span class="p">(</span><span class="n">SecurityType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;TrustedLaunch&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ComplianceStatus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ComplianceScore</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compliant&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ComplianceScore</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Partial&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Non-Compliant&quot;</span>
+<span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">ComplianceScore</span><span class="p">,</span><span class="w"> </span><span class="n">ComplianceStatus</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ComplianceScore</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Quantitative compliance scoring for prioritizing remediation.</p>
+<hr />
+<h2>Microsoft Sentinel KQL Examples</h2>
+<p><strong>KQL for security operations in Sentinel.</strong></p>
+<p>Microsoft Sentinel uses KQL for security queries. Here are common patterns for Azure admins working with Sentinel.</p>
+<h3>Failed Sign-In Attempts</h3>
+<p><strong>Find repeated failed sign-ins from same user:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="w">  </span><span class="c">// 0 = success</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span><span class="w"> </span>
+<span class="w">            </span><span class="n">IPAddresses</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">IPAddress</span><span class="p">),</span>
+<span class="w">            </span><span class="n">Locations</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">Location</span><span class="p">)</span>
+<span class="w">            </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">5</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Detect brute force attacks or compromised credentials.</p>
+<h3>Azure Activity Log Security Events</h3>
+<p><strong>Track who deleted Azure resources:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">7</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="n">endswith</span><span class="w"> </span><span class="s">&quot;/delete&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Security audit trail for resource deletions.</p>
+<h3>VM Creation and Modification Tracking</h3>
+<p><strong>Monitor VM deployments:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProviderValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Microsoft.Compute&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">&quot;virtualMachines/write&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VMName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">Properties</span><span class="p">)</span><span class="err">.</span><span class="n">resource</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">VMName</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Track who's creating VMs (cost control + security).</p>
+<h3>Detecting Unusual Azure Portal Access</h3>
+<p><strong>Find logins from new countries:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">UserLocations</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SigninLogs</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">KnownCountries</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">countryOrRegion</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">;</span>
+<span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">LocationDetails</span><span class="err">.</span><span class="n">countryOrRegion</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span><span class="n">UserLocations</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">UserPrincipalName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="err">!</span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">KnownCountries</span><span class="p">)</span><span class="w">  </span><span class="c">// New country</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">ResultType</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Detect compromised accounts accessed from unusual locations.</p>
+<h3>High-Privilege Azure Role Assignments</h3>
+<p><strong>Track who's assigning Owner/Contributor roles:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Microsoft.Authorization/roleAssignments/write&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">RoleDefinition</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">Properties</span><span class="p">)</span><span class="err">.</span><span class="n">roleDefinitionId</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">RoleDefinition</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">&quot;Owner&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">RoleDefinition</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">&quot;Contributor&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Security monitoring of privilege escalation.</p>
+<h3>Sentinel Watchlist Integration</h3>
+<p><strong>Check if IPs are in threat watchlist:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">ThreatIPs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">_GetWatchlist</span><span class="p">(</span><span class="s">&quot;KnownBadIPs&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">IPAddress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SearchKey</span><span class="p">;</span>
+<span class="n">SigninLogs</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">IPAddress</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="n">ThreatIPs</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span><span class="p">,</span><span class="w"> </span><span class="n">Location</span><span class="p">,</span><span class="w"> </span><span class="n">ResultType</span>
+</code></pre></div>
+
+<p><strong>Use case:</strong> Correlate Azure activity with threat intelligence.</p>
+<hr />
 <h2>Troubleshooting Common Errors</h2>
-<p><strong>Query timeout:</strong> Add <code>| take 100</code> to limit results while testing<br />
-<strong>JSON parsing errors:</strong> Use <code>tostring()</code> consistently when extracting from <code>properties</code><br />
-<strong>Join failures:</strong> Verify the join keys match exactly (case-sensitive)<br />
-<strong>Empty results:</strong> Check resource type spelling: <code>"microsoft.compute/virtualmachines"</code> (all lowercase)</p>
+<p><strong>Query timeout:</strong> Add <code>| take 100</code> to limit results while testing</p>
+<p><strong>JSON parsing errors:</strong> Use <code>tostring()</code> consistently when extracting from <code>properties</code></p>
+<p><strong>Join failures:</strong> Verify the join keys match exactly (case-sensitive)</p>
+<p><strong>Empty results:</strong> Check resource type spelling: <code>"microsoft.compute/virtualmachines"</code> (all lowercase)</p>
+<p><strong>"The request had some invalid properties" error:</strong><br />
+- Usually caused by trying to access properties that don't exist<br />
+- Use <code>isnotnull()</code> or <code>coalesce()</code> to handle missing properties<br />
+- Example: <code>| extend OSType = coalesce(tostring(properties.storageProfile.osDisk.osType), "Unknown")</code></p>
+<p><strong>"Query execution exceeded the maximum allowed time" error:</strong><br />
+- Query is too complex or dataset too large<br />
+- Apply filters earlier in the query<br />
+- Reduce the number of joins<br />
+- Break complex queries into smaller steps with <code>let</code> statements</p>
+<p><strong>"Mv-expand operator: argument 'ColumnName' is not an array" error:</strong><br />
+- Trying to expand a non-array field<br />
+- Verify the property is actually an array using <code>array_length()</code><br />
+- Example check: <code>| where array_length(properties.networkProfile.networkInterfaces) &gt; 0</code></p>
+<p><strong>"Column 'propertyName' not found" error:</strong><br />
+- Property doesn't exist on all resources being queried<br />
+- Filter to specific resource types first<br />
+- Use <code>has</code> instead of exact property paths for safer queries</p>
 <h2>Tips for Beginners</h2>
 <ul>
 <li><strong>Run Queries:</strong> Use Azure Portal &gt; Resource Graph Explorer for quick access</li>
@@ -609,6 +1163,9 @@
 <li><strong>Schema:</strong> Check table/column details in Resource Graph Explorer's left pane</li>
 <li><strong>Performance:</strong> Filter early with <code>where type == ...</code> to reduce data</li>
 <li><strong>Limitations:</strong> Resource Graph is for metadata only. For metrics (e.g., CPU, disk IOPS), use Log Analytics (<code>AzureMetrics</code>)</li>
+<li><strong>Save queries:</strong> Use Resource Graph Explorer's "Save" button to build a personal query library</li>
+<li><strong>Shared queries:</strong> Create shared queries in Azure for team collaboration</li>
+<li><strong>Export results:</strong> Use "Download as CSV" for Excel analysis or reporting</li>
 </ul>
 <hr />
 <h2>Download PDF Version</h2>
@@ -643,8 +1200,8 @@
 </form>
 
 <hr />
-<p><strong>Questions about KQL or need help with a specific query?</strong> Email me at [your-email] or find more Azure insights at <a href="https://azure-noob.com">azure-noob.com</a>.</p>
-<p><em>KQL Cheat Sheet v1.0 - More Azure tutorials and guides available at azure-noob.com</em></p>
+<p><strong>Questions about KQL or need help with a specific query?</strong> Find more Azure insights at <a href="https://azure-noob.com">azure-noob.com</a>.</p>
+<p><em>KQL Cheat Sheet v2.0 - Updated with performance optimization, SQL translation guide, and Sentinel examples</em></p>
   </div>
 
   
