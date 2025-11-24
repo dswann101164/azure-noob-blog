@@ -133,8 +133,8 @@
   },
   "keywords": "Azure Arc, VMware, vCenter, Migration, Enterprise, Governance",
   "articleSection": "Azure Arc",
-  "wordCount": "8198",
-  "timeRequired": "PT41M",
+  "wordCount": "9330",
+  "timeRequired": "PT47M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "about": {
@@ -188,7 +188,7 @@
   <header class="post-header">
     <h1>The Azure Arc Multi-vCenter Implementation Guide That Actually Works</h1>
     <p class="muted">
-      2025-11-24 · ~41 min read
+      2025-11-24 · ~47 min read
       
     </p>
     
@@ -269,6 +269,11 @@
 <p>This is where everyone gets confused. Azure Arc for VMware has two distinct deployment phases.</p>
 <h3>Phase 1: Deploy the Arc Resource Bridge</h3>
 <p>The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of it as the "connector" layer.</p>
+<p><strong>What the Resource Bridge actually is:</strong><br />
+- A Kubernetes-based appliance VM deployed INTO your vCenter environment<br />
+- Runs as a VM in vCenter (typically 4 vCPU, 16GB RAM)<br />
+- Provides the connection between vCenter and Azure<br />
+- Deployed from a Windows jump box that has network access to vCenter</p>
 <p><strong>What the Resource Bridge does:</strong><br />
 - Authenticates to your vCenter instance<br />
 - Discovers VMs in vCenter inventory<br />
@@ -279,20 +284,99 @@
 - Enable guest management<br />
 - Enable ESU licensing<br />
 - Enable Azure Monitor or security features</p>
-<p><strong>How to deploy:</strong> You install the Arc Resource Bridge as an appliance in each vCenter environment:</p>
-<div class="codehilite"><pre><span></span><code><span class="c"># Deploy Arc Resource Bridge for vcenter-01</span>
+<p><strong>The Deployment Reality:</strong></p>
+<p>You run the deployment script FROM a jump box (Windows VM) IN the vCenter environment. The script:<br />
+1. Downloads the Arc Resource Bridge appliance OVA<br />
+2. Deploys it as a VM into vCenter<br />
+3. Configures the Kubernetes cluster inside the appliance<br />
+4. Connects the appliance to Azure<br />
+5. Registers your vCenter with Azure Arc</p>
+<p><strong>Prerequisites for the jump box:</strong><br />
+- Windows Server 2019/2022 or Windows 10/11<br />
+- Network access to vCenter (port 443)<br />
+- Network access to Azure (outbound HTTPS)<br />
+- Azure CLI installed<br />
+- PowerShell 7+<br />
+- 20GB free disk space (for OVA download)</p>
+<p><strong>How to deploy from the jump box:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Run this FROM your vCenter jump box</span>
+
+<span class="c"># Install prerequisites</span>
+<span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">VMware</span><span class="p">.</span><span class="n">PowerCLI</span> <span class="n">-Force</span>
+<span class="n">az</span> <span class="n">extension</span> <span class="n">add</span> <span class="p">-</span><span class="n">-name</span> <span class="n">arcappliance</span>
+<span class="n">az</span> <span class="n">extension</span> <span class="n">add</span> <span class="p">-</span><span class="n">-name</span> <span class="n">connectedvmware</span>
+
+<span class="c"># Create config file for vcenter-01</span>
+<span class="n">az</span> <span class="n">arcappliance</span> <span class="n">createconfig</span> <span class="n">vmware</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="n">arc-infrastructure-rg</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="n">arc-bridge-vcenter</span><span class="p">-</span><span class="n">01</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-out-dir</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span>
+
+<span class="c"># Edit the generated config.yaml with your vCenter details:</span>
+<span class="c"># - vCenter IP/hostname</span>
+<span class="c"># - vCenter credentials (service account)</span>
+<span class="c"># - Network configuration for the appliance VM</span>
+<span class="c"># - Datastore for appliance deployment</span>
+
+<span class="c"># Deploy the Resource Bridge (this takes 30-45 minutes)</span>
+<span class="n">az</span> <span class="n">arcappliance</span> <span class="n">deploy</span> <span class="n">vmware</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-config</span><span class="o">-file</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span><span class="p">/</span><span class="n">config</span><span class="p">.</span><span class="n">yaml</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-outfile</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span><span class="p">/</span><span class="n">kubeconfig</span>
+
+<span class="c"># Create the Azure Arc connection</span>
 <span class="n">az</span> <span class="n">arcappliance</span> <span class="n">create</span> <span class="n">vmware</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-config</span><span class="o">-file</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span><span class="p">.</span><span class="n">yaml</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-kubeconfig</span> <span class="p">./</span><span class="n">kubeconfig</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-config</span><span class="o">-file</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span><span class="p">/</span><span class="n">config</span><span class="p">.</span><span class="n">yaml</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-kubeconfig</span> <span class="p">./</span><span class="n">vcenter</span><span class="p">-</span><span class="n">01-config</span><span class="p">/</span><span class="n">kubeconfig</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-resource-group</span> <span class="n">arc-infrastructure-rg</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-name</span> <span class="n">arc-bridge-vcenter</span><span class="p">-</span><span class="n">01</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span>
 
-<span class="c"># Repeat for vcenter-02 and vcenter-03</span>
+<span class="c"># Connect your vCenter to Azure</span>
+<span class="n">az</span> <span class="n">connectedvmware</span> <span class="n">vcenter</span> <span class="n">connect</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-resource-group</span> <span class="n">arc-infrastructure-rg</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-name</span> <span class="n">vcenter</span><span class="p">-</span><span class="n">01</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-custom-location</span> <span class="n">arc-bridge-vcenter</span><span class="p">-</span><span class="n">01-cl</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-fqdn</span> <span class="n">vcenter</span><span class="p">-</span><span class="n">01</span><span class="p">.</span><span class="n">company</span><span class="p">.</span><span class="n">local</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-username</span> <span class="n">svc-arc</span><span class="nv">@company</span><span class="p">.</span><span class="n">local</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-password</span> <span class="nv">$vCenterPassword</span>
+
+<span class="c"># Repeat entire process for vcenter-02 and vcenter-03</span>
 </code></pre></div>
 
-<p><strong>Common mistake:</strong> People deploy the Resource Bridge and think they're done. They see VMs in Azure Portal and assume Arc is working.</p>
-<p><strong>Reality:</strong> The VMs are visible but not Arc-enabled. You're looking at VMware inventory reflected in Azure, not Arc-managed resources.</p>
+<p><strong>What you'll see in vCenter:</strong><br />
+After deployment, you'll have a new VM in vCenter named something like <code>arc-bridge-vcenter-01-appliance</code>. This is the Resource Bridge running Kubernetes. Don't delete it or power it off.</p>
+<p><strong>What you'll see in Azure Portal:</strong><br />
+Your vCenter appears as a resource in Azure. All VMs from that vCenter are now visible in Azure Portal under "Azure Arc &gt; VMware vCenters".</p>
+<p><strong>Common mistakes:</strong></p>
+<ol>
+<li>
+<p><strong>Wrong network configuration:</strong> The appliance VM needs an IP address in your vCenter network. If you configure the wrong subnet, deployment fails 30 minutes in.</p>
+</li>
+<li>
+<p><strong>Insufficient vCenter permissions:</strong> The service account needs these permissions:</p>
+</li>
+<li>Read-only on VMs</li>
+<li>Deploy OVF template</li>
+<li>
+<p>Create/delete VMs (for the appliance)</p>
+</li>
+<li>
+<p><strong>Firewall blocking deployment:</strong> The jump box needs outbound HTTPS to:</p>
+</li>
+<li>vCenter (port 443)</li>
+<li>Azure (management.azure.com, login.microsoftonline.com)</li>
+<li>
+<p>GitHub (to download OVA)</p>
+</li>
+<li>
+<p><strong>Running from Azure instead of on-premises:</strong> The deployment script must run from a jump box WITH network access to vCenter. You can't deploy from Azure Cloud Shell or your laptop over VPN (too slow, will timeout).</p>
+</li>
+<li>
+<p><strong>Thinking you're done:</strong> People deploy the Resource Bridge, see VMs in Azure Portal, and think Arc is working. <strong>Wrong.</strong> The VMs are visible but not Arc-enabled. You're looking at VMware inventory reflected in Azure, not Arc-managed resources.</p>
+</li>
+</ol>
 <h3>Phase 2: Deploy Arc Agents to Individual VMs</h3>
 <p>After the Resource Bridge is deployed, you need to Arc-enable each VM by installing the Connected Machine agent.</p>
 <p><strong>What the Arc agent does:</strong><br />
@@ -498,12 +582,36 @@
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Assign</span><span class="w"> </span><span class="n">RBAC</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="p">(</span><span class="n">custom</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">required</span><span class="p">)</span>
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Policy</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">governance</span>
 
+<span class="err">☐</span><span class="w"> </span><span class="n">Prepare</span><span class="w"> </span><span class="n">Jump</span><span class="w"> </span><span class="n">Box</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Deployment</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Provision</span><span class="w"> </span><span class="n">Windows</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">(</span><span class="ow">or</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">jump</span><span class="w"> </span><span class="n">box</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">CLI</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">PowerShell</span><span class="w"> </span><span class="mi">7</span><span class="o">+</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">VMware</span><span class="w"> </span><span class="n">PowerCLI</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="p">(</span><span class="n">arcappliance</span><span class="p">,</span><span class="w"> </span><span class="n">connectedvmware</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="p">(</span><span class="n">port</span><span class="w"> </span><span class="mi">443</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="p">(</span><span class="n">management</span><span class="o">.</span><span class="n">azure</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="w"> </span><span class="n">login</span><span class="o">.</span><span class="n">microsoftonline</span><span class="o">.</span><span class="n">com</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">outbound</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">GitHub</span><span class="w"> </span><span class="p">(</span><span class="n">to</span><span class="w"> </span><span class="n">download</span><span class="w"> </span><span class="n">OVA</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Allocate</span><span class="w"> </span><span class="mi">20</span><span class="n">GB</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">disk</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">OVA</span><span class="w"> </span><span class="n">download</span>
+
+<span class="err">☐</span><span class="w"> </span><span class="n">Prepare</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Arc</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">permissions</span><span class="p">:</span>
+<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Read</span><span class="o">-</span><span class="n">only</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">VMs</span>
+<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">OVF</span><span class="w"> </span><span class="n">template</span>
+<span class="w">    </span><span class="err">☐</span><span class="w"> </span><span class="n">Create</span><span class="o">/</span><span class="n">delete</span><span class="w"> </span><span class="n">VMs</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Identify</span><span class="w"> </span><span class="n">datastore</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">deployment</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Identify</span><span class="w"> </span><span class="n">network</span><span class="o">/</span><span class="n">VLAN</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="p">(</span><span class="n">needs</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">address</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Reserve</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">configure</span><span class="w"> </span><span class="n">DHCP</span><span class="w"> </span><span class="n">reservation</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">appliance</span>
+
 <span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">01</span><span class="w"> </span><span class="p">(</span><span class="n">Production</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Download</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">files</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">authentication</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">permissions</span><span class="p">)</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">01</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
-<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">inventory</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">jump</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">environment</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">createconfig</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="n">files</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Edit</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">yaml</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">details</span><span class="w"> </span><span class="p">(</span><span class="n">IP</span><span class="p">,</span><span class="w"> </span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">datastore</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">deploy</span><span class="w"> </span><span class="p">(</span><span class="n">takes</span><span class="w"> </span><span class="mi">30</span><span class="o">-</span><span class="mi">45</span><span class="w"> </span><span class="n">minutes</span><span class="p">)</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">arcappliance</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">connect</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Azure</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">connectedvmware</span><span class="w"> </span><span class="n">vcenter</span><span class="w"> </span><span class="n">connect</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">register</span><span class="w"> </span><span class="n">vCenter</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">appliance</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">vCenter</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">vCenter</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
+<span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">inventory</span><span class="w"> </span><span class="n">appears</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span>
 
 <span class="err">☐</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Arc</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Bridge</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vcenter</span><span class="o">-</span><span class="mi">02</span><span class="w"> </span><span class="p">(</span><span class="n">Non</span><span class="o">-</span><span class="n">Production</span><span class="p">)</span>
 <span class="w">  </span><span class="err">☐</span><span class="w"> </span><span class="n">Repeat</span><span class="w"> </span><span class="n">deployment</span><span class="w"> </span><span class="n">process</span>

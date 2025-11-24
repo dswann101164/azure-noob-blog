@@ -66,6 +66,12 @@ This is where everyone gets confused. Azure Arc for VMware has two distinct depl
 
 The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of it as the "connector" layer.
 
+**What the Resource Bridge actually is:**
+- A Kubernetes-based appliance VM deployed INTO your vCenter environment
+- Runs as a VM in vCenter (typically 4 vCPU, 16GB RAM)
+- Provides the connection between vCenter and Azure
+- Deployed from a Windows jump box that has network access to vCenter
+
 **What the Resource Bridge does:**
 - Authenticates to your vCenter instance
 - Discovers VMs in vCenter inventory
@@ -78,23 +84,95 @@ The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of 
 - Enable ESU licensing
 - Enable Azure Monitor or security features
 
-**How to deploy:** You install the Arc Resource Bridge as an appliance in each vCenter environment:
+**The Deployment Reality:**
+
+You run the deployment script FROM a jump box (Windows VM) IN the vCenter environment. The script:
+1. Downloads the Arc Resource Bridge appliance OVA
+2. Deploys it as a VM into vCenter
+3. Configures the Kubernetes cluster inside the appliance
+4. Connects the appliance to Azure
+5. Registers your vCenter with Azure Arc
+
+**Prerequisites for the jump box:**
+- Windows Server 2019/2022 or Windows 10/11
+- Network access to vCenter (port 443)
+- Network access to Azure (outbound HTTPS)
+- Azure CLI installed
+- PowerShell 7+
+- 20GB free disk space (for OVA download)
+
+**How to deploy from the jump box:**
 
 ```powershell
-# Deploy Arc Resource Bridge for vcenter-01
+# Run this FROM your vCenter jump box
+
+# Install prerequisites
+Install-Module -Name VMware.PowerCLI -Force
+az extension add --name arcappliance
+az extension add --name connectedvmware
+
+# Create config file for vcenter-01
+az arcappliance createconfig vmware `
+  --resource-group arc-infrastructure-rg `
+  --name arc-bridge-vcenter-01 `
+  --location eastus `
+  --out-dir ./vcenter-01-config
+
+# Edit the generated config.yaml with your vCenter details:
+# - vCenter IP/hostname
+# - vCenter credentials (service account)
+# - Network configuration for the appliance VM
+# - Datastore for appliance deployment
+
+# Deploy the Resource Bridge (this takes 30-45 minutes)
+az arcappliance deploy vmware `
+  --config-file ./vcenter-01-config/config.yaml `
+  --outfile ./vcenter-01-config/kubeconfig
+
+# Create the Azure Arc connection
 az arcappliance create vmware `
-  --config-file ./vcenter-01-config.yaml `
-  --kubeconfig ./kubeconfig `
+  --config-file ./vcenter-01-config/config.yaml `
+  --kubeconfig ./vcenter-01-config/kubeconfig `
   --resource-group arc-infrastructure-rg `
   --name arc-bridge-vcenter-01 `
   --location eastus
 
-# Repeat for vcenter-02 and vcenter-03
+# Connect your vCenter to Azure
+az connectedvmware vcenter connect `
+  --resource-group arc-infrastructure-rg `
+  --name vcenter-01 `
+  --custom-location arc-bridge-vcenter-01-cl `
+  --location eastus `
+  --fqdn vcenter-01.company.local `
+  --username svc-arc@company.local `
+  --password $vCenterPassword
+
+# Repeat entire process for vcenter-02 and vcenter-03
 ```
 
-**Common mistake:** People deploy the Resource Bridge and think they're done. They see VMs in Azure Portal and assume Arc is working.
+**What you'll see in vCenter:**
+After deployment, you'll have a new VM in vCenter named something like `arc-bridge-vcenter-01-appliance`. This is the Resource Bridge running Kubernetes. Don't delete it or power it off.
 
-**Reality:** The VMs are visible but not Arc-enabled. You're looking at VMware inventory reflected in Azure, not Arc-managed resources.
+**What you'll see in Azure Portal:**
+Your vCenter appears as a resource in Azure. All VMs from that vCenter are now visible in Azure Portal under "Azure Arc > VMware vCenters".
+
+**Common mistakes:**
+
+1. **Wrong network configuration:** The appliance VM needs an IP address in your vCenter network. If you configure the wrong subnet, deployment fails 30 minutes in.
+
+2. **Insufficient vCenter permissions:** The service account needs these permissions:
+   - Read-only on VMs
+   - Deploy OVF template
+   - Create/delete VMs (for the appliance)
+
+3. **Firewall blocking deployment:** The jump box needs outbound HTTPS to:
+   - vCenter (port 443)
+   - Azure (management.azure.com, login.microsoftonline.com)
+   - GitHub (to download OVA)
+
+4. **Running from Azure instead of on-premises:** The deployment script must run from a jump box WITH network access to vCenter. You can't deploy from Azure Cloud Shell or your laptop over VPN (too slow, will timeout).
+
+5. **Thinking you're done:** People deploy the Resource Bridge, see VMs in Azure Portal, and think Arc is working. **Wrong.** The VMs are visible but not Arc-enabled. You're looking at VMware inventory reflected in Azure, not Arc-managed resources.
 
 ### Phase 2: Deploy Arc Agents to Individual VMs
 
@@ -344,12 +422,36 @@ Here's the step-by-step process that actually works.
   ☐ Assign RBAC permissions (custom roles may be required)
   ☐ Configure Azure Policy for Arc governance
 
+☐ Prepare Jump Box for Deployment
+  ☐ Provision Windows VM in vCenter environment (or use existing jump box)
+  ☐ Install Azure CLI
+  ☐ Install PowerShell 7+
+  ☐ Install VMware PowerCLI
+  ☐ Install Arc appliance extensions (arcappliance, connectedvmware)
+  ☐ Verify network access to vCenter (port 443)
+  ☐ Verify outbound HTTPS to Azure (management.azure.com, login.microsoftonline.com)
+  ☐ Verify outbound HTTPS to GitHub (to download OVA)
+  ☐ Allocate 20GB free disk space for OVA download
+
+☐ Prepare vCenter for Arc
+  ☐ Create service account with required permissions:
+    ☐ Read-only on VMs
+    ☐ Deploy OVF template
+    ☐ Create/delete VMs
+  ☐ Identify datastore for appliance VM deployment
+  ☐ Identify network/VLAN for appliance VM (needs IP address)
+  ☐ Reserve static IP or configure DHCP reservation for appliance
+
 ☐ Deploy Arc Resource Bridge - vcenter-01 (Production)
-  ☐ Download Arc appliance configuration files
-  ☐ Configure vCenter authentication (service account with read permissions)
-  ☐ Deploy Arc appliance to vcenter-01
-  ☐ Validate vCenter connection in Azure Portal
-  ☐ Verify VM inventory appears in Azure
+  ☐ RDP to jump box in vCenter environment
+  ☐ Run az arcappliance createconfig to generate config files
+  ☐ Edit config.yaml with vCenter details (IP, credentials, network, datastore)
+  ☐ Run az arcappliance deploy (takes 30-45 minutes)
+  ☐ Run az arcappliance create to connect to Azure
+  ☐ Run az connectedvmware vcenter connect to register vCenter
+  ☐ Validate appliance VM appears in vCenter
+  ☐ Validate vCenter resource appears in Azure Portal
+  ☐ Verify VM inventory appears in Azure Portal
 
 ☐ Deploy Arc Resource Bridge - vcenter-02 (Non-Production)
   ☐ Repeat deployment process
