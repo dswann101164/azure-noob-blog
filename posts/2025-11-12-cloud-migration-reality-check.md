@@ -356,6 +356,158 @@ Current cost on-prem: $1,100/month.
 
 ---
 
+## Azure Migration Cost Reality: What the Spreadsheet Reveals
+
+**The question everyone asks: "What will Azure migration cost?"**
+
+**The honest answer: "More than leadership expects, less than doing nothing."**
+
+Here's what your spreadsheet reveals about actual Azure migration costs that sales presentations never mention.
+
+### The Three Cost Categories Nobody Budgets For
+
+**1. Migration Execution Costs (One-Time)**
+
+What leadership budgets:
+- Azure Migrate licensing: $0 (free tool)
+- Network bandwidth: Included in current costs
+- Staff time: "They're already employees"
+
+**What it actually costs:**
+
+```
+Discovery phase: 3-6 months × $15K/month consulting = $45-90K
+Assessment tools: Azure Migrate + dependency mapping = $0-5K
+Migration tooling: Azure Site Recovery, migration services = $0-15K
+Network acceleration: ExpressRoute setup or increased bandwidth = $10-50K
+Staff overtime/contractors: Weekend migrations, rollbacks = $20-50K
+Training: Azure certifications, vendor training = $5-15K
+Consultant fees: When internal team gets stuck = $50-200K
+
+Total migration execution: $130K - $425K (for 50-100 applications)
+Per-application cost: $1,300 - $4,250 each
+```
+
+**The spreadsheet forces this conversation on Day 1, not Month 12.**
+
+**2. Post-Migration Azure Costs (Recurring Monthly)**
+
+Leadership expectations based on sales pitch:
+```
+Current on-prem: $50K/month
+Azure promise: 30% savings
+Expected Azure cost: $35K/month
+```
+
+**Actual Azure costs after migration:**
+
+```
+Compute (VMs right-sized up): $28K/month
+Storage (3x redundancy, premium for databases): $12K/month
+Networking (ExpressRoute, VPN, bandwidth): $8K/month
+Backup & DR (Azure Site Recovery, snapshots): $6K/month
+Security (Defender, Key Vault, firewalls): $4K/month
+Monitoring (Log Analytics, Application Insights): $3K/month
+PaaS migrations (SQL MI, App Service): $15K/month
+
+Actual Azure monthly: $76K/month
+vs. Current on-prem: $50K/month
+Increase: +52% ($26K/month more)
+```
+
+**Why the increase?**
+
+- On-prem costs were amortized (hardware paid off)
+- Azure charges for redundancy you got "free" on-prem
+- Bandwidth charges that didn't exist on-prem
+- Premium storage for performance parity
+- Backup costs now explicit (were "free" on SAN)
+
+**Question 39 vs. 40 from the spreadsheet prevents this surprise.**
+
+**3. Hidden Operational Costs (Ongoing)**
+
+Costs that appear 6-12 months post-migration:
+
+```
+License true-ups: Vendor audits reveal under-licensing = $50-200K
+Failed migrations redo: Applications that don't work, rebuild = $25-100K
+Performance fixes: Right-sizing, premium storage upgrades = $10-50K/year
+Compliance gaps: Encryption, logging, audit requirements = $15-40K
+Training updates: Continuous Azure training as services change = $10-30K/year
+Consultant retainer: For issues internal team can't solve = $60-150K/year
+
+Hidden first-year costs: $170K - $570K
+```
+
+**Total Cost of Migration Example:**
+
+```
+Pre-migration assessment (using spreadsheet): $15K consulting
+Migration execution: $300K
+First year Azure operations: $912K (76K × 12)
+Hidden costs first year: $370K
+
+Total Year 1: $1,597K
+vs. On-prem Year 1: $600K (50K × 12)
+
+Cloud migration cost increase: +$997K first year
+Break-even: Year 3-4 (if you optimize aggressively)
+```
+
+**The spreadsheet doesn't prevent these costs. It makes them visible BEFORE you commit.**
+
+### Azure Migrate Tool Cost vs. This Spreadsheet Approach
+
+**Azure Migrate (Microsoft's free tool):**
+
+What it does well:
+- Discovers VMs and dependencies automatically
+- Performance baseline data collection
+- Right-sizing recommendations
+- Cost estimates based on VM metrics
+
+**What it doesn't do:**
+
+- ❌ Can't tell you if the business owner left the company
+- ❌ Can't tell you where the installer ISO is stored
+- ❌ Can't tell you if the vendor still exists
+- ❌ Can't tell you if license allows cloud hosting
+- ❌ Can't tell you if anyone actually uses the application
+- ❌ Can't tell you what the long-term plan is
+
+**Azure Migrate discovers resources. This spreadsheet discovers organizational readiness.**
+
+**You need both.**
+
+```
+Week 1-4: Deploy Azure Migrate (technical discovery)
+Week 5-12: Fill out spreadsheet per application (business discovery)
+Week 13+: Decide what to migrate based on BOTH datasets
+```
+
+**Cost comparison:**
+
+```
+Azure Migrate only:
+- Cost: $0 (free tool)
+- Result: Accurate technical inventory, inaccurate business understanding
+- Risk: Migrate wrong applications, miss retirement candidates
+- Wasted spend: $500K - $2M on migrations that shouldn't happen
+
+Azure Migrate + Spreadsheet:
+- Cost: $15K (consulting to facilitate spreadsheet completion)
+- Result: Accurate technical + business inventory
+- Risk: Only migrate what makes business sense
+- Savings: $500K - $2M avoided waste
+
+ROI: 33x to 133x return on spreadsheet investment
+```
+
+**The spreadsheet is the cheapest insurance policy in your Azure migration.**
+
+---
+
 ### Category 9: Rationalization & Lifecycle (Questions 42-52)
 
 **These questions expose: What's the actual plan?**
@@ -452,6 +604,183 @@ Don't migrate applications with **low business value + high red flags**. Retire 
 
 ---
 
+## Azure Cloud Migration Strategy: The Right Sequence
+
+**Microsoft's CAF documentation starts with landing zones and governance.**
+
+**That's backwards.**
+
+**Here's the actual sequence that prevents migration failure:**
+
+### Phase 1: Discovery (Months 1-3)
+
+**Goal:** Know what you own before deciding what to migrate.
+
+**Activities:**
+1. Deploy Azure Migrate for technical discovery
+2. Deploy spreadsheet for organizational discovery
+3. Identify application owners (or lack thereof)
+4. Document dependencies across applications
+5. Classify applications by criticality and readiness
+
+**Deliverables:**
+- Complete application inventory with owners
+- Dependency maps showing migration complexity
+- Red flag count per application
+- Preliminary retirement candidate list
+
+**Exit criteria:** Can answer "How many applications do we have?" with confidence
+
+### Phase 2: Rationalization (Months 3-4)
+
+**Goal:** Decide the 7R action for every application BEFORE designing Azure architecture.
+
+**The 7Rs with spreadsheet guidance:**
+
+**Rehost (Lift-and-Shift):**
+- Spreadsheet shows: Green status, simple architecture, no compliance issues
+- Best for: Applications with short remaining life (2-4 years)
+- Azure target: IaaS VMs
+- Cost: Moderate (highest Azure spend, lowest migration effort)
+
+**Refactor (Minor Changes for PaaS):**
+- Spreadsheet shows: Modern architecture, documented dependencies, active vendor
+- Best for: Applications worth investing in
+- Azure target: App Service, SQL Database, Container Apps
+- Cost: Moderate (lower Azure spend, moderate migration effort)
+
+**Rearchitect (Significant Redesign):**
+- Spreadsheet shows: Core business app, high value, legacy architecture
+- Best for: Strategic applications, 5+ year lifespan
+- Azure target: Microservices, serverless, PaaS
+- Cost: High (lowest Azure spend long-term, highest migration effort)
+
+**Rebuild (Rewrite from Scratch):**
+- Spreadsheet shows: No vendor support, no installation media, critical business value
+- Best for: Applications you can't live without but can't migrate
+- Azure target: Modern stack (React, .NET Core, PostgreSQL)
+- Cost: Highest (migration effort = new development)
+
+**Replace (Buy SaaS Alternative):**
+- Spreadsheet shows: Generic business function, vendor exists, high maintenance cost
+- Best for: Commodity applications (email, CRM, HR)
+- Azure target: SaaS product (Salesforce, Workday, M365)
+- Cost: Moderate (no migration effort, subscription fees)
+
+**Retire (Delete It):**
+- Spreadsheet shows: No owner, no business value, can't answer basic questions
+- Best for: 20-40% of your application portfolio
+- Azure target: None (decommission)
+- Cost: Lowest (savings from deletion)
+
+**Retain (Keep On-Premises):**
+- Spreadsheet shows: Compliance restriction, vendor limitation, hardware dependency
+- Best for: Regulated workloads, specialized hardware
+- Azure target: None (stays on-prem or hybrid)
+- Cost: Zero migration (status quo)
+
+**Typical distribution after spreadsheet completion:**
+
+```
+50-60% → Rehost (lift-and-shift to Azure VMs)
+10-15% → Refactor (PaaS migration)
+5-10% → Rearchitect (strategic redesign)
+2-5% → Rebuild (complete rewrite)
+10-15% → Replace (buy SaaS)
+20-40% → Retire (delete)
+5-10% → Retain (keep on-prem)
+```
+
+**Notice: 20-40% retirement rate is normal and healthy.**
+
+**The spreadsheet reveals retirement candidates that executive mandates hide.**
+
+### Phase 3: Planning (Months 4-6)
+
+**Goal:** Design Azure architecture for the applications that survived rationalization.
+
+**Now you can design landing zones because you know:**
+- How many subscriptions you need (based on apps migrating)
+- Which compliance requirements apply (from spreadsheet)
+- Network requirements (based on dependency maps)
+- Cost center allocation (from business owner data)
+- Governance policies needed (based on data classification)
+
+**Architecture decisions driven by spreadsheet data:**
+
+```
+Compliance requirements (Question 34) → Azure region selection
+Data classification (Question 33) → Network isolation design
+Business criticality (Question 4) → SLA and redundancy levels
+Dependencies (Question 12) → Migration wave grouping
+Cost centers (Question 38) → Subscription structure
+```
+
+**This is when you read CAF documentation - after you know what you're building for.**
+
+### Phase 4: Pilot (Months 6-9)
+
+**Goal:** Validate approach with low-risk applications.
+
+**Pilot selection criteria from spreadsheet:**
+
+Choose applications with:
+- ✅ Green readiness status (low red flag count)
+- ✅ Low business criticality (failure won't kill company)
+- ✅ Simple architecture (few dependencies)
+- ✅ Active vendor support (can get help if needed)
+- ✅ Documented owner (someone to test and approve)
+
+**Don't choose:**
+- ❌ Most critical application (too risky for pilot)
+- ❌ Most complex application (too many variables)
+- ❌ Application with vendor issues (will confuse pilot results)
+- ❌ Application with no owner (can't validate success)
+
+**Pilot success metrics:**
+
+- Migration completed within time estimate (±20%)
+- Application works in Azure (full functionality)
+- Performance acceptable (meets SLAs)
+- Cost within estimate (±30%)
+- Business owner satisfied (would migrate more)
+
+**If pilot fails, fix issues before scaling. Don't blame Azure - blame incomplete discovery.**
+
+### Phase 5: Migration Waves (Months 9-24)
+
+**Goal:** Systematic migration in prioritized groups.
+
+**Wave planning based on spreadsheet:**
+
+**Wave 1 (Months 9-12): Quick Wins**
+- Applications: High value + low risk (green status + simple)
+- Goal: Build momentum and confidence
+- Typical: 10-20 applications
+
+**Wave 2 (Months 12-18): Strategic Applications**
+- Applications: High value + moderate risk (yellow status)
+- Goal: Migrate core business applications
+- Typical: 20-40 applications
+
+**Wave 3 (Months 18-24): Complex Migrations**
+- Applications: High value + high risk (red flags but necessary)
+- Goal: Tackle difficult migrations with lessons learned
+- Typical: 10-30 applications
+
+**Wave 4 (Months 24-36): Long Tail**
+- Applications: Low value + low risk (keep if cheap to migrate)
+- Goal: Finish remaining migrations
+- Typical: 20-50 applications
+
+**Total migrated: 60-140 applications over 3 years**
+
+**Not migrated (retired): 40-80 applications discovered through spreadsheet**
+
+**Money saved from retirements: Often exceeds migration costs**
+
+---
+
 ## The Conversation This Forces
 
 **CFO:** "How much will Azure cost?"
@@ -502,6 +831,222 @@ Applications have:
 **Most questions answered with LOW confidence or not at all.**
 
 **If you're the second organization, this spreadsheet saves you from expensive migration failure.**
+
+---
+
+## Common Azure Migration Mistakes This Spreadsheet Prevents
+
+**Mistake #1: Migrating Applications Nobody Uses**
+
+**How it happens:**
+
+Executive mandate: "Migrate everything to Azure by Q4."
+
+IT response: "Okay, here's the server list from VMware. We'll migrate all of them."
+
+Nobody asks: "Does anyone actually use ServerXYZ-2014?"
+
+**The cost:**
+
+Migrated application consuming $1,800/month in Azure. Ran for 18 months before someone asked "What is this?"
+
+Investigation revealed: Application was replaced by SaaS product in 2020. Old server still running. Nobody shut it off.
+
+**Cost of not asking: $32,400 wasted ($1,800 × 18 months)**
+
+**How spreadsheet prevents this:**
+
+Question 23: "What business process does this application serve?"  
+Question 50: "When was it last validated as still needed?"
+
+If you can't answer both with confidence → Retirement candidate, not migration candidate.
+
+---
+
+**Mistake #2: Ignoring Vendor Licensing Restrictions**
+
+**How it happens:**
+
+You migrate application to Azure. Works great. Six months later, vendor audit letter arrives: "Your license doesn't permit cloud hosting. Please purchase Cloud License at $75K/year or cease Azure usage within 30 days."
+
+**How common is this:**
+
+Happens with:
+- Oracle databases (license per core changes in cloud)
+- SQL Server (need Azure Hybrid Benefit setup correctly)
+- Third-party applications with "on-premises only" licenses
+- Vendor products with separate cloud SKUs
+
+**The cost:**
+
+Emergency license purchase: $75K  
+Or emergency migration back to on-prem: $50K + downtime  
+Or cease business process: Unacceptable
+
+**How spreadsheet prevents this:**
+
+Question 18: "How is it licensed?"  
+Question 21: "Is the vendor still active and reachable?"  
+Question 22: "Is this version still officially supported?"
+
+**Action:** Contact vendor BEFORE migration. Get cloud licensing terms in writing.
+
+---
+
+**Mistake #3: Dependency Hell**
+
+**How it happens:**
+
+You migrate Application A to Azure. It breaks. Investigation reveals Application A depends on Database B which is still on-premises and requires 1ms latency that doesn't work across ExpressRoute.
+
+Now you need to migrate Database B. But Database B supports Applications C, D, E, and F - all of which need testing if you migrate the database.
+
+**Your "simple" Application A migration just became 6 applications.**
+
+**The cost:**
+
+Planned migration budget: $25K (one app)  
+Actual migration cost: $180K (six apps + coordination + testing)
+
+Budget overrun: 7.2x planned cost
+
+**How spreadsheet prevents this:**
+
+Question 12: "What other apps, services, or databases does it depend on?"  
+Question 30: "Are all dependencies identified and documented?"
+
+**If you can't map full dependency chain, you're not ready to migrate.**
+
+Use Azure Migrate dependency mapping + manual verification through interviews.
+
+---
+
+**Mistake #4: Lost Installation Media**
+
+**How it happens:**
+
+Application breaks in Azure. Needs rebuild. Ask for installation media.
+
+Answer: "We don't have it. Original installer was on Bob's laptop. Bob left in 2019."
+
+Recovery options:
+1. Try to restore from Azure Backup (might work)
+2. Contact vendor for new installer (might not match configuration)
+3. Rebuild from documentation (if it exists)
+4. Give up and find SaaS replacement (expensive surprise)
+
+**The cost:**
+
+3 weeks of senior engineer time trying to rebuild: $30K  
+Consultant engagement to help: $20K  
+Emergency SaaS replacement: $50K implementation + $2K/month  
+Business impact from downtime: Incalculable
+
+**Total unexpected cost: $100K+**
+
+**How spreadsheet prevents this:**
+
+Question 17: "Where is the installer or image stored?"  
+Question 31: "Can this app be reinstalled from known media?"
+
+**If answer is "No" or "We think so but not sure" → Fix this BEFORE migrating.**
+
+---
+
+**Mistake #5: No Business Owner = No Accountability**
+
+**How it happens:**
+
+You migrate application to Azure. Post-migration validation needed. Who tests it?
+
+Try to find business owner. Original owner left in 2020. Department reorganized twice since then. Nobody knows who owns this application now.
+
+Application is running in Azure. Consuming $2,200/month. Nobody responsible. Nobody testing. Nobody knows if it works correctly.
+
+**The cost:**
+
+Application runs for 2 years in Azure: $52,800  
+Nobody validates it works correctly  
+Internal audit flags: "No owner documented for 47 applications"  
+Consultant engagement to identify owners: $45K  
+Cleanup project to retire orphaned apps: $80K
+
+**Total waste: $177,800**
+
+**How spreadsheet prevents this:**
+
+Question 5: "Who is accountable for the business outcome if this app fails?"  
+Question 29: "Has ownership been verified recently?"
+
+**If you can't identify current owner with contact information → Don't migrate until you do.**
+
+---
+
+**Mistake #6: Certificate Expiration Surprise**
+
+**How it happens:**
+
+Application works in Azure for 11 months. Month 12, it stops working. Nobody knows why.
+
+After days of troubleshooting: Certificate expired. Certificate was installed 4 years ago by contractor who left. Nobody knew certificate existed. Nobody monitored expiration.
+
+Certificate renewal requires:
+- Finding original certificate request files (lost)
+- Getting new certificate issued (2 week process)
+- Installing without breaking production (risky)
+
+**The cost:**
+
+Application downtime: 12 days  
+Emergency contractor to rebuild certificate: $15K  
+Business impact from outage: $50K+
+
+**How spreadsheet prevents this:**
+
+Question 14: "Does this application use a certificate? If yes, where is it stored and when does it expire?"
+
+**Document ALL certificates BEFORE migration. Set up expiration monitoring.**
+
+---
+
+**Mistake #7: Compliance Violations**
+
+**How it happens:**
+
+You migrate application to Azure. Works great. 6 months later, compliance audit.
+
+Auditor question: "This application processes PCI cardholder data. Where's your Azure PCI attestation?"
+
+Your answer: "We didn't know it processed PCI data."
+
+Audit finding: **Non-compliance. Remediate within 30 days or lose ability to process cards.**
+
+**The cost:**
+
+Emergency PCI remediation:
+- Move application to compliant Azure region: $25K
+- Implement required logging: $15K
+- Network isolation fixes: $35K
+- Audit validation: $20K
+
+Total unbudgeted cost: $95K
+
+**How spreadsheet prevents this:**
+
+Question 33: "What type of data does it handle?"  
+Question 34: "Which compliance frameworks apply?"
+
+**If answer includes PCI, HIPAA, SOX, etc. → Architecture changes BEFORE migration.**
+
+---
+
+**The Pattern:**
+
+Every mistake has the same root cause: **Incomplete discovery before migration.**
+
+The spreadsheet forces complete discovery before you spend money.
+
+**Better to discover problems during spreadsheet completion (cost: $0) than during Azure migration (cost: $$$$$).**
 
 ---
 
