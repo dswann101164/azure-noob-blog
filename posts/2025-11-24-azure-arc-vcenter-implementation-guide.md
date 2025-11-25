@@ -31,6 +31,9 @@ Here's why this is every enterprise Azure Arc deployment, and more importantly, 
 5. You have no answer because there's no metadata
 6. Now you're supposed to train people on a system you haven't properly architected
 
+![Don't be this guy](/static/images/hero/do-not-be-this-guy.png)
+*Figure 1: The "rushed Arc deployment" disaster - Everything crammed into one resource group with zero organization or tags*
+
 This pattern repeats across every enterprise I've talked to. Tactical pressure destroys strategic planning every single time.
 
 The problem isn't the technology. Azure Arc works. The problem is nobody documents **how to actually implement Arc at enterprise scale** with proper governance.
@@ -147,6 +150,9 @@ Each vCenter manages hundreds to thousands of VMs. You need Azure Arc to:
 - Enable cloud management capabilities (monitoring, security, patching)
 - Plan migration to Azure with proper visibility
 - Allocate costs during hybrid state (on-prem + Azure)
+
+![Proper Arc organization](/static/images/hero/what-i-wish-i-knew.png)
+*Figure 2: What proper Arc organization looks like - Multiple resource groups, clear structure, organized by purpose*
 
 But here's what Microsoft doesn't explain clearly: **connecting vCenter to Azure is a two-phase process.**
 
