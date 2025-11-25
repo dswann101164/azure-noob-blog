@@ -40,6 +40,52 @@ The problem isn't the technology. Azure Arc works. The problem is nobody documen
 
 This guide fixes that.
 
+## What is Azure Arc for VMware vCenter?
+
+**Quick Answer:** Azure Arc for VMware vCenter connects your on-premises VMware infrastructure to Azure, enabling cloud-based management, security, and governance for VMs that stay in your datacenter.
+
+### How Azure Arc Works
+
+Azure Arc uses a **two-phase deployment model** that most documentation glosses over:
+
+**Phase 1: Deploy Arc Resource Bridge**
+- A Kubernetes-based appliance VM deployed INTO your vCenter environment
+- Connects your vCenter infrastructure to Azure cloud
+- Makes VM inventory visible in Azure Portal
+- **Requirements:** vCenter 7 or 8, 3 static IP addresses, 8GB RAM minimum
+
+**Phase 2: Install Arc Connected Machine Agents**
+- Individual agents installed on each VM you want to manage
+- Enables guest OS management, ESU licensing, and Azure services
+- Must be deployed WITH tags for proper cost allocation
+
+### What You Can Do With Arc
+
+✅ **ESU Licensing:** Extend support for Windows Server 2012/R2 without migrating to Azure
+✅ **Unified Inventory:** See all VMs from multiple vCenters in one Azure Portal view
+✅ **Azure Monitor:** Collect logs and metrics from on-premises VMs
+✅ **Azure Policy:** Apply governance and compliance policies to hybrid infrastructure
+✅ **Migration Planning:** Use Azure Migrate to assess workloads before moving to cloud
+✅ **Cost Allocation:** Tag VMs by department, application, or cost center for chargeback
+
+### Common Use Cases
+
+**Enterprise Scenarios:**
+- Managing 3+ vCenter instances (Production, Dev/Test, DR)
+- Merger situations with acquired company vCenters
+- Extended Security Updates for legacy Windows servers
+- Multi-cloud inventory (Azure + VMware + AWS + GCP)
+
+**Deployment Timeline:**
+- POC (single vCenter, <50 VMs): 2-3 hours
+- Enterprise (3 vCenters, 1,200+ VMs): 8-10 weeks including governance planning
+
+**Critical Success Factor:** Tag your VMs DURING deployment, not after. Retroactive tagging requires metadata you don't have (cost centers, application owners, migration priorities).
+
+---
+
+Now let's talk about why most Arc deployments fail...
+
 ## The Multi-vCenter Arc Architecture (The Goal)
 
 Before we talk about what goes wrong, here's what proper multi-vCenter Arc architecture looks like:
