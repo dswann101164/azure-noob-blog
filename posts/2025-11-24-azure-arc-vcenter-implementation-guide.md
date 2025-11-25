@@ -210,7 +210,8 @@ The Arc Resource Bridge connects your vCenter infrastructure to Azure. Think of 
 
 **What the Resource Bridge actually is:**
 - A Kubernetes-based appliance VM deployed INTO your vCenter environment
-- Runs as a VM in vCenter (typically 4 vCPU, 16GB RAM)
+- Runs as a VM in vCenter (minimum 4 vCPU, 8GB RAM - Microsoft recommends 16GB for production)
+- Requires 3 static IP addresses (2 for appliance VMs, 1 for control plane endpoint)
 - Provides the connection between vCenter and Azure
 - Deployed from a Windows jump box that has network access to vCenter
 
