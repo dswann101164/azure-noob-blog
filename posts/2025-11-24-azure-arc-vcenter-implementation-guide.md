@@ -40,6 +40,22 @@ The problem isn't the technology. Azure Arc works. The problem is nobody documen
 
 This guide fixes that.
 
+## The Multi-vCenter Arc Architecture (The Goal)
+
+Before we talk about what goes wrong, here's what proper multi-vCenter Arc architecture looks like:
+
+![Multi-vCenter Arc Architecture](/static/images/hero/arc-multi-vcenter-goal.png)
+*The Goal: Each vCenter gets its own Arc Resource Bridge connecting to Azure Arc for unified management*
+
+**This is the target architecture:**
+- Three vCenter environments (Production, Dev/Test, DR)
+- Each vCenter has a dedicated Arc Resource Bridge (Kubernetes appliance VM)
+- All bridges connect to Azure Arc cloud for unified management
+- Clean separation allows independent lifecycle management
+- Proper organization in Azure with resource groups and tags
+
+Now let's look at what actually happens in most enterprises...
+
 ## How Azure Arc Actually Connects to vCenter
 
 Before we dive into implementation, here's what the architecture actually looks like:
