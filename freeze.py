@@ -81,6 +81,21 @@ def hub_page():
     for hub_slug in hubs.keys():
         yield {"slug": hub_slug}
 
+# RSS Feed
+@freezer.register_generator
+def feed():
+    yield {}
+
+# Legacy RSS Feed
+@freezer.register_generator
+def rss_feed():
+    yield {}
+
+# Sitemap (generated separately but need route frozen)
+@freezer.register_generator
+def sitemap_xml():
+    yield {}
+
 # ---- Sitemap & robots.txt ----
 def _fmt_lastmod(dt):
     try:

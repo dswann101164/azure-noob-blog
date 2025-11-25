@@ -523,5 +523,93 @@ def build_tags():
 
     return tag_posts
 
+@app.route('/feed.xml')
+def feed():
+    """Generate RSS feed for blog posts (modern standard location)."""
+    posts = load_posts()
+    posts = sorted(posts, key=lambda x: x['date'], reverse=True)[:20]  # Last 20 posts
+    
+    from flask import make_response, render_template_string
+    
+    rss_template = '''<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>{{ site_name }}</title>
+    <link>{{ site_url }}</link>
+    <description>{{ site_tagline }}</description>
+    <language>en-us</language>
+    <lastBuildDate>{{ now().strftime('%a, %d %b %Y %H:%M:%S +0000') }}</lastBuildDate>
+    <atom:link href="{{ site_url }}/feed.xml" rel="self" type="application/rss+xml" />
+    {% for post in posts %}
+    <item>
+        <title>{{ post.title }}</title>
+        <link>{{ site_url }}/blog/{{ post.slug }}/</link>
+        <guid>{{ site_url }}/blog/{{ post.slug }}/</guid>
+        <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S +0000') }}</pubDate>
+        <description><![CDATA[{{ post.summary }}]]></description>
+    </item>
+    {% endfor %}
+</channel>
+</rss>
+'''
+    
+    xml = render_template_string(
+        rss_template,
+        posts=posts,
+        site_name=app.config['SITE_NAME'],
+        site_url=app.config['SITE_URL'],
+        site_tagline=app.config['SITE_TAGLINE'],
+        now=now
+    )
+    
+    response = make_response(xml)
+    response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'
+    return response
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    """Generate sitemap.xml for SEO (duplicate of freeze.py sitemap)."""
+    posts = load_posts()
+    
+    from flask import make_response, render_template_string
+    
+    sitemap_template = '''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{ site_url }}/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>{{ site_url }}/blog/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>{{ site_url }}/tags/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    {% for post in posts %}
+    <url>
+        <loc>{{ site_url }}/blog/{{ post.slug }}/</loc>
+        <lastmod>{{ post.date.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    {% endfor %}
+</urlset>
+'''
+    
+    xml = render_template_string(
+        sitemap_template,
+        posts=posts,
+        site_url=app.config['SITE_URL']
+    )
+    
+    response = make_response(xml)
+    response.headers['Content-Type'] = 'application/xml; charset=utf-8'
+    return response
+
 if __name__ == '__main__':
     app.run(debug=True)
