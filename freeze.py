@@ -32,31 +32,33 @@ def prepare_dest():
 
 # ---- Generators for all routes we need to freeze ----
 @freezer.register_generator
-def index():  # Changed from 'home' to match Flask route
+def index():
     yield {}
 
 @freezer.register_generator
-def blog_index():  # Changed from 'blog' to match Flask route
+def blog_index():
     yield {}
 
 @freezer.register_generator
 def about():
     yield {}
 
-# SEARCH (page + JSON)
-# These names must match your @app.route handlers in app.py
 @freezer.register_generator
-def search():  # Changed from 'search_page' to match Flask route
+def start_here():
     yield {}
 
 @freezer.register_generator
-def search_json():       # /search.json
+def search():
+    yield {}
+
+@freezer.register_generator
+def search_json():
     yield {}
 
 # Blog posts
 @freezer.register_generator
 def blog_post():
-    for p in load_posts():           # reload at freeze time
+    for p in load_posts():
         yield {"slug": p["slug"]}
 
 # Tags index and each tag page
@@ -65,8 +67,8 @@ def tags_index():
     yield {}
 
 @freezer.register_generator
-def tag_posts():  # Changed from 'tag_page' to match Flask route
-    tags = build_tags()  # Fixed: build_tags() doesn't take parameters
+def tag_posts():
+    tags = build_tags()
     for tag in tags.keys():
         yield {"tag": tag}
 
@@ -91,12 +93,17 @@ def feed():
 def rss_feed():
     yield {}
 
-# Sitemap (generated separately but need route frozen)
+# Sitemap
 @freezer.register_generator
 def sitemap_xml():
     yield {}
 
-# ---- Sitemap & robots.txt ----
+# Robots.txt
+@freezer.register_generator
+def robots():
+    yield {}
+
+# ---- Sitemap generation (NO trailing slashes) ----
 def _fmt_lastmod(dt):
     try:
         if isinstance(dt, datetime):
@@ -105,33 +112,38 @@ def _fmt_lastmod(dt):
     except Exception:
         return None
 
-def write_sitemap_and_robots():
+def write_sitemap():
+    """Generate sitemap.xml with NO trailing slashes"""
     base = BASE_URL
     urls = [
         {"loc": f"{base}/", "changefreq": "weekly", "priority": "1.0"},
-        {"loc": f"{base}/blog/", "changefreq": "weekly", "priority": "0.8"},
-        {"loc": f"{base}/hubs/", "changefreq": "weekly", "priority": "0.9"},
-        {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
-        {"loc": f"{base}/tags/", "changefreq": "monthly", "priority": "0.4"},
-        {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
+        {"loc": f"{base}/blog", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base}/hubs", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base}/tags", "changefreq": "monthly", "priority": "0.8"},
+        {"loc": f"{base}/about", "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base}/start-here", "changefreq": "monthly", "priority": "0.7"},
+        {"loc": f"{base}/search", "changefreq": "monthly", "priority": "0.3"},
     ]
 
     posts = load_posts()
-    tags = build_tags()  # Fixed: build_tags() doesn't take parameters
+    tags = build_tags()
     hubs = get_all_hubs()
 
+    # Tag pages (NO trailing slashes)
     for t in tags.keys():
-        urls.append({"loc": f"{base}/tags/{t}/", "changefreq": "monthly", "priority": "0.4"})
+        urls.append({"loc": f"{base}/tags/{t}", "changefreq": "monthly", "priority": "0.6"})
     
+    # Hub pages (NO trailing slashes)
     for hub_slug in hubs.keys():
-        urls.append({"loc": f"{base}/hub/{hub_slug}/", "changefreq": "weekly", "priority": "0.9"})
+        urls.append({"loc": f"{base}/hub/{hub_slug}", "changefreq": "weekly", "priority": "0.9"})
 
+    # Blog posts (NO trailing slashes)
     for p in posts:
         urls.append({
-            "loc": f"{base}/blog/{p['slug'].strip('/')}/",
+            "loc": f"{base}/blog/{p['slug']}",
             "lastmod": _fmt_lastmod(p.get("date")),
             "changefreq": "monthly",
-            "priority": "0.6",
+            "priority": "0.7",
         })
 
     with open(os.path.join(DEST, "sitemap.xml"), "w", encoding="utf-8") as f:
@@ -140,14 +152,35 @@ def write_sitemap_and_robots():
         for u in urls:
             f.write("  <url>\n")
             f.write(f"    <loc>{u['loc']}</loc>\n")
-            if u.get("lastmod"): f.write(f"    <lastmod>{u['lastmod']}</lastmod>\n")
+            if u.get("lastmod"): 
+                f.write(f"    <lastmod>{u['lastmod']}</lastmod>\n")
             f.write(f"    <changefreq>{u['changefreq']}</changefreq>\n")
             f.write(f"    <priority>{u['priority']}</priority>\n")
             f.write("  </url>\n")
         f.write("</urlset>\n")
 
-    with open(os.path.join(DEST, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n")
+    log(f"✓ Sitemap written with {len(urls)} URLs (NO trailing slashes)")
+
+def remove_trailing_slashes_from_sitemap():
+    """Post-process sitemap to remove ALL trailing slashes except root"""
+    import re
+    
+    sitemap_path = os.path.join(DEST, "sitemap.xml")
+    with open(sitemap_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Remove trailing slashes: <loc>https://azure-noob.com/PATH/</loc> -> <loc>https://azure-noob.com/PATH</loc>
+    original_count = content.count('</loc>')
+    content = re.sub(
+        r'<loc>(https://azure-noob\.com/[^<]+)/</loc>',
+        r'<loc>\1</loc>',
+        content
+    )
+    
+    with open(sitemap_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    log(f"✓ Removed trailing slashes from sitemap ({original_count} URLs processed)")
 
 # ---- Entrypoint ----
 if __name__ == "__main__":
@@ -156,9 +189,12 @@ if __name__ == "__main__":
         prepare_dest()
         log("Freezing Flask routes…")
         freezer.freeze()
-        log("Writing sitemap & robots…")
-        write_sitemap_and_robots()
-        log("Done.")
+        log("Writing sitemap…")
+        write_sitemap()
+        log("Cleaning trailing slashes from sitemap…")
+        remove_trailing_slashes_from_sitemap()
+        log("✓ Done! Site frozen to docs/")
+        log(f"✓ All URLs standardized (NO trailing slashes)")
     except Exception:
         traceback.print_exc()
         sys.exit(1)

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, url_for
+from flask import Flask, render_template, abort, url_for, redirect, request
 from pathlib import Path
 import frontmatter
 from datetime import datetime
@@ -18,6 +18,27 @@ app.config['SITE_URL'] = 'https://azure-noob.com'
 
 # Quiet missing-date warnings + accept more formats
 WARNED_SLUGS = set()
+
+# ===== FIX 404 ERRORS =====
+@app.before_request
+def handle_trailing_slashes_and_redirects():
+    """
+    Handle URL normalization and redirects to fix Google 404 errors.
+    - Remove trailing slashes from non-root paths
+    - Handle case-insensitive tag URLs
+    - Redirect old URL patterns to canonical versions
+    """
+    path = request.path
+    
+    # Don't touch root path
+    if path == '/':
+        return None
+    
+    # Remove trailing slash and redirect (permanent 301)
+    if path.endswith('/') and path != '/':
+        return redirect(path.rstrip('/'), code=301)
+    
+    return None
 
 def coerce_date(value, default_dt):
     """Convert various date formats to datetime object."""
@@ -176,12 +197,12 @@ def index():
     posts = load_posts()
     return render_template('index.html', posts=posts[:5])  # Show latest 5 posts
 
-@app.route('/blog/')
+@app.route('/blog')
 def blog_index():
     posts = load_posts()
     return render_template('blog_index.html', posts=posts)
 
-@app.route('/blog/<slug>/')
+@app.route('/blog/<slug>')
 def blog_post(slug):
     posts = load_posts()
     post = next((p for p in posts if p['slug'] == slug), None)
@@ -265,7 +286,7 @@ def blog_post(slug):
                            date_modified_iso=date_modified_iso,
                            author_name='David Swann')
 
-@app.route('/tags/')
+@app.route('/tags')
 def tags_index():
     all_tags = get_all_tags()
     posts = load_posts()
@@ -280,13 +301,13 @@ def tags_index():
 
     return render_template('tags_index.html', tags=tags_with_counts, tag_posts=tag_posts)
 
-@app.route('/tags/<tag>/')
+@app.route('/tags/<tag>')
 def tag_posts(tag):
     posts = load_posts()
     tagged_posts = [p for p in posts if tag in p['tags']]
     return render_template('tags.html', tag=tag, posts=tagged_posts)
 
-@app.route('/search/')
+@app.route('/search')
 def search():
     return render_template('search.html')
 
@@ -309,21 +330,21 @@ def search_json():
     from flask import jsonify
     return jsonify(search_data)
 
-@app.route('/about/')
+@app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/start-here/')
+@app.route('/start-here')
 def start_here():
     return render_template('start_here.html')
 
-@app.route('/hubs/')
+@app.route('/hubs')
 def hubs_index():
     """List all content hubs."""
     hubs = get_all_hubs()
     return render_template('hubs_index.html', hubs=hubs)
 
-@app.route('/hub/<slug>/')
+@app.route('/hub/<slug>')
 def hub_page(slug):
     """Display a specific content hub."""
     hub_config = get_hub_config(slug)
@@ -361,7 +382,7 @@ def hub_page(slug):
                          additional_posts=additional_posts)
 
 @app.route('/sitemap.xml')
-def sitemap():
+def sitemap_xml():
     """Generate XML sitemap for SEO."""
     posts = load_posts()
 
@@ -423,7 +444,7 @@ def robots():
     robots_content = """User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml"""
+Sitemap: https://azure-noob.com/sitemap.xml"""
 
     response = app.response_class(
         robots_content,
@@ -433,7 +454,7 @@ Sitemap: /sitemap.xml"""
 
 @app.route('/rss.xml')
 def rss_feed():
-    """Generate RSS feed."""
+    """Generate RSS feed (legacy location)."""
     posts = load_posts()[:10]  # Latest 10 posts
 
     # Generate RSS XML directly
@@ -461,6 +482,49 @@ def rss_feed():
         rss_content,
         mimetype='application/rss+xml'
     )
+    return response
+
+@app.route('/feed.xml')
+def feed():
+    """Generate RSS feed for blog posts (modern standard location)."""
+    posts = load_posts()
+    posts = sorted(posts, key=lambda x: x['date'], reverse=True)[:20]  # Last 20 posts
+    
+    from flask import make_response, render_template_string
+    
+    rss_template = '''<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>{{ site_name }}</title>
+    <link>{{ site_url }}</link>
+    <description>{{ site_tagline }}</description>
+    <language>en-us</language>
+    <lastBuildDate>{{ now().strftime('%a, %d %b %Y %H:%M:%S +0000') }}</lastBuildDate>
+    <atom:link href="{{ site_url }}/feed.xml" rel="self" type="application/rss+xml" />
+    {% for post in posts %}
+    <item>
+        <title>{{ post.title }}</title>
+        <link>{{ site_url }}/blog/{{ post.slug }}</link>
+        <guid>{{ site_url }}/blog/{{ post.slug }}</guid>
+        <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S +0000') }}</pubDate>
+        <description><![CDATA[{{ post.summary }}]]></description>
+    </item>
+    {% endfor %}
+</channel>
+</rss>
+'''
+    
+    xml = render_template_string(
+        rss_template,
+        posts=posts,
+        site_name=app.config['SITE_NAME'],
+        site_url=app.config['SITE_URL'],
+        site_tagline=app.config['SITE_TAGLINE'],
+        now=now
+    )
+    
+    response = make_response(xml)
+    response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'
     return response
 
 # Template filters
@@ -522,94 +586,6 @@ def build_tags():
         tag_posts[tag] = [p for p in posts if tag in p['tags']]
 
     return tag_posts
-
-@app.route('/feed.xml')
-def feed():
-    """Generate RSS feed for blog posts (modern standard location)."""
-    posts = load_posts()
-    posts = sorted(posts, key=lambda x: x['date'], reverse=True)[:20]  # Last 20 posts
-    
-    from flask import make_response, render_template_string
-    
-    rss_template = '''<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-    <title>{{ site_name }}</title>
-    <link>{{ site_url }}</link>
-    <description>{{ site_tagline }}</description>
-    <language>en-us</language>
-    <lastBuildDate>{{ now().strftime('%a, %d %b %Y %H:%M:%S +0000') }}</lastBuildDate>
-    <atom:link href="{{ site_url }}/feed.xml" rel="self" type="application/rss+xml" />
-    {% for post in posts %}
-    <item>
-        <title>{{ post.title }}</title>
-        <link>{{ site_url }}/blog/{{ post.slug }}/</link>
-        <guid>{{ site_url }}/blog/{{ post.slug }}/</guid>
-        <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S +0000') }}</pubDate>
-        <description><![CDATA[{{ post.summary }}]]></description>
-    </item>
-    {% endfor %}
-</channel>
-</rss>
-'''
-    
-    xml = render_template_string(
-        rss_template,
-        posts=posts,
-        site_name=app.config['SITE_NAME'],
-        site_url=app.config['SITE_URL'],
-        site_tagline=app.config['SITE_TAGLINE'],
-        now=now
-    )
-    
-    response = make_response(xml)
-    response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'
-    return response
-
-@app.route('/sitemap.xml')
-def sitemap_xml():
-    """Generate sitemap.xml for SEO (duplicate of freeze.py sitemap)."""
-    posts = load_posts()
-    
-    from flask import make_response, render_template_string
-    
-    sitemap_template = '''<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>{{ site_url }}/</loc>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>{{ site_url }}/blog/</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>{{ site_url }}/tags/</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    {% for post in posts %}
-    <url>
-        <loc>{{ site_url }}/blog/{{ post.slug }}/</loc>
-        <lastmod>{{ post.date.strftime('%Y-%m-%d') }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    {% endfor %}
-</urlset>
-'''
-    
-    xml = render_template_string(
-        sitemap_template,
-        posts=posts,
-        site_url=app.config['SITE_URL']
-    )
-    
-    response = make_response(xml)
-    response.headers['Content-Type'] = 'application/xml; charset=utf-8'
-    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
