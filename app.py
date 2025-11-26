@@ -24,14 +24,14 @@ WARNED_SLUGS = set()
 def handle_trailing_slashes_and_redirects():
     """
     Handle URL normalization and redirects to fix Google 404 errors.
-    - Remove trailing slashes from non-root paths
+    - Remove trailing slashes from non-root paths (except /blog/)
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
     """
     path = request.path
     
-    # Don't touch root path
-    if path == '/':
+    # Don't touch root path or index pages that need trailing slashes
+    if path in ['/', '/blog/', '/tags/', '/hubs/']:
         return None
     
     # Remove trailing slash and redirect (permanent 301)
@@ -197,7 +197,7 @@ def index():
     posts = load_posts()
     return render_template('index.html', posts=posts[:5])  # Show latest 5 posts
 
-@app.route('/blog')
+@app.route('/blog/')
 def blog_index():
     posts = load_posts()
     return render_template('blog_index.html', posts=posts)
@@ -286,7 +286,7 @@ def blog_post(slug):
                            date_modified_iso=date_modified_iso,
                            author_name='David Swann')
 
-@app.route('/tags')
+@app.route('/tags/')
 def tags_index():
     all_tags = get_all_tags()
     posts = load_posts()
@@ -338,7 +338,7 @@ def about():
 def start_here():
     return render_template('start_here.html')
 
-@app.route('/hubs')
+@app.route('/hubs/')
 def hubs_index():
     """List all content hubs."""
     hubs = get_all_hubs()

@@ -1,0 +1,26 @@
+# Final update: Correct deployment flow with jump box as Phase 0
+
+Write-Host "Updating Azure Arc guide with corrected deployment flow..." -ForegroundColor Green
+
+# Add the updated post
+git add posts/2025-11-24-azure-arc-vcenter-implementation-guide.md
+Write-Host "Added updated blog post" -ForegroundColor Cyan
+
+# Freeze the site
+Write-Host "`nFreezing site..." -ForegroundColor Yellow
+.\.venv\Scripts\python.exe .\freeze.py
+
+# Add the frozen docs
+git add docs
+Write-Host "Added frozen site" -ForegroundColor Cyan
+
+# Commit
+git commit -m "Arc guide: Clarify jump box is Phase 0 - the deployment prerequisite that creates the Resource Bridge"
+Write-Host "`nCommitted changes" -ForegroundColor Green
+
+# Push to GitHub
+Write-Host "`nPushing to GitHub..." -ForegroundColor Yellow
+git push
+
+Write-Host "`n✓ Updated successfully!" -ForegroundColor Green
+Write-Host "Corrected flow: Jump Box (Phase 0) -> Resource Bridge (Phase 1) -> Arc Agents (Phase 2)" -ForegroundColor Cyan

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+
+  <!-- Primary SEO -->
+  <title>Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture · Azure Noob</title>
+  <meta name="description" content="Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in...">
+  <link rel="canonical" href="https://azure-noob.com/blog/terraform-azure-devops-cicd-part1-prerequisites" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="../static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture">
+  <meta property="og:description" content="Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/terraform-azure-devops-cicd-part1-prerequisites">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part1.png">
+
+  
+    <meta property="article:published_time" content="2025-11-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-03T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Terraform">
+      
+        <meta property="article:tag" content="DevOps">
+      
+        <meta property="article:tag" content="CICD">
+      
+        <meta property="article:tag" content="IaC">
+      
+        <meta property="article:tag" content="Azure DevOps">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture">
+  <meta name="twitter:description" content="Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part1.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="../index.html" class="brand-link">
+          <img src="../static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Blog</a>
+        <a href="../hubs/index.html" style="font-weight: 700;">Content Hubs</a>
+        <a href="../start-here">Start Here</a>
+        <a href="../about">About</a>
+        <a href="../tags/index.html">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="../search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture",
+  "description": "Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/terraform-devops-part1.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-03T00:00:00+00:00",
+  "dateModified": "2025-11-03T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part1-prerequisites"
+  },
+  "keywords": "Azure, Terraform, DevOps, CICD, IaC, Azure DevOps",
+  "articleSection": "Azure",
+  "wordCount": "3144",
+  "timeRequired": "PT16M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture",
+      "item": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part1-prerequisites"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="../static/images/hero/terraform-devops-part1.png" alt="Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites &amp; Architecture</h1>
+    <p class="muted">
+      2025-11-03 · ~16 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="../tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="../tags/Terraform" class="tag-badge">Terraform</a></li>
+      
+      <li><a href="../tags/DevOps" class="tag-badge">DevOps</a></li>
+      
+      <li><a href="../tags/CICD" class="tag-badge">CICD</a></li>
+      
+      <li><a href="../tags/IaC" class="tag-badge">IaC</a></li>
+      
+      <li><a href="../tags/Azure%20DevOps" class="tag-badge">Azure DevOps</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in production - GUI pipelines, not YAML.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>This is the <strong>exact</strong> Terraform + Azure DevOps CI/CD setup I use in production at a financial services company. Not a proof-of-concept - this is battle-tested infrastructure that deploys real Azure resources every day.</p>
+<p><strong>What makes this different:</strong><br />
+- <strong>GUI pipelines, not YAML</strong> - Full visual control, easier troubleshooting<br />
+- <strong>Two approval gates</strong> - Pull request review + release approval before deployment<br />
+- <strong>Zero secrets in code</strong> - Everything in Key Vault, injected at runtime<br />
+- <strong>Plan file consistency</strong> - What reviewers approve is exactly what deploys<br />
+- <strong>No manual portal changes</strong> - Everything through Git, everything reviewed</p>
+<p>This is a 4-part series. Part 1 covers the architecture and one-time prerequisites.</p>
+<h2>Why This Setup Exists</h2>
+<p>Most Terraform tutorials show you how to run <code>terraform apply</code> from your laptop. Great for learning. Useless for production.</p>
+<p>In the real world, you need:<br />
+1. <strong>Approval workflows</strong> - Nobody deploys infrastructure without review<br />
+2. <strong>Secret management</strong> - Service principals, storage keys, never in Git<br />
+3. <strong>Consistency</strong> - Deployment matches what was approved, not latest Git commit<br />
+4. <strong>Auditability</strong> - Who approved what, when, and why<br />
+5. <strong>Team collaboration</strong> - Multiple people, no laptop dependencies</p>
+<p>This setup delivers all of that using Azure DevOps classic pipelines (GUI-based, not YAML).</p>
+<h2>The Full Workflow (End-to-End)</h2>
+<p>Here's what happens when you want to deploy infrastructure:</p>
+<h3>Step 1: Create Feature Branch</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add-resource-group
+</code></pre></div>
+
+<p>You CANNOT commit directly to <code>main</code>. Branch policies enforce this.</p>
+<h3>Step 2: Write Terraform Code</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># demo.tf</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;test&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-demo-001&quot;</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+
+<span class="w">  </span><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm.connectivity</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Step 3: Push Branch + Create Pull Request</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/demo.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add demo resource group&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>add-resource-group
+</code></pre></div>
+
+<p>Azure DevOps automatically:<br />
+- Runs <code>terraform validate</code><br />
+- Runs <code>terraform plan</code> (no output file)<br />
+- Shows plan results in PR comments<br />
+- Requires your review before merge</p>
+<h3>Step 4: Review Pull Request</h3>
+<p>You (or your teammate) review:<br />
+- The code changes (files tab)<br />
+- The plan output (what will deploy)<br />
+- Status checks (must pass)</p>
+<p>If good, approve and complete the PR.</p>
+<h3>Step 5: Automatic Build Pipeline</h3>
+<p>When PR merges to <code>main</code>:<br />
+- <code>terraform plan</code> runs again<br />
+- Plan output saved to <code>.tfplan</code> file<br />
+- File archived + published as artifact</p>
+<h3>Step 6: Release Approval Gate</h3>
+<p>Release pipeline waits for your approval:<br />
+- You review the artifact contents<br />
+- You approve deployment (or defer to change window)<br />
+- Only then does <code>terraform apply</code> run</p>
+<h3>Step 7: Deployment</h3>
+<div class="codehilite"><pre><span></span><code>terraform apply -auto-approve -input=false tfplan
+</code></pre></div>
+
+<p>Resource group deploys. You never touched the Azure portal.</p>
+<h2>Architecture Overview</h2>
+<h3>Components</h3>
+<p><strong>Azure Resources (One-Time Setup):</strong><br />
+1. <strong>Storage Account</strong> - Terraform remote state backend<br />
+2. <strong>Key Vault</strong> - Secrets (storage keys, service principal credentials)<br />
+3. <strong>Service Principal</strong> - Azure DevOps identity for deployments</p>
+<p><strong>Azure DevOps (One-Time Setup):</strong><br />
+1. <strong>Service Connection</strong> - Links DevOps to Azure via service principal<br />
+2. <strong>Variable Group</strong> - Links DevOps to Key Vault secrets<br />
+3. <strong>Git Repository</strong> - Stores Terraform code</p>
+<p><strong>Azure DevOps Pipelines:</strong><br />
+1. <strong>Terraform Status Check</strong> (Build) - Runs on PR creation (validate + plan, no artifact)<br />
+2. <strong>Terraform Plan</strong> (Build) - Runs on merge to main (plan + artifact)<br />
+3. <strong>Terraform Apply</strong> (Release) - Runs after approval (applies artifact)</p>
+<p><strong>Branch Policies:</strong><br />
+- Require pull request reviews<br />
+- Automatically trigger status check pipeline<br />
+- Block direct commits to <code>main</code></p>
+<h3>Why Three Pipelines?</h3>
+<p><strong>Status Check Pipeline:</strong><br />
+- Triggers: Pull request created/updated<br />
+- Purpose: Fast feedback - is the code valid? What will it do?<br />
+- Output: Plan displayed in PR, no artifact</p>
+<p><strong>Plan Pipeline:</strong><br />
+- Triggers: Code merged to <code>main</code> branch<br />
+- Purpose: Create deployment artifact from approved code<br />
+- Output: <code>.tfplan</code> file archived as artifact</p>
+<p><strong>Apply Pipeline (Release):</strong><br />
+- Triggers: New artifact from Plan pipeline<br />
+- Purpose: Deploy approved infrastructure<br />
+- Output: Resources in Azure</p>
+<p><strong>Why not one pipeline?</strong> Separation of concerns. Status checks need to be fast (no approval gates). Apply needs to be controlled (approval gates). Plan creates the bridge between them.</p>
+<h2>Prerequisites: What You Need to Set Up Manually</h2>
+<p>These are <strong>one-time manual steps</strong>. Do them once, use them forever.</p>
+<h3>1. Azure Storage Account (Remote State Backend)</h3>
+<p>Terraform state files CANNOT live in Git. Ever. Use Azure Blob Storage.</p>
+<p><strong>Why:</strong><br />
+- State files contain secrets (connection strings, keys, sensitive data)<br />
+- Multiple users need shared state (concurrency control)<br />
+- Automatic locking prevents conflicts</p>
+<p><strong>Setup:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Variables</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;rsg-terraform-state&quot;</span>
+<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="s2">&quot;sttfstate</span><span class="p">$(</span><span class="nb">Get-Random</span> <span class="n">-Maximum</span> <span class="n">9999</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nv">$location</span> <span class="p">=</span> <span class="s2">&quot;northeurope&quot;</span>
+<span class="nv">$containerName</span> <span class="p">=</span> <span class="s2">&quot;terraform-state&quot;</span>
+
+<span class="c"># Create resource group</span>
+<span class="nb">New-AzResourceGroup</span> <span class="n">-Name</span> <span class="nv">$resourceGroup</span> <span class="n">-Location</span> <span class="nv">$location</span>
+
+<span class="c"># Create storage account (LRS = sufficient, enable versioning)</span>
+<span class="nv">$storageParams</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">ResourceGroupName</span> <span class="p">=</span> <span class="nv">$resourceGroup</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="nv">$storageAccount</span>
+    <span class="n">Location</span> <span class="p">=</span> <span class="nv">$location</span>
+    <span class="n">SkuName</span> <span class="p">=</span> <span class="s2">&quot;Standard_LRS&quot;</span>
+    <span class="n">Kind</span> <span class="p">=</span> <span class="s2">&quot;StorageV2&quot;</span>
+    <span class="n">MinimumTlsVersion</span> <span class="p">=</span> <span class="s2">&quot;TLS1_2&quot;</span>
+    <span class="n">AllowBlobPublicAccess</span> <span class="p">=</span> <span class="nv">$false</span>
+    <span class="n">EnableHttpsTrafficOnly</span> <span class="p">=</span> <span class="nv">$true</span>
+<span class="p">}</span>
+<span class="nb">New-AzStorageAccount</span> <span class="nv">@storageParams</span>
+
+<span class="c"># Enable blob versioning (so you can roll back state if needed)</span>
+<span class="nv">$ctx</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="n">-Name</span> <span class="nv">$storageAccount</span><span class="p">).</span><span class="n">Context</span>
+<span class="nb">Enable-AzStorageBlobDeleteRetentionPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-RetentionDays</span> <span class="n">7</span>
+<span class="nb">Enable-AzStorageBlobInventoryPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span>
+
+<span class="c"># Create container</span>
+<span class="nb">New-AzStorageContainer</span> <span class="n">-Name</span> <span class="nv">$containerName</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-Permission</span> <span class="n">Off</span>
+
+<span class="c"># SAVE THESE VALUES - YOU&#39;LL NEED THEM</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Storage Account Name: $storageAccount&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Container Name: $containerName&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Resource Group: $resourceGroup&quot;</span>
+
+<span class="c"># Get access keys (we&#39;ll store these in Key Vault next)</span>
+<span class="nv">$keys</span> <span class="p">=</span> <span class="nb">Get-AzStorageAccountKey</span> <span class="n">-ResourceGroupName</span> <span class="nv">$resourceGroup</span> <span class="n">-Name</span> <span class="nv">$storageAccount</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Key1: </span><span class="p">$(</span><span class="nv">$keys</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Value</span><span class="p">)</span><span class="s2">&quot;</span>  <span class="c"># SAVE THIS</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Key2: </span><span class="p">$(</span><span class="nv">$keys</span><span class="p">[</span><span class="n">1</span><span class="p">].</span><span class="n">Value</span><span class="p">)</span><span class="s2">&quot;</span>  <span class="c"># SAVE THIS</span>
+</code></pre></div>
+
+<p><strong>Important Settings:</strong><br />
+- <strong>Soft delete enabled (7 days)</strong> - Recover corrupted state files<br />
+- <strong>Versioning enabled</strong> - Roll back to previous state versions<br />
+- <strong>TLS 1.2 minimum</strong> - Security baseline<br />
+- <strong>No public blob access</strong> - Private storage only</p>
+<h3>2. Azure Key Vault (Secret Storage)</h3>
+<p>Never put secrets in Git. Never put secrets in Azure DevOps variables. Use Key Vault.</p>
+<p><strong>What Goes in Key Vault:</strong><br />
+- Storage account access keys (key1, key2)<br />
+- Service principal client ID<br />
+- Service principal client secret<br />
+- Service principal tenant ID<br />
+- Service principal object ID (optional, useful for role assignments)</p>
+<p><strong>Setup:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Variables</span>
+<span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-</span><span class="p">$(</span><span class="nb">Get-Random</span> <span class="n">-Maximum</span> <span class="n">9999</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;rsg-terraform-state&quot;</span>  <span class="c"># Same RG as storage</span>
+<span class="nv">$location</span> <span class="p">=</span> <span class="s2">&quot;northeurope&quot;</span>
+
+<span class="c"># Create Key Vault</span>
+<span class="nv">$kvParams</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="nv">$keyVaultName</span>
+    <span class="n">ResourceGroupName</span> <span class="p">=</span> <span class="nv">$resourceGroup</span>
+    <span class="n">Location</span> <span class="p">=</span> <span class="nv">$location</span>
+    <span class="n">Sku</span> <span class="p">=</span> <span class="s2">&quot;Standard&quot;</span>
+    <span class="n">EnablePurgeProtection</span> <span class="p">=</span> <span class="nv">$true</span>
+    <span class="n">EnableSoftDelete</span> <span class="p">=</span> <span class="nv">$true</span>
+    <span class="n">SoftDeleteRetentionInDays</span> <span class="p">=</span> <span class="n">90</span>
+<span class="p">}</span>
+<span class="nb">New-AzKeyVault</span> <span class="nv">@kvParams</span>
+
+<span class="c"># SAVE THIS VALUE</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Key Vault Name: $keyVaultName&quot;</span>
+</code></pre></div>
+
+<p><strong>Key Vault Secrets to Add (Do This After Creating Service Principal):</strong></p>
+<p>We'll add these in the next step, but here's the naming convention:<br />
+- <code>{storage-account-name}-key1</code><br />
+- <code>{storage-account-name}-key2</code><br />
+- <code>{service-principal-name}-client-id</code><br />
+- <code>{service-principal-name}-client-secret</code><br />
+- <code>{service-principal-name}-tenant-id</code><br />
+- <code>{service-principal-name}-object-id</code></p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># After you have the storage account key</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234-key1&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;YOUR-KEY-HERE&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3. Service Principal (Azure DevOps Identity)</h3>
+<p>Azure DevOps needs a service principal to authenticate to Azure and deploy resources.</p>
+<p><strong>Why Service Principal (Not Managed Identity):</strong><br />
+- Azure DevOps hosted agents don't support managed identities yet<br />
+- Service principals work across subscriptions<br />
+- Explicit credential rotation policy</p>
+<p><strong>Setup:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Create service principal</span>
+<span class="nv">$spName</span> <span class="p">=</span> <span class="s2">&quot;sp-terraform-devops&quot;</span>
+<span class="nv">$sp</span> <span class="p">=</span> <span class="nb">New-AzADServicePrincipal</span> <span class="n">-DisplayName</span> <span class="nv">$spName</span> <span class="n">-Role</span> <span class="s2">&quot;Owner&quot;</span> <span class="n">-Scope</span> <span class="s2">&quot;/subscriptions/YOUR-SUBSCRIPTION-ID&quot;</span>
+
+<span class="c"># SAVE THESE VALUES IMMEDIATELY - SECRET ONLY SHOWS ONCE</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Application (Client) ID: </span><span class="p">$(</span><span class="nv">$sp</span><span class="p">.</span><span class="n">AppId</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Tenant ID: </span><span class="p">$((</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Object ID: </span><span class="p">$(</span><span class="nv">$sp</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Client Secret: </span><span class="p">$(</span><span class="nv">$sp</span><span class="p">.</span><span class="n">PasswordCredentials</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">&quot;</span>  <span class="c"># SAVE THIS NOW</span>
+</code></pre></div>
+
+<p><strong>Permissions:</strong><br />
+- <strong>Owner</strong> on subscription (or management group if multi-subscription)<br />
+- Why Owner? Terraform needs to assign Azure roles (Contributor isn't enough)</p>
+<p><strong>Alternative (More Secure):</strong><br />
+If your org restricts Owner, use <strong>Contributor + User Access Administrator</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Assign Contributor</span>
+<span class="nb">New-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="nv">$sp</span><span class="p">.</span><span class="n">Id</span> <span class="n">-RoleDefinitionName</span> <span class="s2">&quot;Contributor&quot;</span> <span class="n">-Scope</span> <span class="s2">&quot;/subscriptions/YOUR-SUB-ID&quot;</span>
+
+<span class="c"># Assign User Access Administrator (for role assignments)</span>
+<span class="nb">New-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="nv">$sp</span><span class="p">.</span><span class="n">Id</span> <span class="n">-RoleDefinitionName</span> <span class="s2">&quot;User Access Administrator&quot;</span> <span class="n">-Scope</span> <span class="s2">&quot;/subscriptions/YOUR-SUB-ID&quot;</span>
+</code></pre></div>
+
+<h3>4. Add Secrets to Key Vault</h3>
+<p>Now that you have storage keys and service principal credentials, store them:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>  <span class="c"># Your Key Vault name</span>
+
+<span class="c"># Storage account secrets</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234-key1&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;STORAGE-KEY-1&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234-key2&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;STORAGE-KEY-2&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+
+<span class="c"># Service principal secrets</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sp-terraform-devops-client-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;CLIENT-ID-GUID&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sp-terraform-devops-client-secret&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;SECRET-VALUE&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sp-terraform-devops-tenant-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;TENANT-ID-GUID&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="s2">&quot;sp-terraform-devops-object-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;OBJECT-ID-GUID&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+
+<span class="c"># Optional: Set expiration on the client secret to match your rotation policy</span>
+<span class="nv">$secretName</span> <span class="p">=</span> <span class="s2">&quot;sp-terraform-devops-client-secret&quot;</span>
+<span class="nv">$expirationDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>  <span class="c"># 1 year from now</span>
+<span class="nb">Update-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-Name</span> <span class="nv">$secretName</span> <span class="n">-Expires</span> <span class="nv">$expirationDate</span>
+</code></pre></div>
+
+<p><strong>Pro Tip:</strong> Use consistent naming. I use <code>{resource-name}-{secret-type}</code> so it's obvious what each secret is for.</p>
+<h3>5. Grant Service Principal Access to Key Vault</h3>
+<p>The service principal needs to READ secrets from Key Vault (so Azure DevOps can retrieve them at runtime).</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
+<span class="nv">$spObjectId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-OBJECT-ID&quot;</span>  <span class="c"># From step 3</span>
+
+<span class="c"># Grant Get and List permissions on secrets</span>
+<span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-ObjectId</span> <span class="nv">$spObjectId</span> <span class="n">-PermissionsToSecrets</span> <span class="n">Get</span><span class="p">,</span><span class="n">List</span>
+
+<span class="c"># Verify</span>
+<span class="nb">Get-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span>
+</code></pre></div>
+
+<p><strong>Why only Get and List?</strong> Principle of least privilege. The service principal doesn't need to create, update, or delete secrets.</p>
+<h2>Azure DevOps Setup</h2>
+<h3>1. Create Azure DevOps Project</h3>
+<p>If you don't have one:<br />
+1. Go to <code>dev.azure.com</code><br />
+2. Create organization (free for up to 5 users)<br />
+3. Create new project<br />
+4. Initialize Git repo with <code>.gitignore</code> for Terraform</p>
+<p><strong>Important:</strong> When initializing the repo, select <strong>Terraform</strong> from the .gitignore template dropdown. This prevents accidentally committing <code>.tfstate</code>, <code>.tfvars</code>, and <code>.tfplan</code> files.</p>
+<h3>2. Create Service Connection</h3>
+<p>This links Azure DevOps to your Azure subscription using the service principal.</p>
+<p><strong>Steps:</strong><br />
+1. Go to <strong>Project Settings</strong> (bottom-left gear icon)<br />
+2. Click <strong>Service connections</strong> (under Pipelines)<br />
+3. Click <strong>New service connection</strong><br />
+4. Select <strong>Azure Resource Manager</strong><br />
+5. Select <strong>Service principal (manual)</strong></p>
+<p><strong>Fill in the form:</strong><br />
+- <strong>Subscription ID:</strong> Your Azure subscription ID<br />
+- <strong>Subscription Name:</strong> Friendly name<br />
+- <strong>Service Principal ID:</strong> The <strong>Application (Client) ID</strong> from step 3<br />
+- <strong>Service Principal Key:</strong> The <strong>Client Secret</strong> from step 3 (you saved it, right?)<br />
+- <strong>Tenant ID:</strong> Your Azure AD tenant ID<br />
+- <strong>Service connection name:</strong> <code>terraform-azure-connection</code> (use this exact name, or update pipeline YAML later)</p>
+<p><strong>Grant Access:</strong><br />
+- Check the box: <strong>Grant access permission to all pipelines</strong></p>
+<p>Click <strong>Verify</strong> to test the connection. If it fails, double-check your service principal credentials.</p>
+<h3>3. Create Variable Group (Linked to Key Vault)</h3>
+<p>This is where the magic happens - Azure DevOps can dynamically pull secrets from Key Vault at pipeline runtime.</p>
+<p><strong>Steps:</strong><br />
+1. Go to <strong>Pipelines &gt; Library</strong><br />
+2. Click <strong>+ Variable group</strong><br />
+3. Name it: <code>terraform-keyvault-secrets</code> (or match your Key Vault name for clarity)<br />
+4. Toggle on: <strong>Link secrets from an Azure key vault as variables</strong><br />
+5. Select your service connection: <code>terraform-azure-connection</code><br />
+6. Select your Key Vault: <code>kv-tfstate-1234</code><br />
+7. Click <strong>+ Add</strong> and select ALL the secrets you created:<br />
+   - <code>sttfstate1234-key1</code><br />
+   - <code>sttfstate1234-key2</code><br />
+   - <code>sp-terraform-devops-client-id</code><br />
+   - <code>sp-terraform-devops-client-secret</code><br />
+   - <code>sp-terraform-devops-tenant-id</code><br />
+   - <code>sp-terraform-devops-object-id</code></p>
+<p><strong>Grant Access:</strong><br />
+- Check: <strong>Allow access to all pipelines</strong></p>
+<p>Click <strong>Save</strong>.</p>
+<p><strong>What This Does:</strong><br />
+- At pipeline runtime, Azure DevOps authenticates to Key Vault using the service principal<br />
+- It retrieves the secret VALUES (but they're masked in logs)<br />
+- Pipeline tasks can reference these as variables: <code>$(sttfstate1234-key1)</code></p>
+<p><strong>Security Note:</strong> The secret values are NEVER displayed in logs. Azure DevOps automatically masks them.</p>
+<h2>Terraform Configuration Files</h2>
+<p>Before we build pipelines, we need Terraform configuration files in the Git repo.</p>
+<h3>1. Create <code>/terraform</code> Folder</h3>
+<p>All Terraform code lives here. Keep it separate from pipeline YAML (if you later decide to add YAML).</p>
+<div class="codehilite"><pre><span></span><code><span class="n">repo</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">providers</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">main</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">your</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">resources</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">.</span><span class="n">gitignore</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</code></pre></div>
+
+<h3>2. <code>providers.tf</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.5.0&quot;</span>
+
+<span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azurerm&quot;</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.80.0&quot;</span><span class="c1">  # Use latest stable</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="na">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.subscription_id</span>
+<span class="w">  </span><span class="na">client_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_client_id</span>
+<span class="w">  </span><span class="na">client_secret</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_client_secret</span>
+<span class="w">  </span><span class="na">tenant_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_tenant_id</span>
+<span class="p">}</span>
+
+<span class="c1"># Optional: Multiple subscription support</span>
+<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">alias</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;connectivity&quot;</span>
+<span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="na">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;YOUR-CONNECTIVITY-SUB-ID&quot;</span>
+<span class="w">  </span><span class="na">client_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_client_id</span>
+<span class="w">  </span><span class="na">client_secret</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_client_secret</span>
+<span class="w">  </span><span class="na">tenant_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spn_tenant_id</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Why Variables Here?</strong> We're NOT hardcoding credentials. Azure DevOps will inject these at runtime from Key Vault.</p>
+<h3>3. <code>backend.tf</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-terraform-state&quot;</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstate1234&quot;</span><span class="c1">  # YOUR storage account name</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform-state&quot;</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform.tfstate&quot;</span>
+<span class="c1">    # access_key is intentionally missing - injected at runtime</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Why No Access Key?</strong> We'll pass it via environment variable in the pipeline:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">ARM_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span>
+terraform<span class="w"> </span>init
+</code></pre></div>
+
+<p>This keeps the key out of Git forever.</p>
+<h3>4. <code>variables.tf</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;subscription_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure subscription ID&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_client_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Service principal client ID&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_client_secret&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Service principal client secret&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_tenant_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure AD tenant ID&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The <code>sensitive</code> Flag:</strong> Prevents Terraform from logging these values in plan output.</p>
+<h3>5. Commit to Git</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add Terraform configuration files&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</code></pre></div>
+
+<h2>What's Next?</h2>
+<p>Part 2 covers:<br />
+- Creating the <strong>Terraform Status Check</strong> pipeline (runs on PRs)<br />
+- Creating the <strong>Terraform Plan</strong> pipeline (runs on merge)<br />
+- Configuring task steps (init, validate, plan, archive artifact)<br />
+- Linking variable groups to pipelines</p>
+<h2>Key Takeaways</h2>
+<ol>
+<li><strong>One-time manual setup</strong> - Storage account, Key Vault, service principal</li>
+<li><strong>Secrets in Key Vault only</strong> - Never in Git, never in DevOps variables</li>
+<li><strong>Service connection bridges Azure DevOps to Azure</strong> - Uses service principal</li>
+<li><strong>Variable groups pull secrets at runtime</strong> - Dynamic, secure, auditable</li>
+<li><strong>Three pipelines serve different purposes</strong> - Status check, plan, apply</li>
+</ol>
+<p>This foundation enables secure, auditable, team-friendly infrastructure deployments. No more cowboy <code>terraform apply</code> from laptops.</p>
+<hr />
+<p><strong>Next:</strong> <a href="/blog/terraform-azure-devops-cicd-part2-build-pipelines/">Part 2 - Build Pipelines (Status Check &amp; Terraform Plan)</a></p>
+<p><em>All code and pipeline configurations from this series are available in my <a href="https://github.com/dswann101164">GitHub repo</a>.</em></p>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="terraform-azure-devops-cicd-part5-production-best-practices" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp; Multi-Environment Setup</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-07</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="terraform-azure-devops-cicd-part4-branch-policies" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp; Pull Request Automation</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-06</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="terraform-azure-devops-cicd-part3-release-pipeline" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp; Approval Gates</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-05</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="terraform-azure-devops-cicd-series-index">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Enterprise-Grade Terraform CI/CD in Azure DevOps - Complete Series</strong>
+      </a>
+    
+    
+      <a href="powershell-7-enterprise-migration" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>The Azure Admin&#39;s Guide: PowerShell 5.1 vs. 7 &amp; The End of the ISE</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="../rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="../static/copy-code.js"></script>
+</body>
+</html>
