@@ -14,6 +14,8 @@ app.config["FREEZER_BASE_URL"] = BASE_URL
 app.config["FREEZER_IGNORE_MIMETYPE_WARNINGS"] = True
 app.config["FREEZER_REMOVE_EXTRA_FILES"] = False
 app.config["FREEZER_RELATIVE_URLS"] = True
+app.config["FREEZER_DESTINATION_IGNORE"] = ['.git*']
+app.config["FREEZER_STATIC_IGNORE"] = []
 
 freezer = Freezer(app)
 
@@ -182,6 +184,84 @@ def remove_trailing_slashes_from_sitemap():
     
     log(f"✓ Removed trailing slashes from sitemap ({original_count} URLs processed)")
 
+def normalize_generated_html_files():
+    """Move extensionless HTML files into folders with `index.html`.
+    GitHub Pages (and many static hosts) serve `index.html` inside a
+    directory. Flask-Frozen sometimes writes files without a .html
+    extension; this function converts those into `dir/index.html` so
+    the site behaves as expected.
+    """
+    import io
+
+    moved = 0
+    for root, dirs, files in os.walk(DEST):
+        for name in files:
+            # Skip known special files
+            if name.startswith('.') or name in ('CNAME', 'search.json', 'sitemap.xml'):
+                continue
+
+            src_path = os.path.join(root, name)
+            # If file has an extension, skip
+            if os.path.splitext(name)[1]:
+                continue
+
+            # Read a small prefix to check if it's HTML
+            try:
+                with open(src_path, 'r', encoding='utf-8') as f:
+                    prefix = f.read(256)
+            except Exception:
+                continue
+
+            if '<!doctype html' in prefix.lower() or '<html' in prefix.lower():
+                dest_dir = os.path.join(root, name)
+                dest_file = os.path.join(dest_dir, 'index.html')
+
+                try:
+                    # If a file exists at the target dir path, move it aside first
+                    if os.path.exists(dest_dir) and os.path.isfile(dest_dir):
+                        # Rename the existing file to a temporary path so we can create the directory
+                        tmp_path = dest_dir + '.tmp'
+                        try:
+                            os.replace(dest_dir, tmp_path)
+                        except Exception:
+                            # If replace fails, skip this file
+                            continue
+
+                        # Now create the directory and move the temp file into index.html
+                        try:
+                            os.makedirs(dest_dir, exist_ok=True)
+                            os.replace(tmp_path, dest_file)
+                            moved += 1
+                            # If the current src_path equals dest_dir (we just moved it), skip further handling
+                            continue
+                        except Exception:
+                            # Attempt to recover by moving temp back
+                            try:
+                                if os.path.exists(tmp_path) and not os.path.exists(dest_dir):
+                                    os.replace(tmp_path, dest_dir)
+                            except Exception:
+                                pass
+                            continue
+
+                    # Normal case: create directory and move the file into index.html
+                    os.makedirs(dest_dir, exist_ok=True)
+                    try:
+                        shutil.move(src_path, dest_file)
+                        moved += 1
+                    except Exception:
+                        # Fallback: copy+remove
+                        try:
+                            with open(src_path, 'rb') as fsrc, open(dest_file, 'wb') as fdst:
+                                fdst.write(fsrc.read())
+                            os.remove(src_path)
+                            moved += 1
+                        except Exception:
+                            continue
+                except Exception:
+                    continue
+
+    log(f"✓ Normalized {moved} extensionless HTML files into directories")
+
 # ---- Entrypoint ----
 if __name__ == "__main__":
     try:
@@ -193,6 +273,8 @@ if __name__ == "__main__":
         write_sitemap()
         log("Cleaning trailing slashes from sitemap…")
         remove_trailing_slashes_from_sitemap()
+        log("Normalizing generated HTML files for static hosting…")
+        normalize_generated_html_files()
         log("✓ Done! Site frozen to docs/")
         log(f"✓ All URLs standardized (NO trailing slashes)")
     except Exception:
