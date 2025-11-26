@@ -13,7 +13,11 @@ app.config["FREEZER_DESTINATION"] = DEST
 app.config["FREEZER_BASE_URL"] = BASE_URL
 app.config["FREEZER_IGNORE_MIMETYPE_WARNINGS"] = True
 app.config["FREEZER_REMOVE_EXTRA_FILES"] = False
-app.config["FREEZER_RELATIVE_URLS"] = True
+# Use absolute root-relative URLs for static assets so pages under
+# nested paths (e.g. /blog/<slug>/) reference `/static/...` instead
+# of filesystem-relative paths like "../static/..." which break on
+# some static hosts and in-browser asset resolution.
+app.config["FREEZER_RELATIVE_URLS"] = False
 app.config["FREEZER_DESTINATION_IGNORE"] = ['.git*']
 app.config["FREEZER_STATIC_IGNORE"] = []
 
