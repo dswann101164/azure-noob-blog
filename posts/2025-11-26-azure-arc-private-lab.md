@@ -41,7 +41,7 @@ A complete Arc lab environment deployed in Azure that simulates on-premises infr
 
 The architecture looks like this:
 
-![Azure Arc Private Lab Architecture](/static/images/hero/azure-arc-private-lab.png)
+![Azure Arc Private Lab Architecture](/static/images/hero/azure-arc-diagram.png)
 
 **What this demonstrates:**
 - How Arc actually works in regulated environments
