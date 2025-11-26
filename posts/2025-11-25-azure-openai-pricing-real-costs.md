@@ -3,7 +3,7 @@ title: "I Spent $500 Testing Azure OpenAI So You Don't Have To: The Real Costs M
 date: 2025-11-25
 summary: "Microsoft's pricing calculator shows token costs. It doesn't show the hosting fees, PTU confusion, and hidden infrastructure charges that turn a $50 pilot into a $2,000 monthly bill. Here's what actually happens when you deploy Azure OpenAI at scale."
 tags: ["Azure", "OpenAI", "FinOps", "Cost Management", "AI"]
-cover: "/static/images/hero/azure-openai-pricing-real-costs.png"
+cover: "/static/images/hero/azure-arc-diagram.png"
 ---
 
 **Azure OpenAI pricing looks simple until you get your first bill.**
