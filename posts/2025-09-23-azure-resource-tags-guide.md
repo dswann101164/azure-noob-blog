@@ -1,8 +1,9 @@
 ---
-title: "Azure Resource Tagging Best Practices | Enterprise Tag Strategy for Cost Allocation"
+title: "Azure Tagging Best Practices: Complete Enterprise Tag Strategy (2025)"
 date: 2025-09-23
-summary: "Enterprise Azure tagging best practices for cost allocation and governance. Why basic tagging fails at scale, required vs optional tags, and the Type tag that saves operations teams."
-tags: ["Azure", "Tags", "Best Practices", "FinOps", "Cost Management"]
+modified: 2025-11-29
+summary: "Azure tagging best practices for enterprise cost allocation and governance. Required vs optional tags, naming conventions, policy enforcement, and the Type tag that saves operations teams. Includes downloadable tag strategy template."
+tags: ["Azure", "Tags", "Best Practices", "FinOps", "Cost Management", "Governance", "Policy", "Tag Strategy"]
 cover: "/static/images/hero/azure-resource-tags.png"
 ---
 
