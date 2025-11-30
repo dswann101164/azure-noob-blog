@@ -40,6 +40,12 @@ def handle_trailing_slashes_and_redirects():
     
     return None
 
+def get_canonical_url():
+    """Generate canonical URL for current request."""
+    site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
+    path = request.path.rstrip('/') if request.path != '/' else request.path
+    return f"{site_url}{path}"
+
 def coerce_date(value, default_dt):
     """Convert various date formats to datetime object."""
     if isinstance(value, datetime):
@@ -195,12 +201,20 @@ def generate_meta_description(summary, content, max_length=160):
 @app.route('/')
 def index():
     posts = load_posts()
-    return render_template('index.html', posts=posts[:5])  # Show latest 5 posts
+    return render_template('index.html', 
+                         posts=posts[:5],
+                         canonical_url=get_canonical_url(),
+                         page_title='Azure Noob - Azure Cloud Tutorials & Guides',
+                         meta_description='Learn Azure from a fellow noob. Practical tutorials, real-world scenarios, and honest takes on Azure cloud architecture.')
 
 @app.route('/blog/')
 def blog_index():
     posts = load_posts()
-    return render_template('blog_index.html', posts=posts)
+    return render_template('blog_index.html', 
+                         posts=posts,
+                         canonical_url=get_canonical_url(),
+                         page_title='Blog - Azure Noob',
+                         meta_description='All Azure tutorials and guides from Azure Noob.')
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
@@ -299,17 +313,34 @@ def tags_index():
         tag_posts[tag] = [p for p in posts if tag in p['tags']]
         tags_with_counts.append((tag, len(tag_posts[tag])))
 
-    return render_template('tags_index.html', tags=tags_with_counts, tag_posts=tag_posts)
+    return render_template('tags_index.html', 
+                         tags=tags_with_counts, 
+                         tag_posts=tag_posts,
+                         canonical_url=get_canonical_url(),
+                         page_title='Tags - Azure Noob',
+                         meta_description='Browse Azure tutorials by tag.')
 
 @app.route('/tags/<tag>')
 def tag_posts(tag):
     posts = load_posts()
     tagged_posts = [p for p in posts if tag in p['tags']]
-    return render_template('tags.html', tag=tag, posts=tagged_posts)
+    
+    site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
+    canonical_url = f"{site_url}{url_for('tag_posts', tag=tag)}"
+    
+    return render_template('tags.html', 
+                         tag=tag, 
+                         posts=tagged_posts,
+                         canonical_url=canonical_url,
+                         page_title=f'{tag} - Azure Noob',
+                         meta_description=f'Azure tutorials and guides about {tag}.')
 
 @app.route('/search')
 def search():
-    return render_template('search.html')
+    return render_template('search.html',
+                         canonical_url=get_canonical_url(),
+                         page_title='Search - Azure Noob',
+                         meta_description='Search Azure Noob tutorials and guides.')
 
 @app.route('/search.json')
 def search_json():
@@ -332,17 +363,27 @@ def search_json():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html',
+                         canonical_url=get_canonical_url(),
+                         page_title='About - Azure Noob',
+                         meta_description='About Azure Noob and David Swann.')
 
 @app.route('/start-here')
 def start_here():
-    return render_template('start_here.html')
+    return render_template('start_here.html',
+                         canonical_url=get_canonical_url(),
+                         page_title='Start Here - Azure Noob',
+                         meta_description='New to Azure Noob? Start here for the best Azure tutorials.')
 
 @app.route('/hubs/')
 def hubs_index():
     """List all content hubs."""
     hubs = get_all_hubs()
-    return render_template('hubs_index.html', hubs=hubs)
+    return render_template('hubs_index.html', 
+                         hubs=hubs,
+                         canonical_url=get_canonical_url(),
+                         page_title='Content Hubs - Azure Noob',
+                         meta_description='Curated Azure learning paths and content hubs.')
 
 @app.route('/hub/<slug>')
 def hub_page(slug):
@@ -376,10 +417,16 @@ def hub_page(slug):
     section_slugs = [slug for section in hub_config['sections'] for slug in section['posts']]
     additional_posts = [p for p in related_posts if p['slug'] not in section_slugs][:5]
     
+    site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
+    canonical_url = f"{site_url}{url_for('hub_page', slug=slug)}"
+    
     return render_template('hub.html',
                          hub=hub_config,
                          sections=sections_with_posts,
-                         additional_posts=additional_posts)
+                         additional_posts=additional_posts,
+                         canonical_url=canonical_url,
+                         page_title=f"{hub_config['title']} - Azure Noob",
+                         meta_description=hub_config.get('description', ''))
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
