@@ -1,8 +1,9 @@
 ---
-title: "The Application Migration Checklist Nobody Gave You (And Why Your Migrations Keep Failing)"
+title: "Azure Migration Checklist: 8 Critical Questions Before You Migrate"
 date: 2025-11-14
-summary: "Microsoft's migration docs won't tell you this: 80% of migration failures happen because you didn't ask these 8 questions BEFORE you started. Here's the checklist that actually works in enterprise environments."
-tags: ["Azure", "Migration", "Operations", "Enterprise"]
+modified: 2025-11-29
+summary: "Complete Azure migration checklist: 80% of migration failures happen because you didn't ask these 8 questions BEFORE starting. License keys, vendor contacts, firewall rules, certificates - the enterprise migration checklist that actually works."
+tags: ["Azure", "Migration", "Operations", "Enterprise", "Checklist", "Cloud Migration", "Planning"]
 cover: "/static/images/hero/application-migration-checklist.png"
 ---
 

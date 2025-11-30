@@ -1,8 +1,9 @@
 ---
-title: "I Spent $500 Testing Azure OpenAI So You Don't Have To: The Real Costs Microsoft Doesn't Show"
+title: "Azure OpenAI Pricing 2025: Real Costs After Spending $500 on Testing"
 date: 2025-11-25
-summary: "Microsoft's pricing calculator shows token costs. It doesn't show the hosting fees, PTU confusion, and hidden infrastructure charges that turn a $50 pilot into a $2,000 monthly bill. Here's what actually happens when you deploy Azure OpenAI at scale."
-tags: ["Azure", "OpenAI", "FinOps", "Cost Management", "AI"]
+modified: 2025-11-29
+summary: "Real Azure OpenAI pricing breakdown: GPT-4 costs $0.03/1K tokens but hidden hosting fees ($1,224/month), PTU pricing, and infrastructure charges turn $50 pilots into $2,000 monthly bills. Actual cost data from testing across 44 Azure subscriptions."
+tags: ["Azure", "OpenAI", "FinOps", "Cost Management", "AI", "GPT-4", "Pricing", "Azure AI"]
 cover: "/static/images/hero/azure-openai-pricing-real-costs.png"
 ---
 
