@@ -135,8 +135,8 @@
   },
   "keywords": "Azure, Tags, Governance, FinOps, Cost Management, Policy, Enterprise Reality",
   "articleSection": "Azure",
-  "wordCount": "4434",
-  "timeRequired": "PT22M",
+  "wordCount": "5773",
+  "timeRequired": "PT29M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "about": {
@@ -190,7 +190,7 @@
   <header class="post-header">
     <h1>The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations</h1>
     <p class="muted">
-      2025-11-30 · ~22 min read
+      2025-11-30 · ~29 min read
       
     </p>
     
@@ -547,6 +547,118 @@ Workstation, workstation, Dev Workstation
 <li><code>MaintenanceWindow</code> - When can we patch this?</li>
 </ul>
 <p><strong>Why optional?</strong> Not every resource needs these. Don't block deployments for metadata that's not critical.</p>
+<hr />
+<h2>Before You Fix Governance: The Survival Query</h2>
+<p><strong>If you haven't implemented tag governance yet, here's how to survive in the meantime.</strong></p>
+<p>This is the query I used while waiting for leadership approval to implement tag governance. It handles all the case variations using <code>coalesce()</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">code</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c">// Extract OS version information</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">exactVersion</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osSku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">sku</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osOffer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osPublisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersionDisplay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="n">osPublisher</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osOffer</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osSku</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">Resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networkinterfaces&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">privateIp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">privateIp</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">nicId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">nicId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ResourceContainers</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ipAddress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">powerState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;PowerState/running&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">privateIp</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;N/A&#39;</span><span class="p">)</span>
+<span class="c">// Extract specific tags (handles case variations)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">APPLICATION</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OWNER</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">ENVIRONMENT</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">id</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">name</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">subscriptionName</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">location</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">osType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osVersionDisplay</span><span class="p">,</span>
+<span class="w">    </span><span class="n">powerState</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">createdTime</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">ipAddress</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Application</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Owner</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Type</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Environment</span>
+</code></pre></div>
+
+<h3>What This Query Does</h3>
+<p><strong>The critical lines are these:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">APPLICATION</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OWNER</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">ENVIRONMENT</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>What <code>coalesce()</code> does:</strong><br />
+1. Try <code>tags.Application</code> (Title Case)<br />
+2. If not found, try <code>tags.application</code> (lowercase)<br />
+3. If not found, try <code>tags.APPLICATION</code> (UPPERCASE)<br />
+4. If none exist, return <code>'Not Tagged'</code></p>
+<p><strong>This handles:</strong><br />
+- "Application", "application", "APPLICATION" - all three case variations<br />
+- "Owner", "owner", "OWNER" - all three case variations<br />
+- "Environment", "environment", "ENVIRONMENT" - all three case variations<br />
+- Missing tags - shows "Not Tagged" instead of blank cells</p>
+<h3>Why This Is a Band-Aid, Not a Fix</h3>
+<p><strong>The problem with this approach:</strong></p>
+<p>Every time someone invents a NEW variation, you need to update the query:<br />
+- Someone uses "app" instead of "Application"? Update the query.<br />
+- Someone uses "Env" instead of "Environment"? Update the query.<br />
+- Someone uses "Own" instead of "Owner"? Update the query.</p>
+<p><strong>I was updating this query every 2-3 weeks</strong> as people found creative new ways to spell tags.</p>
+<p><strong>The real problem:</strong><br />
+- Your query gets longer and longer<br />
+- You're fighting symptoms, not the disease<br />
+- Finance still gets inconsistent reports<br />
+- New variations appear faster than you can add them</p>
+<h3>What Tag Governance Does Instead</h3>
+<p>With tag governance policies in place, this query becomes:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>No <code>coalesce()</code>. No workarounds. No variations.</strong></p>
+<p>Because Azure Policy enforces exact case and format BEFORE deployment.</p>
+<p><strong>Developer tries to deploy with "application" (lowercase)?</strong></p>
+<div class="codehilite"><pre><span></span><code>Deployment denied.
+Tag &#39;Application&#39; not found.
+Valid tags must use Title Case.
+</code></pre></div>
+
+<p><strong>They fix it. Deploy succeeds. Your query works. Forever.</strong></p>
+<h3>Use This Query While You Wait</h3>
+<p><strong>If you can't implement tag governance immediately:</strong></p>
+<ol>
+<li><strong>Save this query</strong> - Bookmark it in Azure Resource Graph Explorer</li>
+<li><strong>Use it for reports</strong> - Better than nothing</li>
+<li><strong>Share the pain</strong> - Show leadership how many <code>coalesce()</code> calls you need</li>
+<li><strong>Build the business case</strong> - "We're spending 6 hours/month working around tag chaos"</li>
+</ol>
+<p><strong>But understand:</strong> This is a temporary survival tactic, not a long-term solution.</p>
+<p><strong>Tag governance eliminates the need for this workaround entirely.</strong></p>
 <hr />
 <h2>The Deployment Plan</h2>
 <h3>Week 1: Audit Phase</h3>

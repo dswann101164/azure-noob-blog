@@ -403,6 +403,144 @@ I created a three-tier tag governance system with Azure Policy enforcement.
 
 ---
 
+## Before You Fix Governance: The Survival Query
+
+**If you haven't implemented tag governance yet, here's how to survive in the meantime.**
+
+This is the query I used while waiting for leadership approval to implement tag governance. It handles all the case variations using `coalesce()`:
+
+```kql
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| extend vmSize = tostring(properties.hardwareProfile.vmSize)
+| extend osType = tostring(properties.storageProfile.osDisk.osType)
+| extend powerState = tostring(properties.extended.instanceView.powerState.code)
+| extend createdTime = tostring(properties.timeCreated)
+| extend nicId = tostring(properties.networkProfile.networkInterfaces[0].id)
+// Extract OS version information
+| extend osVersion = tostring(properties.storageProfile.imageReference.exactVersion)
+| extend osSku = tostring(properties.storageProfile.imageReference.sku)
+| extend osOffer = tostring(properties.storageProfile.imageReference.offer)
+| extend osPublisher = tostring(properties.storageProfile.imageReference.publisher)
+| extend osVersionDisplay = strcat(osPublisher, ' ', osOffer, ' ', osSku)
+| join kind=leftouter (
+    Resources
+    | where type =~ 'microsoft.network/networkinterfaces'
+    | extend privateIp = tostring(properties.ipConfigurations[0].properties.privateIPAddress)
+    | project nicId = id, privateIp
+) on $left.nicId == $right.nicId
+| join kind=leftouter (
+    ResourceContainers
+    | where type == 'microsoft.resources/subscriptions'
+    | project subscriptionId, subscriptionName = name
+) on subscriptionId
+| extend ipAddress = iff(powerState == 'PowerState/running', privateIp, 'N/A')
+// Extract specific tags (handles case variations)
+| extend Application = coalesce(tags.Application, tags.application, tags.APPLICATION, 'Not Tagged')
+| extend Owner = coalesce(tags.Owner, tags.owner, tags.OWNER, 'Not Tagged')
+| extend Type = coalesce(tags.Type, tags.type, tags.TYPE, 'Not Tagged')
+| extend Environment = coalesce(tags.Environment, tags.environment, tags.ENVIRONMENT, 'Not Tagged')
+| project 
+    id, 
+    name, 
+    subscriptionId, 
+    subscriptionName, 
+    resourceGroup, 
+    location, 
+    vmSize, 
+    osType,
+    osVersionDisplay,
+    powerState, 
+    createdTime, 
+    ipAddress,
+    Application,
+    Owner,
+    Type,
+    Environment
+```
+
+### What This Query Does
+
+**The critical lines are these:**
+
+```kql
+| extend Application = coalesce(tags.Application, tags.application, tags.APPLICATION, 'Not Tagged')
+| extend Owner = coalesce(tags.Owner, tags.owner, tags.OWNER, 'Not Tagged')
+| extend Type = coalesce(tags.Type, tags.type, tags.TYPE, 'Not Tagged')
+| extend Environment = coalesce(tags.Environment, tags.environment, tags.ENVIRONMENT, 'Not Tagged')
+```
+
+**What `coalesce()` does:**
+1. Try `tags.Application` (Title Case)
+2. If not found, try `tags.application` (lowercase)
+3. If not found, try `tags.APPLICATION` (UPPERCASE)
+4. If none exist, return `'Not Tagged'`
+
+**This handles:**
+- "Application", "application", "APPLICATION" - all three case variations
+- "Owner", "owner", "OWNER" - all three case variations  
+- "Environment", "environment", "ENVIRONMENT" - all three case variations
+- Missing tags - shows "Not Tagged" instead of blank cells
+
+### Why This Is a Band-Aid, Not a Fix
+
+**The problem with this approach:**
+
+Every time someone invents a NEW variation, you need to update the query:
+- Someone uses "app" instead of "Application"? Update the query.
+- Someone uses "Env" instead of "Environment"? Update the query.
+- Someone uses "Own" instead of "Owner"? Update the query.
+
+**I was updating this query every 2-3 weeks** as people found creative new ways to spell tags.
+
+**The real problem:**
+- Your query gets longer and longer
+- You're fighting symptoms, not the disease
+- Finance still gets inconsistent reports
+- New variations appear faster than you can add them
+
+### What Tag Governance Does Instead
+
+With tag governance policies in place, this query becomes:
+
+```kql
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| extend Application = tostring(tags.Application)
+| extend Owner = tostring(tags.Owner)
+| extend Type = tostring(tags.Type)
+| extend Environment = tostring(tags.Environment)
+```
+
+**No `coalesce()`. No workarounds. No variations.**
+
+Because Azure Policy enforces exact case and format BEFORE deployment.
+
+**Developer tries to deploy with "application" (lowercase)?**
+
+```
+Deployment denied.
+Tag 'Application' not found.
+Valid tags must use Title Case.
+```
+
+**They fix it. Deploy succeeds. Your query works. Forever.**
+
+### Use This Query While You Wait
+
+**If you can't implement tag governance immediately:**
+
+1. **Save this query** - Bookmark it in Azure Resource Graph Explorer
+2. **Use it for reports** - Better than nothing
+3. **Share the pain** - Show leadership how many `coalesce()` calls you need
+4. **Build the business case** - "We're spending 6 hours/month working around tag chaos"
+
+**But understand:** This is a temporary survival tactic, not a long-term solution.
+
+**Tag governance eliminates the need for this workaround entirely.**
+
+---
+
 ## The Deployment Plan
 
 ### Week 1: Audit Phase
