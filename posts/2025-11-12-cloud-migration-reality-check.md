@@ -1,8 +1,9 @@
 ---
-title: "The Spreadsheet I Wish I Had in 2019: Before You Migrate Anything to Azure"
+title: "Azure Cloud Migration Strategy: The Pre-Migration Checklist That Saves Millions"
 date: 2025-11-12
-summary: "In 2019, leadership said 'we're going to the cloud.' Nobody asked how many applications we had. That one question would have saved millions. Here's the spreadsheet that forces the conversation before you start migrating."
-tags: ["Azure", "Cloud Migration", "Governance", "Enterprise Reality", "CAF"]
+modified: 2025-11-29
+summary: "Before migrating to Azure: Do you know how many applications you have? This enterprise cloud migration checklist (with downloadable spreadsheet) prevents the costly mistakes most Azure migrations make. Real lessons from a 2019 migration project."
+tags: ["Azure", "Cloud Migration", "Governance", "Enterprise Reality", "CAF", "Migration Strategy", "Checklist"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 ---
 

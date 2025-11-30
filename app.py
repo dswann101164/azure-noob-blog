@@ -25,6 +25,8 @@ def handle_trailing_slashes_and_redirects():
     """
     Handle URL normalization and redirects to fix Google 404 errors.
     - Remove trailing slashes from non-root paths (except /blog/)
+    - Redirect date-prefixed blog URLs to clean URLs
+    - Redirect /index.html URLs to clean URLs
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
     """
@@ -33,6 +35,24 @@ def handle_trailing_slashes_and_redirects():
     # Don't touch root path or index pages that need trailing slashes
     if path in ['/', '/blog/', '/tags/', '/hubs/']:
         return None
+    
+    # Redirect /index.html URLs to clean URLs (CRITICAL FIX for 28 404s!)
+    if path.endswith('/index.html'):
+        clean_path = path.replace('/index.html', '')
+        return redirect(clean_path, code=301)
+    
+    # Redirect date-prefixed blog URLs to clean URLs (CRITICAL FIX for duplicates!)
+    # Example: /blog/2025-01-15-kql-cheat-sheet-complete/ -> /blog/kql-cheat-sheet-complete/
+    if '/blog/' in path and re.match(r'.*/blog/\d{4}-\d{2}-\d{2}-.+', path):
+        # Extract the slug part after the date
+        parts = path.split('/')
+        for i, part in enumerate(parts):
+            if part.startswith('202') and '-' in part:  # Date-prefixed slug
+                # Remove YYYY-MM-DD- prefix
+                clean_slug = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', part)
+                parts[i] = clean_slug
+                clean_path = '/'.join(parts)
+                return redirect(clean_path, code=301)
     
     # Remove trailing slash and redirect (permanent 301)
     if path.endswith('/') and path != '/':
