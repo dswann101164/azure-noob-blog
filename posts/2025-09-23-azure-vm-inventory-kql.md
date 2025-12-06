@@ -1,11 +1,19 @@
 ---
-title: "From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL"
+title: 'From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL'
 date: 2025-09-23
-summary: "Build a single KQL query that inventories every VM, cleans up OS details, and assigns the right patching workflow—Intune, Azure Update Manager, or Linux package managers."
-tags: ["Azure", "KQL", "Update Management", "Intune", "VM Inventory"]
-cover: "static/images/hero/azure-vm-inventory-kql.png"
+summary: Production-grade KQL queries for Azure Resource Graph that build a reliable
+  VM inventory across subscriptions, tenants, and environments.
+tags:
+- Azure
+- Intune
+- Inventory
+- KQL
+- Resource Graph
+- Update Management
+- VM Inventory
+- VM Management
+cover: static/images/hero/azure-vm-inventory-kql.png
 ---
-
 ## What problem are we solving?
 
 As an Azure administrator, your environment is a sprawling landscape of Windows Servers, Linux boxes, and Windows clients. The challenge: **Which ones are patched by Azure Update Manager and which fall under Intune?**  

@@ -1,11 +1,19 @@
 ---
-title: "Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You About"
+title: 'Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You
+  About'
 date: 2025-10-28
-summary: "You've written the perfect KQL query. Three months later, you can't find it. Here's the simple Git workflow that saves me 10+ hours a month searching for queries I already wrote."
-tags: ["Azure", "KQL", "Operations", "Git", "Productivity"]
-cover: "/static/images/hero/kql-query-library.svg"
+summary: 'How to treat your KQL queries like code: organize them in Git, reuse patterns,
+  and build a shared query library for your Azure team.'
+tags:
+- Automation
+- Azure
+- Git
+- KQL
+- Operations
+- Productivity
+- Resource Graph
+cover: /static/images/hero/kql-query-library.svg
 ---
-
 Last week, our security team asked: "Show me all resource deletions from August."
 
 I knew I had the perfect query. I wrote it six months ago. It worked great. I just couldn't remember where I saved it.

@@ -1,11 +1,18 @@
 ---
-title: "The KQL Problem Nobody Warns You About: You're Learning One Language Across Five Different Systems"
+title: 'The KQL Problem Nobody Warns You About: You''re Learning One Language Across
+  Five Different Systems'
 date: 2025-10-24
-summary: "Everyone learns KQL in Log Analytics. Nobody warns you about Resource Graph, Sentinel, App Insights, or Defender. Here's the decision framework you need before you build the wrong thing in the wrong place."
-tags: ["Azure", "KQL", "Log Analytics", "Resource Graph", "Architecture"]
-cover: "/static/images/hero/kql-systems-maze.png"
+summary: Patterns for writing KQL that works across multiple systems and tables—ARG,
+  Log Analytics, and workbooks—without losing your mind.
+tags:
+- Architecture
+- Azure
+- Dashboards
+- KQL
+- Log Analytics
+- Resource Graph
+cover: /static/images/hero/kql-systems-maze.png
 ---
-
 You learned KQL from Microsoft Learn. You wrote your first queries in Log Analytics. They worked. You kept writing more.
 
 Three months later, your queries are timing out. Six months later, you're staring at a $10,000 monthly Log Analytics bill. One year later, you discover Azure Resource Graph exists and realize you've been building everything in the wrong place.

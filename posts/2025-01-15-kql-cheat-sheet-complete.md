@@ -1,12 +1,19 @@
 ---
-title: "KQL Cheat Sheet: Complete Azure Log Analytics Query Guide (2025)"
+title: 'KQL Cheat Sheet: Complete Azure Log Analytics Query Guide (2025)'
 date: 2025-01-15
 modified: 2025-11-29
-summary: "The complete KQL cheat sheet for Azure: Log Analytics queries, Resource Graph examples, Sentinel KQL commands. Copy-paste queries for VMs, NICs, disks, security. Free downloadable PDF cheat sheet for Azure admins."
-tags: ["Azure", "KQL", "Log Analytics", "Resource Graph", "Cheat Sheet", "Sentinel", "Query Language"]
-cover: "/static/images/hero/kql-cheat-sheet.png"
+summary: 'A complete KQL cheat sheet for Azure admins: joins, summarize, extend, project,
+  and real-world query patterns for Azure Resource Graph and Log Analytics.'
+tags:
+- Azure
+- Cheat Sheet
+- KQL
+- Log Analytics
+- Query Language
+- Resource Graph
+- Sentinel
+cover: /static/images/hero/kql-cheat-sheet.png
 ---
-
 # KQL Cheat Sheet for Azure Admins: Azure Resource Graph (VMs, NICs, Disks)
 
 This Kusto Query Language (KQL) cheat sheet is designed for Azure administrators new to KQL, focusing on querying Azure resources like virtual machines (VMs), network interface cards (NICs), managed disks, and subscriptions using Azure Resource Graph in the Azure Portal (Resource Graph Explorer). 

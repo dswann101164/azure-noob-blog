@@ -1,11 +1,19 @@
 ---
-title: "The New Azure Debugging Rule: When AI Says 'I Don't Know'"
+title: 'The New Azure Debugging Rule: When AI Says ''I Don''t Know'''
 date: 2025-10-06
-summary: "AI has changed when you should stop debugging and open a Microsoft support ticket. If Claude can't solve your Azure problem after reading every doc, GitHub issue, and Stack Overflow post, you've hit the boundary of public knowledge. Time to use the support you're paying for."
-tags: ["Azure", "AI", "Operations", "Support"]
-cover: "static/images/hero/azure-debugging-ai.png"
+summary: Using KQL to debug AI-driven alerts, complex rules, and noisy signals in
+  Azure Monitor so your dashboards stop lying to you.
+tags:
+- AI
+- Azure
+- Azure Monitor
+- Debugging
+- KQL
+- Monitoring
+- Operations
+- Support
+cover: static/images/hero/azure-debugging-ai.png
 ---
-
 I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.
 
 Now? If Claude or ChatGPT can't solve my Azure problem in 30 minutes, I open a ticket immediately.
