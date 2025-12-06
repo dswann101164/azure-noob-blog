@@ -21,7 +21,7 @@ You get five different answers:
 
 All of these statements are **partially true** and **completely misleading**.
 
-I manage 44 Azure subscriptions with 31,000+ resources at a Fortune 500 bank. I've used all five tools extensively during a major merger involving infrastructure consolidation across multiple regions.
+I manage a large enterprise Azure environment with 44 subscriptions and 31,000+ resources. I've used all five tools extensively during infrastructure consolidation and migrations.
 
 Here's the honest answer nobody gives you: **the tool you should learn first depends on what you're trying to accomplish**, not what tool evangelists think is "proper."
 
@@ -52,7 +52,7 @@ Let me break down the actual decision criteria.
 - One-off configuration changes that don't need repeatability
 
 **Real-world example from my work:**
-I use the portal daily for **investigation**, never for **creation**. When debugging a private endpoint DNS issue across 21 Active Directory domains, the portal's visual network topology saved me hours. But I would never deploy production resources through it.
+I use the portal daily for **investigation**, never for **creation**. When debugging a private endpoint DNS issue across multiple Active Directory domains, the portal's visual network topology saved me hours. But I would never deploy production resources through it.
 
 ### Azure CLI: The Modern Command Line
 
@@ -157,7 +157,7 @@ I'm evaluating Bicep for our Azure AI Foundry deployments because Terraform supp
 - DevOps teams already using Terraform for other clouds
 
 **Real-world example from my work:**
-I use Terraform for our core networking infrastructure (VNets, ExpressRoute, Palo Alto firewalls) because repeatability and state management are critical. But I don't use it for everything - if Azure CLI can accomplish something in 2 minutes that would take 30 minutes in Terraform, I use CLI. Tools exist to solve problems, not to satisfy ideological preferences.
+I use Terraform for our core networking infrastructure (VNets, ExpressRoute, firewalls) because repeatability and state management are critical. But I don't use it for everything - if Azure CLI can accomplish something in 2 minutes that would take 30 minutes in Terraform, I use CLI. Tools exist to solve problems, not to satisfy ideological preferences.
 
 ## The Actual Learning Path Nobody Recommends
 
@@ -268,7 +268,7 @@ After managing thousands of Azure resources across multiple tools, here's what I
 - IaC tools (Bicep/Terraform) for infrastructure consistency
 
 **2. Your job will force the decision**
-- Banking: PowerShell and Terraform (regulatory compliance and audit trails)
+- Regulated industries: PowerShell and Terraform (compliance and audit trails)
 - Startups: Azure CLI and Terraform (speed and flexibility)
 - Microsoft shops: PowerShell and Bicep (ecosystem alignment)
 - DevOps teams: Azure CLI and Terraform (CI/CD integration)
@@ -417,4 +417,4 @@ Now go build something.
 
 ---
 
-**What's your Azure tool journey been like? Hit reply and let me know which tool you started with and where you ended up. I read every response.**
+**What's your Azure tool journey been like? Let me know in the comments which tool you started with and where you ended up.**
