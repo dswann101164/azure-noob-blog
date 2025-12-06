@@ -222,7 +222,7 @@ HUBS = {
             {
                 'title': '1. Tag Strategy Fundamentals',
                 'icon': '🏷️',
-                'description': 'Design tag taxonomies that teams will actually use.',
+                'description': 'Design tag taxonomies that teams will actually use and finance can trust.',
                 'posts': [
                     'azure-resource-tags-guide',
                     'azure-chargeback-tags-model',
@@ -232,24 +232,37 @@ HUBS = {
                 ]
             },
             {
-                'title': '2. Policy and Automation',
+                'title': '2. Policy, Patching, and Automation',
                 'icon': '⚙️',
-                'description': 'Enforce governance at scale with Azure Policy and automation.',
+                'description': 'Use Azure Policy, Update Manager, and automation to enforce standards instead of begging for them.',
                 'posts': [
-                    'azure-vm-automation-dependency-hell',
                     'azure-update-manager-reality-check',
                     'sccm-wsus-azure-update-manager-intune-confusion',
+                    'azure-vm-automation-dependency-hell',
+                    'pull-meta-from-arm',
                     'stop-reading-caf',
                 ]
             },
             {
-                'title': '3. Compliance Measurement',
-                'icon': '📊',
-                'description': 'KQL dashboards and workbooks for governance reporting.',
+                'title': '3. Audit, Support, and Process Governance',
+                'icon': '🧾',
+                'description': 'Close audit gaps, fix ticketing reality, and make process part of governance instead of an afterthought.',
                 'posts': [
-                    'modernizing-azure-workbooks',
-                    'azure-cmdb-wrong-cloud-fixes-it',
+                    'azure-audit-gap-nobody-talks-about',
+                    'azure-support-ticket-reality',
                     'azure-service-inventory-tool',
+                    'commenting-for-continuity',
+                ]
+            },
+            {
+                'title': '4. Hybrid & Azure Arc Governance',
+                'icon': '🌉',
+                'description': 'Extend Azure governance to VMware and on-prem servers with Azure Arc and a real CMDB strategy.',
+                'posts': [
+                    'azure-arc-ghost-registrations',
+                    'azure-arc-private-lab',
+                    'azure-arc-vcenter-implementation-guide',
+                    'azure-cmdb-wrong-cloud-fixes-it',
                 ]
             },
         ],
@@ -382,13 +395,16 @@ HUBS = {
     },
 }
 
+
 def get_hub_config(slug):
     """Get hub configuration by slug."""
     return HUBS.get(slug)
 
+
 def get_all_hubs():
     """Get all hub configurations."""
     return HUBS
+
 
 def get_hub_navigation():
     """Get hub navigation items for header menu and home page."""
