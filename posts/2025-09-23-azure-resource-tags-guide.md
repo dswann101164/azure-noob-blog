@@ -1,10 +1,18 @@
 ---
-title: "Azure Tagging Best Practices: Complete Enterprise Tag Strategy (2025)"
+title: 'Azure Resource Tagging: The Guide Microsoft Should Have Written'
 date: 2025-09-23
 modified: 2025-11-29
-summary: "Azure tagging best practices for enterprise cost allocation and governance. Required vs optional tags, naming conventions, policy enforcement, and the Type tag that saves operations teams. Includes downloadable tag strategy template."
-tags: ["Azure", "Tags", "Best Practices", "FinOps", "Cost Management", "Governance", "Policy", "Tag Strategy"]
-cover: "/static/images/hero/azure-resource-tags.png"
+summary: Tags are the backbone of FinOps—but most enterprises misuse them. Learn how
+  to design, enforce, and automate a tag strategy that works.
+tags:
+- Azure
+- Tags
+- FinOps
+- Governance
+- Automation
+cover: /static/images/hero/azure-tags-guide.png
+slug: azure-resource-tags-guide
+hub: finops
 ---
 
 

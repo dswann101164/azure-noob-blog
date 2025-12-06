@@ -1,9 +1,17 @@
 ---
-title: "Azure Cost Optimization Is A Façade (And Microsoft Knows It)"
+title: The Azure Cost Optimization Facade
 date: 2025-11-03
-summary: "Azure Advisor promises 'potential savings' but delivers theater. Here's why 90% of cost optimization recommendations are useless—and what actually works."
-tags: ["Azure", "FinOps", "Cost Management", "Azure Advisor"]
-cover: "/static/images/hero/azure-cost-optimization-facade.svg"
+summary: Most Azure optimization advice is surface-level. Reserved instances aren’t
+  FinOps. Here’s what meaningful cost reduction really takes.
+tags:
+- Azure
+- FinOps
+- Cost Optimization
+- Advisor
+- Governance
+cover: /static/images/hero/azure-cost-optimization-facade.png
+slug: azure-cost-optimization-facade
+hub: finops
 ---
 
 **Your CFO just forwarded you another email**: *"Azure Advisor says we can save $47,000/month. Why haven't we acted on this?"*

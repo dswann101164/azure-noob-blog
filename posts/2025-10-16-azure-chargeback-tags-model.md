@@ -1,9 +1,17 @@
 ---
-title: "Six Azure Tags That Make Chargeback and Showback Actually Work"
+title: Designing an Azure Chargeback Model with Tags
 date: 2025-10-16
-summary: "One tag can’t tell the whole story. Here’s how I built a practical Azure tagging model that connects operations, finance, and security — and finally made chargeback for shared services accurate and defensible."
-tags: ["Azure", "FinOps", "Governance", "Tags"]
-cover: "static/images/hero/azure-tags-shared-services.png"
+summary: A practical tag-driven model for allocating Azure costs to applications,
+  teams, and cost centers. No EA contract needed.
+tags:
+- Azure
+- FinOps
+- Chargeback
+- Showback
+- Tags
+cover: /static/images/hero/azure-chargeback-model.png
+slug: azure-chargeback-tags-model
+hub: finops
 ---
 
 ## The story (from the trenches)

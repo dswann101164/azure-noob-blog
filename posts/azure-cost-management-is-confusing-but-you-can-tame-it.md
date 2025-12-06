@@ -1,10 +1,17 @@
 ---
-title: "Azure Cost Management is Confusing (But You Can Tame It)"
+title: Azure Cost Management Is Confusing—But You Can Tame It
 slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15
-summary: "Azure bills are messy, dashboards don't always add up, and tags are a nightmare. Here's how I'm making sense of it — and how you can too."
-tags: ["Azure", "FinOps", "Cost Management", "Governance"]
-cover: "static/images/hero/azure-cost-reporting.png"
+summary: Azure Cost Management has too many blades, scopes, and exports. Learn the
+  core workflows you actually need to make FinOps sustainable.
+tags:
+- Azure
+- FinOps
+- Cost Management
+- Billing
+- Optimization
+cover: /static/images/hero/azure-cost-management-tame.png
+hub: finops
 ---
 
 ## What problem are we solving?

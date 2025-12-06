@@ -1,9 +1,17 @@
 ---
-title: "Azure Tag Governance at Scale with Policy"
+title: 'Azure Tag Governance: Policy Patterns That Actually Work'
 date: 2025-10-31
-summary: "Stop manually tagging resources. Use Azure Policy to enforce tags on resource groups and automatically inherit them to child resources - the right way."
-tags: ["Azure", "Azure Policy", "Tags", "Governance", "FinOps"]
-cover: "static/images/hero/azure-resource-tags.png"
+summary: Deny, append, and remediation policies that enforce tag governance without
+  breaking deployments. Real patterns from production Azure.
+tags:
+- Azure
+- Tags
+- Governance
+- Azure Policy
+- FinOps
+cover: /static/images/hero/azure-tag-governance.png
+slug: azure-tag-governance-policy
+hub: finops
 ---
 
 If you're managing more than a handful of Azure subscriptions, you've already discovered that tag chaos is real. Finance wants chargeback tags. Security wants owner tags. Compliance wants environment tags. And nobody wants to manually tag 10,000 resources.

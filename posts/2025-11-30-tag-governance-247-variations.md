@@ -1,9 +1,17 @@
 ---
-title: "The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations"
+title: 'Tag Governance: The 24/7 Reality Nobody Talks About'
 date: 2025-11-30
-summary: "CFO asked for Azure costs by department. I found 247 different variations of the same cost center tag. 'Production' spelled 12 ways. Application names in chaos. Here's the tag governance policy that fixed it - and the template you can deploy today."
-tags: ["Azure", "Tags", "Governance", "FinOps", "Cost Management", "Policy", "Enterprise Reality"]
-cover: "/static/images/hero/azure-tag-governance.png"
+summary: Tag governance doesn’t fail in meetings—it fails during real deployments.
+  Why operational drift destroys tag rules and how to fix it.
+tags:
+- Azure
+- Tags
+- Governance
+- FinOps
+- Operations
+cover: /static/images/hero/azure-tag-governance-reality.png
+slug: tag-governance-247-variations
+hub: finops
 ---
 
 # The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations

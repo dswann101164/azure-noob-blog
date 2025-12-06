@@ -1,9 +1,17 @@
 ---
-title: "The Complete Guide to Azure Cost Optimization That Actually Works"
+title: 'Azure Cost Optimization: A Complete Practical Guide'
 date: 2025-11-03
-summary: "Forget Azure Advisor's generic recommendations. This is the comprehensive, battle-tested framework for reducing Azure costs without breaking production—with KQL queries, tagging strategies, and stakeholder management included."
-tags: ["Azure", "FinOps", "Cost Management", "KQL", "Governance"]
-cover: "/static/images/hero/azure-cost-optimization-complete.svg"
+summary: A real-world guide to optimizing Azure costs using rightsizing, automation,
+  cleanup, governance, tags, and financial accountability.
+tags:
+- Azure
+- FinOps
+- Cost Optimization
+- Automation
+- Governance
+cover: /static/images/hero/azure-cost-optimization-guide.png
+slug: azure-cost-optimization-complete-guide
+hub: finops
 ---
 
 This isn't another "turn off unused VMs" guide.

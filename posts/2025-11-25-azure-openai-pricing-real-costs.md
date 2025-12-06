@@ -1,10 +1,18 @@
 ---
-title: "Azure OpenAI Pricing 2025: Real Costs After Spending $500 on Testing"
+title: 'Azure OpenAI Pricing: The Real Costs Nobody Shows You'
 date: 2025-11-25
 modified: 2025-12-06
-summary: "Microsoft says Azure OpenAI costs $0.03/1K tokens. Reality: Hidden $1,224/month hosting fees and infrastructure charges exploded my $50 pilot to $2,000/month. Real cost data from production testing across enterprise Azure environments."
-tags: ["Azure", "OpenAI", "FinOps", "Cost Management", "AI", "GPT-4", "Pricing", "Azure AI"]
-cover: "/static/images/hero/azure-openai-pricing-real-costs.png"
+summary: Azure OpenAI usage looks cheap—until it doesn't. A real breakdown of hidden
+  costs and how to prevent runaway AI spending in Azure.
+tags:
+- Azure
+- FinOps
+- AI
+- OpenAI
+- Cost Management
+cover: /static/images/hero/azure-openai-costs.png
+slug: azure-openai-pricing-real-costs
+hub: finops
 ---
 
 ## December 2025 Update: Pricing Changes You Need to Know

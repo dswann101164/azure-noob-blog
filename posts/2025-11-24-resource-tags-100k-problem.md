@@ -1,9 +1,17 @@
 ---
-title: "The $100K Problem That Resource Tags Would Have Prevented [2025 Guide]"
+title: The 100,000 Tag Problem in Enterprise Azure
 date: 2025-11-24
-summary: "How the TYPE tag plus 5 critical tags saved $113,800 on Azure Arc patching costs. Complete 2025 Azure tagging strategy with KQL queries, PowerShell scripts, and Policy enforcement."
-tags: ["Azure", "Resource Tags", "Azure Arc", "Cost Management", "FinOps"]
-cover: "/static/images/hero/resource-tags.png"
+summary: Large Azure estates accumulate tens of thousands of tag variations. Here’s
+  how to audit, normalize, and govern tags at massive scale.
+tags:
+- Azure
+- Tags
+- FinOps
+- Governance
+- Compliance
+cover: /static/images/hero/azure-tags-100k.png
+slug: resource-tags-100k-problem
+hub: finops
 ---
 
 In my [last post about Azure Update Manager](https://azure-noob.com/blog/azure-update-manager-reality-check/), I showed you how our "1,791 VMs needing updates" was actually only 348 VMs that should be in Update Manager at all. We filtered out Citrix VDI, Databricks clusters, security appliances, and everything else that shouldn't be there.
