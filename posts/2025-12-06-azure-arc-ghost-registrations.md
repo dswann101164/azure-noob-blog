@@ -20,14 +20,13 @@ Here's what I found, why it happens, and how Microsoft's Arc Resource Bridge sol
 
 **Azure Arc Inventory:**
 - 467 registered machines
-- Subscription: `Synovus-ARC`
-- Resource Group: `rg-arc-esu-eus2`
+- Single subscription and resource group
 
 **VMware Reality (via RVTools):**
 - 1,017 VMs across 3 vCenters
 - Production: 587 VMs
-- Non-Production: 374 VMs
-- QTS: 56 VMs
+- Non-Production: 374 VMs  
+- Lab: 56 VMs
 
 **The Gap:**
 - **300 Arc registrations = Ghost VMs** (machines deleted from VMware but still registered in Arc)
@@ -88,7 +87,7 @@ I deployed Arc agents approximately 6-8 months ago. Since then:
 - Manual intervention required for each
 
 **Cost Allocation Disaster:**
-- All Arc VMs in one resource group: `rg-arc-esu-eus2`
+- All Arc VMs in one resource group
 - No tags for cost center allocation
 - Finance can't track ESU spending by application
 
@@ -99,7 +98,7 @@ I deployed Arc agents approximately 6-8 months ago. Since then:
 I built a Power BI dashboard to reconcile Arc inventory against VMware reality:
 
 **Data Sources:**
-1. **RVTools Export** - Production, Non-Prod, and QTS vCenters
+1. **RVTools Export** - Production, Non-Prod, and Lab vCenters
 2. **Azure Resource Graph** - Arc machine inventory
 3. **Azure Arc API** - Agent status and versions
 
@@ -387,7 +386,7 @@ Check Azure Portal:
 **Per vCenter Instance:**
 1. Deploy Arc Resource Bridge (Production)
 2. Deploy Arc Resource Bridge (Non-Production)
-3. Deploy Arc Resource Bridge (QTS)
+3. Deploy Arc Resource Bridge (Lab)
 4. Validate connectivity to each vCenter
 
 **Validation:**
@@ -407,7 +406,7 @@ Check Azure Portal:
 // Compare old Arc (manual) vs new Arc (bridge)
 Resources
 | where type == "microsoft.hybridcompute/machines"
-| extend RegistrationType = iff(resourceGroup == "rg-arc-esu-eus2", "Manual", "Bridge")
+| extend RegistrationType = iff(tags["Source"] == "Manual", "Manual", "Bridge")
 | summarize count() by RegistrationType
 ```
 
@@ -421,11 +420,13 @@ Resources
 **Identify Ghosts:**
 ```powershell
 # Get all manual Arc registrations
-$manualArc = Get-AzConnectedMachine -ResourceGroupName "rg-arc-esu-eus2"
+$manualArc = Get-AzConnectedMachine | Where-Object { 
+    $_.Tags["Source"] -eq "Manual" 
+}
 
 # Get all Bridge registrations
 $bridgeArc = Get-AzConnectedMachine | Where-Object {
-    $_.ResourceGroupName -ne "rg-arc-esu-eus2"
+    $_.Tags["Source"] -ne "Manual"
 }
 
 # Find ghosts (in manual Arc but not in Bridge)

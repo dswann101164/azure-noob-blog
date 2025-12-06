@@ -131,7 +131,7 @@
   },
   "keywords": "Azure Arc, VMware, Reconciliation, Power BI, Ghost Registrations",
   "articleSection": "Azure Arc",
-  "wordCount": "3568",
+  "wordCount": "3586",
   "timeRequired": "PT18M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -232,13 +232,12 @@
 <h2>The Reconciliation Results</h2>
 <p><strong>Azure Arc Inventory:</strong><br />
 - 467 registered machines<br />
-- Subscription: <code>Synovus-ARC</code><br />
-- Resource Group: <code>rg-arc-esu-eus2</code></p>
+- Single subscription and resource group</p>
 <p><strong>VMware Reality (via RVTools):</strong><br />
 - 1,017 VMs across 3 vCenters<br />
 - Production: 587 VMs<br />
 - Non-Production: 374 VMs<br />
-- QTS: 56 VMs</p>
+- Lab: 56 VMs</p>
 <p><strong>The Gap:</strong><br />
 - <strong>300 Arc registrations = Ghost VMs</strong> (machines deleted from VMware but still registered in Arc)<br />
 - <strong>850 VMware VMs = Missing from Arc</strong> (machines created after Arc deployment)<br />
@@ -305,14 +304,14 @@
 - No automatic updates<br />
 - Manual intervention required for each</p>
 <p><strong>Cost Allocation Disaster:</strong><br />
-- All Arc VMs in one resource group: <code>rg-arc-esu-eus2</code><br />
+- All Arc VMs in one resource group<br />
 - No tags for cost center allocation<br />
 - Finance can't track ESU spending by application</p>
 <hr />
 <h2>The Power BI Dashboard: Visualizing the Gap</h2>
 <p>I built a Power BI dashboard to reconcile Arc inventory against VMware reality:</p>
 <p><strong>Data Sources:</strong><br />
-1. <strong>RVTools Export</strong> - Production, Non-Prod, and QTS vCenters<br />
+1. <strong>RVTools Export</strong> - Production, Non-Prod, and Lab vCenters<br />
 2. <strong>Azure Resource Graph</strong> - Arc machine inventory<br />
 3. <strong>Azure Arc API</strong> - Agent status and versions</p>
 <p><strong>Key Measures:</strong></p>
@@ -564,7 +563,7 @@ Azure Arc (Always Current)
 <p><strong>Per vCenter Instance:</strong><br />
 1. Deploy Arc Resource Bridge (Production)<br />
 2. Deploy Arc Resource Bridge (Non-Production)<br />
-3. Deploy Arc Resource Bridge (QTS)<br />
+3. Deploy Arc Resource Bridge (Lab)<br />
 4. Validate connectivity to each vCenter</p>
 <p><strong>Validation:</strong><br />
 - Bridge appliance VM running in vCenter<br />
@@ -579,7 +578,7 @@ Azure Arc (Always Current)
 <div class="codehilite"><pre><span></span><code><span class="c">// Compare old Arc (manual) vs new Arc (bridge)</span>
 <span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">RegistrationType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;rg-arc-esu-eus2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bridge&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">RegistrationType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Source&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bridge&quot;</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">RegistrationType</span>
 </code></pre></div>
 
@@ -590,11 +589,13 @@ Azure Arc (Always Current)
 <h3>Week 3: Clean Up Ghosts</h3>
 <p><strong>Identify Ghosts:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all manual Arc registrations</span>
-<span class="nv">$manualArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-arc-esu-eus2&quot;</span>
+<span class="nv">$manualArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> 
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Source&quot;</span><span class="p">]</span> <span class="o">-eq</span> <span class="s2">&quot;Manual&quot;</span> 
+<span class="p">}</span>
 
 <span class="c"># Get all Bridge registrations</span>
 <span class="nv">$bridgeArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
-    <span class="nv">$_</span><span class="p">.</span><span class="n">ResourceGroupName</span> <span class="o">-ne</span> <span class="s2">&quot;rg-arc-esu-eus2&quot;</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Source&quot;</span><span class="p">]</span> <span class="o">-ne</span> <span class="s2">&quot;Manual&quot;</span>
 <span class="p">}</span>
 
 <span class="c"># Find ghosts (in manual Arc but not in Bridge)</span>
