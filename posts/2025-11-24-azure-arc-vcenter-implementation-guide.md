@@ -1,11 +1,19 @@
 ---
-title: "The Azure Arc Multi-vCenter Implementation Guide That Actually Works"
+title: The Azure Arc Multi-vCenter Implementation Guide That Actually Works
 date: 2025-11-24
-summary: "Microsoft pressured us to deploy Azure Arc fast. We connected 1,200+ VMs with no strategy. Here's the complete implementation guide I wish existed before we started - covering the two-phase deployment nobody explains, the tagging strategy that prevents disasters, and why calling Finance is harder than installing agents."
-tags: ["Azure Arc", "VMware", "vCenter", "Migration", "Enterprise", "Governance"]
-cover: "/static/images/hero/azure-arc-vcenter-guide.png"
+summary: 'End-to-end implementation guide for connecting VMware vCenter to Azure Arc
+  with governance in mind: tags, policy, RBAC, and reporting from day one.'
+tags:
+- Azure
+- Azure Arc
+- Enterprise
+- Governance
+- Hybrid
+- Migration
+- VMware
+- vCenter
+cover: /static/images/hero/azure-arc-vcenter-guide.png
 ---
-
 My boss asked me and my colleague to train the team on Azure Arc this morning. We're the only two people in the organization who understand Azure at scale. We just connected 1,200+ servers to Arc under pressure from Microsoft with no governance strategy.
 
 Now we're supposed to teach others how to use it.

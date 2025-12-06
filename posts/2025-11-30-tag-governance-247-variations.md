@@ -1,19 +1,20 @@
 ---
 title: 'Tag Governance: The 24/7 Reality Nobody Talks About'
 date: 2025-11-30
-summary: Tag governance doesn’t fail in meetings—it fails during real deployments.
-  Why operational drift destroys tag rules and how to fix it.
+summary: A post-mortem on 247 variations of the same tag key in a regulated environment—and
+  the governance patterns that finally stopped the bleeding.
 tags:
 - Azure
-- Tags
-- Governance
+- Azure Policy
 - FinOps
+- Governance
 - Operations
+- Standards
+- Tags
 cover: /static/images/hero/azure-tag-governance-reality.png
 slug: tag-governance-247-variations
 hub: finops
 ---
-
 # The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations
 
 ## The Finance Call That Changed Everything

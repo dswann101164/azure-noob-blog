@@ -2,20 +2,20 @@
 title: 'Azure Resource Tagging: The Guide Microsoft Should Have Written'
 date: 2025-09-23
 modified: 2025-11-29
-summary: Tags are the backbone of FinOps—but most enterprises misuse them. Learn how
-  to design, enforce, and automate a tag strategy that works.
+summary: 'A practical, enterprise-focused guide to Azure resource tags: which tags
+  matter, how to design a tag taxonomy that business owners actually use, and how
+  to keep 31,000+ resources from turning into an ungoverned mess.'
 tags:
+- Automation
 - Azure
-- Tags
 - FinOps
 - Governance
-- Automation
+- Policy
+- Tags
 cover: /static/images/hero/azure-tags-guide.png
 slug: azure-resource-tags-guide
 hub: finops
 ---
-
-
 # What I Wish I Knew About Azure Resource Tags
 
 *Before you deploy your first resource, read this. Before you write your first cost report, definitely read this.*

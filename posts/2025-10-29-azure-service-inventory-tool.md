@@ -1,11 +1,19 @@
 ---
-title: "Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?"
+title: 'Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?'
 date: 2025-10-29
-summary: "The Azure Periodic Table is beautiful but useless for operations. Here's a tool that tells you which services you're actually using, how many, and what they cost."
-tags: ["Azure", "PowerShell", "Resource Graph", "Tools", "Operations"]
-cover: "/static/images/hero/service-inventory-tool.svg"
+summary: 'A practical service inventory pattern for Azure: map resources to real business
+  services, owners, and environments so governance and audits stop being guesswork.'
+tags:
+- Azure
+- CMDB
+- Governance
+- Inventory
+- Operations
+- PowerShell
+- Resource Graph
+- Tools
+cover: /static/images/hero/service-inventory-tool.svg
 ---
-
 Microsoft says there are **397 Azure services**.
 
 The [Azure Periodic Table](https://www.azureperiodictable.com/) displays them beautifully.

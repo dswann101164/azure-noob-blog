@@ -1,11 +1,20 @@
 ---
-title: "Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported"
+title: 'Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported'
 date: 2025-09-24
-summary: "Opened Azure Update Manager and saw 1,791 VMs that need updates? Here's the uncomfortable truth about what that number really means and the KQL queries to find your real target."
-tags: ["Azure", "Update Manager", "KQL", "Azure Governance", "VM Management"]
-cover: "static/images/hero/azure-update-manager.png"
+summary: 'Azure Update Manager vs SCCM/WSUS/Intune in a real enterprise: what actually
+  works, what breaks, and the governance traps nobody mentions in the docs.'
+tags:
+- Azure
+- Azure Governance
+- Azure Update Manager
+- Governance
+- KQL
+- Operations
+- Patching
+- Update Manager
+- VM Management
+cover: static/images/hero/azure-update-manager.png
 ---
-
 # Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported
 
 When I first opened Azure Update Manager, I nearly had a heart attack. The dashboard cheerfully informed me that **1,791 virtual machines** needed attention. As someone responsible for keeping our Azure environment secure and compliant, seeing that number felt like staring down an impossible task.

@@ -1,19 +1,19 @@
 ---
 title: Designing an Azure Chargeback Model with Tags
 date: 2025-10-16
-summary: A practical tag-driven model for allocating Azure costs to applications,
-  teams, and cost centers. No EA contract needed.
+summary: A chargeback/showback model built on tags that finance, app owners, and cloud
+  teams can all live with—without 47 competing cost spreadsheets.
 tags:
 - Azure
-- FinOps
 - Chargeback
+- FinOps
+- Governance
 - Showback
 - Tags
 cover: /static/images/hero/azure-chargeback-model.png
 slug: azure-chargeback-tags-model
 hub: finops
 ---
-
 ## The story (from the trenches)
 
 When Finance first asked for a chargeback report by Line of Business, I thought our tags would make it easy.

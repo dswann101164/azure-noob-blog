@@ -1,11 +1,20 @@
 ---
-title: "Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist"
+title: 'Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn''t Exist'
 date: 2025-12-06
-summary: "I reconciled Azure Arc registrations against VMware inventory and discovered 300 ghost VMs. The root cause isn't operational failure—it's architectural. Here's why Arc inventory becomes frozen in time and how Arc Resource Bridge solves it."
-tags: ["Azure Arc", "VMware", "Reconciliation", "Power BI", "Ghost Registrations"]
-cover: "/static/images/hero/azure-arc-ghost-registrations.png"
+summary: How Azure Arc ghost registrations happen, why they wreck governance reporting,
+  and how to detect and clean them up at scale.
+tags:
+- Azure
+- Azure Arc
+- Ghost Registrations
+- Governance
+- Hybrid
+- Inventory
+- Power BI
+- Reconciliation
+- VMware
+cover: /static/images/hero/azure-arc-ghost-registrations.png
 ---
-
 # Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist
 
 I ran a reconciliation between Azure Arc and our VMware environment using RVTools. The results were shocking: **64% of our Arc inventory consisted of ghost registrations for VMs that no longer exist.**

@@ -1,11 +1,20 @@
 ---
-title: "I'll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like"
+title: I'll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like
 date: 2025-11-10
-summary: "I promised executives I'd query Azure Resource Manager for 'the answers.' They nodded. I got budget. Nobody asked what metadata actually exists in ARM. Here's the 35-line query I built to answer 'what VMs do we have' - and the 35 more I needed for everything else."
-tags: ["Azure", "KQL", "Resource Graph", "FinOps", "Operations"]
-cover: "/static/images/hero/pull-meta-from-arm.svg"
+summary: A reusable pattern for pulling metadata from ARM at scale to feed CMDBs,
+  reports, and governance dashboards when Azure alone isn’t enough.
+tags:
+- ARM
+- Automation
+- Azure
+- CMDB
+- FinOps
+- Governance
+- KQL
+- Operations
+- Resource Graph
+cover: /static/images/hero/pull-meta-from-arm.svg
 ---
-
 ## The Meeting Where I Promised Magic
 
 Last week I wrote about [corporate arrogance killing cloud projects](https://azure-noob.com/blog/buzzwords-meetings-confusion/). Today, I'm showing you the exact technical gap that caused one of those failures.

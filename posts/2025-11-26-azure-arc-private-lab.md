@@ -1,12 +1,21 @@
 ---
-title: "Building an Azure Arc Lab with Private Link (No Public IPs)"
+title: Building an Azure Arc Lab with Private Link (No Public IPs)
 date: 2025-11-26
-summary: "Deploy a production-realistic Azure Arc demo environment using Private Link for secure hybrid management. Complete Terraform code included - because your CISO won't approve the public internet version."
-tags: ["Azure", "Arc", "Terraform", "Networking", "Security", "Private Link"]
-cover: "/static/images/hero/azure-arc-private-lab.png"
-
+summary: A private Azure Arc lab design that lets you learn governance patterns, vCenter
+  onboarding, and policy testing without touching production.
+tags:
+- Arc
+- Azure
+- Azure Arc
+- Governance
+- Hybrid
+- Lab
+- Networking
+- Private Link
+- Security
+- Terraform
+cover: /static/images/hero/azure-arc-private-lab.png
 ---
-
 Every Azure Arc demo I've seen shows agents connecting over the public internet. Microsoft's documentation walks you through the "happy path" - click here, install there, boom, your on-premises servers appear in Azure Portal.
 
 **But here's the problem:** That's not how enterprise infrastructure works.
