@@ -1,11 +1,19 @@
 ---
-title: "Extract KQL Queries from Azure Workbooks (Workbook → App Tool)"
+title: Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
 date: 2025-10-13
-summary: "Azure Workbooks hide 110+ items and complex KQL queries in nested JSON. Built a Streamlit tool that extracts everything in seconds. Parsed Billy York's workbook: 41 queries, full structure, exportable. No more clicking through Azure Portal."
-tags: ["Azure", "Workbooks", "KQL", "Python", "Tools", "Streamlit"]
-cover: "static/images/hero/workbook-app-tool.svg"
+summary: 'An Azure Monitor workbook-driven app concept: turn your dashboards into
+  lightweight tools for operators instead of static reports.'
+tags:
+- Azure
+- KQL
+- Monitoring
+- Operations
+- Python
+- Streamlit
+- Tools
+- Workbooks
+cover: static/images/hero/workbook-app-tool.svg
 ---
-
 Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ Azure services across compute, networking, PaaS, monitoring, and security. When I needed to enhance it, I hit a problem.
 
 Azure Workbooks are JSON files with deeply nested structure. To understand what's inside—what queries run, what data gets displayed, how items connect—I'd need to click through 110+ items in Azure Portal. Each query buried in JSON. Each parameter block hidden in properties. Each text section wrapped in metadata.

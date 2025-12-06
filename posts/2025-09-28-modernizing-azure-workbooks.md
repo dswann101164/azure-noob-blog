@@ -1,11 +1,19 @@
 ---
-title: "Enhanced Azure Inventory Workbook: 200+ Services, Security Hygiene, Global Filters"
+title: 'Enhanced Azure Inventory Workbook: 200+ Services, Security Hygiene, Global
+  Filters'
 date: 2025-09-28
-summary: "Free Azure Monitor Workbook template with 200+ services, security monitoring, cost optimization, and global filtering. Enhanced version of Billy York's inventory workbook with full source code on GitHub."
-tags: ["Azure", "KQL", "Monitoring", "Workbooks", "Community", "Open Source"]
-cover: "static/images/hero/azure-workbook-enhancement.png"
+summary: How to modernize Azure Monitor workbooks with better UX, KQL patterns, and
+  business context so teams actually use them.
+tags:
+- Azure
+- Community
+- Dashboards
+- KQL
+- Monitoring
+- Open Source
+- Workbooks
+cover: static/images/hero/azure-workbook-enhancement.png
 ---
-
 Azure Monitor Workbooks are powerful tools for creating custom dashboards and reports, but keeping them current with Azure's rapidly expanding service catalog can be challenging. Recently, I enhanced Billy York's excellent Azure Inventory Workbook to support modern Azure environments while fixing several technical issues that had accumulated over time.
 
 ## Building on Solid Foundations

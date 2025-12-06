@@ -1,11 +1,19 @@
 ---
-title: "The Truth About Chris Bowman's Azure Cost Dashboard"
+title: The Truth About Chris Bowman's Azure Cost Dashboard
 date: 2025-10-02
-summary: "Everyone links to Chris Bowman's template. Nobody explains why it's 19GB and needs Premium. Here's what's actually happening."
-tags: ["Azure", "FinOps", "Power BI", "Cost Management"]
-cover: "static/images/hero/chris-bowman-dashboard.png"
+summary: Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard
+  model for real-world enterprise environments.
+tags:
+- Architecture
+- Azure
+- Cost Management
+- Dashboards
+- Executive
+- FinOps
+- Monitoring
+- Power BI
+cover: static/images/hero/chris-bowman-dashboard.png
 ---
-
 ## The Problem Everyone Hits
 
 Someone on Reddit asks: "Does anyone have a good Power BI template for Azure cost monitoring?"

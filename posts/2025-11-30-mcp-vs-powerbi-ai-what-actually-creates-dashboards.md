@@ -1,11 +1,20 @@
 ---
-title: "MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What's Just Marketing)"
+title: 'MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What''s Just
+  Marketing)'
 date: 2025-11-30
-summary: "Microsoft is throwing AI buzzwords everywhere. Power BI Copilot, MCP, AI-powered insights, Fabric with AI. I spent 10 weeks modernizing dashboards with AI. Here's what actually creates visuals vs what just accesses data—and why Azure admins are confused."
-tags: ["Azure", "Power BI", "AI", "MCP", "Copilot", "Enterprise Reality", "Dashboards"]
-cover: "/static/images/hero/mcp-powerbi-ai-reality.png"
+summary: 'A practical comparison of MCP vs Power BI AI: what actually reads data,
+  what actually builds visuals, and how Azure admins should think about both.'
+tags:
+- AI
+- Azure
+- Copilot
+- Dashboards
+- Enterprise Reality
+- MCP
+- Monitoring
+- Power BI
+cover: /static/images/hero/mcp-powerbi-ai-reality.png
 ---
-
 # MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What's Just Marketing)
 
 ## The AI Buzzword Explosion

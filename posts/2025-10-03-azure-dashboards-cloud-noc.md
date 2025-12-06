@@ -1,11 +1,19 @@
 ---
-title: "Azure Dashboards Are Your Cloud NOC (And Nobody Told You)"
+title: Azure Dashboards Are Your Cloud NOC (And Nobody Told You)
 date: 2025-10-03
-summary: "New Azure admins are told to 'use workbooks' the same way students are told to 'solve for X' - without understanding what problem it solves."
-tags: ["Azure", "Azure Monitor", "Workbooks", "Governance"]
-cover: "static/images/hero/cloud-noc.png"
+summary: How to design Azure dashboards for a Cloud NOC team that actually answer
+  questions instead of dumping metrics on a big screen.
+tags:
+- Azure
+- Azure Monitor
+- Cloud NOC
+- Dashboards
+- Governance
+- Monitoring
+- Operations
+- Workbooks
+cover: static/images/hero/cloud-noc.png
 ---
-
 ## The Problem Nobody Explains
 
 You land in a new Azure admin role. You inherit an environment. Your boss asks you three simple questions:

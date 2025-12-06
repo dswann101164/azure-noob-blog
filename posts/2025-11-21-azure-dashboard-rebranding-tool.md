@@ -1,11 +1,21 @@
 ---
-title: "How I Rebranded Microsoft's Azure Resource Inventory Dashboard (Without Corrupting Excel)"
+title: How I Rebranded Microsoft's Azure Resource Inventory Dashboard (Without Corrupting
+  Excel)
 date: 2025-11-21
-summary: "PowerShell script that transforms ARI dashboards with your branding and full dark mode - zero file corruption, professional results in 30 seconds."
-tags: ["Azure", "PowerShell", "Excel", "ARI", "Automation"]
-cover: "/static/images/hero/azure-dashboard-rebrand.png"
+summary: A dark-mode rebranding tool for Azure dashboards and Excel exports so your
+  reports look as modern as your cloud environment.
+tags:
+- ARI
+- Automation
+- Azure
+- Branding
+- Dashboards
+- Excel
+- Monitoring
+- PowerShell
+- Tools
+cover: /static/images/hero/azure-dashboard-rebrand.png
 ---
-
 ## The Problem: Great Tool, Wrong Branding
 
 Microsoft's [Azure Resource Inventory (ARI)](https://github.com/microsoft/ARI) is legitimately one of the best Azure reporting tools out there. It generates comprehensive Excel dashboards with 40+ worksheets, detailed resource inventories, charts, and actionable insights.

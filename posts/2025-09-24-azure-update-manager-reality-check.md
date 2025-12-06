@@ -1,16 +1,18 @@
 ---
 title: 'Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported'
 date: 2025-09-24
-summary: 'Azure Update Manager vs SCCM/WSUS/Intune in a real enterprise: what actually
-  works, what breaks, and the governance traps nobody mentions in the docs.'
+summary: 'What Azure Update Manager really looks like in an enterprise: agent confusion,
+  SCCM overlap, and how to make patching governance work.'
 tags:
 - Azure
 - Azure Governance
 - Azure Update Manager
 - Governance
 - KQL
+- Monitoring
 - Operations
 - Patching
+- Update Management
 - Update Manager
 - VM Management
 cover: static/images/hero/azure-update-manager.png

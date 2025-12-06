@@ -1,11 +1,20 @@
 ---
-title: "Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks"
+title: Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription
+  Networks
 date: 2025-10-06
-summary: "Custom Azure IPAM tool for managing IP addresses across multiple subscriptions and VNets. Track subnets, prevent conflicts, reserve ranges, and maintain network documentation. Free open source solution."
-tags: ["Azure", "IPAM", "Networking", "IP Management", "Multi-Subscription", "Tools"]
-cover: "/static/images/hero/azure-ipam.png"
+summary: An Azure IPAM workbook and process for tracking IP address usage across subscriptions,
+  VNets, and environments without losing your mind.
+tags:
+- Azure
+- IP Management
+- IPAM
+- Monitoring
+- Multi-Subscription
+- Networking
+- Tools
+- Workbooks
+cover: /static/images/hero/azure-ipam.png
 ---
-
 ## The Problem Leadership Doesn't Understand
 
 Enterprise mergers consolidate multiple Azure subscriptions, AD domains, and hundreds of applications into one environment. Leadership wants a migration plan. Questions that need answers:
