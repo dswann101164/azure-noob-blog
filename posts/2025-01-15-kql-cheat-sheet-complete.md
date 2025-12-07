@@ -899,36 +899,24 @@ SigninLogs
 
 ## Download PDF Version
 
-Want this cheat sheet as a PDF for easy reference? Enter your email below and I'll send you the complete guide plus bonus queries for security auditing and cost optimization.
+Want this cheat sheet as a PDF for easy reference? Get 45+ production-ready KQL queries including advanced joins, performance optimization, and automation templates.
 
-<form name="kql-cheat-sheet" method="POST" netlify data-netlify="true" action="/thank-you/">
-  
-  <div style="margin-bottom: 15px;">
-    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email Address:</label>
-    <input type="email" name="email" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-  </div>
-  
-  <div style="margin-bottom: 15px;">
-    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Name (optional):</label>
-    <input type="text" name="name" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-  </div>
-  
-  <div style="margin-bottom: 15px;">
-    <label style="display: block; margin-bottom: 5px; font-weight: bold;">What's your biggest Azure challenge?</label>
-    <select name="challenge" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-      <option value="">Select one...</option>
-      <option value="cost-management">Cost management and optimization</option>
-      <option value="resource-inventory">Resource inventory and governance</option>
-      <option value="security-compliance">Security and compliance</option>
-      <option value="automation">Automation and scripting</option>
-      <option value="other">Other</option>
-    </select>
-  </div>
-  
-  <button type="submit" style="background: #0066cc; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
-    📧 Send Me the PDF + Bonus Queries
-  </button>
-</form>
+<div style="max-width: 600px; margin: 2rem auto; padding: 2rem; background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-radius: 12px; text-align: center; color: white; box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);">
+  <h3 style="margin: 0 0 1rem; font-size: 1.5rem; color: white;">📥 Get the Complete KQL Query Library</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; opacity: 0.95;">
+    Resource Graph, Log Analytics, Cost Management queries + automation templates
+  </p>
+  <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+    <input type="email" name="email" placeholder="your@email.com" required style="flex: 1; min-width: 250px; padding: 0.75rem 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 6px; font-size: 1rem; background: rgba(255,255,255,0.9);">
+    <input type="hidden" name="utm_source" value="azure-noob-blog">
+    <input type="hidden" name="utm_medium" value="lead-magnet">
+    <input type="hidden" name="utm_campaign" value="kql-query-library">
+    <button type="submit" style="padding: 0.75rem 1.5rem; background: white; color: #7c3aed; border: none; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; white-space: nowrap;">Get Free Download</button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.8;">
+    Instant delivery. Unsubscribe anytime.
+  </p>
+</div>
 
 ---
 
