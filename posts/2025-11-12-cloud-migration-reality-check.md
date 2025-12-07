@@ -41,6 +41,31 @@ A simple spreadsheet with 55 questions that nobody could answer.
 
 ---
 
+## What Azure Migrate Can't Prevent
+
+Microsoft's [Azure Migrate service](https://learn.microsoft.com/en-us/azure/migrate/) provides excellent tools for discovery, assessment, and migration execution. The [assessment capabilities](https://learn.microsoft.com/en-us/azure/migrate/concepts-assessment-calculation) calculate Azure costs based on current server specifications and usage patterns. The [migration tools](https://learn.microsoft.com/en-us/azure/migrate/tutorial-migrate-physical-virtual-machines) handle the actual VM movement with minimal downtime.
+
+What Azure Migrate can't do: **prevent the migration from failing before you ever use the tool.**
+
+The #1 cause of migration failures isn't technical. It's organizational.
+
+Leadership says "migrate all of them" before anyone has answered:
+- How many applications do we have?
+- Which servers support which applications?
+- Who approved each workload for migration?
+- What are the dependencies between systems?
+- Which applications are actually still used?
+
+**Azure Migrate assumes you already know these answers.** The [migration best practices](https://learn.microsoft.com/en-us/azure/migrate/best-practices-assessment) assume you have an application inventory, dependency maps, and business ownership documented.
+
+Most organizations don't.
+
+That's why 60% of Azure migrations exceed budget by 2x and timelines double.
+
+Here's the pre-migration checklist that prevents this disaster.
+
+---
+
 ## What Actually Happened
 
 Without that forcing function, here's what we did:

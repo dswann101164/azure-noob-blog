@@ -22,6 +22,30 @@ She looked skeptical. "What else is there?"
 
 **Everything that happens before you get the server and everything that happens after you decommission it.**
 
+## Why Microsoft's Calculator Gets It Wrong Too
+
+Microsoft provides an [Azure TCO (Total Cost of Ownership) Calculator](https://azure.microsoft.com/en-us/pricing/tco/calculator/) that compares on-premises infrastructure costs to Azure costs. The [Azure Migrate assessment tool](https://learn.microsoft.com/en-us/azure/migrate/concepts-assessment-calculation) also generates cost estimates based on current server specifications.
+
+Both tools calculate:
+- Server hardware costs vs. Azure VM costs
+- Storage costs vs. Azure Storage costs  
+- Network hardware vs. Azure networking
+- Power and cooling savings
+- Datacenter space savings
+
+**What they don't calculate:**
+- The 6-month procurement process you eliminate
+- The VAR meetings that disappear
+- The hardware refresh cycle that ends
+- The time-to-provision improvement (6 months → 6 minutes)
+- The operational agility you gain
+
+Microsoft's calculator shows you'll save money on infrastructure. It doesn't show you'll save **time, opportunity cost, and organizational complexity.**
+
+That's why Finance looks at the calculator results and says "this doesn't make sense" — because the calculator is measuring the wrong things.
+
+Here's what actually changes.
+
 ## The Calculation Nobody Makes
 
 When Finance calculates cloud migration ROI, they compare:

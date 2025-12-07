@@ -131,7 +131,7 @@
   },
   "keywords": "Azure, Migration, Hybrid, Security, Enterprise",
   "articleSection": "Azure",
-  "wordCount": "1905",
+  "wordCount": "2055",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -237,6 +237,27 @@
 <p>The documentation makes it look simple: deploy the appliance, add some credentials, click "discover," and watch it map your entire environment.</p>
 <p>Except when you have multiple Active Directory domains in a hybrid environment with actual security policies, Azure Migrate's architecture becomes fundamentally incompatible with enterprise security and network design.</p>
 <p>Here's the disaster Microsoft's documentation glosses over.</p>
+<hr />
+<h2>What Microsoft's Documentation Assumes</h2>
+<p>Microsoft's <a href="https://learn.microsoft.com/en-us/azure/migrate/">Azure Migrate documentation</a> and <a href="https://learn.microsoft.com/en-us/azure/migrate/migrate-replication-appliance">deployment guides</a> assume a relatively simple environment:</p>
+<p><strong>Single domain:</strong><br />
+- One Active Directory domain<br />
+- Flat network architecture<br />
+- The appliance can reach all servers<br />
+- Credentials work across the environment</p>
+<p><strong>Agentless discovery:</strong><br />
+- VMware integration via vCenter<br />
+- Hyper-V integration via WMI<br />
+- Physical server discovery via credentials</p>
+<p>The <a href="https://learn.microsoft.com/en-us/azure/migrate/migrate-support-matrix">support matrix</a> tells you what's <em>technically supported</em>. It doesn't tell you what <em>actually works</em> in regulated enterprises with security requirements.</p>
+<p><strong>What the docs don't cover:</strong><br />
+- Multi-domain hybrid environments<br />
+- Network segmentation between domains<br />
+- Zero-trust architectures<br />
+- Multiple forests with no trust relationships<br />
+- Firewall rules intentionally blocking cross-domain access</p>
+<p>That's not an oversight in the documentation. <strong>It's an architectural limitation of the tool.</strong></p>
+<p>Here's why Azure Migrate fails in real enterprise environments.</p>
 <hr />
 <h2>How Enterprise Migrations Actually Start</h2>
 <p>Almost every enterprise Azure migration begins the same way:</p>

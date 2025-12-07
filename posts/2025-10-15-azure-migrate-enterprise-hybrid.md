@@ -26,6 +26,36 @@ Here's the disaster Microsoft's documentation glosses over.
 
 ---
 
+## What Microsoft's Documentation Assumes
+
+Microsoft's [Azure Migrate documentation](https://learn.microsoft.com/en-us/azure/migrate/) and [deployment guides](https://learn.microsoft.com/en-us/azure/migrate/migrate-replication-appliance) assume a relatively simple environment:
+
+**Single domain:**
+- One Active Directory domain
+- Flat network architecture
+- The appliance can reach all servers
+- Credentials work across the environment
+
+**Agentless discovery:**
+- VMware integration via vCenter
+- Hyper-V integration via WMI
+- Physical server discovery via credentials
+
+The [support matrix](https://learn.microsoft.com/en-us/azure/migrate/migrate-support-matrix) tells you what's *technically supported*. It doesn't tell you what *actually works* in regulated enterprises with security requirements.
+
+**What the docs don't cover:**
+- Multi-domain hybrid environments
+- Network segmentation between domains
+- Zero-trust architectures
+- Multiple forests with no trust relationships
+- Firewall rules intentionally blocking cross-domain access
+
+That's not an oversight in the documentation. **It's an architectural limitation of the tool.**
+
+Here's why Azure Migrate fails in real enterprise environments.
+
+---
+
 ## How Enterprise Migrations Actually Start
 
 Almost every enterprise Azure migration begins the same way:
