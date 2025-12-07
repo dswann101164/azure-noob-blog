@@ -16,6 +16,12 @@ cover: /static/images/hero/kql-cheat-sheet.png
 ---
 # KQL Cheat Sheet for Azure Admins: Azure Resource Graph (VMs, NICs, Disks)
 
+> **Note:** No Azure certification teaches KQL for operational queries. The AZ-104 exam shows you two sample queries. That's it. No Resource Graph training. No joins. No performance optimization. Nothing about the queries you'll actually write daily.
+>
+> I wrote about this gap: [The Azure Role Microsoft Forgot to Certify](/blog/azure-reporting-role-microsoft-should-create/). Until Microsoft fixes this, here's the KQL guide you need.
+
+---
+
 This Kusto Query Language (KQL) cheat sheet is designed for Azure administrators new to KQL, focusing on querying Azure resources like virtual machines (VMs), network interface cards (NICs), managed disks, and subscriptions using Azure Resource Graph in the Azure Portal (Resource Graph Explorer). 
 
 Use this to inventory resources, check configurations, or troubleshoot VM-related issues. For more details, see the [KQL quick reference](https://docs.microsoft.com/en-us/azure/data-explorer/kql-quick-reference) and [Resource Graph query docs](https://docs.microsoft.com/en-us/azure/governance/resource-graph/).

@@ -186,6 +186,18 @@ This makes some people uncomfortable:
 
 But here's the thing: **certifications are a means to an end, not the end itself.**
 
+## The Bigger Problem: Certs Don't Teach the Job
+
+Beyond the renewal question, there's a more fundamental issue: **Azure certifications don't teach what Azure admins actually do.**
+
+I wrote about this in depth: [The Azure Role Microsoft Forgot to Certify](/blog/azure-reporting-role-microsoft-should-create/).
+
+The short version: No Azure certification teaches Workbooks, KQL for operations, Power BI integration, or AI in administrative workflows. Yet that's 60-80% of what Azure admins do daily. I spend more time building dashboards and writing queries than deploying VMs, but no cert validates those skills.
+
+This is why I'm prioritizing AI-102 over renewals. At least AI-102 teaches skills I'll actually use (even if it's focused on building AI solutions rather than using AI as an admin).
+
+## My Certification Strategy Going Forward
+
 I earned AZ-103/303/304 to:
 1. Validate my knowledge in 2020
 2. Signal competence to employers

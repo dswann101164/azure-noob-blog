@@ -14,6 +14,21 @@ tags:
 - Workbooks
 cover: static/images/hero/azure-workbook-enhancement.png
 ---
+
+## Why Nobody Teaches Workbooks
+
+Azure Monitor Workbooks are one of the most powerful operational tools in Azure. Yet **zero Azure certifications teach how to build them.**
+
+The AZ-104 exam mentions Workbooks exist. That's it. No hands-on labs. No dashboard design principles. No KQL for data source integration. Nothing about parameters, filters, or creating Workbooks teams actually use.
+
+I wrote about this certification gap here: [The Azure Role Microsoft Forgot to Certify](/blog/azure-reporting-role-microsoft-should-create/).
+
+The irony: Azure admins spend more time building Workbooks and dashboards than deploying VMs, but Microsoft doesn't validate these skills. So we learn from community examples like Billy York's Azure Inventory Workbook.
+
+Here's how I modernized it for 2025.
+
+---
+
 Azure Monitor Workbooks are powerful tools for creating custom dashboards and reports, but keeping them current with Azure's rapidly expanding service catalog can be challenging. Recently, I enhanced Billy York's excellent Azure Inventory Workbook to support modern Azure environments while fixing several technical issues that had accumulated over time.
 
 ## Building on Solid Foundations
