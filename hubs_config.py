@@ -331,6 +331,7 @@ HUBS = {
                 'posts': [
                     'azure-dashboards-cloud-noc',
                     'chris-bowman-dashboard',
+                    'azure-reporting-role-microsoft-should-create',
                     'mcp-vs-powerbi-ai-what-actually-creates-dashboards',
                 ]
             },
