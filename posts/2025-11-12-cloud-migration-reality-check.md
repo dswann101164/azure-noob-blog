@@ -1,10 +1,16 @@
 ---
-title: "Azure Cloud Migration Strategy: The Pre-Migration Checklist That Saves Millions"
+title: "Why Most Azure Migrations Fail: The Pre-Migration Reality Check Microsoft Won't Tell You"
 date: 2025-11-12
-modified: 2025-11-29
-summary: "Before migrating to Azure: Do you know how many applications you have? This enterprise cloud migration checklist (with downloadable spreadsheet) prevents the costly mistakes most Azure migrations make. Real lessons from a 2019 migration project."
-tags: ["Azure", "Cloud Migration", "Governance", "Enterprise Reality", "CAF", "Migration Strategy", "Checklist"]
+modified: 2025-12-06
+summary: "60% of Azure migrations exceed budget by 2x because teams skip one critical step: knowing what they have. Real lessons from enterprise migrations: the spreadsheet that prevents $2M budget overruns, timeline disasters, and post-migration chaos."
+tags: ["Azure", "Cloud Migration", "Governance", "Enterprise Reality", "CAF", "Migration Strategy", "Checklist", "Azure Migrate", "Migration Planning"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
+hub: "governance"
+related_posts:
+  - azure-migration-roi-wrong
+  - azure-migrate-enterprise-hybrid
+  - azure-migration-yard-sale-rolloff
+  - application-migration-checklist-azure
 ---
 
 # The Spreadsheet I Wish I Had in 2019: Before You Migrate Anything to Azure

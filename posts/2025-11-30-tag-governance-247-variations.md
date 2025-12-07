@@ -1,19 +1,16 @@
 ---
-title: 'Tag Governance: The 24/7 Reality Nobody Talks About'
+title: 'Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)'
 date: 2025-11-30
-summary: A post-mortem on 247 variations of the same tag key in a regulated environment—and
-  the governance patterns that finally stopped the bleeding.
-tags:
-- Azure
-- Azure Policy
-- FinOps
-- Governance
-- Operations
-- Standards
-- Tags
-cover: /static/images/hero/azure-tag-governance-reality.png
-slug: tag-governance-247-variations
-hub: finops
+modified: 2025-12-06
+summary: "One tag key. 247 different spellings. $2.3M in cost allocation failures. Real lessons from enterprise Azure tag governance: why Azure Policy isn't enough and the automation that finally stopped tag chaos across 31,000 resources."
+tags: ["Azure", "Azure Policy", "FinOps", "Governance", "Operations", "Standards", "Tagging", "Cost Management", "Azure Tags"]
+cover: "/static/images/hero/tag-governance-247-variations.png"
+hub: "finops"
+related_posts:
+  - azure-resource-tags-guide
+  - azure-chargeback-tags-model
+  - azure-tag-governance-policy
+  - resource-tags-100k-problem
 ---
 # The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations
 
