@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {% set default_og = url_for('static', filename='images/hero/cloud-wars.png') %}
+  {% set default_canonical = SITE_URL ~ request.path %}
 
   <!-- Primary SEO -->
   <title>{% block title %}{{ page_title or site_name }}{% endblock %}</title>
   <meta name="description" content="{{ meta_description or site_tagline }}">
-  <link rel="canonical" href="{{ canonical_url or SITE_URL }}" />
+  <link rel="canonical" href="{{ canonical_url or default_canonical }}" />
 
   <!-- Favicons -->
   <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
@@ -18,7 +19,7 @@
   <meta property="og:title" content="{{ page_title or site_name }}">
   <meta property="og:description" content="{{ meta_description or site_tagline }}">
   <meta property="og:type" content="{{ og_type or 'website' }}">
-  <meta property="og:url" content="{{ canonical_url or SITE_URL }}">
+  <meta property="og:url" content="{{ canonical_url or default_canonical }}">
   <meta property="og:image" content="{{ og_image or default_og }}">
 
   {% if og_type == 'article' and date_published_iso %}
