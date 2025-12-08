@@ -2,7 +2,7 @@
 title: "Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies & Pull Request Automation"
 date: 2025-11-06
 summary: "Enforce GitOps workflow with branch policies that require reviews, trigger automated validation, and prevent direct commits to main. No cowboy deployments allowed."
-tags: ["Azure", "Terraform", "DevOps", "CICD", "IaC", "Azure DevOps", "GitOps"]
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "GitOps"]
 cover: "static/images/hero/terraform-devops-part4.png"
 ---
 

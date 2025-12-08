@@ -2,7 +2,7 @@
 title: "From Chaos to Enterprise: How I Set Up Terraform Remote State in Azure (And Why You Need This Yesterday)"
 date: 2025-11-16
 summary: "After our third 'who deleted the state file' incident, I finally set up proper Terraform remote state. 30 minutes of work eliminated an entire category of disasters. Here's exactly how to do it, with zero fluff."
-tags: ["Azure", "Terraform", "Infrastructure as Code", "DevOps"]
+tags: ["azure", "Terraform", "Infrastructure as Code", "devops"]
 cover: "/static/images/hero/terraform-remote-state.png"
 ---
 

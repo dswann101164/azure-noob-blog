@@ -135,7 +135,7 @@
   },
   "keywords": "Azure, Cheat Sheet, KQL, Log Analytics, Query Language, Resource Graph, Sentinel",
   "articleSection": "Azure",
-  "wordCount": "7849",
+  "wordCount": "7842",
   "timeRequired": "PT39M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -243,7 +243,7 @@
 <p>This Kusto Query Language (KQL) cheat sheet is designed for Azure administrators new to KQL, focusing on querying Azure resources like virtual machines (VMs), network interface cards (NICs), managed disks, and subscriptions using Azure Resource Graph in the Azure Portal (Resource Graph Explorer). </p>
 <p>Use this to inventory resources, check configurations, or troubleshoot VM-related issues. For more details, see the <a href="https://docs.microsoft.com/en-us/azure/data-explorer/kql-quick-reference">KQL quick reference</a> and <a href="https://docs.microsoft.com/en-us/azure/governance/resource-graph/">Resource Graph query docs</a>.</p>
 <h2>Getting Started</h2>
-<p><strong>Where to Run:</strong> Azure Portal &gt; Resource Graph Explorer (search "Resource Graph" in the portal).</p>
+<p><strong>Where to Run:</strong> Azure Portal &gt; Resource Graph Explorer (search "resource-graph" in the portal).</p>
 <p><strong>Key Tables:</strong><br />
 - <code>Resources</code>: Contains all Azure resources (VMs, NICs, disks, etc.)<br />
 - <code>ResourceContainers</code>: Contains subscriptions and resource groups</p>
@@ -430,7 +430,7 @@
 <tbody>
 <tr>
 <td>Custom OS Name</td>
-<td><code>extend DetailedOS = case(properties.storageProfile.osDisk.osType == "Windows", "Windows Server", properties.storageProfile.osDisk.osType == "Linux", "Linux", "Unknown")</code></td>
+<td><code>extend DetailedOS = case(properties.storageProfile.osDisk.osType == "Windows", "windows-server", properties.storageProfile.osDisk.osType == "Linux", "Linux", "Unknown")</code></td>
 <td>Categorize OS type</td>
 </tr>
 <tr>
@@ -440,7 +440,7 @@
 </tr>
 <tr>
 <td>Update Strategy</td>
-<td><code>extend UpdateMethod = case(properties.storageProfile.osDisk.osType == "Windows", "Azure Update Manager", "Linux Package Manager")</code></td>
+<td><code>extend UpdateMethod = case(properties.storageProfile.osDisk.osType == "Windows", "azure-update-manager", "Linux Package Manager")</code></td>
 <td>Define patching method</td>
 </tr>
 </tbody>
@@ -451,7 +451,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">),</span>
 <span class="w">         </span><span class="n">DetailedOS</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
 <span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Canonical&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ubuntu Linux&quot;</span><span class="p">,</span>
-<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Windows Server&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;windows-server&quot;</span><span class="p">,</span>
 <span class="w">             </span><span class="s">&quot;Unknown&quot;</span>
 <span class="w">         </span><span class="p">),</span>
 <span class="w">         </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])</span>
@@ -574,7 +574,7 @@
 <span class="w">             </span><span class="s">&quot;Unknown&quot;</span>
 <span class="w">         </span><span class="p">),</span>
 <span class="w">         </span><span class="n">UpdateMethod</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
-<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSProduct</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Azure Update Manager&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OSProduct</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WindowsServer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;azure-update-manager&quot;</span><span class="p">,</span>
 <span class="w">             </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Linux Package Manager&quot;</span><span class="p">,</span>
 <span class="w">             </span><span class="s">&quot;Manual&quot;</span>
 <span class="w">         </span><span class="p">)</span>

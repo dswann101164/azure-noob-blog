@@ -2,7 +2,7 @@
 title: "Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline & Approval Gates"
 date: 2025-11-05
 summary: "Build the release pipeline that deploys approved Terraform plans with pre-deployment approval gates and audit trails. This is where governance happens."
-tags: ["Azure", "Terraform", "DevOps", "CICD", "IaC", "Azure DevOps"]
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps"]
 cover: "static/images/hero/terraform-devops-part3.png"
 ---
 

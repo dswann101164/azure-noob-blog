@@ -128,7 +128,7 @@ Resources
     RemediationWorkflow = case(
         OSProduct contains "Windows-10" or OSProduct contains "windows-10", "Updated by Intune",
         OSProduct contains "Windows-11" or OSProduct contains "windows-11", "Updated by Intune",
-        OSProduct contains "WindowsServer", "Azure Update Manager",
+        OSProduct contains "WindowsServer", "azure-update-manager",
         OSProduct contains "Databricks", "Excluded - Databricks",
         OSType == "Linux", "Linux Package Manager",
         OSType == "Windows", "Investigation Required - Windows",

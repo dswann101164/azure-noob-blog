@@ -2,7 +2,7 @@
 title: "Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)"
 date: 2025-09-29
 summary: "Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft's own infrastructure serving outdated dependencies."
-tags: ["Azure", "PowerShell", "Automation", "DevOps", "Troubleshooting"]
+tags: ["azure", "powershell", "automation", "devops", "troubleshooting"]
 cover: "static/images/hero/azure-automation-debugging.png"
 ---
 

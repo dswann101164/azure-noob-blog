@@ -2,7 +2,7 @@
 title: "Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting & Common Production Issues"
 date: 2025-11-08
 summary: "Real-world troubleshooting guide for Terraform CI/CD pipelines. These are the issues I've actually encountered in production - and how to fix them fast."
-tags: ["Azure", "Terraform", "DevOps", "CICD", "IaC", "Troubleshooting"]
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "troubleshooting"]
 cover: "static/images/hero/terraform-devops-part6.png"
 ---
 

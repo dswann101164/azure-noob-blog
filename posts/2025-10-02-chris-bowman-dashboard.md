@@ -533,7 +533,7 @@ SWITCH(
     'Usage Details'[Final_CostCenter],
     "Finance", "Finance",
     "Engineering", "Engineering",
-    "Operations", "Operations",
+    "operations", "operations",
     "IT", "IT Shared Services",
     "Production-Shared", "IT Shared Services",
     "Unknown"

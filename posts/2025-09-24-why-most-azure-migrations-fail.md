@@ -2,7 +2,7 @@
 title: "Common Azure Migration Mistakes | Why Enterprise Cloud Migrations Fail"
 date: 2025-09-24
 summary: "The biggest Azure migration mistakes enterprises make: moving applications nobody understands. Real migration failures, institutional knowledge loss, and what actually works."
-tags: ["Azure", "Migration", "Cloud Strategy", "Enterprise", "Mistakes"]
+tags: ["azure", "migration", "cloud-strategy", "enterprise", "mistakes"]
 cover: "/static/images/hero/azure-migration-failure.png"
 ---
 

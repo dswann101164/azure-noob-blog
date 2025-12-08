@@ -2,7 +2,7 @@
 title: "The Azure Role Microsoft Forgot to Certify: Why There's No Exam for Workbooks, KQL, Power BI, and AI"
 date: 2025-12-07
 summary: "Microsoft certifies Azure Administrators, Developers, and Data Engineers. But there's no certification for the role 80% of Azure admins actually perform: building Workbooks, writing KQL queries, creating Power BI dashboards, and leveraging AI for operations. Here's the exam that should exist."
-tags: ["Azure", "Certification", "Career", "Workbooks", "KQL", "Power BI", "AI", "Azure Monitor", "FinOps"]
+tags: ["azure", "Certification", "Career", "Workbooks", "kql", "power-bi", "AI", "Azure Monitor", "FinOps"]
 cover: "/static/images/hero/azure-reporting-role-gap.png"
 hub: "monitoring"
 related_posts:

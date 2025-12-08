@@ -2,7 +2,7 @@
 title: "The AI Collaboration Gap: What Azure Admins Need to Know About Claude vs Copilot"
 date: 2025-10-28
 summary: "Everyone writes about building AI solutions. Nobody writes about using AI as a daily tool. Here's the technical breakdown of two different approaches to AI-assisted Azure operations."
-tags: ["Azure", "AI", "Tools", "Productivity"]
+tags: ["azure", "AI", "tools", "productivity"]
 cover: "/static/images/hero/ai-collaboration.png"
 ---
 

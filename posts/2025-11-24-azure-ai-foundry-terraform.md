@@ -2,7 +2,7 @@
 title: "Deploying Azure AI Foundry RAG with Terraform: Production-Ready Infrastructure as Code"
 date: 2025-11-24
 summary: "YouTube tutorials use Azure Portal clickops. Enterprises need repeatable, secure, version-controlled deployments. Here's the complete Terraform configuration for Azure AI Foundry RAG that actually works in production - with security, monitoring, and cost controls built in."
-tags: ["Azure", "Terraform", "Infrastructure as Code", "Azure AI Foundry", "RAG", "DevOps"]
+tags: ["azure", "Terraform", "Infrastructure as Code", "Azure AI Foundry", "RAG", "devops"]
 cover: "/static/images/hero/azure-ai-foundry-terraform.png"
 ---
 

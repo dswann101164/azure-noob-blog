@@ -2,7 +2,7 @@
 title: "10 Linux Commands That Will Save Your Azure Career"
 date: 2025-11-03
 summary: "You've been avoiding Linux. But Azure Cloud Shell runs Linux. Your VMs run Linux. AKS runs Linux. Here are the 10 commands you actually need to know—and why Windows admins who ignore this are limiting their careers."
-tags: ["Azure", "Linux", "Cloud Shell", "AKS", "Career"]
+tags: ["azure", "Linux", "Cloud Shell", "AKS", "Career"]
 cover: "/static/images/hero/linux-commands-azure-career.svg"
 ---
 
@@ -647,7 +647,7 @@ pwd
 cat /etc/os-release
 
 # Command 4: Search
-grep "Azure" /etc/os-release
+grep "azure" /etc/os-release
 
 # Command 5: Check permissions (can't change in Cloud Shell, read-only filesystem)
 ls -la ~

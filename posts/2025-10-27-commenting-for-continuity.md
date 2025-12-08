@@ -2,7 +2,7 @@
 title: "Commenting for Continuity: Why My Code Comments Don't Look Like Yours (On Purpose)"
 date: 2025-10-27
 summary: "Most guides say 'comment the why, not the what.' Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs."
-tags: ["Azure", "DevOps", "KQL", "PowerShell", "Terraform", "Governance"]
+tags: ["azure", "devops", "kql", "powershell", "Terraform", "governance"]
 cover: "/static/images/hero/code-architecture.svg"
 ---
 

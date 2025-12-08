@@ -2,7 +2,7 @@
 title: "Will AI Replace Azure Administrators by 2030? An Honest Assessment from the Trenches"
 date: 2025-12-02
 summary: "Everyone's talking about AI replacing jobs, but nobody's written the Azure admin-specific version. Here's what happens when the person managing 40+ subscriptions explores the AI tools that might eliminate their role."
-tags: ["Azure", "AI", "Career", "FinOps", "Opinion"]
+tags: ["azure", "AI", "Career", "FinOps", "Opinion"]
 cover: "/static/images/hero/ai-azure-admin-2030.png"
 ---
 

@@ -2,7 +2,7 @@
 title: "The Azure Admin's Guide: PowerShell 5.1 vs. 7 & The End of the ISE"
 date: 2025-11-03
 summary: "Don't just upgrade your scripting language. Upgrade your entire admin workflow. The transition from PowerShell 5.1 + ISE to PowerShell 7 + VS Code is the only way to effectively manage a modern, high-volume Azure environment."
-tags: ["Azure", "PowerShell", "Automation", "VS Code", "ISE"]
+tags: ["azure", "powershell", "automation", "VS Code", "ISE"]
 cover: "/static/images/hero/powershell-7-enterprise-migration.svg"
 ---
 

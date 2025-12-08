@@ -2,7 +2,7 @@
 title: "Azure Cost Optimization: What Actually Works (Not Azure Advisor Recommendations)"
 date: 2025-12-08
 summary: "Azure Advisor says 'right-size your VMs.' Finance says 'why is our cloud bill still increasing?' Here's what actually reduces Azure costs in production: the tactics that work when reserved instances and Advisor recommendations aren't enough."
-tags: ["Azure", "Cost Optimization", "FinOps", "Cost Management", "Azure Advisor", "Governance"]
+tags: ["azure", "Cost Optimization", "FinOps", "Cost Management", "Azure Advisor", "governance"]
 cover: "/static/images/hero/azure-cost-optimization-complete-guide.png"
 hub: "finops"
 related_posts:

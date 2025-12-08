@@ -2,7 +2,7 @@
 title: "I Scraped the Azure Periodic Table to Build a Service Dictionary (And You Can Use It)"
 date: 2025-10-29
 summary: "The Azure Periodic Table is beautiful but not programmatically useful. So I scraped 200+ services into a PowerShell dictionary. Now my inventory tool shows service descriptions, naming conventions, and cost tiers."
-tags: ["Azure", "PowerShell", "Automation", "Tools", "Web Scraping"]
+tags: ["azure", "powershell", "automation", "tools", "Web Scraping"]
 cover: "/static/images/hero/service-inventory-tool.svg"
 ---
 

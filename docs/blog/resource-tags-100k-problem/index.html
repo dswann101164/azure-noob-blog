@@ -133,7 +133,7 @@
   },
   "keywords": "Azure, Compliance, FinOps, Governance, Tags, Technical Debt",
   "articleSection": "Azure",
-  "wordCount": "6291",
+  "wordCount": "6290",
   "timeRequired": "PT31M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -524,7 +524,7 @@ Savings we didn&#39;t get: $113,800
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">osName</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">potentialType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
-<span class="w">    </span><span class="n">osName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Windows Server&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;windows-server&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">osName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Red Hat Enterprise Linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">osName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Ubuntu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">osName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;CentOS&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">,</span>
@@ -801,8 +801,8 @@ Savings we didn&#39;t get: $113,800
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">EstimatedMonthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
 <span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Azure-Update-Manager&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
 <span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Satellite&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
-<span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;SCCM&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Intune&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;sccm&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="n">patchMethod</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;intune&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">    </span><span class="mi">0</span>
 <span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">EstimatedMonthlyCost</span><span class="w"> </span><span class="n">desc</span>

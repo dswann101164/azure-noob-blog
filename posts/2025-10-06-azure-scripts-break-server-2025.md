@@ -2,7 +2,7 @@
 title: "Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won't Tell You)"
 date: 2025-10-06
 summary: "Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here's the gap nobody explains."
-tags: ["Azure", "PowerShell", "Automation", "Windows Server"]
+tags: ["azure", "powershell", "automation", "windows-server"]
 cover: "static/images/hero/powershell-version-gap.png"
 ---
 
@@ -230,13 +230,13 @@ choco install vscode -y
 **Install PowerShell extension:**
 1. Open VSCode
 2. Extensions panel (Ctrl+Shift+X)
-3. Search: "PowerShell"
+3. Search: "powershell"
 4. Install (by Microsoft)
 
 **Set PowerShell 7 as default:**
 1. Open settings (Ctrl+,)
 2. Search: "terminal.integrated.defaultProfile.windows"
-3. Select: "PowerShell"
+3. Select: "powershell"
 4. Search: "powershell.powerShellDefaultVersion"
 5. Select: PowerShell 7.x
 

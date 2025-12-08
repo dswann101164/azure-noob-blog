@@ -2,7 +2,7 @@
 title: "Azure Is Your Cell Phone (And Finance Already Understands It)"
 date: 2025-10-15
 summary: "Nobody asks for ROI on paying Verizon instead of building cell towers. But Finance wants ROI on Azure vs on-premises servers. The apps are the business. Azure is just the platform that runs them."
-tags: ["Azure", "FinOps", "Leadership", "ROI", "Business Value"]
+tags: ["azure", "FinOps", "Leadership", "ROI", "Business Value"]
 cover: "static/images/hero/phone-azure-same-thing.png"
 ---
 

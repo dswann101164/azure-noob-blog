@@ -3,7 +3,7 @@ title: 'Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One 
 date: 2025-11-30
 modified: 2025-12-06
 summary: "One tag key. 247 different spellings. $2.3M in cost allocation failures. Real lessons from enterprise Azure tag governance: why Azure Policy isn't enough and the automation that finally stopped tag chaos across 31,000 resources."
-tags: ["Azure", "Azure Policy", "FinOps", "Governance", "Operations", "Standards", "Tagging", "Cost Management", "Azure Tags"]
+tags: ["azure", "azure-policy", "FinOps", "governance", "operations", "Standards", "Tagging", "Cost Management", "Azure Tags"]
 cover: "/static/images/hero/tag-governance-247-variations.png"
 hub: "finops"
 related_posts:
@@ -356,7 +356,7 @@ I created a three-tier tag governance system with Azure Policy enforcement.
               "Infrastructure",
               "Security",
               "Finance",
-              "Operations"
+              "operations"
             ]
           }
         }

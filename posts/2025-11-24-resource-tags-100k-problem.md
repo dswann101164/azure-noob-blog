@@ -389,7 +389,7 @@ Resources
 | where type == "microsoft.hybridcompute/machines"
 | extend osName = tostring(properties.osName)
 | extend potentialType = case(
-    osName contains "Windows Server", "Server",
+    osName contains "windows-server", "Server",
     osName contains "Red Hat Enterprise Linux", "Server",
     osName contains "Ubuntu", "Server",
     osName contains "CentOS", "Server",
@@ -672,8 +672,8 @@ Resources
 | extend EstimatedMonthlyCost = case(
     patchMethod == "Azure-Update-Manager", VMCount * 5,
     patchMethod == "Satellite", VMCount * 100,
-    patchMethod == "SCCM", 0,
-    patchMethod == "Intune", VMCount * 10,
+    patchMethod == "sccm", 0,
+    patchMethod == "intune", VMCount * 10,
     0
 )
 | order by EstimatedMonthlyCost desc

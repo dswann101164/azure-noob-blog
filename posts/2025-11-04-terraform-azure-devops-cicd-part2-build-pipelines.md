@@ -2,7 +2,7 @@
 title: "Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check & Plan)"
 date: 2025-11-04
 summary: "Build the two pipelines that validate Terraform code on pull requests and create deployment artifacts on merge. GUI-based, no YAML, full control."
-tags: ["Azure", "Terraform", "DevOps", "CICD", "IaC", "Azure DevOps"]
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps"]
 cover: "static/images/hero/terraform-devops-part2.png"
 ---
 

@@ -2,7 +2,7 @@
 title: "SCCM, WSUS, Azure Update Manager, Intune: Which One Do I Actually Use?"
 date: 2025-10-09
 summary: "Three Microsoft reps gave me three different answers about patching Azure VMs. Here's what each tool actually does, which workloads need which tool, and why you need multiple tools during enterprise migration. The decision matrix Microsoft won't publish."
-tags: ["Azure", "SCCM", "WSUS", "Intune", "Azure Update Manager", "Patch Management", "Operations"]
+tags: ["azure", "sccm", "wsus", "intune", "azure-update-manager", "patch-management", "operations"]
 cover: "static/images/hero/patch-management-confusion.svg"
 animated_hero: true
 ---
@@ -449,7 +449,7 @@ Leadership: "Just... make it work? Can't you use both?"
 ```powershell
 # When creating Azure VM, tag it
 $tags = @{
-    "PatchManagement" = "AzureUpdateManager"  # or "SCCM"
+    "PatchManagement" = "AzureUpdateManager"  # or "sccm"
     "PatchOwner" = "AzureTeam"  # or "SCCMTeam"
     "DomainJoin" = "AzureAD"  # or "LegacyAD" or "Workgroup"
 }
@@ -731,7 +731,7 @@ Resources
 | where powerState == "VM running"
 | project vmName = name, resourceGroup, location, vmId
 // Add your logic to check for SCCM client via extensions or tags
-| where tags["PatchManagement"] != "SCCM"
+| where tags["PatchManagement"] != "sccm"
 | order by vmName asc
 ```
 

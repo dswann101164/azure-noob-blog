@@ -2,7 +2,7 @@
 title: "Security Found .NET 6 on 47 VMs. Now I'm Supposed to Remove It. Here's Why That's Impossible."
 date: 2025-10-27
 summary: "Tenable finds a vulnerability. Security creates a ticket. Change management wants approval. App teams say not my problem. Infrastructure doesn't own the apps. Welcome to the operational reality nobody talks about."
-tags: ["Azure", "Security", "Operations", "Change Management"]
+tags: ["azure", "Security", "operations", "Change Management"]
 cover: "/static/images/hero/azure-support-ticket.svg"
 ---
 

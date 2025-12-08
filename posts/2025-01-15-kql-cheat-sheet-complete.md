@@ -28,7 +28,7 @@ Use this to inventory resources, check configurations, or troubleshoot VM-relate
 
 ## Getting Started
 
-**Where to Run:** Azure Portal > Resource Graph Explorer (search "Resource Graph" in the portal).
+**Where to Run:** Azure Portal > Resource Graph Explorer (search "resource-graph" in the portal).
 
 **Key Tables:**
 - `Resources`: Contains all Azure resources (VMs, NICs, disks, etc.)
@@ -154,9 +154,9 @@ Use `case()` to create custom fields and business logic:
 
 | What You Want | Example | Description |
 |---------------|---------|-------------|
-| Custom OS Name | `extend DetailedOS = case(properties.storageProfile.osDisk.osType == "Windows", "Windows Server", properties.storageProfile.osDisk.osType == "Linux", "Linux", "Unknown")` | Categorize OS type |
+| Custom OS Name | `extend DetailedOS = case(properties.storageProfile.osDisk.osType == "Windows", "windows-server", properties.storageProfile.osDisk.osType == "Linux", "Linux", "Unknown")` | Categorize OS type |
 | Tag Extraction | `extend Owner = tostring(tags["Owner"])` | Extract tag value |
-| Update Strategy | `extend UpdateMethod = case(properties.storageProfile.osDisk.osType == "Windows", "Azure Update Manager", "Linux Package Manager")` | Define patching method |
+| Update Strategy | `extend UpdateMethod = case(properties.storageProfile.osDisk.osType == "Windows", "azure-update-manager", "Linux Package Manager")` | Define patching method |
 
 **Example: VMs with OS details and tags:**
 ```kql
@@ -165,7 +165,7 @@ Resources
 | extend OSType = tostring(properties.storageProfile.osDisk.osType),
          DetailedOS = case(
              OSType == "Linux" and properties.storageProfile.imageReference.publisher == "Canonical", "Ubuntu Linux",
-             OSType == "Windows" and properties.storageProfile.imageReference.offer contains "WindowsServer", "Windows Server",
+             OSType == "Windows" and properties.storageProfile.imageReference.offer contains "WindowsServer", "windows-server",
              "Unknown"
          ),
          Environment = tostring(tags["Environment"])
@@ -278,7 +278,7 @@ Resources
              "Unknown"
          ),
          UpdateMethod = case(
-             OSType == "Windows" and OSProduct contains "WindowsServer", "Azure Update Manager",
+             OSType == "Windows" and OSProduct contains "WindowsServer", "azure-update-manager",
              OSType == "Linux", "Linux Package Manager",
              "Manual"
          )

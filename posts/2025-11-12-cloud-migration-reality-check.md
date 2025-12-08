@@ -3,7 +3,7 @@ title: "Why Most Azure Migrations Fail: The Pre-Migration Reality Check Microsof
 date: 2025-11-12
 modified: 2025-12-06
 summary: "60% of Azure migrations exceed budget by 2x because teams skip one critical step: knowing what they have. Real lessons from enterprise migrations: the spreadsheet that prevents $2M budget overruns, timeline disasters, and post-migration chaos."
-tags: ["Azure", "Cloud Migration", "Governance", "Enterprise Reality", "CAF", "Migration Strategy", "Checklist", "Azure Migrate", "Migration Planning"]
+tags: ["azure", "Cloud Migration", "governance", "Enterprise Reality", "caf", "Migration Strategy", "Checklist", "Azure Migrate", "Migration Planning"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "governance"
 related_posts:
