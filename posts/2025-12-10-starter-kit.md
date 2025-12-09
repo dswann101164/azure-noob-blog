@@ -33,7 +33,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Quick troubleshooting, training new team members, 3 AM emergencies
 
-[🛠️ Open Azure Command Finder (Interactive Tool)](https://azure-noob.com/static/downloads/azure-command-finder.html)
+[🛠️ Open Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
 
 ---
 
@@ -146,7 +146,7 @@ Learning Azure for new opportunities
 
 ### Step 1: Get the Interactive Tool
 
-**Start here:** [🛠️ Azure Command Finder (Interactive Tool)](https://azure-noob.com/static/downloads/azure-command-finder.html)
+**Start here:** [🛠️ Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
 
 This interactive tool gives you instant troubleshooting workflows for common Azure problems. Click a problem, get the exact commands.
 
