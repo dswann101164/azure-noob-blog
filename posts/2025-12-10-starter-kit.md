@@ -8,9 +8,11 @@ cover: "/static/images/hero/azure-admin-starter-kit.png"
 
 Get the complete Azure Admin Starter Kit — everything you need to start managing Azure infrastructure effectively, all in one place.
 
+**17,700+ words of battle-tested commands, queries, and templates from a production banking environment.**
+
 ## What's Inside
 
-This free bundle includes four essential resources I use daily managing 31,000+ Azure resources in a regulated banking environment:
+This free bundle includes four essential resources I use daily managing 31,000+ Azure resources:
 
 ### 1. KQL Query Library (PDF)
 
@@ -23,45 +25,48 @@ This free bundle includes four essential resources I use daily managing 31,000+ 
 - Tag governance
 - Network configuration queries
 
-Perfect for: Daily operations, compliance reporting, cost management
+**Perfect for:** Daily operations, compliance reporting, cost management
 
-[Download KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
+[📥 Download KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
 
 **Or view the web version:** [KQL Cheat Sheet - Complete Guide](/blog/kql-cheat-sheet-complete/)
 
 ---
 
-### 2. 50 Windows Commands for Azure (Web Guide + PDF Coming Soon)
+### 2. 50 Windows Commands for Azure (9,200 words)
 
-**PowerShell + CMD commands** for Azure Windows Server VMs, including:
+**Complete PowerShell + CMD reference** for Azure Windows Server VMs, including:
 
 - Azure VM Agent troubleshooting
-- Active Directory domain join
-- Group Policy debugging
-- Serial Console (SAC) workflows
-- Domain trust repair
-- Event log analysis
+- Active Directory domain join (traditional AD, not just Azure AD DS)
+- Group Policy debugging (the stuff Microsoft doesn't document)
+- Serial Console (SAC) workflows when RDP fails
+- Domain trust repair with `Test-ComputerSecureChannel`
+- Event log analysis for security and performance
+- Network troubleshooting
+- Disk operations
 
-Perfect for: Windows Server admins, AD troubleshooting, enterprise environments
+**Perfect for:** Windows Server admins, AD troubleshooting, enterprise environments, regulated industries
 
-[Read: 50 Windows Commands for Azure](/blog/50-windows-commands-azure/)
+[📖 Read: 50 Windows Commands for Azure (Full Guide)](/blog/50-windows-commands-azure/)
 
 ---
 
-### 3. 50 Linux Commands for Azure (Web Guide + PDF Coming Soon)
+### 3. 50 Linux Commands for Azure (8,500 words)
 
 **Complete command reference** for Ubuntu, RHEL, and CentOS on Azure:
 
-- Azure-specific operations
-- Active Directory domain join (from Linux!)
-- System administration
-- Network troubleshooting
-- Disk operations
-- Security and logs
+- Azure-specific operations (VM Agent, IMDS, cloud-init)
+- Active Directory domain join (from Linux! Traditional AD, not just AADDS)
+- System administration (processes, services, users)
+- Network troubleshooting (DNS, connectivity, firewall)
+- Disk operations (partitioning, formatting, mounting)
+- Security and logs (event logs, authentication)
+- `realm join` workflows for enterprise AD integration
 
-Perfect for: Linux admins, hybrid environments, cross-platform operations
+**Perfect for:** Linux admins, hybrid environments, cross-platform operations
 
-[Read: 50 Linux Commands for Azure](/blog/50-linux-commands-azure/)
+[📖 Read: 50 Linux Commands for Azure (Full Guide)](/blog/50-linux-commands-azure/)
 
 ---
 
@@ -74,9 +79,32 @@ Perfect for: Linux admins, hybrid environments, cross-platform operations
 - Pre-filled with common Azure tasks
 - Editable for your environment
 
-Perfect for: Team alignment, documentation, enterprise governance
+**Perfect for:** Team alignment, documentation, enterprise governance
 
-[Download Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+[📥 Download Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+
+---
+
+### 5. Azure Command Finder (Interactive Tool) ✨ NEW
+
+**Interactive troubleshooting tool** — select your problem, get exact commands:
+
+- Can't RDP to VM
+- Domain join failures
+- Group Policy not applying
+- Unexpected high costs
+- VM won't start
+- Linux VM domain join
+
+**Features:**
+- Step-by-step command workflows
+- Copy-paste buttons for every command
+- Works offline (download and open in browser)
+- No installation required
+
+**Perfect for:** Quick troubleshooting, training new team members, 3 AM emergencies
+
+[🛠️ Open Azure Command Finder (Interactive Tool)](https://azure-noob.com/static/downloads/azure-command-finder.html)
 
 ---
 
@@ -118,10 +146,11 @@ Learning Azure for new opportunities
 
 ### Step 1: Download the Assets
 
-- [KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
-- [50 Windows Commands (Web Guide)](/blog/50-windows-commands-azure/)
-- [50 Linux Commands (Web Guide)](/blog/50-linux-commands-azure/)
-- [Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+- [📥 KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
+- [📖 50 Windows Commands (Full Guide)](/blog/50-windows-commands-azure/)
+- [📖 50 Linux Commands (Full Guide)](/blog/50-linux-commands-azure/)
+- [📥 Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+- [🛠️ Azure Command Finder (Interactive Tool)](https://azure-noob.com/static/downloads/azure-command-finder.html)
 
 ### Step 2: Start with KQL
 
