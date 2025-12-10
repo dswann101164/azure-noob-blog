@@ -394,6 +394,83 @@ HUBS = {
         ],
         'related_tags': ['Monitoring', 'Azure', 'Dashboards', 'Workbooks', 'KQL'],
     },
+
+    'migration': {
+        'slug': 'migration',
+        'category': 'Migration',
+        'icon': '☁️',
+        'title': 'Enterprise Migration Reality',
+        'subtitle': 'Pre-migration planning, licensing compliance, ROI reality checks, and lessons learned from real-world Azure migrations at scale.',
+        'gradient_start': '#06b6d4',
+        'gradient_end': '#0891b2',
+        'philosophy_title': 'Most Migrations Fail Before They Start',
+        'philosophy_content': '''
+            <p><strong>The migration trap:</strong> Organizations design Azure landing zones, engage consultants, and deploy Azure Migrate—then discover 6 months in that nobody knows which applications they own, who maintains them, or whether they should even migrate.</p>
+            
+            <p>After managing migrations at enterprise scale, I've learned that successful migrations require three things Microsoft doesn't tell you:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Organizational readiness</strong> — Know what you own, who owns it, and where the installation media is BEFORE touching Azure Migrate.</li>
+                <li><strong>Licensing compliance</strong> — Azure Hybrid Benefit can save money or trigger $50K+ audit penalties. The difference is documentation.</li>
+                <li><strong>Rationalization first</strong> — 20-40% of applications should be retired, not migrated. Discover this on day 1, not month 18.</li>
+            </ul>
+            
+            <p>This hub contains the pre-migration checklists, licensing guides, and failure patterns I've learned from real enterprise migrations. No theory. Just what actually determines whether migrations succeed or fail.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. Pre-Migration Planning',
+                'icon': '📋',
+                'description': 'The 55-question assessment that prevents $2M budget overruns.',
+                'posts': [
+                    'cloud-migration-reality-check',
+                    'application-migration-checklist-azure',
+                    'why-most-azure-migrations-fail',
+                ]
+            },
+            {
+                'title': '2. Migration ROI & Financial Reality',
+                'icon': '💰',
+                'description': 'Why finance\'s ROI calculation is wrong and what actually changes.',
+                'posts': [
+                    'azure-migration-roi-wrong',
+                    'azure-hybrid-benefit-50k',
+                    'azure-migration-yard-sale-rolloff',
+                ]
+            },
+            {
+                'title': '3. Execution & Lessons Learned',
+                'icon': '🚀',
+                'description': 'Real migration patterns, failures, and what works in production.',
+                'posts': [
+                    'azure-migrate-enterprise-hybrid',
+                    'powershell-7-enterprise-migration',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'Application Migration Questionnaire',
+                'description': '55-question Excel template for application assessment.',
+                'url': '/static/downloads/Application_Questionnaire_Template_v2.xlsx',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'finops',
+                'title': 'FinOps',
+                'icon': '💰',
+                'post_count': 8,
+            },
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+        ],
+        'related_tags': ['Migration', 'Azure', 'Cloud Migration', 'Licensing', 'Planning'],
+    },
 }
 
 
@@ -441,5 +518,13 @@ def get_hub_navigation():
             'icon': '📊',
             'title': 'Monitoring',
             'tagline': 'Dashboards and workbooks that answer questions',
+        },
+        {
+            'name': 'Migration',
+            'slug': 'migration',
+            'url': '/hub/migration/',
+            'icon': '☁️',
+            'title': 'Migration',
+            'tagline': 'Enterprise migration planning and execution reality',
         },
     ]
