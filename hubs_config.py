@@ -395,6 +395,92 @@ HUBS = {
         'related_tags': ['Monitoring', 'Azure', 'Dashboards', 'Workbooks', 'KQL'],
     },
 
+    'arc': {
+        'slug': 'arc',
+        'category': 'Azure Arc',
+        'icon': '🌉',
+        'title': 'Azure Arc at Enterprise Scale',
+        'subtitle': 'Extend Azure management to VMware, on-prem servers, and multi-cloud infrastructure. Real governance, inventory, and Arc deployment patterns.',
+        'gradient_start': '#8b5cf6',
+        'gradient_end': '#6d28d9',
+        'philosophy_title': 'Azure Arc is Not "Cloud Extension" — It\'s Inventory Unification',
+        'philosophy_content': '''
+            <p><strong>The Arc misconception:</strong> Organizations deploy Azure Arc thinking it will "extend Azure Policy to on-prem servers." Then they discover 64% of their Arc registrations are ghost VMs that don\'t exist, governance dashboards are wrong, and nobody knows what\'s actually managed.</p>
+            
+            <p>After managing Azure Arc at scale for VMware environments with 850+ VMs, I\'ve learned that Arc success requires three things Microsoft doesn\'t emphasize:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Inventory reconciliation first</strong> — Arc registrations must sync with your CMDB or VMware inventory, or governance data is fiction.</li>
+                <li><strong>Ghost registration cleanup</strong> — VMs get deleted but Arc registrations persist, wrecking compliance reports and cost tracking.</li>
+                <li><strong>Private Link architecture</strong> — Public internet Arc connectivity creates firewall complexity and security risk in regulated environments.</li>
+            </ul>
+            
+            <p>This hub contains the Arc implementation guides, inventory reconciliation strategies, and governance patterns I\'ve built to make Azure Arc actually work in enterprise VMware and hybrid environments.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. Arc Fundamentals & Implementation',
+                'icon': '🚀',
+                'description': 'Deploy Azure Arc to VMware vCenter and on-prem servers with proper governance from day one.',
+                'posts': [
+                    'azure-arc-vcenter-implementation-guide',
+                    'azure-arc-private-lab',
+                ]
+            },
+            {
+                'title': '2. Arc Inventory & Ghost Registration Management',
+                'icon': '👻',
+                'description': 'Detect and clean up Arc ghost registrations that wreck governance and compliance reporting.',
+                'posts': [
+                    'azure-arc-ghost-registrations',
+                    'azure-cmdb-wrong-cloud-fixes-it',
+                ]
+            },
+            {
+                'title': '3. Hybrid Networking & DNS for Arc',
+                'icon': '🔌',
+                'description': 'Connect on-prem infrastructure to Azure with Private Link and hybrid DNS patterns.',
+                'posts': [
+                    'private-endpoint-dns-hybrid-ad',
+                    'azure-migrate-enterprise-hybrid',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'Arc Ghost Registration Detector',
+                'description': 'Python script to reconcile Azure Arc inventory against VMware RVTools exports.',
+                'url': 'https://github.com/dswann101164',
+            },
+            {
+                'name': 'Azure Arc Lab Terraform',
+                'description': 'Complete Azure Arc lab environment with Private Link and vCenter integration.',
+                'url': 'https://github.com/dswann101164',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+            {
+                'slug': 'migration',
+                'title': 'Migration',
+                'icon': '☁️',
+                'post_count': 6,
+            },
+            {
+                'slug': 'monitoring',
+                'title': 'Monitoring',
+                'icon': '📊',
+                'post_count': 5,
+            },
+        ],
+        'related_tags': ['Azure Arc', 'Hybrid', 'VMware', 'Governance', 'Inventory'],
+    },
+
     'migration': {
         'slug': 'migration',
         'category': 'Migration',
@@ -526,5 +612,13 @@ def get_hub_navigation():
             'icon': '☁️',
             'title': 'Migration',
             'tagline': 'Enterprise migration planning and execution reality',
+        },
+        {
+            'name': 'Azure Arc',
+            'slug': 'arc',
+            'url': '/hub/arc/',
+            'icon': '🌉',
+            'title': 'Azure Arc',
+            'tagline': 'Extend Azure management to VMware and on-prem at scale',
         },
     ]
