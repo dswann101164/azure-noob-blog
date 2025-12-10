@@ -1,10 +1,8 @@
 ---
-title: 'Azure Resource Tagging: The Guide Microsoft Should Have Written'
+title: 'Azure Tagging Best Practices 2025: Complete Enterprise Guide'
 date: 2025-09-23
 modified: 2025-11-29
-summary: 'A practical, enterprise-focused guide to Azure resource tags: which tags
-  matter, how to design a tag taxonomy that business owners actually use, and how
-  to keep 31,000+ resources from turning into an ungoverned mess.'
+summary: 'Azure tagging best practices for 2025 - Enterprise guide to tag governance, cost allocation, Azure Policy enforcement, and preventing the 247 variations problem at scale.'
 tags:
 - Automation
 - Azure

@@ -254,7 +254,7 @@ foreach ($resource in $resources) {
 
 **Result:** 247 variations → 4 standard values
 
-More on this: [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/)
+More on this: [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/) and [Azure Tagging Best Practices 2025](/blog/azure-resource-tags-guide/)
 
 ## Building Application-Level Cost Visibility
 

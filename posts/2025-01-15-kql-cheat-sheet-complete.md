@@ -2,8 +2,7 @@
 title: 'KQL Cheat Sheet: Complete Azure Log Analytics Query Guide (2025)'
 date: 2025-01-15
 modified: 2025-11-29
-summary: 'A complete KQL cheat sheet for Azure admins: joins, summarize, extend, project,
-  and real-world query patterns for Azure Resource Graph and Log Analytics.'
+summary: 'Azure Log Analytics Query Language (KQL) cheat sheet for 2025 - Complete guide to Resource Graph queries, joins, performance optimization, and real-world patterns for Azure admins.'
 tags:
 - Azure
 - Cheat Sheet
