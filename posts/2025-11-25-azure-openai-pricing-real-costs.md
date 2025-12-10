@@ -1,9 +1,8 @@
 ---
-title: 'Azure OpenAI Pricing: The Real Costs Nobody Shows You'
+title: 'Azure OpenAI Pricing 2025: The Real Costs Nobody Shows You'
 date: 2025-11-25
 modified: 2025-12-06
-summary: Azure OpenAI usage looks cheap—until it doesn't. A real breakdown of hidden
-  costs and how to prevent runaway AI spending in Azure.
+summary: Azure OpenAI pricing 2025 - Complete breakdown of real costs including GPT-4, GPT-4o, and hidden fees Microsoft doesn't show in their calculator. Updated December 2025.
 tags:
 - Azure
 - FinOps
