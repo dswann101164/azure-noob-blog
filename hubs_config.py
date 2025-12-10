@@ -481,6 +481,195 @@ HUBS = {
         'related_tags': ['Azure Arc', 'Hybrid', 'VMware', 'Governance', 'Inventory'],
     },
 
+    'automation': {
+        'slug': 'automation',
+        'category': 'Automation',
+        'icon': '⚡',
+        'title': 'Azure Automation at Scale',
+        'subtitle': 'PowerShell scripts, Logic Apps, IPAM tools, and automation patterns for enterprise Azure operations.',
+        'gradient_start': '#ef4444',
+        'gradient_end': '#b91c1c',
+        'philosophy_title': 'Automation Isn\'t About Writing Scripts — It\'s About Eliminating Repetitive Decisions',
+        'philosophy_content': '''
+            <p><strong>The automation trap:</strong> Teams write PowerShell scripts for every repetitive task, then wonder why their "automation" requires constant maintenance and breaks when Azure changes. Scripts automate actions, but they don\'t automate <em>decisions</em>.</p>
+            
+            <p>After automating operations across 31,000+ Azure resources, I\'ve learned that sustainable automation requires three layers:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Tool consolidation first</strong> — Stop building custom scripts for every problem. Most operational needs have existing tools (IPAM, inventory, dashboard generators).</li>
+                <li><strong>Logic Apps over scheduled scripts</strong> — Event-driven automation scales better than cron jobs running PowerShell. Let Azure trigger your automation, not the clock.</li>
+                <li><strong>Self-service over tickets</strong> — The best automation eliminates the need for humans to approve routine requests.</li>
+            </ul>
+            
+            <p>This hub contains the automation tools, PowerShell patterns, and Logic App workflows I\'ve built to reduce operational overhead in enterprise Azure environments. Every tool here eliminates repetitive work, not just speeds it up.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. Infrastructure Automation Tools',
+                'icon': '🔧',
+                'description': 'Production-ready tools for Azure inventory, IPAM, and resource management.',
+                'posts': [
+                    'azure-service-inventory-tool',
+                    'azure-ipam-tool',
+                    'pull-meta-from-arm',
+                ]
+            },
+            {
+                'title': '2. Logic Apps & Event-Driven Automation',
+                'icon': '🔄',
+                'description': 'Replace scheduled scripts with event-driven workflows that scale.',
+                'posts': [
+                    'four-logic-apps-every-azure-admin-needs',
+                ]
+            },
+            {
+                'title': '3. PowerShell & Script Modernization',
+                'icon': '💻',
+                'description': 'Migrate from PowerShell 5.1 to 7.x and fix automation dependency hell.',
+                'posts': [
+                    'powershell-7-enterprise-migration',
+                    'azure-vm-automation-dependency-hell',
+                    'azure-scripts-break-server-2025',
+                ]
+            },
+            {
+                'title': '4. Dashboard & Workbook Automation',
+                'icon': '📊',
+                'description': 'Generate dashboards and workbooks programmatically instead of clicking through the portal.',
+                'posts': [
+                    'workbook-app-tool',
+                    'azure-dashboard-rebranding-tool',
+                    'pbix-modernizer-tool',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'Azure Service Inventory Script',
+                'description': 'PowerShell script to export complete Azure resource inventory across all subscriptions.',
+                'url': '/static/downloads/Get-AzureServiceInventory.ps1',
+            },
+            {
+                'name': 'Azure IPAM Tool',
+                'description': 'IP address management across Azure subscriptions with conflict detection.',
+                'url': 'https://github.com/dswann101164',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+            {
+                'slug': 'monitoring',
+                'title': 'Monitoring',
+                'icon': '📊',
+                'post_count': 5,
+            },
+            {
+                'slug': 'kql',
+                'title': 'KQL Mastery',
+                'icon': '🔍',
+                'post_count': 7,
+            },
+        ],
+        'related_tags': ['Automation', 'PowerShell', 'Logic Apps', 'Tools', 'IPAM'],
+    },
+
+    'ai': {
+        'slug': 'ai',
+        'category': 'AI',
+        'icon': '🤖',
+        'title': 'Azure AI & OpenAI at Scale',
+        'subtitle': 'Azure OpenAI pricing, AI Foundry implementation, RAG patterns, and the future of AI-assisted Azure operations.',
+        'gradient_start': '#ec4899',
+        'gradient_end': '#9333ea',
+        'philosophy_title': 'AI Won\'t Replace Azure Admins — It Will Reveal Who\'s Actually Good At Their Job',
+        'philosophy_content': '''
+            <p><strong>The AI panic:</strong> Azure admins worry that AI will eliminate their jobs. The reality is more nuanced: AI will automate the tasks bad admins rely on (clicking through the portal, copy-pasting from Stack Overflow) while amplifying what good admins already do (understanding systems, debugging complex issues, architecting solutions).</p>
+            
+            <p>After implementing Azure OpenAI and AI Foundry in production, I\'ve learned that enterprise AI requires three layers Microsoft doesn\'t emphasize:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Cost reality first</strong> — Azure OpenAI looks cheap until you hit production scale. $50K/month AI bills are common without proper governance.</li>
+                <li><strong>RAG complexity</strong> — Retrieval-Augmented Generation isn\'t "just add a vector database." It\'s data governance, chunk strategies, and embedding model selection.</li>
+                <li><strong>Role transformation</strong> — AI creates new roles (AI Admin, Prompt Engineer, RAG Architect) while eliminating manual work from existing ones.</li>
+            </ul>
+            
+            <p>This hub contains the Azure OpenAI pricing models, AI Foundry implementation patterns, and career guidance I\'ve learned from deploying AI at enterprise scale. Real costs, real patterns, and real career advice.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. Azure OpenAI Cost Reality',
+                'icon': '💸',
+                'description': 'Understand Azure OpenAI pricing before your $50K bill arrives.',
+                'posts': [
+                    'azure-openai-pricing-real-costs',
+                ]
+            },
+            {
+                'title': '2. AI Foundry & RAG Implementation',
+                'icon': '🏭',
+                'description': 'Deploy Azure AI Foundry with Terraform and implement RAG patterns that work in production.',
+                'posts': [
+                    'azure-ai-foundry-terraform',
+                    'azure-ai-foundry-rag-enterprise-reality',
+                ]
+            },
+            {
+                'title': '3. AI-Assisted Azure Operations',
+                'icon': '🤖',
+                'description': 'Use AI to enhance Azure administration without eliminating the human.',
+                'posts': [
+                    'ai-azure-admins-gap',
+                    'azure-ai-collaboration-gap',
+                    'mcp-vs-powerbi-ai-what-actually-creates-dashboards',
+                ]
+            },
+            {
+                'title': '4. Career & Future of Azure Admin',
+                'icon': '🚀',
+                'description': 'How AI changes Azure administration roles and what to learn next.',
+                'posts': [
+                    'will-ai-replace-azure-administrators-by-2030',
+                    'the-ai-admin',
+                    'three-ai-roles',
+                    'gartner-ai-forecast-azure-admin',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'Azure AI Foundry Terraform Module',
+                'description': 'Complete Terraform module for deploying Azure AI Foundry with proper governance.',
+                'url': 'https://github.com/dswann101164',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'finops',
+                'title': 'FinOps',
+                'icon': '💰',
+                'post_count': 8,
+            },
+            {
+                'slug': 'automation',
+                'title': 'Automation',
+                'icon': '⚡',
+                'post_count': 8,
+            },
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+        ],
+        'related_tags': ['AI', 'OpenAI', 'Azure AI Foundry', 'Machine Learning', 'Career'],
+    },
+
     'migration': {
         'slug': 'migration',
         'category': 'Migration',
@@ -620,5 +809,21 @@ def get_hub_navigation():
             'icon': '🌉',
             'title': 'Azure Arc',
             'tagline': 'Extend Azure management to VMware and on-prem at scale',
+        },
+        {
+            'name': 'Automation',
+            'slug': 'automation',
+            'url': '/hub/automation/',
+            'icon': '⚡',
+            'title': 'Automation',
+            'tagline': 'PowerShell, Logic Apps, and tools that eliminate repetitive work',
+        },
+        {
+            'name': 'AI & OpenAI',
+            'slug': 'ai',
+            'url': '/hub/ai/',
+            'icon': '🤖',
+            'title': 'AI & OpenAI',
+            'tagline': 'Azure OpenAI pricing, AI Foundry, and the future of AI-assisted Azure ops',
         },
     ]
