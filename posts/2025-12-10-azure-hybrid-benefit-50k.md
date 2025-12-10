@@ -201,3 +201,36 @@ And document everything like an auditor is reading it tomorrow — because somed
 
 ![Azure Hybrid Benefit Cost Comparison](/static/images/hero/azure-hybrid-benefit-cost-comparison.png)
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I use my on-premises Windows Server license in Azure and on-premises at the same time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The core requirement of the Azure Hybrid Benefit (AHB) is that you stop using the corresponding software on your on-premises servers. You are allowed a short 180-day grace period for migration, but after that, the licenses must be fully retired from your datacenter. Failing to prove decommissioning is the number one cause of licensing audit failures."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is AHB cost calculated for SQL Server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The benefit is applied on a per-core basis. For every 1 core of SQL Server Enterprise Edition on-premises with Software Assurance (SA), you get 1 core of Azure SQL Database or 4 cores of Azure SQL Managed Instance. You must have active Software Assurance to qualify for the benefit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What documentation do I need to prove AHB compliance in a Microsoft audit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You must provide documented proof of three things: 1) Active Software Assurance contracts linked to your volume licensing agreement, 2) The physical core counts of the on-premises hardware where the licenses were originally installed, and 3) Proof that the corresponding on-premises environment has been decommissioned or the licenses removed."
+      }
+    }
+  ]
+}
+</script>
+

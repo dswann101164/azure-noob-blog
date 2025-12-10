@@ -653,4 +653,6 @@ That's the ROI calculation that matters.
 
 *Want to see how Azure actually changes operations? Check out [Why Most Azure Migrations Fail](/blog/why-most-azure-migrations-fail/) for the organizational challenges, or [Azure CMDB Wrong Cloud Fixes It](/blog/azure-cmdb-wrong-cloud-fixes-it/) for how cloud migration eliminates entire categories of manual work.*
 
+*Watch out for [The $50K Licensing Mistake Noobs Make](/blog/azure-hybrid-benefit-licensing-mistake/) that can turn your cost savings into audit penalties.*
+
 *Working on a merger consolidation? You NEED to understand [IP Address Management for Cloud Migrations](/blog/azure-ipam-tool/) and why manual tracking fails at scale.*

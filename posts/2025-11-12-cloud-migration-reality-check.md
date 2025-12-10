@@ -923,6 +923,8 @@ Question 22: "Is this version still officially supported?"
 
 **Action:** Contact vendor BEFORE migration. Get cloud licensing terms in writing.
 
+For a deep dive into the most common licensing mistake that causes $50K+ audit penalties, read: [The $50K Licensing Mistake Noobs Make](/blog/azure-hybrid-benefit-licensing-mistake/)
+
 ---
 
 **Mistake #3: Dependency Hell**
