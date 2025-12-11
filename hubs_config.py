@@ -29,6 +29,7 @@ HUBS = {
                 'icon': '📊',
                 'description': 'Start here: how Azure billing actually works and why your reports are wrong.',
                 'posts': [
+                    'azure-finops-complete-guide',
                     'azure-cost-reports-business-reality',
                     'azure-costs-apps-not-subscriptions',
                     'azure-cost-management-is-confusing-but-you-can-tame-it',
