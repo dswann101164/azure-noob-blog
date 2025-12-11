@@ -1,7 +1,7 @@
 ---
 title: "Azure FinOps 2025: Complete Guide to Cloud Financial Operations"
 date: 2025-12-10
-summary: "Azure FinOps implementation guide for enterprises - cost visibility, chargeback models, tag governance, and optimization strategies that actually work in production environments."
+summary: "Azure FinOps guide for 31,000+ resource environments: tag governance that survives 18 months, chargeback models business units accept, and cost visibility at application level (not subscription). Includes real banking industry implementation."
 tags: ["azure", "finops", "cost-management", "governance", "chargeback", "optimization"]
 cover: "/static/images/hero/azure-finops-business-reality.png"
 ---

@@ -1,8 +1,7 @@
 ---
 title: 'From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL'
 date: 2025-09-23
-summary: Production-grade KQL queries for Azure Resource Graph that build a reliable
-  VM inventory across subscriptions, tenants, and environments.
+summary: "Azure VM inventory workbook with copy-paste KQL: track 200+ resource types across 40+ subscriptions in one view. Includes Update Manager compatibility check, Intune separation, and Databricks exclusion. Free workbook template."
 tags:
 - Azure
 - Intune
