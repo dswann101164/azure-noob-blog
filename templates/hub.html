@@ -147,7 +147,185 @@
 </section>
 {% endif %}
 
-<!-- CTA SECTION -->
+<!-- SMART LEAD MAGNET CTA -->
+{% set hub_slug = hub.slug %}
+{% set cta_data = {
+  'migration': {
+    'icon': '📋',
+    'title': 'Avoid the $2M Migration Disaster',
+    'subtitle': 'Download the Azure Integration Assessment Framework',
+    'bullets': [
+      '55 questions that expose readiness gaps before you spend money on Azure Migrate',
+      'Used by enterprise architects managing 100+ application migrations',
+      'Prevents budget overruns, timeline disasters, and post-migration chaos'
+    ],
+    'cta_text': '📥 Download Free Assessment (Excel)',
+    'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+    'reassurance': 'No email required. Instant download.',
+    'gradient_start': '#10b981',
+    'gradient_end': '#059669',
+    'cta_color': '#059669'
+  },
+  'governance': {
+    'icon': '🎯',
+    'title': 'Stop Begging for Compliance',
+    'subtitle': 'Get the Azure Integration Assessment Framework',
+    'bullets': [
+      'Governance questions that expose institutional knowledge gaps before migration',
+      'Compliance, licensing, ownership, and dependency assessment in one spreadsheet',
+      'If you can\'t answer 50% with high confidence, you\'re not ready to migrate'
+    ],
+    'cta_text': '📥 Download Governance Assessment (Free)',
+    'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+    'reassurance': 'Excel template • No email required',
+    'gradient_start': '#0078d4',
+    'gradient_end': '#003d6b',
+    'cta_color': '#0078d4'
+  },
+  'finops': {
+    'icon': '💰',
+    'title': 'Before You Migrate, Know What It\'ll Cost',
+    'subtitle': 'Download the Azure Integration Assessment Framework',
+    'bullets': [
+      'Cost questions that reveal whether Azure will actually save you money',
+      'Azure cost vs. current cost conversation happens BEFORE migration, not after',
+      'Most organizations discover cloud costs 3x more than expected—don\'t be one of them'
+    ],
+    'cta_text': '📥 Get the Cost Reality Check (Free)',
+    'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+    'reassurance': 'Excel template • Instant download',
+    'gradient_start': '#10b981',
+    'gradient_end': '#059669',
+    'cta_color': '#059669'
+  },
+  'kql': {
+    'icon': '🔍',
+    'title': '45+ Production-Ready KQL Queries',
+    'subtitle': 'Download the Complete KQL Query Library',
+    'bullets': [
+      'Copy-paste queries for Azure Resource Graph, Log Analytics, and cost analysis',
+      'Inventory queries, compliance checks, cost breakdowns, and dependency mapping',
+      'Every query tested in enterprise Azure environments with 31,000+ resources'
+    ],
+    'cta_text': '📥 Download KQL Library (PDF)',
+    'cta_url': '/static/downloads/KQL-Query-Library.pdf',
+    'reassurance': 'No email required • 45+ queries',
+    'gradient_start': '#7c3aed',
+    'gradient_end': '#5b21b6',
+    'cta_color': '#5b21b6'
+  },
+  'monitoring': {
+    'icon': '📊',
+    'title': 'Build Dashboards That Answer Questions',
+    'subtitle': 'Get the KQL Query Library',
+    'bullets': [
+      'Queries that power Azure Monitor workbooks, dashboards, and alerting at scale',
+      '45+ production queries for resource inventory, cost tracking, and compliance reporting',
+      'Stop guessing what to monitor—use queries that actually work in production'
+    ],
+    'cta_text': '📥 Download Monitoring Queries (Free)',
+    'cta_url': '/static/downloads/KQL-Query-Library.pdf',
+    'reassurance': 'PDF format • Ready to use',
+    'gradient_start': '#f59e0b',
+    'gradient_end': '#d97706',
+    'cta_color': '#d97706'
+  },
+  'automation': {
+    'icon': '⚡',
+    'title': 'Automate Azure Operations with KQL',
+    'subtitle': 'Download the KQL Query Library',
+    'bullets': [
+      'Queries that power automation, inventory tools, and Logic App workflows',
+      'Stop building custom PowerShell scripts for everything',
+      'Use KQL to query Azure Resource Graph and trigger automation based on real resource state'
+    ],
+    'cta_text': '📥 Get Automation Queries (Free)',
+    'cta_url': '/static/downloads/KQL-Query-Library.pdf',
+    'reassurance': '45+ queries • PDF download',
+    'gradient_start': '#ef4444',
+    'gradient_end': '#b91c1c',
+    'cta_color': '#b91c1c'
+  },
+  'arc': {
+    'icon': '🌉',
+    'title': 'Manage Hybrid Infrastructure Like Azure',
+    'subtitle': 'Get the Azure Integration Assessment Framework',
+    'bullets': [
+      'Inventory reconciliation checklist that prevents Arc ghost registration disasters',
+      'Dependency gaps and installation media issues exposed before Arc deployment',
+      'Reconcile VMware inventory with Arc before governance data becomes fiction'
+    ],
+    'cta_text': '📥 Download Hybrid Assessment (Free)',
+    'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+    'reassurance': 'Excel template • No email required',
+    'gradient_start': '#8b5cf6',
+    'gradient_end': '#6d28d9',
+    'cta_color': '#6d28d9'
+  },
+  'ai': {
+    'icon': '🤖',
+    'title': 'AI Won\'t Replace You—But You Need the Right Tools',
+    'subtitle': 'Download the KQL Query Library',
+    'bullets': [
+      'The queries AI assistants can\'t write because they don\'t understand your Azure environment',
+      '45+ production KQL queries for cost analysis, compliance, and inventory',
+      'AI can help you modify them, but you need working templates first'
+    ],
+    'cta_text': '📥 Get Production Queries (Free)',
+    'cta_url': '/static/downloads/KQL-Query-Library.pdf',
+    'reassurance': 'PDF library • Ready to use with AI',
+    'gradient_start': '#ec4899',
+    'gradient_end': '#9333ea',
+    'cta_color': '#9333ea'
+  }
+}[hub_slug] %}
+
+<section style="
+  background: linear-gradient(135deg, {{ cta_data.gradient_start }} 0%, {{ cta_data.gradient_end }} 100%);
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">{{ cta_data.icon }}</div>
+    <h2 style="font-size: 2.25rem; margin: 0 0 1rem; color: white; font-weight: 700;">
+      {{ cta_data.title }}
+    </h2>
+    <p style="font-size: 1.2rem; margin: 0 0 1.5rem; opacity: 0.95; line-height: 1.6;">
+      {{ cta_data.subtitle }}
+    </p>
+    <ul style="text-align: left; max-width: 600px; margin: 0 auto 2rem; list-style: none; padding: 0;">
+      {% for bullet in cta_data.bullets %}
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        {{ bullet }}
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{{ cta_data.cta_url }}" download style="
+      display: inline-block;
+      background: white;
+      color: {{ cta_data.cta_color }};
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+      {{ cta_data.cta_text }}
+    </a>
+    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.85;">
+      {{ cta_data.reassurance }}
+    </p>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION CTA -->
 <section style="
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 3rem;
