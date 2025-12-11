@@ -40,6 +40,8 @@ Because that calculator doesn't tell you about:
 
 I spent $500 testing Azure OpenAI deployments across development and production environments in a large enterprise Azure setup. Here's what the pricing calculator won't tell you.
 
+This is part of our complete [Azure FinOps implementation guide](/hub/finops/) covering cost visibility, chargeback models, and tag governance for enterprise Azure environments. Azure OpenAI cost management requires the same foundational FinOps practices as any other Azure service.
+
 ## What Microsoft's Calculator Shows You
 
 Go to the [Azure Pricing Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) and add "Azure OpenAI Service."
@@ -227,6 +229,8 @@ The calculator shows $500. You pay $535.
 
 Not huge. But multiply by 10 production workloads and suddenly you're $350/month over budget.
 
+These infrastructure costs exemplify why [Azure costs should be tracked by application, not subscription](/blog/azure-costs-apps-not-subscriptions/). Azure Cost Management reports won't automatically connect your Cognitive Services costs to your business applications without proper tagging.
+
 ## The Real Cost Calculator Nobody Gives You
 
 Here's the formula I actually use:
@@ -305,6 +309,8 @@ Resources
 
 This shows cost per application. Critical for chargeback.
 
+For a complete chargeback implementation strategy, see our guide on [Azure chargeback models](/blog/azure-chargeback-tags-model/) that business units actually accept, including hybrid allocation models and shared services costs.
+
 **4. Use PTUs for production, pay-as-you-go for dev**
 
 Development and testing workloads are unpredictable. Use pay-as-you-go.
@@ -367,6 +373,8 @@ Microsoft's pricing calculator is a starting point. Not the actual cost.
 
 **Plan accordingly.**
 
+Azure OpenAI cost management is a subset of enterprise Azure FinOps. For the complete framework covering cost visibility, optimization, and governance across all Azure services, read our [Azure FinOps complete guide](/blog/azure-finops-complete-guide/).
+
 The good news: Once you understand the real cost structure, you can optimize it. We reduced Azure OpenAI spend by 60% by:
 - Switching 80% of workloads to GPT-3.5
 - Deleting unused fine-tuned models
@@ -381,8 +389,11 @@ And Microsoft's calculator doesn't give you understanding. It gives you an estim
 
 ## Related Posts
 
+- [Azure FinOps Complete Guide](/blog/azure-finops-complete-guide/) - Enterprise FinOps framework
 - [Azure Cost Optimization: What Actually Works](/blog/azure-cost-optimization-complete-guide/) - Real tactics beyond Azure Advisor
-- [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/) - Cost allocation for chargeback
+- [Azure Chargeback Models](/blog/azure-chargeback-tags-model/) - Chargeback that business units accept
+- [Azure Resource Tagging Best Practices](/blog/azure-resource-tags-guide/) - Tag governance for cost allocation
+- [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/) - Solving tag standardization
 - [Azure AI Foundry Terraform Guide](/blog/azure-ai-foundry-terraform/) - Infrastructure as Code for AI deployments
 
 ---

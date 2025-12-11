@@ -4,6 +4,7 @@ date: 2025-12-10
 summary: "Azure FinOps guide for 31,000+ resource environments: tag governance that survives 18 months, chargeback models business units accept, and cost visibility at application level (not subscription). Includes real banking industry implementation."
 tags: ["azure", "finops", "cost-management", "governance", "chargeback", "optimization"]
 cover: "/static/images/hero/azure-finops-business-reality.png"
+hub: finops
 ---
 
 **Azure FinOps isn't about cutting costs. It's about understanding them.**
@@ -17,6 +18,8 @@ Real Azure FinOps is:
 - Making cost decisions before resources get deployed
 
 I manage Azure FinOps for a 31,000+ resource environment across 44 subscriptions in regulated banking. Here's what actually works.
+
+This guide is the central resource in our [Azure FinOps hub](/hub/finops/) covering cost optimization, governance, and financial operations at enterprise scale.
 
 ## What Azure FinOps Actually Is
 
@@ -537,6 +540,8 @@ Resources
 - Domain controllers (always running)
 - Application servers (predictable load)
 
+Reserved instance planning is particularly critical for predictable workloads migrated from on-premises. See our [Azure migration ROI guide](/blog/azure-migration-roi-wrong/) for break-even calculations including reserved instance impact.
+
 **When NOT to use:**
 - Dev/test (intermittent usage)
 - Proof-of-concept (may not last 1 year)
@@ -567,6 +572,8 @@ Get-AzVM | Where-Object {
     Update-AzVM -VM $_ -ResourceGroupName $_.ResourceGroupName
 }
 ```
+
+Azure Hybrid Benefit requires careful documentation to avoid audit penalties. Read our complete guide on [avoiding the $50K Azure Hybrid Benefit mistake](/blog/azure-hybrid-benefit-complete/) before enabling it on production workloads.
 
 ✅ **Delete Orphaned Resources**
 
@@ -790,8 +797,11 @@ More strategies: [Azure Cost Optimization: What Actually Works](/blog/azure-cost
 - [Azure Cost Optimization: What Actually Works](/blog/azure-cost-optimization-what-actually-works/) - Optimization tactics beyond Azure Advisor
 - [Azure Chargeback: Tags Are Your Cost Model](/blog/azure-chargeback-tags-model/) - Implementing showback and chargeback
 - [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/) - Solving tag standardization at scale
+- [Azure Resource Tagging Best Practices](/blog/azure-resource-tags-guide/) - Complete tagging guide
 - [Azure Cost Reporting: The Business Reality](/blog/azure-cost-reports-business-reality/) - What CFOs actually want to see
 - [Azure OpenAI Pricing 2025](/blog/azure-openai-pricing-real-costs/) - AI-specific FinOps considerations
+- [Azure Hybrid Benefit Guide](/blog/azure-hybrid-benefit-complete/) - Avoiding licensing audit penalties
+- [Azure Migration ROI Reality](/blog/azure-migration-roi-wrong/) - Why ROI calculations fail
 
 ---
 

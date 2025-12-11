@@ -17,6 +17,9 @@ related_posts:
   - cloud-migration-reality-check
   - azure-migration-roi-wrong
   - azure-cost-optimization-what-actually-works
+  - azure-finops-complete-guide
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
 ---
 
 Azure Hybrid Benefit (AHB) is supposed to save money — not **trigger a $50,000 audit bill**.
@@ -445,6 +448,8 @@ Marketplace image with Windows + AHB enabled = double-payment + violation
 - Build Power BI dashboard
 - Schedule quarterly internal audits
 
+Proper tag governance is essential for license tracking. See our complete [Azure tagging best practices guide](/blog/azure-resource-tags-guide/) and how to implement [tag governance at scale](/blog/azure-tag-governance-policy/).
+
 ---
 
 ## Pre-Migration AHB Validation Process (Step-by-Step)
@@ -604,6 +609,8 @@ Resources
 **Output:** Total AHB usage by subscription
 
 **Use this to:** Validate you're not over-allocating licenses
+
+For comprehensive Azure cost visibility and chargeback models that include licensing costs, see our [Azure FinOps complete guide](/blog/azure-finops-complete-guide/).
 
 ---
 

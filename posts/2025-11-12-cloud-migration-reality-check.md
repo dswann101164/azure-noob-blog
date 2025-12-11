@@ -5,12 +5,14 @@ modified: 2025-12-11
 summary: "Azure migration planning checklist: 55-question spreadsheet that prevents $2M+ budget overruns. Includes app dependency mapping, network requirements, licensing audit, and week-by-week implementation timeline. Free download."
 tags: ["azure", "Cloud Migration", "governance", "Enterprise Reality", "caf", "Migration Strategy", "Checklist", "Azure Migrate", "Migration Planning", "ROI", "Cost Management"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
-hub: "governance"
+hub: "migration"
 related_posts:
   - azure-migration-roi-wrong
   - azure-migrate-enterprise-hybrid
   - azure-migration-yard-sale-rolloff
   - application-migration-checklist-azure
+  - azure-hybrid-benefit-complete
+  - azure-cost-optimization-what-actually-works
 ---
 
 # The Spreadsheet I Wish I Had in 2019: Before You Migrate Anything to Azure
@@ -61,6 +63,8 @@ Leadership says "migrate all of them" before anyone has answered:
 Most organizations don't.
 
 That's why 60% of Azure migrations exceed budget by 2x and timelines double.
+
+This spreadsheet is part of our [Azure Migration hub](/hub/migration/) covering pre-migration planning, licensing compliance, ROI reality checks, and lessons learned from real enterprise migrations at scale.
 
 Here's the pre-migration checklist that prevents this disaster.
 
@@ -146,6 +150,8 @@ I created the forcing function I wish I'd had in 2019.
 - If you can't answer 50% with high confidence → not ready to migrate yet
 - If vendor contact person left 3 years ago → discovery work needed
 - If "we think it's on ServerXYZ but not sure" → you're guessing
+
+This questionnaire should be completed alongside the [application migration checklist](/blog/application-migration-checklist-azure/) that covers technical dependencies, network requirements, and cutover planning.
 
 ---
 
@@ -248,6 +254,8 @@ Took 2 weeks to get new certificate issued and installed.
 **Why this matters:**
 
 Not all software licenses allow cloud hosting. Some licenses are tied to physical servers. Some licenses allow Azure but cost 3x more than on-premises.
+
+The most common and expensive licensing mistake is misusing Azure Hybrid Benefit. Read our detailed guide on [the $50K Azure Hybrid Benefit licensing mistake](/blog/azure-hybrid-benefit-complete/) that triggers audit penalties.
 
 **Real example:**
 
@@ -511,6 +519,8 @@ What it does well:
 **Azure Migrate discovers resources. This spreadsheet discovers organizational readiness.**
 
 **You need both.**
+
+For the complete migration cost breakdown including hidden expenses and ROI formulas, see our guide on [why Azure migration ROI calculations are wrong](/blog/azure-migration-roi-wrong/).
 
 ```
 Week 1-4: Deploy Azure Migrate (technical discovery)
@@ -785,6 +795,8 @@ Choose applications with:
 
 **Wave planning based on spreadsheet:**
 
+For enterprise hybrid migration patterns connecting on-premises infrastructure to Azure, see our guide on [Azure Migrate for enterprise hybrid environments](/blog/azure-migrate-enterprise-hybrid/).
+
 **Wave 1 (Months 9-12): Quick Wins**
 - Applications: High value + low risk (green status + simple)
 - Goal: Build momentum and confidence
@@ -943,6 +955,8 @@ Planned migration budget: $25K (one app)
 Actual migration cost: $180K (six apps + coordination + testing)
 
 Budget overrun: 7.2x planned cost
+
+This is why accurate cost modeling is critical before migration. Our [Azure cost optimization guide](/blog/azure-cost-optimization-what-actually-works/) shows what actually reduces cloud costs versus what Azure Advisor recommends.
 
 **How spreadsheet prevents this:**
 
