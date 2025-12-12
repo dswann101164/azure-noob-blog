@@ -62,9 +62,9 @@ The architecture looks like this:
 
 ## Why This Matters
 
-At Synovus, we're managing infrastructure across 44 Azure subscriptions with over 31,000 resources. The Pinnacle Financial merger adds another layer of complexity - multiple datacenters, thousands of servers, and strict regulatory requirements.
+When you're managing infrastructure across 40+ Azure subscriptions with over 30,000 resources, complexity is inevitable. Add a corporate merger bringing multiple datacenters, thousands of servers, and strict regulatory requirements, and the challenge multiplies.
 
-**Azure Arc is perfect for this scenario.** But only if it works within our security constraints.
+**Azure Arc is perfect for this scenario.** But only if it works within your security constraints.
 
 Every Arc demo I found assumed:
 1. Servers can reach the public internet
@@ -275,9 +275,9 @@ nslookup his.arc.azure.com
 
 Two reasons:
 
-**1. The Synovus-Pinnacle merger needs Arc**
+**1. Enterprise mergers need Arc**
 
-We're consolidating infrastructure from two large financial institutions. Arc provides unified management for servers across datacenters, but only if we can deploy it securely.
+When consolidating infrastructure from two large organizations, Arc provides unified management for servers across datacenters - but only if you can deploy it securely within enterprise constraints.
 
 **2. Microsoft's docs don't cover this**
 
@@ -337,4 +337,4 @@ And if you're evaluating Arc for your organization, this gives you a realistic s
 
 *This is post #81 in my journey to 100 Azure architecture posts. 19 more to go, then we launch something new. Stay tuned.*
 
-*Managing 44 Azure subscriptions and 31,000+ resources at Synovus while documenting everything publicly at [azure-noob.com](https://azure-noob.com). Because if I'm solving these problems, you probably are too.*
+*Managing 40+ Azure subscriptions and 30,000+ resources at enterprise scale while documenting everything publicly at [azure-noob.com](https://azure-noob.com). Because if I'm solving these problems, you probably are too.*
