@@ -257,6 +257,18 @@
   </aside>
   {% endif %}
 
+  {# ---- CONTENT-SPECIFIC CTA ---- #}
+  {% set post_tags_lower = post.tags|map('lower')|list %}
+  {% if 'migration' in post_tags_lower or 'cloud migration' in post_tags_lower %}
+    {% include 'partials/cta-migration.html' %}
+  {% elif 'kql' in post_tags_lower or 'query' in post_tags_lower or 'log analytics' in post_tags_lower %}
+    {% include 'partials/cta-kql.html' %}
+  {% elif 'finops' in post_tags_lower or 'cost' in post_tags_lower or 'cost management' in post_tags_lower %}
+    {% include 'partials/cta-finops.html' %}
+  {% else %}
+    {% include 'partials/cta-general.html' %}
+  {% endif %}
+
   {# ---- PREV/NEXT ---- #}
   <nav class="post-nav">
     {% if prev_post %}

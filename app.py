@@ -437,6 +437,9 @@ def hub_page(slug):
     section_slugs = [slug for section in hub_config['sections'] for slug in section['posts']]
     additional_posts = [p for p in related_posts if p['slug'] not in section_slugs][:5]
     
+    # Generate hub-specific CTA data
+    cta_data = get_hub_cta_data(slug)
+    
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
     canonical_url = f"{site_url}{url_for('hub_page', slug=slug)}"
     
@@ -444,9 +447,153 @@ def hub_page(slug):
                          hub=hub_config,
                          sections=sections_with_posts,
                          additional_posts=additional_posts,
+                         cta_data=cta_data,
                          canonical_url=canonical_url,
                          page_title=f"{hub_config['title']} - Azure Noob",
                          meta_description=hub_config.get('description', ''))
+
+def get_hub_cta_data(hub_slug):
+    """Generate CTA configuration for each hub."""
+    cta_configs = {
+        'finops': {
+            'gradient_start': '#10b981',
+            'gradient_end': '#059669',
+            'emoji': '💰',
+            'title': 'Stop Guessing at Azure Costs',
+            'subtitle': 'Get the complete Azure FinOps Framework with everything you need to make cost management actually work.',
+            'bullets': [
+                'Cost allocation templates finance trusts',
+                'Tag governance policies that teams follow',
+                'Showback dashboards with business context',
+                'KQL queries for cost analysis at scale'
+            ],
+            'cta_text': 'Download FinOps Framework',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#10b981',
+            'reassurance': 'Excel template • KQL queries included • No email required'
+        },
+        'kql': {
+            'gradient_start': '#7c3aed',
+            'gradient_end': '#5b21b6',
+            'emoji': '🔍',
+            'title': 'Stop Rewriting the Same KQL Queries',
+            'subtitle': 'Get 45+ production-ready KQL queries you can copy-paste today.',
+            'bullets': [
+                'VM inventory across all subscriptions',
+                'Cost analysis with tag joins',
+                'Security compliance audits',
+                'Performance optimization patterns'
+            ],
+            'cta_text': 'Download Complete Query Library',
+            'cta_url': '/static/downloads/KQL-Query-Library-Complete.pdf',
+            'cta_color': '#7c3aed',
+            'reassurance': 'PDF format • Production-tested • No email required'
+        },
+        'governance': {
+            'gradient_start': '#0078d4',
+            'gradient_end': '#003d6b',
+            'emoji': '🎯',
+            'title': 'Make Governance Teams Actually Follow',
+            'subtitle': 'Get the tag governance framework that enforces compliance without creating bureaucracy.',
+            'bullets': [
+                'Tag taxonomy teams understand',
+                'Azure Policy templates for auto-enforcement',
+                'Compliance dashboards that show trends',
+                'Migration to governance best practices'
+            ],
+            'cta_text': 'Get Governance Framework',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#0078d4',
+            'reassurance': 'Excel + PowerShell • Battle-tested • No email required'
+        },
+        'monitoring': {
+            'gradient_start': '#f59e0b',
+            'gradient_end': '#d97706',
+            'emoji': '📊',
+            'title': 'Build Dashboards Teams Actually Use',
+            'subtitle': 'Get workbook templates and dashboard patterns that answer questions instead of raising them.',
+            'bullets': [
+                'Azure Monitor Workbook templates',
+                'KQL queries for operational metrics',
+                'Dashboard design patterns',
+                'Alerting that drives action'
+            ],
+            'cta_text': 'Get Dashboard Templates',
+            'cta_url': '/static/downloads/KQL-Query-Library-Complete.pdf',
+            'cta_color': '#f59e0b',
+            'reassurance': 'JSON workbooks • Deployment ready • No email required'
+        },
+        'migration': {
+            'gradient_start': '#06b6d4',
+            'gradient_end': '#0891b2',
+            'emoji': '☁️',
+            'title': 'Stop. Don\'t Migrate Yet.',
+            'subtitle': 'Answer 55 questions about each application before touching Azure Migrate.',
+            'bullets': [
+                'Application assessment questionnaire',
+                'Dependency mapping framework',
+                'Licensing compliance checklist',
+                'Week-by-week migration timeline'
+            ],
+            'cta_text': 'Get Migration Assessment Framework',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#06b6d4',
+            'reassurance': 'Excel template • Complete instructions • No email required'
+        },
+        'arc': {
+            'gradient_start': '#8b5cf6',
+            'gradient_end': '#6d28d9',
+            'emoji': '🌉',
+            'title': 'Fix Your Arc Ghost Registration Problem',
+            'subtitle': 'Detect and clean up Azure Arc registrations that don\'t match actual VMs.',
+            'bullets': [
+                'Ghost registration detection script',
+                'VMware RVTools reconciliation',
+                'Arc deployment best practices',
+                'Private Link architecture guide'
+            ],
+            'cta_text': 'Get Arc Ghost Detector',
+            'cta_url': '/static/downloads/KQL-Query-Library-Complete.pdf',
+            'cta_color': '#8b5cf6',
+            'reassurance': 'Python script • Production-tested • No email required'
+        },
+        'automation': {
+            'gradient_start': '#ef4444',
+            'gradient_end': '#b91c1c',
+            'emoji': '⚡',
+            'title': 'Stop Building Custom Scripts for Everything',
+            'subtitle': 'Get production-ready automation tools that eliminate repetitive Azure admin work.',
+            'bullets': [
+                'IPAM tool for IP address management',
+                'Service inventory across subscriptions',
+                'Dashboard generator for workbooks',
+                'Logic App templates for workflows'
+            ],
+            'cta_text': 'Get Automation Toolkit',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#ef4444',
+            'reassurance': 'PowerShell + Python • GitHub repos • No email required'
+        },
+        'ai': {
+            'gradient_start': '#ec4899',
+            'gradient_end': '#9333ea',
+            'emoji': '🤖',
+            'title': 'Understand Azure OpenAI Costs Before Your $50K Bill',
+            'subtitle': 'Get the pricing calculator and cost optimization guide that prevents AI budget disasters.',
+            'bullets': [
+                'Azure OpenAI pricing calculator',
+                'Token consumption estimator',
+                'Cost optimization strategies',
+                'RAG implementation cost model'
+            ],
+            'cta_text': 'Get OpenAI Cost Calculator',
+            'cta_url': '/static/downloads/KQL-Query-Library-Complete.pdf',
+            'cta_color': '#ec4899',
+            'reassurance': 'Excel calculator • Real production costs • No email required'
+        },
+    }
+    
+    return cta_configs.get(hub_slug, cta_configs['finops'])  # Default to finops if slug not found
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
