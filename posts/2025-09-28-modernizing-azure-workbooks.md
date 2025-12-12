@@ -1,9 +1,8 @@
 ---
-title: 'Enhanced Azure Inventory Workbook: 200+ Services, Security Hygiene, Global
-  Filters'
+title: 'Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)'
 date: 2025-09-28
-summary: How to modernize Azure Monitor workbooks with better UX, KQL patterns, and
-  business context so teams actually use them.
+modified: 2025-12-12
+summary: 'How to enhance Azure Monitor Workbooks from 50 to 200+ services with global filters, security hygiene checks, and portal integration. Fixes Billy York Azure Inventory Workbook with working KQL queries, conditional visibility, and professional UX.'
 tags:
 - Azure
 - Community

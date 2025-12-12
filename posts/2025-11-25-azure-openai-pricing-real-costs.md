@@ -1,8 +1,8 @@
 ---
-title: 'Azure OpenAI Pricing 2025: The Real Costs Nobody Shows You'
+title: 'Azure OpenAI Pricing 2025: Real Costs ($2 Demo → $4K Production) + Calculator'
 date: 2025-11-25
-modified: 2025-12-06
-summary: "Azure OpenAI real costs: $0.002-$0.06 per 1K tokens (GPT-3.5 to GPT-4o). Includes calculator for production workloads, hidden hosting fees ($1,836/mo minimum), and December 2025 pricing changes Microsoft's calculator won't show you."
+modified: 2025-12-12
+summary: "Azure OpenAI pricing reality: $2 demo becomes $4,000/month in production. Complete 2025 pricing ($0.002-$0.06 per 1K tokens), hidden $1,836/mo hosting fees, token calculator, and cost optimization strategies Microsoft's calculator doesn't show."
 tags:
 - Azure
 - FinOps
