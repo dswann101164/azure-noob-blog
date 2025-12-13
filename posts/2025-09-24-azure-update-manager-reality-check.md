@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported'
 date: 2025-09-24
 summary: 'What Azure Update Manager really looks like in an enterprise: agent confusion,
@@ -17,6 +17,10 @@ tags:
 - VM Management
 cover: static/images/hero/azure-update-manager.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

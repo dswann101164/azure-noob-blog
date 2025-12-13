@@ -1,4 +1,4 @@
----
+﻿---
 title: How to Present Azure Costs in the Boardroom
 date: 2025-09-14
 summary: Executives don’t care about vCores or storage accounts. Learn how to translate

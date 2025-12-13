@@ -1,4 +1,4 @@
----
+﻿---
 title: 'KQL Cheat Sheet 2025: 51 Azure Resource Graph Queries (Copy-Paste Ready)'
 date: 2025-01-15
 modified: 2025-12-12
@@ -13,6 +13,10 @@ tags:
 - Sentinel
 cover: /static/images/hero/kql-cheat-sheet.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 # KQL Cheat Sheet for Azure Admins: Azure Resource Graph (VMs, NICs, Disks)
 

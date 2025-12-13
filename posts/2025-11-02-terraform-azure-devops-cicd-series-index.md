@@ -1,10 +1,14 @@
----
+﻿---
 title: "Enterprise-Grade Terraform CI/CD in Azure DevOps - Complete Series"
 date: 2025-11-02
 summary: "The complete 6-part guide to deploying Azure infrastructure with Terraform through Azure DevOps - with pull request approvals, Key Vault secrets, and zero manual portal changes. This is how enterprises actually run Infrastructure as Code."
 tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "Series"]
 cover: "static/images/hero/terraform-devops-series-index.png"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 This is the complete guide to building **enterprise-grade Terraform CI/CD pipelines** in Azure DevOps. Not theory - this is the exact setup I run in production.
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)'
 date: 2025-09-28
 modified: 2025-12-12
@@ -13,6 +13,10 @@ tags:
 - Workbooks
 cover: static/images/hero/azure-workbook-enhancement.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 ## Why Nobody Teaches Workbooks
 

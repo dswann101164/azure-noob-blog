@@ -1,4 +1,4 @@
----
+﻿---
 title: Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
 date: 2025-10-13
 summary: 'An Azure Monitor workbook-driven app concept: turn your dashboards into
@@ -14,6 +14,10 @@ tags:
 - Workbooks
 cover: static/images/hero/workbook-app-tool.svg
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

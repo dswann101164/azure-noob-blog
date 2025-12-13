@@ -1,10 +1,14 @@
----
+﻿---
 title: "Azure Command Finder (Interactive Tool)"
 date: 2025-12-09
 summary: "Interactive troubleshooting tool - select your Azure problem, get the exact commands to fix it. Copy-paste ready workflows for RDP issues, domain join, Group Policy, costs, and more."
 tags: ["azure", "troubleshooting", "commands", "tools", "powershell", "azure-cli"]
 cover: "/static/images/hero/azure-admin-starter-kit.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 **Interactive troubleshooting tool** — select your problem, get step-by-step commands with copy-paste buttons.
 

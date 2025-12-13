@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You
   About'
 date: 2025-10-28
@@ -14,6 +14,10 @@ tags:
 - Resource Graph
 cover: /static/images/hero/kql-query-library.svg
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

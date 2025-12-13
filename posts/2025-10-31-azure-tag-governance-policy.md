@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Tag Governance: Policy Patterns That Actually Work'
 date: 2025-10-31
 summary: How to turn Azure tags from 'nice to have' into enforceable governance using

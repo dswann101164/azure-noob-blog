@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn''t Exist'
 date: 2025-12-06
 summary: How Azure Arc ghost registrations happen, why they wreck governance reporting,

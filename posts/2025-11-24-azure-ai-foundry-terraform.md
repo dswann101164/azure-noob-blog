@@ -1,4 +1,4 @@
----
+﻿---
 title: "Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not Portal Clickops)"
 date: 2025-11-24
 modified: 2025-12-12
@@ -6,6 +6,10 @@ summary: "Complete Terraform code for Azure AI Foundry RAG: secure, repeatable, 
 tags: ["azure", "Terraform", "Infrastructure as Code", "Azure AI Foundry", "RAG", "devops"]
 cover: "/static/images/hero/azure-ai-foundry-terraform.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 **Every Azure AI Foundry tutorial uses the Portal. Zero use Terraform.**
 

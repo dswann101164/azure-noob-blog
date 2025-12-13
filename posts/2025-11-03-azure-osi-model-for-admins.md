@@ -1,4 +1,4 @@
----
+﻿---
 title: "The OSI Model for Azure Admins: How to Troubleshoot the Cloud Like a Network Engineer"
 date: 2025-11-03
 summary: "The OSI model isn’t dead — it just moved to the cloud. Here’s how to map Azure services to OSI layers and use that framework to troubleshoot IaaS, PaaS, and SaaS workloads efficiently."

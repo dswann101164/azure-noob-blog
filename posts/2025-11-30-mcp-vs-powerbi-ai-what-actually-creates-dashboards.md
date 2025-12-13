@@ -1,4 +1,4 @@
----
+﻿---
 title: 'MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What''s Just
   Marketing)'
 date: 2025-11-30
@@ -15,6 +15,10 @@ tags:
 - Power BI
 cover: /static/images/hero/mcp-powerbi-ai-reality.png
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.

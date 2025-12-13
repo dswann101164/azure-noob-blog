@@ -1,4 +1,4 @@
----
+﻿---
 title: "Azure RACI Matrix Template: Free Download for Cloud Projects (2025)"
 date: 2025-09-08
 modified: 2025-11-29
@@ -6,6 +6,10 @@ summary: "Free Azure RACI matrix template for cloud operations. Define responsib
 tags: ["azure", "RACI", "governance", "caf", "enterprise", "Template", "Roles", "Responsibilities"]
 cover: "/static/images/hero/caf-roles-matrix.png"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 <span class="lead"><strong>TL;DR:</strong> A practical, CAF-aligned roles & responsibilities matrix you can drop straight into your runbooks. Download it as PDF or Excel and adapt to your org.</span>
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: I'll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like
 date: 2025-11-10
 summary: A reusable pattern for pulling metadata from ARM at scale to feed CMDBs,

@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure OpenAI Pricing 2025: Real Costs ($2 Demo → $4K Production) + Calculator'
 date: 2025-11-25
 modified: 2025-12-12
@@ -12,6 +12,10 @@ tags:
 cover: /static/images/hero/azure-openai-costs.png
 slug: azure-openai-pricing-real-costs
 hub: finops
+related_posts:
+  - azure-finops-complete-guide
+  - azure-cost-optimization-complete-guide
+  - azure-resource-tags-guide
 ---
 
 ## December 2025 Update: Pricing Changes You Need to Know

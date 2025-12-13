@@ -1,10 +1,14 @@
----
+﻿---
 title: "Finance Accepts Monthly OpEx for Phones. Why Not Cloud?"
 date: 2025-10-15
 summary: "Nobody questions paying Verizon instead of building cell towers. Apps on your phone = value. The network = enabler. Finance gets it. So why do they question the same model for Azure?"
 tags: ["azure", "FinOps", "Leadership", "ROI", "OpEx"]
 cover: "static/images/hero/phone-azure-same-thing.png"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 # Finance Accepts Monthly OpEx for Phones. Why Not Cloud?
 

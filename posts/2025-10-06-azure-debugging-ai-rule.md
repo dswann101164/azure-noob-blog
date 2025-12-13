@@ -1,4 +1,4 @@
----
+﻿---
 title: 'The New Azure Debugging Rule: When AI Says ''I Don''t Know'''
 date: 2025-10-06
 summary: Using KQL to debug AI-driven alerts, complex rules, and noisy signals in

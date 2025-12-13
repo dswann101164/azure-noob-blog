@@ -1,10 +1,14 @@
----
+﻿---
 title: "Gartner’s AI Forecast for 2030: What It Really Means for Azure Admins"
 date: 2025-11-18
 summary: "Gartner predicts that by 2030, 0% of IT work will be done without AI involvement. Here’s what that means for Azure administrators, cloud engineers, and anyone responsible for running enterprise cloud environments."
 tags: ["azure", "AI", "Gartner", "Cloud", "automation", "Career"]
 cover: "/static/images/hero/ai-future-of-azure-admin.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.

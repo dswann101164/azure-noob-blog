@@ -1,4 +1,4 @@
----
+﻿---
 title: The Azure Arc Multi-vCenter Implementation Guide That Actually Works
 date: 2025-11-24
 summary: 'End-to-end implementation guide for connecting VMware vCenter to Azure Arc

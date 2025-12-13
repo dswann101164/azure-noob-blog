@@ -1,10 +1,14 @@
----
+﻿---
 title: "The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)"
 date: 2025-10-27
 summary: "Every guide says 'configure diagnostic settings.' Nobody shows you which button to click. Here's the step-by-step tutorial that actually works, written for someone who's never done this before."
 tags: ["azure", "SOC2", "Compliance", "Monitoring", "Activity Logs"]
 cover: "/static/images/hero/azure-soc2-activity-log.svg"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 Last week I published [The Azure Audit Gap Nobody Talks About](/blog/azure-audit-gap-nobody-talks-about/). The response was overwhelming: "This is great, but WHERE DO I START?"
 

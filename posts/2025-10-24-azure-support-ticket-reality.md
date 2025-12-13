@@ -1,4 +1,4 @@
----
+﻿---
 title: 'What Happens When You Open an Azure Support Ticket: Inside the Enterprise
   Support Model'
 date: 2025-10-24
@@ -13,6 +13,10 @@ tags:
 - Support
 cover: static/images/hero/azure-support-ticket.svg
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

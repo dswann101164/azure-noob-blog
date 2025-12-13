@@ -1,10 +1,14 @@
----
+﻿---
 title: "Why I Open-Sourced My Enterprise Azure Operations Repository"
 date: 2025-11-19
 summary: "Microsoft tells you how to create Azure resources. I'm documenting how to actually operate them at enterprise scale. Here's why I'm sharing operational knowledge that most architects keep private, and how AI helped me build portable intellectual property."
 tags: ["azure", "Career", "GitHub", "FinOps", "AI"]
 cover: "/static/images/hero/open-source-ops.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 # Why I Open-Sourced My Enterprise Azure Operations Repository
 

@@ -1,7 +1,11 @@
----
+﻿---
 title: "Thanks for downloading the KQL cheat sheet!"
 date: 2025-09-23
 hub: kql
+related_posts:
+  - kql-cheat-sheet-complete
+  - azure-vm-inventory-kql
+  - kql-query-library-git
 ---
 # Thanks for your interest!
 

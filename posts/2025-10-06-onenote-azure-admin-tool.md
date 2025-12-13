@@ -1,10 +1,14 @@
----
+﻿---
 title: "OneNote: The Azure Admin Tool Nobody Tells You About"
 date: 2025-10-06
 summary: "Azure certification courses teach you Portal, CLI, and PowerShell. Nobody mentions the tool that will save you more time than all of them combined: OneNote. Here's why Send to OneNote should be muscle memory for every Azure admin."
 tags: ["azure", "operations", "documentation", "productivity"]
 cover: "static/images/hero/onenote-azure-admin.png"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 Six months into my current Azure role, I got a ticket: "Private endpoint DNS resolution failing for storage account from on-premises."
 

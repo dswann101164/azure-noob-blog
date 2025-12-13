@@ -1,10 +1,14 @@
----
+﻿---
 title: "Azure Admin Starter Kit (Free Download)"
 date: 2025-12-10
 summary: "Get everything you need to start managing Azure effectively: KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template. Free, no email required."
 tags: ["azure", "starter-kit", "kql", "windows", "linux", "operations", "governance"]
 cover: "/static/images/hero/azure-admin-starter-kit.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 Get the complete Azure Admin Starter Kit — everything you need to start managing Azure infrastructure effectively, all in one place.
 

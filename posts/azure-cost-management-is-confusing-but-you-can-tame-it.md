@@ -1,4 +1,4 @@
----
+﻿---
 title: Azure Cost Management Is Confusing—But You Can Tame It
 slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15

@@ -1,10 +1,14 @@
----
+﻿---
 title: "Azure AI Foundry RAG: The Enterprise Reality Check Nobody Gives You"
 date: 2025-11-23
 summary: "YouTube tutorials show you how to build RAG with Azure AI Foundry in 20 minutes. They don't show you the $3,000/year cost, the production failures, or when you shouldn't use it at all. Here's what happens when you actually deploy this at scale."
 tags: ["azure", "AI", "RAG", "Azure AI Foundry", "FinOps", "Machine Learning"]
 cover: "/static/images/hero/azure-ai-foundry-rag-reality.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 **Azure AI Foundry makes building RAG systems look easy. Until you get the bill.**
 

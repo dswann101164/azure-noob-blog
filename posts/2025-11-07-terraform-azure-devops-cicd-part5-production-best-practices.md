@@ -1,10 +1,14 @@
----
+﻿---
 title: "Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices & Multi-Environment Setup"
 date: 2025-11-07
 summary: "Scale from single environment to Dev/Test/Prod with separate state files, environment-specific approvals, and production hardening. This is how enterprises actually run Terraform."
 tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "Production"]
 cover: "static/images/hero/terraform-devops-part5.png"
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 Parts 1-4 built a working CI/CD pipeline for Terraform. Now we make it production-ready with **multiple environments**, **separate state files**, and **environment-specific approval workflows**.
 

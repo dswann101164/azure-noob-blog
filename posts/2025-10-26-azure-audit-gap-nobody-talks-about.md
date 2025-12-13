@@ -1,4 +1,4 @@
----
+﻿---
 title: 'The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won''t Survive
   a 7-Year Audit'
 date: 2025-10-26
@@ -15,6 +15,10 @@ tags:
 - Security
 cover: /static/images/hero/azure-audit-gap.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

@@ -1,4 +1,4 @@
----
+﻿---
 title: Azure Dashboards Are Your Cloud NOC (And Nobody Told You)
 date: 2025-10-03
 summary: How to design Azure dashboards for a Cloud NOC team that actually answer
@@ -14,6 +14,10 @@ tags:
 - Workbooks
 cover: static/images/hero/cloud-noc.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

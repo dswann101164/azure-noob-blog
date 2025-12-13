@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Admin Starter Kit (Free Download)'
 date: 2025-12-10
 summary: 'Download the Azure Admin Starter Kit: KQL cheat sheet, Windows/Linux command guides, and an Azure RACI template.'
@@ -10,6 +10,10 @@ tags:
   - Starter Kit
 cover: /static/images/hero/azure-admin-starter-kit.png
 hub: governance
+related_posts:
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - azure-policy-reality-check
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

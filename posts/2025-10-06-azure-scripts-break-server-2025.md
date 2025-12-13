@@ -1,10 +1,14 @@
----
+﻿---
 title: "Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won't Tell You)"
 date: 2025-10-06
 summary: "Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here's the gap nobody explains."
 tags: ["azure", "powershell", "automation", "windows-server"]
 cover: "static/images/hero/powershell-version-gap.png"
 hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - the-ai-admin
+  - three-ai-roles
 ---
 ## The Problem Nobody Warns You About
 
