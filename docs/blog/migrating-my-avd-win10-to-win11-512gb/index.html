@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space · Azure Noob</title>
+  <meta name="description" content="How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk...">
+  <link rel="canonical" href="https://azure-noob.com/blog/migrating-my-avd-win10-to-win11-512gb" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space">
+  <meta property="og:description" content="How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/migrating-my-avd-win10-to-win11-512gb">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/avd-win11-migration.png">
+
+  
+    <meta property="article:published_time" content="2025-10-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-28T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="azure">
+      
+        <meta property="article:tag" content="AVD">
+      
+        <meta property="article:tag" content="Windows 11">
+      
+        <meta property="article:tag" content="operations">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space">
+  <meta name="twitter:description" content="How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/avd-win11-migration.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space",
+  "description": "How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/avd-win11-migration.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-28T00:00:00+00:00",
+  "dateModified": "2025-10-28T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/migrating-my-avd-win10-to-win11-512gb"
+  },
+  "keywords": "azure, AVD, Windows 11, operations",
+  "articleSection": "azure",
+  "wordCount": "2508",
+  "timeRequired": "PT13M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space",
+      "item": "https://azure-noob.com/blog/migrating-my-avd-win10-to-win11-512gb"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/avd-win11-migration.png" alt="I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space</h1>
+    <p class="muted">
+      2025-10-28 · ~13 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/azure" class="tag-badge">azure</a></li>
+      
+      <li><a href="/tags/AVD" class="tag-badge">AVD</a></li>
+      
+      <li><a href="/tags/Windows%2011" class="tag-badge">Windows 11</a></li>
+      
+      <li><a href="/tags/operations" class="tag-badge">operations</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk partitions, authentication, and user assignments.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>I was running out of disk space on my Azure Virtual Desktop. 127GB total, only 18GB free. Time to migrate to Windows 11 with more breathing room.</p>
+<p>This guide is part of our <a href="/hub/automation/">Azure Automation hub</a> covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.</p>
+<p>This is the story of migrating my own daily driver AVD from Windows 10 to Windows 11, complete with all the mistakes, fixes, and lessons learned along the way.</p>
+<h2>The Problem</h2>
+<p>My current AVD session host:<br />
+- <strong>VM:</strong> wvdsnvtestn-2.moonlab.local<br />
+- <strong>OS:</strong> Windows 10 Enterprise Multi-session<br />
+- <strong>Size:</strong> Standard D8s v5 (8 vCPU, 32GB RAM)<br />
+- <strong>Disk:</strong> 127GB total, <strong>18GB free</strong> (85% full)</p>
+<p>Where did the space go?</p>
+<div class="codehilite"><pre><span></span><code><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">:</span>              <span class="n">17</span><span class="p">.</span><span class="n">11</span> <span class="n">GB</span>  <span class="p">(</span><span class="n">profiles</span> <span class="n">and</span> <span class="n">local</span> <span class="n">cache</span><span class="p">)</span>
+<span class="n">C</span><span class="p">:\</span><span class="n">Program</span> <span class="n">Files</span><span class="p">:</span>      <span class="n">15</span><span class="p">.</span><span class="n">73</span> <span class="n">GB</span>  <span class="p">(</span><span class="n">64-bit</span> <span class="n">apps</span><span class="p">)</span>
+<span class="n">C</span><span class="p">:\</span><span class="n">Program</span> <span class="n">Files</span> <span class="p">(</span><span class="n">x86</span><span class="p">):</span> <span class="n">12</span><span class="p">.</span><span class="n">45</span> <span class="n">GB</span>  <span class="p">(</span><span class="n">32-bit</span> <span class="n">apps</span><span class="p">)</span>
+<span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">:</span>            <span class="p">~</span><span class="n">40</span><span class="p">-</span><span class="n">50</span> <span class="n">GB</span> <span class="p">(</span><span class="n">system</span> <span class="n">files</span><span class="p">,</span> <span class="n">WinSxS</span><span class="p">)</span>
+<span class="n">Page</span> <span class="n">file</span><span class="p">:</span>             <span class="p">~</span><span class="n">8</span> <span class="n">GB</span>     <span class="p">(</span><span class="n">based</span> <span class="n">on</span> <span class="n">32GB</span> <span class="n">RAM</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Nothing crazy. Just normal Windows bloat and standard tools. But 18GB free isn't enough headroom for an architect doing daily work.</p>
+<p><strong>Time to migrate.</strong></p>
+<h2>The Decision: New Pool vs In-Place Upgrade</h2>
+<p>With a Personal AVD pool, I had two options:</p>
+<h3>Option 1: In-Place Upgrade Existing Pool</h3>
+<ul>
+<li>Upgrade each VM from Win 10 to Win 11</li>
+<li>No infrastructure changes</li>
+<li>All-or-nothing approach</li>
+<li>No rollback if issues</li>
+</ul>
+<h3>Option 2: Create New Pool (What I Chose)</h3>
+<ul>
+<li>Build new Windows 11 pool alongside existing</li>
+<li>Test before committing</li>
+<li>Easy rollback (keep old pool running)</li>
+<li>Zero user impact during migration</li>
+<li>Run both pools in parallel</li>
+</ul>
+<p><strong>I chose Option 2.</strong> As the guinea pig for my own migration, I wanted a safety net.</p>
+<h2>Building the New Pool</h2>
+<h3>Pool Configuration</h3>
+<p>Created a new host pool: <code>wvdhostpool1-win11</code></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Pool</span><span class="w"> </span><span class="nv">Settings</span>:
+<span class="o">-</span><span class="w"> </span><span class="nv">Type</span>:<span class="w"> </span><span class="nv">Personal</span>
+<span class="o">-</span><span class="w"> </span><span class="nv">Assignment</span>:<span class="w"> </span><span class="nv">Direct</span><span class="w"> </span><span class="ss">(</span><span class="nv">match</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="nv">setup</span><span class="ss">)</span>
+<span class="o">-</span><span class="w"> </span><span class="nv">Location</span>:<span class="w"> </span><span class="nv">East</span><span class="w"> </span><span class="nv">US</span>
+<span class="o">-</span><span class="w"> </span><span class="nv">Workspace</span>:<span class="w"> </span><span class="nv">win11</span><span class="w"> </span><span class="ss">(</span><span class="nv">new</span><span class="w"> </span><span class="nv">workspace</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">clarity</span><span class="ss">)</span>
+<span class="o">-</span><span class="w"> </span><span class="nv">Managed</span><span class="w"> </span><span class="nv">Identity</span>:<span class="w"> </span><span class="nv">Enabled</span>
+<span class="o">-</span><span class="w"> </span><span class="nv">Diagnostics</span>:<span class="w"> </span><span class="nv">Log</span><span class="w"> </span><span class="nv">Analytics</span><span class="w"> </span><span class="ss">(</span><span class="nv">Sentinel</span><span class="ss">)</span>
+</code></pre></div>
+
+<p><strong>Why a new workspace?</strong></p>
+<p>I could have added the new pool to the existing workspace, but separating them makes it clearer during migration:<br />
+- Old workspace = Win 10 VMs<br />
+- New workspace = Win 11 VMs</p>
+<p>Users know exactly which desktop they're launching.</p>
+<h3>Session Host Configuration</h3>
+<p><strong>This is where it gets interesting.</strong></p>
+<div class="codehilite"><pre><span></span><code>VM Settings:
+- Name prefix: win1101-
+- Image: Windows 11 Enterprise Multi-session (25H2)
+- VM size: Standard D8s v5 (8 vCPU, 32GB RAM)
+- OS disk size: 512GB Standard SSD  ← THE KEY REQUIREMENT
+- Network: vnet-prod-onprem2azure
+- Subnet: snet-prod-onprem2azure-prod
+- Security: Trusted launch, secure boot, vTPM, integrity monitoring
+</code></pre></div>
+
+<p><strong>Critical: Domain Join Settings</strong></p>
+<p>The first time I tried to deploy, I missed this. The Azure portal has a setting buried in the VM configuration:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">Specify</span><span class="w"> </span><span class="nx">domain</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">unit</span><span class="p">:</span><span class="w"> </span><span class="nx">YES</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="nx">Must</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">Yes</span>
+<span class="nx">Domain</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">join</span><span class="p">:</span><span class="w"> </span><span class="nx">moonlab</span><span class="p">.</span><span class="nx">local</span>
+<span class="nx">Domain</span><span class="w"> </span><span class="nx">join</span><span class="w"> </span><span class="k">type</span><span class="p">:</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Directory</span>
+<span class="nx">Domain</span><span class="w"> </span><span class="nx">admin</span><span class="w"> </span><span class="nx">credentials</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="nx">your</span><span class="w"> </span><span class="nx">account</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">join</span><span class="w"> </span><span class="nx">permissions</span><span class="p">)</span>
+</code></pre></div>
+
+<p>If you skip this, the VM deploys but:<br />
+- ❌ Not domain joined<br />
+- ❌ AVD agent not installed automatically<br />
+- ❌ Not registered to host pool</p>
+<p><strong>You have to delete it and start over.</strong> Ask me how I know.</p>
+<h2>The 512GB Disk Mystery</h2>
+<p>The deployment succeeded. I connected to the new Win 11 VM and checked disk space:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Get-Volume</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">DriveLetter</span><span class="p">,</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Size(GB)&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="no">[math]</span><span class="p">::</span><span class="n">Round</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Size</span><span class="p">/</span><span class="n">1GB</span><span class="p">,</span><span class="n">2</span><span class="p">)}},</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Free(GB)&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="no">[math]</span><span class="p">::</span><span class="n">Round</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">SizeRemaining</span><span class="p">/</span><span class="n">1GB</span><span class="p">,</span><span class="n">2</span><span class="p">)}}</span>
+
+<span class="n">DriveLetter</span> <span class="n">Size</span><span class="p">(</span><span class="n">GB</span><span class="p">)</span> <span class="n">Free</span><span class="p">(</span><span class="n">GB</span><span class="p">)</span>
+<span class="p">-----------</span> <span class="p">--------</span> <span class="p">--------</span>
+<span class="n">C</span>             <span class="n">126</span><span class="p">.</span><span class="n">45</span>    <span class="n">96</span><span class="p">.</span><span class="n">76</span>
+</code></pre></div>
+
+<p><strong>Wait. What?</strong></p>
+<p>The Azure portal clearly showed the disk as 512GB. But Windows only saw 127GB.</p>
+<h3>The Gotcha: Unallocated Space</h3>
+<p>I checked the disk properties in the Azure portal:</p>
+<p><strong>Disk size: 512 GiB</strong> ✅</p>
+<p>The disk WAS 512GB. But the partition was only 127GB. The remaining ~385GB was sitting there unallocated.</p>
+<p><strong>This is a common gotcha with Azure VMs.</strong> When you specify a larger disk size during deployment, Azure creates the disk at that size, but the partition inside Windows doesn't automatically expand to fill it.</p>
+<h3>The Fix: Extend the Partition</h3>
+<p><strong>On the Win 11 VM:</strong></p>
+<ol>
+<li>Open Computer Management: <code>compmgmt.msc</code></li>
+<li>Go to Storage → Disk Management</li>
+<li>You'll see:</li>
+<li>C: drive = 127GB (in use)</li>
+<li>Unallocated space = ~385GB (grayed out)</li>
+<li>Right-click C: drive → <strong>Extend Volume</strong></li>
+<li>Walk through the wizard (use all available space)</li>
+<li>Done - C: drive now shows 512GB</li>
+</ol>
+<p><strong>No downtime. No VM restart needed.</strong></p>
+<p>After extending:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="nb">Get-Volume</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">DriveLetter</span><span class="p">,</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Size(GB)&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="no">[math]</span><span class="p">::</span><span class="n">Round</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Size</span><span class="p">/</span><span class="n">1GB</span><span class="p">,</span><span class="n">2</span><span class="p">)}},</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Free(GB)&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="no">[math]</span><span class="p">::</span><span class="n">Round</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">SizeRemaining</span><span class="p">/</span><span class="n">1GB</span><span class="p">,</span><span class="n">2</span><span class="p">)}}</span>
+
+<span class="n">DriveLetter</span> <span class="n">Size</span><span class="p">(</span><span class="n">GB</span><span class="p">)</span> <span class="n">Free</span><span class="p">(</span><span class="n">GB</span><span class="p">)</span>
+<span class="p">-----------</span> <span class="p">--------</span> <span class="p">--------</span>
+<span class="n">C</span>             <span class="n">476</span><span class="p">.</span><span class="n">45</span>   <span class="n">450</span><span class="p">.</span><span class="n">32</span>
+</code></pre></div>
+
+<p><strong>Much better.</strong> 450GB free vs 18GB before.</p>
+<h2>Installing Apps: The Automated Way</h2>
+<p>I didn't want to manually click through installers. Here's the Chocolatey script I used:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Azure Architect AVD Setup Script</span>
+<span class="c"># Run as Administrator</span>
+
+<span class="nb">Set-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="n">-Scope</span> <span class="k">Process</span> <span class="n">-Force</span>
+
+<span class="c"># Install Chocolatey</span>
+<span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">SecurityProtocol</span> <span class="p">=</span> <span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">SecurityProtocol</span> <span class="o">-bor</span> <span class="n">3072</span>
+<span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://chocolatey.org/install.ps1&#39;</span><span class="p">))</span>
+
+<span class="c"># Refresh environment</span>
+<span class="nv">$env:Path</span> <span class="p">=</span> <span class="no">[System.Environment]</span><span class="p">::</span><span class="n">GetEnvironmentVariable</span><span class="p">(</span><span class="s2">&quot;Path&quot;</span><span class="p">,</span><span class="s2">&quot;Machine&quot;</span><span class="p">)</span> <span class="p">+</span> <span class="s2">&quot;;&quot;</span> <span class="p">+</span> <span class="no">[System.Environment]</span><span class="p">::</span><span class="n">GetEnvironmentVariable</span><span class="p">(</span><span class="s2">&quot;Path&quot;</span><span class="p">,</span><span class="s2">&quot;User&quot;</span><span class="p">)</span>
+
+<span class="c"># Install tools</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">powershell-core</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">vscode</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">git</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">azure-cli</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">microsoftazurestorageexplorer</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">azure-data-studio</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">notepadplusplus</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">7zip</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">googlechrome</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">adobereader</span>
+
+<span class="c"># Install Azure PowerShell modules</span>
+<span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Az</span> <span class="n">-Repository</span> <span class="n">PSGallery</span> <span class="n">-Force</span> <span class="n">-AllowClobber</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Base tools installed. Office/Teams/Visio require manual installation.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+
+<p><strong>The script ran flawlessly.</strong> All tools installed without interaction.</p>
+<p><strong>Manual installs still needed:</strong><br />
+- Office (Microsoft 365 Apps)<br />
+- Teams (VDI-optimized version)<br />
+- Visio (requires specific licensing)</p>
+<p>These can't be easily scripted due to licensing activation requirements in our environment.</p>
+<h2>The Authentication Puzzle</h2>
+<p>With the VM ready, I tried to connect from my home computer.</p>
+<p><strong>Remote Desktop client → Subscribe to workspace:</strong></p>
+<p>Entered: <code>dswann@moonlab.local</code></p>
+<p><strong>Error:</strong> "We couldn't find any Workspaces."</p>
+<h3>The Problem: Azure AD vs On-Premises AD</h3>
+<p><strong>Inside the corporate network (via WVD):</strong><br />
+- I authenticate with my on-premises AD account: <code>dswann@moonlab.local</code><br />
+- Kerberos/NTLM to domain-joined machines</p>
+<p><strong>From the internet (connecting to AVD):</strong><br />
+- I need to authenticate with my <strong>Azure AD account</strong>: <code>dswann@snvtest.com</code><br />
+- Modern authentication/OAuth to Azure</p>
+<p><strong>These are two different accounts.</strong> AVD from the internet requires the Azure AD UPN, not the on-prem domain account.</p>
+<h3>The Fix: Correct Account and Assignments</h3>
+<p><strong>Two assignments needed for Personal pools with Direct assignment:</strong></p>
+<p><strong>1. Application Group Assignment</strong></p>
+<p>This controls who can see and access the workspace.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Workspaces</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">win11</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="n">groups</span><span class="w"> </span>
+<span class="err">→</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="o">-</span><span class="n">DAG</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Assignments</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="k">Add</span>
+
+<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="n">dswann</span><span class="nv">@snvtest</span><span class="p">.</span><span class="n">com</span>
+</code></pre></div>
+
+<p><strong>2. VM Assignment</strong></p>
+<p>This controls which specific VM you're assigned to.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="k">Host</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="w"> </span>
+<span class="err">→</span><span class="w"> </span><span class="k">Session</span><span class="w"> </span><span class="n">hosts</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">win1101</span><span class="o">-</span><span class="mf">0.</span><span class="n">moonlab</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Assignment</span>
+
+<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="n">dswann</span><span class="nv">@snvtest</span><span class="p">.</span><span class="n">com</span>
+</code></pre></div>
+
+<p><strong>Both are required.</strong> Miss either one and you can't connect.</p>
+<p>After adding both assignments, I waited 2-5 minutes for propagation, then:</p>
+<p><strong>Remote Desktop client → Subscribe:</strong></p>
+<p>Entered: <code>dswann@snvtest.com</code></p>
+<p><strong>Success.</strong> The "win11" workspace appeared.</p>
+<h3>MFA and Single Sign-On</h3>
+<p><strong>Interesting operational detail:</strong></p>
+<p>When I first connected from home:<br />
+1. Authenticated to old Win 10 WVD with MFA (from internet)<br />
+2. From inside that session, connected to new Win 11 WVD<br />
+3. <strong>No additional MFA prompt</strong></p>
+<p>Why? Once I was on the corporate network (via the first AVD connection), Conditional Access saw subsequent connections as "on corporate network" and didn't require MFA again.</p>
+<p>This is Azure AD single sign-on working as designed. If I'd connected directly to the Win 11 workspace from home (bypassing the old one), I would have hit MFA.</p>
+<h2>What I Learned</h2>
+<h3>1. Disk Size ≠ Partition Size</h3>
+<p><strong>Azure creates the disk at the size you specify, but the partition doesn't auto-expand.</strong></p>
+<p>You must manually extend the partition in Disk Management. This is standard Windows behavior, but it catches people off guard because cloud VMs "should just work."</p>
+<p><strong>Pro tip:</strong> Check <code>Get-Volume</code> immediately after deployment to verify usable space matches expectations.</p>
+<h3>2. Domain Join is Critical</h3>
+<p><strong>The "Specify domain or unit" setting is easy to miss</strong> in the portal during VM creation.</p>
+<p>Without it:<br />
+- VM deploys successfully<br />
+- But not domain joined<br />
+- AVD agent doesn't install<br />
+- Not registered to host pool<br />
+- You have to delete and start over</p>
+<p><strong>Always verify domain join configuration before clicking "Create".</strong></p>
+<h3>3. Two Different Accounts for AVD</h3>
+<p><strong>On corporate network:</strong> Use on-premises AD account (<code>user@domain.local</code>)</p>
+<p><strong>From internet:</strong> Use Azure AD account (<code>user@company.com</code>)</p>
+<p>These are separate identities. You need both:<br />
+- On-prem AD account for domain-joined VM access<br />
+- Azure AD account for AVD workspace discovery and authentication</p>
+<h3>4. Personal Pools Need Two Assignments</h3>
+<p><strong>Application group assignment:</strong> Can you see the workspace?</p>
+<p><strong>VM assignment:</strong> Which VM do you get?</p>
+<p>Both are required for Personal pools with Direct assignment. Pooled hosts only need app group assignment.</p>
+<h3>5. New Pool Strategy is Worth It</h3>
+<p><strong>Running both pools in parallel gave me:</strong><br />
+- Safety net (old VM still works)<br />
+- Time to test thoroughly<br />
+- Zero pressure ("I can always go back")<br />
+- Validation period before committing</p>
+<p>The cost of running both (~$50/month extra for a few weeks) was worth the peace of mind.</p>
+<h2>The Results</h2>
+<h3>Before (Win 10)</h3>
+<ul>
+<li>127GB disk</li>
+<li>18GB free (85% full)</li>
+<li>Constant "low disk space" anxiety</li>
+<li>Had to clean up temp files weekly</li>
+</ul>
+<h3>After (Win 11)</h3>
+<ul>
+<li>512GB disk</li>
+<li>450GB free (12% used)</li>
+<li>Breathing room for years</li>
+<li>No more space management</li>
+</ul>
+<h3>Performance</h3>
+<p><strong>Disk I/O feels faster</strong> with Standard SSD at 512GB (P20 tier) vs 127GB (P10 tier). Higher IOPS and throughput at the larger size.</p>
+<p><strong>Windows 11 differences noticed:</strong><br />
+- Slightly cleaner UI (centered taskbar, rounded corners)<br />
+- Same performance on identical VM size<br />
+- All tools work exactly the same<br />
+- Teams is still Teams (unfortunately)</p>
+<h2>Cost Implications</h2>
+<p><strong>VM cost:</strong> ~$350/month (Standard D8s v5)</p>
+<p><strong>Disk cost:</strong><br />
+- 127GB Standard SSD (P10): ~$10/month<br />
+- 512GB Standard SSD (P20): ~$30/month<br />
+- <strong>Delta: $20/month</strong></p>
+<p><strong>The disk upgrade is &lt;10% of total VM cost.</strong> For an architect who lives in this environment daily, $20/month for 4x the space is a no-brainer.</p>
+<h2>Would I Do Anything Differently?</h2>
+<p><strong>Not really.</strong> The migration went smoothly once I:<br />
+1. Configured domain join correctly<br />
+2. Extended the disk partition<br />
+3. Set up both user assignments</p>
+<p><strong>The new pool strategy was the right call.</strong> Zero downtime, ability to test thoroughly, and easy rollback if needed.</p>
+<p><strong>Only regret:</strong> I didn't migrate sooner. I suffered with 18GB free for months before finally doing this.</p>
+<h2>What's Next</h2>
+<p><strong>For me:</strong><br />
+- Test everything for a week<br />
+- Verify FSLogix profile consistency<br />
+- Confirm all apps work as expected<br />
+- Decommission old Win 10 pool after validation period</p>
+<p><strong>For my team:</strong><br />
+- Document this process for other users<br />
+- Create standardized VM deployment template<br />
+- Build automation for app installation<br />
+- Plan broader Win 11 migration rollout</p>
+<p><strong>For the upcoming enterprise merger:</strong><br />
+- This migration pattern will scale to 300+ users<br />
+- Win 11 ready when Pinnacle users need AVD access<br />
+- Proven playbook for Personal pool migrations<br />
+- Documented all the gotchas</p>
+<h2>The Bottom Line</h2>
+<p><strong>Migrating my own AVD to Windows 11 with 512GB disk space took about 3 hours of actual work:</strong><br />
+- 30 minutes: Create pool and deploy VM<br />
+- 30 minutes: Fix disk partition issue<br />
+- 30 minutes: Install apps<br />
+- 30 minutes: Configure authentication and assignments<br />
+- 60 minutes: Testing and validation</p>
+<p><strong>Total cost: ~$20/month more for the larger disk</strong></p>
+<p><strong>Result: 4x more disk space, modern OS, clean slate, and documented migration process for the team.</strong></p>
+<p>If you're running out of space on your AVD, don't suffer. Migrate to a new pool with proper disk sizing. The new pool strategy gives you a safety net and the ability to test thoroughly before committing.</p>
+<p>Your future self (and your team) will thank you.</p>
+<hr />
+<p><em>This post documents the actual migration of my production AVD environment. All commands, scripts, and gotchas are from real experience. Your mileage may vary, but the patterns should apply to any Personal AVD pool migration.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/starter-kit" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Admin Starter Kit (Free Download)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-10</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/50-linux-commands-azure" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">50 Linux Commands for Azure (However You Deploy)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-08</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/tag-governance-247-variations" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-30</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/commenting-for-continuity">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)</strong>
+      </a>
+    
+    
+      <a href="/blog/kql-query-library-git" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You About</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

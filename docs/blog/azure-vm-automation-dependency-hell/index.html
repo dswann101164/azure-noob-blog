@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It) · Azure Noob</title>
+  <meta name="description" content="Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.">
+  <link rel="canonical" href="https://azure-noob.com/blog/azure-vm-automation-dependency-hell" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)">
+  <meta property="og:description" content="Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azure-vm-automation-dependency-hell">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-automation-debugging.png">
+
+  
+    <meta property="article:published_time" content="2025-09-29T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-09-29T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="azure">
+      
+        <meta property="article:tag" content="powershell">
+      
+        <meta property="article:tag" content="automation">
+      
+        <meta property="article:tag" content="devops">
+      
+        <meta property="article:tag" content="troubleshooting">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)">
+  <meta name="twitter:description" content="Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-automation-debugging.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)",
+  "description": "Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/azure-automation-debugging.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-09-29T00:00:00+00:00",
+  "dateModified": "2025-09-29T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/azure-vm-automation-dependency-hell"
+  },
+  "keywords": "azure, powershell, automation, devops, troubleshooting",
+  "articleSection": "azure",
+  "wordCount": "574",
+  "timeRequired": "PT3M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)",
+      "item": "https://azure-noob.com/blog/azure-vm-automation-dependency-hell"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/azure-automation-debugging.png" alt="Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)</h1>
+    <p class="muted">
+      2025-09-29 · ~3 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/azure" class="tag-badge">azure</a></li>
+      
+      <li><a href="/tags/powershell" class="tag-badge">powershell</a></li>
+      
+      <li><a href="/tags/automation" class="tag-badge">automation</a></li>
+      
+      <li><a href="/tags/devops" class="tag-badge">devops</a></li>
+      
+      <li><a href="/tags/troubleshooting" class="tag-badge">troubleshooting</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>I built a PowerShell script to automate Azure admin workstation setup. Tested on my VM - worked perfectly. Deployed a fresh Windows 11 Enterprise N from Azure marketplace to document the process - total failure. Every package install failed with cryptic certificate errors.</p>
+<p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
+<p>Three hours later, I discovered why Microsoft's package manager doesn't work on Microsoft's marketplace images.</p>
+<h2>The Certificate Validation Error</h2>
+<p>Fresh Windows 11 Enterprise N VMs fail every winget package install:</p>
+<div class="codehilite"><pre><span></span><code><span class="mh">0x8a15005e</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">did</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">match</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">values</span><span class="o">.</span>
+</code></pre></div>
+
+<p>PowerShell 7? Failed. VS Code? Failed. Git, Python, Azure CLI - all failed.</p>
+<h2>The Debugging Rabbit Hole</h2>
+<p><strong>First attempt: Run Windows Update</strong></p>
+<p>Maybe the VM just needs updates? I wrote a script using PSWindowsUpdate module, waited 90 minutes for patches and reboot.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="n">-Name</span> <span class="s2">&quot;Microsoft.VCLibs.140.00.UWPDesktop&quot;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Version</span>
+<span class="c"># Version: 14.0.30704.0</span>
+</code></pre></div>
+
+<p>Still the old version. Windows Update doesn't include framework updates.</p>
+<p><strong>Second attempt: Manual dependency updates</strong></p>
+<p>Winget requires VCLibs.140.00.UWPDesktop version 14.0.33728.0+ to work properly. Downloaded from Microsoft's official URLs:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">&quot;https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx&quot;</span>
+<span class="nb">Add-AppxPackage</span> <span class="n">-Path</span> <span class="nv">$downloaded</span>
+</code></pre></div>
+
+<p>Installed version: 14.0.33321.0</p>
+<p>Still too old. Microsoft's download URL doesn't provide the version their software requires.</p>
+<p><strong>The dependency trap:</strong></p>
+<ul>
+<li>Fresh marketplace VMs ship with winget v1.19 (certificate validation broken)</li>
+<li>Updating to winget v1.26 requires App Installer v1.26</li>
+<li>App Installer v1.26 requires VCLibs 14.0.33728.0+</li>
+<li>Microsoft's URLs only provide VCLibs 14.0.33321.0</li>
+<li>Windows Update doesn't include these frameworks</li>
+</ul>
+<p>Stuck in a loop with no Microsoft-provided solution.</p>
+<h2>The Working Solution: Chocolatey</h2>
+<p>Chocolatey doesn't depend on AppX frameworks. It just works.</p>
+<p>Rewrote the script using Chocolatey instead of winget. Tested on a fresh marketplace VM:</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">14</span><span class="o">/</span><span class="mf">14</span><span class="w"> </span><span class="n">packages</span><span class="w"> </span><span class="n">installed</span><span class="w"> </span><span class="n">successfully</span>
+<span class="mf">0</span><span class="w"> </span><span class="n">failures</span>
+</code></pre></div>
+
+<h2>Deployment Timeline</h2>
+<p>From Azure Portal to fully configured workstation: <strong>30-60 minutes</strong></p>
+<ul>
+<li>Deploy Windows 11 VM: 5-10 min</li>
+<li>Download script: 2 min</li>
+<li>Chocolatey installs everything: 20-40 min</li>
+<li>Reboot and verify: 5 min</li>
+</ul>
+<p><strong>What gets installed:</strong><br />
+- Dev tools: PowerShell 7, VS Code, Git, Python, Node.js<br />
+- Azure tools: Azure CLI, Storage Explorer, Terraform, Bicep<br />
+- Utilities: Windows Terminal, Docker Desktop, Postman, 7-Zip, Notepad++</p>
+<p>Plus desktop shortcuts for the key applications.</p>
+<h2>Usage</h2>
+<p>One command on any fresh Azure VM:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Download and run</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">&quot;https://raw.githubusercontent.com/dswann101164/azure-admin-workstation-setup/main/Setup-AzureAdminWorkstation-Chocolatey.ps1&quot;</span> <span class="n">-OutFile</span> <span class="s2">&quot;Setup.ps1&quot;</span>
+
+<span class="p">.\</span><span class="n">Setup</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-NoPrompts</span>
+</code></pre></div>
+
+<p>Source code and documentation: <a href="https://github.com/dswann101164/azure-admin-workstation-setup">github.com/dswann101164/azure-admin-workstation-setup</a></p>
+<h2>Key Takeaways</h2>
+<p><strong>Test on actual fresh VMs.</strong> Your dev machine that's been running for weeks has accumulated updates that fresh marketplace images don't have.</p>
+<p><strong>Marketplace images are outdated.</strong> Windows 11 Enterprise N ships with 9-month-old package managers and frameworks.</p>
+<p><strong>Microsoft's infrastructure has gaps.</strong> Their download URLs serve versions too old for their own software requirements.</p>
+<p><strong>Chocolatey avoids the problem entirely.</strong> No AppX dependencies, no certificate validation issues, no version mismatches.</p>
+<p>The irony: Microsoft's package manager doesn't work on Microsoft's marketplace images because Microsoft's download infrastructure is outdated.</p>
+<p>Save yourself three hours - use Chocolatey for Azure VM automation.</p>
+<hr />
+<p><em>Tested on Windows 11 Enterprise N (22H2) from Azure Marketplace - September 2025</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-command-finder" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Command Finder (Interactive Tool)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-09</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/50-windows-commands-azure" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">50 Windows Commands for Azure VMs (PowerShell + Active Directory)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-08</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/terraform-azure-devops-cicd-part6-troubleshooting" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting &amp; Common Production Issues</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-08</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/modernizing-azure-workbooks">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)</strong>
+      </a>
+    
+    
+      <a href="/blog/chris-bowman-dashboard" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>The Truth About Chris Bowman&#39;s Azure Cost Dashboard</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

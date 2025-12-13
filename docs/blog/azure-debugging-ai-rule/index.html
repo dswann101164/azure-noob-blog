@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39; · Azure Noob</title>
+  <meta name="description" content="Using KQL to debug AI-driven alerts, complex rules, and noisy signals in Azure Monitor so your dashboards stop lying to you.">
+  <link rel="canonical" href="https://azure-noob.com/blog/azure-debugging-ai-rule" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;">
+  <meta property="og:description" content="Using KQL to debug AI-driven alerts, complex rules, and noisy signals in Azure Monitor so your dashboards stop lying to you.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azure-debugging-ai-rule">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-debugging-ai.png">
+
+  
+    <meta property="article:published_time" content="2025-10-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-06T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="AI">
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Azure Monitor">
+      
+        <meta property="article:tag" content="Debugging">
+      
+        <meta property="article:tag" content="KQL">
+      
+        <meta property="article:tag" content="Monitoring">
+      
+        <meta property="article:tag" content="Operations">
+      
+        <meta property="article:tag" content="Support">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;">
+  <meta name="twitter:description" content="Using KQL to debug AI-driven alerts, complex rules, and noisy signals in Azure Monitor so your dashboards stop lying to you.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-debugging-ai.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;",
+  "description": "Using KQL to debug AI-driven alerts, complex rules, and noisy signals in Azure Monitor so your dashboards stop lying to you.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/azure-debugging-ai.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-06T00:00:00+00:00",
+  "dateModified": "2025-10-06T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/azure-debugging-ai-rule"
+  },
+  "keywords": "AI, Azure, Azure Monitor, Debugging, KQL, Monitoring, Operations, Support",
+  "articleSection": "AI",
+  "wordCount": "2273",
+  "timeRequired": "PT11M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "AI"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;",
+      "item": "https://azure-noob.com/blog/azure-debugging-ai-rule"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/azure-debugging-ai.png" alt="The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;</h1>
+    <p class="muted">
+      2025-10-06 · ~11 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/AI" class="tag-badge">AI</a></li>
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Azure%20Monitor" class="tag-badge">Azure Monitor</a></li>
+      
+      <li><a href="/tags/Debugging" class="tag-badge">Debugging</a></li>
+      
+      <li><a href="/tags/KQL" class="tag-badge">KQL</a></li>
+      
+      <li><a href="/tags/Monitoring" class="tag-badge">Monitoring</a></li>
+      
+      <li><a href="/tags/Operations" class="tag-badge">Operations</a></li>
+      
+      <li><a href="/tags/Support" class="tag-badge">Support</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Using KQL to debug AI-driven alerts, complex rules, and noisy signals in Azure Monitor so your dashboards stop lying to you.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.<br />
+I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.</p>
+<p>Now? If Claude or ChatGPT can't solve my Azure problem in 30 minutes, I open a ticket immediately.</p>
+<p>Here's why that's the right call in 2025.</p>
+<h2>The Old Debugging Workflow (Pre-2023)</h2>
+<p>When you hit an Azure issue, you'd spend hours doing this:</p>
+<ol>
+<li>Search Microsoft documentation</li>
+<li>Try Stack Overflow</li>
+<li>Dig through GitHub issues</li>
+<li>Read random blog posts</li>
+<li>Trial and error with configurations</li>
+<li>Eventually give up and open a ticket</li>
+</ol>
+<p>This made sense because finding information was slow and manual. You had to hunt through fragmented documentation, old forum posts, and pray someone else hit your exact problem.</p>
+<p><strong>Three hours of research felt reasonable</strong> before escalating to Microsoft support.</p>
+<h2>The New Reality (2025)</h2>
+<p>AI has fundamentally changed this equation.</p>
+<p>When you paste an Azure error into Claude or ChatGPT, it has already:<br />
+- Read every Microsoft doc<br />
+- Indexed all of Stack Overflow<br />
+- Processed every GitHub issue<br />
+- Analyzed thousands of blog posts<br />
+- Synthesized patterns from millions of conversations</p>
+<p><strong>If AI can't help you, neither can you.</strong></p>
+<p>That's your signal. You've hit the boundary of publicly available knowledge.</p>
+<h2>The New Rule</h2>
+<div class="codehilite"><pre><span></span><code>Azure Problem
+    ↓
+Ask AI (Claude, ChatGPT, Copilot)
+    ↓
+[30 minutes later]
+    ↓
+Did AI solve it?
+    ↓ NO
+    ↓
+Open Microsoft Support Ticket
+</code></pre></div>
+
+<p><strong>Don't keep banging your head against the wall.</strong> If the AI assistant that has read everything can't solve it, you need one of two things:</p>
+<ol>
+<li><strong>Microsoft's internal knowledge</strong> - information that isn't public</li>
+<li><strong>An actual bug fix</strong> - something broken that needs engineering intervention</li>
+</ol>
+<p>Either way, you're not going to Google your way out of this one.</p>
+<h2>What AI is Actually Good At</h2>
+<p>Before we talk about when AI fails, let's acknowledge what it's excellent at:</p>
+<p><strong>Code Generation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Ask: &quot;Write a PowerShell script to find all VMs without tags&quot;</span>
+<span class="c"># Get: Working code in 10 seconds</span>
+<span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">}</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">ResourceGroupName</span><span class="p">,</span> <span class="n">Location</span>
+</code></pre></div>
+
+<p><strong>KQL Query Building:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// Ask: &quot;Show me VMs that haven&#39;t been updated in 90 days&quot;</span>
+<span class="c">// Get: Production-ready query</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">lastUpdateTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">osProfile</span><span class="err">.</span><span class="n">windowsConfiguration</span><span class="err">.</span><span class="n">lastBootUpTime</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">lastUpdateTime</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">lastUpdateTime</span>
+</code></pre></div>
+
+<p><strong>Error Translation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nl">Error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;The provided credentials have insufficient privileges&quot;</span>
+
+<span class="n">AI</span><span class="w"> </span><span class="nl">Response</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;This is actually a role assignment issue. You need </span>
+<span class="ss">Contributor access at the subscription level. Run:</span>
+<span class="ss">New-AzRoleAssignment -SignInName user@domain.com -RoleDefinitionName </span>
+<span class="ss">&#39;Contributor&#39; -Scope &#39;/subscriptions/xxxx&#39;&quot;</span>
+</code></pre></div>
+
+<p><strong>Syntax Conversion:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># &quot;Convert this Azure CLI command to PowerShell&quot;</span>
+<span class="c1"># From: az vm list --query &quot;[?powerState==&#39;VM running&#39;]&quot;</span>
+<span class="c1"># To: Get-AzVM -Status | Where-Object {$_.PowerState -eq &#39;VM running&#39;}</span>
+</code></pre></div>
+
+<p>These are <strong>massive time savers</strong>. AI is incredible at these tasks.</p>
+<h2>Where AI Hits the Wall (And You Should Stop)</h2>
+<h3>1. Private Endpoint DNS Configuration</h3>
+<p><strong>The Problem:</strong></p>
+<div class="codehilite"><pre><span></span><code>Storage account with private endpoint can&#39;t be accessed from on-premises
+Error: &quot;Unable to resolve mystorageaccount.blob.core.windows.net&quot;
+</code></pre></div>
+
+<p><strong>What AI Says:</strong><br />
+"Configure private DNS zones and link them to your VNet. Make sure you have the right DNS forwarder setup."</p>
+<p><strong>What Actually Happens:</strong><br />
+Microsoft docs say one thing. Your hybrid environment with ExpressRoute, custom DNS, and split-brain configuration requires Microsoft support to sort out the conditional forwarding rules and zone configuration.</p>
+<p><strong>This is the boundary.</strong> AI knows the theory. It doesn't know your specific environment's DNS topology, firewall rules, and route tables all interacting together.</p>
+<h3>2. Cross-Subscription Networking Issues</h3>
+<p><strong>The Problem:</strong></p>
+<div class="codehilite"><pre><span></span><code>VNet peering between subscriptions works, but private endpoints 
+in subscription A can&#39;t reach resources in subscription B
+</code></pre></div>
+
+<p><strong>What AI Says:</strong><br />
+"Check your NSG rules, verify the peering is in connected state, ensure service endpoints are configured."</p>
+<p><strong>What You Need:</strong><br />
+Microsoft engineer with access to backend telemetry to see where packets are actually being dropped in the Azure control plane.</p>
+<h3>3. Azure Portal Says It Should Work, But Doesn't</h3>
+<p><strong>The Problem:</strong><br />
+You've configured everything exactly as the documentation says. The portal shows green checkmarks. Nothing works.</p>
+<p><strong>What AI Says:</strong><br />
+"Try redeploying the resource. Check if there are any service health issues. Verify your configuration matches the documentation."</p>
+<p><strong>What You Need:</strong><br />
+Microsoft support to look at backend logs and discover there's a known issue with that specific region or a service-side configuration that's broken.</p>
+<h3>4. Undocumented Product Limitations</h3>
+<p><strong>The Example:</strong><br />
+"Why can't I have more than 500 private endpoints in a VNet when the documentation doesn't mention this limit?"</p>
+<p><strong>What AI Knows:</strong><br />
+What's in the public documentation (which doesn't mention this limit).</p>
+<p><strong>What Microsoft Support Knows:</strong><br />
+"Yeah, that's a soft limit we don't advertise. We can increase it for your subscription."</p>
+<h2>The Financial Argument</h2>
+<p>Let's talk money.</p>
+<p><strong>Azure Support Costs:</strong><br />
+- Developer: $29/month (or free with many EA agreements)<br />
+- Standard: $100/month<br />
+- Professional Direct: $1,000/month</p>
+<p><strong>Your Hourly Cost:</strong><br />
+Let's say you make $100,000/year. That's roughly <strong>$50/hour</strong>.</p>
+<p><strong>The Math:</strong><br />
+- Spend 3 hours debugging = $150 of your time<br />
+- Open a ticket after 30 minutes = $25 of your time + using support you already pay for</p>
+<p><strong>You're literally paying Microsoft for support and then not using it</strong> while you waste expensive engineering hours on Google searches.</p>
+<h2>The Real World Example</h2>
+<p>Last month I hit an issue with Azure Update Manager. VMs were showing as "unsupported" even though they were running supported Windows Server 2022 builds.</p>
+<p><strong>What I Did:</strong><br />
+1. Asked Claude: "Why would Update Manager show VMs as unsupported?"<br />
+2. Claude gave me the standard checklist: agent version, OS version, connectivity<br />
+3. Verified everything - all green<br />
+4. Asked Claude again with more details<br />
+5. Claude said: "This might be a service-side issue or a known bug"</p>
+<p><strong>That was my signal.</strong> 30 minutes in, AI couldn't help.</p>
+<p><strong>Opened a ticket.</strong> Microsoft came back in 2 hours: "Known issue, engineering is working on it, here's the workaround."</p>
+<p>Total time invested: 30 minutes of debugging + 5 minutes to open ticket + 10 minutes to implement workaround.</p>
+<p>If I'd kept debugging? Could have been days before I stumbled on the answer (or more likely, never found it).</p>
+<h2>When AI Says "I Don't Know"</h2>
+<p>Here are the AI responses that should trigger an immediate support ticket:</p>
+<p><strong>Red Flag Phrases:</strong><br />
+- "This might require Microsoft support to investigate"<br />
+- "I'd need to see backend logs to determine the cause"<br />
+- "This could be a service-side issue"<br />
+- "There may be an undocumented limitation"<br />
+- "I don't have enough information about your specific environment"<br />
+- "This might be a known issue Microsoft is tracking"</p>
+<p><strong>When AI starts hedging or asking for information it can't access</strong>, you're done. Open the ticket.</p>
+<h2>How to Use AI Effectively for Azure Debugging</h2>
+<p><strong>Good Use of AI:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Need</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">prevents</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">creation</span>
+<span class="n">AI</span><span class="w"> </span><span class="n">Request</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Write an Azure Policy that denies creation of public IPs&quot;</span>
+<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Working</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">definition</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">seconds</span>
+</code></pre></div>
+
+<p><strong>Bad Use of AI:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">endpoint</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">others</span>
+<span class="n">AI</span><span class="w"> </span><span class="n">Request</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Why doesn&#39;t my private endpoint work from all VMs?&quot;</span>
+<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">back</span><span class="o">-</span><span class="n">and</span><span class="o">-</span><span class="n">forth</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="n">troubleshooting</span>
+</code></pre></div>
+
+<p>The second scenario is a <strong>complexity problem</strong>. Too many variables, environmental-specific, requires telemetry AI doesn't have access to.</p>
+<h2>The Improved Workflow</h2>
+<p>Here's what debugging looks like now:</p>
+<p><strong>For Simple Problems (90% of cases):</strong><br />
+1. Paste error/question into Claude/ChatGPT<br />
+2. Get answer<br />
+3. Implement solution<br />
+4. Done in 5-10 minutes</p>
+<p><strong>For Complex Problems (10% of cases):</strong><br />
+1. Paste error/question into Claude/ChatGPT<br />
+2. Try suggested solutions for 20-30 minutes<br />
+3. If not resolved, open Microsoft support ticket with:<br />
+   - Original problem<br />
+   - AI's suggestions<br />
+   - What you've already tried<br />
+4. Get actual resolution from Microsoft</p>
+<p><strong>Key Point:</strong> You're not wasting Microsoft's time. You're using the support you pay for when you hit the limits of publicly available knowledge.</p>
+<h2>What to Include in Your Support Ticket</h2>
+<p>Since you've already worked with AI, your ticket should be gold:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">endpoint</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">resolution</span><span class="w"> </span><span class="n">failing</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">premises</span>
+
+<span class="n">Environment</span><span class="o">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">subscription</span><span class="o">:</span><span class="w"> </span><span class="n">xxxx</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Region</span><span class="o">:</span><span class="w"> </span><span class="n">East</span><span class="w"> </span><span class="n">US</span>
+<span class="o">-</span><span class="w"> </span><span class="n">ExpressRoute</span><span class="w"> </span><span class="n">circuit</span><span class="o">:</span><span class="w"> </span><span class="n">xxxx</span>
+
+<span class="n">Problem</span><span class="o">:</span>
+<span class="n">Cannot</span><span class="w"> </span><span class="n">resolve</span><span class="w"> </span><span class="n">privatelink</span><span class="o">.</span><span class="na">blob</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">windows</span><span class="o">.</span><span class="na">net</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">premises</span><span class="w"> </span>
+<span class="n">network</span><span class="o">.</span><span class="w"> </span><span class="n">Resolution</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">VMs</span><span class="o">.</span>
+
+<span class="n">Already</span><span class="w"> </span><span class="n">Verified</span><span class="o">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="n">correctly</span><span class="w"> </span><span class="n">configured</span>
+<span class="o">-</span><span class="w"> </span><span class="n">VNet</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">place</span>
+<span class="o">-</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">forwarder</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="n">configured</span><span class="w"> </span><span class="o">(</span><span class="n">per</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">assistance</span><span class="o">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">NSG</span><span class="w"> </span><span class="n">blocks</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="mi">53</span>
+<span class="o">-</span><span class="w"> </span><span class="n">ExpressRoute</span><span class="w"> </span><span class="n">peering</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">connected</span>
+
+<span class="n">AI</span><span class="w"> </span><span class="n">Diagnostic</span><span class="o">:</span>
+<span class="n">Consulted</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Claude</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">suggested</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">which</span><span class="w"> </span>
+<span class="k">is</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">place</span><span class="o">.</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">indicated</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">backend</span><span class="w"> </span><span class="n">telemetry</span><span class="w"> </span>
+<span class="n">to</span><span class="w"> </span><span class="n">diagnose</span><span class="o">.</span>
+
+<span class="n">Request</span><span class="o">:</span>
+<span class="n">Need</span><span class="w"> </span><span class="n">Microsoft</span><span class="w"> </span><span class="n">engineer</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">review</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">identify</span><span class="w"> </span><span class="n">where</span><span class="w"> </span>
+<span class="n">resolution</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">failing</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">hybrid</span><span class="w"> </span><span class="n">environment</span><span class="o">.</span>
+</code></pre></div>
+
+<p><strong>See what you did there?</strong> You've already done the Level 1 troubleshooting. You're handing Microsoft a well-documented problem that's ready for their Level 2/3 engineers.</p>
+<h2>The Exceptions</h2>
+<p><strong>When You Should Keep Debugging:</strong><br />
+- You're learning Azure (educational value in the struggle)<br />
+- It's 2 AM and you need a fix NOW (while waiting for ticket response)<br />
+- You have a hunch based on past experience<br />
+- The problem is clearly your mistake (wrong config, typo, etc.)</p>
+<p><strong>When You Should Immediately Ticket:</strong><br />
+- Production is down<br />
+- Security incident<br />
+- Data loss scenario<br />
+- Anything where time = money at scale</p>
+<h2>The Culture Shift</h2>
+<p>Some Azure admins feel like opening a ticket is "giving up" or admitting defeat.</p>
+<p><strong>That's old thinking.</strong></p>
+<p>In 2025, with AI available, the calculus has changed:</p>
+<p><strong>Old Mindset:</strong> "I should be able to figure this out"</p>
+<p><strong>New Mindset:</strong> "I've exhausted public knowledge in 30 minutes with AI. Time to access Microsoft's internal knowledge."</p>
+<p>You're not giving up. You're being <strong>efficient</strong>.</p>
+<h2>What About Learning?</h2>
+<p>"But won't I learn more by debugging longer?"</p>
+<p><strong>Yes and no.</strong></p>
+<p>You'll learn more about what DOESN'T work. You'll build frustration tolerance. But you won't necessarily learn the RIGHT answer if it's not publicly documented.</p>
+<p><strong>Better approach:</strong><br />
+1. Use AI to solve it quickly OR<br />
+2. Open ticket and get the right answer<br />
+3. THEN spend time understanding the solution<br />
+4. Document it for your team/blog</p>
+<p>You learn more from studying the correct solution than from hours of incorrect debugging.</p>
+<h2>The Bottom Line</h2>
+<p>AI hasn't made Microsoft support obsolete. <strong>It's made it more valuable.</strong></p>
+<p>AI filters out the 90% of problems that ARE documented somewhere. When AI says "I don't know," you've found the 10% that requires Microsoft's internal expertise.</p>
+<p><strong>The new debugging rule is simple:</strong></p>
+<p>If Claude can't solve your Azure problem after 30 minutes, open a support ticket.</p>
+<p>You're not wasting anyone's time. You're using the tools available to you efficiently - both AI and Microsoft support - to solve problems faster.</p>
+<p>Stop debugging. Start shipping.</p>
+<hr />
+<p><strong>What's your debugging workflow look like in 2025?</strong> Hit me up - I'm genuinely curious how other Azure admins are using AI in their daily work.</p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/workbook-app-tool" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Extract KQL Queries from Azure Workbooks (Workbook → App Tool)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-13</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-dashboards-cloud-noc" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Dashboards Are Your Cloud NOC (And Nobody Told You)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-03</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-update-manager-reality-check" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-09-24</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: KQL Query Library -->
+<div class="cta-block" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">📊 Stop Rewriting the Same KQL Queries</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+    Get <strong>45+ production-ready KQL queries</strong> for Azure Resource Graph, Log Analytics, and Activity Logs.
+    Copy-paste ready with comments and business context.
+  </p>
+  <a href="/static/downloads/KQL-Query-Library-Complete.pdf" 
+     download
+     style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #f5576c; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    Download Complete Query Library
+  </a>
+  <p style="margin: 1rem 0 0; font-size: 0.9rem; opacity: 0.9;">
+    PDF format • No email required • Instant download
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-ipam-tool">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks</strong>
+      </a>
+    
+    
+      <a href="/blog/sccm-wsus-azure-update-manager-intune-confusion" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>SCCM vs WSUS vs Azure Update Manager vs Intune: Patch Management Decision Matrix</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

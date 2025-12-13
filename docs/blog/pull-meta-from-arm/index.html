@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like · Azure Noob</title>
+  <meta name="description" content="A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.">
+  <link rel="canonical" href="https://azure-noob.com/blog/pull-meta-from-arm" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like">
+  <meta property="og:description" content="A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/pull-meta-from-arm">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/pull-meta-from-arm.svg">
+
+  
+    <meta property="article:published_time" content="2025-11-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-10T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="ARM">
+      
+        <meta property="article:tag" content="Automation">
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="CMDB">
+      
+        <meta property="article:tag" content="FinOps">
+      
+        <meta property="article:tag" content="Governance">
+      
+        <meta property="article:tag" content="KQL">
+      
+        <meta property="article:tag" content="Operations">
+      
+        <meta property="article:tag" content="Resource Graph">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like">
+  <meta name="twitter:description" content="A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/pull-meta-from-arm.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like",
+  "description": "A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/pull-meta-from-arm.svg",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-10T00:00:00+00:00",
+  "dateModified": "2025-11-10T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/pull-meta-from-arm"
+  },
+  "keywords": "ARM, Automation, Azure, CMDB, FinOps, Governance, KQL, Operations, Resource Graph",
+  "articleSection": "ARM",
+  "wordCount": "4402",
+  "timeRequired": "PT22M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "ARM"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like",
+      "item": "https://azure-noob.com/blog/pull-meta-from-arm"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/pull-meta-from-arm.svg" alt="I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like</h1>
+    <p class="muted">
+      2025-11-10 · ~22 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/ARM" class="tag-badge">ARM</a></li>
+      
+      <li><a href="/tags/Automation" class="tag-badge">Automation</a></li>
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/CMDB" class="tag-badge">CMDB</a></li>
+      
+      <li><a href="/tags/FinOps" class="tag-badge">FinOps</a></li>
+      
+      <li><a href="/tags/Governance" class="tag-badge">Governance</a></li>
+      
+      <li><a href="/tags/KQL" class="tag-badge">KQL</a></li>
+      
+      <li><a href="/tags/Operations" class="tag-badge">Operations</a></li>
+      
+      <li><a href="/tags/Resource%20Graph" class="tag-badge">Resource Graph</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>This guide is part of our <a href="/hub/automation/">Azure Automation hub</a> covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.</p>
+<h2>The Meeting Where I Promised Magic</h2>
+<p>Last week I wrote about <a href="https://azure-noob.com/blog/buzzwords-meetings-confusion/">corporate arrogance killing cloud projects</a>. Today, I'm showing you the exact technical gap that caused one of those failures.</p>
+<p>Here's what I said in that executive meeting:</p>
+<blockquote>
+<p>"I'll use KQL to pull the meta from the ARM and get the answers."</p>
+</blockquote>
+<p>Everyone nodded. Leadership approved it. The project got budget. Meeting adjourned.</p>
+<p>Here's what nobody asked:<br />
+- What metadata specifically?<br />
+- What format?<br />
+- What's included vs. what needs to be built?<br />
+- How long will this take?</p>
+<p>Here's what I actually meant:<br />
+"I'll write some Azure Resource Graph queries for... something."</p>
+<p>Here's what they heard:<br />
+"Quick report with all the answers coming soon."</p>
+<p>Here's what I actually built:<br />
+Six months of KQL query development, three separate joins per resource type, custom tag normalization logic, and 36+ production queries to answer what should have been a simple question.</p>
+<p>Welcome to the gap between "pull the meta from ARM" and production reality.</p>
+<hr />
+<h2>What Executives See</h2>
+<p>When leadership looks at Azure, they see this:</p>
+<p><img alt="Azure Portal Resource List" src="/static/images/azure-portal-resources.png" /></p>
+<p>A clean list of resources. Names, types, locations. Simple.</p>
+<p>They think: "The data's right there. How hard can a report be?"</p>
+<hr />
+<h2>What "The Meta" Actually Looks Like</h2>
+<p>Here's the naive approach everyone imagines:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
+</code></pre></div>
+
+<p>Done, right?</p>
+<p><strong>Wrong.</strong></p>
+<p>Here's what that query actually returns:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/subscriptions/xxx/resourceGroups/prod/providers/Microsoft.Compute/virtualMachines/vm001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vm001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eastus&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;hardwareProfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;vmSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standard_D4s_v3&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;storageProfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;osDisk&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;osType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Windows&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;imageReference&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;publisher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MicrosoftWindowsServer&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;offer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;WindowsServer&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sku&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-datacenter-azure-edition&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;exactVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20348.2227.231214&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;networkProfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;networkInterfaces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/subscriptions/xxx/resourceGroups/prod/providers/Microsoft.Network/networkInterfaces/vm001-nic&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;extended&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;instanceView&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;powerState&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PowerState/running&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Application&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;WebServer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Owner&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TeamA&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What executives want:</strong><br />
+| Name | Size | OS | IP Address | Owner | Environment | Status |<br />
+|------|------|----|-----------:|------:|------------:|-------:|<br />
+| vm001 | D4s_v3 | Windows Server 2022 | 10.0.1.5 | TeamA | Production | Running |</p>
+<p><strong>What ARM gives you:</strong><br />
+Nested JSON requiring extraction, joins, and conditional logic.</p>
+<hr />
+<h2>The Real Query: 35 Lines to Get VM Inventory</h2>
+<p>Here's what "pulling the meta from ARM" actually looks like:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">code</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c">// Extract OS version information</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">exactVersion</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osSku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">sku</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osOffer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osPublisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersionDisplay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="n">osPublisher</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osOffer</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osSku</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networkinterfaces&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">privateIp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">privateIp</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">nicId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">nicId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">resourcecontainers</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ipAddress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">powerState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;PowerState/running&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">privateIp</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;N/A&#39;</span><span class="p">)</span>
+<span class="c">// Extract specific tags (handles case variations)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">APPLICATION</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OWNER</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">ENVIRONMENT</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
+<span class="w">    </span><span class="n">id</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">name</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">subscriptionName</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">location</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">osType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osVersionDisplay</span><span class="p">,</span>
+<span class="w">    </span><span class="n">powerState</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">createdTime</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">ipAddress</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Application</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Owner</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Type</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Environment</span>
+</code></pre></div>
+
+<p>Let's break down what each section actually does.</p>
+<hr />
+<h2>Breaking Down The Query</h2>
+<h3>Lines 1-7: Extract Nested Properties</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">code</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>What executives think:</strong> "The data's right there"</p>
+<p><strong>Reality:</strong> Every property is nested 3-4 levels deep in JSON. You need to know the exact path. One typo, you get nulls. No autocomplete. No schema documentation that matches production.</p>
+<p><strong>Time investment:</strong> 2 days figuring out where properties actually live vs. where Microsoft docs say they should be.</p>
+<hr />
+<h3>Lines 8-12: Concatenate OS Version</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">exactVersion</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osSku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">sku</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osOffer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">offer</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osPublisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">imageReference</span><span class="err">.</span><span class="n">publisher</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osVersionDisplay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">strcat</span><span class="p">(</span><span class="n">osPublisher</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osOffer</span><span class="p">,</span><span class="w"> </span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">osSku</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>What executives want:</strong> "Windows Server 2022"</p>
+<p><strong>Reality:</strong> OS version is split across 4 separate properties that need manual concatenation. And that's just for Marketplace images - custom images require completely different logic.</p>
+<p><strong>Time investment:</strong> 1 day handling all the edge cases (custom images, legacy formats, missing data).</p>
+<hr />
+<h3>Lines 13-18: Join to Get IP Addresses</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networkinterfaces&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">privateIp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span><span class="p">)</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">privateIp</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">nicId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">nicId</span>
+</code></pre></div>
+
+<p><strong>What executives think:</strong> "VMs have IP addresses"</p>
+<p><strong>Reality:</strong> IP addresses belong to Network Interface Cards (NICs), which are separate resources. VMs only store a reference ID to the NIC. You need a left outer join to another Resource Graph query. And this assumes one NIC per VM - multi-NIC VMs require array handling.</p>
+<p><strong>Time investment:</strong> 3 days mastering KQL joins, understanding NIC relationships, handling VMs with multiple NICs.</p>
+<hr />
+<h3>Lines 19-23: Translate Subscription GUIDs</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">resourcecontainers</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
+</code></pre></div>
+
+<p><strong>What executives see:</strong> Subscription names in the portal</p>
+<p><strong>Reality:</strong> ARM returns subscription GUIDs. Human-readable names require joining to <code>resourcecontainers</code> table. Another join. Another opportunity for performance issues at scale.</p>
+<p><strong>Time investment:</strong> 1 day learning about resourcecontainers vs resources tables.</p>
+<hr />
+<h3>Lines 24-29: Handle Tag Chaos</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">APPLICATION</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OWNER</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">TYPE</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">environment</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">ENVIRONMENT</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Not Tagged&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>What the tagging policy says:</strong> <code>Application</code> tag required on all resources</p>
+<p><strong>Reality in production:</strong><br />
+- Some resources: <code>Application</code><br />
+- Other resources: <code>application</code> <br />
+- Legacy resources: <code>APPLICATION</code><br />
+- Half the resources: No tag at all</p>
+<p><strong>Why this happens:</strong><br />
+- Portal is case-insensitive (hides the problem)<br />
+- ARM API is case-sensitive (causes the problem)<br />
+- Terraform defaults to lowercase<br />
+- PowerShell scripts use TitleCase<br />
+- Consultants used UPPERCASE<br />
+- Nobody noticed until you tried to query</p>
+<p><strong>This one line represents:</strong><br />
+- Organizational tag standards that don't exist<br />
+- Years of inconsistent deployments<br />
+- No tag governance until recently<br />
+- 40% of resources still untagged<br />
+- Manual cleanup campaigns that never finish</p>
+<p><strong>Time investment:</strong> Ongoing. Forever. This is your life now.</p>
+<hr />
+<h2>The Multiplication Problem</h2>
+<p><strong>Here's what breaks executives:</strong></p>
+<p>This 35-line query? It's for <strong>ONE resource type</strong>.</p>
+<p>To answer "What's in our Azure environment?" you need queries for:</p>
+<ol>
+<li><strong>Virtual Machines</strong> (35 lines)</li>
+<li><strong>AKS Clusters</strong> (40 lines - even more complex joins)</li>
+<li><strong>Storage Accounts</strong> (30 lines)</li>
+<li><strong>Virtual Networks</strong> (25 lines)</li>
+<li><strong>Network Security Groups</strong> (45 lines - need to expand rule arrays)</li>
+<li><strong>SQL Databases</strong> (35 lines)</li>
+<li><strong>App Services</strong> (30 lines)</li>
+<li><strong>Key Vaults</strong> (25 lines)</li>
+<li><strong>Log Analytics Workspaces</strong> (30 lines)</li>
+<li><strong>Public IP Addresses</strong> (20 lines)</li>
+<li><strong>Load Balancers</strong> (40 lines)</li>
+<li><strong>Application Gateways</strong> (45 lines)</li>
+</ol>
+<p><strong>Each with:</strong><br />
+- Its own nested property structure<br />
+- Its own join requirements<br />
+- Its own missing data handling<br />
+- Its own edge cases</p>
+<p><strong>Total investment:</strong> 36+ production queries, 6 months of development, nights and weekends debugging edge cases.</p>
+<hr />
+<h2>What's STILL Missing</h2>
+<p>Even with all these queries, you still don't have:</p>
+<h3>❌ Cost Data</h3>
+<p>Cost isn't in Resource Graph. It's in the Cost Management API. Separate authentication. Different query language. Different time delays (24-48 hours lag).</p>
+<p>To get cost per resource:<br />
+1. Query Resource Graph for resources<br />
+2. Query Cost Management API for costs<br />
+3. Join the results in your application layer<br />
+4. Handle resources that exist but have no cost data yet<br />
+5. Handle costs for resources that were deleted<br />
+6. Handle Azure reservations that don't map to specific resources<br />
+7. Handle subscription-level services that can't be allocated</p>
+<p><strong>Additional time:</strong> 2 weeks building the cost allocation pipeline.</p>
+<h3>❌ Compliance Status</h3>
+<p>Azure Policy compliance isn't in Resource Graph. It's in the Policy API. Another separate call.</p>
+<p>To get compliance per resource:<br />
+1. Query Resource Graph for resources<br />
+2. Query Policy API for compliance state<br />
+3. Query Policy API again for policy definitions<br />
+4. Join everything together<br />
+5. Handle policies that apply at management group level<br />
+6. Handle inheritance and exemptions<br />
+7. Translate policy definition IDs to human-readable names</p>
+<p><strong>Additional time:</strong> 1 week building compliance reporting.</p>
+<h3>❌ Relationships and Dependencies</h3>
+<p>ARM doesn't tell you:<br />
+- Which VMs depend on which NSGs<br />
+- Which App Services use which Key Vaults<br />
+- Which applications span which resource groups<br />
+- Which resources are related to the same business application</p>
+<p>You have to infer this from:<br />
+- Naming conventions (if they exist)<br />
+- Tags (if they're consistent)<br />
+- Manual documentation (if it exists)<br />
+- Tribal knowledge (good luck)</p>
+<p><strong>Additional time:</strong> Ongoing manual documentation.</p>
+<h3>❌ Business Context</h3>
+<p>ARM definitely doesn't tell you:<br />
+- Which business owner is responsible<br />
+- Which budget this should charge to<br />
+- What the disaster recovery requirements are<br />
+- What the change control process is<br />
+- Whether this is even still needed</p>
+<p>This requires:<br />
+- CMDB integration (if you have one)<br />
+- ServiceNow tickets (if they're up to date)<br />
+- Interviews with business owners (if you can find them)<br />
+- Archaeological digs through old emails</p>
+<p><strong>Additional time:</strong> Measured in years.</p>
+<hr />
+<h2>The Reality Check</h2>
+<p><strong>What I said in the meeting:</strong></p>
+<blockquote>
+<p>"I'll use KQL to pull the meta from the ARM and get the answers."</p>
+</blockquote>
+<p><strong>What I should have said:</strong></p>
+<blockquote>
+<p>"I can query Azure Resource Manager for basic resource properties. To answer your actual questions about cost allocation, compliance, and business ownership, I'll need to:<br />
+- Build 36+ specialized KQL queries<br />
+- Integrate with 3 separate Azure APIs<br />
+- Implement tag governance across the organization<br />
+- Create external documentation for business context<br />
+- Budget 6 months for initial development plus ongoing maintenance</p>
+<p>Would you like me to scope this properly, or should we start with a smaller proof-of-concept?"</p>
+</blockquote>
+<p><strong>Why I didn't say that:</strong><br />
+Because admitting complexity sounds like I'm creating obstacles. Corporate culture rewards confident-sounding commitments, not honest assessments.</p>
+<p><strong>The cost of that arrogance:</strong><br />
+- 6 months of weekend work<br />
+- Missed expectations about timeline<br />
+- Leadership frustrated about delays<br />
+- Me frustrated about unrealistic expectations<br />
+- Project technically successful but organizationally viewed as "took too long"</p>
+<hr />
+<h2>The Complete KQL Toolkit</h2>
+<p>I've published all 36+ production queries to GitHub:</p>
+<p><strong><a href="https://github.com/dswann101164/azure-inventory-workbook-enhanced/tree/main/powerbi%20starter/kql">azure-inventory-workbook-enhanced</a></strong></p>
+<p><strong>What's included:</strong></p>
+<h3>Compute Resources:</h3>
+<ul>
+<li><code>01_Virtual_Machines_Details.kql</code> - Complete VM inventory with joins</li>
+<li><code>02_VM_Status_Summary.kql</code> - Power state rollup</li>
+<li><code>03_VM_by_SKU.kql</code> - Size analysis</li>
+<li><code>09_AKS_Clusters_Details.kql</code> - Kubernetes cluster inventory</li>
+<li><code>11_Azure_Arc_Servers_Details.kql</code> - Hybrid server inventory</li>
+</ul>
+<h3>Networking:</h3>
+<ul>
+<li><code>19_Networking_Overview.kql</code> - Complete network topology</li>
+<li><code>20_Virtual_Networks_Analysis.kql</code> - VNet configurations and peering</li>
+<li><code>21_Load_Balancers_Details.kql</code> - Load balancer rules and backend pools</li>
+</ul>
+<h3>Storage:</h3>
+<ul>
+<li><code>16_Storage_Overview.kql</code> - All storage resources</li>
+<li><code>17_Storage_Accounts_Configuration.kql</code> - Detailed storage configs</li>
+<li><code>18_Managed_Disks_Configuration.kql</code> - Disk inventory and orphaned disk detection</li>
+</ul>
+<h3>PaaS Services:</h3>
+<ul>
+<li><code>13_App_Services_Details.kql</code> - App Service plans and apps</li>
+<li><code>14_SQL_Servers_Details.kql</code> - SQL Server inventory</li>
+<li><code>15_Database_Services_Details.kql</code> - All database types</li>
+</ul>
+<h3>Governance &amp; Cost:</h3>
+<ul>
+<li><code>29_Governance_Resources.kql</code> - Policies, locks, RBAC</li>
+<li><code>31_Orphaned_Resources_Analysis.kql</code> - Unused resources costing money</li>
+<li><code>32_Cost_Saving_Recommendations.kql</code> - Rightsizing opportunities</li>
+</ul>
+<h3>Security:</h3>
+<ul>
+<li><code>27_Security_Recommendations_from_Advisor.kql</code> - Security hygiene</li>
+<li><code>36_Security_Configuration_Issues.kql</code> - Common misconfigurations</li>
+</ul>
+<p><strong>All queries include:</strong><br />
+- Handling for missing data<br />
+- Case-insensitive tag extraction<br />
+- Subscription name joins<br />
+- Comments explaining non-obvious logic<br />
+- Production-tested edge case handling</p>
+<hr />
+<h2>Lessons Learned</h2>
+<p>After 6 months of building this, here's what I wish I'd known:</p>
+<h3>1. "Pull the meta" is not a 2-week project</h3>
+<p><strong>What executives hear:</strong> "Quick data extraction"</p>
+<p><strong>Reality:</strong> <br />
+- 2-3 months for initial query library<br />
+- 2-3 months for edge case handling<br />
+- Ongoing maintenance forever<br />
+- Scales with resource type diversity</p>
+<p>Budget accordingly. Don't promise quick wins.</p>
+<h3>2. ARM is a resource API, not a reporting API</h3>
+<p>Azure Resource Manager's job:<br />
+- ✅ Create, read, update, delete resources<br />
+- ✅ Return raw resource properties<br />
+- ❌ Generate business reports<br />
+- ❌ Provide curated analytics<br />
+- ❌ Join data across services<br />
+- ❌ Interpret business context</p>
+<p>If you promise "answers," you're building the reporting layer they thought already existed.</p>
+<h3>3. Tags solve problems you create later</h3>
+<p><strong>Early in cloud adoption:</strong> "Tags are overhead, we'll add them later"</p>
+<p><strong>18 months later:</strong> "Why can't you tell me what this costs?"</p>
+<p>The time to implement tag governance is before you have 31,000 resources. After that, you're doing archaeological cost allocation.</p>
+<h3>4. The joins are where beginners fail</h3>
+<p>Basic KQL is easy. What breaks people:<br />
+- Understanding which resources relate to which<br />
+- Knowing when you need leftouter vs inner joins<br />
+- Handling resources with 0, 1, or many relationships<br />
+- Performance optimization at scale</p>
+<p>This isn't "pull the meta" - this is database query optimization.</p>
+<h3>5. Production data is never clean</h3>
+<p>Every query needs:<br />
+- Null handling for missing properties<br />
+- Case-insensitive tag matching<br />
+- Coalesce chains for schema variations<br />
+- Conditional logic for legacy formats<br />
+- Error handling for API changes</p>
+<p>Budget 40% of development time for edge cases.</p>
+<h3>6. Documentation rots immediately</h3>
+<p>That VM query? Works great today. Tomorrow:<br />
+- Microsoft adds a new VM property<br />
+- Your org creates a new tag standard<br />
+- Someone deploys VMs in a new pattern<br />
+- ARM API changes schema slightly</p>
+<p>Queries require maintenance. They're not "write once, run forever."</p>
+<h3>7. The real work is organizational, not technical</h3>
+<p>The hard part isn't writing KQL. It's:<br />
+- Getting agreement on tag taxonomy<br />
+- Enforcing tag governance<br />
+- Teaching teams to use tags correctly<br />
+- Documenting business context externally<br />
+- Maintaining data quality over time</p>
+<p>Technology is easy. People are hard.</p>
+<hr />
+<h2>What I'd Do Differently</h2>
+<p>If I could redo that meeting:</p>
+<p><strong>Instead of:</strong></p>
+<blockquote>
+<p>"I'll use KQL to pull the meta from the ARM and get the answers."</p>
+</blockquote>
+<p><strong>I'd say:</strong></p>
+<blockquote>
+<p>"Let me make sure I understand what you need. Can you show me an example of what success looks like?</p>
+<p>[They show me a spreadsheet]</p>
+<p>Okay, here's what's involved:<br />
+- Resource data: 2 weeks to build base queries<br />
+- IP addresses: Requires joins to network resources, 3 days<br />
+- Cost allocation: Separate API, requires tag governance, 6 weeks<br />
+- Business ownership: Not in Azure, needs external documentation, TBD</p>
+<p>I can have basic resource inventory in 2 weeks. Complete cost allocation with business context is a 4-month project.</p>
+<p>Which scope do you want me to start with?"</p>
+</blockquote>
+<p><strong>Why this is better:</strong><br />
+- Forces them to articulate specific needs<br />
+- Sets realistic timeline expectations<br />
+- Breaks the work into phases<br />
+- Makes missing data explicit<br />
+- Gives them decision points</p>
+<p><strong>Would they have liked this answer less?</strong><br />
+Yes.</p>
+<p><strong>Would the project have gone better?</strong><br />
+Also yes.</p>
+<hr />
+<h2>The Tools You Actually Need</h2>
+<p>Beyond the KQL queries, here's what you need for production Azure inventory:</p>
+<h3>1. Azure Resource Graph</h3>
+<p><strong>What it is:</strong> Query interface for ARM resources</p>
+<p><strong>What it's good for:</strong><br />
+- Resource configuration data<br />
+- Near real-time (5-minute delay max)<br />
+- 1,000 resources per query (pagination required)<br />
+- Fast performance even at scale</p>
+<p><strong>What it's NOT:</strong><br />
+- Cost data<br />
+- Compliance status<br />
+- Application relationships<br />
+- Business context</p>
+<h3>2. Cost Management API</h3>
+<p><strong>What it is:</strong> Separate API for cost and usage data</p>
+<p><strong>What it's good for:</strong><br />
+- Actual costs per resource<br />
+- Usage patterns over time<br />
+- Reserved instance utilization<br />
+- Budget tracking</p>
+<p><strong>What's painful:</strong><br />
+- 24-48 hour data lag<br />
+- Different authentication<br />
+- Different query language<br />
+- Separate rate limits</p>
+<h3>3. Azure Policy API</h3>
+<p><strong>What it is:</strong> Compliance and governance state</p>
+<p><strong>What it's good for:</strong><br />
+- Policy assignment status<br />
+- Compliance per resource<br />
+- Exemption tracking<br />
+- Remediation history</p>
+<p><strong>What's annoying:</strong><br />
+- Yet another separate API<br />
+- Requires multiple calls to get full picture<br />
+- Policy definitions vs assignments vs compliance are separate queries</p>
+<h3>4. External Documentation</h3>
+<p><strong>What it is:</strong> SharePoint/Confluence/OneNote/whatever you have</p>
+<p><strong>What you'll track here:</strong><br />
+- Business owners<br />
+- Application relationships<br />
+- Disaster recovery requirements<br />
+- Change control processes<br />
+- Budget allocation<br />
+- Everything ARM doesn't know</p>
+<p><strong>Why you need it:</strong><br />
+Because Azure doesn't know which VM belongs to which application, which team owns it, or whether anyone will care if you delete it.</p>
+<h3>5. Power BI or Similar</h3>
+<p><strong>What it is:</strong> Visualization layer on top of all the queries</p>
+<p><strong>Why you need it:</strong><br />
+- Executives want dashboards, not KQL results<br />
+- Needs to refresh automatically<br />
+- Requires scheduled data refresh<br />
+- Has its own authentication challenges</p>
+<p><strong>Time investment:</strong> Another 2-3 weeks building reports after the queries work.</p>
+<hr />
+<h2>The GitHub Repository</h2>
+<p>Everything I've described is available in production-ready form:</p>
+<p><strong><a href="https://github.com/dswann101164/azure-inventory-workbook-enhanced">azure-inventory-workbook-enhanced</a></strong></p>
+<p><strong>Repository structure:</strong></p>
+<div class="codehilite"><pre><span></span><code>/powerbi starter/kql/
+  ├── 01_Virtual_Machines_Details.kql
+  ├── 02_VM_Status_Summary.kql
+  ├── 09_AKS_Clusters_Details.kql
+  ├── 16_Storage_Overview.kql
+  ├── 19_Networking_Overview.kql
+  ├── 31_Orphaned_Resources_Analysis.kql
+  └── [30+ more production queries]
+</code></pre></div>
+
+<p><strong>Each query includes:</strong><br />
+- Full working code (copy-paste ready)<br />
+- Comments explaining complex logic<br />
+- Tag normalization handling<br />
+- Subscription name joins<br />
+- Null handling for missing data</p>
+<p><strong>Based on:</strong> Billy York's excellent <a href="https://github.com/scautomation/Azure-Inventory-Workbook">Azure Inventory Workbook</a>, enhanced for enterprise-scale environments where:<br />
+- Tag governance is aspirational<br />
+- Resources span 44 subscriptions<br />
+- Naming conventions are "suggestions"<br />
+- Legacy resources have zero documentation</p>
+<p><strong>Clone it. Use it. Modify it for your environment.</strong></p>
+<p>This is what "pulling the meta from ARM" actually looks like in production.</p>
+<hr />
+<h2>The Bottom Line</h2>
+<p><strong>What executives think they're asking for:</strong><br />
+"Pull the data from Azure and make me a report"</p>
+<p><strong>What you're actually building:</strong><br />
+- 36+ specialized queries<br />
+- Multi-API data integration<br />
+- Tag governance enforcement<br />
+- External documentation system<br />
+- Automated refresh pipeline<br />
+- Exception handling for every edge case<br />
+- Ongoing maintenance forever</p>
+<p><strong>Timeline:</strong><br />
+- Executives expect: 2 weeks<br />
+- Reality: 6 months initial, ongoing maintenance</p>
+<p><strong>The gap between these is where projects fail.</strong></p>
+<hr />
+<h2>What's Next</h2>
+<p>In my next post, I'm tackling the other big promise that sounds simple but isn't:</p>
+<p><strong>"Just use subscriptions for cost allocation"</strong></p>
+<p>Spoiler: That only works if your subscriptions were architected as cost centers. If they're security boundaries (like mine), you need the resource-level tag taxonomy approach. Complete code, real examples, production-tested.</p>
+<p><strong>Want this when I publish it?</strong> <a href="https://azure-noob.com">Subscribe here</a> or follow the <a href="https://github.com/dswann101164">GitHub repo</a>.</p>
+<hr />
+<h2>Your Turn</h2>
+<p>What "simple" Azure request turned into a 6-month project in your environment?</p>
+<p>What's the biggest gap between what executives think exists and what you actually had to build?</p>
+<p>Drop a comment below - I'm collecting these for a follow-up on the most common "easy Azure tasks" that absolutely aren't.</p>
+<hr />
+<p><strong>Related Posts:</strong><br />
+- <a href="https://azure-noob.com/blog/buzzwords-meetings-confusion/">Buzzwords, Technical Terms, and the Meetings Where Nobody Understands Anything</a><br />
+- <a href="https://azure-noob.com/blog/coming-soon/">Azure Cost Allocation When Subscriptions Are Security Boundaries</a> (Coming soon)</p>
+<hr />
+<p><em>Written at 3:30 AM by someone who learned KQL the hard way so you don't have to.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-service-inventory-tool" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-29</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/kql-query-library-git" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You About</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-28</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-cost-optimization-complete-guide" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Cost Optimization: A Complete Practical Guide</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-03</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: KQL Query Library -->
+<div class="cta-block" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">📊 Stop Rewriting the Same KQL Queries</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+    Get <strong>45+ production-ready KQL queries</strong> for Azure Resource Graph, Log Analytics, and Activity Logs.
+    Copy-paste ready with comments and business context.
+  </p>
+  <a href="/static/downloads/KQL-Query-Library-Complete.pdf" 
+     download
+     style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #f5576c; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    Download Complete Query Library
+  </a>
+  <p style="margin: 1rem 0 0; font-size: 0.9rem; opacity: 0.9;">
+    PDF format • No email required • Instant download
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/buzzwords-meetings-confusion">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Buzzwords, Technical Terms, and the Meetings Where Nobody Understands Anything</strong>
+      </a>
+    
+    
+      <a href="/blog/only-1-percent-know-these-tools" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Only 1% of Azure Admins Know These Three Tools — And Even Fewer Know When to Use Which</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

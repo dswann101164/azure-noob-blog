@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Building an Azure Arc Lab with Private Link (No Public IPs) · Azure Noob</title>
+  <meta name="description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <link rel="canonical" href="https://azure-noob.com/blog/azure-arc-private-lab" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Building an Azure Arc Lab with Private Link (No Public IPs)">
+  <meta property="og:description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azure-arc-private-lab">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-arc-private-lab.png">
+
+  
+    <meta property="article:published_time" content="2025-11-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-26T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Arc">
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Azure Arc">
+      
+        <meta property="article:tag" content="Governance">
+      
+        <meta property="article:tag" content="Hybrid">
+      
+        <meta property="article:tag" content="Lab">
+      
+        <meta property="article:tag" content="Networking">
+      
+        <meta property="article:tag" content="Private Link">
+      
+        <meta property="article:tag" content="Security">
+      
+        <meta property="article:tag" content="Terraform">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building an Azure Arc Lab with Private Link (No Public IPs)">
+  <meta name="twitter:description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-arc-private-lab.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building an Azure Arc Lab with Private Link (No Public IPs)",
+  "description": "A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/azure-arc-private-lab.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-26T00:00:00+00:00",
+  "dateModified": "2025-11-26T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/azure-arc-private-lab"
+  },
+  "keywords": "Arc, Azure, Azure Arc, Governance, Hybrid, Lab, Networking, Private Link, Security, Terraform",
+  "articleSection": "Arc",
+  "wordCount": "1802",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Arc"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Building an Azure Arc Lab with Private Link (No Public IPs)",
+      "item": "https://azure-noob.com/blog/azure-arc-private-lab"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/azure-arc-private-lab.png" alt="Building an Azure Arc Lab with Private Link (No Public IPs)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Building an Azure Arc Lab with Private Link (No Public IPs)</h1>
+    <p class="muted">
+      2025-11-26 · ~9 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Arc" class="tag-badge">Arc</a></li>
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Azure%20Arc" class="tag-badge">Azure Arc</a></li>
+      
+      <li><a href="/tags/Governance" class="tag-badge">Governance</a></li>
+      
+      <li><a href="/tags/Hybrid" class="tag-badge">Hybrid</a></li>
+      
+      <li><a href="/tags/Lab" class="tag-badge">Lab</a></li>
+      
+      <li><a href="/tags/Networking" class="tag-badge">Networking</a></li>
+      
+      <li><a href="/tags/Private%20Link" class="tag-badge">Private Link</a></li>
+      
+      <li><a href="/tags/Security" class="tag-badge">Security</a></li>
+      
+      <li><a href="/tags/Terraform" class="tag-badge">Terraform</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>Every Azure Arc demo I've seen shows agents connecting over the public internet. Microsoft's documentation walks you through the "happy path" - click here, install there, boom, your on-premises servers appear in Azure Portal.</p>
+<p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
+<p><strong>But here's the problem:</strong> That's not how enterprise infrastructure works.</p>
+<p>Your datacenter servers don't have public IPs. Your security team won't approve internet-exposed management traffic. Your compliance framework requires private connectivity. And when you ask Microsoft how to demo Arc in a realistic way, the documentation gets... quiet.</p>
+<p>So I built it myself. Here's how to create a complete Azure Arc lab environment that actually reflects enterprise security requirements - with <strong>zero public IP exposure</strong> and all traffic over Azure Private Link.</p>
+<p>And yes, the complete Terraform code is on GitHub. Because if I had to figure this out, you shouldn't have to.</p>
+<h2>The Reality Gap</h2>
+<p>Microsoft's Arc demos work great in their labs. They have public IPs, wide-open internet access, and security teams that don't ask questions. </p>
+<p>Your environment has:<br />
+- 21 Active Directory domains (yes, really)<br />
+- DMZ networks with strict firewall rules<br />
+- Servers that have never seen the public internet<br />
+- A CISO who will shut down any "just open port 443 outbound" proposals<br />
+- Compliance frameworks that require private connectivity</p>
+<p>The gap between Microsoft's demos and enterprise reality is <strong>massive</strong>. This post bridges that gap.</p>
+<h2>What We're Building</h2>
+<p>A complete Arc lab environment deployed in Azure that simulates on-premises infrastructure:</p>
+<ul>
+<li><strong>3 Windows Server VMs</strong> acting as "datacenter servers"</li>
+<li><strong>Azure Private Link</strong> for all Arc connectivity (zero internet)</li>
+<li><strong>Private DNS zones</strong> for Arc endpoint resolution</li>
+<li><strong>Azure Bastion</strong> for admin access (the only public IP)</li>
+<li><strong>Complete network isolation</strong> with proper subnet segmentation</li>
+</ul>
+<p>The architecture looks like this:</p>
+<p><img alt="Azure Arc Private Lab Architecture" src="/static/images/hero/azure-arc-diagram.png" /></p>
+<p><strong>What this demonstrates:</strong><br />
+- How Arc actually works in regulated environments<br />
+- Private Link configuration for hybrid management<br />
+- DNS resolution without public endpoints<br />
+- Security team-approved architecture<br />
+- Realistic demo environment for POCs</p>
+<h2>Why This Matters</h2>
+<p>When you're managing infrastructure across 40+ Azure subscriptions with over 30,000 resources, complexity is inevitable. Add a corporate merger bringing multiple datacenters, thousands of servers, and strict regulatory requirements, and the challenge multiplies.</p>
+<p><strong>Azure Arc is perfect for this scenario.</strong> But only if it works within your security constraints.</p>
+<p>Every Arc demo I found assumed:<br />
+1. Servers can reach the public internet<br />
+2. DNS resolves to public endpoints<br />
+3. Firewall rules allow outbound HTTPS<br />
+4. Security teams are flexible</p>
+<p>In reality:<br />
+1. Servers are network-isolated<br />
+2. DNS must use private zones<br />
+3. Firewalls block everything by default<br />
+4. Security teams say "prove it's secure first"</p>
+<p>So I built the proof.</p>
+<h2>The Architecture (Deep Dive)</h2>
+<h3>Network Design</h3>
+<p><strong>Virtual Network (10.0.0.0/16)</strong> with three subnets:</p>
+<ol>
+<li><strong>Server Subnet (10.0.1.0/24)</strong> - Where our "on-premises" VMs live</li>
+<li><strong>Private Link Subnet (10.0.2.0/24)</strong> - Arc private endpoints</li>
+<li><strong>Bastion Subnet (10.0.3.0/26)</strong> - Admin access (required /26 minimum)</li>
+</ol>
+<p>Why this design? <strong>Security boundaries.</strong> Each subnet serves a distinct purpose:<br />
+- Servers can't reach the internet<br />
+- Private endpoints isolate Arc traffic<br />
+- Bastion provides controlled admin access</p>
+<h3>Private Link Configuration</h3>
+<p>This is the critical piece. Azure Arc Private Link Scope acts as the bridge between your servers and Azure:</p>
+<div class="codehilite"><pre><span></span><code>Arc Agent → Private Endpoint → Private Link Scope → Azure Control Plane
+</code></pre></div>
+
+<p><strong>Three Private DNS zones handle resolution:</strong><br />
+- <code>privatelink.his.arc.azure.com</code><br />
+- <code>privatelink.guestconfiguration.azure.com</code><br />
+- <code>privatelink.dp.kubernetesconfiguration.azure.com</code></p>
+<p>When the Arc agent tries to reach <code>his.arc.azure.com</code>, private DNS resolves it to the private endpoint IP (10.0.2.x). No public internet involved.</p>
+<h3>The Arc Agent Flow</h3>
+<ol>
+<li><strong>Agent installation</strong> - Standard MSI on Windows Server</li>
+<li><strong>Connection attempt</strong> - Agent tries to reach Arc endpoints</li>
+<li><strong>DNS resolution</strong> - Private DNS returns private IPs</li>
+<li><strong>Private Link</strong> - Traffic routes through private endpoint</li>
+<li><strong>Arc registration</strong> - Server appears in Azure Portal</li>
+</ol>
+<p>All traffic stays on the Azure backbone. Zero internet exposure.</p>
+<h2>Deployment (15 Minutes)</h2>
+<p>The complete Terraform code is here: <a href="https://github.com/dswann101164/azure-arc-private-lab">azure-arc-private-lab</a></p>
+<p><strong>Prerequisites:</strong><br />
+- Azure subscription (Owner or Contributor)<br />
+- Terraform 1.6+<br />
+- Azure CLI 2.50+<br />
+- Service Principal for Arc onboarding</p>
+<p><strong>Quick start:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Clone the repo</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/dswann101164/azure-arc-private-lab.git
+<span class="nb">cd</span><span class="w"> </span>azure-arc-private-lab/terraform
+
+<span class="c1"># Configure</span>
+cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>terraform.tfvars
+<span class="c1"># Edit with your values</span>
+
+<span class="c1"># Set secrets</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_admin_password</span><span class="o">=</span><span class="s2">&quot;YourPassword123!&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_id</span><span class="o">=</span><span class="s2">&quot;your-sp-id&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_secret</span><span class="o">=</span><span class="s2">&quot;your-sp-secret&quot;</span>
+
+<span class="c1"># Deploy</span>
+terraform<span class="w"> </span>init
+terraform<span class="w"> </span>plan
+terraform<span class="w"> </span>apply
+</code></pre></div>
+
+<p><strong>What gets created:</strong><br />
+- Resource group with all components<br />
+- Virtual network with proper segmentation<br />
+- Azure Bastion for secure access<br />
+- Arc Private Link Scope<br />
+- 3 Private DNS zones with proper records<br />
+- 3 Windows Server 2022 VMs<br />
+- Arc agent installed and connected</p>
+<p><strong>Deployment time:</strong> ~15 minutes</p>
+<h2>Real-World Testing</h2>
+<p>After deployment, connect to a VM via Bastion and verify:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check Arc agent status</span>
+<span class="n">azcmagent</span> <span class="n">show</span>
+
+<span class="c"># Output shows:</span>
+<span class="n">Agent</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Connected</span>
+<span class="n">Connection</span> <span class="n">Type</span><span class="p">:</span> <span class="n">Private</span>  
+<span class="n">Private</span> <span class="n">Link</span> <span class="n">Scope</span><span class="p">:</span> <span class="p">/</span><span class="n">subscriptions</span><span class="p">/.../</span><span class="n">pls-arc-lab-xxxxx</span>
+</code></pre></div>
+
+<p><strong>That "Connection Type: Private" line?</strong> That's what your security team wants to see.</p>
+<p>Now test hybrid management:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Apply Azure Policy to Arc servers</span>
+az<span class="w"> </span>policy<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;require-tags&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/YOUR_SUB_ID&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--policy<span class="w"> </span><span class="s2">&quot;require-tag-and-value&quot;</span>
+
+<span class="c1"># Query across all infrastructure</span>
+az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">  Resources</span>
+<span class="s2">  | where type in~ (&#39;microsoft.compute/virtualmachines&#39;,</span>
+<span class="s2">                    &#39;microsoft.hybridcompute/machines&#39;)</span>
+<span class="s2">  | project name, type, location</span>
+<span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Your Arc-enabled servers appear alongside native Azure VMs. <strong>Single pane of glass for hybrid infrastructure.</strong></p>
+<h2>Cost Reality</h2>
+<p>Running 24/7:<br />
+- Azure Bastion (Standard): ~$140/month<br />
+- 3 Private Endpoints: ~$21/month<br />
+- 3 VMs (D2s_v3): ~$210/month<br />
+- Storage/Network: ~$25/month<br />
+- <strong>Total: ~$396/month</strong></p>
+<p><strong>Lab mode</strong> (VMs stopped when not demoing):<br />
+- Azure Bastion (Developer SKU): ~$25/month<br />
+- Private Endpoints: ~$21/month<br />
+- VMs (stopped): ~$10/month<br />
+- Storage/Network: ~$10/month<br />
+- <strong>Total: ~$66/month</strong></p>
+<p>Stop VMs between demos:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="n">deallocate</span> <span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[].id&quot;</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Start for demos:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="nb">start </span><span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[].id&quot;</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>What I Learned</h2>
+<p><strong>1. Private Link is not optional for enterprise Arc</strong></p>
+<p>Every serious Arc deployment I've seen uses Private Link. The public internet path is fine for demos, but production deployments require private connectivity.</p>
+<p><strong>2. DNS is critical (and easy to get wrong)</strong></p>
+<p>Private DNS zones must be linked to your VNet. The Arc agent uses specific endpoints. Get the DNS wrong and agents fail silently.</p>
+<p><strong>3. Network Security Groups matter</strong></p>
+<p>Even with private connectivity, NSGs control traffic flow. The server subnet needs outbound 443 to Arc endpoints. Missing this rule = connection failures.</p>
+<p><strong>4. Bastion is worth it</strong></p>
+<p>Azure Bastion costs $140/month, but it eliminates all RDP/SSH public IPs. For enterprise security, that's a bargain.</p>
+<p><strong>5. The Terraform matters as much as the architecture</strong></p>
+<p>Modular Terraform code means I can reuse components. The networking module works for other projects. The Private Link module is reusable. The Arc servers module adapts to different scenarios.</p>
+<h2>Common Issues (And Fixes)</h2>
+<p><strong>Arc agent won't connect:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Inside VM, check DNS resolution</span>
+<span class="n">nslookup</span> <span class="n">his</span><span class="p">.</span><span class="n">arc</span><span class="p">.</span><span class="n">azure</span><span class="p">.</span><span class="n">com</span>
+<span class="c"># Should return 10.0.2.x (private IP)</span>
+
+<span class="c"># If it returns public IP, Private DNS isn&#39;t working</span>
+<span class="c"># Check: Private DNS zone linked to VNet?</span>
+</code></pre></div>
+
+<p><strong>DNS returns public IPs:</strong><br />
+- Verify Private DNS zones exist<br />
+- Confirm VNet links are active<br />
+- Check A records point to private endpoint IP</p>
+<p><strong>Bastion connection fails:</strong><br />
+- Verify VM is running (not stopped)<br />
+- Check Bastion subnet is /26 or larger<br />
+- Confirm NSG allows Bastion traffic</p>
+<p><strong>Complete troubleshooting guide:</strong> <a href="https://github.com/dswann101164/azure-arc-private-lab/blob/main/docs/quick-start.md">GitHub repo docs</a></p>
+<h2>Why I Built This</h2>
+<p>Two reasons:</p>
+<p><strong>1. Enterprise mergers need Arc</strong></p>
+<p>When consolidating infrastructure from two large organizations, Arc provides unified management for servers across datacenters - but only if you can deploy it securely within enterprise constraints.</p>
+<p><strong>2. Microsoft's docs don't cover this</strong></p>
+<p>Their documentation shows the simple path. The internet is full of "just use Private Link" advice with no working code. I needed something production-ready.</p>
+<p>So I built it, documented it, and open-sourced it.</p>
+<h2>What's Next</h2>
+<p>This lab environment is the foundation for:</p>
+<p><strong>Immediate use:</strong><br />
+- Arc POC demonstrations<br />
+- Security team reviews<br />
+- Compliance validation<br />
+- Training new team members</p>
+<p><strong>Future enhancements:</strong><br />
+- Azure Policy assignments (compliance automation)<br />
+- Update Management configuration (patching at scale)<br />
+- Azure Monitor integration (unified observability)<br />
+- Multi-region deployment (disaster recovery scenarios)</p>
+<p>The GitHub repo includes scripts for all deployment scenarios.</p>
+<h2>The Broader Point</h2>
+<p><strong>The gap between vendor demos and enterprise reality is huge.</strong></p>
+<p>Microsoft shows you Arc connecting over the internet because it's simple to demo. But simplicity doesn't mean it matches your environment.</p>
+<p>Your job as an Azure architect isn't to make the demo work. It's to make the demo work <strong>within your constraints:</strong><br />
+- Network isolation<br />
+- Security requirements<br />
+- Compliance frameworks<br />
+- Change control processes</p>
+<p>This Arc lab shows the realistic path. Private connectivity. Proper network design. Security boundaries. Working code.</p>
+<p><strong>Because your CISO won't approve the demo version.</strong></p>
+<h2>Resources</h2>
+<ul>
+<li><strong>GitHub Repository:</strong> <a href="https://github.com/dswann101164/azure-arc-private-lab">azure-arc-private-lab</a></li>
+<li><strong>Microsoft Docs:</strong> <a href="https://learn.microsoft.com/azure/azure-arc/servers/private-link-security">Azure Arc Private Link</a></li>
+<li><strong>Azure Arc Jumpstart:</strong> <a href="https://azurearcjumpstart.io/">Official Microsoft examples</a></li>
+</ul>
+<h2>Try It Yourself</h2>
+<p>The complete Terraform code is on GitHub. Clone it, deploy it, test it. If you find issues or have improvements, open a PR.</p>
+<p>And if you're evaluating Arc for your organization, this gives you a realistic starting point that your security team can actually approve.</p>
+<p><strong>Star the repo if it helps you.</strong> I track which projects get traction - it helps me know what content to create next.</p>
+<hr />
+<p><em>This is post #81 in my journey to 100 Azure architecture posts. 19 more to go, then we launch something new. Stay tuned.</em></p>
+<p><em>Managing 40+ Azure subscriptions and 30,000+ resources at enterprise scale while documenting everything publicly at <a href="https://azure-noob.com">azure-noob.com</a>. Because if I'm solving these problems, you probably are too.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-arc-ghost-registrations" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn&#39;t Exist</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-06</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-arc-vcenter-implementation-guide" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Azure Arc Multi-vCenter Implementation Guide That Actually Works</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-24</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-audit-gap-nobody-talks-about" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won&#39;t Survive a 7-Year Audit</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-26</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-openai-pricing-real-costs">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Azure OpenAI Pricing 2025: Real Costs ($2 Demo → $4K Production) + Calculator</strong>
+      </a>
+    
+    
+      <a href="/blog/tag-governance-247-variations" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>
