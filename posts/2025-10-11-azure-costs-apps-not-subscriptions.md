@@ -11,14 +11,16 @@ tags:
 - Governance
 cover: /static/images/hero/azure-finops-apps-vs-subscriptions.png
 slug: azure-costs-apps-not-subscriptions
-hub: finops
-hub: finops
+
+
 related_posts:
   - azure-resource-tags-guide
   - azure-chargeback-tags-model
   - azure-finops-complete-guide
-hub: governance
+
 ---
+
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 **You start with the billing stupidly. Understanding how many apps you have helps get you to where you want to be.**
 
 Microsoft told us to use subscriptions as billing boundaries. Two years later, we're maintaining manual spreadsheets to allocate costs across 44 subscriptions and 31,000 resources. Here's what we wish we'd known on day one: **count your applications first.**

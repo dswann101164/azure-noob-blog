@@ -15,6 +15,8 @@ tags:
 cover: /static/images/hero/kql-query-library.svg
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 Last week, our security team asked: "Show me all resource deletions from August."
 
 I knew I had the perfect query. I wrote it six months ago. It worked great. I just couldn't remember where I saved it.

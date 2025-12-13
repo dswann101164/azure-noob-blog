@@ -11,9 +11,11 @@ tags:
 - Billing
 - Optimization
 cover: /static/images/hero/azure-cost-management-tame.png
-hub: finops
-hub: ai
+
+
 ---
+
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 ## What problem are we solving?
 
 If you've ever opened the Azure Cost Management blade and thought:  

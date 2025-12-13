@@ -13,13 +13,15 @@ tags:
 - VMware
 - vCenter
 cover: /static/images/hero/azure-arc-vcenter-guide.png
-hub: migration
+
 related_posts:
   - azure-arc-ghost-registrations
   - azure-migrate-enterprise-hybrid
   - cloud-migration-reality-check
-hub: governance
+
 ---
+
+This guide is part of our [Azure Migration hub](/hub/migration/) covering assessment, planning, execution, and post-migration optimization.
 My boss asked me and my colleague to train the team on Azure Arc this morning. We're the only two people in the organization who understand Azure at scale. We just connected 1,200+ servers to Arc under pressure from Microsoft with no governance strategy.
 
 Now we're supposed to teach others how to use it.

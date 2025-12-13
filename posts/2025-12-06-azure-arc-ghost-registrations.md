@@ -14,13 +14,15 @@ tags:
 - Reconciliation
 - VMware
 cover: /static/images/hero/azure-arc-ghost-registrations.png
-hub: kql
+
 related_posts:
   - azure-vm-inventory-kql
   - kql-query-library-git
   - azure-arc-vcenter-implementation-guide
-hub: governance
+
 ---
+
+This guide is part of our [KQL Mastery hub](/hub/kql/) covering query patterns, optimization techniques, and real-world Azure Resource Graph examples.
 # Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist
 
 I ran a reconciliation between Azure Arc and our VMware environment using RVTools. The results were shocking: **64% of our Arc inventory consisted of ghost registrations for VMs that no longer exist.**

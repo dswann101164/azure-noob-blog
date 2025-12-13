@@ -16,6 +16,8 @@ tags:
 cover: /static/images/hero/mcp-powerbi-ai-reality.png
 hub: ai
 ---
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 # MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What's Just Marketing)
 
 ## The AI Buzzword Explosion

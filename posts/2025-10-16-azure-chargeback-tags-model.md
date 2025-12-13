@@ -12,15 +12,17 @@ tags:
 - Tags
 cover: /static/images/hero/azure-chargeback-model.png
 slug: azure-chargeback-tags-model
-hub: finops
-hub: finops
+
+
 related_posts:
   - azure-costs-apps-not-subscriptions
   - azure-resource-tags-guide
   - tag-governance-247-variations
   - azure-finops-complete-guide
-hub: governance
+
 ---
+
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 ## The story (from the trenches)
 
 When Finance first asked for a chargeback report by Line of Business, I thought our tags would make it easy.

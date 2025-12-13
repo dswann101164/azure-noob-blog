@@ -15,6 +15,8 @@ tags:
 cover: static/images/hero/cloud-noc.png
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 ## The Problem Nobody Explains
 
 You land in a new Azure admin role. You inherit an environment. Your boss asks you three simple questions:

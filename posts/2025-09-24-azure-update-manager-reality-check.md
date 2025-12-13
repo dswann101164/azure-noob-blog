@@ -18,6 +18,8 @@ tags:
 cover: static/images/hero/azure-update-manager.png
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 # Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported
 
 When I first opened Azure Update Manager, I nearly had a heart attack. The dashboard cheerfully informed me that **1,791 virtual machines** needed attention. As someone responsible for keeping our Azure environment secure and compliant, seeing that number felt like staring down an impossible task.

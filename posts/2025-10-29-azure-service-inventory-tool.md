@@ -13,14 +13,16 @@ tags:
 - Resource Graph
 - Tools
 cover: /static/images/hero/service-inventory-tool.svg
-hub: automation
+
 related_posts:
   - only-1-percent-know-these-tools
   - azure-ipam-tool
   - workbook-app-tool
   - azure-cost-optimization-what-actually-works
-hub: governance
+
 ---
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 Microsoft says there are **397 Azure services**.
 
 The [Azure Periodic Table](https://www.azureperiodictable.com/) displays them beautifully.

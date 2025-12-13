@@ -13,15 +13,17 @@ tags:
 - Tags
 cover: /static/images/hero/azure-tag-governance.png
 slug: azure-tag-governance-policy
-hub: finops
-hub: governance
+
+
 related_posts:
   - azure-resource-tags-guide
   - tag-governance-247-variations
   - azure-costs-apps-not-subscriptions
   - azure-finops-complete-guide
-hub: governance
+
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 If you're managing more than a handful of Azure subscriptions, you've already discovered that tag chaos is real. Finance wants chargeback tags. Security wants owner tags. Compliance wants environment tags. And nobody wants to manually tag 10,000 resources.
 
 Here's how to fix it using Azure Policy to enforce tags at scale and automatically inherit them to child resources.

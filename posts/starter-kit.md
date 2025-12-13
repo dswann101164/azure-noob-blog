@@ -11,6 +11,8 @@ tags:
 cover: /static/images/hero/azure-admin-starter-kit.png
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 # Azure Admin Starter Kit (Free Download)
 
 The Azure Admin Starter Kit is a collection of **four practical tools** designed for real-world Azure administrators. These are the same resources used daily for troubleshooting, monitoring, onboarding, and managing hybrid cloud environments.

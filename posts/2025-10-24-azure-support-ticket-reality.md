@@ -14,6 +14,8 @@ tags:
 cover: static/images/hero/azure-support-ticket.svg
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 Stop debugging after 3 hours. Open a support ticket. You're paying for Premier/Unified Support - use it.
 
 I've opened dozens of Azure support tickets over the past few years. Sometimes I get fast resolution from a skilled engineer. Sometimes I bounce through four contractors across time zones and solve it myself. Understanding what actually happens behind the scenes helps you navigate the system more effectively.

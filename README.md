@@ -1,4 +1,4 @@
-# Azure Noob Blog
+﻿# Azure Noob Blog
 
 **Practical Azure guidance for real-world administrators**
 
@@ -22,13 +22,13 @@ This is the codebase for [azure-noob.com](https://azure-noob.com) - a technical 
 **Built with Flask + Frozen-Flask for simplicity and performance:**
 
 ```
-├── app.py                 # Flask app for local development
-├── freeze.py              # Generates static site for deployment  
-├── posts/                 # Markdown blog posts with YAML front matter
-├── templates/             # Jinja2 templates for layout
-├── static/                # CSS, images, and assets
-├── docs/                  # Generated static site (served by GitHub Pages/Netlify)
-└── scripts/               # Helper scripts for publishing
+â”œâ”€â”€ app.py                 # Flask app for local development
+â”œâ”€â”€ freeze.py              # Generates static site for deployment  
+â”œâ”€â”€ posts/                 # Markdown blog posts with YAML front matter
+â”œâ”€â”€ templates/             # Jinja2 templates for layout
+â”œâ”€â”€ static/                # CSS, images, and assets
+â”œâ”€â”€ docs/                  # Generated static site (served by GitHub Pages/Netlify)
+â””â”€â”€ scripts/               # Helper scripts for publishing
 ```
 
 ## Writing Workflow
@@ -100,3 +100,5 @@ Written by enterprise IT professionals who understand that administrators need *
 ---
 
 *Built for administrators, by an administrator. No marketing fluff, no vendor pitches, just solutions that work.*
+
+<!-- rebuild trigger -->

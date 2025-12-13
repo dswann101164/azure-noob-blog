@@ -15,13 +15,15 @@ tags:
 - PowerShell
 - Tools
 cover: /static/images/hero/azure-dashboard-rebrand.png
-hub: automation
+
 related_posts:
   - pbix-modernizer-tool
   - chris-bowman-dashboard
   - azure-dashboards-cloud-noc
-hub: governance
+
 ---
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Problem: Great Tool, Wrong Branding
 
 Microsoft's [Azure Resource Inventory (ARI)](https://github.com/microsoft/ARI) is legitimately one of the best Azure reporting tools out there. It generates comprehensive Excel dashboards with 40+ worksheets, detailed resource inventories, charts, and actionable insights.

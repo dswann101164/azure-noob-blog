@@ -11,9 +11,11 @@ tags:
 - Cost Management
 slug: azure-cost-reporting-boardroom
 cover: /static/images/hero/azure-cost-boardroom.png
-hub: finops
-hub: governance
+
+
 ---
+
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 # Azure Cost Reporting for the Boardroom: Turning Receipts Into Stories
 
 **Your Azure invoice isn’t a report — it’s a receipt. What your board needs is a story about cloud spend, risk, and ROI.**

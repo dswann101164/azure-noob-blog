@@ -12,7 +12,7 @@ tags:
   - Compliance
   - Azure Hybrid Benefit
 cover: /static/images/hero/azure-hybrid-benefit-50k.png
-hub: finops
+
 related_posts:
   - cloud-migration-reality-check
   - azure-migration-roi-wrong
@@ -20,7 +20,7 @@ related_posts:
   - azure-finops-complete-guide
   - azure-resource-tags-guide
   - azure-tag-governance-policy
-hub: governance
+
 ---
 Azure Hybrid Benefit (AHB) is supposed to save money — not **trigger a $50,000 audit bill**.
 

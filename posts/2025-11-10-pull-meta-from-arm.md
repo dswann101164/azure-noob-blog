@@ -14,13 +14,15 @@ tags:
 - Operations
 - Resource Graph
 cover: /static/images/hero/pull-meta-from-arm.svg
-hub: automation
+
 related_posts:
   - azure-service-inventory-tool
   - terraform-remote-state-azure
   - if-you-cant-code-your-architecture
-hub: governance
+
 ---
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Meeting Where I Promised Magic
 
 Last week I wrote about [corporate arrogance killing cloud projects](https://azure-noob.com/blog/buzzwords-meetings-confusion/). Today, I'm showing you the exact technical gap that caused one of those failures.

@@ -13,9 +13,11 @@ tags:
 - Technical Debt
 cover: /static/images/hero/azure-tags-100k.png
 slug: resource-tags-100k-problem
-hub: finops
-hub: governance
+
+
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 In my [last post about Azure Update Manager](https://azure-noob.com/blog/azure-update-manager-reality-check/), I showed you how our "1,791 VMs needing updates" was actually only 348 VMs that should be in Update Manager at all. We filtered out Citrix VDI, Databricks clusters, security appliances, and everything else that shouldn't be there.
 
 But that post left a critical question unanswered: **How do you actually DO that filtering at scale?**

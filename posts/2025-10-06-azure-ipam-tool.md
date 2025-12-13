@@ -14,13 +14,15 @@ tags:
 - Tools
 - Workbooks
 cover: /static/images/hero/azure-ipam.png
-hub: automation
+
 related_posts:
   - azure-service-inventory-tool
   - only-1-percent-know-these-tools
   - private-endpoint-dns-hybrid-ad
-hub: governance
+
 ---
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Problem Leadership Doesn't Understand
 
 Enterprise mergers consolidate multiple Azure subscriptions, AD domains, and hundreds of applications into one environment. Leadership wants a migration plan. Questions that need answers:

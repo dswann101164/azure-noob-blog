@@ -13,13 +13,15 @@ tags:
 - Operations
 - Support
 cover: static/images/hero/azure-debugging-ai.png
-hub: ai
+
 related_posts:
   - will-ai-replace-azure-administrators-by-2030
   - azure-ai-collaboration-gap
   - three-ai-roles
-hub: ai
+
 ---
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.
 
 Now? If Claude or ChatGPT can't solve my Azure problem in 30 minutes, I open a ticket immediately.

@@ -12,13 +12,15 @@ tags:
 - Log Analytics
 - Resource Graph
 cover: /static/images/hero/kql-systems-maze.png
-hub: kql
+
 related_posts:
   - azure-vm-inventory-kql
   - kql-cheat-sheet-complete
   - kql-query-library-git
-hub: governance
+
 ---
+
+This guide is part of our [KQL Mastery hub](/hub/kql/) covering query patterns, optimization techniques, and real-world Azure Resource Graph examples.
 You learned KQL from Microsoft Learn. You wrote your first queries in Log Analytics. They worked. You kept writing more.
 
 Three months later, your queries are timing out. Six months later, you're staring at a $10,000 monthly Log Analytics bill. One year later, you discover Azure Resource Graph exists and realize you've been building everything in the wrong place.

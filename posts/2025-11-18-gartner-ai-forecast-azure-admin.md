@@ -6,6 +6,8 @@ tags: ["azure", "AI", "Gartner", "Cloud", "automation", "Career"]
 cover: "/static/images/hero/ai-future-of-azure-admin.png"
 hub: ai
 ---
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 # Gartner’s AI Forecast for 2030: What It Really Means for Azure Admins
 
 Gartner recently released new research about how AI will reshape IT work by 2030.  

@@ -15,6 +15,8 @@ tags:
 cover: static/images/hero/workbook-app-tool.svg
 hub: governance
 ---
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ Azure services across compute, networking, PaaS, monitoring, and security. When I needed to enhance it, I hit a problem.
 
 Azure Workbooks are JSON files with deeply nested structure. To understand what's inside—what queries run, what data gets displayed, how items connect—I'd need to click through 110+ items in Azure Portal. Each query buried in JSON. Each parameter block hidden in properties. Each text section wrapped in metadata.

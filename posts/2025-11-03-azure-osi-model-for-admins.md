@@ -4,13 +4,15 @@ date: 2025-11-03
 summary: "The OSI model isn’t dead — it just moved to the cloud. Here’s how to map Azure services to OSI layers and use that framework to troubleshoot IaaS, PaaS, and SaaS workloads efficiently."
 tags: ["azure", "networking", "troubleshooting", "IaaS", "PaaS", "SaaS"]
 cover: "/static/images/hero/azure-osi-model-mapping.png"
-hub: automation
+
 related_posts:
   - private-endpoint-dns-hybrid-ad
   - azure-landing-zone-reality-check
   - linux-commands-azure-admin-career
-hub: governance
+
 ---
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## 🧭 Introduction
 
 The **OSI model** (Open Systems Interconnection) is still one of the best mental maps for troubleshooting networks — even in the cloud.

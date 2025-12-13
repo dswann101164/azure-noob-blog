@@ -13,13 +13,15 @@ tags:
 - Monitoring
 - Power BI
 cover: static/images/hero/chris-bowman-dashboard.png
-hub: finops
+
 related_posts:
   - azure-finops-complete-guide
   - pbix-modernizer-tool
   - azure-cost-optimization-what-actually-works
-hub: governance
+
 ---
+
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 ## The Problem Everyone Hits
 
 Someone on Reddit asks: "Does anyone have a good Power BI template for Azure cost monitoring?"

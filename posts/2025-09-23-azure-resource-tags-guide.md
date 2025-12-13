@@ -12,8 +12,8 @@ tags:
 - Tags
 cover: /static/images/hero/azure-tags-guide.png
 slug: azure-resource-tags-guide
-hub: finops
-hub: governance
+
+
 related_posts:
   - tag-governance-247-variations
   - azure-tag-governance-policy
