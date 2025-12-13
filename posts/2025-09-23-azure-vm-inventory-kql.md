@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL'
 date: 2025-09-23
 summary: "Azure VM inventory workbook with copy-paste KQL: track 200+ resource types across 40+ subscriptions in one view. Includes Update Manager compatibility check, Intune separation, and Databricks exclusion. Free workbook template."

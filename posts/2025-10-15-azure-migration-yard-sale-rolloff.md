@@ -1,4 +1,4 @@
-﻿---
+---
 title: "If You're Going to Azure, Better Have a Yard Sale and a Roll-Off Ready"
 date: 2025-10-15
 summary: "Finance celebrates retiring 100 apps instead of migrating them. Six months later: Why are we still paying for the old data center? Because 'Retire' isn't a decision, it's a $300K decommissioning project nobody budgeted for."

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Migration Checklist: 8 Critical Questions Before You Migrate"
 date: 2025-11-14
 modified: 2025-11-29

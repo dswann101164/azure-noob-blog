@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?'
 date: 2025-10-29
 summary: 'A practical service inventory pattern for Azure: map resources to real business

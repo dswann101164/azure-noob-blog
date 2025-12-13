@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Private DNS Resolver Alternative | Fix Private Endpoint DNS in Hybrid Environments"
 date: 2025-10-06
 summary: "Azure Private DNS Resolver alternative for hybrid environments. Fix private endpoint DNS resolution by duplicating zones in on-prem AD instead of forwarders. Real-world solution managing 1,500+ private endpoints."

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "SCCM vs WSUS vs Azure Update Manager vs Intune: Patch Management Decision Matrix"
 date: 2025-10-09
 modified: 2025-12-12

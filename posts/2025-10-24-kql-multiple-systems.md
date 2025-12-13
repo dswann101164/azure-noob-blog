@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'The KQL Problem Nobody Warns You About: You''re Learning One Language Across
   Five Different Systems'
 date: 2025-10-24

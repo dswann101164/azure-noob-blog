@@ -1,4 +1,4 @@
-﻿---
+---
 title: "4 Logic Apps Every Azure Admin Should Build"
 date: 2025-10-29
 summary: "Stop clicking buttons. These 4 Logic Apps automate the boring operational tasks that break when ignored: unused resources, certificate expiration, tag compliance, and backup verification."

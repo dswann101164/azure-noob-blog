@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Icons Reference | Complete Microsoft Azure Architecture Icons Library"
 date: 2025-10-29
 summary: "Complete Azure icons reference with download links. Official Microsoft Azure architecture icons for Visio, PowerPoint, and diagrams. Searchable reference for all 284 Azure service icons."

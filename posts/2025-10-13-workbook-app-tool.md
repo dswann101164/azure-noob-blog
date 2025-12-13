@@ -1,4 +1,4 @@
-﻿---
+---
 title: Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
 date: 2025-10-13
 summary: 'An Azure Monitor workbook-driven app concept: turn your dashboards into

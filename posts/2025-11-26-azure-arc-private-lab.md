@@ -1,4 +1,4 @@
-﻿---
+---
 title: Building an Azure Arc Lab with Private Link (No Public IPs)
 date: 2025-11-26
 summary: A private Azure Arc lab design that lets you learn governance patterns, vCenter

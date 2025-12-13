@@ -1,4 +1,4 @@
-﻿---
+---
 title: "The Three AI Operations Roles That Don't Exist Yet (But Will in 12 Months)"
 date: 2025-11-17
 summary: "Search for 'AI operations governance jobs' and find nothing. Meanwhile someone has to monitor AI usage, prevent security disasters, and measure ROI. These three roles don't exist officially. They will soon."

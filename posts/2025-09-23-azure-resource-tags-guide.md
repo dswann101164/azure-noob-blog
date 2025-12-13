@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'Azure Tagging Best Practices 2025: Complete Enterprise Guide'
 date: 2025-09-23
 modified: 2025-11-29

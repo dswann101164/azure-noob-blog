@@ -1,4 +1,4 @@
-﻿---
+---
 title: Designing an Azure Chargeback Model with Tags
 date: 2025-10-16
 summary: A chargeback/showback model built on tags that finance, app owners, and cloud

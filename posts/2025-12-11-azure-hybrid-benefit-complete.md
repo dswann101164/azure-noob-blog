@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Hybrid Benefit vs. Cloud License: The $50K Licensing Mistake Every Azure Admin Must Avoid"
 date: 2025-12-10
 modified: 2025-12-10

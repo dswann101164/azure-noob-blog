@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You
   About'
 date: 2025-10-28

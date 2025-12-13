@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'KQL Cheat Sheet 2025: 51 Azure Resource Graph Queries (Copy-Paste Ready)'
 date: 2025-01-15
 modified: 2025-12-12

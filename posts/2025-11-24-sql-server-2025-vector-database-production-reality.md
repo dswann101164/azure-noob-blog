@@ -1,4 +1,4 @@
-﻿---
+---
 title: "SQL Server 2025 Vector Database: What Microsoft Doesn't Tell You About Production Deployments"
 date: 2025-11-24
 summary: "Microsoft integrated vector databases into SQL Server 2025. The docs show you how to enable it. They don't show you what happens when you store 10 million vectors, run 100K queries per day, or why your $500/month SQL Server becomes $3,000/month."

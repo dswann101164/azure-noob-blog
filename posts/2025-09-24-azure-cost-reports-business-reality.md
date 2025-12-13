@@ -1,4 +1,4 @@
-﻿---
+---
 title: Why Your Azure Cost Reports Don’t Match Business Reality
 date: 2025-09-24
 summary: Azure Cost Management often conflicts with how businesses track spend. Here's

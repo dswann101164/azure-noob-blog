@@ -1,4 +1,4 @@
-﻿---
+---
 title: "50 Windows Commands for Azure VMs (PowerShell + Active Directory)"
 date: 2025-12-08
 summary: "The essential Windows commands every Azure administrator needs—from PowerShell basics to Active Directory domain join and Group Policy troubleshooting in enterprise environments."

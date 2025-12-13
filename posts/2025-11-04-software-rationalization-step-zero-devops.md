@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Software Rationalization: The Step Zero That Works in a DevOps World"
 date: 2025-11-04
 summary: "Before you migrate, modernize, or even look at the cloud — you must know what you own, what it costs, and whether it should exist. This is not a migration step. It's a business survival step."

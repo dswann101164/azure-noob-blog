@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Only 1% of Azure Admins Know These Three Tools — And Even Fewer Know When to Use Which"
 date: 2025-11-10
 summary: "I passed AZ-104. I was certified. I knew how to create VMs, configure networking, deploy ARM templates. Day 1 on the job: 'Pull me an inventory.' AZ-104 never covered this. Here's the certification gap nobody talks about, the query that proves it, and the templates that save your career."

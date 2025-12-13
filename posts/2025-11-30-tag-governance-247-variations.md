@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)'
 date: 2025-11-30
 modified: 2025-12-06
