@@ -1,12 +1,19 @@
----
+﻿---
 title: "Software Rationalization: The Step Zero That Works in a DevOps World"
 date: 2025-11-04
 summary: "Before you migrate, modernize, or even look at the cloud — you must know what you own, what it costs, and whether it should exist. This is not a migration step. It's a business survival step."
 tags: ["Rationalization", "FinOps", "devops", "azure", "governance", "Architecture", "Security", "Cost Allocation"]
 cover: "/static/images/hero/rationalization-devops.png"
+hub: governance
+related_posts:
+  - terraform-azure-devops-cicd-series-index
+  - if-you-cant-code-your-architecture
+  - cloud-migration-reality-check
 ---
-
 ## The One Question No One Can Answer
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 > **"How many applications do we have — and how much do they *actually* cost us?"**
 

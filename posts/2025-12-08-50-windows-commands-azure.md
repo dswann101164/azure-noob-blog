@@ -1,12 +1,15 @@
----
+﻿---
 title: "50 Windows Commands for Azure VMs (PowerShell + Active Directory)"
 date: 2025-12-08
 summary: "The essential Windows commands every Azure administrator needs—from PowerShell basics to Active Directory domain join and Group Policy troubleshooting in enterprise environments."
 tags: ["azure", "windows", "powershell", "active-directory", "group-policy", "troubleshooting"]
 cover: "/static/images/hero/windows-commands-azure.png"
+hub: ai
 ---
-
 Whether you deploy Azure Windows VMs through the Portal, PowerShell, ARM templates, or Terraform—eventually you'll RDP in to troubleshoot something. The deployment succeeded, the Portal shows healthy, but users can't authenticate with domain credentials, Group Policy won't apply, or the domain trust is broken.
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 This is when you need actual Windows commands.
 

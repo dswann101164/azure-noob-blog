@@ -12,13 +12,21 @@ tags:
 cover: /static/images/hero/azure-cost-optimization-guide.png
 slug: azure-cost-optimization-complete-guide
 hub: finops
+related_posts:
+  - azure-finops-complete-guide
+  - azure-resource-tags-guide
+  - azure-tag-governance-policy
+  - cloud-migration-reality-check
+  - azure-chargeback-tags-model
 ---
 
 This isn't another "turn off unused VMs" guide.
 
 This is the **complete framework** I've used to reduce Azure spend by 30-40% across multiple enterprises—without breaking production, without political fallout, and with Finance actually thanking me.
 
-It's long. It's detailed. **Bookmark it.**
+This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and tag governance at enterprise scale.
+
+It's long. It's detailed. **Bookmark it**.
 
 ---
 
@@ -210,7 +218,7 @@ Resources
 2. Compute resources (VMs, App Services)
 3. Storage with high costs
 
-**Don't try to tag everything at once**—it's a 6-month project for large enterprises.
+**Don't try to tag everything at once**—it's a 6-month project for large enterprises. For the complete tagging strategy including solving the 247 tag variations problem, see our [Azure tagging best practices guide](/blog/azure-resource-tags-guide/) and [tag governance policy implementation](/blog/azure-tag-governance-policy/).
 
 ---
 
@@ -253,7 +261,7 @@ Resources
 | project name, resourceGroup, VMSize, Environment = tags.Environment, Owner = tags.Owner
 ```
 
-**Dev/test environments** are the #1 source of waste in every enterprise I've seen. Nobody needs 16-core VMs for development.
+**Dev/test environments** are the #1 source of waste in every enterprise I've seen. Nobody needs 16-core VMs for development. This connects directly to our broader [Azure FinOps implementation guide](/blog/azure-finops-complete-guide/) where we cover application-level cost visibility.
 
 ### Analysis 3: Resources Past EOL
 
@@ -450,7 +458,7 @@ Resources
 | order by TotalMonthlyCost desc
 ```
 
-**Expected savings**: $10,000-$50,000/month per zombie application decommissioned.
+**Expected savings**: $10,000-$50,000/month per zombie application decommissioned. This decommissioning process should be part of your broader [Azure migration planning](/blog/cloud-migration-reality-check/), ensuring you're not just migrating technical debt to the cloud.
 
 ---
 

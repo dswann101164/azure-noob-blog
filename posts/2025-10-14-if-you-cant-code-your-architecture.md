@@ -1,12 +1,15 @@
----
+﻿---
 title: "If You Can't Code Your Architecture, You're Not an Architect"
 date: 2025-10-14
 summary: "Deploy one VM to learn the variables. Deploy three VMs to learn you're wasting time. Code your fourth deployment or admit you're just clicking buttons for a living."
 tags: ["azure", "Architecture", "Terraform", "IaC", "Career"]
 cover: "static/images/hero/code-architecture.svg"
+hub: governance
 ---
-
 # If You Can't Code Your Architecture, You're Not an Architect
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 **Here's the uncomfortable truth:** Azure architects who can't code their infrastructure are slow, inconsistent, and undocumented. They're expensive button-clickers making PowerPoint diagrams that drift from reality the moment they're published.
 

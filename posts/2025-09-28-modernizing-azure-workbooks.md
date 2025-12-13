@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)'
 date: 2025-09-28
 modified: 2025-12-12
@@ -12,9 +12,12 @@ tags:
 - Open Source
 - Workbooks
 cover: static/images/hero/azure-workbook-enhancement.png
+hub: governance
 ---
-
 ## Why Nobody Teaches Workbooks
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 Azure Monitor Workbooks are one of the most powerful operational tools in Azure. Yet **zero Azure certifications teach how to build them.**
 

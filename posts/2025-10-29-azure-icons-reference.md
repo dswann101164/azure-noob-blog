@@ -1,13 +1,20 @@
----
+﻿---
 title: "Azure Icons Reference | Complete Microsoft Azure Architecture Icons Library"
 date: 2025-10-29
 summary: "Complete Azure icons reference with download links. Official Microsoft Azure architecture icons for Visio, PowerPoint, and diagrams. Searchable reference for all 284 Azure service icons."
 tags: ["azure", "Icons", "Architecture", "Diagrams", "Reference"]
 keywords: ["azure icons", "microsoft azure icons", "azure architecture icons"]
 cover: "/static/images/hero/azure-icons-reference.png"
+hub: automation
+related_posts:
+  - azure-service-inventory-tool
+  - azure-periodic-table-service-dictionary
+  - azure-dashboards-cloud-noc
 ---
-
 Need the official icon for Azure Storage? Kubernetes? Virtual Machines? Here's every Azure service icon in one searchable reference.
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 ## Quick Access
 

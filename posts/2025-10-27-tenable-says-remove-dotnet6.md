@@ -1,12 +1,15 @@
----
+﻿---
 title: "Security Found .NET 6 on 47 VMs. Now I'm Supposed to Remove It. Here's Why That's Impossible."
 date: 2025-10-27
 summary: "Tenable finds a vulnerability. Security creates a ticket. Change management wants approval. App teams say not my problem. Infrastructure doesn't own the apps. Welcome to the operational reality nobody talks about."
 tags: ["azure", "Security", "operations", "Change Management"]
 cover: "/static/images/hero/azure-support-ticket.svg"
+hub: governance
 ---
-
 ## The Ticket
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 ```
 Subject: Azure Admin - Remove .NET 6.0 from 47 Virtual Machines

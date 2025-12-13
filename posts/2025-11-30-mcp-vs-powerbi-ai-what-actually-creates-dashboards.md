@@ -1,4 +1,4 @@
----
+﻿---
 title: 'MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What''s Just
   Marketing)'
 date: 2025-11-30
@@ -14,6 +14,7 @@ tags:
 - Monitoring
 - Power BI
 cover: /static/images/hero/mcp-powerbi-ai-reality.png
+hub: ai
 ---
 # MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What's Just Marketing)
 

@@ -1,12 +1,15 @@
----
+﻿---
 title: "Why Azure Migrate's 'Agentless' Discovery Fails in Enterprise Hybrid Environments"
 date: 2025-10-15
 summary: "Microsoft's official migration tool assumes single domains and flat networks. Here's why it's architecturally incompatible with multi-domain hybrid environments."
 tags: ["azure", "migration", "Hybrid", "Security", "enterprise"]
 cover: "static/images/hero/azure-migrate-enterprise-hybrid.svg"
+hub: ai
 ---
-
 # Why Azure Migrate's "Agentless" Discovery Fails in Enterprise Hybrid Environments
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 ## The Promise
 

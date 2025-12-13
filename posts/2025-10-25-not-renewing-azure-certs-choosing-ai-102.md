@@ -1,12 +1,15 @@
----
+﻿---
 title: "I'm Not Renewing My Azure Certifications. Here's Why I'm Getting AI-102 Instead."
 date: 2025-10-25
 summary: "I earned AZ-103, AZ-303, and AZ-304 in 2020. Microsoft wants me to renew them. I'm not renewing. I'm investing those 100 hours in AI-102 instead. Here's the data behind that decision."
 tags: ["azure", "Certifications", "AI", "Career", "Copilot"]
 cover: "/static/images/hero/cert-renewal-ai-hero.png"
+hub: ai
 ---
-
 Microsoft sent me the renewal notification for my Azure certifications. AZ-103, AZ-303, and AZ-304 - all earned in 2020, all expiring soon.
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 I'm not renewing them.
 

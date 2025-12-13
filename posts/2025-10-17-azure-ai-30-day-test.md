@@ -1,12 +1,19 @@
----
+﻿---
 title: "I Spent 30 Days Testing Azure AI in a Regulated Environment. Here's What Actually Works."
 date: 2025-10-17
 summary: "Microsoft says AI will revolutionize Azure operations by 2028. I tested it in October 2025 in a regulated enterprise with PCI/HIPAA requirements. 60-70% is deployable RIGHT NOW. Real ROI: Saved 15 hours/month, found $4,327 in waste, passed compliance audits easier. Here's what works, what's broken, and the 30-day roadmap."
 tags: ["azure", "AI", "Copilot", "FinOps", "Compliance", "Security", "automation"]
 cover: "static/images/hero/azure-ai-copilot.svg"
+hub: ai
+related_posts:
+  - azure-debugging-ai-rule
+  - will-ai-replace-azure-administrators-by-2030
+  - three-ai-roles
 ---
-
 **TL;DR:** Microsoft says AI will revolutionize Azure operations by 2028. I tested it in October 2025 in a regulated enterprise with PCI/HIPAA requirements. 60-70% of the "future vision" is deployable RIGHT NOW. Here's what works, what's broken, and how to implement it without getting fired.
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 ---
 

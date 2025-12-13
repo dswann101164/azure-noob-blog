@@ -1,12 +1,15 @@
----
+﻿---
 title: "Commenting for Continuity: Why My Code Comments Don't Look Like Yours (On Purpose)"
 date: 2025-10-27
 summary: "Most guides say 'comment the why, not the what.' Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs."
 tags: ["azure", "devops", "kql", "powershell", "Terraform", "governance"]
 cover: "/static/images/hero/code-architecture.svg"
+hub: ai
 ---
-
 ## TL;DR
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 Typical "best practices" stop at readability. My commenting style is built for **continuity**—so an Azure admin, auditor, or on-call responder can reconstruct intent, verify outcomes, and roll back safely without tribal knowledge.
 

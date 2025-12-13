@@ -1,12 +1,19 @@
----
+﻿---
 title: "From Chaos to Enterprise: How I Set Up Terraform Remote State in Azure (And Why You Need This Yesterday)"
 date: 2025-11-16
 summary: "After our third 'who deleted the state file' incident, I finally set up proper Terraform remote state. 30 minutes of work eliminated an entire category of disasters. Here's exactly how to do it, with zero fluff."
 tags: ["azure", "Terraform", "Infrastructure as Code", "devops"]
 cover: "/static/images/hero/terraform-remote-state.png"
+hub: automation
+related_posts:
+  - terraform-azure-devops-cicd-series-index
+  - if-you-cant-code-your-architecture
+  - azure-landing-zone-reality-check
 ---
-
 ## The 2 AM Phone Call That Changed Everything
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 "David, I'm so sorry. I ran `terraform apply` and... I think I just deleted the dev database."
 

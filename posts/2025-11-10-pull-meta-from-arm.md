@@ -1,4 +1,4 @@
----
+﻿---
 title: I'll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like
 date: 2025-11-10
 summary: A reusable pattern for pulling metadata from ARM at scale to feed CMDBs,
@@ -14,6 +14,12 @@ tags:
 - Operations
 - Resource Graph
 cover: /static/images/hero/pull-meta-from-arm.svg
+hub: automation
+related_posts:
+  - azure-service-inventory-tool
+  - terraform-remote-state-azure
+  - if-you-cant-code-your-architecture
+hub: governance
 ---
 ## The Meeting Where I Promised Magic
 

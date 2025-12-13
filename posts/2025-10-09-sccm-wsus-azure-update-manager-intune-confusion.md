@@ -1,4 +1,4 @@
----
+﻿---
 title: "SCCM vs WSUS vs Azure Update Manager vs Intune: Patch Management Decision Matrix"
 date: 2025-10-09
 modified: 2025-12-12
@@ -6,9 +6,12 @@ summary: "4 Microsoft patching tools, 3 conflicting answers from Microsoft reps.
 tags: ["azure", "sccm", "wsus", "intune", "azure-update-manager", "patch-management", "operations"]
 cover: "static/images/hero/patch-management-confusion.svg"
 animated_hero: true
+hub: governance
 ---
-
 Three different Microsoft people told me three different answers about how to patch our Azure VMs.
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 **Configuration Manager rep:** "Keep using SCCM for everything, including Azure."
 

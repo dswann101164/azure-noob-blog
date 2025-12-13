@@ -1,4 +1,4 @@
----
+﻿---
 title: 'From Raw Data to Actionable Insights: Mastering Azure VM Inventory with KQL'
 date: 2025-09-23
 summary: "Azure VM inventory workbook with copy-paste KQL: track 200+ resource types across 40+ subscriptions in one view. Includes Update Manager compatibility check, Intune separation, and Databricks exclusion. Free workbook template."
@@ -12,8 +12,12 @@ tags:
 - VM Inventory
 - VM Management
 cover: static/images/hero/azure-vm-inventory-kql.png
+hub: governance
 ---
 ## What problem are we solving?
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 As an Azure administrator, your environment is a sprawling landscape of Windows Servers, Linux boxes, and Windows clients. The challenge: **Which ones are patched by Azure Update Manager and which fall under Intune?**  
 Without a unified view, you risk compliance gaps and manual guesswork. This post shows how a single KQL query can deliver clarity and save hours of troubleshooting.

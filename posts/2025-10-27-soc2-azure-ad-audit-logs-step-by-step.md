@@ -1,12 +1,15 @@
----
+﻿---
 title: "SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)"
 date: 2025-10-27
 summary: "The grill assembly manual for capturing Azure AD audit logs - app registrations, consent grants, sign-ins, and role assignments. Every click, every command, every verification. Part 2 of fixing the 90-day audit gap."
 tags: ["azure", "Compliance", "Auditing", "Azure AD", "Entra ID", "Security", "SOC 2"]
 cover: "/static/images/hero/azure-ad-audit-logs.svg"
+hub: governance
 ---
-
 ## What This Is
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 This is Part 2 of fixing the Azure audit gap. **[Part 1 covered Activity Logs](/blog/2025-10-27-soc2-activity-log-step-by-step/)** (ARM resources like VMs and storage accounts). This post covers **Azure AD Audit Logs** (identity layer: app registrations, consent grants, sign-ins, role assignments).
 

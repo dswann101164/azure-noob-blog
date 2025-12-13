@@ -1,12 +1,19 @@
----
+﻿---
 title: "The Three AI Operations Roles That Don't Exist Yet (But Will in 12 Months)"
 date: 2025-11-17
 summary: "Search for 'AI operations governance jobs' and find nothing. Meanwhile someone has to monitor AI usage, prevent security disasters, and measure ROI. These three roles don't exist officially. They will soon."
 tags: ["AI", "azure", "Career", "operations"]
 cover: "/static/images/hero/three-ai-roles.png"
+hub: ai
+related_posts:
+  - azure-debugging-ai-rule
+  - the-ai-admin
+  - will-ai-replace-azure-administrators-by-2030
 ---
-
 # The Three AI Operations Roles That Don't Exist Yet (But Will in 12 Months)
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 I searched for "AI operations governance jobs" on LinkedIn.
 

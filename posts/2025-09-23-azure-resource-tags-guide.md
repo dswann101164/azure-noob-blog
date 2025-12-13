@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Tagging Best Practices 2025: Complete Enterprise Guide'
 date: 2025-09-23
 modified: 2025-11-29
@@ -13,8 +13,17 @@ tags:
 cover: /static/images/hero/azure-tags-guide.png
 slug: azure-resource-tags-guide
 hub: finops
+hub: governance
+related_posts:
+  - tag-governance-247-variations
+  - azure-tag-governance-policy
+  - azure-costs-apps-not-subscriptions
+  - azure-finops-complete-guide
 ---
 # What I Wish I Knew About Azure Resource Tags
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 *Before you deploy your first resource, read this. Before you write your first cost report, definitely read this.*
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: How to Present Azure Costs in the Boardroom
 date: 2025-09-14
 summary: Executives don’t care about vCores or storage accounts. Learn how to translate
@@ -12,8 +12,8 @@ tags:
 slug: azure-cost-reporting-boardroom
 cover: /static/images/hero/azure-cost-boardroom.png
 hub: finops
+hub: governance
 ---
-
 # Azure Cost Reporting for the Boardroom: Turning Receipts Into Stories
 
 **Your Azure invoice isn’t a report — it’s a receipt. What your board needs is a story about cloud spend, risk, and ROI.**

@@ -1,12 +1,19 @@
----
+﻿---
 title: "Buzzwords, Technical Terms, and the Meetings Where Nobody Understands Anything"
 date: 2025-11-09
 summary: "Why corporate arrogance kills more cloud projects than technical complexity ever could. The uncomfortable truth about how leadership uses business buzzwords and technical teams use jargon - and nobody admits they don't understand each other."
 tags: ["azure", "FinOps", "governance", "Enterprise Reality", "Communication"]
 cover: "/static/images/hero/buzzwords-meetings-confusion.png"
+hub: governance
+related_posts:
+  - software-rationalization-step-zero-devops
+  - three-ai-roles
+  - azure-landing-zone-reality-check
 ---
-
 ## The Meeting Where Everyone Agreed to Something
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 I once said this in an executive meeting:
 

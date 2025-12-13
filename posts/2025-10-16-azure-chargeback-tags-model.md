@@ -1,4 +1,4 @@
----
+﻿---
 title: Designing an Azure Chargeback Model with Tags
 date: 2025-10-16
 summary: A chargeback/showback model built on tags that finance, app owners, and cloud
@@ -13,6 +13,13 @@ tags:
 cover: /static/images/hero/azure-chargeback-model.png
 slug: azure-chargeback-tags-model
 hub: finops
+hub: finops
+related_posts:
+  - azure-costs-apps-not-subscriptions
+  - azure-resource-tags-guide
+  - tag-governance-247-variations
+  - azure-finops-complete-guide
+hub: governance
 ---
 ## The story (from the trenches)
 

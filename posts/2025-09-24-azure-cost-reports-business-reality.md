@@ -1,4 +1,4 @@
----
+﻿---
 title: Why Your Azure Cost Reports Don’t Match Business Reality
 date: 2025-09-24
 summary: Azure Cost Management often conflicts with how businesses track spend. Here's
@@ -12,8 +12,14 @@ tags:
 cover: /static/images/hero/azure-finops-business-reality.png
 slug: azure-cost-reports-business-reality
 hub: finops
+hub: finops
+related_posts:
+  - azure-finops-complete-guide
+  - azure-costs-apps-not-subscriptions
+  - azure-chargeback-tags-model
+  - chris-bowman-dashboard
+hub: governance
 ---
-
 # Why Your Azure Cost Reports Don't Match Your Business Reality
 
 "The Data team is $50,000 over budget this month," the CFO announced during our monthly financial review. The Data team lead looked confused. "Which application?" he asked. "We run five different projects, each with separate budgets and different cost centers."

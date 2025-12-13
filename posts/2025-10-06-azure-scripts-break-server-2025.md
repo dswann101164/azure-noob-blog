@@ -1,12 +1,15 @@
----
+﻿---
 title: "Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won't Tell You)"
 date: 2025-10-06
 summary: "Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here's the gap nobody explains."
 tags: ["azure", "powershell", "automation", "windows-server"]
 cover: "static/images/hero/powershell-version-gap.png"
+hub: ai
 ---
-
 ## The Problem Nobody Warns You About
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 Working from my Citrix VDI session last week. Opened PowerShell ISE (right there in the Start menu, familiar, convenient). Tried to run an Azure Resource Graph query to export tags from 44 subscriptions. Failed with cryptic errors about `-Skip` parameter validation.
 

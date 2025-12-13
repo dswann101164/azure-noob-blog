@@ -1,4 +1,4 @@
----
+﻿---
 title: Building an Azure Arc Lab with Private Link (No Public IPs)
 date: 2025-11-26
 summary: A private Azure Arc lab design that lets you learn governance patterns, vCenter
@@ -15,8 +15,12 @@ tags:
 - Security
 - Terraform
 cover: /static/images/hero/azure-arc-private-lab.png
+hub: governance
 ---
 Every Azure Arc demo I've seen shows agents connecting over the public internet. Microsoft's documentation walks you through the "happy path" - click here, install there, boom, your on-premises servers appear in Azure Portal.
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 **But here's the problem:** That's not how enterprise infrastructure works.
 

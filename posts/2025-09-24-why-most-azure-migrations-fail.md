@@ -1,12 +1,19 @@
----
+﻿---
 title: "Common Azure Migration Mistakes | Why Enterprise Cloud Migrations Fail"
 date: 2025-09-24
 summary: "The biggest Azure migration mistakes enterprises make: moving applications nobody understands. Real migration failures, institutional knowledge loss, and what actually works."
 tags: ["azure", "migration", "cloud-strategy", "enterprise", "mistakes"]
 cover: "/static/images/hero/azure-migration-failure.png"
+hub: migration
+related_posts:
+  - cloud-migration-reality-check
+  - application-migration-checklist-azure
+  - azure-migrate-enterprise-hybrid
 ---
-
 # Why Most Azure Migrations Fail: The Institutional Knowledge Problem
+
+
+This guide is part of our [Azure Migration hub](/hub/migration/) covering assessment, planning, execution, and post-migration optimization.
 
 Last month, I sat in a migration planning meeting where the application owner confidently stated they were "ready to move to Azure." When I asked for the software license key, they went silent. When I asked about firewall rules, they said "it works now, so it should be fine." When I asked who the vendor contact was, they admitted the person who maintained that relationship left the company two years ago.
 

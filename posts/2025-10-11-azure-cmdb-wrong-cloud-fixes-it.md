@@ -1,12 +1,15 @@
----
+﻿---
 title: "Building an Azure CMDB | Resource Inventory with Azure Resource Graph and KQL"
 date: 2025-10-11
 summary: "How to build a Configuration Management Database for Azure using Resource Graph and KQL queries. Track 31,000+ resources across 44 subscriptions with real-time accuracy. Why traditional CMDBs fail and Azure Resource Graph succeeds."
 tags: ["azure", "cmdb", "resource-graph", "kql", "inventory"]
 cover: "/static/images/hero/cmdb-wrong.png"
+hub: ai
 ---
-
 ServiceNow CMDB said we had 8,000 resources. I opened the report:
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 ```
 AZRPRDVM001 - Owner: [blank]

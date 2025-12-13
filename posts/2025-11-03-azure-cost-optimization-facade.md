@@ -1,4 +1,4 @@
----
+﻿---
 title: The Azure Cost Optimization Facade
 date: 2025-11-03
 summary: Most Azure optimization advice is surface-level. Reserved instances aren’t
@@ -12,8 +12,14 @@ tags:
 cover: /static/images/hero/azure-cost-optimization-facade.png
 slug: azure-cost-optimization-facade
 hub: finops
+hub: finops
+related_posts:
+  - azure-cost-optimization-what-actually-works
+  - azure-finops-complete-guide
+  - azure-chargeback-tags-model
+  - chris-bowman-dashboard
+hub: governance
 ---
-
 **Your CFO just forwarded you another email**: *"Azure Advisor says we can save $47,000/month. Why haven't we acted on this?"*
 
 You know the truth. Those recommendations are **garbage**.

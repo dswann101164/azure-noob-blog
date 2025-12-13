@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You
   About'
 date: 2025-10-28
@@ -13,6 +13,7 @@ tags:
 - Productivity
 - Resource Graph
 cover: /static/images/hero/kql-query-library.svg
+hub: governance
 ---
 Last week, our security team asked: "Show me all resource deletions from August."
 

@@ -1,12 +1,19 @@
----
+﻿---
 title: "The Azure Admin's Guide: PowerShell 5.1 vs. 7 & The End of the ISE"
 date: 2025-11-03
 summary: "Don't just upgrade your scripting language. Upgrade your entire admin workflow. The transition from PowerShell 5.1 + ISE to PowerShell 7 + VS Code is the only way to effectively manage a modern, high-volume Azure environment."
 tags: ["azure", "powershell", "automation", "VS Code", "ISE"]
 cover: "/static/images/hero/powershell-7-enterprise-migration.svg"
+hub: automation
+related_posts:
+  - if-you-cant-code-your-architecture
+  - terraform-azure-devops-cicd-series-index
+  - software-rationalization-step-zero-devops
 ---
-
 For the Azure administrator managing 50+ subscriptions and thousands of resources, PowerShell has never been a pleasant experience. 
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 It's slow, sessions conflict, and a complex audit across your entire organization can tie up your terminal for hours.
 

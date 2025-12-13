@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn''t Exist'
 date: 2025-12-06
 summary: How Azure Arc ghost registrations happen, why they wreck governance reporting,
@@ -14,6 +14,12 @@ tags:
 - Reconciliation
 - VMware
 cover: /static/images/hero/azure-arc-ghost-registrations.png
+hub: kql
+related_posts:
+  - azure-vm-inventory-kql
+  - kql-query-library-git
+  - azure-arc-vcenter-implementation-guide
+hub: governance
 ---
 # Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist
 

@@ -1,12 +1,15 @@
----
+﻿---
 title: "SQL Server 2025 Vector Database: What Microsoft Doesn't Tell You About Production Deployments"
 date: 2025-11-24
 summary: "Microsoft integrated vector databases into SQL Server 2025. The docs show you how to enable it. They don't show you what happens when you store 10 million vectors, run 100K queries per day, or why your $500/month SQL Server becomes $3,000/month."
 tags: ["azure", "SQL Server", "Vector Database", "AI", "FinOps"]
 cover: "/static/images/hero/sql-server-2025-vector-reality.png"
+hub: ai
 ---
-
 Microsoft released SQL Server 2025 on November 19th with native vector database support as the headline feature.
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 The announcement says: "Bring AI to your data with built-in vector search."
 

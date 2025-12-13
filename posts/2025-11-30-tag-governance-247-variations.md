@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)'
 date: 2025-11-30
 modified: 2025-12-06
@@ -11,8 +11,12 @@ related_posts:
   - azure-chargeback-tags-model
   - azure-tag-governance-policy
   - resource-tags-100k-problem
+hub: ai
 ---
 # The $2.3M Tag Mess: What Happens When 78002566 Becomes 247 Different Variations
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 ## The Finance Call That Changed Everything
 

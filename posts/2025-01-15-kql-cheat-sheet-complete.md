@@ -1,4 +1,4 @@
----
+﻿---
 title: 'KQL Cheat Sheet 2025: 51 Azure Resource Graph Queries (Copy-Paste Ready)'
 date: 2025-01-15
 modified: 2025-12-12
@@ -12,8 +12,12 @@ tags:
 - Resource Graph
 - Sentinel
 cover: /static/images/hero/kql-cheat-sheet.png
+hub: governance
 ---
 # KQL Cheat Sheet for Azure Admins: Azure Resource Graph (VMs, NICs, Disks)
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 > **Note:** No Azure certification teaches KQL for operational queries. The AZ-104 exam shows you two sample queries. That's it. No Resource Graph training. No joins. No performance optimization. Nothing about the queries you'll actually write daily.
 >

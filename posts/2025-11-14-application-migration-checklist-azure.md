@@ -1,13 +1,21 @@
----
+﻿---
 title: "Azure Migration Checklist: 8 Critical Questions Before You Migrate"
 date: 2025-11-14
 modified: 2025-11-29
 summary: "Complete Azure migration checklist: 80% of migration failures happen because you didn't ask these 8 questions BEFORE starting. License keys, vendor contacts, firewall rules, certificates - the enterprise migration checklist that actually works."
 tags: ["azure", "migration", "operations", "enterprise", "Checklist", "Cloud Migration", "Planning"]
 cover: "/static/images/hero/application-migration-checklist.png"
+hub: migration
+related_posts:
+  - cloud-migration-reality-check
+  - azure-migrate-enterprise-hybrid
+  - azure-migration-roi-wrong
+  - azure-hybrid-benefit-complete
 ---
-
 ## The Problem Nobody Talks About
+
+
+This guide is part of our [Azure Migration hub](/hub/migration/) covering assessment, planning, execution, and post-migration optimization.
 
 You've read Microsoft's migration guides. You've attended the webinars. You've even done the Azure Migrate assessment. Everything looks green.
 

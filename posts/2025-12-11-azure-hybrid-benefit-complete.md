@@ -1,4 +1,4 @@
----
+﻿---
 title: "Azure Hybrid Benefit vs. Cloud License: The $50K Licensing Mistake Every Azure Admin Must Avoid"
 date: 2025-12-10
 modified: 2025-12-10
@@ -20,9 +20,12 @@ related_posts:
   - azure-finops-complete-guide
   - azure-resource-tags-guide
   - azure-tag-governance-policy
+hub: governance
 ---
-
 Azure Hybrid Benefit (AHB) is supposed to save money — not **trigger a $50,000 audit bill**.
+
+
+This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
 But that's exactly what happens inside enterprise environments every single year.
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Azure Costs Follow Applications, Not Subscriptions
 date: 2025-10-11
 summary: Azure bills at the subscription level—but the business thinks in terms of
@@ -12,8 +12,13 @@ tags:
 cover: /static/images/hero/azure-finops-apps-vs-subscriptions.png
 slug: azure-costs-apps-not-subscriptions
 hub: finops
+hub: finops
+related_posts:
+  - azure-resource-tags-guide
+  - azure-chargeback-tags-model
+  - azure-finops-complete-guide
+hub: governance
 ---
-
 **You start with the billing stupidly. Understanding how many apps you have helps get you to where you want to be.**
 
 Microsoft told us to use subscriptions as billing boundaries. Two years later, we're maintaining manual spreadsheets to allocate costs across 44 subscriptions and 31,000 resources. Here's what we wish we'd known on day one: **count your applications first.**

@@ -1,4 +1,4 @@
----
+﻿---
 title: The 100,000 Tag Problem in Enterprise Azure
 date: 2025-11-24
 summary: What happens when an enterprise ends up with 100,000+ tag variations, why
@@ -14,6 +14,7 @@ tags:
 cover: /static/images/hero/azure-tags-100k.png
 slug: resource-tags-100k-problem
 hub: finops
+hub: governance
 ---
 In my [last post about Azure Update Manager](https://azure-noob.com/blog/azure-update-manager-reality-check/), I showed you how our "1,791 VMs needing updates" was actually only 348 VMs that should be in Update Manager at all. We filtered out Citrix VDI, Databricks clusters, security appliances, and everything else that shouldn't be there.
 

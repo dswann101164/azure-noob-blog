@@ -1,4 +1,4 @@
----
+﻿---
 title: 'What Happens When You Open an Azure Support Ticket: Inside the Enterprise
   Support Model'
 date: 2025-10-24
@@ -12,6 +12,7 @@ tags:
 - Process
 - Support
 cover: static/images/hero/azure-support-ticket.svg
+hub: governance
 ---
 Stop debugging after 3 hours. Open a support ticket. You're paying for Premier/Unified Support - use it.
 

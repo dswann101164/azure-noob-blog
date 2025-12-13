@@ -1,4 +1,4 @@
----
+﻿---
 title: 'The New Azure Debugging Rule: When AI Says ''I Don''t Know'''
 date: 2025-10-06
 summary: Using KQL to debug AI-driven alerts, complex rules, and noisy signals in
@@ -13,6 +13,12 @@ tags:
 - Operations
 - Support
 cover: static/images/hero/azure-debugging-ai.png
+hub: ai
+related_posts:
+  - will-ai-replace-azure-administrators-by-2030
+  - azure-ai-collaboration-gap
+  - three-ai-roles
+hub: ai
 ---
 I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.
 

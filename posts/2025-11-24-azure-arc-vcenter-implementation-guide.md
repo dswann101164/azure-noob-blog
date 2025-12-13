@@ -1,4 +1,4 @@
----
+﻿---
 title: The Azure Arc Multi-vCenter Implementation Guide That Actually Works
 date: 2025-11-24
 summary: 'End-to-end implementation guide for connecting VMware vCenter to Azure Arc
@@ -13,6 +13,12 @@ tags:
 - VMware
 - vCenter
 cover: /static/images/hero/azure-arc-vcenter-guide.png
+hub: migration
+related_posts:
+  - azure-arc-ghost-registrations
+  - azure-migrate-enterprise-hybrid
+  - cloud-migration-reality-check
+hub: governance
 ---
 My boss asked me and my colleague to train the team on Azure Arc this morning. We're the only two people in the organization who understand Azure at scale. We just connected 1,200+ servers to Arc under pressure from Microsoft with no governance strategy.
 

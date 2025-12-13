@@ -1,4 +1,4 @@
----
+﻿---
 title: 'The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won''t Survive
   a 7-Year Audit'
 date: 2025-10-26
@@ -14,6 +14,7 @@ tags:
 - Logging
 - Security
 cover: /static/images/hero/azure-audit-gap.png
+hub: governance
 ---
 > **Update (October 27, 2025):** Ready to fix your Activity Log retention? I've published a complete step-by-step implementation guide: **[SOC 2 Audit Prep: Activity Log Retention Setup (Step-by-Step)](/blog/2025-10-27-soc2-activity-log-step-by-step/)**. Every click, every command, every verification - the grill assembly manual version.
 

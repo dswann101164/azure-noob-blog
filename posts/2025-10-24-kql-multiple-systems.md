@@ -1,4 +1,4 @@
----
+﻿---
 title: 'The KQL Problem Nobody Warns You About: You''re Learning One Language Across
   Five Different Systems'
 date: 2025-10-24
@@ -12,6 +12,12 @@ tags:
 - Log Analytics
 - Resource Graph
 cover: /static/images/hero/kql-systems-maze.png
+hub: kql
+related_posts:
+  - azure-vm-inventory-kql
+  - kql-cheat-sheet-complete
+  - kql-query-library-git
+hub: governance
 ---
 You learned KQL from Microsoft Learn. You wrote your first queries in Log Analytics. They worked. You kept writing more.
 

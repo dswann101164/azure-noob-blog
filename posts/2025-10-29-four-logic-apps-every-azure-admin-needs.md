@@ -1,12 +1,19 @@
----
+﻿---
 title: "4 Logic Apps Every Azure Admin Should Build"
 date: 2025-10-29
 summary: "Stop clicking buttons. These 4 Logic Apps automate the boring operational tasks that break when ignored: unused resources, certificate expiration, tag compliance, and backup verification."
 tags: ["azure", "Logic Apps", "automation", "operations", "Cost Management", "governance"]
 cover: "/static/images/hero/logic-apps-automation.svg"
+hub: automation
+related_posts:
+  - azure-service-inventory-tool
+  - workbook-app-tool
+  - if-you-cant-code-your-architecture
 ---
-
 Everyone writes about Logic Apps for business process automation. SaaS integration. Order processing.
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 Nobody writes about the **boring operational tasks** Azure admins deal with daily.
 

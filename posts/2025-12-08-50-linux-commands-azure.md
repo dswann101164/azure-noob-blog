@@ -1,12 +1,15 @@
----
+﻿---
 title: "50 Linux Commands for Azure (However You Deploy)"
 date: 2025-12-08
 summary: "The essential Linux commands every Azure administrator needs—whether you use the Portal, PowerShell, or IaC. Includes Active Directory domain join for enterprise environments."
 tags: ["azure", "linux", "operations", "active-directory", "troubleshooting", "commands"]
 cover: "/static/images/hero/linux-commands-azure.png"
+hub: ai
 ---
-
 Whether you deploy Azure VMs through the Portal, PowerShell, ARM templates, or Terraform—eventually you'll SSH in to troubleshoot something. The deployment succeeded, the Portal shows green checkmarks, but users can't authenticate, disks aren't mounted, or network connectivity mysteriously stopped working.
+
+
+This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
 This is when you need actual Linux commands.
 

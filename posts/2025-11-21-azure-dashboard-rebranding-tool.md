@@ -1,4 +1,4 @@
----
+﻿---
 title: How I Rebranded Microsoft's Azure Resource Inventory Dashboard (Without Corrupting
   Excel)
 date: 2025-11-21
@@ -15,6 +15,12 @@ tags:
 - PowerShell
 - Tools
 cover: /static/images/hero/azure-dashboard-rebrand.png
+hub: automation
+related_posts:
+  - pbix-modernizer-tool
+  - chris-bowman-dashboard
+  - azure-dashboards-cloud-noc
+hub: governance
 ---
 ## The Problem: Great Tool, Wrong Branding
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: The Truth About Chris Bowman's Azure Cost Dashboard
 date: 2025-10-02
 summary: Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard
@@ -13,6 +13,12 @@ tags:
 - Monitoring
 - Power BI
 cover: static/images/hero/chris-bowman-dashboard.png
+hub: finops
+related_posts:
+  - azure-finops-complete-guide
+  - pbix-modernizer-tool
+  - azure-cost-optimization-what-actually-works
+hub: governance
 ---
 ## The Problem Everyone Hits
 

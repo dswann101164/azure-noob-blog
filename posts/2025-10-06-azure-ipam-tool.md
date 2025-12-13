@@ -1,4 +1,4 @@
----
+﻿---
 title: Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription
   Networks
 date: 2025-10-06
@@ -14,6 +14,12 @@ tags:
 - Tools
 - Workbooks
 cover: /static/images/hero/azure-ipam.png
+hub: automation
+related_posts:
+  - azure-service-inventory-tool
+  - only-1-percent-know-these-tools
+  - private-endpoint-dns-hybrid-ad
+hub: governance
 ---
 ## The Problem Leadership Doesn't Understand
 

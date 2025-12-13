@@ -1,4 +1,4 @@
----
+﻿---
 title: Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
 date: 2025-10-13
 summary: 'An Azure Monitor workbook-driven app concept: turn your dashboards into
@@ -13,6 +13,7 @@ tags:
 - Tools
 - Workbooks
 cover: static/images/hero/workbook-app-tool.svg
+hub: governance
 ---
 Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ Azure services across compute, networking, PaaS, monitoring, and security. When I needed to enhance it, I hit a problem.
 

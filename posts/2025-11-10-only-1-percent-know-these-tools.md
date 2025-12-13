@@ -1,12 +1,20 @@
----
+﻿---
 title: "Only 1% of Azure Admins Know These Three Tools — And Even Fewer Know When to Use Which"
 date: 2025-11-10
 summary: "I passed AZ-104. I was certified. I knew how to create VMs, configure networking, deploy ARM templates. Day 1 on the job: 'Pull me an inventory.' AZ-104 never covered this. Here's the certification gap nobody talks about, the query that proves it, and the templates that save your career."
 tags: ["azure", "resource-graph", "power-bi", "Excel", "AZ-104", "operations"]
 cover: "/static/images/hero/excel-powerbi-arg-bossfight.png"
+hub: automation
+related_posts:
+  - azure-service-inventory-tool
+  - azure-ipam-tool
+  - workbook-app-tool
+  - pbix-modernizer-tool
 ---
-
 ## The AZ-104 Lie
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 I passed AZ-104. I was certified. I was an "Azure Administrator."
 

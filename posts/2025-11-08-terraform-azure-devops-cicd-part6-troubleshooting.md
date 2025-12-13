@@ -1,12 +1,19 @@
----
+﻿---
 title: "Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting & Common Production Issues"
 date: 2025-11-08
 summary: "Real-world troubleshooting guide for Terraform CI/CD pipelines. These are the issues I've actually encountered in production - and how to fix them fast."
 tags: ["azure", "Terraform", "devops", "CICD", "IaC", "troubleshooting"]
 cover: "static/images/hero/terraform-devops-part6.png"
+hub: automation
+related_posts:
+  - terraform-azure-devops-cicd-series-index
+  - terraform-remote-state-azure
+  - if-you-cant-code-your-architecture
 ---
-
 This is the guide I wish I had when I started running Terraform in production. These aren't hypothetical problems - these are **real issues I've encountered** with proven solutions.
+
+
+This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 **What's covered:**
 - 🔥 Pipeline failures and error codes

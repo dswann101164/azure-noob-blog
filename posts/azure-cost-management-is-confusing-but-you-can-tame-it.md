@@ -1,4 +1,4 @@
----
+﻿---
 title: Azure Cost Management Is Confusing—But You Can Tame It
 slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15
@@ -12,8 +12,8 @@ tags:
 - Optimization
 cover: /static/images/hero/azure-cost-management-tame.png
 hub: finops
+hub: ai
 ---
-
 ## What problem are we solving?
 
 If you've ever opened the Azure Cost Management blade and thought:  

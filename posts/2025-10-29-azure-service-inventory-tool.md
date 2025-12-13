@@ -1,4 +1,4 @@
----
+﻿---
 title: 'Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?'
 date: 2025-10-29
 summary: 'A practical service inventory pattern for Azure: map resources to real business
@@ -13,6 +13,13 @@ tags:
 - Resource Graph
 - Tools
 cover: /static/images/hero/service-inventory-tool.svg
+hub: automation
+related_posts:
+  - only-1-percent-know-these-tools
+  - azure-ipam-tool
+  - workbook-app-tool
+  - azure-cost-optimization-what-actually-works
+hub: governance
 ---
 Microsoft says there are **397 Azure services**.
 
