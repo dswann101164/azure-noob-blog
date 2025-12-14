@@ -1,5 +1,5 @@
 ﻿---
-title: "SCCM vs WSUS vs Azure Update Manager vs Intune: Patch Management Decision Matrix"
+title: "SCCM vs WSUS vs Intune vs Update Manager: Which Tool?"
 date: 2025-10-09
 modified: 2025-12-12
 summary: "4 Microsoft patching tools, 3 conflicting answers from Microsoft reps. Complete comparison: SCCM for on-prem, Azure Update Manager for cloud VMs, Intune for endpoints. Includes decision matrix, migration timeline, and workload mapping Microsoft won't publish."

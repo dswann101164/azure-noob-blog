@@ -1,5 +1,5 @@
 ---
-title: "Azure Migration Reality Check: 55-Question Assessment (Prevents $2M+ Budget Overruns)"
+title: "Azure Migration: 55 Questions to Avoid $2M Failures"
 date: 2025-11-12
 modified: 2025-12-12
 summary: "Before migrating to Azure: 55-question spreadsheet that exposes hidden costs, missing dependencies, and licensing gaps. Includes app inventory template, network requirements checklist, 18-week implementation timeline, and ROI calculator. Free download prevents $2M+ overruns."

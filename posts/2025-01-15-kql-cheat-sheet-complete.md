@@ -1,5 +1,5 @@
 ﻿---
-title: 'KQL Cheat Sheet 2025: 51 Azure Resource Graph Queries (Copy-Paste Ready)'
+title: 'KQL Cheat Sheet: 51 Azure Resource Graph Queries'
 date: 2025-01-15
 modified: 2025-12-12
 summary: 'Complete KQL reference for Azure admins: 51 production-tested queries for VM inventory, cost analysis, security audits, and compliance reporting. Includes joins, operators, performance tips, and Resource Graph examples. Free PDF download with syntax highlighting.'
