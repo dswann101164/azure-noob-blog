@@ -5,7 +5,7 @@ HUBS = {
         'slug': 'finops',
         'category': 'FinOps',
         'icon': '💰',
-        'title': 'Azure FinOps at Scale',
+        'title': 'Azure FinOps: How I Manage Costs Across 31,000 Resources',
         'subtitle': 'Real cost optimization and governance strategies for enterprise Azure environments managing 31,000+ assets.',
         'gradient_start': '#10b981',
         'gradient_end': '#059669',
