@@ -17,6 +17,7 @@ related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy
   - azure-policy-reality-check
+cover: "/static/images/hero/azure-vm-inventory-kql.png"
 ---
 ## What problem are we solving?
 

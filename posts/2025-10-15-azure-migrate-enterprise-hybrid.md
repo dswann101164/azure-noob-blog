@@ -9,6 +9,7 @@ related_posts:
   - will-ai-replace-azure-administrators-by-2030
   - the-ai-admin
   - three-ai-roles
+cover: "/static/images/hero/azure-migrate-enterprise-hybrid.svg"
 ---
 # Why Azure Migrate's "Agentless" Discovery Fails in Enterprise Hybrid Environments
 

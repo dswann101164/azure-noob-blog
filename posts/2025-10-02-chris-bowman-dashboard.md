@@ -19,6 +19,7 @@ related_posts:
   - pbix-modernizer-tool
   - azure-cost-optimization-what-actually-works
 
+cover: "/static/images/hero/chris-bowman-dashboard.png"
 ---
 
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.

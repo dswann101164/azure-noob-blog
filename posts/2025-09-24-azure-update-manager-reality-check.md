@@ -21,6 +21,7 @@ related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy
   - azure-policy-reality-check
+cover: "/static/images/hero/azure-update-manager-reality-check.png"
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
