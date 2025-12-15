@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Terraform Azure Devops Cicd Part5 Production Best Practices · Azure Noob</title>
+  <meta name="description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp;amp; Multi-Environment Setup&#34; date: 2025-11-07 summary: &#34;Scale from single...">
+  <link rel="canonical" href="https://azure-noob.com/blog/terraform-azure-devops-cicd-part5-production-best-practices" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terraform Azure Devops Cicd Part5 Production Best Practices">
+  <meta property="og:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp;amp; Multi-Environment Setup&#34; date: 2025-11-07 summary: &#34;Scale from single...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/terraform-azure-devops-cicd-part5-production-best-practices">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  
+    <meta property="article:published_time" content="2025-11-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-07T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Terraform Azure Devops Cicd Part5 Production Best Practices">
+  <meta name="twitter:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp;amp; Multi-Environment Setup&#34; date: 2025-11-07 summary: &#34;Scale from single...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform Azure Devops Cicd Part5 Production Best Practices",
+  "description": "﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp;amp; Multi-Environment Setup&#34; date: 2025-11-07 summary: &#34;Scale from single...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/cloud-wars.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-07T00:00:00+00:00",
+  "dateModified": "2025-11-07T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part5-production-best-practices"
+  },
+  "keywords": "",
+  "articleSection": "Azure",
+  "wordCount": "4247",
+  "timeRequired": "PT21M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Microsoft Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Terraform Azure Devops Cicd Part5 Production Best Practices",
+      "item": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part5-production-best-practices"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+
+  <header class="post-header">
+    <h1>Terraform Azure Devops Cicd Part5 Production Best Practices</h1>
+    <p class="muted">
+      2025-11-07 · ~21 min read
+      
+    </p>
+    
+    
+    
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>﻿---<br />
+title: "Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp; Multi-Environment Setup"<br />
+date: 2025-11-07<br />
+summary: "Scale from single environment to Dev/Test/Prod with separate state files, environment-specific approvals, and production hardening. This is how enterprises actually run Terraform."<br />
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "Production"]<br />
+cover: "static/images/hero/terraform-devops-part5.png"<br />
+hub: governance<br />
+related_posts:<br />
+  - azure-resource-tags-guide<br />
+  - azure-tag-governance-policy<br />
+  - azure-policy-reality-check</p>
+<hr />
+<p>Parts 1-4 built a working CI/CD pipeline for Terraform. Now we make it production-ready with <strong>multiple environments</strong>, <strong>separate state files</strong>, and <strong>environment-specific approval workflows</strong>.</p>
+<p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
+<p><strong>What we're adding:</strong><br />
+- 🏗️ Dev/Test/Prod environment separation<br />
+- 📦 State file isolation (one per environment)<br />
+- 🔐 Environment-specific service principals<br />
+- ✅ Multi-stage approvals for production<br />
+- 🚨 Production deployment windows<br />
+- 📊 Deployment metrics and reporting</p>
+<p>This is the difference between "I can deploy infrastructure" and "I can run infrastructure at scale."</p>
+<h2>Environment Strategy</h2>
+<h3>The Three-Environment Model</h3>
+<p><strong>Development (Dev):</strong><br />
+- Purpose: Active development and testing<br />
+- Approval: Auto-deploy (no human approval)<br />
+- Cost: Minimal (small VMs, dev-tier services)<br />
+- Uptime: 9-5 business hours (deallocate at night to save cost)<br />
+- State file: <code>terraform-dev.tfstate</code></p>
+<p><strong>Test (Staging):</strong><br />
+- Purpose: Pre-production validation<br />
+- Approval: Single approver (any platform team member)<br />
+- Cost: Moderate (matches prod scale, but fewer instances)<br />
+- Uptime: 24/7 during testing cycles<br />
+- State file: <code>terraform-test.tfstate</code></p>
+<p><strong>Production (Prod):</strong><br />
+- Purpose: Live customer-facing systems<br />
+- Approval: Two approvers (infra lead + security/CAB)<br />
+- Cost: Full production workload<br />
+- Uptime: 24/7 with HA/DR<br />
+- State file: <code>terraform-prod.tfstate</code></p>
+<h3>Why Separate State Files?</h3>
+<p><strong>Without separation:</strong><br />
+- One corrupted state file affects all environments<br />
+- Terraform can't distinguish what's in dev vs. prod<br />
+- Accidental <code>terraform destroy</code> in wrong workspace = disaster</p>
+<p><strong>With separation:</strong><br />
+- Each environment has isolated state<br />
+- State corruption limited to one environment<br />
+- Clear separation of concerns</p>
+<h2>File Structure for Multi-Environment</h2>
+<p>Update your repository structure:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">repo</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">environments</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">dev</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">overrides</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">test</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">overrides</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">prod</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">overrides</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">modules</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">networking</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">compute</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">storage</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">providers</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">main</span><span class="o">.</span><span class="n">tf</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">variables</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">global</span><span class="w"> </span><span class="n">defaults</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">.</span><span class="n">gitignore</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</code></pre></div>
+
+<p><strong>Key principles:</strong><br />
+- <strong>Shared code</strong> in <code>/terraform</code> (modules, providers, main logic)<br />
+- <strong>Environment-specific config</strong> in <code>/terraform/environments/{env}/</code><br />
+- <strong>No secrets in Git</strong> (still using Key Vault)</p>
+<h2>Configure Multiple State Files</h2>
+<h3>Create Environment-Specific Backend Configs</h3>
+<p><strong>File: <code>terraform/environments/dev/backend.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-terraform-state&quot;</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstate1234&quot;</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform-state&quot;</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev/terraform.tfstate&quot;</span><span class="c1">  # Dev-specific state file</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>File: <code>terraform/environments/test/backend.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-terraform-state&quot;</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstate1234&quot;</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform-state&quot;</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;test/terraform.tfstate&quot;</span><span class="c1">  # Test-specific state file</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>File: <code>terraform/environments/prod/backend.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-terraform-state&quot;</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstate1234&quot;</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform-state&quot;</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;prod/terraform.tfstate&quot;</span><span class="c1">  # Prod-specific state file</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Notice:</strong> The only difference is the <code>key</code> parameter. Each environment gets its own state file in the same storage account.</p>
+<h3>Create Environment-Specific Variable Files</h3>
+<p><strong>File: <code>terraform/environments/dev/terraform.tfvars</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span>
+<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+
+<span class="c1"># Dev uses small VMs</span>
+<span class="na">vm_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard_B2s&quot;</span>
+
+<span class="c1"># Dev uses dev-tier services</span>
+<span class="na">sql_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Basic&quot;</span>
+
+<span class="c1"># Dev tags</span>
+<span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Development&quot;</span>
+<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IT-Platform&quot;</span>
+<span class="w">  </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>File: <code>terraform/environments/test/terraform.tfvars</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;test&quot;</span>
+<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+
+<span class="c1"># Test matches prod scale</span>
+<span class="na">vm_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard_D4s_v5&quot;</span>
+
+<span class="c1"># Test uses production-tier services (for realistic testing)</span>
+<span class="na">sql_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;S3&quot;</span>
+
+<span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Test&quot;</span>
+<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IT-Platform&quot;</span>
+<span class="w">  </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>File: <code>terraform/environments/prod/terraform.tfvars</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;prod&quot;</span>
+<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+
+<span class="c1"># Prod uses production-grade VMs</span>
+<span class="na">vm_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard_D8s_v5&quot;</span>
+
+<span class="c1"># Prod uses production-tier services with HA</span>
+<span class="na">sql_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;P2&quot;</span>
+
+<span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Production&quot;</span>
+<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Business-Operations&quot;</span>
+<span class="w">  </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">  </span><span class="na">Compliance</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SOC2&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Key differences:</strong><br />
+- VM sizes increase from dev → test → prod<br />
+- Service tiers increase (Basic → S3 → P2)<br />
+- Tags change to reflect environment and cost attribution</p>
+<h2>Update Terraform Code for Environment Support</h2>
+<h3>Global Variables (Shared)</h3>
+<p><strong>File: <code>terraform/variables.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;environment&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment name (dev, test, prod)&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="nb">validation</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">condition</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">contains</span><span class="p">([</span><span class="s2">&quot;dev&quot;, &quot;test&quot;, &quot;prod&quot;</span><span class="p">],</span><span class="w"> </span><span class="nv">var.environment</span><span class="p">)</span>
+<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment must be dev, test, or prod.&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;location&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure region&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;vm_size&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;VM size&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;sql_sku&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SQL Database SKU&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;tags&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Common tags for all resources&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Service principal variables (injected from Key Vault)</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;subscription_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">type</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_client_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">type</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_client_secret&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">type</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+
+<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;spn_tenant_id&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">type</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Resource Naming with Environment</h3>
+<p><strong>File: <code>terraform/main.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
+<span class="c1">  # Generate environment-specific resource names</span>
+<span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-${var.environment}-001&quot;</span>
+<span class="w">  </span><span class="na">vnet_name</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vnet-${var.environment}-001&quot;</span>
+<span class="w">  </span><span class="na">storage_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;st${var.environment}data${random_integer.suffix.result}&quot;</span>
+
+<span class="c1">  # Merge global tags with environment-specific tags</span>
+<span class="w">  </span><span class="na">common_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span>
+<span class="w">    </span><span class="nv">var.tags</span><span class="p">,</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">      </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.environment</span>
+<span class="w">      </span><span class="na">DeployedAt</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;random_integer&quot;</span><span class="w"> </span><span class="nv">&quot;suffix&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span>
+<span class="w">  </span><span class="na">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9999</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">local.resource_group_name</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
+<span class="w">  </span><span class="na">tags</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">local.vnet_name</span>
+<span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
+<span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
+<span class="w">  </span><span class="na">address_space</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;10.${var.environment == &quot;prod&quot; ? 0 : var.environment == &quot;test&quot; ? 1 : 2}.0.0/16&quot;</span><span class="p">]</span>
+
+<span class="w">  </span><span class="na">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this does:</strong><br />
+- Resource names include environment (e.g., <code>rsg-dev-001</code>, <code>rsg-prod-001</code>)<br />
+- IP ranges differ per environment (prod = 10.0.x.x, test = 10.1.x.x, dev = 10.2.x.x)<br />
+- All resources get environment-specific tags</p>
+<h2>Create Environment-Specific Build Pipelines</h2>
+<p>You need separate build pipelines for each environment.</p>
+<h3>Clone the Existing Build Pipeline (3 Times)</h3>
+<ol>
+<li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
+<li>Find <strong>Terraform Plan (Create Artifact)</strong></li>
+<li>Click <strong>...</strong> &gt; <strong>Clone</strong></li>
+<li>Rename to: <strong>Terraform Plan - Dev</strong></li>
+</ol>
+<p>Repeat for <strong>Test</strong> and <strong>Prod</strong>.</p>
+<h3>Update Each Pipeline's Init Task</h3>
+<p>Edit <strong>Terraform Plan - Dev</strong> pipeline:</p>
+<p>Find the <strong>Terraform Init</strong> task and update the script:</p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=dev/terraform.tfstate&quot;</span>
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform/environments/dev</code></p>
+<p><strong>Repeat for other environments:</strong><br />
+- <strong>Test:</strong> <code>-backend-config="key=test/terraform.tfstate"</code> and working directory <code>terraform/environments/test</code><br />
+- <strong>Prod:</strong> <code>-backend-config="key=prod/terraform.tfstate"</code> and working directory <code>terraform/environments/prod</code></p>
+<h3>Update Each Pipeline's Plan Task</h3>
+<p>Edit the <strong>Terraform Plan</strong> task to include the environment-specific <code>.tfvars</code>:</p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="o">=</span>tfplan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var-file<span class="o">=</span><span class="s2">&quot;terraform.tfvars&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;subscription_id=</span><span class="k">$(</span>subscription-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_id=</span><span class="k">$(</span>sp-terraform-devops-client-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_secret=</span><span class="k">$(</span>sp-terraform-devops-client-secret<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_tenant_id=</span><span class="k">$(</span>sp-terraform-devops-tenant-id<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>What changed:</strong> Added <code>-var-file="terraform.tfvars"</code> to load environment-specific variables.</p>
+<h3>Update Triggers for Each Pipeline</h3>
+<p><strong>Dev Pipeline:</strong><br />
+- <strong>CI trigger:</strong> ON<br />
+- <strong>Branch filter:</strong> <code>main</code><br />
+- <strong>Path filter:</strong> <code>terraform/environments/dev/**</code></p>
+<p><strong>Test Pipeline:</strong><br />
+- <strong>CI trigger:</strong> ON<br />
+- <strong>Branch filter:</strong> <code>main</code><br />
+- <strong>Path filter:</strong> <code>terraform/environments/test/**</code></p>
+<p><strong>Prod Pipeline:</strong><br />
+- <strong>CI trigger:</strong> ON<br />
+- <strong>Branch filter:</strong> <code>main</code><br />
+- <strong>Path filter:</strong> <code>terraform/environments/prod/**</code></p>
+<p><strong>What this does:</strong> Only trigger the relevant environment's pipeline when its files change.</p>
+<h2>Create Environment-Specific Release Pipelines</h2>
+<h3>Dev Release Pipeline</h3>
+<p>Clone your existing release pipeline and rename to: <strong>Deploy Terraform - Dev</strong></p>
+<p><strong>Changes:</strong><br />
+1. <strong>Artifact source:</strong> <code>Terraform Plan - Dev</code><br />
+2. <strong>Stage name:</strong> <code>Deploy to Development</code><br />
+3. <strong>Pre-deployment approval:</strong> DISABLED (auto-deploy to dev)<br />
+4. <strong>Working directory in tasks:</strong> <code>terraform/environments/dev</code></p>
+<p><strong>Init task script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=dev/terraform.tfstate&quot;</span>
+</code></pre></div>
+
+<h3>Test Release Pipeline</h3>
+<p>Clone and rename to: <strong>Deploy Terraform - Test</strong></p>
+<p><strong>Changes:</strong><br />
+1. <strong>Artifact source:</strong> <code>Terraform Plan - Test</code><br />
+2. <strong>Stage name:</strong> <code>Deploy to Test</code><br />
+3. <strong>Pre-deployment approval:</strong> ENABLED<br />
+   - Approvers: Any platform team member<br />
+   - Timeout: 7 days<br />
+4. <strong>Working directory in tasks:</strong> <code>terraform/environments/test</code></p>
+<p><strong>Init task script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=test/terraform.tfstate&quot;</span>
+</code></pre></div>
+
+<h3>Prod Release Pipeline</h3>
+<p>Clone and rename to: <strong>Deploy Terraform - Prod</strong></p>
+<p><strong>Changes:</strong><br />
+1. <strong>Artifact source:</strong> <code>Terraform Plan - Prod</code><br />
+2. <strong>Stage name:</strong> <code>Deploy to Production</code><br />
+3. <strong>Pre-deployment approval:</strong> ENABLED<br />
+   - <strong>First approver:</strong> Infrastructure lead<br />
+   - <strong>Second approver:</strong> Security team or CAB representative<br />
+   - Timeout: 48 hours (shorter than test, forces timely decisions)<br />
+   - <strong>Policy:</strong> Approvers must be different people<br />
+4. <strong>Working directory in tasks:</strong> <code>terraform/environments/prod</code></p>
+<p><strong>Init task script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=prod/terraform.tfstate&quot;</span>
+</code></pre></div>
+
+<h3>Add Deployment Gates for Production</h3>
+<p>Deployment gates add additional automation checks before deployment.</p>
+<p><strong>Configure gates for Prod release:</strong></p>
+<ol>
+<li>Edit <strong>Deploy Terraform - Prod</strong> pipeline</li>
+<li>Click the <strong>lightning bolt with person</strong> on the <code>Deploy to Production</code> stage</li>
+<li>Click <strong>Gates</strong> tab</li>
+<li>Toggle on: <strong>Gates</strong></li>
+</ol>
+<p><strong>Add gate: Invoke Azure Function</strong></p>
+<p>If you have an Azure Function that checks:<br />
+- Current incident count (from ServiceNow/PagerDuty)<br />
+- Ongoing maintenance windows<br />
+- Recent failed deployments</p>
+<p><strong>Settings:</strong><br />
+- <strong>Function URL:</strong> Your validation function<br />
+- <strong>Evaluation options:</strong><br />
+  - <strong>Time between re-evaluation:</strong> 5 minutes<br />
+  - <strong>Timeout after which gates fail:</strong> 30 minutes<br />
+  - <strong>Minimum duration gates must succeed:</strong> 5 minutes</p>
+<p><strong>Example gate logic:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Azure Function: Check if it&#39;s safe to deploy</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">activeIncidents</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;FAIL: Active P1 incidents&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maintenanceWindow</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;FAIL: Maintenance in progress&quot;</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">recentFailures</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;FAIL: Too many recent failed deployments&quot;</span><span class="p">;</span>
+<span class="k">return</span><span class="w"> </span><span class="s">&quot;PASS: Safe to deploy&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Alternative if you don't have Azure Functions:</strong> Use <strong>Query Work Items</strong> gate to check Azure Boards for blocking issues.</p>
+<h2>Production Hardening</h2>
+<h3>1. State File Locking</h3>
+<p>Ensure state file locking is enabled (prevents concurrent modifications).</p>
+<p>Azure Blob Storage supports locking by default, but verify:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Check storage account settings</span>
+<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rsg-terraform-state&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234&quot;</span>
+<span class="nv">$storageAccount</span><span class="p">.</span><span class="n">EnableHttpsTrafficOnly</span>  <span class="c"># Should be True</span>
+</code></pre></div>
+
+<p><strong>In Terraform:</strong> Lock happens automatically when you run <code>terraform plan</code> or <code>apply</code>. You'll see:</p>
+<div class="codehilite"><pre><span></span><code>Acquiring state lock. This may take a few moments...
+</code></pre></div>
+
+<p><strong>If someone else has the lock:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">acquiring</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="n">lock</span>
+<span class="n">Lock</span><span class="w"> </span><span class="n">Info</span><span class="o">:</span>
+<span class="w">  </span><span class="n">ID</span><span class="o">:</span><span class="w">        </span><span class="n">abc</span><span class="o">-</span><span class="mi">123</span><span class="o">-</span><span class="n">def</span>
+<span class="w">  </span><span class="n">Path</span><span class="o">:</span><span class="w">      </span><span class="n">prod</span><span class="o">/</span><span class="n">terraform</span><span class="o">.</span><span class="na">tfstate</span>
+<span class="w">  </span><span class="n">Operation</span><span class="o">:</span><span class="w"> </span><span class="n">OperationTypeApply</span>
+<span class="w">  </span><span class="n">Who</span><span class="o">:</span><span class="w">       </span><span class="n">john</span><span class="o">.</span><span class="na">doe</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
+<span class="w">  </span><span class="n">Created</span><span class="o">:</span><span class="w">   </span><span class="mi">2025</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">07</span><span class="w"> </span><span class="mi">14</span><span class="o">:</span><span class="mi">23</span><span class="o">:</span><span class="mf">45.123</span><span class="w"> </span><span class="n">UTC</span>
+</code></pre></div>
+
+<h3>2. State File Backups</h3>
+<p>Enable blob versioning and soft delete (you should have done this in Part 1, but verify):</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$ctx</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rsg-terraform-state&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234&quot;</span><span class="p">).</span><span class="n">Context</span>
+
+<span class="c"># Enable versioning</span>
+<span class="nb">Enable-AzStorageBlobDeleteRetentionPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-RetentionDays</span> <span class="n">30</span>
+
+<span class="c"># Enable soft delete</span>
+<span class="nb">Enable-AzStorageBlobDeleteRetentionPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-RetentionDays</span> <span class="n">30</span> <span class="n">-PassThru</span>
+
+<span class="c"># Enable container soft delete</span>
+<span class="nb">Enable-AzStorageContainerDeleteRetentionPolicy</span> <span class="n">-Context</span> <span class="nv">$ctx</span> <span class="n">-RetentionDays</span> <span class="n">30</span>
+</code></pre></div>
+
+<p><strong>Why:</strong> If someone corrupts state or accidentally deletes it, you have 30 days to recover.</p>
+<h3>3. Terraform Version Pinning</h3>
+<p><strong>File: <code>terraform/providers.tf</code></strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 1.5.7&quot;</span><span class="c1">  # Exact version, not &gt;= 1.5.7</span>
+
+<span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azurerm&quot;</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 3.80.0&quot;</span><span class="c1">  # Exact version</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nb">random</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/random&quot;</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 3.5.1&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Why:</strong> Provider updates can introduce breaking changes. Pin versions and update intentionally during maintenance windows.</p>
+<p><strong>Update process:</strong><br />
+1. Test new provider version in dev<br />
+2. If stable, promote to test<br />
+3. If no issues, update prod during next maintenance window</p>
+<h3>4. Import Existing Resources (Avoid Drift)</h3>
+<p>If someone manually created resources in the portal, import them into state:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Import existing resource group</span>
+terraform<span class="w"> </span>import<span class="w"> </span>azurerm_resource_group.main<span class="w"> </span>/subscriptions/SUB-ID/resourceGroups/rsg-manual-001
+
+<span class="c1"># Import existing VM</span>
+terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_machine.main<span class="w"> </span>/subscriptions/SUB-ID/resourceGroups/rsg-manual-001/providers/Microsoft.Compute/virtualMachines/vm-manual-001
+</code></pre></div>
+
+<p><strong>Better approach:</strong> Use Azure Policy to <strong>prevent</strong> manual resource creation:<br />
+- Policy: "Resources must have 'ManagedBy: Terraform' tag"<br />
+- Effect: Deny creation if tag is missing<br />
+- Exemptions: Emergency service accounts only</p>
+<h3>5. Drift Detection (Daily Scheduled Check)</h3>
+<p>Create a scheduled pipeline that runs <code>terraform plan</code> daily and alerts on drift.</p>
+<p><strong>New pipeline:</strong> <code>Terraform Drift Detection - Prod</code></p>
+<p><strong>Schedule:</strong><br />
+- Trigger: Daily at 6 AM<br />
+- Actions: <br />
+  1. Run <code>terraform plan -detailed-exitcode</code><br />
+  2. If exit code = 2 (changes detected), send alert email<br />
+  3. Post summary to Teams/Slack</p>
+<p><strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode<span class="w"> </span>-no-color<span class="w"> </span>&gt;<span class="w"> </span>plan-output.txt
+<span class="nv">EXIT_CODE</span><span class="o">=</span><span class="nv">$?</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$EXIT_CODE</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;##vso[task.logissue type=warning]Drift detected in production!&quot;</span>
+<span class="w">  </span><span class="c1"># Send email or Teams notification</span>
+<span class="w">  </span><span class="c1"># Attach plan-output.txt</span>
+<span class="k">fi</span>
+</code></pre></div>
+
+<h3>6. Production Deployment Windows</h3>
+<p>Restrict prod deployments to approved maintenance windows.</p>
+<p><strong>Configure release pipeline:</strong><br />
+1. Edit <strong>Deploy Terraform - Prod</strong><br />
+2. Click <strong>Options</strong> tab<br />
+3. <strong>Release triggers:</strong><br />
+   - Uncheck: <strong>Continuous deployment</strong><br />
+   - Check: <strong>Scheduled release</strong><br />
+   - <strong>Schedule:</strong> Saturday, 2:00 AM - 6:00 AM</p>
+<p><strong>What this does:</strong> Releases only deploy during the approved window. Outside this window, releases queue but don't start.</p>
+<p><strong>Override for emergencies:</strong> Admins can manually trigger releases outside the window (logged for audit).</p>
+<h2>Multi-Stage Promotion Workflow</h2>
+<p>For the safest deployment process, promote changes through environments:</p>
+<h3>Workflow: Dev → Test → Prod</h3>
+<p><strong>Week 1:</strong><br />
+1. Merge PR to <code>main</code><br />
+2. Dev pipeline runs → auto-deploys to dev<br />
+3. Test in dev for 1-2 days<br />
+4. Verify functionality</p>
+<p><strong>Week 2:</strong><br />
+5. Create PR to merge <code>terraform/environments/dev/**</code> changes to <code>terraform/environments/test/**</code><br />
+6. Test pipeline runs → manual approval → deploys to test<br />
+7. Run smoke tests in test environment<br />
+8. QA team validates</p>
+<p><strong>Week 3:</strong><br />
+9. Create PR to merge test changes to prod<br />
+10. Prod pipeline runs → two approvals required → deploys to prod<br />
+11. Monitor for 24 hours<br />
+12. Incident-free? Mark as stable.</p>
+<p><strong>Key principle:</strong> Never promote from dev directly to prod. Always: dev → test → prod.</p>
+<h2>Rollback Strategy</h2>
+<p>Despite best efforts, sometimes deployments fail. Have a rollback plan.</p>
+<h3>Option 1: Roll Forward (Preferred)</h3>
+<p>Fix the issue and deploy a new release.</p>
+<p><strong>Why preferred:</strong> Maintains audit trail and doesn't rely on state manipulation.</p>
+<p><strong>Process:</strong><br />
+1. Identify issue<br />
+2. Create hotfix branch<br />
+3. Fix Terraform code<br />
+4. Emergency PR → merge<br />
+5. Emergency release approval → deploy</p>
+<h3>Option 2: Revert PR</h3>
+<p>If the deployment succeeded but introduced a functional bug:</p>
+<ol>
+<li>Go to <strong>Repos &gt; Pull requests &gt; Completed</strong></li>
+<li>Find the PR that caused the issue</li>
+<li>Click <strong>Revert</strong></li>
+<li>Create new PR with reverted changes</li>
+<li>Merge → deploy</li>
+</ol>
+<p><strong>Result:</strong> Infrastructure returns to previous state.</p>
+<h3>Option 3: Manual State Rollback (Last Resort)</h3>
+<p>If state is corrupted and you need to restore from backup:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Download current state (backup before changing)</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>terraform-current.tfstate
+
+<span class="c1"># List previous versions</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--prefix<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--include<span class="w"> </span>v
+
+<span class="c1"># Restore a previous version</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>copy<span class="w"> </span>start<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--destination-container<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--destination-blob<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source-container<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source-blob<span class="w"> </span>prod/terraform.tfstate?versionId<span class="o">=</span>VERSION-ID
+
+<span class="c1"># Run terraform plan to verify</span>
+terraform<span class="w"> </span>plan
+</code></pre></div>
+
+<p><strong>Warning:</strong> Only do this if you understand the implications. Incorrect state restoration can cause resource deletion.</p>
+<h2>Monitoring and Reporting</h2>
+<h3>1. Deployment Metrics Dashboard</h3>
+<p>Create a Power BI dashboard tracking:<br />
+- <strong>Deployment frequency</strong> (per environment)<br />
+- <strong>Success rate</strong> (successful vs. failed deployments)<br />
+- <strong>Approval wait time</strong> (time from release creation to approval)<br />
+- <strong>Deployment duration</strong> (time from approval to completion)<br />
+- <strong>Rollback frequency</strong></p>
+<p><strong>Data source:</strong> Azure DevOps REST API</p>
+<h3>2. Cost Tracking by Environment</h3>
+<p>Tag all resources with environment name, then use Azure Cost Management:</p>
+<div class="codehilite"><pre><span></span><code><span class="c">// KQL query for cost by environment</span>
+<span class="n">AzureActivity</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Microsoft.Resources&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Microsoft.Resources/deployments/write&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">Properties</span><span class="p">)</span><span class="err">.</span><span class="n">environment</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DeploymentCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3. Audit Log for Approvals</h3>
+<p>Query Azure DevOps for approval history:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Get all releases for the last 30 days</span>
+<span class="nv">$releases</span> <span class="p">=</span> <span class="n">az</span> <span class="n">pipelines</span> <span class="n">runs</span> <span class="n">list</span> <span class="p">-</span><span class="n">-pipeline-ids</span> <span class="n">PIPELINE-ID</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[?finishTime &gt;= &#39;2025-10-01&#39;]&quot;</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$release</span> <span class="k">in</span> <span class="nv">$releases</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c"># Get approval details</span>
+    <span class="nv">$approvals</span> <span class="p">=</span> <span class="n">az</span> <span class="n">pipelines</span> <span class="n">release</span> <span class="n">approvals</span> <span class="n">list</span> <span class="p">-</span><span class="n">-release-id</span> <span class="nv">$release</span><span class="p">.</span><span class="n">id</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+
+    <span class="c"># Report</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Release: </span><span class="p">$(</span><span class="nv">$release</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Approved by: </span><span class="p">$(</span><span class="nv">$approvals</span><span class="p">.</span><span class="n">approvedBy</span><span class="p">.</span><span class="n">displayName</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Approved at: </span><span class="p">$(</span><span class="nv">$approvals</span><span class="p">.</span><span class="n">createdOn</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>Key Takeaways</h2>
+<ol>
+<li><strong>Separate state files per environment</strong> - Isolation prevents cascading failures</li>
+<li><strong>Environment-specific approval workflows</strong> - Dev auto-deploys, prod requires multiple approvals</li>
+<li><strong>Terraform version pinning</strong> - Predictable deployments, no surprise breaking changes</li>
+<li><strong>Drift detection</strong> - Catch manual portal changes before they cause issues</li>
+<li><strong>Deployment gates and windows</strong> - Production deploys only during safe periods</li>
+<li><strong>Promote through environments</strong> - Dev → Test → Prod, never skip stages</li>
+</ol>
+<p>You now have an enterprise-grade, multi-environment Terraform CI/CD pipeline.</p>
+<hr />
+<p><strong>Next:</strong> <a href="/blog/terraform-azure-devops-cicd-part6-troubleshooting/">Part 6 - Troubleshooting &amp; Common Production Issues</a></p>
+<p><em>All code and pipeline configurations from this series are available in my <a href="https://github.com/dswann101164">GitHub repo</a>.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/terraform-azure-devops-cicd-part4-branch-policies">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Terraform Azure Devops Cicd Part4 Branch Policies</strong>
+      </a>
+    
+    
+      <a href="/blog/terraform-azure-devops-cicd-part6-troubleshooting" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting &amp; Common Production Issues</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

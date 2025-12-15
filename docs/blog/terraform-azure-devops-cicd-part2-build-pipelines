@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Terraform Azure Devops Cicd Part2 Build Pipelines · Azure Noob</title>
+  <meta name="description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp;amp; Plan)&#34; date: 2025-11-04 summary: &#34;Build the two pipelines that...">
+  <link rel="canonical" href="https://azure-noob.com/blog/terraform-azure-devops-cicd-part2-build-pipelines" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terraform Azure Devops Cicd Part2 Build Pipelines">
+  <meta property="og:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp;amp; Plan)&#34; date: 2025-11-04 summary: &#34;Build the two pipelines that...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/terraform-azure-devops-cicd-part2-build-pipelines">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  
+    <meta property="article:published_time" content="2025-11-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-04T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Terraform Azure Devops Cicd Part2 Build Pipelines">
+  <meta name="twitter:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp;amp; Plan)&#34; date: 2025-11-04 summary: &#34;Build the two pipelines that...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform Azure Devops Cicd Part2 Build Pipelines",
+  "description": "﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp;amp; Plan)&#34; date: 2025-11-04 summary: &#34;Build the two pipelines that...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/cloud-wars.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-04T00:00:00+00:00",
+  "dateModified": "2025-11-04T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part2-build-pipelines"
+  },
+  "keywords": "",
+  "articleSection": "Azure",
+  "wordCount": "2450",
+  "timeRequired": "PT12M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Microsoft Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Terraform Azure Devops Cicd Part2 Build Pipelines",
+      "item": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part2-build-pipelines"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+
+  <header class="post-header">
+    <h1>Terraform Azure Devops Cicd Part2 Build Pipelines</h1>
+    <p class="muted">
+      2025-11-04 · ~12 min read
+      
+    </p>
+    
+    
+    
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>﻿---<br />
+title: "Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp; Plan)"<br />
+date: 2025-11-04<br />
+summary: "Build the two pipelines that validate Terraform code on pull requests and create deployment artifacts on merge. GUI-based, no YAML, full control."<br />
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps"]<br />
+cover: "static/images/hero/terraform-devops-part2.png"<br />
+hub: governance<br />
+related_posts:<br />
+  - azure-resource-tags-guide<br />
+  - azure-tag-governance-policy<br />
+  - azure-policy-reality-check</p>
+<hr />
+<p>Part 1 covered prerequisites (storage, Key Vault, service principal). Now we build the pipelines that actually DO something.</p>
+<p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
+<p><strong>Two build pipelines:</strong><br />
+1. <strong>Terraform Status Check</strong> - Runs on PR creation (validate + plan, no artifact)<br />
+2. <strong>Terraform Plan</strong> - Runs on merge to main (plan + archive artifact)</p>
+<p>Both use <strong>classic GUI pipelines</strong> (not YAML) for easier troubleshooting and visual control.</p>
+<h2>Why Two Build Pipelines?</h2>
+<p><strong>Status Check Pipeline:</strong><br />
+- <strong>Triggers:</strong> Pull request created or updated<br />
+- <strong>Purpose:</strong> Fast feedback - is the code syntactically correct? What will it do?<br />
+- <strong>Output:</strong> Plan results displayed in PR, no artifact saved<br />
+- <strong>Approval:</strong> None required (automatic)</p>
+<p><strong>Plan Pipeline:</strong><br />
+- <strong>Triggers:</strong> Code merged to <code>main</code> branch<br />
+- <strong>Purpose:</strong> Create deployment artifact from approved code<br />
+- <strong>Output:</strong> <code>.tfplan</code> file archived as build artifact<br />
+- <strong>Approval:</strong> None (artifact doesn't deploy anything yet)</p>
+<p><strong>Why separate?</strong> Status checks need to be fast (&lt; 1 minute). Creating artifacts takes longer and isn't needed for every PR update. Separation keeps feedback loops tight.</p>
+<h2>Pipeline 1: Terraform Status Check</h2>
+<p>This pipeline runs <strong>every time</strong> someone creates or updates a pull request. It validates syntax and shows what Terraform will do.</p>
+<h3>Create the Pipeline</h3>
+<ol>
+<li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
+<li>Click <strong>New pipeline</strong></li>
+<li>Click <strong>Use the classic editor</strong> (bottom link, easy to miss)</li>
+<li>Select your repo and branch: <code>main</code></li>
+<li>Choose template: <strong>Empty job</strong></li>
+</ol>
+<h3>Configure Pipeline Settings</h3>
+<p><strong>Pipeline name:</strong> <code>Terraform Status Check (Validate + Plan)</code></p>
+<p><strong>Agent pool:</strong><br />
+- Pool: <strong>Azure Pipelines</strong><br />
+- Agent Specification: <strong>ubuntu-latest</strong> (or <code>ubuntu-22.04</code>)</p>
+<p><strong>Why Ubuntu?</strong> Faster than Windows agents, Terraform works the same on Linux, no licensing concerns.</p>
+<h3>Add Tasks</h3>
+<p>Click <strong>Agent job 1</strong> and rename to: <code>Terraform Status Check</code></p>
+<p>Now add tasks (click the <strong>+</strong> button):</p>
+<h4>Task 1: Use Terraform (Installer)</h4>
+<p>Search for "Terraform" and add the <strong>Terraform installer</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Install Terraform 1.5.7</code><br />
+- <strong>Version:</strong> <code>1.5.7</code> (or whatever version you're standardizing on)</p>
+<p><strong>Why specify version?</strong> Hosted agents pre-install Terraform, but the version changes. Explicitly installing ensures consistency.</p>
+<h4>Task 2: Download Key Vault Secrets</h4>
+<p>We need the storage account access key before running <code>terraform init</code>.</p>
+<p>Search for "Azure Key Vault" and add the task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Download secrets from Key Vault</code><br />
+- <strong>Azure subscription:</strong> Your service connection (<code>terraform-azure-connection</code>)<br />
+- <strong>Key vault:</strong> Your Key Vault name (<code>kv-tfstate-1234</code>)<br />
+- <strong>Secrets filter:</strong> <code>*</code> (downloads all secrets you have access to)</p>
+<p><strong>What this does:</strong> Pulls all secrets from Key Vault and makes them available as environment variables in subsequent tasks.</p>
+<p><strong>Example:</strong> Secret <code>sttfstate1234-key1</code> becomes <code>$(sttfstate1234-key1)</code> in pipeline variables.</p>
+<h4>Task 3: Terraform Init (Command Line)</h4>
+<p>We're NOT using the marketplace Terraform tasks. Why? Full control over flags and environment variables.</p>
+<p>Search for "Command Line" and add the task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Init</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
+<p><strong>What this does:</strong><br />
+- Changes to the <code>/terraform</code> folder in your repo<br />
+- Runs <code>terraform init</code><br />
+- Injects the storage account access key at runtime (from Key Vault)<br />
+- Connects to remote backend and downloads existing state</p>
+<p><strong>Why <code>-backend-config</code>?</strong> The <code>backend.tf</code> file doesn't include the access key (we never commit that). This flag passes it securely at runtime.</p>
+<p><strong>Replace <code>sttfstate1234-key1</code></strong> with YOUR storage account secret name from Key Vault.</p>
+<h4>Task 4: Terraform Validate</h4>
+<p>Clone the previous command line task (right-click &gt; Clone).</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Validate</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>validate
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
+<p><strong>What this does:</strong> Checks Terraform syntax and configuration validity. Fails the pipeline if there are errors.</p>
+<h4>Task 5: Terraform Plan</h4>
+<p>Clone the command line task again.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Plan</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;subscription_id=</span><span class="k">$(</span>subscription-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_id=</span><span class="k">$(</span>sp-terraform-devops-client-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_secret=</span><span class="k">$(</span>sp-terraform-devops-client-secret<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_tenant_id=</span><span class="k">$(</span>sp-terraform-devops-tenant-id<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
+<p><strong>What this does:</strong><br />
+- Runs <code>terraform plan</code> (but doesn't save output to a file)<br />
+- Passes service principal credentials as variables (from Key Vault)<br />
+- Shows what would deploy in the pipeline logs<br />
+- <code>-input=false</code> prevents prompts (important for automation)</p>
+<p><strong>Critical:</strong> Replace the variable names with YOUR Key Vault secret names:<br />
+- <code>subscription-id</code> - Your Azure subscription ID (add this as a regular pipeline variable, not a secret)<br />
+- <code>sp-terraform-devops-client-id</code> - Service principal client ID (from Key Vault)<br />
+- <code>sp-terraform-devops-client-secret</code> - Service principal secret (from Key Vault)<br />
+- <code>sp-terraform-devops-tenant-id</code> - Tenant ID (from Key Vault)</p>
+<p><strong>Where to add subscription ID?</strong> Since it's not sensitive, add it as a regular pipeline variable:<br />
+1. Click <strong>Variables</strong> tab at the top<br />
+2. Click <strong>+ Add</strong><br />
+3. Name: <code>subscription-id</code><br />
+4. Value: Your subscription GUID<br />
+5. Keep secret: <strong>Unchecked</strong></p>
+<h3>Link Variable Group</h3>
+<p>Click the <strong>Variables</strong> tab, then <strong>Variable groups</strong>.</p>
+<p>Click <strong>Link variable group</strong> and select: <code>terraform-keyvault-secrets</code></p>
+<p>This gives the pipeline access to all Key Vault secrets.</p>
+<h3>Configure Trigger</h3>
+<p><strong>Important:</strong> We do NOT want this pipeline to run on every commit. It should ONLY run via branch policies (on pull requests).</p>
+<p>Click <strong>Triggers</strong> tab:<br />
+- <strong>Uncheck:</strong> Enable continuous integration</p>
+<p><strong>Why disable CI?</strong> We'll trigger this pipeline via branch policies later. If you leave CI enabled, it runs on every commit to <code>main</code>, which we don't want.</p>
+<h3>Save the Pipeline</h3>
+<p>Click <strong>Save</strong> (not Save &amp; Queue). Name it: <code>Terraform Status Check</code></p>
+<h2>Pipeline 2: Terraform Plan</h2>
+<p>This pipeline runs when code is <strong>merged to main</strong>. It creates a deployment artifact (the <code>.tfplan</code> file).</p>
+<h3>Clone the Status Check Pipeline</h3>
+<p>Instead of creating from scratch, clone what we just built:</p>
+<ol>
+<li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
+<li>Find: <code>Terraform Status Check</code></li>
+<li>Click the <strong>...</strong> menu</li>
+<li>Click <strong>Clone</strong></li>
+<li>Rename to: <code>Terraform Plan (Create Artifact)</code></li>
+</ol>
+<h3>Modify Tasks</h3>
+<p>The first 4 tasks are identical (Install Terraform, Download Secrets, Init, Validate). Leave them alone.</p>
+<h4>Change Task 5: Terraform Plan (Save Output)</h4>
+<p>Edit the <strong>Terraform Plan</strong> task and update the script:</p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="o">=</span>tfplan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;subscription_id=</span><span class="k">$(</span>subscription-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_id=</span><span class="k">$(</span>sp-terraform-devops-client-id<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_client_secret=</span><span class="k">$(</span>sp-terraform-devops-client-secret<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-var<span class="o">=</span><span class="s2">&quot;spn_tenant_id=</span><span class="k">$(</span>sp-terraform-devops-tenant-id<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>What changed?</strong> Added <code>-out=tfplan</code> which saves the plan to a binary file.</p>
+<p><strong>Why?</strong> This file contains the exact changes Terraform will make. We'll deploy THIS file (not re-run the plan later).</p>
+<h4>Add Task 6: Archive Files</h4>
+<p>We need to package the <code>.tfplan</code> file (and all Terraform files) into a single archive.</p>
+<p>Search for "Archive files" and add the task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Archive Terraform Plan</code><br />
+- <strong>Root folder or file to archive:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code><br />
+- <strong>Archive type:</strong> <code>tar</code> (with gzip compression)<br />
+- <strong>Tar compression:</strong> <code>gz</code><br />
+- <strong>Archive file to create:</strong> <code>$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tar.gz</code></p>
+<p><strong>What this does:</strong><br />
+- Takes the entire <code>/terraform</code> folder (including <code>tfplan</code> file)<br />
+- Compresses it into a <code>.tar.gz</code> archive<br />
+- Saves it to the artifact staging directory<br />
+- Names it with the build ID (e.g., <code>123-tfplan.tar.gz</code>)</p>
+<p><strong>Why archive the whole folder?</strong> The <code>.tfplan</code> file references other Terraform files. We need everything together for <code>terraform apply</code> to work.</p>
+<h4>Add Task 7: Publish Pipeline Artifact</h4>
+<p>Now publish the archive so the release pipeline can download it.</p>
+<p>Search for "Publish Pipeline Artifact" and add the task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Publish Terraform Artifact</code><br />
+- <strong>File or directory path:</strong> <code>$(Build.ArtifactStagingDirectory)</code><br />
+- <strong>Artifact name:</strong> <code>$(Build.BuildId)-tfplan</code><br />
+- <strong>Artifact publish location:</strong> <code>Azure Pipelines</code></p>
+<p><strong>What this does:</strong><br />
+- Takes the archived file from the staging directory<br />
+- Publishes it as a pipeline artifact<br />
+- Names it with the build ID for tracking<br />
+- Makes it available to release pipelines</p>
+<h3>Configure Trigger</h3>
+<p>Unlike the status check pipeline, this one SHOULD run on commits to <code>main</code>.</p>
+<p>Click <strong>Triggers</strong> tab:<br />
+- <strong>Check:</strong> Enable continuous integration<br />
+- <strong>Branch filters:</strong><br />
+  - <strong>Include:</strong> <code>main</code><br />
+- <strong>Path filters (optional):</strong><br />
+  - <strong>Include:</strong> <code>terraform/*</code> (only trigger if Terraform code changes)</p>
+<p><strong>Why path filter?</strong> If someone updates the README or other files outside <code>/terraform</code>, there's no point running this pipeline.</p>
+<h3>Save the Pipeline</h3>
+<p>Click <strong>Save</strong>.</p>
+<h2>Test the Status Check Pipeline</h2>
+<p>Before we set up pull requests, let's manually test the status check pipeline.</p>
+<h3>Create a Test Branch</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>test-status-check
+</code></pre></div>
+
+<h3>Add a Simple Terraform File</h3>
+<p>Create <code>terraform/test.tf</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;test&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-pipeline-test-001&quot;</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Commit and Push</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/test.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Test status check pipeline&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>test-status-check
+</code></pre></div>
+
+<h3>Manually Run the Pipeline</h3>
+<p>Since we disabled CI, manually queue it:</p>
+<ol>
+<li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
+<li>Click <strong>Terraform Status Check</strong></li>
+<li>Click <strong>Run pipeline</strong></li>
+<li>Select branch: <code>test-status-check</code></li>
+<li>Click <strong>Run</strong></li>
+</ol>
+<h3>Watch the Pipeline</h3>
+<p>Click into the running pipeline and watch each task:</p>
+<ol>
+<li><strong>Install Terraform</strong> - Downloads Terraform 1.5.7</li>
+<li><strong>Download secrets</strong> - Retrieves Key Vault secrets (values masked in logs)</li>
+<li><strong>Terraform Init</strong> - Connects to remote backend, downloads state</li>
+<li><strong>Terraform Validate</strong> - Syntax check (should pass)</li>
+<li><strong>Terraform Plan</strong> - Shows plan output: <code>Plan: 1 to add, 0 to change, 0 to destroy</code></li>
+</ol>
+<p><strong>Success?</strong> Great! Your status check pipeline works.</p>
+<p><strong>Failed?</strong> Common issues:<br />
+- <strong>Key Vault access denied</strong> - Service principal doesn't have Get/List permissions<br />
+- <strong>Backend initialization failed</strong> - Storage account key is wrong or Key Vault secret name doesn't match<br />
+- <strong>Provider authentication failed</strong> - Service principal credentials are incorrect</p>
+<h2>Test the Plan Pipeline</h2>
+<p>Now test the pipeline that creates artifacts.</p>
+<h3>Merge to Main</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>test-status-check
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</code></pre></div>
+
+<p>This triggers the <strong>Terraform Plan</strong> pipeline automatically (because we enabled CI on <code>main</code>).</p>
+<h3>Watch the Pipeline</h3>
+<ol>
+<li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
+<li>The <strong>Terraform Plan</strong> pipeline should be running</li>
+<li>Click into it</li>
+</ol>
+<p>Watch the tasks run:<br />
+1. Install, Download, Init, Validate, Plan (same as before)<br />
+2. <strong>Archive Terraform Plan</strong> - Creates <code>123-tfplan.tar.gz</code><br />
+3. <strong>Publish Terraform Artifact</strong> - Uploads artifact</p>
+<h3>Verify the Artifact</h3>
+<p>After the pipeline completes:</p>
+<ol>
+<li>Click <strong>1 published</strong> (near the top of the pipeline run)</li>
+<li>You should see: <code>123-tfplan</code> (or whatever build number ran)</li>
+<li>Click <strong>Download artifact</strong></li>
+<li>Extract the <code>.tar.gz</code> file</li>
+<li>You should see all files from <code>/terraform</code> folder, including <code>tfplan</code></li>
+</ol>
+<p><strong>Success?</strong> Your plan pipeline is creating artifacts correctly.</p>
+<h2>Common Issues &amp; Fixes</h2>
+<h3>Issue: "Backend initialization failed: storage account not found"</h3>
+<p><strong>Cause:</strong> Storage account name in <code>backend.tf</code> doesn't match your actual storage account.</p>
+<p><strong>Fix:</strong> Update <code>backend.tf</code> with the correct name.</p>
+<h3>Issue: "Key Vault access denied"</h3>
+<p><strong>Cause:</strong> Service principal doesn't have permissions on Key Vault.</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
+<span class="nv">$spObjectId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-OBJECT-ID&quot;</span>
+
+<span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-ObjectId</span> <span class="nv">$spObjectId</span> <span class="n">-PermissionsToSecrets</span> <span class="n">Get</span><span class="p">,</span><span class="n">List</span>
+</code></pre></div>
+
+<h3>Issue: "Secret not found in variable group"</h3>
+<p><strong>Cause:</strong> The secret name in your pipeline script doesn't match the Key Vault secret name.</p>
+<p><strong>Fix:</strong> Check spelling. Secret names are case-sensitive in Linux agents.</p>
+<p><strong>Example:</strong> If Key Vault has <code>sp-terraform-devops-client-id</code>, your script must use exactly that:</p>
+<div class="codehilite"><pre><span></span><code>-var<span class="o">=</span><span class="s2">&quot;spn_client_id=</span><span class="k">$(</span>sp-terraform-devops-client-id<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Issue: "Terraform plan shows unwanted changes"</h3>
+<p><strong>Cause:</strong> Someone manually changed infrastructure in the portal (or another pipeline).</p>
+<p><strong>Fix:</strong> Either:<br />
+1. Revert the manual change in the portal<br />
+2. Update your Terraform code to match current state<br />
+3. Run <code>terraform refresh</code> and commit the updated state (advanced)</p>
+<h3>Issue: "Archive task failed: no files found"</h3>
+<p><strong>Cause:</strong> The <code>tfplan</code> file wasn't created because <code>terraform plan</code> failed.</p>
+<p><strong>Fix:</strong> Check the Terraform Plan task logs. Fix any errors there first.</p>
+<h3>Issue: Pipeline runs but plan shows no changes</h3>
+<p><strong>Cause:</strong> Your test resource already exists in Azure (from a previous run).</p>
+<p><strong>Fix:</strong> Either:<br />
+1. Delete the resource group manually<br />
+2. Change the resource name in your Terraform code<br />
+3. This is actually fine - it proves state management is working!</p>
+<h2>Variable Reference Table</h2>
+<p>Here's every variable you need to configure (copy this for reference):</p>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Source</th>
+<th>Used In</th>
+<th>Example Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subscription-id</code></td>
+<td>Pipeline variable</td>
+<td>Plan script</td>
+<td><code>12345678-1234-1234-1234-123456789012</code></td>
+</tr>
+<tr>
+<td><code>sttfstate1234-key1</code></td>
+<td>Key Vault</td>
+<td>Init script</td>
+<td><code>(secret from storage account)</code></td>
+</tr>
+<tr>
+<td><code>sp-terraform-devops-client-id</code></td>
+<td>Key Vault</td>
+<td>Plan script</td>
+<td><code>87654321-4321-4321-4321-210987654321</code></td>
+</tr>
+<tr>
+<td><code>sp-terraform-devops-client-secret</code></td>
+<td>Key Vault</td>
+<td>Plan script</td>
+<td><code>(secret from service principal)</code></td>
+</tr>
+<tr>
+<td><code>sp-terraform-devops-tenant-id</code></td>
+<td>Key Vault</td>
+<td>Plan script</td>
+<td><code>11111111-1111-1111-1111-111111111111</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Replace these with YOUR values</strong> from Part 1.</p>
+<h2>What We Built</h2>
+<p>You now have two working build pipelines:</p>
+<p><strong>Terraform Status Check:</strong><br />
+- Triggers: Manual (via branch policy later)<br />
+- Actions: Validate syntax, show plan<br />
+- Output: Console logs only<br />
+- Duration: ~30-60 seconds</p>
+<p><strong>Terraform Plan:</strong><br />
+- Triggers: Commits to <code>main</code> branch<br />
+- Actions: Validate, plan, archive, publish<br />
+- Output: Build artifact (<code>.tfplan</code> file)<br />
+- Duration: ~60-90 seconds</p>
+<p><strong>What's missing?</strong> We haven't set up:<br />
+- Branch policies (force PRs)<br />
+- Pull request automation<br />
+- Release pipeline (actual deployment)<br />
+- Approval gates</p>
+<p>That's all coming in Parts 3 and 4.</p>
+<h2>Key Takeaways</h2>
+<ol>
+<li><strong>Status check pipelines run fast</strong> - No artifact creation = faster feedback</li>
+<li><strong>Plan pipelines save artifacts</strong> - The <code>.tfplan</code> file preserves intent</li>
+<li><strong>Key Vault integration is seamless</strong> - Secrets injected at runtime, never logged</li>
+<li><strong>Classic GUI pipelines are easier</strong> - Visual debugging, clear task ordering</li>
+<li><strong>Path filters prevent wasted builds</strong> - Only run when Terraform code changes</li>
+</ol>
+<p>The foundation is solid. Now we build the release pipeline and wire up pull requests.</p>
+<hr />
+<p><strong>Next:</strong> <a href="/blog/terraform-azure-devops-cicd-part3-release-pipeline/">Part 3 - Release Pipeline &amp; Approval Gates</a></p>
+<p><em>All code and pipeline configurations from this series are available in my <a href="https://github.com/dswann101164">GitHub repo</a>.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-cost-optimization-complete-guide">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Azure Cost Optimization: A Complete Practical Guide</strong>
+      </a>
+    
+    
+      <a href="/blog/software-rationalization-step-zero-devops" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Software Rationalization: The Step Zero That Works in a DevOps World</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

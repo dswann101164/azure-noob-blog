@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Terraform Azure Devops Cicd Part4 Branch Policies · Azure Noob</title>
+  <meta name="description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp;amp; Pull Request Automation&#34; date: 2025-11-06 summary: &#34;Enforce GitOps workflow with...">
+  <link rel="canonical" href="https://azure-noob.com/blog/terraform-azure-devops-cicd-part4-branch-policies" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terraform Azure Devops Cicd Part4 Branch Policies">
+  <meta property="og:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp;amp; Pull Request Automation&#34; date: 2025-11-06 summary: &#34;Enforce GitOps workflow with...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/terraform-azure-devops-cicd-part4-branch-policies">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  
+    <meta property="article:published_time" content="2025-11-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-06T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Terraform Azure Devops Cicd Part4 Branch Policies">
+  <meta name="twitter:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp;amp; Pull Request Automation&#34; date: 2025-11-06 summary: &#34;Enforce GitOps workflow with...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform Azure Devops Cicd Part4 Branch Policies",
+  "description": "﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp;amp; Pull Request Automation&#34; date: 2025-11-06 summary: &#34;Enforce GitOps workflow with...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/cloud-wars.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-06T00:00:00+00:00",
+  "dateModified": "2025-11-06T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part4-branch-policies"
+  },
+  "keywords": "",
+  "articleSection": "Azure",
+  "wordCount": "3085",
+  "timeRequired": "PT15M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Microsoft Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Terraform Azure Devops Cicd Part4 Branch Policies",
+      "item": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part4-branch-policies"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+
+  <header class="post-header">
+    <h1>Terraform Azure Devops Cicd Part4 Branch Policies</h1>
+    <p class="muted">
+      2025-11-06 · ~15 min read
+      
+    </p>
+    
+    
+    
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>﻿---<br />
+title: "Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp; Pull Request Automation"<br />
+date: 2025-11-06<br />
+summary: "Enforce GitOps workflow with branch policies that require reviews, trigger automated validation, and prevent direct commits to main. No cowboy deployments allowed."<br />
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "GitOps"]<br />
+cover: "static/images/hero/terraform-devops-part4.png"<br />
+hub: ai<br />
+related_posts:<br />
+  - will-ai-replace-azure-administrators-by-2030<br />
+  - the-ai-admin<br />
+  - three-ai-roles</p>
+<hr />
+<p>We've built the pipelines (Parts 1-3). Now we enforce the workflow with <strong>branch policies</strong> that make it impossible to bypass reviews and automated validation.</p>
+<p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
+<p><strong>What we're enforcing:</strong><br />
+- ❌ No direct commits to <code>main</code> branch<br />
+- ✅ All changes through pull requests<br />
+- ✅ Automated status checks required<br />
+- ✅ Human review required<br />
+- ✅ Auto-delete feature branches after merge</p>
+<p>This is what separates hobby projects from enterprise infrastructure.</p>
+<h2>Why Branch Policies Matter</h2>
+<p>Without branch policies, someone can:<br />
+1. Write bad Terraform code<br />
+2. Commit directly to <code>main</code><br />
+3. Auto-deploy broken infrastructure<br />
+4. Blame "the process" when things break</p>
+<p><strong>With branch policies:</strong><br />
+1. Write Terraform code in a feature branch<br />
+2. Create pull request (triggers validation)<br />
+3. Status checks run: validate + plan<br />
+4. Another human reviews the plan<br />
+5. Both pass → merge allowed<br />
+6. Build and release pipelines take over</p>
+<p><strong>The result:</strong> Every infrastructure change has two reviews (automated + human) before deployment.</p>
+<h2>Configure Branch Policies for Main Branch</h2>
+<h3>Step 1: Navigate to Branch Policies</h3>
+<ol>
+<li>Go to <strong>Repos &gt; Branches</strong></li>
+<li>Find the <code>main</code> branch</li>
+<li>Click the <strong>...</strong> menu</li>
+<li>Click <strong>Branch policies</strong></li>
+</ol>
+<h3>Step 2: Require Pull Requests</h3>
+<p><strong>Require a minimum number of reviewers:</strong><br />
+- Toggle on: <strong>Require a minimum number of reviewers</strong><br />
+- <strong>Minimum number of reviewers:</strong> <code>1</code><br />
+- Check: <strong>Requester cannot approve their own changes</strong> (if you have a team)<br />
+- Check: <strong>Prohibit the most recent pusher from approving their own changes</strong><br />
+- <strong>When new changes are pushed:</strong><br />
+  - Select: <strong>Reset all approval votes (does not reset votes to reject or wait)</strong></p>
+<p><strong>What this does:</strong><br />
+- Nobody (including you) can merge without approval<br />
+- If you push new commits to the PR, approvals reset (forces re-review)<br />
+- Author can't approve their own work (if multiple team members)</p>
+<p><strong>Single-person team?</strong> Set minimum reviewers to <code>1</code> and uncheck "requester cannot approve." You'll still review your own plans (good practice).</p>
+<h3>Step 3: Check for Linked Work Items (Optional)</h3>
+<p>If you use Azure Boards for work tracking:</p>
+<p><strong>Check for linked work items:</strong><br />
+- Toggle on: <strong>Check for linked work items</strong><br />
+- Select: <strong>Required</strong> (or <strong>Optional</strong> if you don't always have work items)</p>
+<p><strong>What this does:</strong> Forces PRs to link to a user story or task. Good for traceability.</p>
+<p><strong>Don't use Boards?</strong> Skip this.</p>
+<h3>Step 4: Require Comment Resolution</h3>
+<p><strong>Check for comment resolution:</strong><br />
+- Toggle on: <strong>Check for comment resolution</strong><br />
+- Select: <strong>Required</strong> (all comments must be resolved or marked "Won't Fix")</p>
+<p><strong>What this does:</strong> Prevents merging if there are unresolved discussion threads.</p>
+<p><strong>Example:</strong> Reviewer comments "Why are we using westeurope instead of northeurope?" - Must be answered before merge.</p>
+<h3>Step 5: Limit Merge Types</h3>
+<p><strong>Limit merge types:</strong><br />
+- Toggle on: <strong>Limit merge types</strong><br />
+- Check: <strong>Squash merge</strong> only<br />
+- Uncheck: Basic merge, Rebase merge, Rebase and fast-forward</p>
+<p><strong>What this does:</strong> Enforces clean Git history. All commits in a PR get squashed into one commit on <code>main</code>.</p>
+<p><strong>Why?</strong> Your <code>main</code> branch history reads like: <br />
+- "Add demo resource group"<br />
+- "Update network security group rules"<br />
+- "Add Azure SQL database"</p>
+<p>Not: <br />
+- "WIP"<br />
+- "Fix typo"<br />
+- "Fix typo again"<br />
+- "Undo last fix"</p>
+<p>Clean history = easier rollbacks.</p>
+<h3>Step 6: Build Validation (Status Check Pipeline)</h3>
+<p>This is the <strong>critical automation</strong>. Status checks run automatically on every PR.</p>
+<p><strong>Build validation:</strong><br />
+- Click <strong>+ Add build policy</strong></p>
+<p><strong>Settings:</strong><br />
+- <strong>Build pipeline:</strong> <code>Terraform Status Check (Validate + Plan)</code><br />
+- <strong>Trigger:</strong> <code>Automatic</code><br />
+- <strong>Policy requirement:</strong> <code>Required</code><br />
+- <strong>Build expiration:</strong> <code>Immediately when main is updated</code><br />
+- <strong>Display name:</strong> <code>Terraform Validation</code></p>
+<p><strong>What this does:</strong><br />
+- Creates or updates a PR → Status check pipeline triggers<br />
+- Pipeline runs validate + plan<br />
+- Must succeed before merge is allowed<br />
+- If someone commits to <code>main</code> while your PR is open, your PR re-runs validation (ensures no conflicts)</p>
+<p><strong>Click Save</strong>.</p>
+<h3>Step 7: Automatically Include Reviewers (Optional)</h3>
+<p>Useful for teams with designated approvers.</p>
+<p><strong>Automatically include code reviewers:</strong><br />
+- Click <strong>+ Add automatic reviewers</strong></p>
+<p><strong>Settings:</strong><br />
+- <strong>Reviewers:</strong> Add specific people or groups<br />
+- <strong>For changes to:</strong> <code>**/*.tf</code> (only when Terraform files change)<br />
+- <strong>Reviewers:</strong> Required</p>
+<p><strong>Example use case:</strong> Your security team must review any changes to network security groups or Key Vault access policies.</p>
+<p><strong>Single-person team?</strong> Skip this.</p>
+<h3>Step 8: Save All Policies</h3>
+<p>Click <strong>Save changes</strong> at the bottom.</p>
+<h2>Test Branch Policies (Intentional Failure)</h2>
+<p>Let's test that the policies actually prevent bad code from merging.</p>
+<h3>Step 1: Create a Feature Branch with Bad Terraform</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>test-branch-policies
+</code></pre></div>
+
+<p>Create <code>terraform/test-bad.tf</code> with <strong>intentionally invalid syntax</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Missing equals sign (syntax error)</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;bad&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">name</span><span class="w"> </span><span class="s2">&quot;rsg-test-bad&quot;</span><span class="c1">  # &lt;-- WRONG</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Commit and push:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/test-bad.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Test branch policies with invalid syntax&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>test-branch-policies
+</code></pre></div>
+
+<h3>Step 2: Create Pull Request</h3>
+<ol>
+<li>Go to <strong>Repos &gt; Pull requests</strong></li>
+<li>Click <strong>New pull request</strong></li>
+<li><strong>Source:</strong> <code>test-branch-policies</code></li>
+<li><strong>Target:</strong> <code>main</code></li>
+<li>Click <strong>Create</strong></li>
+</ol>
+<h3>Step 3: Watch Status Checks Fail</h3>
+<p>Within seconds, you'll see:<br />
+- ❌ <strong>Terraform Validation</strong> - Failed</p>
+<p>Click the <strong>Checks</strong> tab (or <strong>Status checks</strong>) to see details.</p>
+<p>You'll see the error:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Invalid</span><span class="w"> </span><span class="n">argument</span>
+<span class="w">  </span><span class="n">on</span><span class="w"> </span><span class="n">test</span><span class="o">-</span><span class="n">bad</span><span class="o">.</span><span class="na">tf</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">3</span><span class="o">,</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="s2">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="s2">&quot;bad&quot;</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">:</span><span class="w">   </span><span class="n">name</span><span class="w"> </span><span class="s2">&quot;rsg-test-bad&quot;</span>
+
+<span class="n">Argument</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">value</span><span class="o">,</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">was</span><span class="w"> </span><span class="n">supplied</span><span class="o">.</span>
+</code></pre></div>
+
+<h3>Step 4: Try to Complete the PR</h3>
+<p>Click <strong>Complete</strong> (top right).</p>
+<p>You'll see: <strong>Cannot complete because status checks must succeed</strong></p>
+<p><strong>The merge button is disabled.</strong> Branch policies are working!</p>
+<h3>Step 5: Fix the Code</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>test-branch-policies
+</code></pre></div>
+
+<p>Edit <code>terraform/test-bad.tf</code> to fix the syntax:</p>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;bad&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-test-bad&quot;</span><span class="c1">  # Fixed</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Commit and push:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/test-bad.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix syntax error&quot;</span>
+git<span class="w"> </span>push
+</code></pre></div>
+
+<h3>Step 6: Watch Status Checks Pass</h3>
+<p>The PR page auto-updates. Within a minute:<br />
+- ✅ <strong>Terraform Validation</strong> - Succeeded</p>
+<p>Now the <strong>Complete</strong> button is enabled.</p>
+<h3>Step 7: Clean Up</h3>
+<p>Don't merge this test PR. Instead:<br />
+1. Click <strong>Abandon</strong> (dropdown next to Complete)<br />
+2. Delete the branch: <code>git branch -D test-branch-policies</code></p>
+<p><strong>Lesson learned:</strong> Branch policies enforce quality. Bad code can't merge.</p>
+<h2>Customize Status Check Comments (Optional)</h2>
+<p>Want Terraform plan output posted as PR comments? Use the Azure Pipelines extension API.</p>
+<h3>Add a Script Task to Status Check Pipeline</h3>
+<p>Edit your <strong>Terraform Status Check</strong> pipeline.</p>
+<p>After the <code>Terraform Plan</code> task, add a <strong>PowerShell</strong> task:</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Post Plan to PR</code><br />
+- <strong>Type:</strong> Inline<br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Capture plan output</span>
+<span class="nv">$planOutput</span> <span class="p">=</span> <span class="n">terraform</span> <span class="n">plan</span> <span class="n">-input</span><span class="p">=</span><span class="n">false</span> <span class="n">-no-color</span>
+
+<span class="c"># Post to PR using REST API</span>
+<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">&quot;</span><span class="p">$(</span><span class="nv">$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI</span><span class="p">)$(</span><span class="nv">$env:SYSTEM_TEAMPROJECT</span><span class="p">)</span><span class="s2">/_apis/git/repositories/</span><span class="p">$(</span><span class="nv">$env:BUILD_REPOSITORY_ID</span><span class="p">)</span><span class="s2">/pullRequests/</span><span class="p">$(</span><span class="nv">$env:SYSTEM_PULLREQUEST_PULLREQUESTID</span><span class="p">)</span><span class="s2">/threads?api-version=6.0&quot;</span>
+
+<span class="nv">$body</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="n">comments</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="p">@{</span>
+            <span class="n">parentCommentId</span> <span class="p">=</span> <span class="n">0</span>
+            <span class="n">content</span> <span class="p">=</span> <span class="s2">&quot;## Terraform Plan Output</span><span class="se">```t</span><span class="s2">erraform</span><span class="se">`n</span><span class="s2">$planOutput</span><span class="se">`n```&quot;</span>
+<span class="s2">            commentType = 1</span>
+<span class="s2">        }</span>
+<span class="s2">    )</span>
+<span class="s2">    status = 1</span>
+<span class="s2">} | ConvertTo-Json -Depth 10</span>
+
+<span class="s2">$headers = @{</span>
+<span class="s2">    Authorization = &quot;</span><span class="n">Bearer</span> <span class="p">$(</span><span class="nv">$env:SYSTEM_ACCESSTOKEN</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="s2">    &quot;</span><span class="n">Content-Type</span><span class="s2">&quot; = &quot;</span><span class="n">application</span><span class="p">/</span><span class="n">json</span><span class="s2">&quot;</span>
+<span class="s2">}</span>
+
+<span class="s2">Invoke-RestMethod -Uri $uri -Method Post -Body $body -Headers $headers</span>
+</code></pre></div>
+
+<p><strong>Environment variables:</strong><br />
+- Add a variable: <code>SYSTEM_ACCESSTOKEN</code> = <code>$(System.AccessToken)</code><br />
+- Check: <strong>Allow scripts to access the OAuth token</strong> (in agent job settings)</p>
+<p><strong>What this does:</strong> Posts the Terraform plan output directly as a PR comment.</p>
+<p><strong>Warning:</strong> This exposes plan output in PR comments. If your state includes sensitive data, skip this step.</p>
+<h2>Workflow Walkthrough (Full Cycle)</h2>
+<p>Here's what the complete workflow looks like with branch policies enforced.</p>
+<h3>Day 1: Create Feature Branch</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/add-storage-account
+</code></pre></div>
+
+<h3>Day 2: Write Terraform Code</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># storage.tf</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;storage&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-storage-001&quot;</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_account&quot;</span><span class="w"> </span><span class="nv">&quot;demo&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;stdemostorage${random_integer.suffix.result}&quot;</span>
+<span class="w">  </span><span class="na">resource_group_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.storage.name</span>
+<span class="w">  </span><span class="na">location</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.storage.location</span>
+<span class="w">  </span><span class="na">account_tier</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="na">account_replication_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;LRS&quot;</span>
+
+<span class="w">  </span><span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Development&quot;</span>
+<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;random_integer&quot;</span><span class="w"> </span><span class="nv">&quot;suffix&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span>
+<span class="w">  </span><span class="na">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9999</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Commit locally (but don't push yet):</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/storage.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add storage account for demo&quot;</span>
+</code></pre></div>
+
+<h3>Day 3: Test Locally (Optional)</h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>terraform
+terraform<span class="w"> </span>init
+terraform<span class="w"> </span>plan
+</code></pre></div>
+
+<p>Review plan output. Looks good? Push:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/add-storage-account
+</code></pre></div>
+
+<h3>Day 4: Create Pull Request</h3>
+<ol>
+<li>Go to <strong>Repos &gt; Pull requests</strong></li>
+<li>Azure DevOps automatically shows: "Create a pull request for feature/add-storage-account"</li>
+<li>Click <strong>Create a pull request</strong></li>
+<li><strong>Title:</strong> "Add storage account for demo"</li>
+<li><strong>Description:</strong><br />
+   ```<br />
+   ## What</li>
+<li>Adds resource group for storage</li>
+<li>Adds storage account with LRS replication</li>
+</ol>
+<p>## Why<br />
+   - Needed for demo data storage</p>
+<p>## Testing<br />
+   - Ran terraform plan locally<br />
+   - Verified naming conventions<br />
+   ```<br />
+6. <strong>Reviewers:</strong> Add your teammate (or yourself if solo)<br />
+7. Click <strong>Create</strong></p>
+<h3>Day 5: Automated Validation Runs</h3>
+<p>Within seconds:<br />
+- ⏳ <strong>Terraform Validation</strong> - Running</p>
+<p>After ~30-60 seconds:<br />
+- ✅ <strong>Terraform Validation</strong> - Succeeded</p>
+<p>Click <strong>Checks</strong> to see plan output:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">Terraform</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">perform</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">actions</span><span class="p">:</span>
+
+<span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="nx">azurerm_resource_group</span><span class="p">.</span><span class="nx">storage</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">created</span>
+<span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="s">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="s">&quot;storage&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;rsg-storage-001&quot;</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;northeurope&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="nx">azurerm_storage_account</span><span class="p">.</span><span class="nx">demo</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">created</span>
+<span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="s">&quot;azurerm_storage_account&quot;</span><span class="w"> </span><span class="s">&quot;demo&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w">                     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;stdemostorage1234&quot;</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">resource_group_name</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;rsg-storage-001&quot;</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">location</span><span class="w">                 </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;northeurope&quot;</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">account_tier</span><span class="w">             </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Standard&quot;</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="nx">account_replication_type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;LRS&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="nx">Plan</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">add</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">change</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">destroy</span><span class="p">.</span>
+</code></pre></div>
+
+<h3>Day 6: Human Review</h3>
+<p>Your teammate (or you) reviews:<br />
+1. <strong>Files</strong> tab - Review code changes<br />
+2. <strong>Checks</strong> tab - Review plan output<br />
+3. <strong>Commits</strong> tab - Verify clean commit messages</p>
+<p>Looks good. Click <strong>Approve</strong> (top right).</p>
+<h3>Day 7: Merge to Main</h3>
+<ol>
+<li>Click <strong>Complete</strong> (now enabled because status checks passed and review approved)</li>
+<li><strong>Merge type:</strong> Squash commit (only option, enforced by policy)</li>
+<li><strong>Merge commit message:</strong> Keep the PR title</li>
+<li>Check: <strong>Delete feature/add-storage-account after merge</strong> (automatically checked)</li>
+<li>Click <strong>Complete merge</strong></li>
+</ol>
+<h3>Day 8: Automated Deployment</h3>
+<p>Immediately after merge:<br />
+1. <strong>Build pipeline</strong> (<code>Terraform Plan</code>) triggers<br />
+   - Runs validate, plan, archives artifact<br />
+   - Publishes artifact: <code>456-tfplan</code><br />
+2. <strong>Release pipeline</strong> queues<br />
+   - Sends approval email<br />
+   - Waits for approval<br />
+3. You approve the release<br />
+4. <strong>Release pipeline</strong> deploys<br />
+   - Runs terraform apply with the artifact<br />
+   - Creates resource group + storage account<br />
+   - Sends success notification</p>
+<h3>Day 9: Verify in Azure</h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">Get-AzResourceGroup</span> <span class="n">-Name</span> <span class="s2">&quot;rsg-storage-001&quot;</span>
+<span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rsg-storage-001&quot;</span>
+</code></pre></div>
+
+<p>Both exist. Success!</p>
+<h2>Advanced: Multiple Reviewers for Critical Changes</h2>
+<p>For high-risk changes (networking, security, production), require multiple approvers.</p>
+<h3>Create a Code Owners File</h3>
+<p>Create <code>/.azuredevops/CODEOWNERS</code> in your repo:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="k">Default</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">everything</span>
+<span class="o">*</span><span class="w"> </span><span class="nv">@your</span><span class="o">-</span><span class="n">username</span>
+
+<span class="err">#</span><span class="w"> </span><span class="n">Networking</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="n">approval</span>
+<span class="o">/</span><span class="n">terraform</span><span class="o">/</span><span class="n">networking</span><span class="cm">/** @network-team</span>
+
+<span class="cm"># Security policies require security team approval</span>
+<span class="cm">/terraform/policies/** @security-team</span>
+
+<span class="cm"># Production environment requires both infra and security</span>
+<span class="cm">/terraform/production/** @infra-team @security-team</span>
+</code></pre></div>
+
+<p>Commit to <code>main</code>:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>.azuredevops/CODEOWNERS
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add code owners for critical paths&quot;</span>
+git<span class="w"> </span>push
+</code></pre></div>
+
+<h3>Update Branch Policy</h3>
+<ol>
+<li>Go to <strong>Repos &gt; Branches &gt; main &gt; Branch policies</strong></li>
+<li><strong>Automatically include code reviewers:</strong></li>
+<li>Check: <strong>Enable code owners</strong></li>
+<li>Save</li>
+</ol>
+<p><strong>What this does:</strong><br />
+- PRs that change networking code automatically add the network team as required reviewers<br />
+- PRs that touch production require BOTH infrastructure and security team approval<br />
+- Can't merge until all code owners approve</p>
+<h2>Handling Urgent Changes</h2>
+<p>What if you need to bypass policies for an emergency hotfix?</p>
+<h3>Option 1: Use Policy Override (Admin Only)</h3>
+<p>Azure DevOps admins can override branch policies.</p>
+<ol>
+<li>Create PR as normal</li>
+<li>Click <strong>Complete</strong></li>
+<li>If you have admin permissions, you'll see: <strong>Override branch policies</strong></li>
+<li>Check the box</li>
+<li><strong>Reason:</strong> "Emergency hotfix for production outage - approved by [Name]"</li>
+<li>Complete merge</li>
+</ol>
+<p><strong>Audit:</strong> The override is logged. Use sparingly and document why.</p>
+<h3>Option 2: Create an Emergency Bypass Branch</h3>
+<p>For planned maintenance windows or emergency processes:</p>
+<ol>
+<li>Create a branch policy exception for <code>hotfix/*</code> branches</li>
+<li>These branches can merge with reduced requirements (but still require one approval)</li>
+</ol>
+<p><strong>Configure:</strong><br />
+1. Go to <strong>Repos &gt; Branches</strong><br />
+2. Find <strong>Branch policies</strong> for <code>main</code><br />
+3. <strong>Override branch policies</strong> section<br />
+4. Click <strong>Add exception</strong><br />
+5. Branch name pattern: <code>refs/heads/hotfix/*</code><br />
+6. Allowed overrides: Check <strong>Require minimum reviewers (1 instead of standard 2)</strong></p>
+<h2>Common Issues &amp; Fixes</h2>
+<h3>Issue: Can't push to main after setting policies</h3>
+<p><strong>Cause:</strong> Branch policies block direct pushes to <code>main</code>.</p>
+<p><strong>Fix:</strong> This is intentional. Always work in feature branches:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/my-change
+<span class="c1"># make changes</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/my-change
+<span class="c1"># create PR</span>
+</code></pre></div>
+
+<h3>Issue: Status check runs forever (never completes)</h3>
+<p><strong>Cause:</strong> Build validation policy has a stuck pipeline.</p>
+<p><strong>Fix:</strong><br />
+1. Go to <strong>Pipelines &gt; Pipelines</strong><br />
+2. Find the stuck <code>Terraform Status Check</code> run<br />
+3. Click <strong>Cancel</strong><br />
+4. Go back to the PR - it should retry</p>
+<h3>Issue: "Squash commit" option is grayed out</h3>
+<p><strong>Cause:</strong> Branch policy requires squash merge, but the option is disabled.</p>
+<p><strong>Fix:</strong><br />
+1. Go to <strong>Project Settings &gt; Repositories &gt; your repo</strong><br />
+2. Click <strong>Policies</strong> tab<br />
+3. Check: <strong>Squash merge</strong> is allowed</p>
+<h3>Issue: PR shows "No changes" after pushing commits</h3>
+<p><strong>Cause:</strong> The commits were force-pushed or rebased incorrectly.</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Reset your branch to match main</span>
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>checkout<span class="w"> </span>your-feature-branch
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>origin/main
+
+<span class="c1"># Re-apply your changes (copy them first!)</span>
+<span class="c1"># Then commit and push</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>your-feature-branch<span class="w"> </span>--force
+</code></pre></div>
+
+<h3>Issue: Status check fails with "Unable to access Key Vault"</h3>
+<p><strong>Cause:</strong> Service principal doesn't have permissions on Key Vault.</p>
+<p><strong>Fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
+<span class="nv">$spObjectId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-OBJECT-ID&quot;</span>
+
+<span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-ObjectId</span> <span class="nv">$spObjectId</span> <span class="n">-PermissionsToSecrets</span> <span class="n">Get</span><span class="p">,</span><span class="n">List</span>
+</code></pre></div>
+
+<h2>Branch Policies Checklist</h2>
+<p>Copy this checklist for new repos:</p>
+<ul>
+<li>[ ] <strong>Require pull requests</strong> (minimum 1 reviewer)</li>
+<li>[ ] <strong>Require comment resolution</strong> (all discussions resolved)</li>
+<li>[ ] <strong>Limit merge types</strong> (squash commit only)</li>
+<li>[ ] <strong>Build validation</strong> (status check pipeline)</li>
+<li>[ ] <strong>Automatically delete feature branches</strong> (on merge completion)</li>
+<li>[ ] <strong>Check for linked work items</strong> (if using Azure Boards)</li>
+<li>[ ] <strong>Automatically include reviewers</strong> (for critical paths)</li>
+<li>[ ] <strong>Code owners file</strong> (for team-based approval)</li>
+</ul>
+<h2>Key Takeaways</h2>
+<ol>
+<li><strong>Branch policies enforce GitOps workflow</strong> - No bypassing the process</li>
+<li><strong>Status checks run automatically</strong> - Fast feedback on code quality</li>
+<li><strong>Human + automated review</strong> - Two layers of defense</li>
+<li><strong>Clean Git history</strong> - Squash merge keeps <code>main</code> readable</li>
+<li><strong>Emergency overrides exist</strong> - But are logged and auditable</li>
+</ol>
+<p>You now have a fully automated, policy-enforced infrastructure deployment workflow. </p>
+<hr />
+<p><strong>Next:</strong> <a href="/blog/terraform-azure-devops-cicd-part5-production-best-practices/">Part 5 - Production Best Practices &amp; Multi-Environment Setup</a></p>
+<p><em>All code and pipeline configurations from this series are available in my <a href="https://github.com/dswann101164">GitHub repo</a>.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/terraform-azure-devops-cicd-part3-release-pipeline">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Terraform Azure Devops Cicd Part3 Release Pipeline</strong>
+      </a>
+    
+    
+      <a href="/blog/terraform-azure-devops-cicd-part5-production-best-practices" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Terraform Azure Devops Cicd Part5 Production Best Practices</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

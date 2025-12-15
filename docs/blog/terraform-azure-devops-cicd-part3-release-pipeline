@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Terraform Azure Devops Cicd Part3 Release Pipeline · Azure Noob</title>
+  <meta name="description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp;amp; Approval Gates&#34; date: 2025-11-05 summary: &#34;Build the release pipeline that...">
+  <link rel="canonical" href="https://azure-noob.com/blog/terraform-azure-devops-cicd-part3-release-pipeline" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Terraform Azure Devops Cicd Part3 Release Pipeline">
+  <meta property="og:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp;amp; Approval Gates&#34; date: 2025-11-05 summary: &#34;Build the release pipeline that...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/terraform-azure-devops-cicd-part3-release-pipeline">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  
+    <meta property="article:published_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Terraform Azure Devops Cicd Part3 Release Pipeline">
+  <meta name="twitter:description" content="﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp;amp; Approval Gates&#34; date: 2025-11-05 summary: &#34;Build the release pipeline that...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform Azure Devops Cicd Part3 Release Pipeline",
+  "description": "﻿--- title: &#34;Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp;amp; Approval Gates&#34; date: 2025-11-05 summary: &#34;Build the release pipeline that...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/cloud-wars.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-11-05T00:00:00+00:00",
+  "dateModified": "2025-11-05T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part3-release-pipeline"
+  },
+  "keywords": "",
+  "articleSection": "Azure",
+  "wordCount": "2670",
+  "timeRequired": "PT13M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Microsoft Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Terraform Azure Devops Cicd Part3 Release Pipeline",
+      "item": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part3-release-pipeline"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+
+  <header class="post-header">
+    <h1>Terraform Azure Devops Cicd Part3 Release Pipeline</h1>
+    <p class="muted">
+      2025-11-05 · ~13 min read
+      
+    </p>
+    
+    
+    
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>﻿---<br />
+title: "Terraform + Azure DevOps CI/CD: Part 3 - Release Pipeline &amp; Approval Gates"<br />
+date: 2025-11-05<br />
+summary: "Build the release pipeline that deploys approved Terraform plans with pre-deployment approval gates and audit trails. This is where governance happens."<br />
+tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps"]<br />
+cover: "static/images/hero/terraform-devops-part3.png"<br />
+hub: ai<br />
+related_posts:<br />
+  - will-ai-replace-azure-administrators-by-2030<br />
+  - the-ai-admin<br />
+  - three-ai-roles</p>
+<hr />
+<p>Parts 1 and 2 built the pipelines that validate code and create artifacts. Now we build the pipeline that actually <strong>deploys infrastructure</strong> - with approval gates that prevent unauthorized changes.</p>
+<p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
+<p><strong>What we're building:</strong><br />
+- Release pipeline that triggers on new plan artifacts<br />
+- Pre-deployment approval gate (human review required)<br />
+- Terraform apply using the approved plan file<br />
+- Post-deployment notifications</p>
+<h2>Why Release Pipelines (Not Build Pipelines)</h2>
+<p><strong>Build pipelines</strong> create artifacts. <strong>Release pipelines</strong> deploy them.</p>
+<p>Key difference: Release pipelines support <strong>approval gates</strong>. You can't click "Deploy" until someone approves it.</p>
+<p><strong>The workflow:</strong><br />
+1. Code merges to <code>main</code> → Build pipeline creates <code>.tfplan</code> artifact<br />
+2. Artifact published → Release pipeline <strong>queued</strong> (not started)<br />
+3. <strong>Approval gate</strong> → Someone reviews and approves<br />
+4. Terraform apply runs → Infrastructure deployed</p>
+<p><strong>This ensures:</strong> What gets approved in the PR is what gets deployed. No surprises.</p>
+<h2>Create the Release Pipeline</h2>
+<p>Release pipelines use a different interface than build pipelines. They're older but more powerful for deployment workflows.</p>
+<h3>Step 1: Navigate to Releases</h3>
+<ol>
+<li>Go to <strong>Pipelines &gt; Releases</strong></li>
+<li>Click <strong>New pipeline</strong></li>
+<li>Select template: <strong>Empty job</strong> (ignore other templates)</li>
+</ol>
+<h3>Step 2: Configure the Artifact Source</h3>
+<p>Click <strong>Add an artifact</strong> (big red box).</p>
+<p><strong>Settings:</strong><br />
+- <strong>Source type:</strong> Build<br />
+- <strong>Project:</strong> Your Azure DevOps project<br />
+- <strong>Source (build pipeline):</strong> <code>Terraform Plan (Create Artifact)</code><br />
+- <strong>Default version:</strong> Latest<br />
+- <strong>Source alias:</strong> <code>_Terraform Plan (Create Artifact)</code> (auto-generated)</p>
+<p>Click <strong>Add</strong>.</p>
+<p><strong>What this does:</strong> Links this release pipeline to the build pipeline. Every time a new artifact is published, this release pipeline can trigger.</p>
+<h3>Step 3: Enable Continuous Deployment Trigger</h3>
+<p>Click the <strong>lightning bolt icon</strong> on the artifact box.</p>
+<p>Toggle on: <strong>Continuous deployment trigger</strong></p>
+<p><strong>Branch filters:</strong><br />
+- Click <strong>+ Add</strong><br />
+- Type: <code>Include</code><br />
+- Branch: <code>main</code></p>
+<p>Click <strong>Save</strong> (but don't close the trigger pane yet).</p>
+<p><strong>What this does:</strong> Automatically creates a new release whenever the build pipeline publishes an artifact from <code>main</code> branch.</p>
+<p><strong>Why filter by branch?</strong> If you later create feature branches with build artifacts (for testing), you don't want them auto-deploying.</p>
+<h3>Step 4: Rename the Stage</h3>
+<p>The default stage name is "Stage 1". Let's fix that.</p>
+<p>Click <strong>Stage 1</strong> and rename to: <code>Deploy Infrastructure</code></p>
+<p><strong>Stages</strong> in release pipelines are deployment targets. You might have <code>Dev</code>, <code>Test</code>, <code>Prod</code>. We're starting with one stage.</p>
+<h3>Step 5: Configure Pre-Deployment Approval</h3>
+<p>This is the <strong>critical governance control</strong>. Nobody can deploy infrastructure without approval.</p>
+<p>Click the <strong>lightning bolt with person icon</strong> on the left side of <code>Deploy Infrastructure</code> stage.</p>
+<p><strong>Pre-deployment approvals:</strong><br />
+- Toggle on: <strong>Pre-deployment approvals</strong><br />
+- <strong>Approvers:</strong> Add yourself and any other authorized deployers<br />
+- <strong>Timeout:</strong> 7 days (max time to wait for approval before auto-rejecting)<br />
+- <strong>Approval policies:</strong><br />
+  - Check: <strong>Approvers receive an email notification</strong><br />
+  - Uncheck: <strong>The user requesting a release should not approve it</strong> (optional, but good for separation of duties)</p>
+<p>Click <strong>Save</strong>.</p>
+<p><strong>What this does:</strong> <br />
+- When a release is created, it immediately queues<br />
+- An email is sent to approvers: "Release X is waiting for approval"<br />
+- Release STOPS and waits<br />
+- Only after approval does it proceed to deployment tasks</p>
+<h3>Step 6: Configure Agent Job</h3>
+<p>Click <strong>1 job, 0 task</strong> inside the <code>Deploy Infrastructure</code> stage.</p>
+<p><strong>Agent job settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Apply</code><br />
+- <strong>Agent pool:</strong> <code>Azure Pipelines</code><br />
+- <strong>Agent Specification:</strong> <code>ubuntu-latest</code></p>
+<p>Click <strong>Save</strong>.</p>
+<h2>Add Release Pipeline Tasks</h2>
+<p>Now we add the actual deployment tasks. These are similar to the build pipeline, but with a critical difference: we use the <strong>artifact</strong> (not the current Git repo).</p>
+<h3>Task 1: Download Pipeline Artifact</h3>
+<p>We need to download the <code>.tfplan</code> artifact from the build pipeline.</p>
+<p>Click the <strong>+</strong> button on <code>Terraform Apply</code> job.</p>
+<p>Search for "Download Pipeline Artifact" and add it.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Download Terraform Artifact</code><br />
+- <strong>Download artifacts produced by:</strong> <code>Current build</code><br />
+- <strong>Matching patterns:</strong> <code>**/*</code> (all files)<br />
+- <strong>Destination directory:</strong> <code>$(System.DefaultWorkingDirectory)</code></p>
+<p><strong>What this does:</strong> Downloads the entire artifact (the <code>.tar.gz</code> file containing Terraform code and the plan file).</p>
+<h3>Task 2: Extract Archive</h3>
+<p>The artifact is compressed. We need to extract it.</p>
+<p>Add a <strong>Command Line</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Extract Terraform Artifact</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="k">$(</span>System.DefaultWorkingDirectory<span class="k">)</span>
+tar<span class="w"> </span>-xzf<span class="w"> </span>*-tfplan.tar.gz<span class="w"> </span>-C<span class="w"> </span><span class="k">$(</span>System.DefaultWorkingDirectory<span class="k">)</span>/terraform
+</code></pre></div>
+
+<p><strong>What this does:</strong><br />
+- Finds the <code>.tar.gz</code> file (named with build ID)<br />
+- Extracts it to <code>/terraform</code> folder<br />
+- Now we have all Terraform files + the <code>tfplan</code> file</p>
+<p><strong>Why wildcard <code>*-tfplan.tar.gz</code>?</strong> The build ID changes. This pattern matches any build.</p>
+<h3>Task 3: Install Terraform</h3>
+<p>Same as in build pipelines - ensures correct version.</p>
+<p>Add the <strong>Terraform installer</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Install Terraform 1.5.7</code><br />
+- <strong>Version:</strong> <code>1.5.7</code></p>
+<h3>Task 4: Download Key Vault Secrets</h3>
+<p>We need storage account keys and service principal credentials.</p>
+<p>Add the <strong>Azure Key Vault</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Download secrets from Key Vault</code><br />
+- <strong>Azure subscription:</strong> <code>terraform-azure-connection</code><br />
+- <strong>Key vault:</strong> <code>kv-tfstate-1234</code> (your Key Vault name)<br />
+- <strong>Secrets filter:</strong> <code>*</code></p>
+<h3>Task 5: Terraform Init</h3>
+<p>We need to initialize Terraform in the release environment (even though we did it in the build pipeline).</p>
+<p>Add a <strong>Command Line</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Init</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;access_key=</span><span class="k">$(</span>sttfstate1234-key1<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
+<p><strong>Why init again?</strong> The release agent is a clean environment. It doesn't have the <code>.terraform</code> directory from the build pipeline.</p>
+<h3>Task 6: Terraform Apply</h3>
+<p><strong>This is the deployment task.</strong> It applies the approved plan.</p>
+<p>Add a <strong>Command Line</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Terraform Apply (Approved Plan)</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>apply<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-auto-approve<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>tfplan
+</code></pre></div>
+
+<p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
+<p><strong>Critical flags:</strong><br />
+- <code>-auto-approve</code> - Don't prompt for confirmation (we already approved the release)<br />
+- <code>-input=false</code> - No interactive prompts<br />
+- <code>tfplan</code> - Apply the EXACT plan file from the artifact (not a new plan)</p>
+<p><strong>This is why the workflow is secure:</strong><br />
+1. PR reviewer sees the plan output<br />
+2. PR gets approved and merged<br />
+3. Build pipeline creates artifact with that EXACT plan<br />
+4. Release approver reviews again<br />
+5. Terraform applies that EXACT plan</p>
+<p>No drift. What was reviewed is what deploys.</p>
+<h3>Task 7: Clean Up Plan File (Optional Security)</h3>
+<p>After deployment, delete the plan file (it contains sensitive info).</p>
+<p>Add a <strong>Command Line</strong> task.</p>
+<p><strong>Settings:</strong><br />
+- <strong>Display name:</strong> <code>Delete Plan File</code><br />
+- <strong>Script:</strong></p>
+<div class="codehilite"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span>tfplan
+rm<span class="w"> </span>-f<span class="w"> </span>*-tfplan.tar.gz
+</code></pre></div>
+
+<p><strong>Why?</strong> Plan files can contain sensitive data. Delete them after use.</p>
+<h3>Link Variable Group</h3>
+<p>Click the <strong>Variables</strong> tab, then <strong>Variable groups</strong>.</p>
+<p>Click <strong>Link variable group</strong> and select: <code>terraform-keyvault-secrets</code></p>
+<p>Add a regular variable:<br />
+- Name: <code>subscription-id</code><br />
+- Value: Your subscription GUID</p>
+<p><strong>Save</strong> the pipeline.</p>
+<h2>Configure Notifications (Optional)</h2>
+<p>Let's send emails when releases succeed or fail.</p>
+<h3>Enable Email Notifications</h3>
+<ol>
+<li>Click the <strong>pipeline name</strong> at the top (to get to pipeline settings)</li>
+<li>Click <strong>Options</strong> tab</li>
+<li>Scroll to <strong>Integrations</strong></li>
+<li>Check: <strong>Send email notifications</strong></li>
+</ol>
+<p><strong>Recipients:</strong><br />
+- Add yourself<br />
+- Add your team<br />
+- Add any stakeholders</p>
+<p><strong>When to send:</strong><br />
+- Check: <strong>A deployment completes</strong><br />
+- Check: <strong>A deployment fails</strong><br />
+- Check: <strong>A deployment is pending approval</strong></p>
+<p>Click <strong>Save</strong>.</p>
+<h2>Test the Full Workflow (End-to-End)</h2>
+<p>Time to test the complete workflow: PR → Build → Release → Approval → Deploy.</p>
+<h3>Step 1: Create a Feature Branch</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add-resource-group
+</code></pre></div>
+
+<h3>Step 2: Add a New Resource</h3>
+<p>Create or edit <code>terraform/main.tf</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;demo&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-terraform-demo-001&quot;</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+
+<span class="w">  </span><span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Test&quot;</span>
+<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">    </span><span class="na">Purpose</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;CI/CD Demo&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Step 3: Commit and Push</h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/main.tf
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add demo resource group for testing&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>add-resource-group
+</code></pre></div>
+
+<h3>Step 4: Create Pull Request</h3>
+<ol>
+<li>Go to <strong>Repos &gt; Pull requests</strong></li>
+<li>Click <strong>New pull request</strong></li>
+<li><strong>Source branch:</strong> <code>add-resource-group</code></li>
+<li><strong>Target branch:</strong> <code>main</code></li>
+<li><strong>Title:</strong> "Add demo resource group"</li>
+<li><strong>Description:</strong> "Testing full CI/CD pipeline with approval gates"</li>
+<li>Click <strong>Create</strong></li>
+</ol>
+<p><strong>What happens next:</strong><br />
+- Status check pipeline should trigger automatically (if you set up branch policies in Part 4)<br />
+- Plan output appears in PR comments<br />
+- PR requires approval before merge</p>
+<h3>Step 5: Review and Merge PR</h3>
+<ol>
+<li>Click the <strong>Checks</strong> tab (or <strong>Status checks</strong>)</li>
+<li>Review the Terraform plan output</li>
+<li>Verify it says: <code>Plan: 1 to add, 0 to change, 0 to destroy</code></li>
+<li>Click <strong>Approve</strong> (top right)</li>
+<li>Click <strong>Complete</strong> (merge options)</li>
+<li>Select: <strong>Delete branch after merge</strong> (clean up)</li>
+<li>Click <strong>Complete merge</strong></li>
+</ol>
+<p><strong>What happens next:</strong><br />
+- Code merges to <code>main</code><br />
+- Build pipeline (<code>Terraform Plan</code>) triggers automatically<br />
+- Build creates artifact and publishes it<br />
+- Release pipeline <strong>queues</strong> (but doesn't start)</p>
+<h3>Step 6: Approve the Release</h3>
+<p>You should receive an email: "Release Release-1 is waiting for your approval."</p>
+<ol>
+<li>Go to <strong>Pipelines &gt; Releases</strong></li>
+<li>You should see a release in <strong>In progress</strong> state with a <strong>pause icon</strong></li>
+<li>Click into the release</li>
+<li>You'll see: <code>Deploy Infrastructure</code> stage with <strong>Approval pending</strong></li>
+<li>Click <strong>Approve</strong> (or <strong>Reject</strong> if something looks wrong)</li>
+<li><strong>Comments:</strong> "Approved for testing - deploying demo resource group"</li>
+<li>Click <strong>Approve</strong></li>
+</ol>
+<p><strong>What happens next:</strong><br />
+- Release pipeline starts running<br />
+- Tasks execute: Download artifact, extract, init, apply<br />
+- Terraform deploys the resource group<br />
+- You see: <code>Apply complete! Resources: 1 added, 0 changed, 0 destroyed</code></p>
+<h3>Step 7: Verify in Azure</h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">Get-AzResourceGroup</span> <span class="n">-Name</span> <span class="s2">&quot;rsg-terraform-demo-001&quot;</span>
+</code></pre></div>
+
+<p>You should see the resource group with your tags.</p>
+<p><strong>Success!</strong> Your full CI/CD pipeline works.</p>
+<h2>The Complete Audit Trail</h2>
+<p>One of the best features of this setup is the <strong>complete audit trail</strong>. You can always answer:</p>
+<h3>"Who deployed this resource?"</h3>
+<ol>
+<li>Go to <strong>Pipelines &gt; Releases</strong></li>
+<li>Find the release</li>
+<li>Check the <strong>Approved by</strong> field</li>
+<li>Check the Git commit author</li>
+</ol>
+<h3>"When was it deployed?"</h3>
+<ol>
+<li>Release pipeline shows start time and duration</li>
+<li>Azure Activity Log shows exact deployment time</li>
+<li>Git commit has timestamp</li>
+</ol>
+<h3>"What exactly was deployed?"</h3>
+<ol>
+<li>Download the artifact from the build</li>
+<li>Extract the <code>tfplan</code> file</li>
+<li>Run: <code>terraform show tfplan</code> (requires Terraform installed locally)</li>
+</ol>
+<p>Or just look at the Git diff in the merged PR.</p>
+<h3>"Why was it deployed?"</h3>
+<ol>
+<li>Read the PR description</li>
+<li>Read the PR comments and reviews</li>
+<li>Read the release approval comments</li>
+</ol>
+<p><strong>This satisfies audit requirements</strong> for SOC 2, ISO 27001, and most compliance frameworks.</p>
+<h2>Common Issues &amp; Fixes</h2>
+<h3>Issue: Release doesn't trigger after build completes</h3>
+<p><strong>Cause:</strong> Continuous deployment trigger is disabled or branch filter doesn't match.</p>
+<p><strong>Fix:</strong><br />
+1. Go to release pipeline<br />
+2. Click the artifact lightning bolt<br />
+3. Verify: <strong>Continuous deployment trigger</strong> is ON<br />
+4. Verify: Branch filter includes <code>main</code></p>
+<h3>Issue: "Artifact not found" error</h3>
+<p><strong>Cause:</strong> The artifact name doesn't match what the build pipeline published.</p>
+<p><strong>Fix:</strong><br />
+1. Go to the build pipeline run<br />
+2. Check the <strong>published artifact name</strong> (should be something like <code>123-tfplan</code>)<br />
+3. Update the release pipeline download task to match</p>
+<p>Or simplify by using <code>**/*</code> wildcard pattern.</p>
+<h3>Issue: Terraform apply fails with "Invalid plan file"</h3>
+<p><strong>Cause:</strong> The plan file is from a different state version, or the state changed between plan and apply.</p>
+<p><strong>Fix:</strong><br />
+1. Check if someone manually deployed resources in the portal<br />
+2. Reject the release<br />
+3. Create a new PR to re-plan with current state<br />
+4. Re-approve and merge</p>
+<p><strong>Prevention:</strong> Don't allow manual Azure Portal changes. Enforce this policy.</p>
+<h3>Issue: "Backend initialization failed" in release pipeline</h3>
+<p><strong>Cause:</strong> Storage account key is missing or incorrect.</p>
+<p><strong>Fix:</strong><br />
+1. Verify Key Vault has the storage account key<br />
+2. Verify variable group is linked to the release pipeline<br />
+3. Check the init task uses the correct variable: <code>$(sttfstate1234-key1)</code></p>
+<h3>Issue: Approval email not received</h3>
+<p><strong>Cause:</strong> Notification settings not configured.</p>
+<p><strong>Fix:</strong><br />
+1. Go to release pipeline <strong>Options</strong> tab<br />
+2. Verify <strong>Send email notifications</strong> is checked<br />
+3. Verify your email is in the recipients list<br />
+4. Check your spam folder</p>
+<h3>Issue: Can't approve own release</h3>
+<p><strong>Cause:</strong> You enabled the policy "The user requesting a release should not approve it."</p>
+<p><strong>Fix:</strong> Either:<br />
+1. Have someone else approve releases you create<br />
+2. Disable that policy (if you're a one-person team)</p>
+<h2>Security Best Practices</h2>
+<h3>1. Rotate Service Principal Secrets</h3>
+<p>Service principal secrets should rotate regularly (every 90-180 days).</p>
+<p><strong>Rotation process:</strong><br />
+1. Create new secret for service principal in Azure AD<br />
+2. Update Key Vault with new secret<br />
+3. Test pipelines<br />
+4. Delete old secret</p>
+<p><strong>Automation tip:</strong> Use Azure Key Vault secret expiration notifications.</p>
+<h3>2. Limit Approval Permissions</h3>
+<p>Don't make everyone an approver. Only:<br />
+- Infrastructure leads<br />
+- Platform team leads<br />
+- Security team (for high-risk changes)</p>
+<p><strong>How to add approvers:</strong><br />
+1. Go to release pipeline<br />
+2. Click pre-deployment approval settings<br />
+3. Add/remove approvers</p>
+<h3>3. Use Multiple Approval Gates for Production</h3>
+<p>For production deployments, add <strong>two approval gates</strong>:</p>
+<p><strong>Gate 1: Technical Review</strong><br />
+- Approvers: Infrastructure team<br />
+- Purpose: Verify technical correctness</p>
+<p><strong>Gate 2: Change Advisory Board (CAB)</strong><br />
+- Approvers: CAB members<br />
+- Purpose: Verify business justification and timing</p>
+<p><strong>How to add:</strong><br />
+1. Create two stages in release pipeline: <code>Prod-Technical-Review</code> and <code>Prod-CAB-Approval</code><br />
+2. Both have pre-deployment approvals<br />
+3. Second stage depends on first stage completing</p>
+<h3>4. Implement Deployment Windows</h3>
+<p>Only deploy during approved maintenance windows.</p>
+<p><strong>How:</strong><br />
+1. Use <strong>scheduled releases</strong> (release pipeline option)<br />
+2. Set allowed hours: e.g., Saturday 2 AM - 6 AM<br />
+3. Auto-reject releases outside the window</p>
+<h3>5. Archive Release Logs</h3>
+<p>Keep release logs for at least 1 year (compliance requirement).</p>
+<p><strong>Azure DevOps retains:</strong><br />
+- Build logs: 30 days (default)<br />
+- Release logs: 30 days (default)</p>
+<p><strong>Extend retention:</strong><br />
+1. Go to <strong>Project Settings &gt; Pipelines &gt; Retention</strong><br />
+2. Set: <strong>Days to keep releases</strong> = 365</p>
+<h2>What We've Built</h2>
+<p>You now have a <strong>production-ready release pipeline</strong> with:</p>
+<p>✅ <strong>Automated artifact deployment</strong> - No manual Terraform commands<br />
+✅ <strong>Human approval gates</strong> - No surprise deployments<br />
+✅ <strong>Email notifications</strong> - Stay informed<br />
+✅ <strong>Audit trails</strong> - Full history of approvals and deployments<br />
+✅ <strong>Consistency</strong> - Approved plan is exactly what deploys<br />
+✅ <strong>Security</strong> - Secrets from Key Vault, plan files cleaned up  </p>
+<h2>Key Takeaways</h2>
+<ol>
+<li><strong>Release pipelines handle deployment</strong> - Build pipelines create artifacts</li>
+<li><strong>Approval gates prevent unauthorized changes</strong> - Human review required</li>
+<li><strong>Artifacts preserve intent</strong> - No drift between plan and apply</li>
+<li><strong>Notifications keep teams informed</strong> - Email on approval, success, failure</li>
+<li><strong>Audit trails satisfy compliance</strong> - Who, what, when, why all documented</li>
+</ol>
+<p>Next, we wire up pull request automation and branch policies to enforce this workflow.</p>
+<hr />
+<p><strong>Next:</strong> <a href="/blog/terraform-azure-devops-cicd-part4-branch-policies/">Part 4 - Branch Policies &amp; Pull Request Automation</a></p>
+<p><em>All code and pipeline configurations from this series are available in my <a href="https://github.com/dswann101164">GitHub repo</a>.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/software-rationalization-step-zero-devops">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Software Rationalization: The Step Zero That Works in a DevOps World</strong>
+      </a>
+    
+    
+      <a href="/blog/terraform-azure-devops-cicd-part4-branch-policies" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Terraform Azure Devops Cicd Part4 Branch Policies</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

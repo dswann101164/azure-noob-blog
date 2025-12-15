@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Pbix Modernizer Tool · Azure Noob</title>
+  <meta name="description" content="﻿--- title: &#34;How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)&#34; date: 2025-10-13 summary: &#34;Chris Bowman&#39;s CCO Dashboard is 200+ pages of...">
+  <link rel="canonical" href="https://azure-noob.com/blog/pbix-modernizer-tool" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pbix Modernizer Tool">
+  <meta property="og:description" content="﻿--- title: &#34;How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)&#34; date: 2025-10-13 summary: &#34;Chris Bowman&#39;s CCO Dashboard is 200+ pages of...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/pbix-modernizer-tool">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  
+    <meta property="article:published_time" content="2025-10-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-13T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pbix Modernizer Tool">
+  <meta name="twitter:description" content="﻿--- title: &#34;How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)&#34; date: 2025-10-13 summary: &#34;Chris Bowman&#39;s CCO Dashboard is 200+ pages of...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cloud-wars.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pbix Modernizer Tool",
+  "description": "﻿--- title: &#34;How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)&#34; date: 2025-10-13 summary: &#34;Chris Bowman&#39;s CCO Dashboard is 200+ pages of...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/cloud-wars.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-13T00:00:00+00:00",
+  "dateModified": "2025-10-13T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/pbix-modernizer-tool"
+  },
+  "keywords": "",
+  "articleSection": "Azure",
+  "wordCount": "2430",
+  "timeRequired": "PT12M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Microsoft Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Pbix Modernizer Tool",
+      "item": "https://azure-noob.com/blog/pbix-modernizer-tool"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+
+  <header class="post-header">
+    <h1>Pbix Modernizer Tool</h1>
+    <p class="muted">
+      2025-10-13 · ~12 min read
+      
+    </p>
+    
+    
+    
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>﻿---<br />
+title: "How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)"<br />
+date: 2025-10-13<br />
+summary: "Chris Bowman's CCO Dashboard is 200+ pages of Power BI. I needed to understand it to build CCO 2.0. Built a tool that extracts all queries, measures, and relationships in seconds. .pbix files are just ZIP archives."<br />
+tags: ["azure", "power-bi", "python", "tools", "cco-dashboard"]<br />
+cover: "static/images/hero/pbix-modernizer.svg"<br />
+hub: governance<br />
+related_posts:<br />
+  - azure-resource-tags-guide<br />
+  - azure-tag-governance-policy<br />
+  - azure-policy-reality-check</p>
+<hr />
+<p>Chris Bowman's CCO (Continuous Cloud Optimization) Dashboard is 200+ pages of Power BI showing Azure resource inventory, cost analysis, and security recommendations. I needed to understand how it worked to build a better version.</p>
+<p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
+<p>Opening the .pbix file in Power BI Desktop and clicking through every query, every DAX measure, every data relationship? That's hours of manual work.</p>
+<p>So I built a tool that extracts everything in seconds.</p>
+<h2>The Problem</h2>
+<p>Power BI Desktop is great for building dashboards. It's terrible for understanding someone else's dashboard.</p>
+<p><strong>What I needed to know:</strong><br />
+- What queries does this dashboard run?<br />
+- What data sources does it connect to?<br />
+- What DAX measures calculate the metrics?<br />
+- How are tables related?<br />
+- What's the overall structure?</p>
+<p><strong>Power BI Desktop workflow:</strong><br />
+1. Open .pbix file<br />
+2. Click "Transform Data" to see queries<br />
+3. Click through each query one by one (dozens of them)<br />
+4. Go back to main window<br />
+5. Click "Modeling" to see relationships<br />
+6. Click through measures one by one<br />
+7. Take notes manually<br />
+8. Hope you didn't miss anything</p>
+<p>For a 200+ page dashboard with 50+ queries and hundreds of DAX measures? This takes hours.</p>
+<h2>The Realization: .pbix Files Are Just ZIP Archives</h2>
+<p>Here's what nobody tells you about Power BI files:</p>
+<p><strong>.pbix files are ZIP archives with JSON and XML inside.</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Try this yourself</span>
+<span class="nb">Copy-Item</span> <span class="s2">&quot;dashboard.pbix&quot;</span> <span class="s2">&quot;dashboard.zip&quot;</span>
+<span class="nb">Expand-Archive</span> <span class="s2">&quot;dashboard.zip&quot;</span> <span class="n">-DestinationPath</span> <span class="s2">&quot;extracted&quot;</span>
+</code></pre></div>
+
+<p><strong>What's inside:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">extracted</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">DataModel</span><span class="w">         </span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="p">(</span><span class="nc">binary</span><span class="w"> </span><span class="nf">format</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">DataModelSchema</span><span class="w">   </span><span class="err">#</span><span class="w"> </span><span class="k">Schema</span><span class="w"> </span><span class="n">definitions</span><span class="w"> </span><span class="p">(</span><span class="nc">XML</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">Report</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">Layout</span><span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="n">Visual</span><span class="w"> </span><span class="n">layouts</span><span class="w"> </span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">Metadata</span><span class="w">          </span><span class="err">#</span><span class="w"> </span><span class="n">Dashboard</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">DiagramLayout</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="n">Relationship</span><span class="w"> </span><span class="n">diagram</span>
+<span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">Content_Types</span><span class="o">]</span><span class="p">.</span><span class="nc">xml</span>
+</code></pre></div>
+
+<p>The entire dashboard structure is sitting there in JSON and XML files. You just need to read them.</p>
+<h2>Building the PBIX Modernizer Tool</h2>
+<p>I built a Python tool that unzips .pbix files and extracts the important parts:</p>
+<h3>Step 1: Unzip the .pbix File</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract .pbix file contents&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+        <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Extracted </span><span class="si">{</span><span class="n">pbix_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>That's it.</strong> No special libraries needed. It's just a ZIP file.</p>
+<h3>Step 2: Parse the DataModelSchema</h3>
+<p>The <code>DataModelSchema</code> file contains the data model structure in XML:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_datamodel_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse DataModelSchema to extract tables and relationships&quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Extract tables</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Table&quot;</span><span class="p">):</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span>
+        <span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+
+    <span class="c1"># Extract relationships</span>
+    <span class="n">relationships</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Relationship&quot;</span><span class="p">):</span>
+        <span class="n">from_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FromTable&#39;</span><span class="p">)</span>
+        <span class="n">to_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ToTable&#39;</span><span class="p">)</span>
+        <span class="n">relationships</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">from_table</span><span class="p">,</span>
+            <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="n">to_table</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;tables&#39;</span><span class="p">:</span> <span class="n">tables</span><span class="p">,</span>
+        <span class="s1">&#39;relationships&#39;</span><span class="p">:</span> <span class="n">relationships</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<h3>Step 3: Extract Power Query (M) Code</h3>
+<p>Power BI stores Power Query code in the DataMashup file (binary format, but readable):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_queries</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract Power Query M code from DataMashup&quot;&quot;&quot;</span>
+    <span class="c1"># DataMashup is a binary format, but queries are readable</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="c1"># Find M query sections (they&#39;re embedded in the binary)</span>
+    <span class="c1"># This is simplified - actual implementation needs proper parsing</span>
+    <span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Look for &quot;section&quot; keyword (M queries start with &quot;section&quot;)</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;section&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>  <span class="c1"># Skip first (before any &quot;section&quot;)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Decode and extract readable query text</span>
+            <span class="n">query_text</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-16-le&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">query_text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>  <span class="c1"># First 500 chars</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">queries</span>
+</code></pre></div>
+
+<h3>Step 4: Parse DAX Measures</h3>
+<p>DAX measures are in the DataModelSchema as well:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_dax_measures</span><span class="p">(</span><span class="n">schema_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract DAX measures from schema&quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">measures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Measure&quot;</span><span class="p">):</span>
+        <span class="n">measure_name</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span>
+        <span class="n">dax_expression</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Expression&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dax_expression</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">measures</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">measure_name</span><span class="p">,</span>
+                <span class="s1">&#39;expression&#39;</span><span class="p">:</span> <span class="n">dax_expression</span><span class="o">.</span><span class="n">text</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">measures</span>
+</code></pre></div>
+
+<h3>Step 5: Generate Readable Report</h3>
+<p>Put it all together:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">analyze_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete analysis of .pbix file&quot;&quot;&quot;</span>
+    <span class="c1"># Extract</span>
+    <span class="n">extract_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./extracted&quot;</span><span class="p">)</span>
+    <span class="n">extract_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="n">extract_dir</span><span class="p">)</span>
+
+    <span class="c1"># Parse components</span>
+    <span class="n">schema_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">&quot;DataModelSchema&quot;</span>
+    <span class="n">datamashup_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">&quot;DataMashup&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">parse_datamodel_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+    <span class="n">queries</span> <span class="o">=</span> <span class="n">extract_queries</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">)</span>
+    <span class="n">measures</span> <span class="o">=</span> <span class="n">extract_dax_measures</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+
+    <span class="c1"># Generate report</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;tables&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;relationships&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;relationships&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;query_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span>
+        <span class="s1">&#39;queries&#39;</span><span class="p">:</span> <span class="n">queries</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span>  <span class="c1"># First 10 queries</span>
+        <span class="s1">&#39;measure_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">measures</span><span class="p">),</span>
+        <span class="s1">&#39;measures&#39;</span><span class="p">:</span> <span class="n">measures</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>  <span class="c1"># First 20 measures</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">report</span>
+
+<span class="c1"># Usage</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">analyze_pbix</span><span class="p">(</span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+
+<h2>What I Discovered About the CCO Dashboard</h2>
+<p>Running this tool on Chris Bowman's dashboard showed me:</p>
+<p><strong>Tables (50+):</strong><br />
+- ResourceGroups<br />
+- VirtualMachines<br />
+- StorageAccounts<br />
+- SqlDatabases<br />
+- NetworkSecurityGroups<br />
+- ... (and 40+ more)</p>
+<p><strong>Queries (60+):</strong><br />
+- Most queries hit Azure Resource Graph KQL<br />
+- Some hit Azure Cost Management APIs<br />
+- Some transform data with Power Query M<br />
+- Pattern: One query per Azure resource type</p>
+<p><strong>DAX Measures (100+):</strong><br />
+- Cost aggregations by subscription/resource group<br />
+- VM count by status (running/stopped/deallocated)<br />
+- Security score calculations<br />
+- Compliance percentages<br />
+- Resource age calculations</p>
+<p><strong>Key Insight:</strong> The CCO Dashboard is essentially:<br />
+1. 60+ Azure Resource Graph KQL queries<br />
+2. Power Query to shape the data<br />
+3. 100+ DAX measures to calculate metrics<br />
+4. 200+ pages of visualizations</p>
+<p><strong>This told me what I needed to build CCO 2.0:</strong><br />
+- Don't rebuild the Power BI file<br />
+- Build a Python service that runs the same KQL queries<br />
+- Calculate metrics in Python/Pandas instead of DAX<br />
+- Serve via web dashboard (Streamlit) instead of Power BI</p>
+<h2>The Actual Tool Output</h2>
+<p>Running PBIX Modernizer on the CCO Dashboard:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CCO_Dashboard_v8&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-15&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Chris Bowman&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;statistics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;tables&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">52</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;relationships&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;queries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">63</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dax_measures&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">147</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;visuals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">200+</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;sample_queries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AzureVMs&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceGraph&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;preview&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type =~ &#39;microsoft.compute/virtualmachines&#39;...&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StorageAccounts&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceGraph&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;preview&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type =~ &#39;microsoft.storage/storageaccounts&#39;...&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;sample_measures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total VM Count&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dax&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;COUNTROWS(&#39;VirtualMachines&#39;)&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Running VMs&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dax&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CALCULATE([Total VM Count], VirtualMachines[PowerState] = \&quot;Running\&quot;)&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Time to analyze:</strong> 10 seconds</p>
+<p><strong>Time to understand:</strong> 5 minutes reading the output</p>
+<p><strong>Time saved:</strong> Hours of clicking through Power BI Desktop</p>
+<h2>Building CCO Dashboard 2.0</h2>
+<p>Understanding the original structure let me build a better version:</p>
+<p><strong>Original CCO Dashboard (Power BI):</strong><br />
+- ✅ Comprehensive data collection<br />
+- ✅ Rich visualizations<br />
+- ❌ Requires Power BI Desktop or Premium<br />
+- ❌ Slow refresh (60+ queries run sequentially)<br />
+- ❌ Can't customize queries easily<br />
+- ❌ 200+ pages = hard to navigate</p>
+<p><strong>CCO Dashboard 2.0 (Python/Streamlit):</strong><br />
+- ✅ Same KQL queries (learned from analysis)<br />
+- ✅ Web-based (no Power BI license needed)<br />
+- ✅ Fast refresh (parallel query execution)<br />
+- ✅ Easy to customize (Python code)<br />
+- ✅ Modular design (add/remove features easily)<br />
+- ✅ API-first (can integrate with other systems)</p>
+<p>The PBIX Modernizer tool gave me the blueprint for building the improved version.</p>
+<h2>The GitHub Repo</h2>
+<p>The complete tool is available on GitHub:</p>
+<p><strong>Features:</strong><br />
+- Extract .pbix file contents<br />
+- Parse DataModelSchema (tables, relationships)<br />
+- Extract Power Query M code<br />
+- Parse DAX measures<br />
+- Generate JSON report<br />
+- Command-line interface</p>
+<p><strong>Usage:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/pbix-modernizer
+<span class="nb">cd</span><span class="w"> </span>pbix-modernizer
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Analyze a .pbix file</span>
+python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>analyze<span class="w"> </span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span><span class="w"> </span>--output<span class="w"> </span>report.json
+
+<span class="c1"># View summary</span>
+python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>summarize<span class="w"> </span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span>
+</code></pre></div>
+
+<p><strong>Output formats:</strong><br />
+- JSON (full details)<br />
+- Markdown (human-readable summary)<br />
+- CSV (tables and relationships)</p>
+<h2>When You Need This Tool</h2>
+<p><strong>Use PBIX Modernizer when you need to:</strong><br />
+- Understand someone else's Power BI dashboard<br />
+- Document dashboard structure before modifying<br />
+- Extract queries for reuse in other systems<br />
+- Audit DAX measure complexity<br />
+- Prepare for dashboard migration<br />
+- Compare multiple dashboard versions</p>
+<p><strong>Don't need this if:</strong><br />
+- You built the dashboard yourself (you already know the structure)<br />
+- You have full documentation (rare)<br />
+- Dashboard is simple (&lt; 10 queries, &lt; 20 measures)</p>
+<h2>The Power BI Structure Nobody Explains</h2>
+<p>Here's what this tool taught me about Power BI internals:</p>
+<p><strong>.pbix file structure:</strong><br />
+- ZIP archive (just rename to .zip)<br />
+- DataModelSchema = XML schema of tables/relationships/measures<br />
+- DataMashup = Binary file containing Power Query M code<br />
+- Report/Layout = JSON visual layouts<br />
+- Metadata = Dashboard metadata (name, version, author)</p>
+<p><strong>Why this matters:</strong><br />
+- You can programmatically analyze dashboards<br />
+- You can extract queries without opening Power BI<br />
+- You can audit measure complexity automatically<br />
+- You can compare dashboard versions with diff tools</p>
+<p><strong>Microsoft doesn't document this</strong> because they want you using Power BI Desktop. But for analysis, automation, and migration, direct file access is powerful.</p>
+<h2>The Real Lesson</h2>
+<p>When you need to understand complex Power BI dashboards, don't click through Power BI Desktop for hours.</p>
+<p>The entire structure is sitting in a ZIP archive. Extract it. Parse the XML and JSON. Generate a report.</p>
+<p>Chris Bowman's 200+ page CCO Dashboard with 60+ queries and 100+ measures? Analyzed in 10 seconds.</p>
+<p>That analysis became the blueprint for CCO Dashboard 2.0, which I'm building in Python to solve the same problems without requiring Power BI licenses.</p>
+<p><strong>PBIX Modernizer saved me weeks of reverse-engineering work.</strong></p>
+<p>It might do the same for you.</p>
+<hr />
+<h2>Resources</h2>
+<p><strong>GitHub Repo:</strong> <a href="https://github.com/yourusername/pbix-modernizer">PBIX Modernizer Tool</a><br />
+<strong>Chris Bowman's Original CCO Dashboard:</strong> <a href="https://github.com/chbomme/CloudOptimizationDashboard">GitHub - chbomme/CloudOptimizationDashboard</a><br />
+<strong>My CCO 2.0 Progress:</strong> <a href="/blog/modernizing-azure-workbooks/">Modernizing Azure Workbooks</a></p>
+<hr />
+<p><em>Building tools to solve real problems? That's what this blog is about. If PBIX Modernizer helps you understand Power BI dashboards faster, let me know what you discover.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/workbook-app-tool">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Workbook App Tool</strong>
+      </a>
+    
+    
+      <a href="/blog/if-you-cant-code-your-architecture" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>If You Cant Code Your Architecture</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>
