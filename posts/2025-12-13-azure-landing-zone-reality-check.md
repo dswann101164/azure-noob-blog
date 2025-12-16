@@ -4,11 +4,11 @@ date: 2025-12-13
 summary: "Landing Zones look perfect in Microsoft's diagrams — but drift is inevitable. Here's why they fail (organizational reasons, not technical) and what must be included for Landing Zones to survive enterprise reality."
 tags: ["Azure", "Cloud Governance", "Enterprise Architecture", "Landing Zones", "FinOps"]
 cover: "/static/images/hero/azure-landing-zone-drift.png"
-hub: ai
+hub: governance
 related_posts:
-  - will-ai-replace-azure-administrators-by-2030
-  - the-ai-admin
-  - three-ai-roles
+  - azure-policy-doesnt-fix-bad-architecture
+  - azure-governance-napkin-test
+  - tag-governance-247-variations
 ---
 Every Azure architect knows the diagram.
 

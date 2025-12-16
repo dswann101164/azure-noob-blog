@@ -7,8 +7,8 @@ cover: "/static/images/hero/azure-policy-guardrails-fail.png"
 hub: governance
 related_posts:
   - azure-landing-zone-reality-check
-  - azure-tag-governance-policy
-  - azure-resource-tags-guide
+  - azure-governance-napkin-test
+  - tag-governance-247-variations
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy frameworks, compliance enforcement, and the organizational reality that breaks theoretical governance at scale.
