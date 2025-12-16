@@ -353,6 +353,8 @@ It's not a subscription hierarchy.
 
 Get those right, and your Landing Zone will remain stable — even in a complex enterprise.
 
+But there's a deeper question: even with perfect operational maturity, can you explain your Landing Zone's costs to the CFO? This is the defensibility gap I explore in [You Can't Govern What You Can't Explain on a Napkin](/blog/azure-governance-napkin-test/)—architecture is necessary but not sufficient for governance.
+
 ---
 
 ## 💡 Want the Complete Landing Zone Assessment Framework?

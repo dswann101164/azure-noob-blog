@@ -145,7 +145,7 @@ Great. Now explain:
 
 They just group resources.
 
-This is the same pattern I described in [Azure Policy Doesn't Fix Bad Architecture](/blog/azure-policy-doesnt-fix-bad-architecture/)—tools enforce structure, but structure alone doesn't create understanding.
+This is the same pattern I described in [Azure Policy Doesn't Fix Bad Architecture](/blog/azure-policy-doesnt-fix-bad-architecture/)—tools enforce structure, but structure alone doesn't create understanding. Policy can enforce that resources have a CostCenter tag, but it can't enforce that the CostCenter actually means something useful.
 
 ### 2. Landing Zones Organize, They Don't Explain
 
@@ -167,7 +167,7 @@ Now explain:
 
 It provides structure. But structure without narrative isn't governance—it's just organized chaos.
 
-As we saw in [Azure Landing Zone Reality Check](/blog/azure-landing-zone-reality-check/), Landing Zones drift without continuous operational context. The same applies to cost understanding—without continuous narrative, the architecture becomes meaningless.
+As we saw in [Azure Landing Zone Reality Check](/blog/azure-landing-zone-reality-check/), Landing Zones drift without continuous operational context. The same applies to cost understanding—without continuous narrative, the architecture becomes meaningless. You can have perfect hub-and-spoke topology but still can't explain why Subscription A costs 3x more than Subscription B.
 
 ### 3. Policy Audits the Past, Not the Future
 
@@ -406,6 +406,8 @@ This is why:
 - Leadership questions every invoice
 - Auditors find "no control deficiencies" but everyone knows costs are out of control
 - You can't make confident recommendations about what to cut
+
+This is the same organizational failure pattern that causes [Landing Zone drift](/blog/azure-landing-zone-reality-check/)—not technical problems, but the gap between what tools provide and what governance requires.
 
 **Not because you lack data.**  
 **Because you lack defensibility.**

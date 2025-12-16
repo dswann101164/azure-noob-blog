@@ -255,7 +255,7 @@ On a napkin, you should be able to draw:
 
 If you can't draw this **and have it match your Azure environment**, policy compliance is just theater.
 
-**Until you can explain your Azure bill on a napkin, Policy is just paperwork.**
+This is exactly the governance gap I explore in [You Can't Govern What You Can't Explain on a Napkin](/blog/azure-governance-napkin-test/)—tools enforce compliance, but defensibility requires understanding. Until you can explain your Azure bill in 60 seconds to someone who doesn't trust you, Policy is just paperwork.
 
 ---
 

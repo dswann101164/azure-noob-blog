@@ -996,6 +996,8 @@ One of those answers keeps the CFO happy.
 
 The other one gets your cloud program shut down.
 
+But even perfect tags don't guarantee defensibility—if you can't explain your costs on a napkin, tag compliance is just theater. I explore this deeper in [You Can't Govern What You Can't Explain on a Napkin](/blog/azure-governance-napkin-test/), where defensibility requires more than just accurate data.
+
 **Choose wisely.**
 
 ---
