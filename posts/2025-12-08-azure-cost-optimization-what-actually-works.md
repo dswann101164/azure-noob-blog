@@ -350,7 +350,7 @@ Old blobs cost money. Delete them automatically.
 
 **Tactic 3: Orphaned resource cleanup**
 
-Unattached disks, unused NICs, old snapshots—nobody notices them until the bill arrives.
+Unattached disks, unused NICs, old snapshotsâ€”nobody notices them until the bill arrives.
 
 **KQL query to find orphaned disks:**
 
@@ -436,7 +436,7 @@ For Phase 1 inventory and application owner conversations
 
 ## What Doesn't Work (Don't Waste Time)
 
-### **❌ Reserved Instances Without Governance**
+### **âŒ Reserved Instances Without Governance**
 
 **Scenario:** You buy 3-year reserved instances. Savings: 40%.
 
@@ -447,7 +447,7 @@ For Phase 1 inventory and application owner conversations
 - Business commitment (not getting decommissioned)
 - Tag governance (you can track what it's for)
 
-### **❌ Cost Optimization Without Tag Governance**
+### **âŒ Cost Optimization Without Tag Governance**
 
 **Scenario:** You optimize costs by 20%. Finance asks "Which applications saved money?"
 
@@ -455,7 +455,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Phase 2 (cost allocation) enables Phase 3 (optimization). Don't skip it.
 
-### **❌ Relying on Advisor Recommendations Alone**
+### **âŒ Relying on Advisor Recommendations Alone**
 
 **Scenario:** Azure Advisor says "save $1,200/month with these 10 changes."
 
@@ -463,7 +463,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Advisor finds optimization opportunities. It doesn't implement them or assess risk. You need automation.
 
-### **❌ Sending Email Surveys About Resource Usage**
+### **âŒ Sending Email Surveys About Resource Usage**
 
 **Scenario:** You email 50 application owners: "Do you still need these VMs?"
 
@@ -545,7 +545,7 @@ Your organization is exactly WHY this approach works. Simple, repeatable, automa
 Want a step-by-step checklist for implementing this 90-day plan? 
 
 <div style="max-width: 600px; margin: 2rem auto; padding: 2rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; text-align: center; color: white; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
-  <h3 style="margin: 0 0 1rem; font-size: 1.5rem; color: white;">📋 Get the 90-Day Cost Optimization Checklist</h3>
+  <h3 style="margin: 0 0 1rem; font-size: 1.5rem; color: white;">ðŸ“‹ Get the 90-Day Cost Optimization Checklist</h3>
   <p style="margin: 0 0 1.5rem; font-size: 1rem; opacity: 0.95;">
     Week-by-week action items, KQL queries, automation scripts, and Power BI templates
   </p>

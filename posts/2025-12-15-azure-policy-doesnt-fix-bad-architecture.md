@@ -18,10 +18,10 @@ This guide is part of our [Azure Governance hub](/hub/governance/) covering poli
 Every Azure architect presentation includes a slide about Azure Policy.
 
 The slide shows:
-- ✅ Enforce SKU restrictions
-- ✅ Require tags at deployment
-- ✅ Block public endpoints
-- ✅ Audit compliance across subscriptions
+- âœ… Enforce SKU restrictions
+- âœ… Require tags at deployment
+- âœ… Block public endpoints
+- âœ… Audit compliance across subscriptions
 
 **The slide is correct.**
 
@@ -31,7 +31,7 @@ What the slide doesn't show:
 - Tag compliance is 97% but cost attribution is still broken
 - You have 100% policy compliance and completely indefensible costs
 
-**Policy enforces rules — it does not create meaning.**
+**Policy enforces rules â€” it does not create meaning.**
 
 After managing 31,000 Azure resources across 44 subscriptions at a regional bank, I've watched this pattern repeat:
 
@@ -86,7 +86,7 @@ You have a subscription with:
 
 **Question:** How many applications is this?
 
-**Policy's answer:** ¯\\_(ツ)_/¯
+**Policy's answer:** Â¯\\_(ãƒ„)_/Â¯
 
 Policy sees 22 resources with required tags. All compliant. But it has no concept of "this VM and that database form Application X."
 
@@ -107,20 +107,20 @@ You can require an `ApplicationName` tag on the workspace. But policy can't foll
 ### **3. Policy Assumes Tags Are Truth**
 
 Policy can verify:
-- ✅ Tag exists
-- ✅ Tag matches allowed values
-- ✅ Tag was present at deployment
+- âœ… Tag exists
+- âœ… Tag matches allowed values
+- âœ… Tag was present at deployment
 
 Policy cannot verify:
-- ❌ Tag is accurate
-- ❌ Tag reflects current reality
-- ❌ Tag matches what Finance expects
+- âŒ Tag is accurate
+- âŒ Tag reflects current reality
+- âŒ Tag matches what Finance expects
 
 **Real example from our environment:**
 
 ```
 Resource: vm-prod-api-server-01
-CostCenter tag: "1234-Engineering" ✅ (Policy compliant)
+CostCenter tag: "1234-Engineering" âœ… (Policy compliant)
 Actual cost center: "5678-Marketing" (API serves marketing site)
 ```
 
@@ -183,7 +183,7 @@ Example from our Synovus-Pinnacle merger:
 
 **Question:** Which business unit pays for the ExpressRoute circuit serving all 21 domains?
 
-**Azure Policy:** ✅ All resources tagged correctly!  
+**Azure Policy:** âœ… All resources tagged correctly!  
 **Finance:** "We need you to allocate this to a cost center."  
 **Reality:** There is no single cost center. This is shared infrastructure.
 
@@ -206,10 +206,10 @@ Think about it:
 Microsoft can't tell Bank of America to reorganize their IT department.
 
 So instead, Microsoft provides:
-- ✅ Azure Policy (enforcement)
-- ✅ Management Groups (hierarchy)  
-- ✅ Cost Management (reporting)
-- ✅ Resource Graph (querying)
+- âœ… Azure Policy (enforcement)
+- âœ… Management Groups (hierarchy)  
+- âœ… Cost Management (reporting)
+- âœ… Resource Graph (querying)
 
 **What Microsoft doesn't provide:** A model for determining if your structure makes sense.
 

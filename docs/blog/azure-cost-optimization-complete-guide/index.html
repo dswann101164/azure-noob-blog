@@ -227,7 +227,7 @@
   
   <div class="post-body">
     <p>This isn't another "turn off unused VMs" guide.</p>
-<p>This is the <strong>complete framework</strong> I've used to reduce Azure spend by 30-40% across multiple enterprises—without breaking production, without political fallout, and with Finance actually thanking me.</p>
+<p>This is the <strong>complete framework</strong> I've used to reduce Azure spend by 30-40% across multiple enterprisesâ€”without breaking production, without political fallout, and with Finance actually thanking me.</p>
 <p>This guide is part of our <a href="/hub/finops/">Azure FinOps hub</a> covering cost management, chargeback models, and tag governance at enterprise scale.</p>
 <p>It's long. It's detailed. <strong>Bookmark it</strong>.</p>
 <hr />
@@ -317,7 +317,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">MonthlyCost</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<p>Identifies <strong>hot zones</strong>—subscriptions with highest spend get optimization priority.</p>
+<p>Identifies <strong>hot zones</strong>â€”subscriptions with highest spend get optimization priority.</p>
 <h3>Step 3: Resource Inventory</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span>
@@ -351,7 +351,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">EstimatedMonthlyCost</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<p><strong>Reality check</strong>: This will find your real orphaned disks—not the ones Azure Advisor flags (which are often DR/backup disks).</p>
+<p><strong>Reality check</strong>: This will find your real orphaned disksâ€”not the ones Azure Advisor flags (which are often DR/backup disks).</p>
 <hr />
 <h2>Phase 2: Tag Everything</h2>
 <p>Tags are the <strong>only way</strong> to add business context to Azure resources. Without them, you're optimizing blind.</p>
@@ -420,7 +420,7 @@
 1. Resources in high-spend subscriptions<br />
 2. Compute resources (VMs, App Services)<br />
 3. Storage with high costs</p>
-<p><strong>Don't try to tag everything at once</strong>—it's a 6-month project for large enterprises. For the complete tagging strategy including solving the 247 tag variations problem, see our <a href="/blog/azure-resource-tags-guide/">Azure tagging best practices guide</a> and <a href="/blog/azure-tag-governance-policy/">tag governance policy implementation</a>.</p>
+<p><strong>Don't try to tag everything at once</strong>â€”it's a 6-month project for large enterprises. For the complete tagging strategy including solving the 247 tag variations problem, see our <a href="/blog/azure-resource-tags-guide/">Azure tagging best practices guide</a> and <a href="/blog/azure-tag-governance-policy/">tag governance policy implementation</a>.</p>
 <hr />
 <h2>Phase 3: Context-Aware Analysis</h2>
 <p>Now that you have tags, you can analyze <strong>by business context</strong> instead of generic cloud metrics.</p>
@@ -437,7 +437,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TotalMonthlyCost</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<p>Shows you <strong>which applications cost the most</strong>—not which subscriptions or resource types.</p>
+<p>Shows you <strong>which applications cost the most</strong>â€”not which subscriptions or resource types.</p>
 <h3>Analysis 2: Dev/Test Overprovisioning</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -498,7 +498,7 @@
 <p><strong>Dev/UAT VMs running 24/7</strong> are burning money. Implement auto-shutdown schedules (nights/weekends) for <strong>instant 65% savings</strong>.</p>
 <hr />
 <h2>Phase 4: Optimization Execution</h2>
-<p>Now you execute—carefully, with business context.</p>
+<p>Now you executeâ€”carefully, with business context.</p>
 <h3>Quick Win 1: Delete Orphaned Disks</h3>
 <p><strong>Who to ask</strong>: Check the <code>Owner</code> tag<br />
 <strong>Risk level</strong>: Low (if you verify backup/DR context first)<br />
@@ -519,7 +519,7 @@
 <span class="c"># Remove-AzDisk -ResourceGroupName &lt;rg&gt; -DiskName &lt;name&gt; -Force</span>
 </code></pre></div>
 
-<p><strong>NEVER bulk-delete</strong>—verify each disk individually with the owner.</p>
+<p><strong>NEVER bulk-delete</strong>â€”verify each disk individually with the owner.</p>
 <h3>Quick Win 2: Auto-Shutdown Dev/UAT VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Apply auto-shutdown to all Dev/UAT VMs</span>
 <span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">.</span><span class="n">Environment</span> <span class="n">-in</span> <span class="p">@(</span><span class="s2">&quot;Dev&quot;</span><span class="p">,</span> <span class="s2">&quot;UAT&quot;</span><span class="p">)}</span>
@@ -550,10 +550,10 @@
 <p>This creates <strong>auto-shutdown schedules</strong> for all dev/UAT VMs with owner notifications.</p>
 <p><strong>Expected savings</strong>: 65% of dev/UAT compute costs (running 40 hours/week instead of 168 hours/week).</p>
 <h3>Medium Win: Right-Size Production VMs</h3>
-<p><strong>This is where people get burned</strong>—don't just blindly downsize.</p>
+<p><strong>This is where people get burned</strong>â€”don't just blindly downsize.</p>
 <p><strong>Process</strong>:<br />
 1. <strong>Identify candidates</strong> (high-spec VMs with low utilization)<br />
-2. <strong>Gather 30+ days of metrics</strong> (not 7 days—that's too short)<br />
+2. <strong>Gather 30+ days of metrics</strong> (not 7 daysâ€”that's too short)<br />
 3. <strong>Check with the application owner</strong> (understand usage patterns)<br />
 4. <strong>Test in UAT first</strong> (never right-size directly in production)<br />
 5. <strong>Schedule during maintenance window</strong> (not Tuesday at 2 PM)</p>
@@ -587,7 +587,7 @@
 - Month-end/quarter-end processing (need capacity for peak periods)<br />
 - Upcoming business growth (bad time to downsize)</p>
 <h3>Big Win: Decommission Zombie Applications</h3>
-<p><strong>This is where real savings happen</strong>—not optimization, elimination.</p>
+<p><strong>This is where real savings happen</strong>â€”not optimization, elimination.</p>
 <p><strong>Zombie app checklist</strong>:<br />
 - [ ] No deployments in 6+ months<br />
 - [ ] No users in access logs<br />
@@ -626,7 +626,7 @@
 <p><strong>Expected savings</strong>: $10,000-$50,000/month per zombie application decommissioned. This decommissioning process should be part of your broader <a href="/blog/cloud-migration-reality-check/">Azure migration planning</a>, ensuring you're not just migrating technical debt to the cloud.</p>
 <hr />
 <h2>Phase 5: Continuous Governance</h2>
-<p>Optimization is ongoing—implement these to prevent cost regression.</p>
+<p>Optimization is ongoingâ€”implement these to prevent cost regression.</p>
 <h3>Governance 1: Monthly Cost Review Meetings</h3>
 <p><strong>Who</strong>: Finance + IT + Application Owners<br />
 <strong>Frequency</strong>: Monthly<br />
@@ -719,21 +719,21 @@
 - Untagged resource count<br />
 - Orphaned disk count<br />
 - Dev/UAT VMs without auto-shutdown</p>
-<p><strong>Make it visible</strong>—email it to leadership weekly. Transparency drives action.</p>
+<p><strong>Make it visible</strong>â€”email it to leadership weekly. Transparency drives action.</p>
 <hr />
 <h2>Stakeholder Management</h2>
 <p>Cost optimization is 50% technical, 50% political. Here's how to navigate it.</p>
 <h3>With Finance</h3>
 <p><strong>What they care about</strong>: Predictability, chargeback, accountability<br />
-<strong>Your message</strong>: "I can show you who's spending what—but I need tagging budget and time."<br />
+<strong>Your message</strong>: "I can show you who's spending whatâ€”but I need tagging budget and time."<br />
 <strong>Win</strong>: Get them to mandate tagging at the executive level</p>
 <h3>With Application Owners</h3>
 <p><strong>What they care about</strong>: Uptime, performance, not getting blamed<br />
-<strong>Your message</strong>: "I'm here to help reduce <em>your</em> costs—let's find waste together."<br />
+<strong>Your message</strong>: "I'm here to help reduce <em>your</em> costsâ€”let's find waste together."<br />
 <strong>Win</strong>: Frame optimization as <em>their</em> budget win, not IT's mandate</p>
 <h3>With Leadership</h3>
 <p><strong>What they care about</strong>: Big savings numbers, minimal risk<br />
-<strong>Your message</strong>: "We can save 30% over 6 months—here's the phased plan with risk mitigation."<br />
+<strong>Your message</strong>: "We can save 30% over 6 monthsâ€”here's the phased plan with risk mitigation."<br />
 <strong>Win</strong>: Get executive sponsorship for decommissioning zombie apps</p>
 <h3>With InfoSec/Compliance</h3>
 <p><strong>What they care about</strong>: Not breaking audit requirements<br />
@@ -747,7 +747,7 @@
 <strong>Fix</strong>: Always check tags, ask owners, test in UAT first</p>
 <h3>Pitfall 2: No Tagging Foundation</h3>
 <p><strong>Symptom</strong>: Can't answer "who owns this resource?"<br />
-<strong>Result</strong>: Paralysis—too risky to change anything<br />
+<strong>Result</strong>: Paralysisâ€”too risky to change anything<br />
 <strong>Fix</strong>: Stop all optimization until tagging is 80%+ complete</p>
 <h3>Pitfall 3: One-Time Cleanup</h3>
 <p><strong>Symptom</strong>: Big savings in Month 1, regression by Month 6<br />
@@ -795,7 +795,7 @@
 </ul>
 <hr />
 <h2>Final Reality Check</h2>
-<p><strong>Azure cost optimization is not a sprint—it's a marathon.</strong></p>
+<p><strong>Azure cost optimization is not a sprintâ€”it's a marathon.</strong></p>
 <p>You won't save 40% in Month 1. Anyone who promises that is lying.</p>
 <p>What you <em>will</em> do:<br />
 - Build a foundation (tagging, inventory, governance)<br />
@@ -818,10 +818,10 @@
 <strong>Week 7-8</strong>: Execute your first quick wins<br />
 <strong>Month 3+</strong>: Build governance and keep optimizing</p>
 <p>This isn't theory. This is the exact process I've used across multiple Azure environments.</p>
-<p>It works—if you commit to the full framework, not just cherry-picking the easy parts.</p>
-<p><strong>Good luck. You've got this.</strong> 🚀</p>
+<p>It worksâ€”if you commit to the full framework, not just cherry-picking the easy parts.</p>
+<p><strong>Good luck. You've got this.</strong> ðŸš€</p>
 <hr />
-<p><strong>Want the KQL queries from this guide in a ready-to-use format?</strong> Check out my <a href="#">Azure Cost Optimization KQL Library on GitHub</a>—all queries organized, tested, and ready to copy/paste.</p>
+<p><strong>Want the KQL queries from this guide in a ready-to-use format?</strong> Check out my <a href="#">Azure Cost Optimization KQL Library on GitHub</a>â€”all queries organized, tested, and ready to copy/paste.</p>
   </div>
 
   
@@ -886,23 +886,23 @@
     <ul style="list-style: none; padding: 0;">
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/azure-policy-doesnt-fix-bad-architecture" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Policy Doesn&#39;t Fix Bad Architecture (Microsoft Pretends It Does)</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-15</span>
+        <a href="/blog/pull-meta-from-arm" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-10</span>
         </a>
       </li>
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/azure-cost-optimization-what-actually-works" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Cost Optimization: What Actually Works (Not Azure Advisor Recommendations)</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-08</span>
+        <a href="/blog/azure-cost-optimization-facade" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Azure Cost Optimization Facade</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-03</span>
         </a>
       </li>
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/azure-reporting-role-microsoft-should-create" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The Azure Role Microsoft Forgot to Certify: Why There&#39;s No Exam for Workbooks, KQL, Power BI, and AI</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-07</span>
+        <a href="/blog/azure-resource-tags-guide" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Tagging Best Practices 2025: Complete Enterprise Guide</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-09-23</span>
         </a>
       </li>
       
@@ -938,13 +938,13 @@
     
       <a href="/blog/azure-cost-optimization-facade">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
-        <strong>Azure Cost Optimization Facade</strong>
+        <strong>The Azure Cost Optimization Facade</strong>
       </a>
     
     
       <a href="/blog/terraform-azure-devops-cicd-part2-build-pipelines" style="text-align: right;">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
-        <strong>Terraform Azure Devops Cicd Part2 Build Pipelines</strong>
+        <strong>Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp; Plan)</strong>
       </a>
     
   </nav>

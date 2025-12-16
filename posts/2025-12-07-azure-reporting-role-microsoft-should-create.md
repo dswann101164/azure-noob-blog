@@ -123,7 +123,7 @@ Microsoft offers certifications for:
 
 **Answer: None of them.**
 
-## The Pattern: Infrastructure Configuration ≠ Operational Reporting
+## The Pattern: Infrastructure Configuration â‰  Operational Reporting
 
 **Every Azure certification focuses on:**
 - How to **configure** Azure services
@@ -220,18 +220,18 @@ Let me be specific about why existing certs fall short:
 ### AZ-104 (Azure Administrator Associate)
 
 **What it covers well:**
-- VM deployment and configuration ✅
-- Virtual networking and NSGs ✅
-- Azure AD and RBAC ✅
-- Backup and disaster recovery ✅
-- Basic Azure Monitor alerts ✅
+- VM deployment and configuration âœ…
+- Virtual networking and NSGs âœ…
+- Azure AD and RBAC âœ…
+- Backup and disaster recovery âœ…
+- Basic Azure Monitor alerts âœ…
 
 **What it misses completely:**
-- Azure Workbooks design and implementation ❌
-- KQL query writing beyond basic examples ❌
-- Power BI integration ❌
-- AI tools for operations ❌
-- Operational reporting at scale ❌
+- Azure Workbooks design and implementation âŒ
+- KQL query writing beyond basic examples âŒ
+- Power BI integration âŒ
+- AI tools for operations âŒ
+- Operational reporting at scale âŒ
 
 **Hands-on Workbook labs:** 0  
 **KQL query challenges:** 0  
@@ -243,72 +243,72 @@ Let me be specific about why existing certs fall short:
 ### AZ-305 (Azure Solutions Architect Expert)
 
 **What it covers well:**
-- Solution design and architecture ✅
-- Cost optimization strategies ✅
-- Governance and compliance design ✅
+- Solution design and architecture âœ…
+- Cost optimization strategies âœ…
+- Governance and compliance design âœ…
 
 **What it misses:**
-- Actually building the cost reports ❌
-- Actually writing the compliance queries ❌
-- Operational dashboard implementation ❌
+- Actually building the cost reports âŒ
+- Actually writing the compliance queries âŒ
+- Operational dashboard implementation âŒ
 
 **Gap:** Focuses on design, not implementation of reporting
 
 ### AZ-500 (Azure Security Engineer Associate)
 
 **What it covers well:**
-- Security configuration ✅
-- Microsoft Defender setup ✅
-- Sentinel deployment ✅
+- Security configuration âœ…
+- Microsoft Defender setup âœ…
+- Sentinel deployment âœ…
 
 **What it misses:**
-- Building security compliance dashboards ❌
-- KQL for security reporting ❌
-- Executive security scorecards ❌
+- Building security compliance dashboards âŒ
+- KQL for security reporting âŒ
+- Executive security scorecards âŒ
 
 **Gap:** Configures security, doesn't report on it
 
 ### PL-300 (Power BI Data Analyst Associate)
 
 **What it covers well:**
-- Power BI dashboard design ✅
-- DAX measures and calculations ✅
-- Data modeling ✅
+- Power BI dashboard design âœ…
+- DAX measures and calculations âœ…
+- Data modeling âœ…
 
 **What it misses:**
-- Azure Resource Graph as a data source ❌
-- Azure Cost Management integration ❌
-- KQL for Azure Monitor data ❌
-- Azure-specific use cases ❌
+- Azure Resource Graph as a data source âŒ
+- Azure Cost Management integration âŒ
+- KQL for Azure Monitor data âŒ
+- Azure-specific use cases âŒ
 
 **Gap:** Generic Power BI, not Azure-specific
 
 ### DP-203 (Azure Data Engineer Associate)
 
 **What it covers well:**
-- Data pipeline design ✅
-- Advanced KQL ✅
-- Data Lake and Synapse ✅
+- Data pipeline design âœ…
+- Advanced KQL âœ…
+- Data Lake and Synapse âœ…
 
 **What it misses:**
-- Way too advanced for operational queries ❌
-- Focused on data engineering, not operations ❌
+- Way too advanced for operational queries âŒ
+- Focused on data engineering, not operations âŒ
 
 **Gap:** I don't need to build data pipelines. I need to query Azure data.
 
 ### AI-102 (Azure AI Engineer Associate)
 
 **What it covers well:**
-- Building AI solutions ✅
-- Cognitive Services ✅
-- Azure OpenAI deployment ✅
+- Building AI solutions âœ…
+- Cognitive Services âœ…
+- Azure OpenAI deployment âœ…
 
 **What it misses:**
-- Using AI for operational automation ❌
-- AI in administrative workflows ❌
-- Copilot for Azure ❌
+- Using AI for operational automation âŒ
+- AI in administrative workflows âŒ
+- Copilot for Azure âŒ
 
-**Gap:** Building AI solutions ≠ using AI as an admin
+**Gap:** Building AI solutions â‰  using AI as an admin
 
 ## The Exact Skills Missing from All Certifications
 

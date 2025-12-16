@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'KQL Across 5 Azure Systems: The Query Compatibility Guide'
 date: 2025-10-24
 summary: Patterns for writing KQL that works across multiple systems and tables—ARG,

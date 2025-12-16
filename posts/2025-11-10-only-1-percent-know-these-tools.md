@@ -1,5 +1,5 @@
 ---
-title: "Only 1% of Azure Admins Know These Three Tools — And Even Fewer Know When to Use Which"
+title: "Only 1% of Azure Admins Know These Three Tools â€” And Even Fewer Know When to Use Which"
 date: 2025-11-10
 summary: "I passed AZ-104. I was certified. I knew how to create VMs, configure networking, deploy ARM templates. Day 1 on the job: 'Pull me an inventory.' AZ-104 never covered this. Here's the certification gap nobody talks about, the query that proves it, and the templates that save your career."
 tags: ["azure", "resource-graph", "power-bi", "Excel", "AZ-104", "operations"]
@@ -39,11 +39,11 @@ And reporting is 80% of the actual job.
 
 ---
 
-## 🚨 Emergency: Boss Just Asked For Inventory?
+## ðŸš¨ Emergency: Boss Just Asked For Inventory?
 
 **If you need the answer RIGHT NOW**, here's the query that will save you:
 
-**Copy this into Azure Resource Graph Explorer** (Portal → Search "Resource Graph Explorer"):
+**Copy this into Azure Resource Graph Explorer** (Portal â†’ Search "Resource Graph Explorer"):
 
 ```kql
 resources
@@ -91,7 +91,7 @@ resources
     Environment
 ```
 
-**Click "Download as CSV" → Send to boss → Breathe.**
+**Click "Download as CSV" â†’ Send to boss â†’ Breathe.**
 
 **Now read the rest of this post so it doesn't take 6 hours next time.**
 
@@ -109,16 +109,16 @@ Let me be specific about the gap.
 5. Monitor and back up Azure resources
 
 **What they test:**
-- Can you create a VM? ✅
-- Can you configure an NSG? ✅
-- Can you deploy an ARM template? ✅
-- Can you set up a storage account? ✅
+- Can you create a VM? âœ…
+- Can you configure an NSG? âœ…
+- Can you deploy an ARM template? âœ…
+- Can you set up a storage account? âœ…
 
 **What they DON'T test:**
-- Can you generate an inventory of 31,000 resources? ❌
-- Can you explain cost allocation to finance? ❌
-- Can you build executive dashboards? ❌
-- Can you automate recurring reports? ❌
+- Can you generate an inventory of 31,000 resources? âŒ
+- Can you explain cost allocation to finance? âŒ
+- Can you build executive dashboards? âŒ
+- Can you automate recurring reports? âŒ
 
 **The certification prepared you for 20% of the job.**
 

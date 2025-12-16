@@ -169,33 +169,33 @@ They create three distinct roles.
 
 **Monday morning:**
 "Hey, why isn't Copilot working in my Azure Portal?"
-→ Troubleshoot authentication issues
-→ Fix RBAC permissions
-→ Document the solution
+â†’ Troubleshoot authentication issues
+â†’ Fix RBAC permissions
+â†’ Document the solution
 
 **Tuesday afternoon:**
 "I need a PowerShell script that creates VMs with our company's tagging standards. Can you help?"
-→ Build prompt template that includes compliance requirements
-→ Test it generates correct output
-→ Add to shared prompt library
+â†’ Build prompt template that includes compliance requirements
+â†’ Test it generates correct output
+â†’ Add to shared prompt library
 
 **Wednesday:**
 "We hired three new engineers. They need to learn AI-augmented workflows."
-→ Run training session
-→ Demonstrate effective prompting
-→ Share best practices
+â†’ Run training session
+â†’ Demonstrate effective prompting
+â†’ Share best practices
 
 **Thursday:**
 "Everyone keeps asking AI the same ExpressRoute question. Can we make this easier?"
-→ Create reusable prompt template
-→ Document common patterns
-→ Add to knowledge base
+â†’ Create reusable prompt template
+â†’ Document common patterns
+â†’ Add to knowledge base
 
 **Friday:**
 "The AI generated script broke our naming convention."
-→ Fix the prompt template
-→ Add validation
-→ Update documentation
+â†’ Fix the prompt template
+â†’ Add validation
+â†’ Update documentation
 
 **This is operations work. Making tools work. Training people. Building reusable patterns.**
 
@@ -296,41 +296,41 @@ This role emerges first. It's the most obvious gap.
 
 **Monday morning:**
 Dashboard alert: "User pasted 40-character string matching credential pattern into ChatGPT"
-→ Review the incident
-→ Confirm it was an access key
-→ Revoke the credential
-→ Document for compliance
-→ Talk to the user about proper procedures
+â†’ Review the incident
+â†’ Confirm it was an access key
+â†’ Revoke the credential
+â†’ Document for compliance
+â†’ Talk to the user about proper procedures
 
 **Tuesday:**
 Pattern detection: "Contractor account asked 89 questions in one hour"
-→ Unusual behavior flag
-→ Review question content
-→ All questions about privileged access
-→ Escalate to security operations
-→ Account temporarily restricted
+â†’ Unusual behavior flag
+â†’ Review question content
+â†’ All questions about privileged access
+â†’ Escalate to security operations
+â†’ Account temporarily restricted
 
 **Wednesday:**
 Policy violation: "User asked AI how to bypass NSG rules"
-→ Automatic flag
-→ Review context (legitimate troubleshooting or actual attempt?)
-→ Log the incident
-→ Follow up with user
-→ Update training materials
+â†’ Automatic flag
+â†’ Review context (legitimate troubleshooting or actual attempt?)
+â†’ Log the incident
+â†’ Follow up with user
+â†’ Update training materials
 
 **Thursday:**
 Validation request: "AI generated this PowerShell to modify RBAC. Approve for production?"
-→ Review against security policies
-→ Check for privilege escalation
-→ Verify compliance with access control standards
-→ Approve with documentation
+â†’ Review against security policies
+â†’ Check for privilege escalation
+â†’ Verify compliance with access control standards
+â†’ Approve with documentation
 
 **Friday:**
 Quarterly compliance report: "Show examiner our AI governance controls"
-→ Generate audit trail
-→ Demonstrate policy enforcement
-→ Show incidents detected and resolved
-→ Prove controls are working
+â†’ Generate audit trail
+â†’ Demonstrate policy enforcement
+â†’ Show incidents detected and resolved
+â†’ Prove controls are working
 
 **This is security work. Monitoring. Risk detection. Policy enforcement. Incident response.**
 
@@ -444,42 +444,42 @@ This role emerges second. Security can't ignore AI adoption forever.
 
 **Monday morning:**
 Leadership meeting prep: "Show me AI ROI for Q4"
-→ Pull usage data
-→ Calculate time savings
-→ Convert to dollar value
-→ Build executive dashboard
-→ "AI tools saved 147 hours this month = $22K in labor costs"
+â†’ Pull usage data
+â†’ Calculate time savings
+â†’ Convert to dollar value
+â†’ Build executive dashboard
+â†’ "AI tools saved 147 hours this month = $22K in labor costs"
 
 **Tuesday:**
 Pattern analysis: "Why are so many people asking about Azure tagging?"
-→ 45% of questions involve tagging
-→ This indicates documentation or training gap
-→ Recommendation: Create tagging guide or automate tagging
-→ Potential savings: 67 hours/month if addressed
+â†’ 45% of questions involve tagging
+â†’ This indicates documentation or training gap
+â†’ Recommendation: Create tagging guide or automate tagging
+â†’ Potential savings: 67 hours/month if addressed
 
 **Wednesday:**
 Cost analysis: "Are AI tools worth what we're paying?"
-→ Azure OpenAI costs: $840/month
-→ GitHub Copilot: $390/month
-→ Time saved: 147 hours = $22K value
-→ ROI: 18x return on investment
-→ Recommendation: Expand usage
+â†’ Azure OpenAI costs: $840/month
+â†’ GitHub Copilot: $390/month
+â†’ Time saved: 147 hours = $22K value
+â†’ ROI: 18x return on investment
+â†’ Recommendation: Expand usage
 
 **Thursday:**
 Knowledge gap identification: "ExpressRoute questions spiked last week"
-→ 23 people asked similar questions
-→ This shouldn't be that common
-→ Indicates training need or documentation gap
-→ Recommendation: Targeted training session
-→ Potential time savings: 46 hours/month
+â†’ 23 people asked similar questions
+â†’ This shouldn't be that common
+â†’ Indicates training need or documentation gap
+â†’ Recommendation: Targeted training session
+â†’ Potential time savings: 46 hours/month
 
 **Friday:**
 Executive reporting: "AI Adoption Dashboard for leadership"
-→ Usage by team
-→ Efficiency gains
-→ Cost vs. value
-→ Recommendations for expansion
-→ Risks and concerns
+â†’ Usage by team
+â†’ Efficiency gains
+â†’ Cost vs. value
+â†’ Recommendations for expansion
+â†’ Risks and concerns
 
 **This is business intelligence work. Analysis. Insights. Executive communication.**
 
@@ -721,26 +721,26 @@ We're at step 2 right now.
 "I need PowerShell to deploy 50 VMs across three subscriptions with specific tagging and security requirements."
 
 **AI Admin involvement:**
-→ Uses validated prompt template from library
-→ Template includes compliance requirements automatically
-→ Generates PowerShell script
-→ Initial validation (syntax, logic, standards)
-→ Forwards to security review
+â†’ Uses validated prompt template from library
+â†’ Template includes compliance requirements automatically
+â†’ Generates PowerShell script
+â†’ Initial validation (syntax, logic, standards)
+â†’ Forwards to security review
 
 **AI Security Engineer involvement:**
-→ Reviews AI-generated script
-→ Validates against security policies
-→ Checks for privilege escalation risks
-→ Confirms compliance requirements met
-→ Approves with documentation
-→ Logs approval in audit trail
+â†’ Reviews AI-generated script
+â†’ Validates against security policies
+â†’ Checks for privilege escalation risks
+â†’ Confirms compliance requirements met
+â†’ Approves with documentation
+â†’ Logs approval in audit trail
 
 **AI Analyst involvement:**
-→ Records time saved (15 minutes vs. 2 hours manual)
-→ Tracks this as common pattern
-→ Notes prompt template effectiveness
-→ Adds to ROI calculation
-→ Identifies this as high-value use case
+â†’ Records time saved (15 minutes vs. 2 hours manual)
+â†’ Tracks this as common pattern
+â†’ Notes prompt template effectiveness
+â†’ Adds to ROI calculation
+â†’ Identifies this as high-value use case
 
 **Result:**
 - Script deployed in 20 minutes (vs. 2+ hours manual)
@@ -1047,8 +1047,8 @@ Skip the "entry level" phase entirely.
 
 **The choice:**
 
-Wait until roles are official → compete with everyone else.
-Position now → define the standard others follow.
+Wait until roles are official â†’ compete with everyone else.
+Position now â†’ define the standard others follow.
 
 First movers set the market. Latecomers follow.
 

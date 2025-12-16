@@ -21,12 +21,12 @@ This guide is part of our [Azure Automation hub](/hub/automation/) covering Infr
 <div style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
     <a href="/static/azure-icons-table.html" 
        style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: #0078d4; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.2s;">
-        🔍 Browse Icons Table
+        ðŸ” Browse Icons Table
     </a>
     <a href="/static/files/Azure-Icons-Reference.xlsx" 
        download 
        style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: #217346; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.2s;">
-        📊 Download Excel
+        ðŸ“Š Download Excel
     </a>
 </div>
 

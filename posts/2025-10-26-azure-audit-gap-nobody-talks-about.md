@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won''t Survive
   a 7-Year Audit'
 date: 2025-10-26

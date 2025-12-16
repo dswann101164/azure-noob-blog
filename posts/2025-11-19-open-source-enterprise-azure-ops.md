@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Why I Open-Sourced My Enterprise Azure Operations Repository"
 date: 2025-11-19
 summary: "Microsoft tells you how to create Azure resources. I'm documenting how to actually operate them at enterprise scale. Here's why I'm sharing operational knowledge that most architects keep private, and how AI helped me build portable intellectual property."

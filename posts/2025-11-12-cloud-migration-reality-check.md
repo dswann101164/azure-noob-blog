@@ -141,15 +141,15 @@ I created the forcing function I wish I'd had in 2019.
 
 ## Download
 
-👉 **[Download Excel (.xlsx)](/static/downloads/Application_Questionnaire_Template_v2.xlsx)**  
-👉 **[Download CSV version](/static/downloads/Application_Questionnaire_Template_v2.csv)**  
+ðŸ‘‰ **[Download Excel (.xlsx)](/static/downloads/Application_Questionnaire_Template_v2.xlsx)**  
+ðŸ‘‰ **[Download CSV version](/static/downloads/Application_Questionnaire_Template_v2.csv)**  
 
 **Usage:**
 - One spreadsheet per application
 - Fill it out collaboratively (business + IT)
-- If you can't answer 50% with high confidence → not ready to migrate yet
-- If vendor contact person left 3 years ago → discovery work needed
-- If "we think it's on ServerXYZ but not sure" → you're guessing
+- If you can't answer 50% with high confidence â†’ not ready to migrate yet
+- If vendor contact person left 3 years ago â†’ discovery work needed
+- If "we think it's on ServerXYZ but not sure" â†’ you're guessing
 
 This questionnaire should be completed alongside the [application migration checklist](/blog/application-migration-checklist-azure/) that covers technical dependencies, network requirements, and cutover planning.
 
@@ -416,7 +416,7 @@ What leadership budgets:
 **What it actually costs:**
 
 ```
-Discovery phase: 3-6 months × $15K/month consulting = $45-90K
+Discovery phase: 3-6 months Ã— $15K/month consulting = $45-90K
 Assessment tools: Azure Migrate + dependency mapping = $0-5K
 Migration tooling: Azure Site Recovery, migration services = $0-15K
 Network acceleration: ExpressRoute setup or increased bandwidth = $10-50K
@@ -485,11 +485,11 @@ Hidden first-year costs: $170K - $570K
 ```
 Pre-migration assessment (using spreadsheet): $15K consulting
 Migration execution: $300K
-First year Azure operations: $912K (76K × 12)
+First year Azure operations: $912K (76K Ã— 12)
 Hidden costs first year: $370K
 
 Total Year 1: $1,597K
-vs. On-prem Year 1: $600K (50K × 12)
+vs. On-prem Year 1: $600K (50K Ã— 12)
 
 Cloud migration cost increase: +$997K first year
 Break-even: Year 3-4 (if you optimize aggressively)
@@ -509,12 +509,12 @@ What it does well:
 
 **What it doesn't do:**
 
-- ❌ Can't tell you if the business owner left the company
-- ❌ Can't tell you where the installer ISO is stored
-- ❌ Can't tell you if the vendor still exists
-- ❌ Can't tell you if license allows cloud hosting
-- ❌ Can't tell you if anyone actually uses the application
-- ❌ Can't tell you what the long-term plan is
+- âŒ Can't tell you if the business owner left the company
+- âŒ Can't tell you where the installer ISO is stored
+- âŒ Can't tell you if the vendor still exists
+- âŒ Can't tell you if license allows cloud hosting
+- âŒ Can't tell you if anyone actually uses the application
+- âŒ Can't tell you what the long-term plan is
 
 **Azure Migrate discovers resources. This spreadsheet discovers organizational readiness.**
 
@@ -595,13 +595,13 @@ Keep it on-prem for 18 months, then turn it off when Salesforce goes live.
 
 **As you fill out the spreadsheet, watch for these danger signs:**
 
-🚩 **"I think it's owned by..."** → Ownership not validated  
-🚩 **"The person who knew this left in 2020"** → Institutional knowledge loss  
-🚩 **"We're not sure where the installer is"** → Can't rebuild if it breaks  
-🚩 **"The vendor might still support it"** → Licensing risk  
-🚩 **"Low confidence" on multiple answers** → Not ready to migrate  
-🚩 **"We'll figure it out after migration"** → Recipe for disaster  
-🚩 **Can't answer Questions 5, 9, 17, or 31** → STOP. Do discovery first.
+ðŸš© **"I think it's owned by..."** â†’ Ownership not validated  
+ðŸš© **"The person who knew this left in 2020"** â†’ Institutional knowledge loss  
+ðŸš© **"We're not sure where the installer is"** â†’ Can't rebuild if it breaks  
+ðŸš© **"The vendor might still support it"** â†’ Licensing risk  
+ðŸš© **"Low confidence" on multiple answers** â†’ Not ready to migrate  
+ðŸš© **"We'll figure it out after migration"** â†’ Recipe for disaster  
+ðŸš© **Can't answer Questions 5, 9, 17, or 31** â†’ STOP. Do discovery first.
 
 **Each red flag adds risk. Three or more red flags = don't migrate yet.**
 
@@ -619,7 +619,7 @@ Project it in the conference room.
 
 **Step 3: Ask: "How many applications do we have?"**
 
-If nobody knows → Discovery project comes before migration project.
+If nobody knows â†’ Discovery project comes before migration project.
 
 **Step 4: For each application, fill out the questionnaire**
 
@@ -724,13 +724,13 @@ Don't migrate applications with **low business value + high red flags**. Retire 
 **Typical distribution after spreadsheet completion:**
 
 ```
-50-60% → Rehost (lift-and-shift to Azure VMs)
-10-15% → Refactor (PaaS migration)
-5-10% → Rearchitect (strategic redesign)
-2-5% → Rebuild (complete rewrite)
-10-15% → Replace (buy SaaS)
-20-40% → Retire (delete)
-5-10% → Retain (keep on-prem)
+50-60% â†’ Rehost (lift-and-shift to Azure VMs)
+10-15% â†’ Refactor (PaaS migration)
+5-10% â†’ Rearchitect (strategic redesign)
+2-5% â†’ Rebuild (complete rewrite)
+10-15% â†’ Replace (buy SaaS)
+20-40% â†’ Retire (delete)
+5-10% â†’ Retain (keep on-prem)
 ```
 
 **Notice: 20-40% retirement rate is normal and healthy.**
@@ -751,11 +751,11 @@ Don't migrate applications with **low business value + high red flags**. Retire 
 **Architecture decisions driven by spreadsheet data:**
 
 ```
-Compliance requirements (Question 34) → Azure region selection
-Data classification (Question 33) → Network isolation design
-Business criticality (Question 4) → SLA and redundancy levels
-Dependencies (Question 12) → Migration wave grouping
-Cost centers (Question 38) → Subscription structure
+Compliance requirements (Question 34) â†’ Azure region selection
+Data classification (Question 33) â†’ Network isolation design
+Business criticality (Question 4) â†’ SLA and redundancy levels
+Dependencies (Question 12) â†’ Migration wave grouping
+Cost centers (Question 38) â†’ Subscription structure
 ```
 
 **This is when you read CAF documentation - after you know what you're building for.**
@@ -767,24 +767,24 @@ Cost centers (Question 38) → Subscription structure
 **Pilot selection criteria from spreadsheet:**
 
 Choose applications with:
-- ✅ Green readiness status (low red flag count)
-- ✅ Low business criticality (failure won't kill company)
-- ✅ Simple architecture (few dependencies)
-- ✅ Active vendor support (can get help if needed)
-- ✅ Documented owner (someone to test and approve)
+- âœ… Green readiness status (low red flag count)
+- âœ… Low business criticality (failure won't kill company)
+- âœ… Simple architecture (few dependencies)
+- âœ… Active vendor support (can get help if needed)
+- âœ… Documented owner (someone to test and approve)
 
 **Don't choose:**
-- ❌ Most critical application (too risky for pilot)
-- ❌ Most complex application (too many variables)
-- ❌ Application with vendor issues (will confuse pilot results)
-- ❌ Application with no owner (can't validate success)
+- âŒ Most critical application (too risky for pilot)
+- âŒ Most complex application (too many variables)
+- âŒ Application with vendor issues (will confuse pilot results)
+- âŒ Application with no owner (can't validate success)
 
 **Pilot success metrics:**
 
-- Migration completed within time estimate (±20%)
+- Migration completed within time estimate (Â±20%)
 - Application works in Azure (full functionality)
 - Performance acceptable (meets SLAs)
-- Cost within estimate (±30%)
+- Cost within estimate (Â±30%)
 - Business owner satisfied (would migrate more)
 
 **If pilot fails, fix issues before scaling. Don't blame Azure - blame incomplete discovery.**
@@ -848,29 +848,29 @@ For enterprise hybrid migration patterns connecting on-premises infrastructure t
 **Mature organization (ready to migrate):**
 
 Every application has:
-- ✅ Documented business owner with accountability
-- ✅ Current vendor contact information
-- ✅ Known installation media location
-- ✅ Valid support contracts
-- ✅ Documented dependencies
-- ✅ Cost center assignment
-- ✅ Compliance classification
-- ✅ Rationalization decision (7R)
-- ✅ Leadership approval
+- âœ… Documented business owner with accountability
+- âœ… Current vendor contact information
+- âœ… Known installation media location
+- âœ… Valid support contracts
+- âœ… Documented dependencies
+- âœ… Cost center assignment
+- âœ… Compliance classification
+- âœ… Rationalization decision (7R)
+- âœ… Leadership approval
 
 **Every question answered with HIGH confidence.**
 
 **Immature organization (not ready):**
 
 Applications have:
-- ❌ "I think Bob owned this but he left"
-- ❌ "Vendor contact in email from 2015"
-- ❌ "Install media on a server we decommissioned"
-- ❌ "Support contract maybe expired?"
-- ❌ "Not sure what it depends on"
-- ❌ "Cost center TBD"
-- ❌ "Probably not HIPAA data?"
-- ❌ "Leadership said migrate everything"
+- âŒ "I think Bob owned this but he left"
+- âŒ "Vendor contact in email from 2015"
+- âŒ "Install media on a server we decommissioned"
+- âŒ "Support contract maybe expired?"
+- âŒ "Not sure what it depends on"
+- âŒ "Cost center TBD"
+- âŒ "Probably not HIPAA data?"
+- âŒ "Leadership said migrate everything"
 
 **Most questions answered with LOW confidence or not at all.**
 
@@ -896,14 +896,14 @@ Migrated application consuming $1,800/month in Azure. Ran for 18 months before s
 
 Investigation revealed: Application was replaced by SaaS product in 2020. Old server still running. Nobody shut it off.
 
-**Cost of not asking: $32,400 wasted ($1,800 × 18 months)**
+**Cost of not asking: $32,400 wasted ($1,800 Ã— 18 months)**
 
 **How spreadsheet prevents this:**
 
 Question 23: "What business process does this application serve?"  
 Question 50: "When was it last validated as still needed?"
 
-If you can't answer both with confidence → Retirement candidate, not migration candidate.
+If you can't answer both with confidence â†’ Retirement candidate, not migration candidate.
 
 ---
 
@@ -997,7 +997,7 @@ Business impact from downtime: Incalculable
 Question 17: "Where is the installer or image stored?"  
 Question 31: "Can this app be reinstalled from known media?"
 
-**If answer is "No" or "We think so but not sure" → Fix this BEFORE migrating.**
+**If answer is "No" or "We think so but not sure" â†’ Fix this BEFORE migrating.**
 
 ---
 
@@ -1026,7 +1026,7 @@ Cleanup project to retire orphaned apps: $80K
 Question 5: "Who is accountable for the business outcome if this app fails?"  
 Question 29: "Has ownership been verified recently?"
 
-**If you can't identify current owner with contact information → Don't migrate until you do.**
+**If you can't identify current owner with contact information â†’ Don't migrate until you do.**
 
 ---
 
@@ -1084,7 +1084,7 @@ Total unbudgeted cost: $95K
 Question 33: "What type of data does it handle?"  
 Question 34: "Which compliance frameworks apply?"
 
-**If answer includes PCI, HIPAA, SOX, etc. → Architecture changes BEFORE migration.**
+**If answer includes PCI, HIPAA, SOX, etc. â†’ Architecture changes BEFORE migration.**
 
 ---
 
@@ -1123,7 +1123,7 @@ Break-Even Point = Total Investment / Annual Net Savings
 ```
 Discovery consulting: $75,000 (3-6 months @ $15K/month)
 Azure Migrate deployment: $5,000 (licenses, dependency tools)
-Staff training: $15,000 (Azure certifications × 5 people)
+Staff training: $15,000 (Azure certifications Ã— 5 people)
 Network upgrades: $40,000 (ExpressRoute setup, bandwidth increase)
 
 Pre-migration total: $135,000
@@ -1141,13 +1141,13 @@ Execution total: $200,000
 
 **First Year Azure Operational Costs:**
 ```
-Compute (right-sized VMs): $336,000 ($28K/month × 12)
-Storage (premium + redundancy): $144,000 ($12K/month × 12)
-Networking (ExpressRoute, VPN): $96,000 ($8K/month × 12)
-Backup & DR: $72,000 ($6K/month × 12)
-Security (Defender, Key Vault): $48,000 ($4K/month × 12)
-Monitoring (Log Analytics): $36,000 ($3K/month × 12)
-PaaS services (SQL MI, App Service): $180,000 ($15K/month × 12)
+Compute (right-sized VMs): $336,000 ($28K/month Ã— 12)
+Storage (premium + redundancy): $144,000 ($12K/month Ã— 12)
+Networking (ExpressRoute, VPN): $96,000 ($8K/month Ã— 12)
+Backup & DR: $72,000 ($6K/month Ã— 12)
+Security (Defender, Key Vault): $48,000 ($4K/month Ã— 12)
+Monitoring (Log Analytics): $36,000 ($3K/month Ã— 12)
+PaaS services (SQL MI, App Service): $180,000 ($15K/month Ã— 12)
 
 Azure operations Year 1: $912,000
 ```
@@ -1340,7 +1340,7 @@ Here's how to calculate actual migration velocity using spreadsheet data.
 
 ```
 Migration Velocity = Applications Migrated / Time Period
-Adjusted Velocity = (Simple Apps × 1.0) + (Medium Apps × 2.5) + (Complex Apps × 5.0)
+Adjusted Velocity = (Simple Apps Ã— 1.0) + (Medium Apps Ã— 2.5) + (Complex Apps Ã— 5.0)
 Realistic Timeline = Adjusted Velocity / Weekly Capacity
 ```
 
@@ -1349,14 +1349,14 @@ Realistic Timeline = Adjusted Velocity / Weekly Capacity
 **Simple Applications (Velocity Factor: 1.0)**
 
 Characteristics:
-- ✅ Single server, no dependencies (Question 12, 43)
-- ✅ Known owner, current contact (Questions 5-7)
-- ✅ Modern OS, supported version (Question 11, 22)
-- ✅ Standard authentication (AD) (Question 13)
-- ✅ No compliance requirements (Question 34)
-- ✅ Installation media available (Question 17, 31)
-- ✅ Low business criticality (Question 4)
-- ✅ Green readiness status (Question 32)
+- âœ… Single server, no dependencies (Question 12, 43)
+- âœ… Known owner, current contact (Questions 5-7)
+- âœ… Modern OS, supported version (Question 11, 22)
+- âœ… Standard authentication (AD) (Question 13)
+- âœ… No compliance requirements (Question 34)
+- âœ… Installation media available (Question 17, 31)
+- âœ… Low business criticality (Question 4)
+- âœ… Green readiness status (Question 32)
 
 **Migration time: 2-3 weeks per application**
 
@@ -1369,13 +1369,13 @@ Examples:
 **Medium Applications (Velocity Factor: 2.5)**
 
 Characteristics:
-- ⚠️ Multi-tier (web + app + database) (Questions 11, 43-44)
-- ⚠️ Some dependencies (2-3 systems) (Question 12)
-- ⚠️ Multiple owners or handoff needed (Questions 5-7)
-- ⚠️ Certificate management required (Question 14)
-- ⚠️ Load balancer or public-facing (Questions 15-16)
-- ⚠️ Medium business criticality (Question 4)
-- ⚠️ Yellow readiness status (Question 32)
+- âš ï¸ Multi-tier (web + app + database) (Questions 11, 43-44)
+- âš ï¸ Some dependencies (2-3 systems) (Question 12)
+- âš ï¸ Multiple owners or handoff needed (Questions 5-7)
+- âš ï¸ Certificate management required (Question 14)
+- âš ï¸ Load balancer or public-facing (Questions 15-16)
+- âš ï¸ Medium business criticality (Question 4)
+- âš ï¸ Yellow readiness status (Question 32)
 
 **Migration time: 5-8 weeks per application**
 
@@ -1388,14 +1388,14 @@ Examples:
 **Complex Applications (Velocity Factor: 5.0)**
 
 Characteristics:
-- 🚨 Extensive dependencies (5+ systems) (Question 12)
-- 🚨 Multiple databases (3+) (Question 44)
-- 🚨 Legacy components or unsupported versions (Question 47)
-- 🚨 Compliance requirements (PCI, HIPAA) (Question 34)
-- 🚨 Vendor coordination needed (Question 9)
-- 🚨 High business criticality (Question 4)
-- 🚨 Red readiness status or red flags (Question 32)
-- 🚨 Custom authentication or complex network (Questions 13, 15)
+- ðŸš¨ Extensive dependencies (5+ systems) (Question 12)
+- ðŸš¨ Multiple databases (3+) (Question 44)
+- ðŸš¨ Legacy components or unsupported versions (Question 47)
+- ðŸš¨ Compliance requirements (PCI, HIPAA) (Question 34)
+- ðŸš¨ Vendor coordination needed (Question 9)
+- ðŸš¨ High business criticality (Question 4)
+- ðŸš¨ Red readiness status or red flags (Question 32)
+- ðŸš¨ Custom authentication or complex network (Questions 13, 15)
 
 **Migration time: 12-20 weeks per application**
 
@@ -1421,9 +1421,9 @@ Total to migrate: 95 applications
 **Adjusted velocity calculation:**
 
 ```
-Simple: 45 apps × 1.0 factor = 45 velocity units
-Medium: 35 apps × 2.5 factor = 87.5 velocity units
-Complex: 15 apps × 5.0 factor = 75 velocity units
+Simple: 45 apps Ã— 1.0 factor = 45 velocity units
+Medium: 35 apps Ã— 2.5 factor = 87.5 velocity units
+Complex: 15 apps Ã— 5.0 factor = 75 velocity units
 
 Total adjusted velocity: 207.5 velocity units
 ```
@@ -1488,15 +1488,15 @@ Re-evaluate 95 applications to migrate
 Use spreadsheet Questions 23-26, 41, 51 to find more retirement candidates
 
 New breakdown:
-Simple: 45 → 30 (retire 15 unused simple apps)
-Medium: 35 → 25 (retire 10 redundant medium apps)
-Complex: 15 → 10 (replace 5 complex with SaaS)
+Simple: 45 â†’ 30 (retire 15 unused simple apps)
+Medium: 35 â†’ 25 (retire 10 redundant medium apps)
+Complex: 15 â†’ 10 (replace 5 complex with SaaS)
 Total to migrate: 65 applications (30% reduction)
 
 New velocity needed:
-Simple: 30 × 1.0 = 30
-Medium: 25 × 2.5 = 62.5
-Complex: 10 × 5.0 = 50
+Simple: 30 Ã— 1.0 = 30
+Medium: 25 Ã— 2.5 = 62.5
+Complex: 10 Ã— 5.0 = 50
 Total: 142.5 velocity units
 
 Timeline: 142.5 / 1.0 = 143 weeks = 33 months (2.75 years)
@@ -1550,7 +1550,7 @@ Actual: Track Question 12 accuracy
 Root cause: Incomplete dependency mapping
 ```
 
-**If Metric 3 (rework) or Metric 5 (surprises) exceed targets → Stop and improve spreadsheet process.**
+**If Metric 3 (rework) or Metric 5 (surprises) exceed targets â†’ Stop and improve spreadsheet process.**
 
 **Better to slow down discovery than speed up and redo migrations.**
 
@@ -1563,10 +1563,10 @@ Root cause: Incomplete dependency mapping
 **Answer: Here's the exact week-by-week plan from spreadsheet completion to first production migration.**
 
 This timeline assumes:
-- ✅ Spreadsheet completed for 100 applications
-- ✅ Rationalization decisions made (7R for each app)
-- ✅ Leadership approval secured
-- ✅ Migration team assigned (3 engineers minimum)
+- âœ… Spreadsheet completed for 100 applications
+- âœ… Rationalization decisions made (7R for each app)
+- âœ… Leadership approval secured
+- âœ… Migration team assigned (3 engineers minimum)
 
 ### Phase 1: Planning & Preparation (Weeks 1-6)
 
@@ -1588,10 +1588,10 @@ This timeline assumes:
 
 **Key decisions driven by spreadsheet:**
 ```
-If >20% of apps have PCI/HIPAA data (Question 34) → Isolated compliance subscriptions
-If >30% of apps are public-facing (Question 16) → Application Gateway or Front Door
-If >50% of apps are high-criticality (Question 4) → Multi-region design
-If dependency count >100 connections (Question 12) → Hub-and-spoke mandatory
+If >20% of apps have PCI/HIPAA data (Question 34) â†’ Isolated compliance subscriptions
+If >30% of apps are public-facing (Question 16) â†’ Application Gateway or Front Door
+If >50% of apps are high-criticality (Question 4) â†’ Multi-region design
+If dependency count >100 connections (Question 12) â†’ Hub-and-spoke mandatory
 ```
 
 **Week 2: Azure Governance Setup**
@@ -1611,9 +1611,9 @@ If dependency count >100 connections (Question 12) → Hub-and-spoke mandatory
 - Security baseline configuration (NSGs, ASC policies, Key Vault setup)
 
 **Validation:**
-- Deploy test VM → Verify policy enforcement works
-- Tag test VM → Verify cost allocation works
-- Test RBAC → Verify permissions correctly assigned
+- Deploy test VM â†’ Verify policy enforcement works
+- Tag test VM â†’ Verify cost allocation works
+- Test RBAC â†’ Verify permissions correctly assigned
 
 **Week 3: Cost Management Foundation**
 
@@ -1660,12 +1660,12 @@ Answer: "Here's the dashboard." (5 second answer)
 - Firewall rules documented (what can talk to what)
 
 **Validation checklist:**
-- ✅ Can ping on-prem server from Azure
-- ✅ Can ping Azure VM from on-prem
-- ✅ Can RDP to Azure VM from on-prem
-- ✅ Can access on-prem database from Azure (SQL, Oracle, etc.)
-- ✅ DNS resolution works both directions
-- ✅ Latency acceptable (<50ms for same-region ExpressRoute)
+- âœ… Can ping on-prem server from Azure
+- âœ… Can ping Azure VM from on-prem
+- âœ… Can RDP to Azure VM from on-prem
+- âœ… Can access on-prem database from Azure (SQL, Oracle, etc.)
+- âœ… DNS resolution works both directions
+- âœ… Latency acceptable (<50ms for same-region ExpressRoute)
 
 **Week 5: Backup & DR Strategy**
 
@@ -1717,20 +1717,20 @@ Low-criticality apps (Question 4 = Low) + RPO <7 days:
 **Pilot selection criteria from spreadsheet:**
 ```
 Must-have criteria:
-✅ Green readiness status (Question 32)
-✅ Known business owner with contact info (Question 5)
-✅ Installation media available (Question 31)
-✅ Simple architecture - single server or 2-tier (Question 43)
-✅ No compliance requirements (Question 34 = Public/Internal data only)
-✅ Low/Medium criticality (Question 4)
-✅ Active vendor support (Questions 21-22)
+âœ… Green readiness status (Question 32)
+âœ… Known business owner with contact info (Question 5)
+âœ… Installation media available (Question 31)
+âœ… Simple architecture - single server or 2-tier (Question 43)
+âœ… No compliance requirements (Question 34 = Public/Internal data only)
+âœ… Low/Medium criticality (Question 4)
+âœ… Active vendor support (Questions 21-22)
 
 Nice-to-have criteria:
-✅ Modern OS (Windows Server 2019+, RHEL 8+) (Question 11)
-✅ Standard authentication (AD) (Question 13)
-✅ No certificate complexity (Question 14)
-✅ Few dependencies (Question 12 - 0-2 systems)
-✅ Documented downtime window (Question 24 - non-critical)
+âœ… Modern OS (Windows Server 2019+, RHEL 8+) (Question 11)
+âœ… Standard authentication (AD) (Question 13)
+âœ… No certificate complexity (Question 14)
+âœ… Few dependencies (Question 12 - 0-2 systems)
+âœ… Documented downtime window (Question 24 - non-critical)
 ```
 
 **Selected pilots example:**
@@ -1822,22 +1822,22 @@ Pilot 3: IT monitoring dashboard
 **Go/No-Go decision:**
 
 If pilots were successful:
-- ✅ All 3 pilots functional in Azure
-- ✅ No major surprises from spreadsheet gaps
-- ✅ Business owners satisfied
-- ✅ Team confident in process
-- ✅ Costs within 30% of estimates
+- âœ… All 3 pilots functional in Azure
+- âœ… No major surprises from spreadsheet gaps
+- âœ… Business owners satisfied
+- âœ… Team confident in process
+- âœ… Costs within 30% of estimates
 
-→ **Proceed to production migrations in Week 13**
+â†’ **Proceed to production migrations in Week 13**
 
 If pilots had issues:
-- ❌ Major functionality problems
-- ❌ Significant spreadsheet data gaps revealed
-- ❌ Business owners unhappy
-- ❌ Team struggling with process
-- ❌ Costs 50%+ over estimates
+- âŒ Major functionality problems
+- âŒ Significant spreadsheet data gaps revealed
+- âŒ Business owners unhappy
+- âŒ Team struggling with process
+- âŒ Costs 50%+ over estimates
 
-→ **Fix issues before scaling, extend pilot phase 4-6 weeks**
+â†’ **Fix issues before scaling, extend pilot phase 4-6 weeks**
 
 ---
 
@@ -1855,13 +1855,13 @@ If pilots had issues:
 
 **Wave 1 selection criteria:**
 ```
-✅ Simple architecture (1-2 servers)
-✅ Green readiness (Question 32)
-✅ Low criticality (Question 4)
-✅ Modern OS (Question 11)
-✅ Few dependencies (Question 12)
-✅ Known owner (Question 5)
-✅ No compliance complexity (Question 34)
+âœ… Simple architecture (1-2 servers)
+âœ… Green readiness (Question 32)
+âœ… Low criticality (Question 4)
+âœ… Modern OS (Question 11)
+âœ… Few dependencies (Question 12)
+âœ… Known owner (Question 5)
+âœ… No compliance complexity (Question 34)
 ```
 
 **Week 14-16: Wave 1 Execution**
@@ -1904,7 +1904,7 @@ Total Wave 1: 10 applications in 3 weeks
 **Week 18: Wave 2 Kickoff**
 
 - Begin next wave with confidence and refined process
-- Continue pattern: Plan → Execute → Review → Plan
+- Continue pattern: Plan â†’ Execute â†’ Review â†’ Plan
 - Track cumulative metrics (applications migrated, total cost, velocity)
 
 ---
@@ -1993,9 +1993,9 @@ With Azure Hybrid Benefit: $60-90/month (50% additional savings on Windows)
 
 **Medium app (3-tier: web + app + database):**
 ```
-Web tier: D4s_v5 × 2 (load balanced) = $400/month (RI + AHB)
-App tier: D8s_v5 × 2 (load balanced) = $800/month (RI + AHB)
-Database tier: E8s_v5 × 1 (SQL Server) = $600/month (RI + AHB)
+Web tier: D4s_v5 Ã— 2 (load balanced) = $400/month (RI + AHB)
+App tier: D8s_v5 Ã— 2 (load balanced) = $800/month (RI + AHB)
+Database tier: E8s_v5 Ã— 1 (SQL Server) = $600/month (RI + AHB)
 
 Total compute per app: $1,800/month
 ```
@@ -2042,8 +2042,8 @@ Total storage per app: $75/month
 
 **Medium app storage:**
 ```
-OS disks: 128GB × 3 VMs = $60/month
-Data disks: 512GB × 2 (web), 1TB × 1 (database) = $200/month
+OS disks: 128GB Ã— 3 VMs = $60/month
+Data disks: 512GB Ã— 2 (web), 1TB Ã— 1 (database) = $200/month
 Backup storage: 2TB (30 days retention) = $40/month
 Snapshots: $20/month
 
@@ -2140,9 +2140,9 @@ Total: $17,500 per app
 
 **Portfolio of 100 apps:**
 ```
-45 simple × $2,150 = $96,750
-35 medium × $5,700 = $199,500
-15 complex × $17,500 = $262,500
+45 simple Ã— $2,150 = $96,750
+35 medium Ã— $5,700 = $199,500
+15 complex Ã— $17,500 = $262,500
 
 Total migration execution: $558,750
 ```
@@ -2283,8 +2283,8 @@ You have it now. Use it.
 
 ## Download Again (In Case You Missed It)
 
-👉 **[Download Excel (.xlsx)](/static/downloads/Application_Questionnaire_Template_v2.xlsx)**  
-👉 **[Download CSV version](/static/downloads/Application_Questionnaire_Template_v2.csv)**  
+ðŸ‘‰ **[Download Excel (.xlsx)](/static/downloads/Application_Questionnaire_Template_v2.xlsx)**  
+ðŸ‘‰ **[Download CSV version](/static/downloads/Application_Questionnaire_Template_v2.csv)**  
 
 **Fill it out. Get red flags. Do discovery work.**
 

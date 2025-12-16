@@ -116,7 +116,7 @@ Upload to Claude. Ask:
 
 > "Which resource groups are driving the most cost? Which resources have the highest daily cost? Which resource types should I investigate for optimization?"
 
-You're building muscle memory for **"data export → AI analysis → human decision"** workflow. This is the foundation.
+You're building muscle memory for **"data export â†’ AI analysis â†’ human decision"** workflow. This is the foundation.
 
 ### Week 2: Read-Only Automation
 
@@ -328,12 +328,12 @@ try {
 ```
 
 **Your review checklist:**
-- ✅ Dry-run mode by default
-- ✅ Error handling per resource
-- ✅ Logging implemented
-- ✅ Summary output
-- ✅ Merges with existing tags (doesn't overwrite everything)
-- ✅ Uses -Force to avoid confirmation prompts
+- âœ… Dry-run mode by default
+- âœ… Error handling per resource
+- âœ… Logging implemented
+- âœ… Summary output
+- âœ… Merges with existing tags (doesn't overwrite everything)
+- âœ… Uses -Force to avoid confirmation prompts
 
 Run with `-DryRun` first. Review logs. If clean, run production:
 
@@ -405,35 +405,35 @@ Most Azure admins inherit technical debt. You get to architect for AI-first oper
 
 ### Foundation: AI-Native Azure Architecture
 
-Traditional approach: Deploy resources → realize you need governance → retrofit policies and tags → fight with existing workloads.
+Traditional approach: Deploy resources â†’ realize you need governance â†’ retrofit policies and tags â†’ fight with existing workloads.
 
-AI-first approach: Deploy governance → let AI enforce it → deploy resources within guardrails.
+AI-first approach: Deploy governance â†’ let AI enforce it â†’ deploy resources within guardrails.
 
 **Your Terraform structure:**
 
 ```
 /terraform-azure-foundation
-├── /modules
-│   ├── /governance
-│   │   ├── policy-definitions/
-│   │   ├── policy-assignments/
-│   │   └── log-analytics/
-│   ├── /compute
-│   │   ├── windows-vm/
-│   │   └── linux-vm/
-│   ├── /networking
-│   │   ├── vnet/
-│   │   └── nsg/
-│   └── /data
-│       ├── sql-database/
-│       └── storage-account/
-├── /environments
-│   ├── /governance (subscription-level resources)
-│   ├── /prod
-│   ├── /staging
-│   └── /dev
-├── terraform.tfvars
-└── backend.tf (Azure Storage for state)
+â”œâ”€â”€ /modules
+â”‚   â”œâ”€â”€ /governance
+â”‚   â”‚   â”œâ”€â”€ policy-definitions/
+â”‚   â”‚   â”œâ”€â”€ policy-assignments/
+â”‚   â”‚   â””â”€â”€ log-analytics/
+â”‚   â”œâ”€â”€ /compute
+â”‚   â”‚   â”œâ”€â”€ windows-vm/
+â”‚   â”‚   â””â”€â”€ linux-vm/
+â”‚   â”œâ”€â”€ /networking
+â”‚   â”‚   â”œâ”€â”€ vnet/
+â”‚   â”‚   â””â”€â”€ nsg/
+â”‚   â””â”€â”€ /data
+â”‚       â”œâ”€â”€ sql-database/
+â”‚       â””â”€â”€ storage-account/
+â”œâ”€â”€ /environments
+â”‚   â”œâ”€â”€ /governance (subscription-level resources)
+â”‚   â”œâ”€â”€ /prod
+â”‚   â”œâ”€â”€ /staging
+â”‚   â””â”€â”€ /dev
+â”œâ”€â”€ terraform.tfvars
+â””â”€â”€ backend.tf (Azure Storage for state)
 ```
 
 **Backend configuration (Enterprise Pattern):**
@@ -866,7 +866,7 @@ Contribute to Azure provider Terraform modules and share KQL queries.
 **Best answer:**  
 "I built an AI-assisted Azure operations platform that reduced manual administration by 60%. Here's my internal documentation showing the architecture, the Terraform module structure, and the before/after metrics. I trained three other admins on this approach and we're expanding it across the organization. I can implement this in your environment in four weeks."
 
-### Résumé Positioning
+### RÃ©sumÃ© Positioning
 
 Don't write:  
 "Experienced Azure administrator familiar with AI tools"
@@ -946,7 +946,7 @@ Stop reading. Start executing.
 **Month 3:**
 - Train a colleague on your AI operations workflow
 - Measure team productivity impact
-- Update résumé with specific metrics
+- Update rÃ©sumÃ© with specific metrics
 
 **Month 6:**
 - Launch consulting offering OR apply for AI Operations Engineer roles OR pitch your company on expanding this internally

@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What''s Just
   Marketing)'
 date: 2025-11-30

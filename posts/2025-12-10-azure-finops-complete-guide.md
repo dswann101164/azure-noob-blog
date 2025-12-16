@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure FinOps 2025: Complete Guide to Cloud Financial Operations"
 date: 2025-12-10
 summary: "Azure FinOps guide for 31,000+ resource environments: tag governance that survives 18 months, chargeback models business units accept, and cost visibility at application level (not subscription). Includes real banking industry implementation."

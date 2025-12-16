@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Command Finder (Interactive Tool)"
 date: 2025-12-09
 summary: "Interactive troubleshooting tool - select your Azure problem, get the exact commands to fix it. Copy-paste ready workflows for RDP issues, domain join, Group Policy, costs, and more."

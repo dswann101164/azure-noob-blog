@@ -1,4 +1,4 @@
-﻿---
+---
 title: "The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)"
 date: 2025-10-27
 summary: "Every guide says 'configure diagnostic settings.' Nobody shows you which button to click. Here's the step-by-step tutorial that actually works, written for someone who's never done this before."

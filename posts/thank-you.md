@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Thanks for downloading the KQL cheat sheet!"
 date: 2025-09-23
 hub: kql

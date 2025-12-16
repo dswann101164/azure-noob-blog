@@ -1,4 +1,4 @@
-﻿---
+---
 title: The 100,000 Tag Problem in Enterprise Azure
 date: 2025-11-24
 summary: What happens when an enterprise ends up with 100,000+ tag variations, why

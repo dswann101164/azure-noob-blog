@@ -1,4 +1,4 @@
-﻿---
+---
 title: "SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)"
 date: 2025-10-27
 summary: "The grill assembly manual for capturing Azure AD audit logs - app registrations, consent grants, sign-ins, and role assignments. Every click, every command, every verification. Part 2 of fixing the 90-day audit gap."

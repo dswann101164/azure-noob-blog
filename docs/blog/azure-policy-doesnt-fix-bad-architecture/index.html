@@ -234,17 +234,17 @@
 <h2>The Uncomfortable Truth</h2>
 <p>Every Azure architect presentation includes a slide about Azure Policy.</p>
 <p>The slide shows:<br />
-- ✅ Enforce SKU restrictions<br />
-- ✅ Require tags at deployment<br />
-- ✅ Block public endpoints<br />
-- ✅ Audit compliance across subscriptions</p>
+- âœ… Enforce SKU restrictions<br />
+- âœ… Require tags at deployment<br />
+- âœ… Block public endpoints<br />
+- âœ… Audit compliance across subscriptions</p>
 <p><strong>The slide is correct.</strong></p>
 <p>What the slide doesn't show:<br />
 - Your finance team still can't explain the Azure bill<br />
 - Nobody knows which resources belong to which applications<br />
 - Tag compliance is 97% but cost attribution is still broken<br />
 - You have 100% policy compliance and completely indefensible costs</p>
-<p><strong>Policy enforces rules — it does not create meaning.</strong></p>
+<p><strong>Policy enforces rules â€” it does not create meaning.</strong></p>
 <p>After managing 31,000 Azure resources across 44 subscriptions at a regional bank, I've watched this pattern repeat:</p>
 <ol>
 <li>Architecture team deploys comprehensive Azure Policy</li>
@@ -279,7 +279,7 @@
 - 5 storage accounts<br />
 - 2 App Service plans</p>
 <p><strong>Question:</strong> How many applications is this?</p>
-<p><strong>Policy's answer:</strong> ¯\<em>(ツ)</em>/¯</p>
+<p><strong>Policy's answer:</strong> Â¯\<em>(ãƒ„)</em>/Â¯</p>
 <p>Policy sees 22 resources with required tags. All compliant. But it has no concept of "this VM and that database form Application X."</p>
 <p><strong>The problem:</strong> Cost allocation requires application context. Policy provides resource-level compliance without application-level meaning.</p>
 <h3><strong>2. Policy Cannot Resolve Shared Services</strong></h3>
@@ -290,16 +290,16 @@
 <p><strong>The result:</strong> Shared services become cost black holes that break chargeback models.</p>
 <h3><strong>3. Policy Assumes Tags Are Truth</strong></h3>
 <p>Policy can verify:<br />
-- ✅ Tag exists<br />
-- ✅ Tag matches allowed values<br />
-- ✅ Tag was present at deployment</p>
+- âœ… Tag exists<br />
+- âœ… Tag matches allowed values<br />
+- âœ… Tag was present at deployment</p>
 <p>Policy cannot verify:<br />
-- ❌ Tag is accurate<br />
-- ❌ Tag reflects current reality<br />
-- ❌ Tag matches what Finance expects</p>
+- âŒ Tag is accurate<br />
+- âŒ Tag reflects current reality<br />
+- âŒ Tag matches what Finance expects</p>
 <p><strong>Real example from our environment:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resource</span><span class="o">:</span><span class="w"> </span><span class="n">vm</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">01</span>
-<span class="n">CostCenter</span><span class="w"> </span><span class="n">tag</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;1234-Engineering&quot;</span><span class="w"> </span><span class="err">✅</span><span class="w"> </span><span class="o">(</span><span class="n">Policy</span><span class="w"> </span><span class="n">compliant</span><span class="o">)</span>
+<span class="n">CostCenter</span><span class="w"> </span><span class="n">tag</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;1234-Engineering&quot;</span><span class="w"> </span><span class="err">âœ…</span><span class="w"> </span><span class="o">(</span><span class="n">Policy</span><span class="w"> </span><span class="n">compliant</span><span class="o">)</span>
 <span class="n">Actual</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="n">center</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;5678-Marketing&quot;</span><span class="w"> </span><span class="o">(</span><span class="n">API</span><span class="w"> </span><span class="n">serves</span><span class="w"> </span><span class="n">marketing</span><span class="w"> </span><span class="n">site</span><span class="o">)</span>
 </code></pre></div>
 
@@ -342,7 +342,7 @@
 - ExpressRoute costs: $8,400/month<br />
 - VMware Bridge connections: $3,200/month</p>
 <p><strong>Question:</strong> Which business unit pays for the ExpressRoute circuit serving all 21 domains?</p>
-<p><strong>Azure Policy:</strong> ✅ All resources tagged correctly!<br />
+<p><strong>Azure Policy:</strong> âœ… All resources tagged correctly!<br />
 <strong>Finance:</strong> "We need you to allocate this to a cost center."<br />
 <strong>Reality:</strong> There is no single cost center. This is shared infrastructure.</p>
 <p>Policy enforcement succeeded. Cost defensibility failed.</p>
@@ -357,10 +357,10 @@
 <p><strong>The answer is:</strong> It depends on your org chart, security requirements, compliance mandates, M&amp;A history, and political realities.</p>
 <p>Microsoft can't tell Bank of America to reorganize their IT department.</p>
 <p>So instead, Microsoft provides:<br />
-- ✅ Azure Policy (enforcement)<br />
-- ✅ Management Groups (hierarchy)<br />
-- ✅ Cost Management (reporting)<br />
-- ✅ Resource Graph (querying)</p>
+- âœ… Azure Policy (enforcement)<br />
+- âœ… Management Groups (hierarchy)<br />
+- âœ… Cost Management (reporting)<br />
+- âœ… Resource Graph (querying)</p>
 <p><strong>What Microsoft doesn't provide:</strong> A model for determining if your structure makes sense.</p>
 <p><strong>Microsoft gives you enforcement tools, not accountability models.</strong></p>
 <p>This isn't a criticism - it's the nature of platform products. Azure has to work for a 10-person startup and a 100,000-person enterprise.</p>
@@ -496,23 +496,23 @@
     <ul style="list-style: none; padding: 0;">
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/azure-cost-optimization-complete-guide" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Cost Optimization: A Complete Practical Guide</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-03</span>
+        <a href="/blog/azure-tag-governance-policy" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Tag Governance: Policy Patterns That Actually Work</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-31</span>
         </a>
       </li>
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/buzzwords-meetings-confusion" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Buzzwords, Technical Terms, and the Meetings Where Nobody Understands Anything</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-09</span>
+        <a href="/blog/azure-hybrid-benefit-complete" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Hybrid Benefit vs. Cloud License: The $50K Licensing Mistake Every Azure Admin Must Avoid</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-11</span>
         </a>
       </li>
       
       <li style="margin: 1rem 0;">
-        <a href="/blog/software-rationalization-step-zero-devops" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Software Rationalization: The Step Zero That Works in a DevOps World</span>
-          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-04</span>
+        <a href="/blog/resource-tags-100k-problem" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The 100,000 Tag Problem in Enterprise Azure</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-24</span>
         </a>
       </li>
       
@@ -548,13 +548,13 @@
     
       <a href="/blog/azure-landing-zone-reality-check">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
-        <strong>Azure Landing Zone Reality Check</strong>
+        <strong>Azure Landing Zone Reality Check: Why Most Enterprises Drift in 90 Days</strong>
       </a>
     
     
       <a href="/blog/azure-policy-reality-check" style="text-align: right;">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
-        <strong>Azure Policy Reality Check</strong>
+        <strong>Azure Policy Reality Check: Why Your Guardrails Fail After 30 Days</strong>
       </a>
     
   </nav>

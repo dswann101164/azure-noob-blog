@@ -53,7 +53,7 @@ Here's what changed when we moved to remote state:
 | State conflicts | 5-10 per month | **Zero** |
 | Lost state files | 2 per year | **Zero** |
 | Onboarding time | 2 hours (copy files, pray) | **10 minutes** |
-| "Who broke prod" | ¯\\_(ツ)_/¯ | **Full audit logs** |
+| "Who broke prod" | Â¯\\_(ãƒ„)_/Â¯ | **Full audit logs** |
 | Concurrent runs | Sometimes both work (scary) | **One blocks, one waits** |
 | Backups | Manual (rarely done) | **Automatic versioning** |
 
@@ -65,10 +65,10 @@ Here's what we're building:
 
 ```
 Azure Storage Account (one-time setup)
-  └── Container: tfstate
-      ├── project1/terraform.tfstate
-      ├── project2/terraform.tfstate  
-      └── project3/terraform.tfstate
+  â””â”€â”€ Container: tfstate
+      â”œâ”€â”€ project1/terraform.tfstate
+      â”œâ”€â”€ project2/terraform.tfstate  
+      â””â”€â”€ project3/terraform.tfstate
 ```
 
 That's it. One storage account. Multiple projects store their state as blobs. Azure handles locking, versioning, and encryption automatically.
@@ -141,10 +141,10 @@ terraform apply
 ```
 
 That's it. You now have:
-- ✅ Resource group: `rg-tfstate-dev`
-- ✅ Storage account with encryption
-- ✅ Container for state files
-- ✅ RBAC configured for your service principal
+- âœ… Resource group: `rg-tfstate-dev`
+- âœ… Storage account with encryption
+- âœ… Container for state files
+- âœ… RBAC configured for your service principal
 
 ### Phase 3: Configure Your Project (5 minutes)
 
@@ -219,11 +219,11 @@ Don't create separate storage accounts per environment. Use one storage account 
 
 ```
 tfstate container:
-├── web-app/dev/terraform.tfstate
-├── web-app/staging/terraform.tfstate  
-├── web-app/prod/terraform.tfstate
-├── database/dev/terraform.tfstate
-└── database/prod/terraform.tfstate
+â”œâ”€â”€ web-app/dev/terraform.tfstate
+â”œâ”€â”€ web-app/staging/terraform.tfstate  
+â”œâ”€â”€ web-app/prod/terraform.tfstate
+â”œâ”€â”€ database/dev/terraform.tfstate
+â””â”€â”€ database/prod/terraform.tfstate
 ```
 
 **In your backend.tf:**
@@ -295,12 +295,12 @@ secrets.auto.tfvars
 Just add it to `.gitignore` from day one.
 
 **Other security things:**
-- ✅ Enable "Secure transfer required" on storage account
-- ✅ Configure storage firewall rules
-- ✅ Enable soft delete (90-day retention)
-- ✅ Enable versioning
-- ✅ Rotate SP secrets quarterly
-- ✅ Use least-privilege RBAC (Contributor, not Owner)
+- âœ… Enable "Secure transfer required" on storage account
+- âœ… Configure storage firewall rules
+- âœ… Enable soft delete (90-day retention)
+- âœ… Enable versioning
+- âœ… Rotate SP secrets quarterly
+- âœ… Use least-privilege RBAC (Contributor, not Owner)
 
 ## Troubleshooting (What Will Actually Break)
 
@@ -362,11 +362,11 @@ I've put everything on GitHub so you don't have to figure this out:
 **Repository:** [github.com/dswann101164/-terraform-remote-state](https://github.com/dswann101164/-terraform-remote-state)
 
 **What's included:**
-- ✅ Complete working templates
-- ✅ Step-by-step checklist
-- ✅ Security best practices
-- ✅ Troubleshooting guide
-- ✅ Copy-paste commands
+- âœ… Complete working templates
+- âœ… Step-by-step checklist
+- âœ… Security best practices
+- âœ… Troubleshooting guide
+- âœ… Copy-paste commands
 
 Just clone it and follow the README.
 

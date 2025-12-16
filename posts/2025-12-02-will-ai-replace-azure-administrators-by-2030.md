@@ -55,7 +55,7 @@ Here's what else AI can do today that I used to get paid for:
 
 - **Generate Infrastructure as Code**: Describe what you want in plain English, get working Terraform or Bicep in seconds
 - **Troubleshoot Azure errors**: Copy/paste the error message, get step-by-step remediation
-- **Write PowerShell automation**: "Shut down all dev VMs after 6 PM on weekdays" → working script
+- **Write PowerShell automation**: "Shut down all dev VMs after 6 PM on weekdays" â†’ working script
 - **Analyze cost anomalies**: Upload your cost CSV, AI spots the zombie resources instantly
 - **Explain complex Azure concepts**: Better than Microsoft Learn docs, without the marketing fluff
 

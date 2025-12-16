@@ -1,4 +1,4 @@
-﻿---
+---
 title: The Truth About Chris Bowman's Azure Cost Dashboard
 date: 2025-10-02
 summary: Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard

@@ -91,7 +91,7 @@ VM Settings:
 - Name prefix: win1101-
 - Image: Windows 11 Enterprise Multi-session (25H2)
 - VM size: Standard D8s v5 (8 vCPU, 32GB RAM)
-- OS disk size: 512GB Standard SSD  ← THE KEY REQUIREMENT
+- OS disk size: 512GB Standard SSD  â† THE KEY REQUIREMENT
 - Network: vnet-prod-onprem2azure
 - Subnet: snet-prod-onprem2azure-prod
 - Security: Trusted launch, secure boot, vTPM, integrity monitoring
@@ -102,16 +102,16 @@ VM Settings:
 The first time I tried to deploy, I missed this. The Azure portal has a setting buried in the VM configuration:
 
 ```
-Specify domain or unit: YES  ← Must be set to Yes
+Specify domain or unit: YES  â† Must be set to Yes
 Domain to join: moonlab.local
 Domain join type: Active Directory
 Domain admin credentials: (your account with join permissions)
 ```
 
 If you skip this, the VM deploys but:
-- ❌ Not domain joined
-- ❌ AVD agent not installed automatically
-- ❌ Not registered to host pool
+- âŒ Not domain joined
+- âŒ AVD agent not installed automatically
+- âŒ Not registered to host pool
 
 **You have to delete it and start over.** Ask me how I know.
 
@@ -135,7 +135,7 @@ The Azure portal clearly showed the disk as 512GB. But Windows only saw 127GB.
 
 I checked the disk properties in the Azure portal:
 
-**Disk size: 512 GiB** ✅
+**Disk size: 512 GiB** âœ…
 
 The disk WAS 512GB. But the partition was only 127GB. The remaining ~385GB was sitting there unallocated.
 
@@ -146,11 +146,11 @@ The disk WAS 512GB. But the partition was only 127GB. The remaining ~385GB was s
 **On the Win 11 VM:**
 
 1. Open Computer Management: `compmgmt.msc`
-2. Go to Storage → Disk Management
+2. Go to Storage â†’ Disk Management
 3. You'll see:
    - C: drive = 127GB (in use)
    - Unallocated space = ~385GB (grayed out)
-4. Right-click C: drive → **Extend Volume**
+4. Right-click C: drive â†’ **Extend Volume**
 5. Walk through the wizard (use all available space)
 6. Done - C: drive now shows 512GB
 
@@ -216,7 +216,7 @@ These can't be easily scripted due to licensing activation requirements in our e
 
 With the VM ready, I tried to connect from my home computer.
 
-**Remote Desktop client → Subscribe to workspace:**
+**Remote Desktop client â†’ Subscribe to workspace:**
 
 Entered: `dswann@moonlab.local`
 
@@ -243,8 +243,8 @@ Entered: `dswann@moonlab.local`
 This controls who can see and access the workspace.
 
 ```
-Azure Portal → AVD → Workspaces → win11 → Application groups 
-→ wvdhostpool1-win11-DAG → Assignments → Add
+Azure Portal â†’ AVD â†’ Workspaces â†’ win11 â†’ Application groups 
+â†’ wvdhostpool1-win11-DAG â†’ Assignments â†’ Add
 
 Add user: dswann@snvtest.com
 ```
@@ -254,8 +254,8 @@ Add user: dswann@snvtest.com
 This controls which specific VM you're assigned to.
 
 ```
-Azure Portal → AVD → Host pools → wvdhostpool1-win11 
-→ Session hosts → win1101-0.moonlab.local → Assignment
+Azure Portal â†’ AVD â†’ Host pools â†’ wvdhostpool1-win11 
+â†’ Session hosts â†’ win1101-0.moonlab.local â†’ Assignment
 
 Add user: dswann@snvtest.com
 ```
@@ -264,7 +264,7 @@ Add user: dswann@snvtest.com
 
 After adding both assignments, I waited 2-5 minutes for propagation, then:
 
-**Remote Desktop client → Subscribe:**
+**Remote Desktop client â†’ Subscribe:**
 
 Entered: `dswann@snvtest.com`
 
@@ -285,7 +285,7 @@ This is Azure AD single sign-on working as designed. If I'd connected directly t
 
 ## What I Learned
 
-### 1. Disk Size ≠ Partition Size
+### 1. Disk Size â‰  Partition Size
 
 **Azure creates the disk at the size you specify, but the partition doesn't auto-expand.**
 

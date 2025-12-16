@@ -16,12 +16,12 @@ This is the guide I wish I had when I started running Terraform in production. T
 This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 
 **What's covered:**
-- 🔥 Pipeline failures and error codes
-- 🔒 Authentication and permission issues
-- 💾 State file corruption and locking
-- 🏗️ Resource drift and manual changes
-- ⚡ Performance optimization
-- 📊 Debugging strategies
+- ðŸ”¥ Pipeline failures and error codes
+- ðŸ”’ Authentication and permission issues
+- ðŸ’¾ State file corruption and locking
+- ðŸ—ï¸ Resource drift and manual changes
+- âš¡ Performance optimization
+- ðŸ“Š Debugging strategies
 
 Skip to the section that matches your current fire.
 
@@ -524,10 +524,10 @@ If > 10 MB, state is too large.
 **Solution:** Split into multiple state files by logical boundaries:
 ```
 terraform/
-├── core-infrastructure/     (VNets, NSGs, state: core.tfstate)
-├── compute/                 (VMs, AVDs, state: compute.tfstate)
-├── storage/                 (Storage accounts, state: storage.tfstate)
-└── databases/               (SQL, CosmosDB, state: databases.tfstate)
+â”œâ”€â”€ core-infrastructure/     (VNets, NSGs, state: core.tfstate)
+â”œâ”€â”€ compute/                 (VMs, AVDs, state: compute.tfstate)
+â”œâ”€â”€ storage/                 (Storage accounts, state: storage.tfstate)
+â””â”€â”€ databases/               (SQL, CosmosDB, state: databases.tfstate)
 ```
 
 Each has its own backend config:
@@ -859,7 +859,7 @@ az deployment sub create --location northeurope --template-file backup-rg.json
 ```
 
 **Prevention implemented:**
-- Provider version testing workflow: dev (1 week) → test (1 week) → prod
+- Provider version testing workflow: dev (1 week) â†’ test (1 week) â†’ prod
 - Never upgrade providers in prod without testing
 - Always read provider changelogs: "BREAKING CHANGES" section
 
@@ -894,11 +894,11 @@ Print this and keep it handy:
 ### Emergency: Pipeline Failing in Prod
 
 **Step 1: Assess Impact**
-- Is prod currently down? → Rollback immediately
-- Is prod still working? → Investigate before action
+- Is prod currently down? â†’ Rollback immediately
+- Is prod still working? â†’ Investigate before action
 
 **Step 2: Stop All Pipelines**
-- Go to Pipelines → Running
+- Go to Pipelines â†’ Running
 - Cancel all Terraform pipelines
 
 **Step 3: Check Logs**
@@ -910,7 +910,7 @@ Print this and keep it handy:
 terraform show
 ```
 
-If this fails, state is corrupted → Restore from backup.
+If this fails, state is corrupted â†’ Restore from backup.
 
 **Step 5: Rollback Options**
 1. Revert the last merged PR (if code issue)

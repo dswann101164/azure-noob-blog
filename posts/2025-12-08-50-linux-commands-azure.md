@@ -1,4 +1,4 @@
-﻿---
+---
 title: "50 Linux Commands for Azure (However You Deploy)"
 date: 2025-12-08
 summary: "The essential Linux commands every Azure administrator needs—whether you use the Portal, PowerShell, or IaC. Includes Active Directory domain join for enterprise environments."

@@ -144,19 +144,19 @@ Companies don't want "Azure admins who can write PowerShell."
 Here's the skillset gap:
 
 ### Old Job Requirement:
-- Know Azure services ✅
-- Write PowerShell scripts ✅
-- Troubleshoot issues ✅
-- Manage resources manually ✅
+- Know Azure services âœ…
+- Write PowerShell scripts âœ…
+- Troubleshoot issues âœ…
+- Manage resources manually âœ…
 
 **Problem:** AI already does all of this.
 
 ### New Job Requirement:
-- Know Azure services ✅ (still needed)
-- **Make AI write production-ready code** ← New
-- **Validate AI output for correctness** ← New
-- **Catch when AI makes dangerous mistakes** ← New
-- **Manage AI-augmented workflows** ← New
+- Know Azure services âœ… (still needed)
+- **Make AI write production-ready code** â† New
+- **Validate AI output for correctness** â† New
+- **Catch when AI makes dangerous mistakes** â† New
+- **Manage AI-augmented workflows** â† New
 
 **Problem:** Almost nobody is teaching this.
 
@@ -372,14 +372,14 @@ Every time AI output needs correction, document why.
 Create a checklist for reviewing AI-generated code:
 
 ```
-□ Meets compliance requirements
-□ Follows naming standards
-□ Includes required tags
-□ Has appropriate RBAC
-□ Includes monitoring/alerts
-□ Has backup/DR configured
-□ Cost-optimized for workload
-□ Security validated
+â–¡ Meets compliance requirements
+â–¡ Follows naming standards
+â–¡ Includes required tags
+â–¡ Has appropriate RBAC
+â–¡ Includes monitoring/alerts
+â–¡ Has backup/DR configured
+â–¡ Cost-optimized for workload
+â–¡ Security validated
 ```
 
 **This checklist is more valuable than the code itself.**
@@ -411,9 +411,9 @@ This isn't speculation. Here's what you can verify right now:
 
 ### Microsoft's Direction
 
-- **GitHub Copilot** → Already integrated into Azure Portal
-- **Copilot for Azure** → Coming to general availability
-- **AI-assisted everything** → Portal, CLI, PowerShell, ARM templates
+- **GitHub Copilot** â†’ Already integrated into Azure Portal
+- **Copilot for Azure** â†’ Coming to general availability
+- **AI-assisted everything** â†’ Portal, CLI, PowerShell, ARM templates
 
 **They're not building this for fun.**
 
@@ -444,10 +444,10 @@ Search LinkedIn for "Azure Administrator" roles.
 Search for "Azure Administrator training 2025."
 
 Count how many mention:
-- PowerShell ✅ (all of them)
-- Networking ✅ (all of them)
-- AI capability ❌ (almost none)
-- Prompt engineering ❌ (almost none)
+- PowerShell âœ… (all of them)
+- Networking âœ… (all of them)
+- AI capability âŒ (almost none)
+- Prompt engineering âŒ (almost none)
 
 **There's a 12-24 month lag between what companies need and what training provides.**
 
@@ -588,16 +588,16 @@ Look at 20 recent postings.
 **If you test these experiments and find:**
 
 **"AI is way faster than I expected"**
-→ The shift is real. Time to adapt.
+â†’ The shift is real. Time to adapt.
 
 **"AI makes a lot of mistakes"**
-→ Current value is catching those mistakes. But AI is improving.
+â†’ Current value is catching those mistakes. But AI is improving.
 
 **"Job postings aren't changing yet"**
-→ They lag reality by 12-24 months. Wait until it's obvious = too late.
+â†’ They lag reality by 12-24 months. Wait until it's obvious = too late.
 
 **"I don't see any of this at my company"**
-→ Neither did Exchange admins in 2008. Neither did datacenter ops in 2015.
+â†’ Neither did Exchange admins in 2008. Neither did datacenter ops in 2015.
 
 **Base decisions on evidence, not comfort.**
 

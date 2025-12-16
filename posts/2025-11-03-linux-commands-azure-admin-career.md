@@ -1,7 +1,7 @@
 ---
 title: "10 Linux Commands That Will Save Your Azure Career"
 date: 2025-11-03
-summary: "You've been avoiding Linux. But Azure Cloud Shell runs Linux. Your VMs run Linux. AKS runs Linux. Here are the 10 commands you actually need to know—and why Windows admins who ignore this are limiting their careers."
+summary: "You've been avoiding Linux. But Azure Cloud Shell runs Linux. Your VMs run Linux. AKS runs Linux. Here are the 10 commands you actually need to knowâ€”and why Windows admins who ignore this are limiting their careers."
 tags: ["azure", "Linux", "Cloud Shell", "AKS", "Career"]
 cover: "/static/images/hero/linux-commands-azure-career.svg"
 hub: automation
@@ -206,7 +206,7 @@ grep "nginx" /var/log/syslog | grep "start"
 
 **Why it matters:** "Permission denied" errors are the #1 Linux gotcha for Windows admins
 
-**Windows equivalent:** Right-click → Properties → Security (but completely different model)
+**Windows equivalent:** Right-click â†’ Properties â†’ Security (but completely different model)
 
 **Real Azure scenario:**
 
@@ -386,7 +386,7 @@ sudo kill -9 <PID>
 
 **Why it matters:** "No space left on device" errors kill apps
 
-**Windows equivalent:** `Get-Volume` or right-click drive → Properties
+**Windows equivalent:** `Get-Volume` or right-click drive â†’ Properties
 
 **Real Azure scenario:**
 
@@ -507,13 +507,13 @@ echo 'HISTFILESIZE=10000' >> ~/.bashrc
 ## The Azure Admin's Linux Survival Kit
 
 These 10 commands handle:
-- ✅ Navigating filesystems (`ls`, `cd`, `pwd`)
-- ✅ Reading files and logs (`cat`, `tail`, `grep`)
-- ✅ Fixing permissions (`chmod`, `sudo`)
-- ✅ Managing services (`systemctl`)
-- ✅ Troubleshooting processes (`ps`, `kill`)
-- ✅ Monitoring disk space (`df`, `du`)
-- ✅ Editing configs (`nano`, `vi`)
+- âœ… Navigating filesystems (`ls`, `cd`, `pwd`)
+- âœ… Reading files and logs (`cat`, `tail`, `grep`)
+- âœ… Fixing permissions (`chmod`, `sudo`)
+- âœ… Managing services (`systemctl`)
+- âœ… Troubleshooting processes (`ps`, `kill`)
+- âœ… Monitoring disk space (`df`, `du`)
+- âœ… Editing configs (`nano`, `vi`)
 
 **That's 90% of what you'll do on Azure Linux VMs.**
 
@@ -609,10 +609,10 @@ set -x  # Print each command
 ## What You Don't Need to Learn (Yet)
 
 Windows admins panic about Linux. You don't need to know:
-- ❌ Advanced shell scripting (PowerShell skills transfer)
-- ❌ Linux networking deep dives (Azure handles this)
-- ❌ Kernel configuration (Azure VMs are pre-configured)
-- ❌ Package compilation (use apt/yum packages)
+- âŒ Advanced shell scripting (PowerShell skills transfer)
+- âŒ Linux networking deep dives (Azure handles this)
+- âŒ Kernel configuration (Azure VMs are pre-configured)
+- âŒ Package compilation (use apt/yum packages)
 
 **Focus on the 10 commands above.** Everything else is Google-able when you need it.
 
@@ -683,11 +683,11 @@ cat test.txt
 ## Next Steps
 
 **Want the deep dive?** I wrote a comprehensive Linux cheat sheet specifically for Azure admins:
-→ [The Complete Linux Cheat Sheet for Azure Admins](https://azure-noob.com/blog/linux-cheat-sheet-azure-admins/)
+â†’ [The Complete Linux Cheat Sheet for Azure Admins](https://azure-noob.com/blog/linux-cheat-sheet-azure-admins/)
 
 It includes:
 - Every command with Azure-specific examples
-- Windows → Linux command translations
+- Windows â†’ Linux command translations
 - Troubleshooting patterns for common Azure scenarios
 - Copy/paste ready scripts
 - File system layout for Azure VMs

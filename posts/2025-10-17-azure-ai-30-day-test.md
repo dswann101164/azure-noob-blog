@@ -55,14 +55,14 @@ Testing environment: 21 subscriptions, ~31,000 resources, PCI-DSS and HIPAA requ
 
 | Capability | Status Today | My Experience | Adoption Barrier |
 |------------|--------------|---------------|------------------|
-| **Natural language queries** | ✅ GA (Generally Available) | Cuts query time by 50-70% | Learning to trust AI output |
-| **IaC generation (Bicep/ARM)** | ✅ GA | Generates 80% accurate templates | Still need to validate everything |
-| **Compliance reporting** | ✅ GA | Saved 15 hours last month | Legal approval for AI in audit trail |
-| **Cost anomaly detection** | ✅ GA | Caught $4K/month waste in week 1 | CFO needs to see ROI first |
-| **Security drift detection** | ✅ GA | Auto-fixes unencrypted storage | Fear of auto-remediation in prod |
-| **Self-healing infrastructure** | ⚠️ Preview | Works, but needs guardrails | Risk-averse orgs won't touch it |
-| **Agentic workflows** | ⚠️ Private Preview | Impressive demos, not ready | Wait until 2026 |
-| **Full orchestration** | ❌ 2026+ | Doesn't exist yet | Science fiction |
+| **Natural language queries** | âœ… GA (Generally Available) | Cuts query time by 50-70% | Learning to trust AI output |
+| **IaC generation (Bicep/ARM)** | âœ… GA | Generates 80% accurate templates | Still need to validate everything |
+| **Compliance reporting** | âœ… GA | Saved 15 hours last month | Legal approval for AI in audit trail |
+| **Cost anomaly detection** | âœ… GA | Caught $4K/month waste in week 1 | CFO needs to see ROI first |
+| **Security drift detection** | âœ… GA | Auto-fixes unencrypted storage | Fear of auto-remediation in prod |
+| **Self-healing infrastructure** | âš ï¸ Preview | Works, but needs guardrails | Risk-averse orgs won't touch it |
+| **Agentic workflows** | âš ï¸ Private Preview | Impressive demos, not ready | Wait until 2026 |
+| **Full orchestration** | âŒ 2026+ | Doesn't exist yet | Science fiction |
 
 **The Pattern:** If it's about **asking questions** or **generating drafts**, it works. If it requires **autonomous decision-making**, it's not ready for production yet.
 
@@ -93,9 +93,9 @@ After:
 > "Show PCI VMs without disk encryption"
 
 **Real Time Savings:**
-- Complex KQL queries: 30 minutes → 30 seconds
-- Bicep template generation: 2 hours → 10 minutes (with review)
-- Compliance reports: 4 hours → 5 minutes
+- Complex KQL queries: 30 minutes â†’ 30 seconds
+- Bicep template generation: 2 hours â†’ 10 minutes (with review)
+- Compliance reports: 4 hours â†’ 5 minutes
 
 **The Catch:** You still need to verify everything. AI hallucinates. In regulated environments, hallucinations = audit findings = career risk.
 
@@ -148,7 +148,7 @@ Result: Problem fixed before developer notices, audit trail automatic
 3. Sentinel logs (proves it's working)
 4. AI summary report (makes it digestible)
 
-Audit finding → Audit praise. First time in my career.
+Audit finding â†’ Audit praise. First time in my career.
 
 ---
 
@@ -162,12 +162,12 @@ Microsoft demoed this at Ignite 2024: "AI agent reviews access requests, checks 
 
 **My Experience Testing It:**
 
-✅ **What worked:**
+âœ… **What worked:**
 - AI correctly identified 80% of "routine" requests (standard developer access to dev subscriptions)
 - Generated approval summaries faster than humans
 - Flagged suspicious patterns (new user requesting prod access immediately)
 
-❌ **What broke:**
+âŒ **What broke:**
 - Hallucinated approval history ("this user was approved 3 times before" - they weren't)
 - Couldn't understand complex conditional access policies
 - Generated nonsensical justifications when uncertain

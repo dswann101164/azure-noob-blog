@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Cloud Adoption Framework Explained: 3 Layers That Actually Matter"
 date: 2025-10-06
 summary: "Microsoft's Cloud Adoption Framework is 1,500 pages. Here's what matters: Structure (Management Groups, Subscriptions), Governance (Policy, RBAC), Operations (Monitor, Backup). CAF simplified for real Azure teams without the consultant buzzwords."

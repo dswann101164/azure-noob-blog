@@ -1,4 +1,4 @@
-﻿---
+---
 title: Azure Costs Follow Applications, Not Subscriptions
 date: 2025-10-11
 summary: Azure bills at the subscription level—but the business thinks in terms of

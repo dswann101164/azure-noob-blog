@@ -58,16 +58,16 @@ Microsoft's documentation makes tagging sound simple:
 **One cost center. 247 ways to spell it:**
 
 ```
-78002566          ← Correct
-9807566           ← Missing first digit
-cost-center-78002566  ← Someone added prefix
-CC-78002566       ← Abbreviation
-78002566-prod     → Someone added environment
-78OO2566          ← Letter O instead of zero (I/O confusion)
-78002566_PROD     ← Underscore instead of hyphen
-cc78002566        ← Lowercase no separator
-Cost Center: 78002566  ← Friendly format with space
-(78002566)        ← Someone put it in parentheses
+78002566          â† Correct
+9807566           â† Missing first digit
+cost-center-78002566  â† Someone added prefix
+CC-78002566       â† Abbreviation
+78002566-prod     â†’ Someone added environment
+78OO2566          â† Letter O instead of zero (I/O confusion)
+78002566_PROD     â† Underscore instead of hyphen
+cc78002566        â† Lowercase no separator
+Cost Center: 78002566  â† Friendly format with space
+(78002566)        â† Someone put it in parentheses
 ```
 
 **I found all of these. In production. On billable resources.**
@@ -112,18 +112,18 @@ notepad.exe
 **Who owns this resource? Nobody knows:**
 
 ```
-Data              ← Department
-data              ← Lowercase department
-Data Team         ← Informal name
-Data Engineering  ← Sub-team
-DataEngineering   ← No space
-DE                ← Abbreviation
-Marketing         ← Different department
-Development       ← Another department
-Dev               ← Abbreviated
-John Smith        ← Person, not team
-john.smith@company.com  ← Email instead of team
-jsmith            ← Username
+Data              â† Department
+data              â† Lowercase department
+Data Team         â† Informal name
+Data Engineering  â† Sub-team
+DataEngineering   â† No space
+DE                â† Abbreviation
+Marketing         â† Different department
+Development       â† Another department
+Dev               â† Abbreviated
+John Smith        â† Person, not team
+john.smith@company.com  â† Email instead of team
+jsmith            â† Username
 ```
 
 **One resource had owner: "TBD"**
@@ -140,13 +140,13 @@ Prod
 PROD
 production
 prod
-Vmware-Prod       ← Someone added infrastructure type
-Production-East   ← Someone added region
-Prod-Primary      ← Someone added DR status
+Vmware-Prod       â† Someone added infrastructure type
+Production-East   â† Someone added region
+Prod-Primary      â† Someone added DR status
 PRODUCTION
-Production_1      ← Numbered for some reason
-Prd               ← Creative abbreviation
-P                 ← Just... why?
+Production_1      â† Numbered for some reason
+Prd               â† Creative abbreviation
+P                 â† Just... why?
 ```
 
 **Full environment tag chaos:**
@@ -174,9 +174,9 @@ web-server
 Database Server
 db-server
 File Server
-SQL Server        ← That's a product, not a type
-Server-VM         ← Redundant
-virtual-server    ← Everything in Azure is virtual
+SQL Server        â† That's a product, not a type
+Server-VM         â† Redundant
+virtual-server    â† Everything in Azure is virtual
 ```
 
 **The entire Type tag catalog:**
@@ -585,7 +585,7 @@ Resources
 ```json
 {
   "then": {
-    "effect": "audit"  // ← Start here, not "deny"
+    "effect": "audit"  // â† Start here, not "deny"
   }
 }
 ```
@@ -650,7 +650,7 @@ foreach ($vm in $vms) {
 ```json
 {
   "then": {
-    "effect": "deny"  // ← Now we enforce
+    "effect": "deny"  // â† Now we enforce
   }
 }
 ```
@@ -777,22 +777,22 @@ Repository: `https://github.com/azure-noob/tag-governance-kit`
 Files:
 ```
 tag-governance-kit/
-├── policies/
-│   ├── costcenter-validation.json
-│   ├── environment-enum.json
-│   ├── owner-enum.json
-│   └── tag-governance-initiative.json
-├── scripts/
-│   ├── audit-tags.ps1
-│   ├── remediate-tags.ps1
-│   └── generate-tag-report.ps1
-├── docs/
-│   ├── TAG-STANDARDS.md
-│   ├── DEPLOYMENT-GUIDE.md
-│   └── FAQ.md
-├── templates/
-│   └── cost-allocation-report.pbix
-└── README.md
+â”œâ”€â”€ policies/
+â”‚   â”œâ”€â”€ costcenter-validation.json
+â”‚   â”œâ”€â”€ environment-enum.json
+â”‚   â”œâ”€â”€ owner-enum.json
+â”‚   â””â”€â”€ tag-governance-initiative.json
+â”œâ”€â”€ scripts/
+â”‚   â”œâ”€â”€ audit-tags.ps1
+â”‚   â”œâ”€â”€ remediate-tags.ps1
+â”‚   â””â”€â”€ generate-tag-report.ps1
+â”œâ”€â”€ docs/
+â”‚   â”œâ”€â”€ TAG-STANDARDS.md
+â”‚   â”œâ”€â”€ DEPLOYMENT-GUIDE.md
+â”‚   â””â”€â”€ FAQ.md
+â”œâ”€â”€ templates/
+â”‚   â””â”€â”€ cost-allocation-report.pbix
+â””â”€â”€ README.md
 ```
 
 **Clone it. Customize it. Deploy it.**
@@ -847,25 +847,25 @@ But it's cheaper than spending $180K on resources nobody knows about.
 
 ### Disasters This Tag Governance Avoids
 
-✅ **Finance revolts** - When they can't track $2.3M in spending
+âœ… **Finance revolts** - When they can't track $2.3M in spending
 
-✅ **Cost allocation wars** - "That's not our server!" (yes it is, the tag says so)
+âœ… **Cost allocation wars** - "That's not our server!" (yes it is, the tag says so)
 
-✅ **Audit failures** - Can't prove resource ownership for SOC2/ISO compliance
+âœ… **Audit failures** - Can't prove resource ownership for SOC2/ISO compliance
 
-✅ **Budget overruns** - Can't identify waste by department to cut
+âœ… **Budget overruns** - Can't identify waste by department to cut
 
-✅ **Cloud repatriation** - CFO threatening to move back to on-prem
+âœ… **Cloud repatriation** - CFO threatening to move back to on-prem
 
-✅ **Manual reporting hell** - 6 hours/month of Excel gymnastics
+âœ… **Manual reporting hell** - 6 hours/month of Excel gymnastics
 
-✅ **Mystery resources** - The $180K test environment nobody knew about
+âœ… **Mystery resources** - The $180K test environment nobody knew about
 
-✅ **Chargeback impossibility** - Can't bill departments for their usage
+âœ… **Chargeback impossibility** - Can't bill departments for their usage
 
-✅ **Tag sprawl** - 247 variations of the same cost center
+âœ… **Tag sprawl** - 247 variations of the same cost center
 
-✅ **Leadership distrust** - "If you can't track basic costs, what else don't you know?"
+âœ… **Leadership distrust** - "If you can't track basic costs, what else don't you know?"
 
 ### Real Stories From The Field
 

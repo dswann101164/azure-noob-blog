@@ -1,7 +1,7 @@
 ---
 title: "The Complete Linux Cheat Sheet for Azure Admins"
 date: 2025-11-03
-summary: "Every Linux command you'll need as an Azure administrator—organized by scenario, with Windows equivalents, and real Azure examples. Bookmark this. You'll reference it constantly."
+summary: "Every Linux command you'll need as an Azure administratorâ€”organized by scenario, with Windows equivalents, and real Azure examples. Bookmark this. You'll reference it constantly."
 tags: ["azure", "Linux", "Cloud Shell", "AKS", "Ubuntu", "Reference"]
 cover: "/static/images/hero/linux-cheat-sheet-azure.svg"
 hub: automation
@@ -347,21 +347,21 @@ sudo find /var/log/webapp -name "*.log" -mtime +30 -delete
 
 ```
 -rwxr-xr-x  1 azureuser azureuser 2048 Nov  3 10:30 script.sh
- │││││││││  │ │         │         │    │
- │││││││││  │ │         │         │    └─ Filename
- │││││││││  │ │         │         └────── Date
- │││││││││  │ │         └──────────────── Owner
- │││││││││  │ └────────────────────────── Group
- │││││││││  └──────────────────────────── Link count
- ││││││││└─ Others: execute
- │││││││└── Others: write
- ││││││└─── Others: read
- │││││└──── Group: execute
- ││││└───── Group: write
- │││└────── Group: read
- ││└─────── Owner: execute
- │└──────── Owner: write
- └───────── Owner: read
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â”‚         â”‚    â”‚
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â”‚         â”‚    â””â”€ Filename
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â”‚         â””â”€â”€â”€â”€â”€â”€ Date
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ Owner
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ Group
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ Link count
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â””â”€ Others: execute
+ â”‚â”‚â”‚â”‚â”‚â”‚â”‚â””â”€â”€ Others: write
+ â”‚â”‚â”‚â”‚â”‚â”‚â””â”€â”€â”€ Others: read
+ â”‚â”‚â”‚â”‚â”‚â””â”€â”€â”€â”€ Group: execute
+ â”‚â”‚â”‚â”‚â””â”€â”€â”€â”€â”€ Group: write
+ â”‚â”‚â”‚â””â”€â”€â”€â”€â”€â”€ Group: read
+ â”‚â”‚â””â”€â”€â”€â”€â”€â”€â”€ Owner: execute
+ â”‚â””â”€â”€â”€â”€â”€â”€â”€â”€ Owner: write
+ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€ Owner: read
 ```
 
 ### Change Permissions (chmod)
@@ -1289,7 +1289,7 @@ az network nsg rule list --resource-group rg-prod --nsg-name nsg-vm
 
 ---
 
-## Windows → Linux Command Translation
+## Windows â†’ Linux Command Translation
 
 | Task | Windows | Linux |
 |------|---------|-------|
@@ -1375,7 +1375,7 @@ Ctrl+U          - Delete from cursor to start
 Ctrl+K          - Delete from cursor to end
 Ctrl+R          - Search command history
 Tab             - Auto-complete
-↑/↓             - Previous/next command
+â†‘/â†“             - Previous/next command
 ```
 
 ### Text Editing (nano)
@@ -1395,20 +1395,20 @@ Ctrl+U          - Paste
 ### 1. Running Commands as Root When You Shouldn't
 
 ```bash
-# ❌ Bad: Creates files owned by root
+# âŒ Bad: Creates files owned by root
 sudo echo "test" > file.txt
 
-# ✅ Good: Files stay owned by your user
+# âœ… Good: Files stay owned by your user
 echo "test" > file.txt
 ```
 
 ### 2. Using `rm -rf` Without Double-Checking
 
 ```bash
-# ❌ VERY BAD: Deletes everything
+# âŒ VERY BAD: Deletes everything
 sudo rm -rf /
 
-# ✅ Good: Always verify path first
+# âœ… Good: Always verify path first
 ls -la /path/to/delete/
 sudo rm -rf /path/to/delete/
 ```
@@ -1416,20 +1416,20 @@ sudo rm -rf /path/to/delete/
 ### 3. Forgetting `-i` with Dangerous Commands
 
 ```bash
-# ❌ Bad: No confirmation
+# âŒ Bad: No confirmation
 rm important_file.txt
 
-# ✅ Good: Asks for confirmation
+# âœ… Good: Asks for confirmation
 rm -i important_file.txt
 ```
 
 ### 4. Not Using `sudo` When Needed
 
 ```bash
-# ❌ Bad: Permission denied
+# âŒ Bad: Permission denied
 systemctl restart nginx
 
-# ✅ Good: Has permissions
+# âœ… Good: Has permissions
 sudo systemctl restart nginx
 ```
 
@@ -1437,11 +1437,11 @@ sudo systemctl restart nginx
 
 ```bash
 # Linux is case-sensitive!
-cd /Home/azureuser   # ❌ Fails
-cd /home/azureuser   # ✅ Works
+cd /Home/azureuser   # âŒ Fails
+cd /home/azureuser   # âœ… Works
 
-grep "Error" log.txt  # ❌ Won't find "error"
-grep -i "error" log.txt  # ✅ Finds any case
+grep "Error" log.txt  # âŒ Won't find "error"
+grep -i "error" log.txt  # âœ… Finds any case
 ```
 
 ---
@@ -1529,6 +1529,6 @@ You need to:
 2. Know where to find the answer (this page)
 3. Practice the most common commands until they're muscle memory
 
-The Windows admins who thrive in Azure are the ones who embrace Linux as a tool—not a threat.
+The Windows admins who thrive in Azure are the ones who embrace Linux as a toolâ€”not a threat.
 
 **Start with the top 10 commands. Everything else will come with practice.**

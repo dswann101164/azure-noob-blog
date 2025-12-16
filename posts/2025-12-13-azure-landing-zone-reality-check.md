@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Landing Zone Reality Check: Why Most Enterprises Drift in 90 Days"
 date: 2025-12-13
 summary: "Landing Zones look perfect in Microsoft's diagrams — but drift is inevitable. Here's why they fail (organizational reasons, not technical) and what must be included for Landing Zones to survive enterprise reality."

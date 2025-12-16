@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'What Happens When You Open an Azure Support Ticket: Inside the Enterprise
   Support Model'
 date: 2025-10-24

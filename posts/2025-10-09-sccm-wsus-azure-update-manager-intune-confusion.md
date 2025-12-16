@@ -1,4 +1,4 @@
-﻿---
+---
 title: "SCCM vs WSUS vs Intune vs Update Manager: Which Tool?"
 date: 2025-10-09
 modified: 2025-12-12

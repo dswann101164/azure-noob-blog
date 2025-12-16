@@ -28,10 +28,10 @@ Not as products to build. As tools to use.
 
 Quick search test:
 
-**"Azure OpenAI deployment tutorial"** → 10,000+ results  
-**"ChatGPT integration guide"** → 5,000+ results  
-**"Building custom Copilot"** → 2,000+ results  
-**"Azure admin working with AI daily"** → Maybe 5 results, all product marketing
+**"Azure OpenAI deployment tutorial"** â†’ 10,000+ results  
+**"ChatGPT integration guide"** â†’ 5,000+ results  
+**"Building custom Copilot"** â†’ 2,000+ results  
+**"Azure admin working with AI daily"** â†’ Maybe 5 results, all product marketing
 
 Why does this gap exist?
 
@@ -198,9 +198,9 @@ In practice, effective Azure admins are using **both approaches for different pu
 ### Typical Day Pattern
 
 **Morning: Microsoft 365 Tasks (Copilot)**
-- Check Teams for overnight incidents → Copilot generates summary
-- Respond to emails → Copilot drafts responses
-- Quick Azure Portal queries → Copilot provides instant answers
+- Check Teams for overnight incidents â†’ Copilot generates summary
+- Respond to emails â†’ Copilot drafts responses
+- Quick Azure Portal queries â†’ Copilot provides instant answers
 
 **Deep Work: Technical Problem-Solving (Claude Desktop)**
 - Complex Azure issue surfaces
@@ -211,14 +211,14 @@ In practice, effective Azure admins are using **both approaches for different pu
 - Publish results
 
 **Afternoon: Code Development (GitHub Copilot + Claude Desktop)**
-- Quick scripting → GitHub Copilot in VS Code
-- Complex logic or full scripts → Claude Desktop for architecture
-- Testing and refinement → both tools as needed
+- Quick scripting â†’ GitHub Copilot in VS Code
+- Complex logic or full scripts â†’ Claude Desktop for architecture
+- Testing and refinement â†’ both tools as needed
 
 **End of Day: Documentation (Copilot for format, Claude for content)**
-- Meeting notes → Copilot in Teams
-- Technical writeups → Claude Desktop for depth
-- Executive summaries → Copilot in PowerPoint
+- Meeting notes â†’ Copilot in Teams
+- Technical writeups â†’ Claude Desktop for depth
+- Executive summaries â†’ Copilot in PowerPoint
 
 ## What This Enables: Knowledge Capture at Scale
 

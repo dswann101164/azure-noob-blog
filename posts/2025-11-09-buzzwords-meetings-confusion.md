@@ -77,13 +77,13 @@ The problem isn't that leadership doesn't understand cloud, or that technical pe
 - Everyone nods because asking clarifying questions reveals they didn't understand
 
 **Result:**
-- ✅ Everyone sounds confident
-- ✅ Projects get approved
-- ✅ Budget gets allocated
-- ❌ Nobody knows what anyone else actually meant
-- ❌ Deliverables don't match expectations
-- ❌ Projects fail
-- ❌ Everyone blames each other for "miscommunication"
+- âœ… Everyone sounds confident
+- âœ… Projects get approved
+- âœ… Budget gets allocated
+- âŒ Nobody knows what anyone else actually meant
+- âŒ Deliverables don't match expectations
+- âŒ Projects fail
+- âŒ Everyone blames each other for "miscommunication"
 
 ---
 
@@ -236,23 +236,23 @@ Microsoft's [Resource Naming Best Practices](https://learn.microsoft.com/en-us/a
 **What the documentation shows:**
 ```
 rg-prod-eastus-001
-  └─ vm-web-prod-eastus-001
-  └─ st-prod-eastus-001
-  └─ vnet-prod-eastus-001
+  â””â”€ vm-web-prod-eastus-001
+  â””â”€ st-prod-eastus-001
+  â””â”€ vnet-prod-eastus-001
 ```
 
 Clean. Professional. Consistent. Perfect for a greenfield deployment.
 
 **What your production environment actually looks like:**
 ```
-rg-prod-eastus-001          ← New resources (CAF compliant)
-ProductionEastUS            ← Legacy from 2019
-PROD_EAST_RG               ← Previous architect's convention  
-prod-rg-eastus             ← Developer read different guide
-rg_prod_eastus_001         ← Terraform default from template
-Azure-Prod-East-RG-01      ← Consultant's "best practice"
-eastusprodresourcegroup    ← Portal clickthrough at 2 AM
-CompanyName-Prod-EastUS    ← Acquired company's naming
+rg-prod-eastus-001          â† New resources (CAF compliant)
+ProductionEastUS            â† Legacy from 2019
+PROD_EAST_RG               â† Previous architect's convention  
+prod-rg-eastus             â† Developer read different guide
+rg_prod_eastus_001         â† Terraform default from template
+Azure-Prod-East-RG-01      â† Consultant's "best practice"
+eastusprodresourcegroup    â† Portal clickthrough at 2 AM
+CompanyName-Prod-EastUS    â† Acquired company's naming
 ```
 
 All in the same subscription. All in production. All supporting critical business applications.
@@ -321,17 +321,17 @@ All in the same subscription. All in production. All supporting critical busines
 **The statement that's both true AND false, depending on your architecture.**
 
 **If your subscriptions are architected as cost centers:**
-- ✅ One subscription = One department/business unit
-- ✅ Subscription cost = Department cost
-- ✅ Native Azure cost reporting works perfectly
-- ✅ Simple chargeback to departments
+- âœ… One subscription = One department/business unit
+- âœ… Subscription cost = Department cost
+- âœ… Native Azure cost reporting works perfectly
+- âœ… Simple chargeback to departments
 
 **If your subscriptions are architected as security boundaries:**
-- ❌ Multiple departments share subscriptions
-- ❌ Multiple applications per subscription
-- ❌ Multiple cost centers per subscription
-- ❌ Native reporting shows subscription totals only
-- ✅ **You MUST implement resource-level tagging for cost allocation**
+- âŒ Multiple departments share subscriptions
+- âŒ Multiple applications per subscription
+- âŒ Multiple cost centers per subscription
+- âŒ Native reporting shows subscription totals only
+- âœ… **You MUST implement resource-level tagging for cost allocation**
 
 ---
 
@@ -518,20 +518,20 @@ Neither side admits uncertainty. Project moves forward with different assumption
 ### 4. Microsoft Assumes Perfect Conditions
 
 **Every CAF document assumes:**
-- ✅ Greenfield deployment
-- ✅ Unlimited budget
-- ✅ No legacy constraints
-- ✅ Perfect team adoption
-- ✅ No organizational politics
-- ✅ Single decision-maker
+- âœ… Greenfield deployment
+- âœ… Unlimited budget
+- âœ… No legacy constraints
+- âœ… Perfect team adoption
+- âœ… No organizational politics
+- âœ… Single decision-maker
 
 **Your actual environment:**
-- ❌ 10+ years of technical debt
-- ❌ "Do more with less" mandate
-- ❌ Applications that can't be touched
-- ❌ 40% adoption if you're lucky
-- ❌ Byzantine approval processes
-- ❌ Decisions by committee
+- âŒ 10+ years of technical debt
+- âŒ "Do more with less" mandate
+- âŒ Applications that can't be touched
+- âŒ 40% adoption if you're lucky
+- âŒ Byzantine approval processes
+- âŒ Decisions by committee
 
 **Microsoft's guidance is technically correct but environmentally naive.**
 
@@ -544,16 +544,16 @@ Nobody wants to admit that Microsoft's docs don't match their reality, so they p
 **Before you speak in your next meeting, ask yourself:**
 
 ### Can I explain this without jargon?
-- ❌ "Leverage KQL to query Resource Graph for metadata extraction"
-- ✅ "Write queries to get resource information from Azure"
+- âŒ "Leverage KQL to query Resource Graph for metadata extraction"
+- âœ… "Write queries to get resource information from Azure"
 
 ### Do I actually understand what they want?
-- ❌ "Governance compliance" _(what does this mean specifically?)_
-- ✅ "Prevent resources from being deployed without required tags"
+- âŒ "Governance compliance" _(what does this mean specifically?)_
+- âœ… "Prevent resources from being deployed without required tags"
 
 ### Have I admitted what I don't know?
-- ❌ "I'll build a cost allocation system" _(without asking how they want costs broken down)_
-- ✅ "Help me understand your department structure so I allocate costs correctly"
+- âŒ "I'll build a cost allocation system" _(without asking how they want costs broken down)_
+- âœ… "Help me understand your department structure so I allocate costs correctly"
 
 ### Would I bet my job on my interpretation?
 If you're 60% sure what they mean, say so. Don't pretend you're 100% sure.
@@ -627,7 +627,7 @@ what I've misunderstood.
 
 **Practice converting arrogance to clarity:**
 
-### Business Buzzwords → Specific Questions
+### Business Buzzwords â†’ Specific Questions
 
 | They Say | You Ask |
 |----------|---------|
@@ -637,7 +637,7 @@ what I've misunderstood.
 | "Follow best practices" | "Which specific practices? CAF? Well-Architected? For which workloads?" |
 | "We need governance" | "What specific policies do you need? What should we prevent or enforce?" |
 
-### Technical Jargon → Plain Business Language
+### Technical Jargon â†’ Plain Business Language
 
 | You Want to Say | Say This Instead |
 |-----------------|------------------|
@@ -888,8 +888,8 @@ Not to assign blame. To identify where arrogance prevented clarity.
 I've created **`azure-reality-check`** with practical tools for breaking the arrogance cycle:
 
 ### `buzzword-translator.md`
-- Business buzzwords → What they actually require technically
-- Technical jargon → What it means in business terms
+- Business buzzwords â†’ What they actually require technically
+- Technical jargon â†’ What it means in business terms
 - Real examples from actual meetings
 - Questions to ask to force clarity
 

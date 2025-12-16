@@ -1,4 +1,4 @@
-﻿---
+---
 title: The Azure Cost Optimization Facade
 date: 2025-11-03
 summary: Most Azure optimization advice is surface-level. Reserved instances aren’t

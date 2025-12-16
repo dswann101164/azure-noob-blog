@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not Portal Clickops)"
 date: 2025-11-24
 modified: 2025-12-12

@@ -27,7 +27,7 @@ The answer is yes. But you can't just switch the language; you must adopt the ne
 
 ## The Workflow Evolution: ISE vs. VS Code
 
-The retirement of the PowerShell Integrated Scripting Environment (ISE) is more than just losing an editor—it marks the end of a slow, Windows-centric admin workflow.
+The retirement of the PowerShell Integrated Scripting Environment (ISE) is more than just losing an editorâ€”it marks the end of a slow, Windows-centric admin workflow.
 
 ### The Old Guard: PowerShell ISE (Tied to 5.1)
 
@@ -83,7 +83,7 @@ Get-AzSubscription | ForEach-Object -Parallel {
 } -ThrottleLimit 10
 ```
 
-**The ROI:** If you audit subscriptions weekly, you just saved **37 minutes × 52 weeks = 32 hours/year**. For one admin. Scale that across your team.
+**The ROI:** If you audit subscriptions weekly, you just saved **37 minutes Ã— 52 weeks = 32 hours/year**. For one admin. Scale that across your team.
 
 The ROI is immediate and massive.
 
@@ -93,7 +93,7 @@ The ROI is immediate and massive.
 
 **The PS7 Fix:** Built on .NET Core, PS7 significantly improves the performance of `Invoke-RestMethod` and cmdlets like `ConvertFrom-Json`. 
 
-When you're pulling multi-megabyte audit reports from Azure, this speed boost is not a feature—**it's a necessity**.
+When you're pulling multi-megabyte audit reports from Azure, this speed boost is not a featureâ€”**it's a necessity**.
 
 **Performance comparison:**
 
@@ -119,11 +119,11 @@ You develop in VS Code using the same, consistent PS7 runtime that your pipeline
 
 | Environment | PS5.1 Support | PS7 Support | Future-Proof? |
 |-------------|---------------|-------------|---------------|
-| **Your Workstation** | Legacy only | ✅ Recommended | ✅ |
-| **Azure Automation** | Default (legacy) | ✅ Available (7.2 runtime) | ✅ |
-| **Azure DevOps Agents** | Windows-only | ✅ Cross-platform | ✅ |
-| **GitHub Actions** | N/A | ✅ Native support | ✅ |
-| **Azure Functions** | N/A | ✅ PowerShell 7.4 | ✅ |
+| **Your Workstation** | Legacy only | âœ… Recommended | âœ… |
+| **Azure Automation** | Default (legacy) | âœ… Available (7.2 runtime) | âœ… |
+| **Azure DevOps Agents** | Windows-only | âœ… Cross-platform | âœ… |
+| **GitHub Actions** | N/A | âœ… Native support | âœ… |
+| **Azure Functions** | N/A | âœ… PowerShell 7.4 | âœ… |
 
 **Bottom line:** If you're writing new automation, PS7 is the only path that works everywhere.
 
@@ -131,7 +131,7 @@ You develop in VS Code using the same, consistent PS7 runtime that your pipeline
 
 ## The "Azure Noob" Decision Framework
 
-The enterprise approach is not a clean migration—it's a **hybrid deployment**. Keep PS5.1 for the legacy tasks, and use PS7 + VS Code for everything else.
+The enterprise approach is not a clean migrationâ€”it's a **hybrid deployment**. Keep PS5.1 for the legacy tasks, and use PS7 + VS Code for everything else.
 
 | Operation Type | Recommended Toolchain | The Enterprise Strategy |
 |----------------|----------------------|------------------------|
@@ -182,7 +182,7 @@ choco install powershell-core vscode -y
 # Switch between PS versions using the version selector (bottom-right)
 # Test scripts in PS7 to see what fails
 
-# Common PS5.1 → PS7 issues:
+# Common PS5.1 â†’ PS7 issues:
 # - Workflows (removed in PS7)
 # - -AsJob syntax changes
 # - Some WMI cmdlets (use CIM instead)
@@ -365,8 +365,8 @@ Let's quantify the productivity gain for a team managing 50 Azure subscriptions.
 **For a 5-person team:** 55 hours/year recovered
 
 **Value calculation:**
-- 55 hours × $75/hour (loaded Azure admin cost) = **$4,125/year saved**
-- One-time setup cost: 2.5 hours per admin × 5 = 12.5 hours × $75 = **$937.50**
+- 55 hours Ã— $75/hour (loaded Azure admin cost) = **$4,125/year saved**
+- One-time setup cost: 2.5 hours per admin Ã— 5 = 12.5 hours Ã— $75 = **$937.50**
 - **ROI:** 440% in year one
 
 And that's just **one monthly task**. Scale this across all your automation workflows.
@@ -445,15 +445,15 @@ Get-InstalledModule Az.* | ForEach-Object {
 ```powershell
 # Common PS5.1 patterns that break in PS7:
 
-# ❌ Workflows (removed entirely in PS7)
+# âŒ Workflows (removed entirely in PS7)
 workflow Get-AllVMs {
     # This won't work in PS7
 }
 
-# ❌ Old WMI cmdlets (use CIM instead)
+# âŒ Old WMI cmdlets (use CIM instead)
 Get-WmiObject -Class Win32_Process
 
-# ✅ PS7-compatible CIM cmdlet
+# âœ… PS7-compatible CIM cmdlet
 Get-CimInstance -ClassName Win32_Process
 ```
 
@@ -466,23 +466,23 @@ Get-CimInstance -ClassName Win32_Process
 Here's the full stack for modern Azure administration:
 
 ### Core Tools (Required)
-- ✅ PowerShell 7.5+
-- ✅ VS Code (latest stable)
-- ✅ VS Code PowerShell Extension
-- ✅ Azure CLI (for non-PowerShell scenarios)
-- ✅ Git (for version control)
+- âœ… PowerShell 7.5+
+- âœ… VS Code (latest stable)
+- âœ… VS Code PowerShell Extension
+- âœ… Azure CLI (for non-PowerShell scenarios)
+- âœ… Git (for version control)
 
 ### Azure Extensions (Recommended)
-- ✅ Azure Account
-- ✅ Azure Resources  
-- ✅ Azure Functions
-- ✅ Azure Storage
-- ✅ Bicep
+- âœ… Azure Account
+- âœ… Azure Resources  
+- âœ… Azure Functions
+- âœ… Azure Storage
+- âœ… Bicep
 
 ### Quality-of-Life Additions
-- ✅ Windows Terminal (better than cmd/ISE console)
-- ✅ Oh My Posh (enhanced PowerShell prompts)
-- ✅ PSReadLine (better command history/editing)
+- âœ… Windows Terminal (better than cmd/ISE console)
+- âœ… Oh My Posh (enhanced PowerShell prompts)
+- âœ… PSReadLine (better command history/editing)
 
 ### Automated Setup Script
 
@@ -713,7 +713,7 @@ Here's a realistic timeline for enterprise Azure admin teams:
 
 If you are managing Azure at scale, you need to save time and increase stability. 
 
-Sticking with the old 5.1/ISE workflow is no longer a cost-saving measure—**it is a drag on your operational efficiency.**
+Sticking with the old 5.1/ISE workflow is no longer a cost-saving measureâ€”**it is a drag on your operational efficiency.**
 
 The math is simple:
 - Setup time: 2 hours (one-time)

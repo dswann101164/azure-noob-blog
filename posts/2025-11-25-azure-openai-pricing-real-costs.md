@@ -1,4 +1,4 @@
-﻿---
+---
 title: 'Azure OpenAI Pricing: $500 POC → $50K/Month Reality'
 date: 2025-11-25
 modified: 2025-12-12

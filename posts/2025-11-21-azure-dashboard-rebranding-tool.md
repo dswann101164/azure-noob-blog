@@ -1,4 +1,4 @@
-﻿---
+---
 title: How I Rebranded Microsoft's Azure Resource Inventory Dashboard (Without Corrupting
   Excel)
 date: 2025-11-21
