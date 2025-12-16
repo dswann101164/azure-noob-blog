@@ -30,6 +30,10 @@ related_posts:
 
 **This guide reflects current December 2025 pricing.**
 
+## Short Answer
+
+Azure OpenAI pricing calculator shows token costs but omits three critical expenses: fine-tuned model hosting fees ($1,836-$2,160/month per model regardless of usage), infrastructure overhead (Cognitive Services resource, Key Vault, monitoring), and the 2x cost multiplier for output tokens versus input tokens. Organizations discover the $4/month calculator estimate becomes $1,900+/month in production when fine-tuning is deployed. The gap exists because Microsoft's calculator assumes pay-as-you-go token usage without fine-tuning, no infrastructure costs, and equal input/output token ratios—assumptions that don't reflect actual production deployments.
+
 ---
 
 **Azure OpenAI pricing looks simple until you get your first bill.**
@@ -63,7 +67,13 @@ You'll see:
 
 Looks affordable, right?
 
-## What Actually Happened When I Deployed It
+## Why does Azure OpenAI pricing look cheap in the calculator but expensive in production?
+
+**Cause:** The Azure pricing calculator only models API token usage and ignores required infrastructure, hosting fees, and non-token service costs.
+
+**Effect:** Real-world Azure OpenAI deployments routinely cost 10×–100× more than calculator estimates once production traffic, fine-tuning, and supporting services are included.
+
+**What to do:** Model total cost using real traffic volumes, include all dependent Azure services, and validate pricing with a controlled pilot before scaling workloads.
 
 **My actual first month costs:**
 - API token usage (as estimated): $47
@@ -77,7 +87,7 @@ The calculator said $4. The bill said $1,906.
 
 **What went wrong?** Everything Microsoft doesn't tell you about.
 
-## The Hidden Costs Nobody Mentions
+## What hidden costs does Azure OpenAI pricing not show upfront?
 
 ### 1. Fine-Tuned Model Hosting Fees
 

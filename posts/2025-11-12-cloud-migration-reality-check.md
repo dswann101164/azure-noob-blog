@@ -17,7 +17,11 @@ related_posts:
 
 # The Spreadsheet I Wish I Had in 2019: Before You Migrate Anything to Azure
 
-## The Meeting
+## Short Answer
+
+Azure migration fails when organizations start with technical tools before organizational discovery. Azure Migrate provides excellent VM assessment and cost estimation, but it assumes you already know what applications exist, who owns them, where installation media is stored, and whether vendor relationships are active. Most enterprises can't answer these questions. The 55-question pre-migration assessment exposes institutional knowledge gaps—missing business owners, lost license keys, broken vendor relationships, and applications nobody uses—that cause migrations to exceed budget by 2x and timelines to double.
+
+## Why do cloud migrations fail before any workloads are moved?
 
 2019. Conference room. Leadership announces: **"We're going to the cloud."**
 
@@ -43,7 +47,7 @@ A simple spreadsheet with 55 questions that nobody could answer.
 
 ---
 
-## What Azure Migrate Can't Prevent
+## Why doesn't Azure Migrate prevent bad migration decisions?
 
 Microsoft's [Azure Migrate service](https://learn.microsoft.com/en-us/azure/migrate/) provides excellent tools for discovery, assessment, and migration execution. The [assessment capabilities](https://learn.microsoft.com/en-us/azure/migrate/concepts-assessment-calculation) calculate Azure costs based on current server specifications and usage patterns. The [migration tools](https://learn.microsoft.com/en-us/azure/migrate/tutorial-migrate-physical-virtual-machines) handle the actual VM movement with minimal downtime.
 
@@ -70,7 +74,13 @@ Here's the pre-migration checklist that prevents this disaster.
 
 ---
 
-## What Actually Happened
+## What actually causes cloud migrations to derail at the planning stage?
+
+**Cause:** Planning decisions are made without a complete, normalized view of applications, dependencies, and true operating costs.
+
+**Effect:** Migration timelines slip, costs spike, and teams are forced into reactive rework before the first workload is ever moved.
+
+**What to do:** Establish a single source of truth for application ownership, technical dependencies, and financial impact before committing to a migration wave.
 
 Without that forcing function, here's what we did:
 

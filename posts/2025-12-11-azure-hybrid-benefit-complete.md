@@ -24,6 +24,10 @@ related_posts:
 ---
 Azure Hybrid Benefit (AHB) is supposed to save money — not **trigger a $50,000 audit bill**.
 
+## Short Answer
+
+Azure Hybrid Benefit requires active Software Assurance, documented proof of purchase, correct license-to-core mapping, and decommissioning proof for on-premises usage. Enterprises fail audits when they assume on-premises licenses automatically transfer to Azure without SA, enable AHB on marketplace images with built-in licensing, or continue running on-premises servers beyond the 180-day grace period. Pre-migration validation through the 8-question checklist prevents the $50K+ audit penalties that result from missing documentation, expired SA, OEM license restrictions, or oversized VMs exceeding licensed core counts.
+
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
@@ -42,7 +46,13 @@ This post explains **why** it happens, **how** to prevent it, and provides the *
 
 ---
 
-## The Uncomfortable Truth About CALs and Core Licenses
+## Why do Azure Hybrid Benefit audits fail in enterprise environments?
+
+**Cause:** Azure Hybrid Benefit is enabled without validated Software Assurance, documented proof of purchase, or confirmed license-to-core alignment.
+
+**Effect:** Auditors flag non-compliance months later, resulting in retroactive licensing charges, failed true-ups, and $50K+ penalties.
+
+**What to do:** Validate eligibility using a pre-migration checklist, confirm SA status and license scope, and retain decommissioning evidence before enabling AHB.
 
 Here's the problem no one wants to say out loud:
 
@@ -257,7 +267,7 @@ Nobody validated license eligibility before enabling AHB.
 
 ---
 
-## The 8-Question Pre-Migration AHB Validation Checklist
+## What should Azure admins validate before enabling Azure Hybrid Benefit?
 
 Before you apply Azure Hybrid Benefit — **to even ONE VM** — complete this checklist:
 
