@@ -1,0 +1,1360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration) · Azure Noob</title>
+  <meta name="description" content="Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner...">
+  <link rel="canonical" href="https://azure-noob.com/blog/logic-app-certificate-monitor" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)">
+  <meta property="og:description" content="Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/logic-app-certificate-monitor">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/logic-app-certificate-monitor.png">
+
+  
+    <meta property="article:published_time" content="2025-12-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-16T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Automation">
+      
+        <meta property="article:tag" content="Logic Apps">
+      
+        <meta property="article:tag" content="Governance">
+      
+        <meta property="article:tag" content="Security">
+      
+        <meta property="article:tag" content="Microsoft Graph">
+      
+        <meta property="article:tag" content="Entra ID">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)">
+  <meta name="twitter:description" content="Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/logic-app-certificate-monitor.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)",
+  "description": "Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/logic-app-certificate-monitor.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-12-16T00:00:00+00:00",
+  "dateModified": "2025-12-16T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/logic-app-certificate-monitor"
+  },
+  "keywords": "Azure, Automation, Logic Apps, Governance, Security, Microsoft Graph, Entra ID",
+  "articleSection": "Azure",
+  "wordCount": "5531",
+  "timeRequired": "PT28M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)",
+      "item": "https://azure-noob.com/blog/logic-app-certificate-monitor"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/logic-app-certificate-monitor.png" alt="The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)</h1>
+    <p class="muted">
+      2025-12-16 · ~28 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Automation" class="tag-badge">Automation</a></li>
+      
+      <li><a href="/tags/Logic%20Apps" class="tag-badge">Logic Apps</a></li>
+      
+      <li><a href="/tags/Governance" class="tag-badge">Governance</a></li>
+      
+      <li><a href="/tags/Security" class="tag-badge">Security</a></li>
+      
+      <li><a href="/tags/Microsoft%20Graph" class="tag-badge">Microsoft Graph</a></li>
+      
+      <li><a href="/tags/Entra%20ID" class="tag-badge">Entra ID</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner information, sends HTML email alerts. Built for security compliance, caught Azure Migrate appliances expiring before production migration. Complete walkthrough with working code.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <h1>The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)</h1>
+<h2>Short Answer</h2>
+<p>This Logic App monitors all Entra ID app registration certificates and secrets via Microsoft Graph API, sending email alerts 30 days before expiration. It handles paginated responses for enterprises with 100+ applications, extracts owner information for targeted notifications, and formats results as HTML email reports. The solution was built for security compliance but discovered Azure Migrate appliances with expiring certificates that would have deleted 18 months of migration data. The Logic App uses service principal authentication via Key Vault, runs daily at 6 AM, and costs approximately $1-2/month on consumption pricing.</p>
+<h2>Why did we build certificate expiration monitoring?</h2>
+<p><strong>Original requirement:</strong> Security compliance mandated tracking of all app registration credentials.</p>
+<p><strong>The problem Microsoft doesn't solve:</strong><br />
+- No native Azure Monitor alerts for app registration expiration<br />
+- Portal shows expiration dates but doesn't proactively notify<br />
+- Enterprises have 100+ app registrations<br />
+- Credentials expire with zero warning<br />
+- Production services break when certificates expire<br />
+- Nobody tracks which app registration belongs to which service</p>
+<p><strong>What we needed:</strong><br />
+- Automated daily scanning<br />
+- 30-day early warning<br />
+- Owner identification<br />
+- Email notifications to responsible teams<br />
+- HTML-formatted reports</p>
+<p><strong>What we got:</strong><br />
+- All of the above<br />
+- Plus an accidental operational safety net</p>
+<hr />
+<h2>What the Logic App actually discovered</h2>
+<p><strong>Month 3 of operation:</strong> Standard report with 15 expiring credentials.</p>
+<p><strong>Buried in the list:</strong></p>
+<div class="codehilite"><pre><span></span><code>- Application: AzureMigrate-DC1-Appliance
+  Type: Certificate
+  Expires: 2026-01-15
+  Owner: No Owner
+</code></pre></div>
+
+<p><strong>Our reaction:</strong> "What's an Azure Migrate appliance doing in our app registrations?"</p>
+<p><strong>Microsoft's answer:</strong> <a href="/blog/azure-migrate-certificate-18-month-limit/">Azure Migrate certificates expire after 18 months and delete all your discovery data.</a></p>
+<p><strong>Without this Logic App:</strong><br />
+- Certificates would have expired silently<br />
+- Discovery would have stopped mid-migration<br />
+- 18 months of dependency mapping: deleted<br />
+- Migration timeline: destroyed<br />
+- We'd discover it when authentication failed</p>
+<p><strong>This compliance tool became our migration safety net.</strong></p>
+<hr />
+<h2>How the Logic App works (architecture overview)</h2>
+<p><strong>Cause:</strong> Microsoft provides no native alerting for app registration certificate expiration in enterprises with 100+ applications.</p>
+<p><strong>Effect:</strong> Certificates expire without warning, breaking production authentication flows and requiring emergency remediation during business hours.</p>
+<p><strong>What to do:</strong> Deploy automated certificate monitoring via Logic App with Microsoft Graph API integration, paginated response handling, and owner-targeted email notifications.</p>
+<hr />
+<p><strong>High-level flow:</strong></p>
+<ol>
+<li><strong>Authenticate</strong> - Service principal via Key Vault credentials</li>
+<li><strong>Query Graph API</strong> - Get all app registrations with pagination</li>
+<li><strong>Check expiration dates</strong> - Both secrets and certificates</li>
+<li><strong>Filter results</strong> - 30-day window (configurable)</li>
+<li><strong>Extract owners</strong> - From expanded Graph response</li>
+<li><strong>Build HTML report</strong> - Formatted table with statistics</li>
+<li><strong>Send email</strong> - To team + individual owners</li>
+<li><strong>Schedule</strong> - Daily at 6 AM</li>
+</ol>
+<p><strong>What makes this production-grade:</strong><br />
+- Handles pagination (enterprises have 200+ apps)<br />
+- Secure credential storage (Key Vault, not hardcoded)<br />
+- Owner expansion (targets notifications to responsible teams)<br />
+- HTML formatting (readable reports, not raw JSON)<br />
+- Error handling (continues if individual apps fail)<br />
+- Statistics tracking (processed count, expiring count)</p>
+<hr />
+<h2>Step 1: Create the service principal with Graph API permissions</h2>
+<p><strong>Why service principal authentication:</strong><br />
+- Logic Apps run unattended<br />
+- Need consistent credentials<br />
+- Requires application-level permissions (not user delegation)</p>
+<p><strong>Required Microsoft Graph API permissions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Application.Read.All</code></td>
+<td>Application</td>
+<td>Read all app registrations</td>
+</tr>
+<tr>
+<td><code>User.Read.All</code></td>
+<td>Application</td>
+<td>Read user details for owner expansion</td>
+</tr>
+</tbody>
+</table>
+<p><strong>PowerShell to create the service principal:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Create app registration</span>
+<span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">&quot;CertificateMonitor-LogicApp&quot;</span>
+
+<span class="c"># Create service principal</span>
+<span class="nv">$sp</span> <span class="p">=</span> <span class="nb">New-AzADServicePrincipal</span> <span class="n">-ApplicationId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
+
+<span class="c"># Create client secret (save this - you can&#39;t retrieve it later)</span>
+<span class="nv">$secret</span> <span class="p">=</span> <span class="nb">New-AzADAppCredential</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">Id</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;Application ID: </span><span class="p">$(</span><span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Tenant ID: </span><span class="p">$((</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Client Secret: </span><span class="p">$(</span><span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Grant admin consent via Azure Portal:</strong></p>
+<ol>
+<li>Go to <strong>Entra ID</strong> → <strong>App registrations</strong></li>
+<li>Find your <code>CertificateMonitor-LogicApp</code></li>
+<li>Go to <strong>API permissions</strong></li>
+<li>Add <strong>Microsoft Graph</strong> → <strong>Application permissions</strong>:</li>
+<li><code>Application.Read.All</code></li>
+<li><code>User.Read.All</code></li>
+<li>Click <strong>Grant admin consent for [your tenant]</strong></li>
+</ol>
+<p><strong>Critical:</strong> These must be <strong>Application</strong> permissions, not <strong>Delegated</strong> permissions. Logic Apps can't use delegated permissions.</p>
+<hr />
+<h2>Step 2: Store credentials in Azure Key Vault</h2>
+<p><strong>Why Key Vault:</strong><br />
+- Credentials never appear in Logic App definition<br />
+- Secrets not logged in execution history<br />
+- Centralized credential rotation<br />
+- Audit trail for access</p>
+<p><strong>Store three secrets:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Get your tenant ID</span>
+<span class="nv">$tenantId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span>
+
+<span class="c"># Store the three required values</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">&quot;tenant-id&quot;</span> <span class="p">`</span>
+    <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$tenantId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">&quot;client-id&quot;</span> <span class="p">`</span>
+    <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">&quot;client-secret&quot;</span> <span class="p">`</span>
+    <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Grant Logic App access to Key Vault:</strong></p>
+<p>After creating the Logic App (next step), assign it the <strong>Key Vault Secrets User</strong> role on your Key Vault.</p>
+<hr />
+<h2>Step 3: The authentication flow (getting the Graph API token)</h2>
+<p><strong>Here's what the Logic App does at runtime:</strong></p>
+<h3><strong>Action 1-3: Retrieve credentials from Key Vault</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Tenant_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ServiceProvider&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;secretName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tenant-id&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;serviceProviderConfiguration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;connectionName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;keyVault&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;operationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;getSecret&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>This runs three times:</strong><br />
+- Get tenant ID<br />
+- Get client ID<br />
+- Get client secret</p>
+<p><strong>Result:</strong> Three secure variables with credentials.</p>
+<hr />
+<h3><strong>Action 4: Request OAuth token from Microsoft identity platform</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Get_Token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://login.microsoftonline.com/@{body(&#39;Tenant_ID&#39;)?[&#39;value&#39;]}/oauth2/v2.0/token&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;Content-Type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;application/x-www-form-urlencoded&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client_id=@{body(&#39;Client_ID&#39;)?[&#39;value&#39;]}&amp;scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&amp;client_secret=@{body(&#39;Client_Secret&#39;)?[&#39;value&#39;]}&amp;grant_type=client_credentials&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this does:</strong><br />
+- Authenticates to Microsoft identity platform<br />
+- Requests token for Graph API scope<br />
+- Uses client credentials grant type<br />
+- Returns bearer token valid for 1 hour</p>
+<p><strong>Response:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJub...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bearer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3599</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Action 5: Parse the token response</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Parse_Token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParseJson&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@body(&#39;Get_Token&#39;)&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> <code>body('Parse_Token')?['access_token']</code> now contains the bearer token for all subsequent Graph API calls.</p>
+<hr />
+<h2>Step 4: Paginated Graph API queries (handling 100+ apps)</h2>
+<p><strong>The problem:</strong> Microsoft Graph returns maximum 100 items per page.</p>
+<p><strong>The Graph API query:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET https://graph.microsoft.com/v1.0/applications
+  ?$select=displayName,appId,passwordCredentials,keyCredentials
+  &amp;$expand=owners($select=displayName,userPrincipalName,mail)
+  &amp;$top=100
+</code></pre></div>
+
+<p><strong>What we're requesting:</strong><br />
+- <code>displayName</code> - App name<br />
+- <code>appId</code> - Application ID (GUID)<br />
+- <code>passwordCredentials</code> - Client secrets with expiration dates<br />
+- <code>keyCredentials</code> - Certificates with expiration dates<br />
+- <code>owners</code> - Expanded user details (name, email)</p>
+<p><strong>The pagination challenge:</strong></p>
+<p>If you have 250 apps:<br />
+- First call returns 100 apps + <code>@odata.nextLink</code><br />
+- Second call returns 100 apps + <code>@odata.nextLink</code><br />
+- Third call returns 50 apps (no <code>@odata.nextLink</code>)</p>
+<p><strong>Logic App solution: Until loop with dynamic nextLink</strong></p>
+<h3><strong>Initialize variables:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Init_All_Apps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InitializeVariable&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allApps&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Array&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">            </span><span class="p">}]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Init_Next_Link&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InitializeVariable&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nextLink&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://graph.microsoft.com/v1.0/applications?$select=displayName,appId,passwordCredentials,keyCredentials&amp;$expand=owners($select=displayName,userPrincipalName,mail)&amp;$top=100&quot;</span>
+<span class="w">            </span><span class="p">}]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Until loop: Keep calling until no nextLink</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Get_All_Apps_Loop&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Until&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@equals(variables(&#39;nextLink&#39;), &#39;&#39;)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;timeout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PT1H&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Get_Apps_Page&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;nextLink&#39;)&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;Bearer &#39;, body(&#39;Parse_Token&#39;)?[&#39;access_token&#39;])&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;Parse_Apps_Page&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParseJson&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@body(&#39;Get_Apps_Page&#39;)&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;Merge_Arrays&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SetVariable&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allApps&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@union(variables(&#39;allApps&#39;), body(&#39;Parse_Apps_Page&#39;)?[&#39;value&#39;])&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;Update_Next_Link&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SetVariable&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nextLink&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(contains(string(body(&#39;Get_Apps_Page&#39;)), &#39;@odata.nextLink&#39;), body(&#39;Get_Apps_Page&#39;)[&#39;@odata.nextLink&#39;], &#39;&#39;)}&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>How the pagination works:</strong></p>
+<ol>
+<li><strong>First iteration:</strong></li>
+<li>Call Graph API with initial URL</li>
+<li>Parse response</li>
+<li>Merge 100 apps into <code>allApps</code> array</li>
+<li>Check if response contains <code>@odata.nextLink</code></li>
+<li>If yes: Set <code>nextLink</code> to that URL</li>
+<li>
+<p>If no: Set <code>nextLink</code> to empty string</p>
+</li>
+<li>
+<p><strong>Second iteration:</strong></p>
+</li>
+<li>Call Graph API with <code>@odata.nextLink</code> URL</li>
+<li>Parse response</li>
+<li>Merge next 100 apps into <code>allApps</code> array</li>
+<li>
+<p>Check for <code>@odata.nextLink</code> again</p>
+</li>
+<li>
+<p><strong>Final iteration:</strong></p>
+</li>
+<li>Call Graph API with last <code>@odata.nextLink</code></li>
+<li>Parse response with remaining apps</li>
+<li>No <code>@odata.nextLink</code> in response</li>
+<li>Set <code>nextLink</code> to empty string</li>
+<li>Until loop condition met: exit</li>
+</ol>
+<p><strong>Result:</strong> <code>allApps</code> variable contains all 250 apps in a single array.</p>
+<hr />
+<h2>Step 5: Checking expiration dates (secrets and certificates)</h2>
+<p><strong>Now we have all apps. Time to check which credentials are expiring.</strong></p>
+<h3><strong>Process each app:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Process_Each_App&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;allApps&#39;)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Check_Has_Credentials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;or&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@length(item()?[&#39;passwordCredentials&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="mi">0</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">},</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@length(item()?[&#39;keyCredentials&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="mi">0</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Logic:</strong><br />
+- Loop through every app<br />
+- Check if it has <code>passwordCredentials</code> (secrets) or <code>keyCredentials</code> (certificates)<br />
+- If neither: skip it<br />
+- If either: check expiration dates</p>
+<hr />
+<h3><strong>Check password (secret) expiration:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Check_Password_Expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@item()?[&#39;passwordCredentials&#39;]&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Check_If_Expiring_Soon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;and&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;less&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(addDays(utcNow(), 30))&quot;</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">},</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(utcNow())&quot;</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this checks:</strong><br />
+- Loop through all secrets for this app<br />
+- For each secret:<br />
+  - Is <code>endDateTime</code> <strong>less than</strong> 30 days from now? (expiring soon)<br />
+  - Is <code>endDateTime</code> <strong>greater than</strong> now? (not already expired)<br />
+- If both true: Add to report</p>
+<p><strong>Why the two conditions:</strong><br />
+- First condition: Catches credentials expiring within 30 days<br />
+- Second condition: Excludes already-expired credentials (we want warnings, not archaeology)</p>
+<p><strong>The 30-day window is configurable:</strong><br />
+- Change <code>addDays(utcNow(), 30)</code> to <code>addDays(utcNow(), 60)</code> for 60-day warning<br />
+- Change to <code>addDays(utcNow(), 7)</code> for 7-day warning</p>
+<hr />
+<h3><strong>Check certificate expiration (same logic):</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Check_Certificate_Expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@item()?[&#39;keyCredentials&#39;]&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Check_Cert_Expiring_Soon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;and&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;less&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(addDays(utcNow(), 30))&quot;</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">},</span>
+<span class="w">                        </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">&quot;@ticks(utcNow())&quot;</span>
+<span class="w">                            </span><span class="p">]</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Same logic, different credential type.</strong></p>
+<p>Certificates use <code>keyCredentials</code> instead of <code>passwordCredentials</code>, but the expiration check is identical.</p>
+<hr />
+<h2>Step 6: Building the HTML email report</h2>
+<p><strong>When a credential is expiring, add it to the HTML table:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Add_To_Table&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AppendToStringVariable&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;htmlTable&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;&lt;tr&gt;&lt;td&gt;&#39;, items(&#39;Process_Each_App&#39;)?[&#39;displayName&#39;], &#39;&lt;/td&gt;&lt;td&gt;&#39;, items(&#39;Process_Each_App&#39;)?[&#39;appId&#39;], &#39;&lt;/td&gt;&lt;td&gt;Secret&lt;/td&gt;&lt;td&gt;&#39;, formatDateTime(item()[&#39;endDateTime&#39;], &#39;yyyy-MM-dd&#39;), &#39;&lt;/td&gt;&lt;td&gt;&#39;, if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;displayName&#39;], &#39;No Owner&#39;), &#39;&lt;/td&gt;&lt;td&gt;&#39;, if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), coalesce(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;mail&#39;], items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;userPrincipalName&#39;]), &#39;&#39;), &#39;&lt;/td&gt;&lt;/tr&gt;&#39;)&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this builds:</strong></p>
+<table>
+<thead>
+<tr>
+<th>App Name</th>
+<th>App ID</th>
+<th>Type</th>
+<th>Expiration Date</th>
+<th>Owner Name</th>
+<th>Owner Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Production-API</td>
+<td>abc123...</td>
+<td>Secret</td>
+<td>2026-01-15</td>
+<td>John Smith</td>
+<td>john@company.com</td>
+</tr>
+<tr>
+<td>Azure-Migrate-DC1</td>
+<td>def456...</td>
+<td>Certificate</td>
+<td>2026-01-15</td>
+<td>No Owner</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The owner logic:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;displayName&#39;</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="s1">&#39;No Owner&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Translation:</strong><br />
+- If the app has owners (array length &gt; 0)<br />
+- Get the first owner's display name<br />
+- Otherwise: "No Owner"</p>
+<p><strong>Why this matters:</strong><br />
+- Some apps have no assigned owners<br />
+- Logic App handles this gracefully<br />
+- Email still sends, shows "No Owner" in table<br />
+- Prevents email failures due to null references</p>
+<hr />
+<h3><strong>Collect unique owner emails:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Add_Owner_To_Array&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AppendToArrayVariable&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ownersArray&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;ownerName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;displayName&#39;], &#39;No Owner&#39;)}&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ownerEmail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), coalesce(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;mail&#39;], items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;userPrincipalName&#39;]), &#39;&#39;)}&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Purpose:</strong><br />
+- Build array of all owners with expiring credentials<br />
+- De-duplicate using <code>union()</code> later<br />
+- Include owners in email recipients<br />
+- Target notifications to responsible parties</p>
+<hr />
+<h2>Step 7: Send the email with statistics</h2>
+<p><strong>Final email action:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Send_Email&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ApiConnection&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;connection&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;referenceName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;office365&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;post&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;To&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(equals(variables(&#39;ownersEmailString&#39;), &#39;&#39;), &#39;your-team@company.com&#39;, concat(&#39;your-team@company.com;&#39;, variables(&#39;ownersEmailString&#39;)))}&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;From&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-team@company.com&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;Subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;App Registration Expiration Report&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;Body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;&lt;html&gt;&lt;head&gt;&lt;style&gt;table{border-collapse:collapse;width:100%;margin-bottom:20px;}th,td{border:1px solid #ccc;padding:8px;text-align:left;}th{background-color:#f0f0f0;font-weight:bold;}h2{color:#d9534f;}.stats{background-color:#f9f9f9;padding:15px;margin:15px 0;border-radius:5px;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h2&gt;App Registrations Expiring Within 30 Days&lt;/h2&gt;&lt;div class=\&quot;stats\&quot;&gt;&lt;p&gt;&lt;strong&gt;Total Apps Processed:&lt;/strong&gt; &#39;, variables(&#39;processedCount&#39;), &#39;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Total Apps with Secrets/Certificates:&lt;/strong&gt; &#39;, variables(&#39;totalApps&#39;), &#39;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Secrets/Certificates Expiring in Next 30 Days:&lt;/strong&gt; &#39;, variables(&#39;expiringCount&#39;), &#39;&lt;/p&gt;&lt;/div&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;App Name&lt;/th&gt;&lt;th&gt;App ID&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Expiration Date&lt;/th&gt;&lt;th&gt;Owner Name&lt;/th&gt;&lt;th&gt;Owner Email&lt;/th&gt;&lt;/tr&gt;&#39;, if(equals(variables(&#39;htmlTable&#39;), &#39;&#39;), &#39;&lt;tr&gt;&lt;td colspan=\&quot;6\&quot;&gt;No apps expiring in the next 30 days&lt;/td&gt;&lt;/tr&gt;&#39;, variables(&#39;htmlTable&#39;)), &#39;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&#39;)&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;Importance&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;High&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;IsHtml&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/v2/Mail&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The email includes:</strong></p>
+<p><strong>Statistics block:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Total</span><span class="w"> </span><span class="nv">Apps</span><span class="w"> </span><span class="nv">Processed</span>:<span class="w"> </span><span class="mi">247</span>
+<span class="nv">Total</span><span class="w"> </span><span class="nv">Apps</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">Secrets</span><span class="o">/</span><span class="nv">Certificates</span>:<span class="w"> </span><span class="mi">189</span>
+<span class="nv">Secrets</span><span class="o">/</span><span class="nv">Certificates</span><span class="w"> </span><span class="nv">Expiring</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="k">Next</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="nv">Days</span>:<span class="w"> </span><span class="mi">15</span>
+</code></pre></div>
+
+<p><strong>HTML table with:</strong><br />
+- App name<br />
+- App ID (GUID)<br />
+- Credential type (Secret or Certificate)<br />
+- Expiration date (YYYY-MM-DD format)<br />
+- Owner name<br />
+- Owner email</p>
+<p><strong>Recipients:</strong><br />
+- Your team email (always)<br />
+- Plus all owners with expiring credentials (dynamically added)</p>
+<p><strong>Importance:</strong> High (shows as urgent in Outlook)</p>
+<hr />
+<h2>What this caught in production</h2>
+<p><strong>Month 1-2:</strong> Routine compliance reporting<br />
+- 3-5 expiring secrets per week<br />
+- Teams renewing proactively<br />
+- No production incidents</p>
+<p><strong>Month 3:</strong> Azure Migrate discovery</p>
+<p><strong>The alert that changed everything:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Registration</span><span class="w"> </span><span class="n">Expiration</span><span class="w"> </span><span class="n">Report</span>
+
+<span class="n">Applications</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">expiring</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span><span class="o">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC1</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span><span class="o">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC2</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span><span class="o">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DR</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">18</span><span class="o">)</span>
+</code></pre></div>
+
+<p><strong>Our reaction:</strong> "What are Azure Migrate appliances?"</p>
+<p><strong>Support ticket revealed:</strong> <a href="/blog/azure-migrate-certificate-18-month-limit/">Certificates expire after 18 months and delete all migration data.</a></p>
+<p><strong>Without this Logic App:</strong><br />
+- Appliances would have expired silently (no Azure alerts)<br />
+- Discovery would have stopped (no warning)<br />
+- 18 months of dependency mapping would be deleted (irreversible)<br />
+- Migration timeline would be destroyed (unrecoverable)</p>
+<p><strong>This security compliance tool became our migration safety net.</strong></p>
+<hr />
+<h2>Cost breakdown (real production numbers)</h2>
+<p><strong>Logic App execution:</strong><br />
+- Consumption plan pricing: ~$0.000125 per action<br />
+- Daily run with 250 apps: ~300 actions<br />
+- Monthly executions: 30 days × 300 actions = 9,000 actions<br />
+- Cost: 9,000 × $0.000125 = <strong>$1.13/month</strong></p>
+<p><strong>Key Vault operations:</strong><br />
+- 3 secrets retrieved per run<br />
+- 30 days × 3 secrets = 90 operations/month<br />
+- First 10,000 operations free<br />
+- Cost: <strong>$0.00/month</strong></p>
+<p><strong>Office 365 connector:</strong><br />
+- 1 email per day<br />
+- Included in Logic App cost<br />
+- Cost: <strong>$0.00/month</strong> (no additional charge)</p>
+<p><strong>Total monthly cost: ~$1.13</strong></p>
+<p><strong>What you're preventing:</strong><br />
+- Production authentication failures: Priceless<br />
+- Emergency weekend remediation: $5,000+ in labor<br />
+- Azure Migrate data loss: 18 months of work<br />
+- Migration delays: Millions in project impact</p>
+<p><strong>ROI:</strong> 4,400% in the first incident alone.</p>
+<hr />
+<h2>Deployment instructions (step-by-step)</h2>
+<h3><strong>1. Create the service principal (covered in Step 1)</strong></h3>
+<p>PowerShell from earlier:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">&quot;CertificateMonitor-LogicApp&quot;</span>
+<span class="nv">$sp</span> <span class="p">=</span> <span class="nb">New-AzADServicePrincipal</span> <span class="n">-ApplicationId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
+<span class="nv">$secret</span> <span class="p">=</span> <span class="nb">New-AzADAppCredential</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">Id</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Grant admin consent for:<br />
+- <code>Application.Read.All</code><br />
+- <code>User.Read.All</code></p>
+<hr />
+<h3><strong>2. Store credentials in Key Vault (covered in Step 2)</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;tenant-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$tenantId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;client-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;client-secret&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>3. Create Logic App and import definition</strong></h3>
+<p><strong>Option A: Azure Portal</strong><br />
+1. Create Resource → Logic App (Consumption)<br />
+2. After creation: Logic app code view<br />
+3. Paste JSON definition<br />
+4. Save</p>
+<p><strong>Option B: Azure CLI</strong></p>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>logic<span class="w"> </span>workflow<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span>your-rg<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>CertificateMonitor<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--definition<span class="w"> </span>@certificate-monitor-logic-app.json
+</code></pre></div>
+
+<p><strong>Download the complete Logic App definition:</strong><br />
+- <a href="/static/downloads/certificate-monitor-logic-app.json">Logic App JSON</a><br />
+- <a href="/static/downloads/certificate-monitor-README.md">Deployment README</a></p>
+<hr />
+<h3><strong>4. Configure connections</strong></h3>
+<p>After importing, the Logic App will show connection errors. For each:</p>
+<p><strong>Key Vault connection:</strong><br />
+1. Open the <strong>Tenant_ID</strong> action<br />
+2. Click "Add new connection"<br />
+3. Select your Key Vault<br />
+4. Choose authentication: Managed Identity or Service Principal<br />
+5. Save</p>
+<p><strong>Office 365 connection:</strong><br />
+1. Open the <strong>Send_Email</strong> action<br />
+2. Click "Add new connection"<br />
+3. Sign in with Office 365 account that has send-as permissions<br />
+4. Authorize<br />
+5. Save</p>
+<hr />
+<h3><strong>5. Update Key Vault secret names</strong></h3>
+<p>If your secret names differ from <code>tenant-id</code>, <code>client-id</code>, <code>client-secret</code>:</p>
+<ol>
+<li>Open <strong>Tenant_ID</strong> action</li>
+<li>Update <code>secretName</code> parameter</li>
+<li>Repeat for <strong>Client_ID</strong> and <strong>Client_Secret</strong> actions</li>
+<li>Save</li>
+</ol>
+<hr />
+<h3><strong>6. Update email recipients</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">&quot;To&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-team@company.com;additional@company.com&quot;</span>
+</code></pre></div>
+
+<p>The Logic App automatically adds owners with expiring credentials to the recipient list.</p>
+<hr />
+<h3><strong>7. Test the workflow</strong></h3>
+<ol>
+<li>Click <strong>Run Trigger</strong> → <strong>Recurrence</strong></li>
+<li>Wait 2-3 minutes for execution</li>
+<li>Check <strong>Runs history</strong> for errors</li>
+<li>Verify email delivery</li>
+<li>Review HTML formatting</li>
+</ol>
+<p><strong>First run will likely show:</strong><br />
+- Several expiring credentials (30-day window catches existing issues)<br />
+- Apps with "No Owner" (cleanup opportunity)<br />
+- Longer execution time (initial Graph API query)</p>
+<hr />
+<h2>Customization options</h2>
+<h3><strong>Change expiration window (30 → 60 days)</strong></h3>
+<p>Find this expression (appears twice):</p>
+<div class="codehilite"><pre><span></span><code><span class="err">@</span><span class="nx">ticks</span><span class="p">(</span><span class="nx">addDays</span><span class="p">(</span><span class="nx">utcNow</span><span class="p">(),</span><span class="w"> </span><span class="mf">30</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Change to:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">@</span><span class="nx">ticks</span><span class="p">(</span><span class="nx">addDays</span><span class="p">(</span><span class="nx">utcNow</span><span class="p">(),</span><span class="w"> </span><span class="mf">60</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Locations:<br />
+- <strong>Check_If_Expiring_Soon</strong> (password check)<br />
+- <strong>Check_Cert_Expiring_Soon</strong> (certificate check)</p>
+<hr />
+<h3><strong>Change execution schedule</strong></h3>
+<p>Default: Daily at 6 AM Eastern</p>
+<p>Update the <strong>Recurrence</strong> trigger:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;timeZone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Eastern Standard Time&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;schedule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;hours&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;minutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Options:</strong><br />
+- Weekly: Change <code>frequency</code> to <code>"Week"</code>, add <code>"daysOfWeek": ["Monday"]</code><br />
+- Twice daily: Add second hour: <code>"hours": [6, 18]</code><br />
+- Different timezone: Change <code>timeZone</code> to valid Windows timezone</p>
+<hr />
+<h3><strong>Add Teams notifications instead of email</strong></h3>
+<p>Replace the <strong>Send_Email</strong> action with <strong>Post message in a chat or channel</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Post_Message&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ApiConnection&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;connection&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;referenceName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;teams&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;post&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;recipient&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;channelId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-channel-id&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;messageBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;html content here&gt;&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/v1.0/teams/conversation/message/post&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Filter by app name pattern</strong></h3>
+<p>To only check apps matching a pattern (e.g., "Production-*"):</p>
+<p>Add filter before <strong>Process_Each_App</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Filter_Apps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Query&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;allApps&#39;)&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;where&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@startsWith(item()[&#39;displayName&#39;], &#39;Production-&#39;)&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Then change <code>foreach</code> to use <code>@body('Filter_Apps')</code> instead of <code>@variables('allApps')</code>.</p>
+<hr />
+<h2>Production lessons learned</h2>
+<h3><strong>1. Pagination is non-negotiable</strong></h3>
+<p><strong>Without pagination:</strong><br />
+- Logic App only sees first 100 apps<br />
+- Remaining 150+ apps invisible<br />
+- Credentials expire with zero detection<br />
+- False sense of security</p>
+<p><strong>With pagination:</strong><br />
+- All 250+ apps monitored<br />
+- Caught Azure Migrate appliances (app #187, #188, #189)<br />
+- Complete coverage<br />
+- Actually works</p>
+<hr />
+<h3><strong>2. Owner expansion requires User.Read.All</strong></h3>
+<p><strong>Without User.Read.All permission:</strong><br />
+- Graph API returns owner object IDs only<br />
+- No display names<br />
+- No email addresses<br />
+- Can't target notifications</p>
+<p><strong>With User.Read.All:</strong><br />
+- Full owner details returned<br />
+- Display names in email table<br />
+- Email addresses for targeted notifications<br />
+- Actually useful</p>
+<hr />
+<h3><strong>3. HTML email needs inline CSS</strong></h3>
+<p><strong>Attempted:</strong> Link to external stylesheet</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://example.com/styles.css&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Outlook strips external CSS, email looks broken</p>
+<p><strong>Solution:</strong> Inline all styles</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="nt">table</span><span class="p">{</span><span class="k">border-collapse</span><span class="p">:</span><span class="kc">collapse</span><span class="p">;</span><span class="k">width</span><span class="p">:</span><span class="mi">100</span><span class="kt">%</span><span class="p">;}</span>
+<span class="nt">th</span><span class="o">,</span><span class="nt">td</span><span class="p">{</span><span class="k">border</span><span class="p">:</span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#ccc</span><span class="p">;</span><span class="k">padding</span><span class="p">:</span><span class="mi">8</span><span class="kt">px</span><span class="p">;}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Email renders correctly in Outlook, Gmail, mobile clients</p>
+<hr />
+<h3><strong>4. Some apps have no owners</strong></h3>
+<p><strong>Reality:</strong> 20-30% of app registrations have zero assigned owners</p>
+<p><strong>Problem:</strong> Logic App crashes if you assume owners exist</p>
+<p><strong>Solution:</strong> Defensive checks everywhere</p>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;displayName&#39;</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="s1">&#39;No Owner&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Bonus:</strong> "No Owner" entries highlight cleanup opportunities</p>
+<hr />
+<h3><strong>5. Daily execution is sufficient for 30-day window</strong></h3>
+<p><strong>Considered:</strong> Hourly execution for faster detection</p>
+<p><strong>Reality:</strong> Certificate expiration is a slow-moving problem<br />
+- 30-day warning window<br />
+- Renewals take days (procurement, approvals, coordination)<br />
+- Daily check catches everything<br />
+- Saves 720 Logic App executions/month</p>
+<p><strong>Cost savings:</strong> $0.09/month (not much, but multiplied by 100 Logic Apps = real money)</p>
+<hr />
+<h2>Related use cases (beyond app registrations)</h2>
+<p><strong>This same pattern works for:</strong></p>
+<h3><strong>1. Key Vault certificate expiration</strong></h3>
+<p><strong>Graph API query:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET https://management.azure.com/subscriptions/{sub}/providers/Microsoft.KeyVault/vaults?api-version=2023-02-01
+</code></pre></div>
+
+<p>Then for each vault:</p>
+<div class="codehilite"><pre><span></span><code>GET https://{vault-name}.vault.azure.net/certificates?api-version=7.4
+</code></pre></div>
+
+<p><strong>Same Logic App structure:</strong><br />
+- Pagination handling<br />
+- Expiration date checking<br />
+- Email reporting</p>
+<hr />
+<h3><strong>2. Azure reservation expiration</strong></h3>
+<p><strong>Query Azure Resource Graph:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">ReservationRecommendations</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">datetime_add</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">reservationId</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">expiryDate</span><span class="p">,</span><span class="w"> </span><span class="n">costSavings</span>
+</code></pre></div>
+
+<p><strong>Email teams 30 days before:</strong><br />
+- Reservation expiring<br />
+- Cost savings at risk<br />
+- Renewal recommendation</p>
+<hr />
+<h3><strong>3. Managed identity credential rotation</strong></h3>
+<p><strong>Check managed identities:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET https://graph.microsoft.com/v1.0/servicePrincipals
+  ?$filter=servicePrincipalType eq &#39;ManagedIdentity&#39;
+  &amp;$select=appId,displayName,passwordCredentials
+</code></pre></div>
+
+<p><strong>Same expiration logic:</strong><br />
+- 30-day window<br />
+- Email alerts<br />
+- Proactive rotation</p>
+<hr />
+<h3><strong>4. Service principal cleanup audit</strong></h3>
+<p><strong>Find unused service principals:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET https://graph.microsoft.com/v1.0/servicePrincipals
+  ?$select=appId,displayName,signInActivity
+</code></pre></div>
+
+<p><strong>Filter by last sign-in:</strong><br />
+- No activity in 90 days<br />
+- Flag for review<br />
+- Cleanup candidates</p>
+<hr />
+<h2>What Microsoft should provide (but doesn't)</h2>
+<p><strong>Azure Monitor should natively alert on:</strong><br />
+- App registration certificate expiration (30/60/90 days)<br />
+- Key Vault certificate expiration<br />
+- Service principal last sign-in<br />
+- Managed identity credential age</p>
+<p><strong>Azure Portal should show:</strong><br />
+- Dashboard of expiring credentials<br />
+- Proactive email notifications<br />
+- Automated renewal workflows<br />
+- Owner assignment enforcement</p>
+<p><strong>Instead, Microsoft provides:</strong><br />
+- Graph API endpoints<br />
+- Expiration date fields<br />
+- Manual checking via Portal<br />
+- "Build it yourself" expectation</p>
+<p><strong>This Logic App fills the gap.</strong></p>
+<hr />
+<h2>Download the complete solution</h2>
+<p><strong>Full Logic App definition (JSON):</strong><br />
+- Service principal authentication via Key Vault<br />
+- Paginated Graph API handling for 100+ apps<br />
+- Expiration checking for secrets and certificates<br />
+- Owner extraction and email targeting<br />
+- HTML report formatting with statistics<br />
+- Daily execution schedule</p>
+<p><a href="/static/downloads/certificate-monitor-logic-app.json">Download Logic App JSON</a></p>
+<p><strong>Deployment guide (README):</strong><br />
+- Complete setup instructions<br />
+- Graph API permissions<br />
+- Key Vault configuration<br />
+- Connection setup<br />
+- Customization options<br />
+- Troubleshooting guide</p>
+<p><a href="/static/downloads/certificate-monitor-README.md">Download README</a></p>
+<p><strong>Prerequisites:</strong><br />
+- Azure subscription<br />
+- Entra ID admin access (for granting Graph API permissions)<br />
+- Key Vault (or create new)<br />
+- Office 365 mailbox with send-as permissions</p>
+<p><strong>Deployment time:</strong> 30-45 minutes</p>
+<p><strong>Monthly cost:</strong> $1-2 (Consumption Logic App)</p>
+<hr />
+<h2>The bigger pattern: Microsoft provides tools, not operations</h2>
+<p><strong>Same pattern across Azure:</strong></p>
+<p><strong>Azure Migrate:</strong> Provides discovery, hides 18-month certificate timer<br />
+<strong>Azure Arc:</strong> Provides hybrid management, <a href="/blog/azure-arc-ghost-registrations/">creates 64% ghost registrations</a><br />
+<strong>Azure Monitor Workbooks:</strong> Provides dashboards, <a href="/blog/modernizing-azure-workbooks/">abandons them after 2 years</a><br />
+<strong>App Registrations:</strong> Provides authentication, doesn't monitor expiration</p>
+<p><strong>Microsoft's position:</strong><br />
+- "Here's the API"<br />
+- "Here's the data"<br />
+- "Build your own monitoring"<br />
+- "This is cloud maturity"</p>
+<p><strong>The operational reality:</strong><br />
+- Deploy the service: 1 hour<br />
+- Build monitoring: 8 hours<br />
+- Document procedures: 4 hours<br />
+- Maintain runbooks: Ongoing</p>
+<p><strong>Total overhead:</strong> ~15 hours per service × 50 services = 750 hours</p>
+<p><strong>This is why senior Azure admins write blogs.</strong></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-arc-private-lab" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Building an Azure Arc Lab with Private Link (No Public IPs)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-26</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/pull-meta-from-arm" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-10</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-cost-optimization-complete-guide" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Cost Optimization: A Complete Practical Guide</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-03</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/why-azure-tags-fail-at-scale">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Why Azure Tags Fail at Scale (And Always Will)</strong>
+      </a>
+    
+    
+      <a href="/blog/azure-subscriptions-security-billing-boundary" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Why Azure Subscriptions Are Both a Security Boundary and a Billing One (And Why That Breaks Everything)</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

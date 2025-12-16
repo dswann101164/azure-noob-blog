@@ -1,0 +1,604 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/schemas/2016-06-01/workflowdefinition.json",
+        "triggers": {
+            "Recurrence": {
+                "type": "Recurrence",
+                "recurrence": {
+                    "frequency": "Day",
+                    "interval": 1,
+                    "timeZone": "Eastern Standard Time",
+                    "schedule": {
+                        "hours": [
+                            6
+                        ],
+                        "minutes": [
+                            0
+                        ]
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Tenant_ID": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "secretName": "YOUR-TENANT-ID-SECRET"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "keyVault",
+                        "operationId": "getSecret",
+                        "serviceProviderId": "/serviceProviders/keyVault"
+                    }
+                },
+                "runAfter": {},
+                "runtimeConfiguration": {
+                    "secureData": {
+                        "properties": [
+                            "inputs",
+                            "outputs"
+                        ]
+                    }
+                }
+            },
+            "Client_ID": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "secretName": "YOUR-CLIENT-ID-SECRET"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "keyVault",
+                        "operationId": "getSecret",
+                        "serviceProviderId": "/serviceProviders/keyVault"
+                    }
+                },
+                "runAfter": {
+                    "Tenant_ID": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "secureData": {
+                        "properties": [
+                            "inputs",
+                            "outputs"
+                        ]
+                    }
+                }
+            },
+            "Client_Secret": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "secretName": "YOUR-CLIENT-SECRET"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "keyVault",
+                        "operationId": "getSecret",
+                        "serviceProviderId": "/serviceProviders/keyVault"
+                    }
+                },
+                "runAfter": {
+                    "Client_ID": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "secureData": {
+                        "properties": [
+                            "inputs",
+                            "outputs"
+                        ]
+                    }
+                }
+            },
+            "Get_Token": {
+                "type": "Http",
+                "inputs": {
+                    "uri": "https://login.microsoftonline.com/@{body('Tenant_ID')?['value']}/oauth2/v2.0/token",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    "body": "client_id=@{body('Client_ID')?['value']}&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&client_secret=@{body('Client_Secret')?['value']}&grant_type=client_credentials"
+                },
+                "runAfter": {
+                    "Client_Secret": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Parse_Token": {
+                "type": "ParseJson",
+                "inputs": {
+                    "content": "@body('Get_Token')",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "access_token": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Get_Token": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_All_Apps": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "allApps",
+                            "type": "Array",
+                            "value": []
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Parse_Token": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_Temp_Apps": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "tempApps",
+                            "type": "Array",
+                            "value": []
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_All_Apps": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_Next_Link": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "nextLink",
+                            "type": "String",
+                            "value": "https://graph.microsoft.com/v1.0/applications?$select=displayName,appId,passwordCredentials,keyCredentials&$expand=owners($select=displayName,userPrincipalName,mail)&$top=100"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_Temp_Apps": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Get_All_Apps_Loop": {
+                "type": "Until",
+                "expression": "@equals(variables('nextLink'), '')",
+                "limit": {
+                    "count": 60,
+                    "timeout": "PT1H"
+                },
+                "actions": {
+                    "Get_Apps_Page": {
+                        "type": "Http",
+                        "inputs": {
+                            "uri": "@variables('nextLink')",
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "@concat('Bearer ', body('Parse_Token')?['access_token'])"
+                            }
+                        }
+                    },
+                    "Parse_Apps_Page": {
+                        "type": "ParseJson",
+                        "inputs": {
+                            "content": "@body('Get_Apps_Page')",
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "array"
+                                    }
+                                }
+                            }
+                        },
+                        "runAfter": {
+                            "Get_Apps_Page": [
+                                "Succeeded"
+                            ]
+                        }
+                    },
+                    "Merge_Arrays_Temp": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "tempApps",
+                            "value": "@union(variables('allApps'), body('Parse_Apps_Page')?['value'])"
+                        },
+                        "runAfter": {
+                            "Parse_Apps_Page": [
+                                "Succeeded"
+                            ]
+                        }
+                    },
+                    "Update_All_Apps": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "allApps",
+                            "value": "@variables('tempApps')"
+                        },
+                        "runAfter": {
+                            "Merge_Arrays_Temp": [
+                                "Succeeded"
+                            ]
+                        }
+                    },
+                    "Update_Next_Link": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "nextLink",
+                            "value": "@{if(contains(string(body('Get_Apps_Page')), '@odata.nextLink'), body('Get_Apps_Page')['@odata.nextLink'], '')}"
+                        },
+                        "runAfter": {
+                            "Update_All_Apps": [
+                                "Succeeded"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Init_Next_Link": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_HTML": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "htmlTable",
+                            "type": "String",
+                            "value": ""
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Get_All_Apps_Loop": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_TotalCount": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "totalApps",
+                            "type": "Integer",
+                            "value": 0
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_HTML": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_ExpiringCount": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "expiringCount",
+                            "type": "Integer",
+                            "value": 0
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_TotalCount": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_ProcessedCount": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "processedCount",
+                            "type": "Integer",
+                            "value": 0
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_ExpiringCount": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Init_Owners_Array": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "ownersArray",
+                            "type": "Array",
+                            "value": []
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_ProcessedCount": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Process_Each_App": {
+                "type": "Foreach",
+                "foreach": "@variables('allApps')",
+                "actions": {
+                    "Increment_Processed": {
+                        "type": "IncrementVariable",
+                        "inputs": {
+                            "name": "processedCount",
+                            "value": 1
+                        }
+                    },
+                    "Check_Has_Credentials": {
+                        "type": "If",
+                        "expression": {
+                            "or": [
+                                {
+                                    "greater": [
+                                        "@length(item()?['passwordCredentials'])",
+                                        0
+                                    ]
+                                },
+                                {
+                                    "greater": [
+                                        "@length(item()?['keyCredentials'])",
+                                        0
+                                    ]
+                                }
+                            ]
+                        },
+                        "actions": {
+                            "Increment_Total": {
+                                "type": "IncrementVariable",
+                                "inputs": {
+                                    "name": "totalApps",
+                                    "value": 1
+                                }
+                            },
+                            "Check_Password_Expiry": {
+                                "type": "Foreach",
+                                "foreach": "@item()?['passwordCredentials']",
+                                "actions": {
+                                    "Check_If_Expiring_Soon": {
+                                        "type": "If",
+                                        "expression": {
+                                            "and": [
+                                                {
+                                                    "less": [
+                                                        "@ticks(item()['endDateTime'])",
+                                                        "@ticks(addDays(utcNow(), 30))"
+                                                    ]
+                                                },
+                                                {
+                                                    "greater": [
+                                                        "@ticks(item()['endDateTime'])",
+                                                        "@ticks(utcNow())"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "actions": {
+                                            "Add_To_Table": {
+                                                "type": "AppendToStringVariable",
+                                                "inputs": {
+                                                    "name": "htmlTable",
+                                                    "value": "@concat('<tr><td>', items('Process_Each_App')?['displayName'], '</td><td>', items('Process_Each_App')?['appId'], '</td><td>Secret</td><td>', formatDateTime(item()['endDateTime'], 'yyyy-MM-dd'), '</td><td>', if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner'), '</td><td>', if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), ''), '</td></tr>')"
+                                                }
+                                            },
+                                            "Add_Owner_To_Array": {
+                                                "type": "AppendToArrayVariable",
+                                                "inputs": {
+                                                    "name": "ownersArray",
+                                                    "value": {
+                                                        "ownerName": "@{if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner')}",
+                                                        "ownerEmail": "@{if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), '')}"
+                                                    }
+                                                },
+                                                "runAfter": {
+                                                    "Add_To_Table": [
+                                                        "Succeeded"
+                                                    ]
+                                                }
+                                            },
+                                            "Increment_Expiring": {
+                                                "type": "IncrementVariable",
+                                                "inputs": {
+                                                    "name": "expiringCount",
+                                                    "value": 1
+                                                },
+                                                "runAfter": {
+                                                    "Add_Owner_To_Array": [
+                                                        "Succeeded"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "else": {
+                                            "actions": {}
+                                        }
+                                    }
+                                },
+                                "runAfter": {
+                                    "Increment_Total": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            },
+                            "Check_Certificate_Expiry": {
+                                "type": "Foreach",
+                                "foreach": "@item()?['keyCredentials']",
+                                "actions": {
+                                    "Check_Cert_Expiring_Soon": {
+                                        "type": "If",
+                                        "expression": {
+                                            "and": [
+                                                {
+                                                    "less": [
+                                                        "@ticks(item()['endDateTime'])",
+                                                        "@ticks(addDays(utcNow(), 30))"
+                                                    ]
+                                                },
+                                                {
+                                                    "greater": [
+                                                        "@ticks(item()['endDateTime'])",
+                                                        "@ticks(utcNow())"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "actions": {
+                                            "Add_Cert_To_Table": {
+                                                "type": "AppendToStringVariable",
+                                                "inputs": {
+                                                    "name": "htmlTable",
+                                                    "value": "@concat('<tr><td>', items('Process_Each_App')?['displayName'], '</td><td>', items('Process_Each_App')?['appId'], '</td><td>Certificate</td><td>', formatDateTime(item()['endDateTime'], 'yyyy-MM-dd'), '</td><td>', if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner'), '</td><td>', if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), ''), '</td></tr>')"
+                                                }
+                                            },
+                                            "Add_Cert_Owner_To_Array": {
+                                                "type": "AppendToArrayVariable",
+                                                "inputs": {
+                                                    "name": "ownersArray",
+                                                    "value": {
+                                                        "ownerName": "@{if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner')}",
+                                                        "ownerEmail": "@{if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), '')}"
+                                                    }
+                                                },
+                                                "runAfter": {
+                                                    "Add_Cert_To_Table": [
+                                                        "Succeeded"
+                                                    ]
+                                                }
+                                            },
+                                            "Increment_Expiring_Cert": {
+                                                "type": "IncrementVariable",
+                                                "inputs": {
+                                                    "name": "expiringCount",
+                                                    "value": 1
+                                                },
+                                                "runAfter": {
+                                                    "Add_Cert_Owner_To_Array": [
+                                                        "Succeeded"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "else": {
+                                            "actions": {}
+                                        }
+                                    }
+                                },
+                                "runAfter": {
+                                    "Check_Password_Expiry": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            }
+                        },
+                        "else": {
+                            "actions": {}
+                        },
+                        "runAfter": {
+                            "Increment_Processed": [
+                                "Succeeded"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Init_Owners_Array": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Create_Owners_Email_String": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "ownersEmailString",
+                            "type": "String",
+                            "value": ""
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Process_Each_App": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Build_Owners_Email_List": {
+                "type": "Foreach",
+                "foreach": "@union(variables('ownersArray'), variables('ownersArray'))",
+                "actions": {
+                    "Append_Owner_Email": {
+                        "type": "AppendToStringVariable",
+                        "inputs": {
+                            "name": "ownersEmailString",
+                            "value": "@{if(and(not(equals(item()?['ownerEmail'], '')), not(equals(item()?['ownerEmail'], null))), concat(item()?['ownerEmail'], ';'), '')}"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Create_Owners_Email_String": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Send_Email": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "office365"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "To": "@{if(equals(variables('ownersEmailString'), ''), 'your-team@company.com', concat('your-team@company.com;', variables('ownersEmailString')))}",
+                        "From": "your-team@company.com",
+                        "Subject": "App Registration Expiration Report",
+                        "Body": "@concat('<html><head><style>table{border-collapse:collapse;width:100%;margin-bottom:20px;}th,td{border:1px solid #ccc;padding:8px;text-align:left;}th{background-color:#f0f0f0;font-weight:bold;}h2{color:#d9534f;}.stats{background-color:#f9f9f9;padding:15px;margin:15px 0;border-radius:5px;}</style></head><body><h2>App Registrations Expiring Within 30 Days</h2><div class=\"stats\"><p><strong>Total Apps Processed:</strong> ', variables('processedCount'), '</p><p><strong>Total Apps with Secrets/Certificates:</strong> ', variables('totalApps'), '</p><p><strong>Secrets/Certificates Expiring in Next 30 Days:</strong> ', variables('expiringCount'), '</p></div><table><tr><th>App Name</th><th>App ID</th><th>Type</th><th>Expiration Date</th><th>Owner Name</th><th>Owner Email</th></tr>', if(equals(variables('htmlTable'), ''), '<tr><td colspan=\"6\">No apps expiring in the next 30 days</td></tr>', variables('htmlTable')), '</table></body></html>')",
+                        "Importance": "High",
+                        "IsHtml": true
+                    },
+                    "path": "/v2/Mail"
+                },
+                "runAfter": {
+                    "Build_Owners_Email_List": [
+                        "Succeeded"
+                    ]
+                }
+            }
+        },
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}
