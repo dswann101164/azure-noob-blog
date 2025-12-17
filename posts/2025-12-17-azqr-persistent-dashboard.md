@@ -104,6 +104,51 @@ azqr show --file azqr-2025-12-17.xlsx
 - Historical reports (track progress over time)
 - Team access with authentication
 
+---
+
+## Traditional vs Persistent: Two approaches to compliance
+
+### **Traditional AZQR workflow:**
+
+**Run assessment** → Generate point-in-time snapshot  
+**Download report** → Excel file on your laptop  
+**Review findings** → Manual analysis in spreadsheet  
+**Fix issues** → Track remediation separately  
+**Repeat cycle** → 3-6 months later (if remembered)
+
+**Result:** Compliance is a periodic event, not an operational state
+
+---
+
+### **Persistent dashboard workflow:**
+
+**Continuous ingestion** → Automated daily scans  
+**Trend visibility** → Historical tracking over months  
+**Ownership clarity** → Team access with authentication  
+**Operational relevance** → Dashboard integrated into daily workflows
+
+**Result:** Compliance becomes operational visibility, not quarterly reporting
+
+---
+
+### **The fundamental difference:**
+
+Traditional AZQR treats compliance as:
+- A project (start, report, finish)
+- A document (Excel in email)
+- A snapshot (point-in-time)
+- An audit requirement (external driver)
+
+Persistent dashboard treats compliance as:
+- A system (continuous operation)
+- A signal (actionable data)
+- A trend (directional movement)
+- An operational input (internal driver)
+
+**This shift—from report to system—is why persistence matters.**
+
+---
+
 **The solution:** Host AZQR in Azure App Service.
 
 ---
@@ -139,6 +184,29 @@ azqr show --file azqr-2025-12-17.xlsx
 - Dashboard usage metrics
 - Performance monitoring
 - Error tracking
+
+---
+
+## Who should build a persistent AZQR dashboard?
+
+**This approach matters if you:**
+
+- **Manage multiple Azure subscriptions** (10+ subscriptions, consolidated visibility needed)
+- **Operate in regulated environments** (financial services, healthcare, government)
+- **Need leadership-level visibility** (executives, auditors, compliance teams)
+- **Support distributed teams** (remote admins, multiple locations, 24/7 operations)
+- **Track security posture over time** (quarterly trend analysis, board reporting)
+
+**You probably don't need this if:**
+
+- Small environment (<20 resources)
+- Single admin managing everything
+- Ad-hoc compliance checks sufficient
+- Already using enterprise tools (Prisma Cloud, Wiz, etc.)
+
+**The sweet spot:** Organizations large enough to need systematic compliance tracking, but not so large they've already invested in expensive third-party platforms.
+
+**That's 70% of Azure customers. Microsoft expects you to check six portals manually. We're building the dashboard they should provide.**
 
 ---
 
@@ -1334,6 +1402,12 @@ azqr scan --filters /app/azqr-config.yaml --output "$DATED_REPORT"
 **Ongoing maintenance:** <1 hour/week
 
 **The Azure operations dashboard you've been looking for already exists. Microsoft built it. You just hosted it properly.**
+
+---
+
+**Compliance tools generate data. Dashboards create accountability.**
+
+**Part 4 of this series shows how tags, Logic Apps, and this dashboard work together as a complete operations platform. Coming next.**
 
 ---
 
