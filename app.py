@@ -391,7 +391,10 @@ def search_json():
         })
 
     from flask import jsonify
-    return jsonify(search_data)
+    response = jsonify(search_data)
+    # Add noindex header to prevent Google indexing this API endpoint
+    response.headers['X-Robots-Tag'] = 'noindex'
+    return response
 
 @app.route('/about')
 def about():
@@ -669,6 +672,10 @@ def robots():
     """Generate robots.txt file."""
     robots_content = """User-agent: *
 Allow: /
+
+# Don't index API endpoints
+Disallow: /search.json
+Disallow: /*.json
 
 Sitemap: https://azure-noob.com/sitemap.xml"""
 

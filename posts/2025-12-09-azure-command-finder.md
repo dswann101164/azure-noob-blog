@@ -1,17 +1,40 @@
 ---
-title: "Azure Command Finder (Interactive Tool)"
+title: "Azure Command Finder - Interactive Troubleshooting Tool"
 date: 2025-12-09
-summary: "Interactive troubleshooting tool - select your Azure problem, get the exact commands to fix it. Copy-paste ready workflows for RDP issues, domain join, Group Policy, costs, and more."
-tags: ["azure", "troubleshooting", "commands", "tools", "powershell", "azure-cli"]
+modified: 2025-12-18
+summary: "Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures, and Linux AD integration with step-by-step workflows."
+tags: ["Azure", "Troubleshooting", "Commands", "Tools", "PowerShell", "Azure CLI", "RDP", "Active Directory", "Linux"]
 cover: "/static/images/hero/azure-admin-starter-kit.png"
 hub: ai
 related_posts:
-  - will-ai-replace-azure-administrators-by-2030
-  - the-ai-admin
-  - three-ai-roles
+  - 50-windows-commands-azure
+  - 50-linux-commands-azure
+  - kql-cheat-sheet-complete
 ---
-**Interactive troubleshooting tool** — select your problem, get step-by-step commands with copy-paste buttons.
 
+## Common Azure Admin Problems - Instant Solutions
+
+This interactive troubleshooting tool provides copy-paste ready commands for the most common Azure administration problems. Select your issue below to get step-by-step PowerShell, Azure CLI, and Bash commands that work in production environments.
+
+### What This Tool Solves
+
+**RDP Connection Issues** - When you can't remote desktop into your Azure VM, the problem is usually one of three things: Network Security Group blocking port 3389, the Remote Desktop service stopped inside Windows, or NSG inbound rules misconfigured. This tool gives you the exact commands to diagnose which layer is broken and fix it without opening multiple Azure Portal tabs.
+
+**Active Directory Integration** - Domain join failures on Azure VMs waste hours of troubleshooting. The most common causes are DNS configuration pointing to Azure DNS instead of your domain controller, time sync drift preventing Kerberos authentication, or VNet peering not allowing LDAP traffic. The tool walks through the diagnostic sequence that identifies the root cause in 5 minutes instead of spending an afternoon with support.
+
+**Group Policy Problems** - When GPO settings don't apply to Azure VMs, it's almost always a broken secure channel trust or incorrect OU placement. But administrators waste time forcing gpupdate repeatedly without checking the underlying trust relationship first. This tool starts with the diagnostic commands that identify trust breaks before attempting policy refresh.
+
+**Cost Management** - Unexpected Azure bill increases usually come from three sources: dev/test VMs left running 24/7, orphaned managed disks consuming storage costs after VM deletion, or over-provisioned VM sizes that could be downsized. The tool provides KQL queries that find these cost leaks across all subscriptions in seconds instead of manually checking resource groups.
+
+**VM Startup Failures** - When VMs get stuck in Starting state, the Activity Log and boot diagnostics contain the actual error, but administrators often restart the VM repeatedly hoping it fixes itself. This tool teaches the diagnostic sequence: check instance view for allocation failures, review boot diagnostics for disk errors, verify extension provisioning status, then attempt fixes in order of likelihood.
+
+**Linux Domain Join** - Joining Ubuntu or RHEL VMs to Active Directory requires specific packages (realmd, sssd, adcli) and DNS configuration that differs from Windows. Most admins attempt this once per year and forget the exact package names and configuration file locations. The tool provides the complete command sequence tested on Ubuntu 20.04/22.04 and RHEL 8/9.
+
+### How To Use This Tool
+
+Click the button matching your problem type. The tool displays a numbered sequence of commands to run in order. Each command includes a copy button for pasting directly into PowerShell, Azure CLI, or Bash. The tool shows expected output so you know if the command succeeded or revealed the root cause. If you don't find the fix after 3 hours of troubleshooting, escalate to Azure Support with the command output attached to the ticket.
+
+All commands are tested in production enterprise environments managing 31,000+ Azure resources across 44 subscriptions, including hybrid scenarios with ExpressRoute, Private Endpoints, and cross-premises Active Directory integration. The workflows reflect actual troubleshooting patterns from a regulated banking environment where changes require change control approval.
 
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
