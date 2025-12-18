@@ -19,17 +19,29 @@ app.config['SITE_URL'] = 'https://azure-noob.com'
 # Quiet missing-date warnings + accept more formats
 WARNED_SLUGS = set()
 
-# ===== FIX 404 ERRORS =====
+# ===== FIX 404 ERRORS AND CANONICAL URL ISSUES =====
 @app.before_request
 def handle_trailing_slashes_and_redirects():
     """
     Handle URL normalization and redirects to fix Google 404 errors.
+    - Force HTTPS for all requests
+    - Force non-WWW (azure-noob.com over www.azure-noob.com)
     - Remove trailing slashes from non-root paths (except /blog/)
     - Redirect date-prefixed blog URLs to clean URLs
     - Redirect /index.html URLs to clean URLs
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
     """
+    # CRITICAL FIX: Force HTTPS redirect
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
+    
+    # CRITICAL FIX: Force non-WWW redirect
+    if request.host.startswith('www.'):
+        url = request.url.replace('://www.', '://', 1)
+        return redirect(url, code=301)
+    
     path = request.path
     
     # Don't touch root path or index pages that need trailing slashes
