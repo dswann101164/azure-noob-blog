@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing Reality - What Microsoft Calculator Doesn't Show (December 2025)"
+title: "Azure OpenAI Pricing Reality (Pricing Tables + Calculator) - December 2025"
 date: 2025-11-25
 modified: 2025-12-18
-summary: "Azure OpenAI pricing calculator shows $4/month. Your first bill shows $1,900. Complete December 2025 pricing breakdown: token costs, $1,836/month fine-tuning hosting fees, PTU vs pay-as-you-go, infrastructure overhead, and cost optimization strategies Microsoft won't tell you."
+summary: "Azure OpenAI pricing calculator shows $4/month. Your first bill shows $1,900. Complete December 2025 pricing breakdown with comparison tables: token costs, $1,836/month fine-tuning hosting fees, PTU vs pay-as-you-go, infrastructure overhead, and cost optimization strategies Microsoft won't tell you."
 tags:
 - Azure
 - FinOps
