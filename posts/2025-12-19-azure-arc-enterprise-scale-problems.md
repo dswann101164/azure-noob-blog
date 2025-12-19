@@ -457,6 +457,21 @@ Nobody tells you this before deployment. You find out 3 months in when operation
 
 ---
 
+## 📋 Download: Azure Arc Enterprise Readiness Checklist
+
+Before deploying Arc at enterprise scale, use this checklist to validate the 24 requirements that prevent the problems documented in this guide.
+
+**What's included:**
+- Governance foundation (tagging, subscriptions, RBAC)
+- Network architecture (Private Link, DNS, connectivity)  
+- Cost & operations (staffing, budget, maintenance)
+- vCenter integration (multi-vCenter, credentials, sizing)
+- Go/No-Go decision framework
+
+**[Download PDF (printable)](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf)** | **[Download Excel (interactive)](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx)**
+
+---
+
 ## Problem 7: VMware Tags Don't Automatically Become Azure Tags
 
 Arc Resource Bridge discovers VMs from vCenter. Microsoft's demos make this look automatic and complete.
@@ -722,6 +737,14 @@ Solve these before deploying broadly. Otherwise you're building operational debt
 **Tools:**
 - [RVTools](https://www.robware.net/rvtools/) - VMware inventory reconciliation
 - Ghost Detection Scripts - Coming in Arc Troubleshooting Pack
+
+---
+
+## 📋 Free Resource: Arc Enterprise Readiness Checklist
+
+Download the complete pre-deployment checklist covering all 24 validation points from this guide.
+
+**[PDF Version](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf)** | **[Excel Version](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx)**
 
 ---
 
