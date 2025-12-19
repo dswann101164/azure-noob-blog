@@ -343,6 +343,14 @@ And if you're evaluating Arc for your organization, this gives you a realistic s
 
 ---
 
+## 📋 Related: Azure Arc Enterprise Readiness Checklist
+
+Deploying Arc at enterprise scale? Download the complete pre-deployment checklist covering governance, networking, cost planning, and vCenter integration. Use this before deploying to production.
+
+**[Download Free Checklist (PDF)](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf)** | **[Excel Version](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx)**
+
+---
+
 *This is post #81 in my journey to 100 Azure architecture posts. 19 more to go, then we launch something new. Stay tuned.*
 
 *Managing 40+ Azure subscriptions and 30,000+ resources at enterprise scale while documenting everything publicly at [azure-noob.com](https://azure-noob.com). Because if I'm solving these problems, you probably are too.*

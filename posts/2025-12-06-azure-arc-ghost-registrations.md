@@ -782,6 +782,14 @@ Microsoft introduced this capability in November 2023. If you're still using man
 
 ---
 
+## 📋 Related: Azure Arc Enterprise Readiness Checklist
+
+Deploying Arc at enterprise scale? Download the complete pre-deployment checklist covering governance, networking, cost planning, and vCenter integration to prevent ghost registrations from day one.
+
+**[Download Free Checklist (PDF)](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf)** | **[Excel Version](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx)**
+
+---
+
 **Questions? Spot an error? Let me know in the comments below.**
 
 *Published: December 6, 2025*

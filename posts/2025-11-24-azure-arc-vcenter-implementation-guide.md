@@ -1344,6 +1344,14 @@ Just don't make the same mistake twice.
 
 ---
 
+## 📋 Related: Azure Arc Enterprise Readiness Checklist
+
+Deploying Arc at enterprise scale? Download the complete pre-deployment validation checklist covering governance, networking, cost planning, and vCenter integration.
+
+**[Download Free Checklist (PDF)](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf)** | **[Excel Version](/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx)**
+
+---
+
 **Have questions about Arc implementation?** I've probably seen your problem. Drop a comment or check out the [Arc vCenter toolkit repository](https://github.com/azure-noob/arc-vcenter-toolkit) for scripts and templates.
 
 **Dealing with a rushed Arc deployment?** You're not alone. The pattern repeats across every enterprise. Share your story in the comments—other admins need to know they're not the only ones navigating this mess.
