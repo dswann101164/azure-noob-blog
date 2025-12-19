@@ -457,6 +457,160 @@ Nobody tells you this before deployment. You find out 3 months in when operation
 
 ---
 
+## Problem 7: VMware Tags Don't Automatically Become Azure Tags
+
+Arc Resource Bridge discovers VMs from vCenter. Microsoft's demos make this look automatic and complete.
+
+Reality: Discovery brings VM name, power state, and hardware specs. It does NOT bring application ownership, cost centers, migration priorities, or business context.
+
+**If those tags didn't exist in VMware before discovery, Azure Arc will never see them.**
+
+### The Tagging Assumption That Kills Governance
+
+Microsoft's Arc Resource Bridge documentation shows vCenter discovery as automatic.
+
+It is automatic — but it's not intelligent.
+
+**What Arc Resource Bridge does:**
+- Discovers VMs from vCenter
+- Pulls VM name, power state, CPU, memory, network
+
+**What Arc Resource Bridge does NOT do:**
+- Inherit application ownership
+- Import cost center metadata
+- Understand migration priorities
+- Know business context
+
+**If those tags didn't exist in vCenter before discovery, Azure Arc will never see them.**
+
+### The VMware Video Gap
+
+VMware tagging tutorials teach you how to:
+- Create tag categories in vCenter
+- Assign tags to VMs
+- Verify tags appear in vCenter UI
+
+They stop there.
+
+What they don't show:
+- Whether Azure Arc can consume those tags
+- What happens if tags are missing at discovery time
+- How to validate tag inheritance in Azure
+- Why missing tags become permanent governance blind spots
+
+**Tagging in VMware feels optional. With Azure Arc, it becomes architectural.**
+
+### The Three Tagging Realities
+
+**Reality 1: Pre-Tag in VMware (Rare, Ideal)**
+
+*When it works:*
+- You're early in Arc deployment
+- VMware governance already exists
+- Tag categories are enforced in vCenter
+- Discovery hasn't started yet
+
+*How to do it:*
+
+1. Create VMware Tag Categories in vCenter:
+   - Application
+   - Environment
+   - Owner
+   - MigrationWave
+
+2. Bulk-apply using PowerCLI:
+```powershell
+$folder = Get-Folder -Name "Prod-Finance"
+$vms = Get-VM -Location $folder
+foreach ($vm in $vms) {
+    New-TagAssignment -Entity $vm -Tag "Prod"
+    New-TagAssignment -Entity $vm -Tag "Finance"
+    New-TagAssignment -Entity $vm -Tag "Wave-1"
+}
+```
+
+3. Validate completeness:
+```powershell
+Get-VM | Get-TagAssignment | 
+Group-Object Entity | 
+Where-Object { $_.Count -lt 4 }
+```
+
+4. Start Arc Resource Bridge discovery
+
+5. Verify in Azure Resource Graph:
+```kusto
+resources
+| where type == "microsoft.hybridcompute/machines"
+| where isempty(tags.Application)
+```
+
+*Why this almost never works:*
+- VMware tagging was never enforced
+- Discovery already ran
+- Migration pressure forces "discover now, fix later"
+- Folders exist, tags don't
+
+**Reality 2: Post-Discovery Tagging (Common, Practical)**
+
+*The pattern that actually works:*
+
+1. Accept that Arc discovery brings zero governance metadata
+2. Use Azure Policy to enforce required tags
+3. Tag VMs using derived intelligence:
+   - VM naming patterns
+   - vCenter source (prod vs non-prod)
+   - Resource group assignment
+   - CMDB/spreadsheet lookups
+
+4. Make "Unknown" visible and painful:
+```kusto
+resources
+| where type == "microsoft.hybridcompute/machines"
+| where tags.Application == "Unknown"
+| where tags.Owner == "Unknown"
+```
+
+**This is the enterprise standard.**
+
+**Reality 3: Mixed Approach (What Actually Happens)**
+
+Most organizations:
+- Discover first
+- Realize tagging is missing
+- Try to retrofit VMware tags
+- End up with Azure-side tagging anyway
+
+### The Hard Truth
+
+If your VMs weren't tagged in VMware, Azure Arc will faithfully import that ignorance into Azure.
+
+Arc doesn't fix metadata gaps — it exposes them.
+
+**Discovery is inventory, not governance.**
+
+### What to Do About It
+
+**Before Arc deployment:**
+- Audit VMware tag completeness
+- Decide: pre-tag or post-tag?
+- Don't assume discovery = governance
+
+**After Arc deployment:**
+- Enforce tags via Azure Policy
+- Make "Unknown" a work queue
+- Use derived intelligence to populate
+- Build processes around incomplete data
+
+**The operating model is:**
+- Arc discovers everything raw
+- Azure Policy enforces structure
+- Tags get populated using migration intelligence
+
+This is how enterprise Arc actually works.
+
+---
+
 ## What Microsoft Should Tell You Upfront
 
 Before deploying Azure Arc at enterprise scale, you need:
@@ -539,12 +693,16 @@ You need:
 
 Microsoft teaches deployment. These guides show you how to operate Arc at scale.
 
-**The three problems you'll hit first:**
+**The problems you'll hit first:**
 1. Network architecture (Private Link complexity)
 2. Ghost registrations (64% of inventory becomes fake)
-3. Governance disaster (no tags, no cost allocation, no ownership)
+3. vCenter integration complexity (multi-vCenter governance)
+4. Update Manager confusion (who owns patching?)
+5. Hidden costs at scale ($138K-162K/year for 500 servers)
+6. Operational burden (1 FTE minimum)
+7. Tagging disaster (VMware tags don't automatically transfer)
 
-Solve these three before deploying broadly. Otherwise you're building operational debt that compounds daily.
+Solve these before deploying broadly. Otherwise you're building operational debt that compounds daily.
 
 ---
 
