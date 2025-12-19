@@ -428,6 +428,14 @@ HUBS = {
         ''',
         'sections': [
             {
+                'title': '0. Enterprise Scale Overview',
+                'icon': '🏢',
+                'description': 'Complete enterprise Arc deployment guide covering all 6 major problems Microsoft doesn\'t document.',
+                'posts': [
+                    'azure-arc-enterprise-scale-problems',
+                ]
+            },
+            {
                 'title': '1. Arc Fundamentals & Implementation',
                 'icon': '🚀',
                 'description': 'Deploy Azure Arc to VMware vCenter and on-prem servers with proper governance from day one.',
