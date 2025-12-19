@@ -426,11 +426,18 @@ And Microsoft's calculator doesn't give you understanding. It gives you an estim
 
 ## Related Posts
 
+**FinOps & Cost Management:**
 - [Azure FinOps Complete Guide](/blog/azure-finops-complete-guide/) - Enterprise FinOps framework
 - [Azure Cost Optimization: What Actually Works](/blog/azure-cost-optimization-complete-guide/) - Real tactics beyond Azure Advisor
+- [Azure Costs: Track by Apps, Not Subscriptions](/blog/azure-costs-apps-not-subscriptions/) - Application-level cost visibility
 - [Azure Chargeback Models](/blog/azure-chargeback-tags-model/) - Chargeback that business units accept
+- [Why Finance Accepts Monthly OpEx for Phones but Not Cloud](/blog/finance-accepts-monthly-opex-phones-not-cloud/) - Navigating finance objections
+
+**Governance & Tagging:**
 - [Azure Resource Tagging Best Practices](/blog/azure-resource-tags-guide/) - Tag governance for cost allocation
 - [Azure Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations/) - Solving tag standardization
+
+**AI & Automation:**
 - [Azure AI Foundry Terraform Guide](/blog/azure-ai-foundry-terraform/) - Infrastructure as Code for AI deployments
 
 ---

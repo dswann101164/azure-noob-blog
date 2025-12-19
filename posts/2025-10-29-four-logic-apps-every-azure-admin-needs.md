@@ -608,6 +608,20 @@ They work.
 
 ---
 
+## Related Resources
+
+**Cost Management & FinOps:**
+- [Azure FinOps Complete Guide](/blog/azure-finops-complete-guide) - Enterprise FinOps framework for cost visibility and optimization
+- [Azure Cost Optimization: What Actually Works](/blog/azure-cost-optimization-what-actually-works) - Real tactics beyond Azure Advisor recommendations
+- [Azure Chargeback Models](/blog/azure-chargeback-tags-model) - Chargeback strategies that business units accept
+- [Tag Governance: The 247 Variations Problem](/blog/tag-governance-247-variations) - Solving tag standardization at scale
+
+**Automation & Operations:**
+- [PowerShell 7 Migration Guide](/blog/powershell-7-enterprise-migration) - Complete migration checklist with time savings calculator
+- [Azure Command Finder](/blog/azure-command-finder) - Interactive troubleshooting tool for instant solutions
+
+---
+
 **Questions?** Leave a comment or reach out.
 
 **Want more automation?** Check out [azure-noob.com](https://azure-noob.com) for practical Azure ops content.
