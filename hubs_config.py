@@ -83,7 +83,7 @@ HUBS = {
             {
                 'name': 'CCO Dashboard Project',
                 'description': 'Cloud Cost Optimization dashboard with FinOps metrics and business context.',
-                'url': 'https://github.com/dswann101164/cco-dash-project',
+                'url': 'https://github.com/dswann101164/cco-dashboard-project',
             },
         ],
         'related_hubs': [
@@ -378,7 +378,7 @@ HUBS = {
             {
                 'name': 'CCO Dashboard Project',
                 'description': 'Cloud Cost Optimization dashboard with FinOps metrics.',
-                'url': 'https://github.com/dswann101164/cco-dash-project',
+                'url': 'https://github.com/dswann101164/cco-dashboard-project',
             },
         ],
         'related_hubs': [
