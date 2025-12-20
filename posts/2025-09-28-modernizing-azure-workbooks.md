@@ -1,8 +1,8 @@
 ---
-title: 'Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)'
+title: 'Azure Monitoring Dashboard: Modernize Workbooks (50→200+ Services)'
 date: 2025-09-28
-modified: 2025-12-12
-summary: 'How to enhance Azure Monitor Workbooks from 50 to 200+ services with global filters, security hygiene checks, and portal integration. Fixes Billy York Azure Inventory Workbook with working KQL queries, conditional visibility, and professional UX.'
+modified: 2025-12-20
+summary: 'Production Azure monitoring dashboard examples using Workbooks. Enhance from 50 to 200+ services with global filters, KQL queries, and portal integration. Free workbook JSON templates included.'
 tags:
 - Azure
 - Community
@@ -32,6 +32,29 @@ I wrote about this certification gap here: [The Azure Role Microsoft Forgot to C
 The irony: Azure admins spend more time building Workbooks and dashboards than deploying VMs, but Microsoft doesn't validate these skills. So we learn from community examples like Billy York's Azure Inventory Workbook.
 
 Here's how I modernized it for 2025.
+
+---
+
+## Dashboard Examples Included
+
+This guide shows you how to build production-grade Azure monitoring dashboards using Workbooks:
+
+**Inventory Dashboards:**
+- All 200+ Azure service types across subscriptions
+- Global subscription/resource group filtering
+- Resource health and compliance status
+
+**Security Dashboards:**
+- NSG rule analysis and port exposure
+- Untagged resource detection
+- Compliance scoring by resource type
+
+**Cost Dashboards:**
+- Resource distribution by type and location
+- Tag-based cost allocation views
+- Orphaned resource identification
+
+[Jump to implementation →](#key-technical-enhancements)
 
 ---
 
