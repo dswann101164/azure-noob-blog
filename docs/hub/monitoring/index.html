@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Monitoring &amp; Dashboards - Azure Noob</title>
+  <meta name="description" content="Build production-ready dashboards, workbooks, and alerting for enterprise Azure infrastructure.">
+  <link rel="canonical" href="https://azure-noob.com/hub/monitoring" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Monitoring &amp; Dashboards - Azure Noob">
+  <meta property="og:description" content="Build production-ready dashboards, workbooks, and alerting for enterprise Azure infrastructure.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com/hub/monitoring">
+  <meta property="og:image" content="/static/images/hero/cloud-wars.webp">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Monitoring &amp; Dashboards - Azure Noob">
+  <meta name="twitter:description" content="Build production-ready dashboards, workbooks, and alerting for enterprise Azure infrastructure.">
+  <meta name="twitter:image" content="/static/images/hero/cloud-wars.webp">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+<!-- HUB HERO SECTION -->
+<div class="hub-hero" style="
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  padding: 3rem 0;
+  margin: -1rem -1.5rem 3rem;
+  color: white;
+  text-align: center;
+  border-radius: 0 0 16px 16px;
+">
+  <div class="wrap">
+    <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 700; font-size: 0.9rem;">
+      📊 Monitoring
+    </div>
+    <h1 style="font-size: 2.75rem; margin: 0 0 1rem; font-weight: 800;">Azure Monitoring &amp; Dashboards</h1>
+    <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto; opacity: 0.95; line-height: 1.6;">Build production-ready dashboards, workbooks, and alerting for enterprise Azure infrastructure.</p>
+  </div>
+</div>
+
+<!-- PHILOSOPHY SECTION -->
+<section style="max-width: 800px; margin: 0 auto 3rem;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 1rem; color: #1a202c;">Dashboards Should Answer Questions (Not Raise Them)</h2>
+  <div style="font-size: 1.125rem; line-height: 1.8; color: #2d3748;">
+    
+            <p><strong>The dashboard problem:</strong> Most Azure dashboards are "data dumps"—dozens of tiles showing metrics, logs, and alerts with no context. Nobody knows what's <em>actionable</em>.</p>
+            
+            <p>After building dashboards for Cloud NOC teams and executives, I've learned that effective monitoring requires three layers:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Purpose-driven design</strong> — Every dashboard answers a specific question ("What's down?", "What's expensive?", "What's non-compliant?").</li>
+                <li><strong>Context over data</strong> — Show business impact, not just technical metrics. "3 VMs down" means nothing. "Payroll app offline" is actionable.</li>
+                <li><strong>Automation-ready</strong> — Dashboards should trigger workflows, not just display numbers.</li>
+            </ul>
+            
+            <p>This hub contains the dashboard patterns, workbook templates, and monitoring strategies I've used to build observability systems that teams actually use—from Cloud NOC to FinOps to security.</p>
+        
+  </div>
+</section>
+
+<!-- CURATED CONTENT SECTIONS -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">1. Dashboard Fundamentals</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Design principles for effective Azure dashboards.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-dashboards-cloud-noc.png" 
+             alt="Azure Dashboards Are Your Cloud NOC (And Nobody Told You)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-dashboards-cloud-noc" style="color: #1a202c; text-decoration: none;">
+            Azure Dashboards Are Your Cloud NOC (And Nobody Told You)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-03</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">How to design Azure dashboards for a Cloud NOC team that actually answer questions instead of dumping metrics on a big screen.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure Monitor</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Cloud NOC</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-dashboards-cloud-noc" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/chris-bowman-dashboard.png" 
+             alt="The Truth About Chris Bowman&#39;s Azure Cost Dashboard" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/chris-bowman-dashboard" style="color: #1a202c; text-decoration: none;">
+            The Truth About Chris Bowman&#39;s Azure Cost Dashboard
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-02</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard model for real-world enterprise environments.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Architecture</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Cost Management</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/chris-bowman-dashboard" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-reporting-role-gap.png" 
+             alt="The Azure Role Microsoft Forgot to Certify: Why There&#39;s No Exam for Workbooks, KQL, Power BI, and AI" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-reporting-role-microsoft-should-create" style="color: #1a202c; text-decoration: none;">
+            The Azure Role Microsoft Forgot to Certify: Why There&#39;s No Exam for Workbooks, KQL, Power BI, and AI
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-12-07</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Microsoft certifies Azure Administrators, Developers, and Data Engineers. But there&#39;s no certification for the role 80% of Azure admins actually perform: building Workbooks, writing KQL queries, creating Power BI dashboards, and leveraging AI for operations. Here&#39;s the exam that should exist.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Certification</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Career</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-reporting-role-microsoft-should-create" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/mcp-powerbi-ai-reality.png" 
+             alt="MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What&#39;s Just Marketing)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/mcp-vs-powerbi-ai-what-actually-creates-dashboards" style="color: #1a202c; text-decoration: none;">
+            MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What&#39;s Just Marketing)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-11-30</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">A practical comparison of MCP vs Power BI AI: what actually reads data, what actually builds visuals, and how Azure admins should think about both.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">AI</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Copilot</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/mcp-vs-powerbi-ai-what-actually-creates-dashboards" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">2. Azure Workbooks</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Build interactive, data-driven workbooks for deep analysis.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-workbook-enhancement.png" 
+             alt="Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/modernizing-azure-workbooks" style="color: #1a202c; text-decoration: none;">
+            Azure Workbooks: Modernizing Inventory Dashboards (50 to 200+ Services)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-09-28</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">How to enhance Azure Monitor Workbooks from 50 to 200+ services with global filters, security hygiene checks, and portal integration. Fixes Billy York Azure Inventory Workbook with working KQL queries, conditional visibility, and professional UX.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Community</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Dashboards</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/modernizing-azure-workbooks" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/workbook-app-tool.svg" 
+             alt="Extract KQL Queries from Azure Workbooks (Workbook → App Tool)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/workbook-app-tool" style="color: #1a202c; text-decoration: none;">
+            Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-13</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">KQL</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Monitoring</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/workbook-app-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-dashboard-rebrand.png" 
+             alt="How I Rebranded Microsoft&#39;s Azure Resource Inventory Dashboard (Without Corrupting Excel)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-dashboard-rebranding-tool" style="color: #1a202c; text-decoration: none;">
+            How I Rebranded Microsoft&#39;s Azure Resource Inventory Dashboard (Without Corrupting Excel)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-11-21</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">A dark-mode rebranding tool for Azure dashboards and Excel exports so your reports look as modern as your cloud environment.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">ARI</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Automation</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-dashboard-rebranding-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">3. Real-World Examples</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Production dashboard and tooling examples you can deploy today.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-ipam.png" 
+             alt="Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-ipam-tool" style="color: #1a202c; text-decoration: none;">
+            Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-06</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">An Azure IPAM workbook and process for tracking IP address usage across subscriptions, VNets, and environments without losing your mind.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">IP Management</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">IPAM</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-ipam-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-update-manager-reality-check.png" 
+             alt="Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-update-manager-reality-check" style="color: #1a202c; text-decoration: none;">
+            Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-09-24</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">What Azure Update Manager really looks like in an enterprise: agent confusion, SCCM overlap, and how to make patching governance work.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure Governance</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure Update Manager</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-update-manager-reality-check" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+
+<!-- GITHUB RESOURCES SECTION -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;">💻</span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">GitHub Resources</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Production-ready code and tools</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1rem;">
+    
+    <a href="https://github.com/dswann101164/bowman-dashboard-model" target="_blank" rel="noopener" style="
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border: 2px solid #cbd5e1;
+      border-left: 6px solid #0078d4;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,120,212,0.2)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+      <div>
+        <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Chris Bowman Dashboard Model</div>
+        <div style="color: #718096; font-size: 0.95rem;">Enhanced Azure dashboard with business context and actionable insights.</div>
+      </div>
+      <span style="color: #0078d4; font-size: 1.5rem;">→</span>
+    </a>
+    
+    <a href="https://github.com/dswann101164/azure-inventory-workbook-enhanced" target="_blank" rel="noopener" style="
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border: 2px solid #cbd5e1;
+      border-left: 6px solid #0078d4;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,120,212,0.2)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+      <div>
+        <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Enhanced Azure Inventory Workbook</div>
+        <div style="color: #718096; font-size: 0.95rem;">Complete resource inventory with cost, compliance, and monitoring data.</div>
+      </div>
+      <span style="color: #0078d4; font-size: 1.5rem;">→</span>
+    </a>
+    
+  </div>
+</section>
+
+
+<!-- RELATED HUBS -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+  <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: #1a202c; text-align: center;">Explore Related Topics</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+    
+    <a href="/hub/kql" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">KQL Mastery</div>
+      <div style="color: #718096; font-size: 0.9rem;">7 articles</div>
+    </a>
+    
+    <a href="/hub/finops" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💰</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">FinOps</div>
+      <div style="color: #718096; font-size: 0.9rem;">8 articles</div>
+    </a>
+    
+    <a href="/hub/governance" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Azure Governance</div>
+      <div style="color: #718096; font-size: 0.9rem;">7 articles</div>
+    </a>
+    
+  </div>
+</section>
+
+
+<!-- SMART LEAD MAGNET CTA -->
+
+
+
+<section style="
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+    <h2 style="font-size: 2.25rem; margin: 0 0 1rem; color: white; font-weight: 700;">
+      Build Dashboards That Answer Questions
+    </h2>
+    <p style="font-size: 1.2rem; margin: 0 0 1.5rem; opacity: 0.95; line-height: 1.6;">
+      Get the KQL Query Library
+    </p>
+    <ul style="text-align: left; max-width: 600px; margin: 0 auto 2rem; list-style: none; padding: 0;">
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        Queries that power Azure Monitor workbooks, dashboards, and alerting at scale
+      </li>
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        45+ production queries for resource inventory, cost tracking, and compliance reporting
+      </li>
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        Stop guessing what to monitor—use queries that actually work in production
+      </li>
+      
+    </ul>
+    <a href="/static/downloads/KQL-Query-Library.pdf" download style="
+      display: inline-block;
+      background: white;
+      color: #d97706;
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+      📥 Download Monitoring Queries (Free)
+    </a>
+    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.85;">
+      PDF format • Ready to use
+    </p>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION CTA -->
+<section style="
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 3rem;
+  margin-top: 4rem;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+">
+  <h2 style="font-size: 2rem; margin: 0 0 1rem; color: white;">Want Deep Dives on Monitoring?</h2>
+  <p style="font-size: 1.15rem; margin: 0 0 1.5rem; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">
+    Join Azure architects getting practical monitoring strategies, real KQL queries, and solutions that actually work in production.
+  </p>
+  <a href="#subscribe" class="btn-subscribe">Subscribe for Monitoring Insights</a>
+</section>
+
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>
