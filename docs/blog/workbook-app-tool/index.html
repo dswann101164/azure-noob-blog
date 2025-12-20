@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Extract KQL Queries from Azure Workbooks (Workbook → App Tool) · Azure Noob</title>
+  <meta name="description" content="An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.">
+  <link rel="canonical" href="https://azure-noob.com/blog/workbook-app-tool" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Extract KQL Queries from Azure Workbooks (Workbook → App Tool)">
+  <meta property="og:description" content="An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/workbook-app-tool">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/workbook-app-tool.svg">
+
+  
+    <meta property="article:published_time" content="2025-10-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-13T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="KQL">
+      
+        <meta property="article:tag" content="Monitoring">
+      
+        <meta property="article:tag" content="Operations">
+      
+        <meta property="article:tag" content="Python">
+      
+        <meta property="article:tag" content="Streamlit">
+      
+        <meta property="article:tag" content="Tools">
+      
+        <meta property="article:tag" content="Workbooks">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Extract KQL Queries from Azure Workbooks (Workbook → App Tool)">
+  <meta name="twitter:description" content="An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/workbook-app-tool.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Extract KQL Queries from Azure Workbooks (Workbook → App Tool)",
+  "description": "An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/workbook-app-tool.svg",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-13T00:00:00+00:00",
+  "dateModified": "2025-10-13T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/workbook-app-tool"
+  },
+  "keywords": "Azure, KQL, Monitoring, Operations, Python, Streamlit, Tools, Workbooks",
+  "articleSection": "Azure",
+  "wordCount": "4165",
+  "timeRequired": "PT21M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Extract KQL Queries from Azure Workbooks (Workbook → App Tool)",
+      "item": "https://azure-noob.com/blog/workbook-app-tool"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/workbook-app-tool.svg" alt="Extract KQL Queries from Azure Workbooks (Workbook → App Tool)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Extract KQL Queries from Azure Workbooks (Workbook → App Tool)</h1>
+    <p class="muted">
+      2025-10-13 · ~21 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/KQL" class="tag-badge">KQL</a></li>
+      
+      <li><a href="/tags/Monitoring" class="tag-badge">Monitoring</a></li>
+      
+      <li><a href="/tags/Operations" class="tag-badge">Operations</a></li>
+      
+      <li><a href="/tags/Python" class="tag-badge">Python</a></li>
+      
+      <li><a href="/tags/Streamlit" class="tag-badge">Streamlit</a></li>
+      
+      <li><a href="/tags/Tools" class="tag-badge">Tools</a></li>
+      
+      <li><a href="/tags/Workbooks" class="tag-badge">Workbooks</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.<br />
+Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ Azure services across compute, networking, PaaS, monitoring, and security. When I needed to enhance it, I hit a problem.</p>
+<p>Azure Workbooks are JSON files with deeply nested structure. To understand what's inside—what queries run, what data gets displayed, how items connect—I'd need to click through 110+ items in Azure Portal. Each query buried in JSON. Each parameter block hidden in properties. Each text section wrapped in metadata.</p>
+<p>Or I could spend three hours building a tool that parses it in 10 seconds.</p>
+<p>I built the tool.</p>
+<h2>The Problem with Azure Workbooks</h2>
+<p>Azure Workbooks are powerful: rich visualizations, interactive parameters, complex KQL queries across subscriptions. Microsoft uses them for everything from security dashboards to resource inventory.</p>
+<p>But <strong>understanding someone else's workbook is painful:</strong></p>
+<p><strong>Azure Portal workflow:</strong><br />
+1. Open workbook in edit mode<br />
+2. Click first item<br />
+3. Try to figure out what it does<br />
+4. Click "Advanced Settings" to see the actual query<br />
+5. Copy query to notepad<br />
+6. Repeat 109 more times<br />
+7. Hope you didn't miss anything</p>
+<p><strong>For Billy York's 110-item workbook?</strong> That's hours of manual clicking and copying.</p>
+<p><strong>What I needed:</strong><br />
+- See all 110 items at once<br />
+- Navigate between them quickly<br />
+- Extract all KQL queries in one shot<br />
+- Export everything for analysis<br />
+- Test queries locally without Portal</p>
+<h2>The Realization: Workbooks Are Just JSON</h2>
+<p>Like .pbix files (which are ZIP archives), Azure Workbooks have a simple truth:</p>
+<p><strong>Workbook files are JSON with a predictable structure.</strong></p>
+<p>When you export a workbook from Azure Portal:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;json&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;## Azure Inventory Workbook\n### Change Log&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type == &#39;microsoft.compute/virtualmachines&#39;...&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Item types:</strong><br />
+- <code>1</code> = text/markdown<br />
+- <code>3</code> = KQL query<br />
+- <code>9</code> = parameters<br />
+- <code>10</code> = links<br />
+- <code>11</code> = groups<br />
+- <code>12</code> = metrics</p>
+<p>The entire structure is sitting there in JSON. You just need to parse it.</p>
+<h2>Building the Workbook → App Tool</h2>
+<p>I built a Streamlit app that turns workbook JSON into a navigable interface.</p>
+<h3>The Core Parser</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_items</span><span class="p">(</span><span class="n">workbook</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract all items from workbook JSON with type, name, and content.&quot;&quot;&quot;</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">raw_items</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;items&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_items</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw_items</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
+
+    <span class="c1"># Handle ARM template format (value array)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">),</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">workbook</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]:</span>
+            <span class="n">props</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">items2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;serializedData&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;items&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">items2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">items2</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">items2</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items2</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items2</span><span class="p">):</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+                    <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">items</span>
+</code></pre></div>
+
+<p><strong>What this does:</strong><br />
+- Handles multiple workbook export formats<br />
+- Extracts type, name, and full content for each item<br />
+- Returns flat list for easy navigation</p>
+<h3>Extracting KQL Queries</h3>
+<p>KQL queries hide in different places depending on the workbook version:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_kql</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract KQL query from item, handling multiple schema formats.&quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Direct query string</span>
+        <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Nested query object</span>
+        <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Versioned query format</span>
+        <span class="k">if</span> <span class="s2">&quot;versionedQuery&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+        <span class="c1"># JSON-wrapped query</span>
+        <span class="k">if</span> <span class="s2">&quot;json&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Queries array (some workbooks)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;queries&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">q</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">first</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p><strong>The challenge:</strong> Microsoft changed the workbook schema over time. This parser handles all common formats.</p>
+<h3>The Bug I Had to Fix</h3>
+<p>Initial version crashed on Billy York's workbook:</p>
+<div class="codehilite"><pre><span></span><code>AttributeError: &#39;int&#39; object has no attribute &#39;lower&#39;
+</code></pre></div>
+
+<p><strong>The problem:</strong> I assumed <code>type</code> was always a string like <code>"query"</code>. Billy York's workbook uses <strong>numeric type codes</strong> like <code>3</code> for queries, <code>9</code> for parameters.</p>
+<p><strong>The fix:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Item type mappings (numeric → readable)</span>
+<span class="n">WORKBOOK_ITEM_TYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;query&quot;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;parameters&quot;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;links&quot;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;group&quot;</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;metrics&quot;</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_type</span><span class="p">(</span><span class="n">raw_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert workbook type (int or string) to normalized lowercase string.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">raw_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">raw_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw_type</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_type_display</span><span class="p">(</span><span class="n">raw_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get human-readable type name for display.&quot;&quot;&quot;</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize_type</span><span class="p">(</span><span class="n">raw_type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">return</span> <span class="n">normalized</span>
+</code></pre></div>
+
+<p>Now <code>type: 3</code> displays as <code>"query (3)"</code> and parses correctly.</p>
+<h3>The Streamlit Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">page_title</span><span class="o">=</span><span class="s2">&quot;Azure Workbook → App&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;📒 Azure Monitor Workbook → App&quot;</span><span class="p">)</span>
+
+<span class="c1"># File upload</span>
+<span class="n">uploaded</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Upload an Azure Monitor Workbook JSON&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">uploaded</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Upload a workbook export (JSON).&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="c1"># Parse workbook</span>
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">load_workbook_json</span><span class="p">(</span><span class="n">uploaded</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="n">items</span> <span class="o">=</span> <span class="n">flatten_items</span><span class="p">(</span><span class="n">workbook</span><span class="p">)</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2"> item(s) from the workbook.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Sidebar navigation</span>
+<span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;### Items&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_item</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;(unnamed)&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;Jump to item&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))),</span> <span class="n">format_func</span><span class="o">=</span><span class="n">format_item</span><span class="p">)</span>
+
+<span class="c1"># Display current item</span>
+<span class="n">current</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">itype</span> <span class="o">=</span> <span class="n">normalize_type</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">itype</span> <span class="ow">or</span> <span class="n">itype</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;kusto&quot;</span><span class="p">)</span>
+        <span class="c1"># Optional: Execute query if workspace ID provided</span>
+        <span class="k">if</span> <span class="n">run_queries</span> <span class="ow">and</span> <span class="n">workspace_id</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">try_run_kql</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">use_container_width</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Key features:</strong><br />
+- Sidebar shows all 110 items with types<br />
+- Jump to any item instantly<br />
+- Display KQL queries with syntax highlighting<br />
+- Optionally execute queries (requires Log Analytics workspace ID)</p>
+<h3>Export Functionality</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Extract all KQL queries</span>
+<span class="n">kql_rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">k</span><span class="p">:</span>
+        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+        <span class="n">kql_rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> 
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">type_display</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;(unnamed)&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">k</span>
+        <span class="p">})</span>
+
+<span class="n">kql_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kql_rows</span><span class="p">)</span>
+
+<span class="c1"># CSV export</span>
+<span class="n">st</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
+    <span class="s2">&quot;📥 Download all KQL to CSV&quot;</span><span class="p">,</span> 
+    <span class="n">kql_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> 
+    <span class="s2">&quot;workbook_kql.csv&quot;</span><span class="p">,</span> 
+    <span class="s2">&quot;text/csv&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Markdown export</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Workbook: </span><span class="si">{</span><span class="n">uploaded</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Items:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**KQL Queries:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kql_rows</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+    <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;(unnamed)&#39;</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;## Item </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">extract_text</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">txt</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;```kusto</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">```</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;---</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
+    <span class="s2">&quot;📥 Download as Markdown&quot;</span><span class="p">,</span> 
+    <span class="n">md</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> 
+    <span class="s2">&quot;workbook_export.md&quot;</span><span class="p">,</span> 
+    <span class="s2">&quot;text/markdown&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2>Real-World Result: Billy York's Workbook</h2>
+<p>Running the tool on <a href="https://github.com/scautomation/Azure-Inventory-Workbook">Billy York's Azure Inventory Workbook</a>:</p>
+<p><strong>Input:</strong> <code>template.json</code> (213 KB)</p>
+<p><strong>Output:</strong></p>
+<div class="codehilite"><pre><span></span><code>✅ Parsed 110 item(s) from the workbook.
+✅ Found 41 KQL queries in workbook.
+</code></pre></div>
+
+<p><strong>Extracted structure:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="gh"># Workbook: template.json</span>
+
+<span class="gs">**Items:**</span> 110
+<span class="gs">**KQL Queries:**</span> 41
+
+---
+
+<span class="gu">## Item 2: text (1) — Change Log</span>
+
+<span class="gu">## Azure Inventory Workbook</span>
+<span class="gu">### Change Log</span>
+
+|Version|Description|
+|---|---|
+|v1.1.1| Initial Release - October 2020 - BY
+|v2.0.2 | Added VM state, fixed WVD Details - Feb 2022 - BY
+
+---
+
+<span class="gu">## Item 9: query (3) — Azure Compute Summary</span>
+
+```kusto
+Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
+| extend vmState = tostring(properties.extended.instanceView.powerState.displayStatus)
+| extend vmState = iif(isempty(vmState), &quot;VM State Unknown&quot;, (vmState))
+| summarize count() by vmState
+</code></pre></div>
+
+<hr />
+<h2>Item 15: query (3) — Azure Compute Overview</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmID</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osDiskId</span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">managedDisk</span><span class="err">.</span><span class="n">id</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="p">(</span><span class="n">resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">timeCreated</span><span class="p">,</span><span class="w"> </span><span class="n">OS</span><span class="p">,</span><span class="w"> </span><span class="n">osSku</span><span class="p">,</span><span class="w"> </span><span class="n">osDiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">osDiskId</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">osDiskId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="p">(</span><span class="n">resources</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/availabilitysets&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">VirtualMachine</span><span class="p">=</span><span class="n">properties</span><span class="err">.</span><span class="n">virtualMachines</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">AvailabilitySetID</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">vmID</span><span class="p">,</span><span class="w"> </span><span class="n">FaultDomainCount</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">vmID</span>
+<span class="err">...</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">**</span><span class="n">CSV</span><span class="w"> </span><span class="k">export</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="mi">41</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
+
+<span class="o">**</span><span class="n">Time</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">parse</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">seconds</span><span class="w">  </span>
+<span class="o">**</span><span class="n">Time</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">understand</span><span class="w"> </span><span class="n">structure</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="n">reading</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Markdown</span><span class="w">  </span>
+<span class="o">**</span><span class="n">Time</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="n">vs</span><span class="w"> </span><span class="n">manual</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">clicking</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="n">Hours</span>
+
+<span class="c1">## What This Enabled</span>
+
+<span class="c1">### Enhanced Billy York&#39;s Workbook</span>
+
+<span class="n">Original</span><span class="w"> </span><span class="n">workbook</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">types</span><span class="w">  </span>
+<span class="n">Enhanced</span><span class="w"> </span><span class="n">version</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="o">+</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">types</span><span class="w">  </span>
+
+<span class="o">**</span><span class="n">The</span><span class="w"> </span><span class="k">tool</span><span class="w"> </span><span class="n">let</span><span class="w"> </span><span class="n">me</span><span class="p">:</span><span class="o">**</span>
+<span class="mf">1.</span><span class="w"> </span><span class="o">**</span><span class="n">Extract</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">queries</span><span class="o">**</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">see</span><span class="w"> </span><span class="n">what</span><span class="w"> </span><span class="n">resources</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">tracked</span>
+<span class="mf">2.</span><span class="w"> </span><span class="o">**</span><span class="n">Identify</span><span class="w"> </span><span class="n">patterns</span><span class="o">**</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">understand</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">structure</span><span class="w"> </span><span class="n">Billy</span><span class="w"> </span><span class="n">used</span>
+<span class="mf">3.</span><span class="w"> </span><span class="o">**</span><span class="n">Add</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">types</span><span class="o">**</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">patterns</span>
+<span class="mf">4.</span><span class="w"> </span><span class="o">**</span><span class="n">Test</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">locally</span><span class="o">**</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">verify</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">deploying</span>
+<span class="mf">5.</span><span class="w"> </span><span class="o">**</span><span class="n">Document</span><span class="w"> </span><span class="n">everything</span><span class="o">**</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exported</span><span class="w"> </span><span class="n">Markdown</span><span class="w"> </span><span class="n">served</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">reference</span>
+
+<span class="p">[</span><span class="n">Read</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">enhancement</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="err">→</span><span class="p">](</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">modernizing</span><span class="o">-</span><span class="n">azure</span><span class="o">-</span><span class="n">workbooks</span><span class="o">/</span><span class="p">)</span>
+
+<span class="c1">### Built Custom Workbooks</span>
+
+<span class="n">Using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">extracted</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">templates</span><span class="p">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Created</span><span class="w"> </span><span class="n">security</span><span class="o">-</span><span class="n">focused</span><span class="w"> </span><span class="n">workbook</span><span class="w"> </span><span class="p">(</span><span class="n">NSG</span><span class="w"> </span><span class="n">rules</span><span class="p">,</span><span class="w"> </span><span class="n">exposed</span><span class="w"> </span><span class="n">endpoints</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Built</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="n">analysis</span><span class="w"> </span><span class="n">workbook</span><span class="w"> </span><span class="p">(</span><span class="n">unattached</span><span class="w"> </span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">stopped</span><span class="w"> </span><span class="n">VMs</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Developed</span><span class="w"> </span><span class="n">compliance</span><span class="w"> </span><span class="n">tracking</span><span class="w"> </span><span class="n">workbook</span><span class="w"> </span><span class="p">(</span><span class="n">tagging</span><span class="p">,</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">violations</span><span class="p">)</span>
+
+<span class="o">**</span><span class="n">Pattern</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="n">Extract</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">workbooks</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">modify</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">deploy</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">workbooks</span>
+
+<span class="c1">### Migrated Workbooks to Code</span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">complex</span><span class="w"> </span><span class="n">scenarios</span><span class="p">,</span><span class="w"> </span><span class="n">converted</span><span class="w"> </span><span class="n">workbook</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Python</span><span class="w"> </span><span class="n">scripts</span><span class="p">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Extracted</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">tool</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Rewrote</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Python</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">SDK</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Automated</span><span class="w"> </span><span class="n">daily</span><span class="w"> </span><span class="n">reports</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Integrated</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">alerting</span><span class="w"> </span><span class="n">systems</span>
+
+<span class="c1">## Optional: Execute Queries</span>
+
+<span class="n">The</span><span class="w"> </span><span class="k">tool</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">actually</span><span class="w"> </span><span class="o">**</span><span class="n">run</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">KQL</span><span class="w"> </span><span class="n">queries</span><span class="o">**</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">provide</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="n">Analytics</span><span class="w"> </span><span class="n">workspace</span><span class="w"> </span><span class="n">ID</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">python</span>
+<span class="n">def</span><span class="w"> </span><span class="n">try_run_kql</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">:</span><span class="w"> </span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute KQL query against Log Analytics workspace.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">AZURE_AVAILABLE</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">workspace_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">query</span><span class="p">:</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">None</span>
+
+<span class="w">    </span><span class="n">try</span><span class="p">:</span>
+<span class="w">        </span><span class="n">cred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DefaultAzureCredential</span><span class="p">(</span><span class="n">exclude_shared_token_cache_credential</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+<span class="w">        </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LogsQueryClient</span><span class="p">(</span><span class="n">credential</span><span class="o">=</span><span class="n">cred</span><span class="p">)</span>
+<span class="w">        </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="o">.</span><span class="n">query_workspace</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="n">timespan</span><span class="o">=</span><span class="n">None</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">resp</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resp</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">        </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">t</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="w">        </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">list</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">t</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+<span class="w">    </span><span class="n">except</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">e</span><span class="p">:</span>
+<span class="w">        </span><span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;KQL execution failed: {e}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">None</span>
+</code></pre></div>
+
+<p><strong>Use cases:</strong><br />
+- Test query modifications before deploying<br />
+- Validate query results locally<br />
+- Debug complex queries without Portal<br />
+- Quick data exploration</p>
+<p><strong>Requirements:</strong><br />
+- Azure authentication (<code>az login</code> or DefaultAzureCredential)<br />
+- Log Analytics workspace ID<br />
+- Toggle enabled in sidebar</p>
+<h2>When You Need This Tool</h2>
+<p><strong>Use Workbook → App when you need to:</strong><br />
+- Understand someone else's workbook structure<br />
+- Extract all KQL queries for reuse<br />
+- Document workbook contents<br />
+- Enhance existing workbooks<br />
+- Migrate workbooks to code<br />
+- Debug complex queries locally</p>
+<p><strong>Don't need this if:</strong><br />
+- You built the workbook yourself (you already know the structure)<br />
+- Workbook is simple (&lt; 10 items, basic queries)<br />
+- Just viewing results (use Azure Portal)</p>
+<h2>Comparison to PBIX Modernizer</h2>
+<p>Similar concept, different Azure file format:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>PBIX Modernizer</th>
+<th>Workbook → App</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Input</strong></td>
+<td>Power BI .pbix files (ZIP)</td>
+<td>Azure Workbook JSON</td>
+</tr>
+<tr>
+<td><strong>Extracts</strong></td>
+<td>DAX measures, M queries, tables</td>
+<td>KQL queries, parameters, content</td>
+</tr>
+<tr>
+<td><strong>Format</strong></td>
+<td>XML/JSON inside ZIP</td>
+<td>Pure JSON</td>
+</tr>
+<tr>
+<td><strong>Type codes</strong></td>
+<td>String types</td>
+<td>Numeric + string types</td>
+</tr>
+<tr>
+<td><strong>Query language</strong></td>
+<td>DAX + Power Query M</td>
+<td>KQL (Kusto)</td>
+</tr>
+<tr>
+<td><strong>Execute queries</strong></td>
+<td>No (requires Power BI)</td>
+<td>Yes (with workspace ID)</td>
+</tr>
+<tr>
+<td><strong>Use case</strong></td>
+<td>Understand Power BI dashboards</td>
+<td>Understand Azure Workbooks</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Both solve the same problem:</strong> Extract and analyze Azure/BI files without clicking through slow UI.</p>
+<h2>The GitHub Repo</h2>
+<p>The complete tool is available on GitHub:</p>
+<p><strong>Features:</strong><br />
+- Upload workbook JSON (drag and drop)<br />
+- Parse all items (text, queries, parameters, groups, metrics)<br />
+- Navigate via sidebar<br />
+- Syntax-highlighted KQL display<br />
+- Optional query execution<br />
+- Export to CSV (all queries)<br />
+- Export to Markdown (full structure)<br />
+- Handles numeric and string type codes</p>
+<p><strong>Usage:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/workbook_app
+<span class="nb">cd</span><span class="w"> </span>workbook_app
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Run locally</span>
+streamlit<span class="w"> </span>run<span class="w"> </span>streamlit_workbook_app.py
+
+<span class="c1"># Opens http://127.0.0.1:8502</span>
+<span class="c1"># Upload your workbook JSON</span>
+</code></pre></div>
+
+<p><strong>No Azure credentials required</strong> unless you want to execute queries.</p>
+<h2>The Real Lesson</h2>
+<p>When you need to understand complex Azure files (workbooks, ARM templates, policies), don't click through the Portal for hours.</p>
+<p>The structure is sitting in JSON. Extract it. Parse it. Analyze it.</p>
+<p>Billy York's 110-item workbook with 41 complex KQL queries? <strong>Parsed in 10 seconds.</strong> Full structure exported to Markdown. All queries in CSV. Ready for enhancement.</p>
+<p><strong>This tool saved weeks of manual work</strong> during workbook enhancement and migration projects.</p>
+<p>It might do the same for you.</p>
+<hr />
+<h2>Resources</h2>
+<p><strong>GitHub Repo:</strong> <a href="https://github.com/yourusername/workbook_app">Azure Workbook → App Tool</a><br />
+<strong>Billy York's Original Workbook:</strong> <a href="https://github.com/scautomation/Azure-Inventory-Workbook">Azure Inventory Workbook</a><br />
+<strong>My Enhancement:</strong> <a href="/blog/modernizing-azure-workbooks/">Modernizing Azure Workbooks</a><br />
+<strong>Similar Tool:</strong> <a href="/blog/pbix-modernizer-tool/">PBIX Modernizer</a> (for Power BI files)</p>
+<hr />
+<p><em>Building tools to solve real Azure problems? That's what this blog is about. If Workbook → App helps you understand workbooks faster, let me know what you discover.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-debugging-ai-rule" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-06</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-ipam-tool" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-06</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-dashboards-cloud-noc" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Dashboards Are Your Cloud NOC (And Nobody Told You)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-03</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: KQL Query Library -->
+<div class="cta-block" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">📊 Stop Rewriting the Same KQL Queries</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+    Get <strong>45+ production-ready KQL queries</strong> for Azure Resource Graph, Log Analytics, and Activity Logs.
+    Copy-paste ready with comments and business context.
+  </p>
+  <a href="/static/downloads/KQL-Query-Library-Complete.pdf" 
+     download
+     style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #f5576c; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    Download Complete Query Library
+  </a>
+  <p style="margin: 1rem 0 0; font-size: 0.9rem; opacity: 0.9;">
+    PDF format • No email required • Instant download
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-cmdb-wrong-cloud-fixes-it">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Building an Azure CMDB | Resource Inventory with Azure Resource Graph and KQL</strong>
+      </a>
+    
+    
+      <a href="/blog/pbix-modernizer-tool" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Command Finder - Interactive Troubleshooting Tool · Azure Noob</title>
+  <meta name="description" content="Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...">
+  <link rel="canonical" href="https://azure-noob.com/blog/azure-command-finder" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Command Finder - Interactive Troubleshooting Tool">
+  <meta property="og:description" content="Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azure-command-finder">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-admin-starter-kit.png">
+
+  
+    <meta property="article:published_time" content="2025-12-09T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-18T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Troubleshooting">
+      
+        <meta property="article:tag" content="Commands">
+      
+        <meta property="article:tag" content="Tools">
+      
+        <meta property="article:tag" content="PowerShell">
+      
+        <meta property="article:tag" content="Azure CLI">
+      
+        <meta property="article:tag" content="RDP">
+      
+        <meta property="article:tag" content="Active Directory">
+      
+        <meta property="article:tag" content="Linux">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Command Finder - Interactive Troubleshooting Tool">
+  <meta name="twitter:description" content="Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-admin-starter-kit.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Azure Command Finder - Interactive Troubleshooting Tool",
+  "description": "Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/azure-admin-starter-kit.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-12-09T00:00:00+00:00",
+  "dateModified": "2025-12-18T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/azure-command-finder"
+  },
+  "keywords": "Azure, Troubleshooting, Commands, Tools, PowerShell, Azure CLI, RDP, Active Directory, Linux",
+  "articleSection": "Azure",
+  "wordCount": "1941",
+  "timeRequired": "PT10M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Azure Command Finder - Interactive Troubleshooting Tool",
+      "item": "https://azure-noob.com/blog/azure-command-finder"
+    }
+  ]
+}
+</script>
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/azure-admin-starter-kit.png" alt="Azure Command Finder - Interactive Troubleshooting Tool" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Azure Command Finder - Interactive Troubleshooting Tool</h1>
+    <p class="muted">
+      2025-12-09 · ~10 min read
+      
+        · Updated 2025-12-18
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Troubleshooting" class="tag-badge">Troubleshooting</a></li>
+      
+      <li><a href="/tags/Commands" class="tag-badge">Commands</a></li>
+      
+      <li><a href="/tags/Tools" class="tag-badge">Tools</a></li>
+      
+      <li><a href="/tags/PowerShell" class="tag-badge">PowerShell</a></li>
+      
+      <li><a href="/tags/Azure%20CLI" class="tag-badge">Azure CLI</a></li>
+      
+      <li><a href="/tags/RDP" class="tag-badge">RDP</a></li>
+      
+      <li><a href="/tags/Active%20Directory" class="tag-badge">Active Directory</a></li>
+      
+      <li><a href="/tags/Linux" class="tag-badge">Linux</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures, and Linux AD integration with step-by-step workflows.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <h2>Common Azure Admin Problems - Instant Solutions</h2>
+<p>This interactive troubleshooting tool provides copy-paste ready commands for the most common Azure administration problems. Select your issue below to get step-by-step PowerShell, Azure CLI, and Bash commands that work in production environments.</p>
+<h3>What This Tool Solves</h3>
+<p><strong>RDP Connection Issues</strong> - When you can't remote desktop into your Azure VM, the problem is usually one of three things: Network Security Group blocking port 3389, the Remote Desktop service stopped inside Windows, or NSG inbound rules misconfigured. This tool gives you the exact commands to diagnose which layer is broken and fix it without opening multiple Azure Portal tabs.</p>
+<p><strong>Active Directory Integration</strong> - Domain join failures on Azure VMs waste hours of troubleshooting. The most common causes are DNS configuration pointing to Azure DNS instead of your domain controller, time sync drift preventing Kerberos authentication, or VNet peering not allowing LDAP traffic. The tool walks through the diagnostic sequence that identifies the root cause in 5 minutes instead of spending an afternoon with support.</p>
+<p><strong>Group Policy Problems</strong> - When GPO settings don't apply to Azure VMs, it's almost always a broken secure channel trust or incorrect OU placement. But administrators waste time forcing gpupdate repeatedly without checking the underlying trust relationship first. This tool starts with the diagnostic commands that identify trust breaks before attempting policy refresh.</p>
+<p><strong>Cost Management</strong> - Unexpected Azure bill increases usually come from three sources: dev/test VMs left running 24/7, orphaned managed disks consuming storage costs after VM deletion, or over-provisioned VM sizes that could be downsized. The tool provides KQL queries that find these cost leaks across all subscriptions in seconds instead of manually checking resource groups.</p>
+<p><strong>VM Startup Failures</strong> - When VMs get stuck in Starting state, the Activity Log and boot diagnostics contain the actual error, but administrators often restart the VM repeatedly hoping it fixes itself. This tool teaches the diagnostic sequence: check instance view for allocation failures, review boot diagnostics for disk errors, verify extension provisioning status, then attempt fixes in order of likelihood.</p>
+<p><strong>Linux Domain Join</strong> - Joining Ubuntu or RHEL VMs to Active Directory requires specific packages (realmd, sssd, adcli) and DNS configuration that differs from Windows. Most admins attempt this once per year and forget the exact package names and configuration file locations. The tool provides the complete command sequence tested on Ubuntu 20.04/22.04 and RHEL 8/9.</p>
+<h3>How To Use This Tool</h3>
+<p>Click the button matching your problem type. The tool displays a numbered sequence of commands to run in order. Each command includes a copy button for pasting directly into PowerShell, Azure CLI, or Bash. The tool shows expected output so you know if the command succeeded or revealed the root cause. If you don't find the fix after 3 hours of troubleshooting, escalate to Azure Support with the command output attached to the ticket.</p>
+<p>All commands are tested in production enterprise environments managing 31,000+ Azure resources across 44 subscriptions, including hybrid scenarios with ExpressRoute, Private Endpoints, and cross-premises Active Directory integration. The workflows reflect actual troubleshooting patterns from a regulated banking environment where changes require change control approval.</p>
+<p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
+<style>
+.command-finder {
+    margin: 2rem 0;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.problem-btn {
+    padding: 1.25rem;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.problem-btn:hover {
+    background: #e8f4fd;
+    border-color: #0078d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,120,212,0.2);
+}
+
+.problem-btn.active {
+    background: #0078d4;
+    color: white;
+    border-color: #0078d4;
+}
+
+.problem-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.problem-desc {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.solution-box {
+    display: none;
+    background: #f8f9fa;
+    border-left: 4px solid #0078d4;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-top: 1.5rem;
+}
+
+.solution-box.active {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.solution-box h3 {
+    color: #0078d4;
+    margin-bottom: 1rem;
+}
+
+.command-step {
+    background: #2d2d2d;
+    color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 0.75rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    position: relative;
+    overflow-x: auto;
+}
+
+.command-step pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.step-number {
+    display: inline-block;
+    background: #0078d4;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.step-description {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #0078d4;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.3s;
+}
+
+.copy-btn:hover {
+    background: #005a9e;
+}
+
+.tip {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.tip strong {
+    color: #856404;
+}
+</style>
+
+<div class="command-finder">
+    <h2>Choose Your Problem:</h2>
+    <div class="button-grid" id="problemButtons">
+        <!-- Buttons generated by JavaScript -->
+    </div>
+
+    <div id="solutionArea">
+        <!-- Solutions displayed here -->
+    </div>
+</div>
+
+<script>
+const problems = {
+    'rdp-failed': {
+        title: 'Can\'t RDP to VM',
+        desc: 'RDP connection refused or times out',
+        solution: {
+            title: 'RDP Troubleshooting Workflow',
+            steps: [
+                {
+                    desc: 'Check NSG inbound rules for port 3389:',
+                    command: 'az network nsg rule list --resource-group MyRG --nsg-name MyNSG --query "[?destinationPortRange==\'3389\'].{Name:name, Access:access, Priority:priority}" --output table'
+                },
+                {
+                    desc: 'Test RDP port connectivity:',
+                    command: 'Test-NetConnection -ComputerName <vm-ip> -Port 3389'
+                },
+                {
+                    desc: 'Check VM is running:',
+                    command: 'az vm get-instance-view --resource-group MyRG --name MyVM --query instanceView.statuses[1] --output table'
+                },
+                {
+                    desc: 'Use Azure Serial Console (if RDP completely fails):',
+                    command: '# In Azure Portal: VM > Support + troubleshooting > Serial Console\n# Then run:\nsc query TermService\nsc start TermService\nnetsh advfirewall firewall set rule group="remote desktop" new enable=Yes'
+                }
+            ],
+            tip: 'If Serial Console shows "TermService" is stopped, that\'s your issue. Start the service and enable the firewall rule.'
+        }
+    },
+    'domain-join': {
+        title: 'Domain Join Fails',
+        desc: 'VM won\'t join Active Directory',
+        solution: {
+            title: 'Active Directory Domain Join Troubleshooting',
+            steps: [
+                {
+                    desc: 'Verify DNS points to domain controller:',
+                    command: 'Get-DnsClientServerAddress\nResolve-DnsName dc01.contoso.com\nnslookup _ldap._tcp.dc._msdcs.CONTOSO.COM'
+                },
+                {
+                    desc: 'Test connectivity to DC on required ports:',
+                    command: 'Test-NetConnection dc01.contoso.com -Port 389  # LDAP\nTest-NetConnection dc01.contoso.com -Port 88   # Kerberos\nTest-NetConnection dc01.contoso.com -Port 445  # SMB'
+                },
+                {
+                    desc: 'Check time sync (must be within 5 minutes):',
+                    command: 'w32tm /query /status\nw32tm /resync /force'
+                },
+                {
+                    desc: 'Attempt domain join:',
+                    command: 'Add-Computer -DomainName CONTOSO.COM -Credential (Get-Credential) -Restart'
+                },
+                {
+                    desc: 'If join succeeded, verify:',
+                    command: 'Test-ComputerSecureChannel\n(Get-WmiObject Win32_ComputerSystem).Domain'
+                }
+            ],
+            tip: 'Most domain join failures are DNS issues. Make sure VNet DNS is set to your DC IP, not Azure DNS (168.63.129.16).'
+        }
+    },
+    'group-policy': {
+        title: 'Group Policy Not Applying',
+        desc: 'GP settings won\'t apply to Azure VM',
+        solution: {
+            title: 'Group Policy Troubleshooting',
+            steps: [
+                {
+                    desc: 'Force Group Policy update:',
+                    command: 'gpupdate /force'
+                },
+                {
+                    desc: 'Check what policies are applied:',
+                    command: 'gpresult /r\ngpresult /h C:\\Temp\\GPReport.html'
+                },
+                {
+                    desc: 'Verify domain trust is intact:',
+                    command: 'Test-ComputerSecureChannel\nnltest /sc_query:CONTOSO.COM'
+                },
+                {
+                    desc: 'Check Group Policy event logs for errors:',
+                    command: 'Get-EventLog -LogName System -Source "Microsoft-Windows-GroupPolicy" -EntryType Error -Newest 20'
+                },
+                {
+                    desc: 'Verify VM is in correct OU:',
+                    command: 'Get-ADComputer $env:COMPUTERNAME | Select-Object DistinguishedName'
+                }
+            ],
+            tip: 'Group Policy requires domain connectivity and correct OU placement. If trust is broken, use: Test-ComputerSecureChannel -Repair'
+        }
+    },
+    'high-cost': {
+        title: 'Unexpected High Costs',
+        desc: 'Azure bill higher than expected',
+        solution: {
+            title: 'Cost Investigation with KQL',
+            steps: [
+                {
+                    desc: 'Find top 10 resources by cost (last 30 days):',
+                    command: `// Run in Azure Resource Graph Explorer
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| join kind=leftouter (
+    CostManagement
+    | where TimeGenerated >= ago(30d)
+    | summarize TotalCost = sum(CostInBillingCurrency) by ResourceId
+) on $left.id == $right.ResourceId
+| project name, resourceGroup, location, TotalCost
+| order by TotalCost desc
+| take 10`
+                },
+                {
+                    desc: 'Find VMs running 24/7 that could be deallocated:',
+                    command: `Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| where tags.environment =~ 'dev' or tags.environment =~ 'test'
+| where properties.extended.instanceView.powerState.code == 'PowerState/running'
+| project name, resourceGroup, tags.environment, tags.owner`
+                },
+                {
+                    desc: 'Check for unattached disks (wasting money):',
+                    command: `az disk list --query "[?managedBy==null].{Name:name, ResourceGroup:resourceGroup, Size:diskSizeGb, SKU:sku.name}" --output table`
+                }
+            ],
+            tip: 'Most cost spikes come from: VMs left running, over-provisioned VM sizes, or orphaned disks. Start with the KQL queries above.'
+        }
+    },
+    'vm-wont-start': {
+        title: 'VM Won\'t Start',
+        desc: 'VM stuck in "Starting" state',
+        solution: {
+            title: 'VM Startup Troubleshooting',
+            steps: [
+                {
+                    desc: 'Check VM status and any error messages:',
+                    command: 'az vm get-instance-view --resource-group MyRG --name MyVM --query "instanceView.statuses[*].[code, displayStatus, message]" --output table'
+                },
+                {
+                    desc: 'Review Azure Activity Log for errors:',
+                    command: 'az monitor activity-log list --resource-group MyRG --offset 1h --query "[?contains(resourceId, \'MyVM\')]" --output table'
+                },
+                {
+                    desc: 'Check boot diagnostics:',
+                    command: '# In Azure Portal: VM > Support + troubleshooting > Boot diagnostics\n# Or via CLI:\naz vm boot-diagnostics get-boot-log --resource-group MyRG --name MyVM'
+                },
+                {
+                    desc: 'If disk issue, check disk state:',
+                    command: 'az disk show --resource-group MyRG --name MyVM-osdisk --query "{Name:name, State:diskState, Size:diskSizeGb}" --output table'
+                },
+                {
+                    desc: 'Try deallocating and starting again:',
+                    command: 'az vm deallocate --resource-group MyRG --name MyVM\naz vm start --resource-group MyRG --name MyVM'
+                }
+            ],
+            tip: 'Check boot diagnostics first - it often shows the exact error preventing startup (missing disk, boot config issue, etc.).'
+        }
+    },
+    'linux-domain-join': {
+        title: 'Linux VM Domain Join',
+        desc: 'Join Linux VM to Active Directory',
+        solution: {
+            title: 'Linux Active Directory Domain Join',
+            steps: [
+                {
+                    desc: 'Install required packages (Ubuntu/Debian):',
+                    command: 'sudo apt-get update\nsudo apt-get install -y realmd sssd sssd-tools adcli samba-common-bin krb5-user'
+                },
+                {
+                    desc: 'Configure DNS to point to DC:',
+                    command: 'sudo systemctl stop systemd-resolved\nsudo systemctl disable systemd-resolved\necho "nameserver 10.0.0.4" | sudo tee /etc/resolv.conf'
+                },
+                {
+                    desc: 'Discover the domain:',
+                    command: 'sudo realm discover CONTOSO.COM'
+                },
+                {
+                    desc: 'Join the domain:',
+                    command: 'sudo realm join --user=administrator CONTOSO.COM'
+                },
+                {
+                    desc: 'Verify domain join:',
+                    command: 'sudo realm list\ngetent passwd username@CONTOSO.COM\nid username@CONTOSO.COM'
+                },
+                {
+                    desc: 'Allow domain admins sudo access:',
+                    command: 'echo "%domain\\\\ admins@CONTOSO.COM ALL=(ALL) ALL" | sudo tee /etc/sudoers.d/domain-admins'
+                }
+            ],
+            tip: 'Most Linux domain join issues are DNS-related. Ensure /etc/resolv.conf points to your DC, not Azure DNS.'
+        }
+    }
+};
+
+// Generate problem buttons
+const buttonContainer = document.getElementById('problemButtons');
+Object.keys(problems).forEach(key => {
+    const problem = problems[key];
+    const btn = document.createElement('button');
+    btn.className = 'problem-btn';
+    btn.setAttribute('data-problem', key);
+    btn.innerHTML = `
+        <div class="problem-title">${problem.title}</div>
+        <div class="problem-desc">${problem.desc}</div>
+    `;
+    btn.onclick = () => showSolution(key);
+    buttonContainer.appendChild(btn);
+});
+
+function showSolution(problemKey) {
+    // Update active button
+    document.querySelectorAll('.problem-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[data-problem="${problemKey}"]`).classList.add('active');
+
+    // Build solution HTML
+    const problem = problems[problemKey];
+    const solution = problem.solution;
+
+    let html = `
+        <div class="solution-box active">
+            <h3>${solution.title}</h3>
+    `;
+
+    solution.steps.forEach((step, index) => {
+        html += `
+            <div class="step-description">
+                <span class="step-number">${index + 1}</span>
+                <strong>${step.desc}</strong>
+            </div>
+            <div class="command-step">
+                <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+                <pre>${step.command}</pre>
+            </div>
+        `;
+    });
+
+    if (solution.tip) {
+        html += `
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> ${solution.tip}
+            </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    document.getElementById('solutionArea').innerHTML = html;
+
+    // Scroll to solution
+    document.getElementById('solutionArea').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyCommand(button) {
+    const commandText = button.nextElementSibling.textContent;
+    navigator.clipboard.writeText(commandText).then(() => {
+        const originalText = button.textContent;
+        button.textContent = '✓ Copied!';
+        button.style.background = '#28a745';
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = '#0078d4';
+        }, 2000);
+    });
+}
+</script>
+
+<hr />
+<h2>About This Tool</h2>
+<p>This interactive command finder provides step-by-step troubleshooting workflows for common Azure problems. Each workflow includes:</p>
+<ul>
+<li><strong>Exact commands</strong> to run (PowerShell, Azure CLI, Bash)</li>
+<li><strong>Copy-paste buttons</strong> for quick execution</li>
+<li><strong>Expected output</strong> and what to look for</li>
+<li><strong>Pro tips</strong> from production experience</li>
+</ul>
+<p>All commands are tested in a production banking environment with 31,000+ Azure resources.</p>
+<hr />
+<h2>Related Resources</h2>
+<ul>
+<li><a href="/blog/50-windows-commands-azure/">50 Windows Commands for Azure</a> - Complete command reference</li>
+<li><a href="/blog/50-linux-commands-azure/">50 Linux Commands for Azure</a> - Full Linux guide</li>
+<li><a href="/blog/starter-kit/">Azure Admin Starter Kit</a> - Get all resources in one bundle</li>
+<li><a href="/blog/kql-cheat-sheet-complete/">KQL Cheat Sheet</a> - Query library for Azure Resource Graph</li>
+</ul>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <div class="inline-subscribe" style="
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  ">
+    <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">Get more Azure content like this</h3>
+    <p style="margin: 0 0 1.5rem; font-size: 1.1rem; opacity: 0.95%;">
+      Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions delivered weekly.
+    </p>
+    <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form" style="max-width: 500px; margin: 0 auto;">
+      <input type="email" name="email" placeholder="your@email.com" required style="
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 6px;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.9);
+      ">
+      <button type="submit" style="
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #667eea;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      ">Subscribe</button>
+    </form>
+  </div>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-dashboard-rebranding-tool" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">How I Rebranded Microsoft&#39;s Azure Resource Inventory Dashboard (Without Corrupting Excel)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-21</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-service-inventory-tool" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-29</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-arc-enterprise-scale-problems" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Arc at Enterprise Scale: The Problems Microsoft Doesn&#39;t Document</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-19</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Azure Reality Checks</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5;">
+    Get weekly insights on Azure's operational reality — the problems Microsoft's docs won't tell you about.
+  </p>
+  <form action="https://azure-noob.beehiiv.com/subscribe" method="POST" target="_blank" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 200px; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+      Subscribe
+    </button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/50-linux-commands-azure">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>50 Essential Linux Commands for Azure Admins (Complete 2025 Guide)</strong>
+      </a>
+    
+    
+      <a href="/blog/starter-kit" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Azure Admin Starter Kit (Free Download)</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="email-signup" id="subscribe">
+    <div class="wrap">
+      <h3>Get Azure tips in your inbox</h3>
+      <p>Join Azure pros getting practical KQL queries, cost optimization tips, and real-world solutions.</p>
+      <form action="https://magic.beehiiv.com/v1/3827b09b-c887-4929-a724-f6c97cef1c94" method="GET" class="subscribe-form">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+</body>
+</html>
