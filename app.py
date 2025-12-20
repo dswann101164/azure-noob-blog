@@ -358,7 +358,8 @@ def tag_posts(tag):
     tagged_posts = [p for p in posts if tag in p['tags']]
     
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
-    canonical_url = f"{site_url}{url_for('tag_posts', tag=tag)}"
+    # Build canonical URL without URL encoding (spaces should remain as spaces)
+    canonical_url = f"{site_url}/tags/{tag}"
     
     return render_template('tags.html', 
                          tag=tag, 
