@@ -80,11 +80,6 @@ HUBS = {
                 'description': 'Complete resource inventory with cost analysis and compliance tracking.',
                 'url': 'https://github.com/dswann101164/azure-inventory-workbook-enhanced',
             },
-            {
-                'name': 'CCO Dashboard Project',
-                'description': 'Cloud Cost Optimization dashboard with FinOps metrics and business context.',
-                'url': 'https://github.com/dswann101164/cco-dashboard-project',
-            },
         ],
         'related_hubs': [
             {
@@ -374,11 +369,6 @@ HUBS = {
                 'name': 'Enhanced Azure Inventory Workbook',
                 'description': 'Complete resource inventory with cost, compliance, and monitoring data.',
                 'url': 'https://github.com/dswann101164/azure-inventory-workbook-enhanced',
-            },
-            {
-                'name': 'CCO Dashboard Project',
-                'description': 'Cloud Cost Optimization dashboard with FinOps metrics.',
-                'url': 'https://github.com/dswann101164/cco-dashboard-project',
             },
         ],
         'related_hubs': [
