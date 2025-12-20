@@ -232,6 +232,8 @@ Resources
 | order by ResourceCount desc
 ```
 
+**Note:** This query helps with [Azure cost management](/blog/azure-finops-complete-guide/) by identifying resource distribution patterns. For comprehensive FinOps strategies including tag-based cost allocation and chargeback reporting, see our [complete FinOps guide](/blog/azure-finops-complete-guide/).
+
 ### 3. Security Audit: Find Untagged Resources
 ```kql
 Resources

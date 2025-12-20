@@ -1,7 +1,7 @@
 ---
 title: "50 Essential Linux Commands for Azure Admins (Complete 2025 Guide)"
 date: 2025-12-08
-summary: "The essential Linux commands every Azure administrator needs - troubleshooting, domain join, disk mounting, and Azure-specific operations. Includes Active Directory integration for enterprise environments and real-world examples from production banking infrastructure."
+summary: "50 production-tested Linux commands for Azure VMs. Troubleshoot authentication, mount disks, and join Active Directory - all from the command line."
 tags: ["azure", "linux", "operations", "active-directory", "troubleshooting", "commands"]
 cover: "/static/images/hero/linux-commands-azure.png"
 hub: ai
