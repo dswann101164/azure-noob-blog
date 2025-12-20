@@ -245,8 +245,8 @@ def blog_index():
     return render_template('blog_index.html', 
                          posts=posts,
                          canonical_url=get_canonical_url(),
-                         page_title='Blog - Azure Noob',
-                         meta_description='All Azure tutorials and guides from Azure Noob.')
+                         page_title='Azure Tutorials & Real-World Solutions - Azure Noob Blog',
+                         meta_description='111+ Azure tutorials on FinOps, KQL, governance, and automation. Learn from real enterprise problems Microsoft doesn\'t document. Updated weekly.')
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
@@ -465,7 +465,7 @@ def hub_page(slug):
                          cta_data=cta_data,
                          canonical_url=canonical_url,
                          page_title=f"{hub_config['title']} - Azure Noob",
-                         meta_description=hub_config.get('description', ''))
+                         meta_description=hub_config.get('subtitle', ''))
 
 def get_hub_cta_data(hub_slug):
     """Generate CTA configuration for each hub."""

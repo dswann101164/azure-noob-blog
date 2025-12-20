@@ -1,7 +1,7 @@
 ---
 title: "SCCM vs WSUS vs Intune vs Update Manager: Which Tool?"
 date: 2025-10-09
-modified: 2025-12-12
+modified: 2025-12-20
 summary: "4 Microsoft patching tools, 3 conflicting answers from Microsoft reps. Complete comparison: SCCM for on-prem, Azure Update Manager for cloud VMs, Intune for endpoints. Includes decision matrix, migration timeline, and workload mapping Microsoft won't publish."
 tags: ["azure", "sccm", "wsus", "intune", "azure-update-manager", "patch-management", "operations"]
 cover: "static/images/hero/patch-management-confusion.svg"
@@ -26,6 +26,24 @@ This guide is part of our [Azure Governance hub](/hub/governance/) covering poli
 They all work for Microsoft. They all contradicted each other.
 
 Nobody explained which tool to use for which workload.
+
+## Intune vs WSUS: Which is Better for 2025?
+
+Here's the comparison table Google wants to show as a featured snippet:
+
+| Feature | WSUS | SCCM | Azure Update Manager | Intune |
+|---------|------|------|---------------------|--------|
+| **Best For** | Small on-prem environments | Enterprise servers | Azure VMs | Windows 10/11 endpoints |
+| **Cost** | Free | License + infrastructure | Free (Azure VMs) | $6-8/device/month |
+| **Application Deployment** | ❌ No | ✅ Yes | ❌ No | ✅ Yes (endpoints only) |
+| **Patch Management** | ✅ Yes | ✅ Yes (via WSUS) | ✅ Yes | ✅ Yes |
+| **Works On-Prem** | ✅ Yes | ✅ Yes | ⚠️ Requires Arc ($5/mo) | ❌ Cloud-first |
+| **Works in Azure** | ⚠️ Manual setup | ✅ Yes | ✅ Yes | ✅ Yes (endpoints) |
+| **Manages Servers** | ✅ Yes | ✅ Yes | ✅ Yes | ❌ Not designed for servers |
+| **Infrastructure Required** | ✅ Yes (Windows Server) | ✅ Yes (SQL, sites, DPs) | ❌ No | ❌ No |
+| **Complexity** | Low | High | Low | Medium |
+
+**Short answer:** Use SCCM for servers needing app deployment, Azure Update Manager for simple Azure VM patching, Intune for Windows 10/11 desktops. WSUS is legacy - SCCM includes it anyway.
 
 ## The Problem: Microsoft Has 4 Patching Solutions
 
