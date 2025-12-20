@@ -58,6 +58,24 @@ This guide shows you how to build production-grade Azure monitoring dashboards u
 
 ---
 
+## Azure Dashboards vs. Azure Workbooks
+
+Many Azure admins still use traditional Azure Dashboards, but Workbooks offer significantly more power for enterprise environments:
+
+| Feature | Azure Dashboards | Azure Workbooks |
+|---------|------------------|------------------|
+| **Parameters** | Limited filtering | Rich multi-select parameters |
+| **Version Control** | Portal-only | JSON export, Git integration |
+| **Data Sources** | Single workspace | Cross-subscription, multi-resource |
+| **Customization** | Template-based | Full KQL control |
+| **Sharing** | Basic RBAC | RBAC + managed identity |
+| **Cost Analysis** | Basic metrics | Advanced cost queries with joins |
+| **Conditional Logic** | None | Show/hide sections dynamically |
+
+**Bottom line:** Workbooks give you everything Dashboards do, plus enterprise-grade features for complex environments. If you're building [KQL queries](/blog/kql-cheat-sheet-complete/) for monitoring and reporting, Workbooks let you turn those queries into interactive dashboards with parameters and drill-down capabilities.
+
+---
+
 Azure Monitor Workbooks are powerful tools for creating custom dashboards and reports, but keeping them current with Azure's rapidly expanding service catalog can be challenging. Recently, I enhanced Billy York's excellent Azure Inventory Workbook to support modern Azure environments while fixing several technical issues that had accumulated over time.
 
 ## Building on Solid Foundations
