@@ -457,6 +457,7 @@ def hub_page(slug):
     
     # Generate hub-specific CTA data
     cta_data = get_hub_cta_data(slug)
+    print(f"DEBUG: Hub slug={slug}, CTA keys={list(cta_data.keys()) if cta_data else 'None'}")
     
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
     canonical_url = f"{site_url}{url_for('hub_page', slug=slug)}"
@@ -608,6 +609,23 @@ def get_hub_cta_data(hub_slug):
             'cta_url': '/static/downloads/KQL-Query-Library-Complete.pdf',
             'cta_color': '#ec4899',
             'reassurance': 'Excel calculator • Real production costs • No email required'
+        },
+        'terraform': {
+            'gradient_start': '#7B42BC',
+            'gradient_end': '#5A32A3',
+            'emoji': '🏗️',
+            'title': 'Stop Writing Terraform Without CI/CD',
+            'subtitle': 'Get complete Azure DevOps pipeline templates for production Terraform deployments.',
+            'bullets': [
+                'Complete build and release YAML pipelines',
+                'Remote state backend configuration',
+                'Branch policy templates for approvals',
+                'Troubleshooting guide for common failures'
+            ],
+            'cta_text': 'Get Terraform Pipeline Templates',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#7B42BC',
+            'reassurance': 'Azure DevOps YAML • Production-tested • No email required'
         },
     }
     

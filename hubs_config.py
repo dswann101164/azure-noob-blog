@@ -753,6 +753,89 @@ HUBS = {
         ],
         'related_tags': ['Migration', 'Azure', 'Cloud Migration', 'Licensing', 'Planning'],
     },
+    'terraform': {
+        'slug': 'terraform',
+        'category': 'Terraform',
+        'icon': '🏗️',
+        'title': 'Terraform for Azure: Enterprise CI/CD & Best Practices',
+        'subtitle': 'Production Terraform patterns for Azure DevOps pipelines, remote state management, and enterprise infrastructure as code.',
+        'gradient_start': '#7B42BC',
+        'gradient_end': '#5A32A3',
+        'philosophy_title': 'Terraform Isn\'t About Writing Code — It\'s About Building Pipelines Teams Trust',
+        'philosophy_content': '''
+            <p><strong>The Terraform trap:</strong> Teams write perfect Terraform modules, then wonder why nobody uses them. The code was easy. Building CI/CD pipelines, remote state management, and branching strategies that teams actually follow is the hard part.</p>
+            
+            <p>After implementing Terraform at enterprise scale with Azure DevOps, I\'ve learned that production Terraform requires three layers:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Pipeline-first thinking</strong> — Terraform code that works on your laptop but fails in CI/CD is worthless. Design for automation from day one.</li>
+                <li><strong>State management strategy</strong> — Remote state backends, state locking, and disaster recovery aren\'t optional. They\'re the foundation.</li>
+                <li><strong>Branch policies that prevent disasters</strong> — Pull request approvals, plan validation, and blast radius limits save you from 3 AM production incidents.</li>
+            </ul>
+            
+            <p>This hub contains the Terraform CI/CD patterns, remote state strategies, and enterprise best practices I\'ve built to make infrastructure as code actually work in regulated Azure environments.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. Terraform CI/CD Complete Series',
+                'icon': '🔄',
+                'description': 'End-to-end guide: from prerequisites to production deployment with Azure DevOps.',
+                'posts': [
+                    'terraform-azure-devops-cicd-series-index',
+                    'terraform-azure-devops-cicd-part1-prerequisites',
+                    'terraform-azure-devops-cicd-part2-build-pipelines',
+                    'terraform-azure-devops-cicd-part3-release-pipeline',
+                    'terraform-azure-devops-cicd-part4-branch-policies',
+                    'terraform-azure-devops-cicd-part5-production-best-practices',
+                    'terraform-azure-devops-cicd-part6-troubleshooting',
+                ]
+            },
+            {
+                'title': '2. State Management & Foundations',
+                'icon': '💾',
+                'description': 'Remote state backends, locking, and disaster recovery patterns.',
+                'posts': [
+                    'terraform-remote-state-azure',
+                ]
+            },
+            {
+                'title': '3. Advanced Terraform Patterns',
+                'icon': '🚀',
+                'description': 'Azure AI Foundry, module patterns, and enterprise-scale implementations.',
+                'posts': [
+                    'azure-ai-foundry-terraform',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'Terraform Azure DevOps Pipeline Templates',
+                'description': 'Production-ready Azure DevOps YAML pipelines for Terraform deployments.',
+                'url': 'https://github.com/dswann101164',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'automation',
+                'title': 'Automation',
+                'icon': '⚡',
+                'post_count': 8,
+            },
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+            {
+                'slug': 'ai',
+                'title': 'AI & OpenAI',
+                'icon': '🤖',
+                'post_count': 4,
+            },
+        ],
+        'related_tags': ['Terraform', 'IaC', 'Azure DevOps', 'CI/CD', 'Infrastructure as Code'],
+    },
 }
 
 
@@ -832,5 +915,13 @@ def get_hub_navigation():
             'icon': '🤖',
             'title': 'AI & OpenAI',
             'tagline': 'Azure OpenAI pricing, AI Foundry, and the future of AI-assisted Azure ops',
+        },
+        {
+            'name': 'Terraform',
+            'slug': 'terraform',
+            'url': '/hub/terraform/',
+            'icon': '🏗️',
+            'title': 'Terraform',
+            'tagline': 'Enterprise CI/CD, remote state, and production IaC patterns',
         },
     ]
