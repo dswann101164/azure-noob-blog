@@ -457,7 +457,6 @@ def hub_page(slug):
     
     # Generate hub-specific CTA data
     cta_data = get_hub_cta_data(slug)
-    print(f"DEBUG: Hub slug={slug}, CTA keys={list(cta_data.keys()) if cta_data else 'None'}")
     
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
     canonical_url = f"{site_url}{url_for('hub_page', slug=slug)}"
