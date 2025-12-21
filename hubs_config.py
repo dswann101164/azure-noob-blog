@@ -836,6 +836,96 @@ HUBS = {
         ],
         'related_tags': ['Terraform', 'IaC', 'Azure DevOps', 'CI/CD', 'Infrastructure as Code'],
     },
+
+    'security': {
+        'slug': 'security',
+        'category': 'Security',
+        'icon': '🔒',
+        'title': 'Azure Security & Compliance for SOC 2',
+        'subtitle': 'Step-by-step SOC 2 audit prep, Azure Policy reality, and security compliance that actually works in regulated enterprises.',
+        'gradient_start': '#dc2626',
+        'gradient_end': '#991b1b',
+        'philosophy_title': 'Security Compliance Isn\'t About Tools — It\'s About Audit Evidence',
+        'philosophy_content': '''
+            <p><strong>The compliance trap:</strong> Teams deploy Azure Security Center, Microsoft Defender, and Azure Sentinel—then fail SOC 2 audits because they can\'t prove Activity Logs were configured correctly 12 months ago. The tools work. The audit trail doesn\'t exist.</p>
+            
+            <p>After managing SOC 2 compliance for enterprise Azure environments, I\'ve learned that audit success requires three things Microsoft doesn\'t emphasize:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Documentation that auditors accept</strong> — "Diagnostic settings are enabled" isn\'t proof. Screenshots with timestamps, configuration exports, and change logs are proof.</li>
+                <li><strong>Continuous compliance, not point-in-time</strong> — Auditors want evidence you\'ve maintained controls for 12 months, not just configured them before the audit started.</li>
+                <li><strong>Policy enforcement with remediation</strong> — Azure Policy can detect non-compliance. Remediation tasks and audit trails prove you fixed it.</li>
+            </ul>
+            
+            <p>This hub contains the SOC 2 implementation guides, policy patterns, and audit preparation strategies I\'ve built to pass compliance audits in regulated Azure environments. Step-by-step instructions for every control, not just theory.</p>
+        ''',
+        'sections': [
+            {
+                'title': '1. SOC 2 Audit Fundamentals',
+                'icon': '📝',
+                'description': 'Understand audit requirements and what evidence auditors actually need.',
+                'posts': [
+                    'azure-audit-gap-nobody-talks-about',
+                    'azure-governance-napkin-test',
+                ]
+            },
+            {
+                'title': '2. SOC 2 Implementation (Step-by-Step)',
+                'icon': '✅',
+                'description': 'Click-by-click guides for Activity Logs, Entra ID audit logs, and compliance controls.',
+                'posts': [
+                    'soc2-activity-log-step-by-step',
+                    'soc2-azure-ad-audit-logs-step-by-step',
+                ]
+            },
+            {
+                'title': '3. Azure Policy Reality Check',
+                'icon': '🚧',
+                'description': 'What Azure Policy can and cannot do for compliance and security governance.',
+                'posts': [
+                    'azure-policy-reality-check',
+                    'azure-policy-doesnt-fix-bad-architecture',
+                    'azure-landing-zone-reality-check',
+                ]
+            },
+            {
+                'title': '4. Security Updates & Vulnerabilities',
+                'icon': '🚨',
+                'description': 'CVE coverage, security patches, and staying ahead of Azure vulnerabilities.',
+                'posts': [
+                    'cve-2025-49752-azure-bastion-vulnerability',
+                ]
+            },
+        ],
+        'github_resources': [
+            {
+                'name': 'SOC 2 Activity Log Configuration Script',
+                'description': 'PowerShell script to configure diagnostic settings for SOC 2 compliance across all subscriptions.',
+                'url': 'https://github.com/dswann101164',
+            },
+        ],
+        'related_hubs': [
+            {
+                'slug': 'governance',
+                'title': 'Azure Governance',
+                'icon': '🎯',
+                'post_count': 7,
+            },
+            {
+                'slug': 'monitoring',
+                'title': 'Monitoring',
+                'icon': '📊',
+                'post_count': 5,
+            },
+            {
+                'slug': 'arc',
+                'title': 'Azure Arc',
+                'icon': '🌉',
+                'post_count': 4,
+            },
+        ],
+        'related_tags': ['Security', 'Compliance', 'SOC2', 'Audit', 'Azure Policy'],
+    },
 }
 
 
@@ -923,5 +1013,13 @@ def get_hub_navigation():
             'icon': '🏗️',
             'title': 'Terraform',
             'tagline': 'Enterprise CI/CD, remote state, and production IaC patterns',
+        },
+        {
+            'name': 'Security',
+            'slug': 'security',
+            'url': '/hub/security/',
+            'icon': '🔒',
+            'title': 'Security',
+            'tagline': 'SOC 2 compliance, audit prep, and Azure Policy reality',
         },
     ]

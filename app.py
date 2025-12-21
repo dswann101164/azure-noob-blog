@@ -626,6 +626,23 @@ def get_hub_cta_data(hub_slug):
             'cta_color': '#7B42BC',
             'reassurance': 'Azure DevOps YAML • Production-tested • No email required'
         },
+        'security': {
+            'gradient_start': '#dc2626',
+            'gradient_end': '#991b1b',
+            'emoji': '🔒',
+            'title': 'Pass Your SOC 2 Audit on the First Try',
+            'subtitle': 'Get step-by-step SOC 2 compliance guides that auditors actually accept.',
+            'bullets': [
+                'Activity Log configuration scripts with audit-ready documentation',
+                'Entra ID audit log setup for continuous compliance monitoring',
+                'Azure Policy templates for automated compliance enforcement',
+                'Evidence collection checklists that satisfy SOC 2 controls'
+            ],
+            'cta_text': 'Download SOC 2 Implementation Guide',
+            'cta_url': '/static/downloads/Azure-Integration-Assessment-Framework.xlsx',
+            'cta_color': '#dc2626',
+            'reassurance': 'PowerShell scripts • Audit checklists • No email required'
+        },
     }
     
     return cta_configs.get(hub_slug, cta_configs['finops'])  # Default to finops if slug not found
