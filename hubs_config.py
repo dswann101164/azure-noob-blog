@@ -801,8 +801,9 @@ HUBS = {
             {
                 'title': '3. Advanced Terraform Patterns',
                 'icon': '🚀',
-                'description': 'Azure AI Foundry, module patterns, and enterprise-scale implementations.',
+                'description': 'Modules, versioning, publishing, and enterprise-scale implementations.',
                 'posts': [
+                    'terraform-modules-azure-from-local-to-published',
                     'azure-ai-foundry-terraform',
                 ]
             },
