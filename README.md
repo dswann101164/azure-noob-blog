@@ -1,104 +1,89 @@
-﻿# Azure Noob Blog
+# Azure-Noob Blog
 
-**Practical Azure guidance for real-world administrators**
+**Operational guides for Azure administrators managing enterprise-scale environments.**
 
-This is the codebase for [azure-noob.com](https://azure-noob.com) - a technical blog focused on solving actual Azure problems with working solutions, not marketing fluff.
-
-## What You'll Find Here
-
-**Real Problems, Real Solutions:**
-- KQL queries that actually work in production
-- Azure cost management strategies that save money
-- Step-by-step guides you can implement Monday morning
-- Governance frameworks based on enterprise experience
-
-**Target Audience:**
-- Windows administrators moving to Azure
-- IT professionals managing Azure environments  
-- Anyone who needs practical Azure knowledge without the buzzwords
-
-## Technical Stack
-
-**Built with Flask + Frozen-Flask for simplicity and performance:**
-
-```
-â”œâ”€â”€ app.py                 # Flask app for local development
-â”œâ”€â”€ freeze.py              # Generates static site for deployment  
-â”œâ”€â”€ posts/                 # Markdown blog posts with YAML front matter
-â”œâ”€â”€ templates/             # Jinja2 templates for layout
-â”œâ”€â”€ static/                # CSS, images, and assets
-â”œâ”€â”€ docs/                  # Generated static site (served by GitHub Pages/Netlify)
-â””â”€â”€ scripts/               # Helper scripts for publishing
-```
-
-## Writing Workflow
-
-**Simple process for adding new content:**
-
-1. **Create post:** `posts/YYYY-MM-DD-your-topic.md`
-2. **Add YAML front matter:**
-   ```yaml
-   ---
-   title: "Your Post Title"
-   date: 2025-09-23
-   summary: "Brief description for SEO and index pages"
-   tags: ["Azure", "KQL", "FinOps"]
-   cover: "/static/images/hero/your-image.png"
-   ---
-   ```
-3. **Write in Markdown** with full code syntax highlighting
-4. **Publish:** `git push` (auto-deploys via Netlify)
-
-## Local Development
-
-**Run locally for preview:**
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Start development server
-flask run
-
-# Visit http://127.0.0.1:5000
-```
-
-**Generate static site:**
-```bash
-python freeze.py
-```
-
-## Content Philosophy
-
-**"You think it's expensive to hire an expert? Try hiring a noob."**
-
-This blog bridges the gap between expensive consultants and undertrained staff. We provide enterprise-grade solutions with approachable explanations.
-
-**Focus Areas:**
-- **FinOps & Cost Management** - Real strategies for controlling Azure spend
-- **Governance & Compliance** - Practical frameworks that actually work  
-- **KQL & Monitoring** - Queries and dashboards for day-to-day operations
-- **Migration & Modernization** - Windows to Azure transition guidance
-
-## Contributing
-
-**Found a bug in a query? Have a better approach? Contributions welcome!**
-
-- **Issues:** Report problems or suggest content topics
-- **Pull Requests:** Fix typos, improve code, add examples
-- **Content Ideas:** What Azure problems are you facing?
-
-## About
-
-Written by enterprise IT professionals who understand that administrators need **practical solutions**, not theoretical frameworks. Content based on real-world implementations and lessons learned in production environments.
-
-**Connect:**
-- **Website:** [azure-noob.com](https://azure-noob.com)
-- **Email:** david@azure-noob.com
-- **GitHub:** Issues and contributions welcome
+Visit: **[azure-noob.com](https://azure-noob.com)**
 
 ---
 
-*Built for administrators, by an administrator. No marketing fluff, no vendor pitches, just solutions that work.*
+## ?? What This Blog Covers
 
-<!-- rebuild trigger -->
+Real operational guides for Azure administrators dealing with:
+- **44 subscriptions** across merged organizations
+- **850+ Azure Arc-enabled VMware VMs**
+- **SOC 2 / PCI-DSS compliance** requirements
+- **$2M+ annual Azure spend** optimization
+- **Hybrid infrastructure** (Azure + on-prem + VMware)
+
+**Not tutorials. Operational reality.**
+
+---
+
+## ?? Content Hubs
+
+- **[FinOps](https://azure-noob.com/hub/finops/)** - Cost management that finance actually accepts
+- **[Terraform](https://azure-noob.com/hub/terraform/)** - Complete CI/CD series for Azure DevOps (7 parts)
+- **[Azure Arc](https://azure-noob.com/hub/arc/)** - Hybrid infrastructure at enterprise scale
+- **[Governance](https://azure-noob.com/hub/governance/)** - Policy, compliance, and audit patterns
+- **[Monitoring](https://azure-noob.com/hub/monitoring/)** - Workbooks, KQL, and operational dashboards
+- **[Security & Compliance](https://azure-noob.com/hub/security/)** - SOC 2 / PCI-DSS implementation guides
+- **[Automation](https://azure-noob.com/hub/automation/)** - PowerShell, Python, and CI/CD patterns
+- **[AI & OpenAI](https://azure-noob.com/hub/ai/)** - Azure OpenAI deployment and cost management
+- **[Migration](https://azure-noob.com/hub/migration/)** - Cloud migration reality checks (55-question assessment)
+- **[KQL](https://azure-noob.com/hub/kql/)** - Azure Resource Graph query library
+
+---
+
+## ?? Open Source Tools
+
+These repos support the blog content:
+
+- **[azure-inventory-workbook-enhanced](https://github.com/dswann101164/azure-inventory-workbook-enhanced)** - Azure Monitor inventory for 200+ service types
+- **[azure-ipam](https://github.com/dswann101164/azure-ipam)** - IP address management for multi-subscription hybrid Azure
+- **[-terraform-remote-state](https://github.com/dswann101164/-terraform-remote-state)** - Production Terraform remote state templates
+- **[azure-admin-workstation-setup](https://github.com/dswann101164/azure-admin-workstation-setup)** - Automated Azure admin workstation configuration
+- **[azure-enterprise-ops](https://github.com/dswann101164/azure-enterprise-ops)** - Enterprise operational templates and documentation
+
+---
+
+## ?? Technical Stack
+
+**Blog infrastructure:**
+- **Flask + Frozen-Flask** - Static site generation
+- **GitHub Pages** - Hosting
+- **Python** - Build automation
+- **Markdown** - Content authoring
+- **ConvertKit** - Email list (600+ subscribers)
+
+---
+
+## ?? Recent Posts
+
+- **[What the CAF Won't Tell You About Azure Subscriptions](https://azure-noob.com/blog/what-caf-wont-tell-you-azure-subscriptions-arc/)** - Why Microsoft's guidance doesn't work at enterprise scale
+- **[Terraform Modules: From Local to Published](https://azure-noob.com/blog/terraform-modules-azure-from-local-to-published/)** - Complete module development lifecycle
+- **[Azure OpenAI Pricing 2025](https://azure-noob.com/blog/azure-openai-pricing-real-costs/)** - Real costs vs. calculator estimates
+- **[WSUS vs SCCM vs Intune vs Update Manager](https://azure-noob.com/blog/sccm-wsus-azure-update-manager-intune-confusion/)** - Which patch management tool for hybrid environments
+
+**[View all 113+ posts ?](https://azure-noob.com/blog/)**
+
+---
+
+## ?? Stats
+
+- **113+ posts** published since September 2024
+- **10 content hubs** covering the Azure operational stack
+- **9,000+ impressions/month** in Google Search
+- **600+ email subscribers**
+- **Production-tested** across 44 Azure subscriptions
+
+---
+
+## ?? Contributing
+
+Found an error? Have a suggestion? Open an issue or submit a pull request.
+
+---
+
+**Built for Azure administrators. By an Azure administrator. From the trenches.**
+
+**[azure-noob.com](https://azure-noob.com)**
