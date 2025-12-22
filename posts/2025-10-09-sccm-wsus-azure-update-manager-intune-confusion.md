@@ -1,8 +1,8 @@
 ---
-title: "SCCM vs WSUS vs Intune vs Update Manager: Which Tool?"
+title: "WSUS vs SCCM vs Intune vs Azure Update Manager: Which One Do You Actually Need? (2025 Comparison)"
 date: 2025-10-09
-modified: 2025-12-20
-summary: "4 Microsoft patching tools, 3 conflicting answers from Microsoft reps. Complete comparison: SCCM for on-prem, Azure Update Manager for cloud VMs, Intune for endpoints. Includes decision matrix, migration timeline, and workload mapping Microsoft won't publish."
+modified: 2025-12-22
+summary: "WSUS vs SCCM vs Intune vs Azure Update Manager comparison 2025: Which patch management tool for hybrid environments? Complete feature comparison, cost analysis ($0-$100K/year), migration guidance, and FAQ covering Windows 11, on-prem servers, and cloud-first strategies."
 tags: ["azure", "sccm", "wsus", "intune", "azure-update-manager", "patch-management", "operations"]
 cover: "static/images/hero/patch-management-confusion.svg"
 animated_hero: true
@@ -1015,4 +1015,106 @@ Are you in a multi-year migration?
 
 ---
 
+## Frequently Asked Questions
+
+### Can WSUS manage Windows 11 updates?
+
+Yes, but with limitations. WSUS can deploy Windows 11 feature updates and security patches, but:
+- ❌ Cannot enforce hardware requirements (TPM 2.0, Secure Boot)
+- ❌ No support for Windows Update for Business policies
+- ❌ Missing cloud-native telemetry and reporting
+- ✅ Works for basic patching in stable environments
+
+Microsoft recommends Intune for Windows 11 management because WSUS lacks modern device management capabilities (conditional access, compliance policies, autopilot).
+
+### Do I need SCCM if I have Intune?
+
+Depends on your infrastructure:
+
+**You need SCCM if:**
+- Managing on-premises servers (Server 2016, 2019, 2022)
+- Deploying thick-client applications (legacy software with MSI/EXE installers)
+- Operating system deployment (bare-metal imaging)
+- Software distribution in air-gapped networks
+
+**Intune alone works if:**
+- 100% cloud-connected devices
+- Windows 10/11 modern apps only
+- No on-prem server management needed
+
+**Hybrid reality:** Most enterprises run SCCM + Intune together with co-management until legacy infrastructure is fully retired (5-10 year timeline).
+
+### What replaces WSUS in a cloud-first strategy?
+
+**Microsoft's official replacement path:**
+1. **Intune** - For Windows 10/11 desktops and laptops
+2. **Azure Update Manager** - For Azure VMs and Arc-enabled servers
+3. **Windows Update for Business** - Cloud policy engine for update rings
+
+**Migration timeline:**
+- Phase 1: Move Windows 10/11 devices to Intune (6-12 months)
+- Phase 2: Arc-enable on-prem servers → Azure Update Manager (12-24 months)
+- Phase 3: Retire WSUS servers (18-36 months)
+
+**Reality:** Most enterprises keep WSUS running 3-5 years longer than planned because legacy applications break with modern management tools.
+
+### Can Azure Update Manager manage on-premises servers?
+
+Yes, through Azure Arc. Steps:
+1. Install Azure Arc agent on on-prem VMs (VMware, Hyper-V, physical servers)
+2. Register servers with Azure (creates Arc-enabled server resource)
+3. Enable Azure Update Manager for Arc servers
+4. Schedule patching through Azure portal
+
+**Limitation:** Servers must have internet connectivity (direct or through proxy) to Azure Arc endpoints. Air-gapped networks require Azure Stack HCI or SCCM.
+
+**Cost:** Azure Arc itself is free. Azure Update Manager charges per managed server (approximately $5-$10/server/month depending on monitoring features enabled).
+
+For complete Azure Arc deployment patterns and enterprise-scale management, see our [Azure Arc hub](/hub/arc/).
+
+### Is SCCM being discontinued?
+
+No, but Microsoft is **"deprioritizing"** it. Current status:
+- ✅ Still supported (support continues through 2027+)
+- ✅ Security updates continue
+- ⚠️ New features minimal (focus shifted to Intune)
+- ⚠️ Renamed to "Configuration Manager" to de-emphasize "System Center"
+
+**Microsoft's message:** "We're not killing SCCM, but we're not investing in it either. Migrate to Intune + Azure Update Manager for long-term support."
+
+**Enterprise reality:** SCCM remains critical for 60-70% of large enterprises managing legacy infrastructure. Full migration to Intune takes 5-10 years in regulated industries.
+
+### What's the cost difference between WSUS and Intune?
+
+**WSUS:**
+- License: $0 (included with Windows Server)
+- Infrastructure: Server hardware/VM costs (~$2K-$5K/year)
+- Labor: 0.5-1 FTE for management (~$50K-$100K/year)
+- **Total Cost for 500 devices:** ~$50K-$100K/year
+
+**Intune:**
+- License: $6-$14/user/month (Microsoft 365 E3/E5)
+- Infrastructure: $0 (cloud-hosted)
+- Labor: 0.1-0.2 FTE for management (~$10K-$20K/year)
+- **Total Cost for 500 devices:** ~$40K-$90K/year
+
+**Verdict:** Intune is cost-comparable for organizations already on Microsoft 365 E3/E5. For companies on basic Office 365 plans, adding Intune increases costs significantly.
+
+### Can I use WSUS and Intune together?
+
+Yes, but it creates management confusion:
+- **Co-management scenarios:** SCCM acts as bridge between WSUS and Intune
+- **Split management:** WSUS for on-prem servers, Intune for cloud devices
+- **Migration phase:** Gradually move device groups from WSUS → Intune
+
+**Best practice:** Use SCCM as intermediary rather than running WSUS + Intune directly. SCCM provides unified reporting and prevents devices from receiving conflicting update policies.
+
+**Common mistake:** Organizations enable both WSUS and Intune for the same devices, creating duplicate update deployments and patch conflicts.
+
+For enterprise governance strategies around update management and compliance, see our [Azure Governance hub](/hub/governance/).
+
+---
+
 *Managing enterprise Azure patching strategy? This is the operational reality nobody documents. If this helped clarify the confusion, share it with your team - they're probably asking the same questions.*
+
+*Updated December 22, 2025 with FAQ section and 2025 comparison guidance.*
