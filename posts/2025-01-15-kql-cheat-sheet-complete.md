@@ -912,6 +912,37 @@ SigninLogs
 
 ---
 
+## 🚀 Want 150+ Production-Ready Queries?
+
+This cheat sheet covers the fundamentals. **I've packaged my complete KQL query library** (150+ queries) for Azure admins managing enterprise environments.
+
+### **What's Included:**
+
+✅ **47 core queries from this post** (JSON format - copy-paste ready)  
+✅ **100+ query variations** by modifying parameters  
+✅ **Organized by category:** Inventory, Cost, Security, Joins, Advanced  
+✅ **Complete README** with usage examples and customization tips  
+✅ **Production-tested** managing 31,000+ resources across 44 subscriptions
+
+**Categories:**
+- **Inventory (19 queries):** VMs, NICs, disks, storage, networking
+- **Cost (7 queries):** Resource counts, sizing, waste identification  
+- **Security (9 queries):** Compliance, untagged resources, audit trails
+- **Joins (11 queries):** Complex multi-resource relationships
+- **Advanced (1 query):** Advanced techniques and patterns
+
+**Price: $29** (one-time purchase, instant download)
+
+<div style="text-align: center; margin: 2em 0;">
+  <a href="#" style="display: inline-block; background: #0078d4; color: white; padding: 1em 2em; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1.1em;">
+    Get the Complete KQL Library →
+  </a>
+</div>
+
+*Tested in production. Money-back guarantee if it doesn't save you 2+ hours in first week.*
+
+---
+
 ## Download PDF Version
 
 Want this cheat sheet as a PDF for easy reference? Get 45+ production-ready KQL queries including advanced joins, performance optimization, and automation templates.
