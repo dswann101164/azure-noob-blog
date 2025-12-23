@@ -15,7 +15,7 @@ Get the complete Azure Admin Starter Kit â€” everything you need to start m
 
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
-**17,700+ words of battle-tested commands, queries, and templates from a production banking environment.**
+**17,700+ words of battle-tested commands, queries, and templates from a highly-regulated enterprise environment managing 31,000+ Azure resources.**
 
 ## What's Inside
 
@@ -222,12 +222,12 @@ I publish 2-3 posts per week covering:
 
 ## About These Resources
 
-I'm David Swann, an Azure Architect managing enterprise-scale Azure infrastructure (44 subscriptions, 31,000+ resources) in a regulated banking environment.
+I'm David Swann, an Azure Architect managing enterprise-scale Azure infrastructure (44 subscriptions, 31,000+ resources) in a highly-regulated enterprise environment.
 
 These resources come from real production experience:
 
 - Documented actual problems I solved
-- Tested in regulated banking environment
+- Tested in highly-regulated enterprise environment
 - Built for operations teams, not lab environments
 - No vendor marketing â€” just what works
 

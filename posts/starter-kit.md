@@ -1,7 +1,7 @@
 ---
 title: 'Azure Admin Starter Kit (Free Download)'
 date: 2025-12-10
-summary: 'Download the Azure Admin Starter Kit: KQL cheat sheet, Windows/Linux command guides, and an Azure RACI template.'
+summary: 'Download the Azure Admin Starter Kit: KQL cheat sheet, Windows/Linux command guides, and an Azure RACI template. Battle-tested from managing 31,000+ Azure resources across 44 subscriptions.'
 tags:
   - Azure
   - Operations
@@ -17,9 +17,12 @@ related_posts:
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
+
 # Azure Admin Starter Kit (Free Download)
 
 The Azure Admin Starter Kit is a collection of **four practical tools** designed for real-world Azure administrators. These are the same resources used daily for troubleshooting, monitoring, onboarding, and managing hybrid cloud environments.
+
+**Battle-tested from managing 31,000+ Azure resources across 44 subscriptions in a highly-regulated enterprise environment.**
 
 Inside the Starter Kit, you get:
 
@@ -83,7 +86,7 @@ For now, direct download links are available below (email delivery will be added
 
 ---
 
-# 🚀 What’s Coming Next
+# 🚀 What's Coming Next
 
 This is version **1.0** of the Starter Kit.  
 Upcoming enhancements include:
