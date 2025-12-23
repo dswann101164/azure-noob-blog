@@ -1,9 +1,9 @@
 ---
-title: "Cloud Migration Reality Check: The 55 Questions Finance Actually Asks (That Vendors Won't Answer)"
+title: "Azure Migration Checklist: 55 Questions Before Using Azure Migrate"
 date: 2025-11-12
-modified: 2025-12-18
-summary: "Cloud migration assessment template: 55 questions that expose hidden costs, missing dependencies, and licensing gaps before Azure migration starts. Free spreadsheet includes app inventory, network requirements, 18-week timeline, and ROI calculator. Prevents $2M+ overruns by answering the questions Azure Migrate can't."
-tags: ["azure", "Cloud Migration", "governance", "Enterprise Reality", "caf", "Migration Strategy", "Checklist", "Azure Migrate", "Migration Planning", "ROI", "Cost Management"]
+modified: 2025-12-23
+summary: "Complete Azure migration checklist with 55 pre-migration questions for Azure Migrate planning. Free Excel template includes app inventory, cloud migration strategy validation, and cost assessment. Answers the organizational questions Azure Migrate can't before starting your azure cloud migration."
+tags: ["azure", "Azure Migrate", "Cloud Migration", "Migration Checklist", "Azure Migration", "Cloud Migration Strategy", "Migration Planning", "Azure Assessment", "Migration Strategy", "Enterprise Migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"
 related_posts:
@@ -15,13 +15,13 @@ related_posts:
   - azure-cost-optimization-what-actually-works
 ---
 
-# Do you need a cloud migration assessment?
+# Azure Migration Checklist: What to Complete Before Azure Migrate
 
 ## Short Answer
 
-**Yes, if:** Your executive team expects a business case with ROI projections, compliance validation, and risk assessment before approving cloud migration. **No, if:** Leadership has already decided and just needs execution. Most organizations waste 3-6 months on migration assessments that answer questions nobody asked while ignoring the 55 questions finance and legal will actually block the project over: application ownership, vendor contract status, licensing compliance, disaster recovery commitments, and true operating costs including hidden labor.
+**Yes, if:** Your executive team expects a business case with ROI projections, compliance validation, and risk assessment before approving your Azure migration. **No, if:** Leadership has already decided and just needs execution. Most organizations waste 3-6 months on Azure Migrate assessments without completing this **azure migration checklist** that answers the 55 questions finance and legal will actually block the project over: application ownership, vendor contract status, licensing compliance, disaster recovery commitments, and true operating costs.
 
-### What executives actually want to know about cloud migration
+### What executives actually want to know about Azure cloud migration
 
 **CFO asks:** "What's the 3-year TCO versus current datacenter?" (Not: "What does Azure Migrate estimate?")
 
@@ -29,21 +29,21 @@ related_posts:
 
 **Board asks:** "What's our risk exposure if this fails?" (Not: "What does Microsoft recommend?")
 
-Microsoft's Azure Migrate assessment answers none of these questions. It assumes you already have application inventory, business ownership, dependency mapping, and vendor relationships documented.
+**Azure Migrate** answers none of these questions. The Azure Migrate service assumes you already have application inventory, business ownership, dependency mapping, and vendor relationships documented before you start your cloud migration strategy.
 
 Most enterprises don't.
 
-### Why cloud migration assessments fail before Azure Migrate runs
+### Why Azure migration assessments fail before Azure Migrate runs
 
-**Cause:** Migration planning starts with technical tools (Azure Migrate, CloudEndure, vendor assessments) before establishing organizational readiness—application ownership, licensing compliance, vendor relationships, and true operating costs.
+**Cause:** Azure cloud migration planning starts with technical tools (Azure Migrate, CloudEndure, vendor assessments) before establishing organizational readiness—application ownership, licensing compliance, vendor relationships, and true operating costs.
 
 **Effect:** Migrations exceed budget by 2×, timelines double, and teams spend months in reactive discovery that should have happened before any migration wave was scheduled.
 
-**What to do:** Complete the 55-question organizational assessment BEFORE deploying technical assessment tools. If you can't answer questions about application ownership, vendor contracts, and disaster recovery commitments, Azure Migrate's technical output is irrelevant.
+**What to do:** Complete this **azure migration checklist** with 55 pre-migration questions BEFORE deploying Azure Migrate. If you can't answer questions about application ownership, vendor contracts, and disaster recovery commitments, the Azure Migrate service technical output is irrelevant to your cloud migration strategy.
 
 ---
 
-## Why do cloud migrations fail before any workloads are moved?
+## Why do Azure migrations fail before any workloads are moved?
 
 2019. Conference room. Leadership announces: **"We're going to the cloud."**
 
@@ -69,13 +69,13 @@ A simple spreadsheet with 55 questions that nobody could answer.
 
 ---
 
-## Why doesn't Azure Migrate prevent bad migration decisions?
+## Why doesn't Azure Migrate prevent bad Azure migration decisions?
 
-Microsoft's [Azure Migrate service](https://learn.microsoft.com/en-us/azure/migrate/) provides excellent tools for discovery, assessment, and migration execution. The [assessment capabilities](https://learn.microsoft.com/en-us/azure/migrate/concepts-assessment-calculation) calculate Azure costs based on current server specifications and usage patterns. The [migration tools](https://learn.microsoft.com/en-us/azure/migrate/tutorial-migrate-physical-virtual-machines) handle the actual VM movement with minimal downtime.
+Microsoft's [Azure Migrate service](https://learn.microsoft.com/en-us/azure/migrate/) provides excellent tools for Azure cloud migration discovery, assessment, and migration execution. The [assessment capabilities](https://learn.microsoft.com/en-us/azure/migrate/concepts-assessment-calculation) calculate Azure costs based on current server specifications and usage patterns. The [Azure Migrate migration tools](https://learn.microsoft.com/en-us/azure/migrate/tutorial-migrate-physical-virtual-machines) handle the actual VM movement with minimal downtime.
 
-What Azure Migrate can't do: **prevent the migration from failing before you ever use the tool.**
+What the Azure Migrate service can't do: **prevent your azure migration from failing before you ever complete this azure migration checklist.**
 
-The #1 cause of migration failures isn't technical. It's organizational.
+The #1 cause of Azure migration failures isn't technical. It's organizational readiness for cloud migration strategy.
 
 Leadership says "migrate all of them" before anyone has answered:
 - How many applications do we have?
@@ -90,9 +90,9 @@ Most organizations don't.
 
 That's why 60% of Azure migrations exceed budget by 2x and timelines double.
 
-This spreadsheet is part of our [Azure Migration hub](/hub/migration/) covering pre-migration planning, licensing compliance, ROI reality checks, and lessons learned from real enterprise migrations at scale.
+**This azure migration checklist is what you complete BEFORE running Azure Migrate.** It's part of our [Azure Migration hub](/hub/migration/) covering pre-migration planning, cloud migration strategy validation, licensing compliance, and lessons learned from enterprise Azure cloud migrations at scale.
 
-Here's the pre-migration checklist that prevents this disaster.
+Download the complete **Azure migration checklist** Excel template below to answer the 55 questions Azure Migrate can't.
 
 ---
 
