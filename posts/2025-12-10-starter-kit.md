@@ -1,17 +1,15 @@
-﻿---
+---
 title: "Azure Admin Starter Kit (Free Download)"
 date: 2025-12-10
 summary: "Get everything you need to start managing Azure effectively: KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template. Free, no email required."
 tags: ["azure", "starter-kit", "kql", "windows", "linux", "operations", "governance"]
-cover: "/static/images/hero/azure-admin-starter-kit.png"
 hub: ai
 related_posts:
   - will-ai-replace-azure-administrators-by-2030
   - the-ai-admin
   - three-ai-roles
 ---
-Get the complete Azure Admin Starter Kit â€” everything you need to start managing Azure infrastructure effectively, all in one place.
-
+Get the complete Azure Admin Starter Kit — everything you need to start managing Azure infrastructure effectively, all in one place.
 
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 
@@ -21,9 +19,9 @@ This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring
 
 This free bundle includes five essential resources I use daily managing 31,000+ Azure resources:
 
-### 1. Azure Command Finder (Interactive Tool) âš¡ NEW
+### 1. Azure Command Finder (Interactive Tool) ⚡ NEW
 
-**Interactive troubleshooting tool** â€” select your problem, get exact commands:
+**Interactive troubleshooting tool** — select your problem, get exact commands:
 
 - Can't RDP to VM
 - Domain join failures
@@ -40,7 +38,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Quick troubleshooting, training new team members, 3 AM emergencies
 
-[ðŸ› ï¸ Open Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
+[🛠️ Open Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
 
 ---
 
@@ -57,7 +55,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Daily operations, compliance reporting, cost management
 
-[ðŸ“¥ Download KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
+[📥 Download KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
 
 **Or view the web version:** [KQL Cheat Sheet - Complete Guide](/blog/kql-cheat-sheet-complete/)
 
@@ -78,7 +76,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Windows Server admins, AD troubleshooting, enterprise environments, regulated industries
 
-[ðŸ“– Read: 50 Windows Commands for Azure (Full Guide)](/blog/50-windows-commands-azure/)
+[📖 Read: 50 Windows Commands for Azure (Full Guide)](/blog/50-windows-commands-azure/)
 
 ---
 
@@ -96,7 +94,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Linux admins, hybrid environments, cross-platform operations
 
-[ðŸ“– Read: 50 Linux Commands for Azure (Full Guide)](/blog/50-linux-commands-azure/)
+[📖 Read: 50 Linux Commands for Azure (Full Guide)](/blog/50-linux-commands-azure/)
 
 ---
 
@@ -111,7 +109,7 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 **Perfect for:** Team alignment, documentation, enterprise governance
 
-[ðŸ“¥ Download Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+[📥 Download Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
 
 ---
 
@@ -121,10 +119,10 @@ This free bundle includes five essential resources I use daily managing 31,000+ 
 
 Instead of scattered documentation, expensive courses, and trial-and-error, you get:
 
-- âœ… **Copy-paste ready** - All commands and queries work in production
-- âœ… **Battle-tested** - Used daily in a 31,000+ resource environment
-- âœ… **Operations-focused** - Real problems, real solutions
-- âœ… **No fluff** - Only what actually works
+- ✅ **Copy-paste ready** - All commands and queries work in production
+- ✅ **Battle-tested** - Used daily in a 31,000+ resource environment
+- ✅ **Operations-focused** - Real problems, real solutions
+- ✅ **No fluff** - Only what actually works
 
 **No email required. No signup. Just download and use.**
 
@@ -153,16 +151,16 @@ Learning Azure for new opportunities
 
 ### Step 1: Get the Interactive Tool
 
-**Start here:** [ðŸ› ï¸ Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
+**Start here:** [🛠️ Azure Command Finder (Interactive Tool)](/blog/azure-command-finder/)
 
 This interactive tool gives you instant troubleshooting workflows for common Azure problems. Click a problem, get the exact commands.
 
 ### Step 2: Download the Resources
 
-- [ðŸ“¥ KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
-- [ðŸ“– 50 Windows Commands (Full Guide)](/blog/50-windows-commands-azure/)
-- [ðŸ“– 50 Linux Commands (Full Guide)](/blog/50-linux-commands-azure/)
-- [ðŸ“¥ Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
+- [📥 KQL Query Library (PDF)](https://azure-noob.com/static/downloads/kql-query-library.pdf)
+- [📖 50 Windows Commands (Full Guide)](/blog/50-windows-commands-azure/)
+- [📖 50 Linux Commands (Full Guide)](/blog/50-linux-commands-azure/)
+- [📥 Azure RACI Template (PDF)](https://azure-noob.com/static/downloads/azure-raci-template.pdf)
 
 ### Step 3: Use the KQL Queries
 
@@ -229,7 +227,7 @@ These resources come from real production experience:
 - Documented actual problems I solved
 - Tested in highly-regulated enterprise environment
 - Built for operations teams, not lab environments
-- No vendor marketing â€” just what works
+- No vendor marketing — just what works
 
 **Everything here is free because I wish it existed when I started.**
 
