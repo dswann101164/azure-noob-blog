@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing 2025: Real Costs, Calculator & Complete Guide (December Update)"
+title: "Azure OpenAI Pricing 2025: $0.50-$30 Per Million Tokens"
 date: 2025-11-25
-modified: 2025-12-22
-summary: "Azure OpenAI pricing 2025: Real costs from $0.50-$30/million tokens, enterprise spend patterns ($5K-$50K/month), cost calculator, hidden expenses ($1,836 fine-tuning fees), PTU vs pay-as-you-go comparison, and volume discount strategies. Complete FAQ included."
+modified: 2025-12-23
+summary: "Azure OpenAI costs $0.50-$30/million tokens in 2025. Enterprise deployments average $5K-$50K/month. Includes cost calculator, hidden $1,836 fine-tuning fees, and PTU comparison."
 tags:
 - Azure
 - FinOps
