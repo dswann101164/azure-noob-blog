@@ -16,11 +16,29 @@ related_posts:
   - azure-finops-complete-guide
   - azure-cost-optimization-complete-guide
   - azure-resource-tags-guide
+faq_schema: true
 ---
 
 ## What does Azure OpenAI actually cost?
 
 **Short Answer:** Azure OpenAI runs $0.002-$0.06 per 1,000 tokens depending on model (GPT-3.5 to GPT-4), but production deployments cost 10×-50× more than Microsoft's calculator shows. The calculator omits fine-tuning hosting fees ($1,836-$2,160/month per model regardless of usage), infrastructure requirements (Cognitive Services resources, Key Vault, monitoring adding $35-50/month), and the 2× cost multiplier for output tokens versus input tokens. A $4/month calculator estimate becomes $1,900+/month when fine-tuning deploys to production.
+
+---
+
+📊 **Free Download: Azure OpenAI Cost Calculator**
+
+Calculate your REAL production costs (not what Microsoft's calculator shows). Professional Excel workbook with:
+- **Interactive cost calculator** with live formulas
+- **Model comparison** (GPT-3.5 vs GPT-4 vs GPT-4o)
+- **5 cost optimization strategies** proven to reduce spend by 60%
+- **Real production example** ($4 estimate → $1,906 actual bill)
+- **ROI analysis** for model selection decisions
+
+**[Download Calculator (Excel)](/static/downloads/Azure_OpenAI_Cost_Calculator.xlsx)** | **[Subscribe for Azure FinOps updates](https://azure-noob.com)**
+
+*No email required for download. Created by David Swann, Azure Architect at Synovus.*
+
+---
 
 ### Why Microsoft's pricing calculator is always wrong
 

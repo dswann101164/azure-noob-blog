@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Azure FinOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure FinOps (Financial Operations) is the practice of bringing financial accountability to cloud spending through cost visibility, optimization, and governance. For enterprise environments with 10+ subscriptions, this means building tag governance that survives 18 months, creating chargeback models business units accept, and establishing cost controls before resources deploy. The FinOps Foundation defines three phases: Inform (visibility into spending), Optimize (right-sizing and efficiency), and Operate (continuous governance and accountability)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is Azure cost visibility so hard for enterprises?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft gives you cost data at the subscription level, which is useless for chargeback. Applications span multiple subscriptions, resource groups don't map to applications (they're deployment containers), subscriptions are security boundaries not cost centers, and shared services (networking, monitoring) serve multiple apps. For example, a single application might have App Services in one subscription, SQL Databases in another, Storage in a third, and networking resources in a fourth. Azure Cost Management shows 4 subscription-level costs when business needs 1 application-level cost. Solution: tag-based cost allocation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What tags are actually required for Azure FinOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The minimum viable tag schema that survives in production includes 4 required tags: Application (identifies the workload), Environment (production, development, etc.), CostCenter (maps to financial systems), and Owner (contact for the resource). Optional tags include DataClassification, Project, and Department. Most organizations fail by requiring too many tags or not enforcing consistency - for example, having 247 variations of 'Production' across resources. Successful tag governance requires Azure Policy enforcement, automated remediation, and business unit buy-in."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you implement Azure chargeback that business units actually accept?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Successful Azure chargeback requires: accurate tag-based cost allocation at application level (not subscription), shared cost distribution formulas that business units agree to in advance, monthly reporting that matches financial close cycles, and cost ownership assigned to application owners not IT. Failed chargeback models try to allocate shared services (networking, monitoring) equally across all applications - business units reject this. Working model: allocate shared costs based on consumption metrics (bandwidth used, monitoring volume) or application criticality tiers agreed upon with finance and business leadership."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the #1 Azure FinOps mistake enterprises make?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Organizations get stuck in the 'Inform' phase for 18 months trying to achieve perfect cost visibility before taking action. They spend months building comprehensive tagging schemas (that fail to enforce), creating complex allocation models (that business units reject), and deploying expensive third-party tools (that duplicate Azure Cost Management). The working approach: start with 4 required tags only, implement Azure Policy enforcement immediately, build basic application-level cost reports for top 10 applications (80% of spend), and iterate monthly. Get 80% visibility in 30 days, not 100% visibility in 18 months."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much can Azure FinOps actually save?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Realistic Azure cost reduction from FinOps practices: 15-25% in first year through rightsizing (10-15% savings), reserved instances for predictable workloads (5-10% savings), and deleting unused resources (2-5% savings). For a $4.8 million annual Azure spend, this means $720K-$1.2M in savings. The larger benefit is cost avoidance - preventing uncontrolled spending through budgets, alerts, and resource approval workflows. Enterprises with mature FinOps prevent $2-3 million in wasteful spending before it deploys. Focus on visibility and governance first, optimization second."
+      }
+    }
+  ]
+}

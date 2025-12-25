@@ -8,6 +8,7 @@ import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.fenced_code import FencedCodeExtension
 from hubs_config import get_hub_config, get_all_hubs, get_hub_navigation
+import json
 
 app = Flask(__name__)
 
@@ -228,6 +229,23 @@ def generate_meta_description(summary, content, max_length=160):
         truncated = truncated[:last_space]
     return truncated + '...'
 
+def load_faq_schema(slug):
+    """
+    Load FAQ schema JSON for a post if it exists.
+    Returns script tag with JSON-LD for injection into template.
+    """
+    schema_path = Path('schema') / f'{slug}-faq-schema.json'
+    if schema_path.exists():
+        try:
+            with open(schema_path, 'r', encoding='utf-8') as f:
+                schema_data = json.load(f)
+            # Wrap in script tag for injection
+            return f'<script type="application/ld+json">\n{json.dumps(schema_data, indent=2)}\n</script>'
+        except Exception as e:
+            app.logger.error(f"Error loading FAQ schema for {slug}: {e}")
+            return None
+    return None
+
 
 
 @app.route('/')
@@ -330,7 +348,8 @@ def blog_post(slug):
                            og_tags=post.get('tags', []),
                            date_published_iso=date_published_iso,
                            date_modified_iso=date_modified_iso,
-                           author_name='David Swann')
+                           author_name='David Swann',
+                           faq_schema_json=load_faq_schema(slug))
 
 @app.route('/tags/')
 def tags_index():
