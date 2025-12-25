@@ -155,7 +155,8 @@ def load_posts():
                 'cover_url': f"/{cover}" if cover else '',  # Always use absolute path for templates
                 'slug': slug,
                 'content': post.content,
-                'filename': md_file.name
+                'filename': md_file.name,
+                'faq_schema': meta.get('faq_schema', False)  # Add FAQ schema flag
             }
 
             posts.append(post_data)
