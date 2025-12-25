@@ -6,6 +6,7 @@ summary: "Complete Azure migration checklist with 55 pre-migration questions for
 tags: ["azure", "Azure Migrate", "Cloud Migration", "Migration Checklist", "Azure Migration", "Cloud Migration Strategy", "Migration Planning", "Azure Assessment", "Migration Strategy", "Enterprise Migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"
+faq_schema: true
 related_posts:
   - azure-migration-roi-wrong
   - azure-migrate-enterprise-hybrid

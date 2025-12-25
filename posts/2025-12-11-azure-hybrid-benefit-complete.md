@@ -12,6 +12,7 @@ tags:
   - Compliance
   - Azure Hybrid Benefit
 cover: /static/images/hero/azure-hybrid-benefit-50k.png
+faq_schema: true
 
 related_posts:
   - cloud-migration-reality-check

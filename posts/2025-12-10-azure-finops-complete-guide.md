@@ -5,6 +5,7 @@ summary: "Azure FinOps guide for 31,000+ resource environments: tag governance t
 tags: ["azure", "finops", "cost-management", "governance", "chargeback", "optimization"]
 cover: "/static/images/hero/azure-finops-business-reality.png"
 hub: finops
+faq_schema: true
 related_posts:
   - azure-cost-optimization-complete-guide
   - azure-resource-tags-guide

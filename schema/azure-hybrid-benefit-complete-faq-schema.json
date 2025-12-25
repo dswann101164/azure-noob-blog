@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Azure Hybrid Benefit and how much can it save?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure Hybrid Benefit (AHB) allows you to use existing on-premises Windows Server and SQL Server licenses with active Software Assurance in Azure, reducing Azure VM and database costs by up to 40-80%. For Windows Server VMs, AHB saves approximately $0.096/hour per core. For SQL Server Enterprise, savings reach $8.004/hour per vCore. A 100-VM environment can save $50,000-$150,000 annually with proper AHB implementation. However, these savings require active Software Assurance, proper documentation, and correct license-to-core mapping to avoid audit penalties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the requirements for Azure Hybrid Benefit eligibility?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure Hybrid Benefit requires: (1) Active Software Assurance on Windows Server or SQL Server licenses, (2) Documented proof of purchase showing SA coverage, (3) Correct license-to-core mapping (2 licenses per 16 vCores for Windows Server Standard, 1 license per unlimited vCores for Datacenter), (4) Decommissioning proof for on-premises servers within 180 days, and (5) Volume Licensing through EA, MPSA, Open Value, or CSP. OEM licenses bundled with hardware do NOT qualify. Retail licenses do NOT qualify. Expired Software Assurance invalidates AHB eligibility immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do enterprises fail Azure Hybrid Benefit audits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enterprises fail Azure Hybrid Benefit audits for five primary reasons: (1) Assuming on-premises licenses automatically transfer to Azure without active Software Assurance, (2) Enabling AHB on marketplace images that already include Windows licensing costs (double-paying), (3) Continuing to run on-premises servers beyond the 180-day concurrent usage grace period, (4) Missing or incomplete documentation of Software Assurance coverage and license assignment, and (5) Incorrect license-to-core mapping resulting in over-deployment of Azure VMs beyond licensed capacity. The average audit penalty ranges from $50,000 to $200,000 for mid-sized Azure environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the 180-day concurrent use period for Azure Hybrid Benefit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Microsoft allows 180 days of concurrent use when migrating workloads to Azure with Azure Hybrid Benefit. This means you can run both your on-premises server (using the original license) AND the Azure VM (using AHB) simultaneously for up to 180 days during migration. After 180 days, you must either decommission the on-premises server or purchase additional Azure licensing. Common audit failures occur when enterprises forget to decommission on-premises VMs, continue running them indefinitely, or lack documentation proving decommissioning dates. Track decommissioning in your CMDB with specific dates and evidence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use OEM licenses with Azure Hybrid Benefit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. OEM (Original Equipment Manufacturer) licenses that came pre-installed on physical servers DO NOT qualify for Azure Hybrid Benefit. Only licenses purchased through Volume Licensing programs (Enterprise Agreement, MPSA, Open Value, CSP) with active Software Assurance are eligible. This is a common audit failure: enterprises migrate servers to Azure, enable AHB, but discover during audit that their original licenses were OEM editions bundled with Dell, HP, or Lenovo hardware. OEM licenses are hardware-locked and non-transferable. You must purchase new Volume Licenses with Software Assurance to use AHB legally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I validate Azure Hybrid Benefit before migration?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use this 8-question pre-migration AHB validation checklist: (1) Does this license have active Software Assurance coverage? Verify SA expiration dates in VLSC. (2) Is this a Volume License (not OEM or retail)? Check purchase agreements. (3) Do I have documented proof of purchase and license assignment? Gather invoices and VLSC screenshots. (4) What is the correct license-to-core mapping for this workload? Calculate Windows Server vs SQL Server requirements. (5) Will the on-premises server be decommissioned within 180 days? Document decommissioning plan with dates. (6) Is this a marketplace image with built-in licensing? Check Azure image source. (7) Have I calculated total licensed cores vs total Azure vCPUs? Ensure capacity doesn't exceed licensed amount. (8) Do I have audit documentation ready? Create pre-migration evidence package with SA proof, license counts, and decommissioning timeline."
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is KQL and why do Azure administrators need to learn it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KQL (Kusto Query Language) is the query language for Azure Resource Graph, Log Analytics, Application Insights, and Microsoft Sentinel. Azure administrators need KQL to inventory resources across subscriptions, troubleshoot configuration issues, generate compliance reports, and analyze infrastructure at scale. Unlike Azure Portal's GUI which is subscription-limited, KQL queries can scan all 44+ subscriptions in seconds, join resource data with cost information, and export results for automation. No Azure certification adequately teaches operational KQL - the AZ-104 exam shows only two sample queries with zero coverage of joins, performance optimization, or production query patterns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Azure Resource Graph and Log Analytics KQL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure Resource Graph queries infrastructure metadata (resource properties, configurations, tags, locations) using the Resources and ResourceContainers tables. Log Analytics queries runtime telemetry (logs, metrics, performance data) from Azure Monitor. Resource Graph is perfect for 'what resources exist and how are they configured' questions. Log Analytics is perfect for 'what is happening right now' questions. Both use KQL syntax but query different data sources. Resource Graph is faster for infrastructure inventory (scans 31,000 resources in 2-3 seconds). Log Analytics has deeper time-series data but requires agents or diagnostic settings to collect data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I query all VMs across multiple Azure subscriptions with KQL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Azure Resource Graph Explorer with this query: Resources | where type == 'microsoft.compute/virtualmachines' | project name, location, resourceGroup, subscriptionId, properties.hardwareProfile.vmSize, properties.storageProfile.osDisk.osType | order by name asc. This scans all subscriptions you have access to (no subscription switching required), returns VM name, location, resource group, subscription, VM size, and OS type in under 3 seconds for environments with 1,000+ VMs. Add '| where subscriptionId == \"{subscription-id}\"' to filter to specific subscriptions. Add tags with '| extend environment = tostring(tags.Environment)' to include tag data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the most useful KQL operators for Azure Resource Graph queries?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Essential KQL operators for Azure Resource Graph: (1) where - filters rows by condition, (2) project - selects specific columns to return, (3) extend - adds calculated columns without removing existing ones, (4) summarize - aggregates data with count(), sum(), avg(), (5) join - combines data from multiple tables, (6) order by - sorts results, (7) take/limit - returns top N rows, (8) distinct - returns unique values, (9) mv-expand - expands multi-value arrays into separate rows, (10) parse - extracts data from strings. Most production queries use where, project, and extend for basic inventory. Advanced queries add join for cost analysis and summarize for reporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I use KQL to find Azure resources without required tags?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Query untagged resources with: Resources | where tags !has 'Environment' or tags !has 'Application' or tags !has 'CostCenter' | project name, type, resourceGroup, subscriptionId, tags | order by type asc. This identifies resources missing Environment, Application, or CostCenter tags across all subscriptions. For more sophisticated tag validation, use: Resources | extend hasEnv = isnotnull(tags.Environment), hasApp = isnotnull(tags.Application), hasCost = isnotnull(tags.CostCenter) | where hasEnv == false or hasApp == false or hasCost == false | project name, type, hasEnv, hasApp, hasCost, tags. Export results to CSV for remediation tracking. This pattern is critical for FinOps chargeback models and compliance reporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where should I run KQL queries for Azure infrastructure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run Azure Resource Graph KQL queries in: (1) Azure Portal Resource Graph Explorer (search 'resource-graph' in portal) - best for ad-hoc queries and testing, (2) Azure CLI with 'az graph query' command - best for automation and CI/CD pipelines, (3) PowerShell with 'Search-AzGraph' cmdlet - best for Windows automation and reporting scripts, (4) Azure Workbooks - best for interactive dashboards and scheduled reports. Resource Graph Explorer supports query history, sample queries, and keyboard shortcuts (Ctrl+Space for autocomplete). Always test queries in the portal before embedding in automation. Use query comments (// or /* */) to document complex logic for team knowledge sharing."
+      }
+    }
+  ]
+}

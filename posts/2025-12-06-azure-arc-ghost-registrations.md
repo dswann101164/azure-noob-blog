@@ -14,6 +14,7 @@ tags:
 - Reconciliation
 - VMware
 cover: /static/images/hero/azure-arc-ghost-registrations.png
+faq_schema: true
 
 related_posts:
   - azure-vm-inventory-kql

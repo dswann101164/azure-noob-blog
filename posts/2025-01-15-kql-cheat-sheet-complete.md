@@ -12,6 +12,7 @@ tags:
 - Resource Graph
 cover: /static/images/hero/kql-cheat-sheet.png
 hub: governance
+faq_schema: true
 related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy
