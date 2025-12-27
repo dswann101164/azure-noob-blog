@@ -306,7 +306,7 @@ This free guide covers the **fundamentals** - 15 essential queries to get starte
 
 **Ready for production-level Azure administration?** 
 
-### Get the Complete KQL Query Library ($29)
+### Get the Complete KQL Query Library ($19)
 
 **What's included:**
 - ✅ **48 production-tested queries** (vs 15 basic queries here)
@@ -332,9 +332,9 @@ This free guide covers the **fundamentals** - 15 essential queries to get starte
 
 **The complete library gives you production-ready queries** → Save 10+ hours/month
 
-**Price: $29** (one-time purchase, instant download)
+**Price: $19** (one-time purchase, instant download)
 
-[Get the Complete KQL Library →](#)
+[Get the Complete KQL Library →](https://davidnoob.gumroad.com/l/hooih)
 
 *Money-back guarantee if it doesn't save you 2+ hours in the first week.*
 
