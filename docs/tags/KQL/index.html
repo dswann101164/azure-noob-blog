@@ -422,9 +422,24 @@
     e.preventDefault();
     const email = document.getElementById('popup-email').value;
     
-    // Send to ConvertKit (we'll set this up next)
+    // Send to Kit (ConvertKit)
     try {
-      // For now, just close and redirect
+      const FORM_ID = '8896829'; // Your Kit Form ID
+      
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Email captured to Kit:', email);
+      }
+      
       closeExitPopup();
       
       // Track in Google Analytics
