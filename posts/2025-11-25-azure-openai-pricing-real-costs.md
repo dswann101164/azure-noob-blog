@@ -731,6 +731,23 @@ You cannot "pause" deployments like you can with VMs. To reduce costs:
 
 ---
 
+## 🎯 Track Azure Costs Like a Pro
+
+This guide covers OpenAI pricing, but **managing costs across 30,000+ resources requires powerful KQL queries.**
+
+**The Complete KQL Query Library includes:**
+- ✅ 48 production-ready cost analysis queries
+- ✅ Track spending by subscription, resource group, tag
+- ✅ Identify unused resources costing you thousands
+- ✅ Enterprise-scale tested patterns
+- ✅ Lifetime updates
+
+**Launch price: $19** (regular $29)
+
+[Get the Complete KQL Library →](https://davidnoob.gumroad.com/l/hooih)
+
+---
+
 **Questions? Spot an error? Let me know in the comments below.**
 
 *Updated December 22, 2025 with FAQ section and current pricing.*
