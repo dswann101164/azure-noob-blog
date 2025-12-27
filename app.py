@@ -33,10 +33,10 @@ def handle_trailing_slashes_and_redirects():
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
     """
-    # CRITICAL FIX: Force HTTPS redirect
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        return redirect(url, code=301)
+    # CRITICAL FIX: Force HTTPS redirect (COMMENTED FOR LOCAL TESTING)
+    # if request.url.startswith('http://'):
+    #     url = request.url.replace('http://', 'https://', 1)
+    #     return redirect(url, code=301)
     
     # CRITICAL FIX: Force non-WWW redirect
     if request.host.startswith('www.'):
@@ -432,6 +432,13 @@ def start_here():
                          canonical_url=get_canonical_url(),
                          page_title='Start Here - Azure Noob',
                          meta_description='New to Azure Noob? Start here for the best Azure tutorials.')
+
+@app.route('/products')
+def products():
+    return render_template('products.html',
+                         canonical_url=get_canonical_url(),
+                         page_title='Digital Products for Azure Admins | Azure Noob',
+                         meta_description='Production-tested Azure tools and guides. KQL Query Library, Admin Reference Library, and more from managing 30,000+ resources.')
 
 @app.route('/hubs/')
 def hubs_index():
