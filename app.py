@@ -264,8 +264,8 @@ def blog_index():
     return render_template('blog_index.html', 
                          posts=posts,
                          canonical_url=get_canonical_url(),
-                         page_title='Azure Tutorials & Real-World Solutions - Azure Noob Blog',
-                         meta_description='111+ Azure tutorials on FinOps, KQL, governance, and automation. Learn from real enterprise problems Microsoft doesn\'t document. Updated weekly.')
+                         page_title='70+ Azure Production Battle Stories: Real Enterprise Problems Microsoft Won\'t Document',
+                         meta_description='Azure tutorials from managing 31,000+ resources: FinOps reality, KQL queries that work, governance teams follow, Arc ghost cleanup, OpenAI cost breakdowns. Updated 2x/week with real production scenarios.')
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
