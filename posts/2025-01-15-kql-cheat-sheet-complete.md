@@ -1,8 +1,8 @@
 ---
-title: 'KQL Cheat Sheet: Getting Started with Azure Resource Graph'
+title: 'KQL Cheat Sheet for Azure Migration Discovery: 48 Production-Tested Queries'
 date: 2025-01-15
-modified: 2025-12-24
-summary: 'Essential KQL reference for Azure admins: 15 fundamental queries for VM inventory, resource discovery, and basic troubleshooting. Start learning Azure Resource Graph queries today.'
+modified: 2025-12-28
+summary: 'Complete KQL reference for Azure Resource Graph: 15 free fundamental queries + migration discovery section. Auto-fill 25 of 55 migration questions with KQL. Tested on 31,000+ resources across 44 subscriptions.'
 tags:
 - Azure
 - Cheat Sheet
@@ -297,6 +297,80 @@ You now know how to:
 - ✅ Count and aggregate resources
 - ✅ Find untagged resources
 - ✅ Extract basic properties from resources
+
+---
+
+## 🚀 KQL for Migration Discovery
+
+**Before you touch Azure Migrate**, you need accurate inventory data. These queries answer the 55 questions in the [Azure Migration Assessment Pro](/products/) without guesswork.
+
+### Critical Migration Questions KQL Can Answer:
+
+**Infrastructure Discovery:**
+```kql
+// Question #10-12: Platform, OS, and Server Count
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| extend osType = properties.storageProfile.osDisk.osType
+| extend osVersion = properties.storageProfile.imageReference.sku
+| summarize 
+    TotalVMs = count(),
+    Windows = countif(osType =~ 'Windows'),
+    Linux = countif(osType =~ 'Linux')
+    by osType, osVersion
+| order by TotalVMs desc
+```
+
+**Dependency Mapping:**
+```kql
+// Question #15-16: Load Balancer Dependencies & Public Exposure
+Resources
+| where type =~ 'microsoft.network/loadbalancers'
+| extend frontendConfig = properties.frontendIPConfigurations
+| mvexpand frontendConfig
+| extend 
+    publicIP = frontendConfig.properties.publicIPAddress.id,
+    privateIP = frontendConfig.properties.privateIPAddress
+| project name, resourceGroup, 
+    hasPublicIP = isnotnull(publicIP),
+    privateIP, location
+```
+
+**Cost Discovery:**
+```kql
+// Question #43-44: Resource Count by Application
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+    or type =~ 'microsoft.storage/storageaccounts'
+    or type =~ 'microsoft.network/virtualnetworks'
+| extend appName = tostring(tags['Application'])
+| where isnotempty(appName)
+| summarize 
+    VMs = countif(type =~ 'microsoft.compute/virtualmachines'),
+    Storage = countif(type =~ 'microsoft.storage/storageaccounts'),
+    TotalResources = count()
+    by appName, resourceGroup
+| order by TotalResources desc
+```
+
+### 🎯 The Migration Discovery Workflow:
+
+1. **Run these queries** → Answers 25 of 55 migration questions
+2. **Export to Excel** → Paste into [Migration Assessment Pro](/products/)
+3. **Auto-fill confidence** → High (KQL-verified), not Low (guessed)
+4. **Remaining 30 questions** → Manual discovery (app owners, licensing docs)
+
+**Time saved:** 10-15 hours per application
+
+### Want All 48 Migration Discovery Queries?
+
+The [Complete KQL Query Library ($19)](https://davidnoob.gumroad.com/l/hooih) includes:
+- ✅ **Dependency mapping queries** - Find load balancers, VNets, NSGs per app
+- ✅ **Licensing audits** - SQL Server, Windows, Red Hat detection
+- ✅ **Cost allocation** - Tag-based resource grouping for cost estimates
+- ✅ **Security assessment** - Encryption status, public exposure, NSG rules
+
+**Maps directly to the Migration Assessment Pro questionnaire.**
 
 ---
 

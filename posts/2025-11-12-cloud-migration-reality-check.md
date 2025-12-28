@@ -1,8 +1,8 @@
 ---
-title: "Azure Migration Checklist: 55 Questions Before Using Azure Migrate"
+title: "Azure Migration: 55 Questions That Save $50K+ (Before You Touch Azure Migrate)"
 date: 2025-11-12
-modified: 2025-12-23
-summary: "Complete Azure migration checklist with 55 pre-migration questions for Azure Migrate planning. Free Excel template includes app inventory, cloud migration strategy validation, and cost assessment. Answers the organizational questions Azure Migrate can't before starting your azure cloud migration."
+modified: 2025-12-28
+summary: "Real migration disasters cost $50K-$200K+ because teams skip 55 critical questions before using Azure Migrate. Free Excel template prevents: licensing violations ($30K audit), missed vendor contracts ($80K early term fees), compliance failures (project delays), wrong cost assumptions (15-30% budget overruns). Tested on 100+ enterprise applications."
 tags: ["azure", "Azure Migrate", "Cloud Migration", "Migration Checklist", "Azure Migration", "Cloud Migration Strategy", "Migration Planning", "Azure Assessment", "Migration Strategy", "Enterprise Migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"
