@@ -54,6 +54,15 @@ Finally, you must automate the sustainment of your model. If it requires good in
 
 ---
 
+## Phase 4: The Recovery Plan (Crisis Management)
+
+When you don't have time for a 12-month transformation. This is the triage protocol for brownfield environments that are currently "on fire."
+
+*   **[Azure Governance Crisis Mode: The 90-Day Recovery Framework (2025)](/blog/azure-governance-crisis-recovery-90-day-plan/)** - The triage sequence: Stop the bleeding, build the firewall, empty the kill list.
+*   **[Closing the Loop: Why KQL Finds Waste but RACI Deletes It](/blog/from-kql-to-raci-ownership/)** - Fixing the "Authority Gap" so you can actually decommission what you find.
+
+---
+
 ### 🚀 Operationalize Your Strategy
 
 Reading these guides gives you the knowledge. The RACI Matrix gives you the authority.
@@ -62,5 +71,7 @@ Assign the **'Cost Allocation Owner'**, **'Tag Standard Approver'**, and **'Reso
 
 <div class="downloads" style="text-align: center; margin-top: 3rem; margin-bottom: 3rem;">
   <a class="btn" href="https://gumroad.com/l/raci-template?ref=hub-governance-finops-bottom" style="font-size: 1.5em; padding: 20px 40px; background-color: #0078d4; color: white; border-radius: 5px; text-decoration: none;">Get the Executive RACI Matrix</a>
-  <p style="margin-top: 1rem; color: #666;">Includes Excel Matrix + Implementation Guide</p>
+  <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
+     <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
+  </div>
 </div>

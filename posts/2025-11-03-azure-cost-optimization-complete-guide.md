@@ -724,6 +724,9 @@ You can identify waste, but can you delete it?
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
   <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Optimization RACI</a>
+  <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
+     <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
+  </div>
 </div>
 
 **Want the KQL queries from this guide in a ready-to-use format?** Check out my [Azure Cost Optimization KQL Library on GitHub](#)â€”all queries organized, tested, and ready to copy/paste.

@@ -191,6 +191,9 @@ Reports fail when ownership is unclear.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
   <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-business-reality" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Cost Governance RACI</a>
+  <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
+     <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
+  </div>
 </div>
 
 *Next in this series: "The Azure Support Cost Mystery: Why Your Bills Include Charges You Can't Track"*
