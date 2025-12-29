@@ -1,5 +1,5 @@
 ---
-title: "Azure FinOps 2025: Complete Guide to Cloud Financial Operations"
+title: "Azure FinOps 2025: The 31,000 Resource Guide to Cost Accountability"
 date: 2025-12-10
 summary: "Azure FinOps guide for 31,000+ resource environments: tag governance that survives 18 months, chargeback models business units accept, and cost visibility at application level (not subscription). Includes real banking industry implementation."
 tags: ["azure", "finops", "cost-management", "governance", "chargeback", "optimization"]
@@ -180,6 +180,22 @@ DataClassification: confidential
         }
       ]
     }
+  }
+}
+```
+
+### 🛑 The "Hard Stop" Policy (For Chargeback)
+
+Eventually, you need to stop asking nicely. This policy denies creation if the `CostCenter` tag is missing. This is the only way to guarantee 100% chargeback accuracy.
+
+```json
+{
+  "if": {
+    "field": "tags['CostCenter']",
+    "exists": "false"
+  },
+  "then": {
+    "effect": "deny"
   }
 }
 ```
@@ -796,6 +812,17 @@ More strategies: [Azure Cost Optimization: What Actually Works](/blog/azure-cost
 **That's Azure FinOps.**
 
 ---
+
+---
+
+### 🛑 Who Owns the Budget?
+
+FinOps fails when 'everyone' is responsible for costs, which means no one is.
+**[Download the RACI Template](https://gumroad.com/l/raci-template?ref=finops-guide)** to stop the finger-pointing and define exactly who owns the budget.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=finops-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps Ownership Matrix</a>
+</div>
 
 ## Related Posts
 

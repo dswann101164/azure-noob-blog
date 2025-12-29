@@ -1,5 +1,5 @@
 ---
-title: "Azure Hybrid Benefit vs. Cloud License: The $50K Licensing Mistake Every Azure Admin Must Avoid"
+title: "Azure Hybrid Benefit Audit Guide: Avoid the $50K Licensing Mistake (2025)"
 date: 2025-12-10
 modified: 2025-12-10
 summary: "Azure Hybrid Benefit saves money when used correctly - but misuse triggers $50K+ compliance penalties. This is the complete operational guide for Azure administrators: pre-migration validation, audit timelines, documentation requirements, and the 8-question checklist that prevents licensing disasters."
@@ -602,6 +602,18 @@ Write-Output "Missing license assignment tag: $missingTag"
 
 ---
 
+## 🔍 Audit Yourself (Before They Do)
+
+Run this PowerShell script to find VMs that have had Hybrid Benefit enabled for >180 days. If you haven't decommissioned the on-prem host by then, you are in **dual-use violation**.
+
+```powershell
+# Audit Check: Find VMs using Hybrid Benefit that have been running > 180 days
+# (Risk: concurrent on-prem usage?)
+Get-AzVM | Where-Object {$_.LicenseType -like "Windows_Server*"} | Select-Object Name, LicenseType, TimeCreated
+```
+
+---
+
 ## Multi-Subscription AHB Tracking
 
 **KQL query for enterprise-scale audit:**
@@ -772,3 +784,12 @@ This guide covers the basics, but **scaling to 30,000+ resources requires battle
 [Get the Complete KQL Library →](https://davidnoob.gumroad.com/l/hooih)
 
 ---
+
+### 🛑 Who is Responsible for the Audit?
+
+Licensing compliance isn't just about keys; it's about defining *who* is responsible for the audit usage.
+**[Get the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=hybrid-benefit)** to assign 'License Compliance' to a specific role before the auditor arrives.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=hybrid-benefit" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Matrix</a>
+</div>

@@ -1,5 +1,5 @@
 ---
-title: "You Can't Govern What You Can't Explain on a Napkin"
+title: "The Napkin Test: Why 90% of Azure Governance Fails at the Executive Level"
 date: 2025-12-16
 summary: "Azure Policy enforces rules. Landing Zones provide structure. Tags enable reporting. But if you can't explain your Azure bill on a napkin, none of it matters. Here's why governance fails—and what defensibility actually requires."
 tags: ["Azure", "Governance", "FinOps", "Enterprise Architecture", "Cost Management", "Azure Policy"]
@@ -386,6 +386,22 @@ Not tags.
 
 ---
 
+## 🔍 Validation: Do You Fail the Napkin Test?
+
+Run this KQL query to instantly find resources that have zero business context (meaning you can't explain them).
+
+```kusto
+// Find resources that fail the Napkin Test (Missing Business Context)
+Resources
+| where tags !has "CostCenter" or tags !has "Application"
+| summarize UnexplainableCost=count() by subscriptionId
+| render piechart with (title="Resources You Can't Explain on a Napkin")
+```
+
+If this query returns results, you have an **Explainability Gap**.
+
+---
+
 ## What This Means for Enterprise Azure
 
 If you manage Azure at enterprise scale, you've felt this gap:
@@ -484,6 +500,17 @@ That's a question worth exploring.
 - [Azure Landing Zone Reality Check](/blog/azure-landing-zone-reality-check/)
 - [Tag Governance: 247 Variations of "Production"](/blog/tag-governance-247-variations/)
 - [Azure Cost Reporting for the Boardroom](/blog/azure-cost-reporting-boardroom/)
+
+---
+
+### 🛑 Who Owns Your Azure Environment?
+
+If you can't explain who owns a resource on a napkin, you can't govern it.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=napkin-test)** to map every subscription to a clear business owner today.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=napkin-test" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Matrix</a>
+</div>
 
 ### Azure Admin Starter Kit (Free Download)
 
