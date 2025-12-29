@@ -2,7 +2,7 @@
 title: "Azure Policy Doesn't Fix Bad Architecture (Microsoft Pretends It Does)"
 date: 2025-12-15
 summary: "Azure Policy enforces rules at scale - but it can't tell you if your subscriptions make sense, if your tags are lies, or why your $2M Azure bill is indefensible. Policy is a guardrail, not a steering wheel."
-tags: ["Azure", "Azure Policy", "Governance", "Architecture", "FinOps", "Enterprise Reality"]
+tags: ["Azure", "Azure Policy", "Governance", "Architecture", "FinOps", "Enterprise Reality", "Executive Reporting"]
 cover: "/static/images/hero/azure-policy-guardrails-fail.png"
 hub: governance
 related_posts:
@@ -324,4 +324,16 @@ Guardrails keep you on the road. But if you're driving in circles because nobody
 
 Get the architecture right first. Then enforce it with policy.
 
+
 Not the other way around.
+
+---
+
+### 🛑 Who Owns the Policy?
+
+Policy fails when no one owns the architecture behind it.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=policy-post)** to map every policy scope to a specific owner.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=policy-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Matrix</a>
+</div>

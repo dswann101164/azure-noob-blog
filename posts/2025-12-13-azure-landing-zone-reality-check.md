@@ -2,7 +2,7 @@
 title: "Azure Landing Zone Reality Check: Why Most Enterprises Drift in 90 Days"
 date: 2025-12-13
 summary: "Landing Zones look perfect in Microsoft's diagrams — but drift is inevitable. Here's why they fail (organizational reasons, not technical) and what must be included for Landing Zones to survive enterprise reality."
-tags: ["Azure", "Cloud Governance", "Enterprise Architecture", "Landing Zones", "FinOps"]
+tags: ["Azure", "Cloud Governance", "Enterprise Architecture", "Landing Zones", "FinOps", "Executive Reporting"]
 cover: "/static/images/hero/azure-landing-zone-drift.png"
 hub: governance
 related_posts:
@@ -370,6 +370,17 @@ I've built a 55-question assessment that covers:
 It's the same framework I use to audit enterprise Azure environments at 30,000+ resource scale.
 
 👉 **[Download the Azure Integration Assessment Framework](https://azure-noob.com/static/downloads/Azure-Integration-Assessment-Framework.xlsx)** (No email required)
+
+---
+
+### 🛑 Who Owns the Landing Zone?
+
+Landing Zones drift when no one is accountable for the drift.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=landing-zone-post)** to assign 'Drift Management' to a specific role.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=landing-zone-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Matrix</a>
+</div>
 
 ---
 
