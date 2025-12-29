@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing 2025: Real Production Costs ($5K-$50K/Month Reality)"
+title: "Azure OpenAI Pricing 2025: GPT-4o Token Cost Table & Calculator (Updated Dec 2025)"
 date: 2025-11-25
-modified: 2025-12-28
-summary: "Real Azure OpenAI costs from production: $0.50-$30/million tokens but deployments average $5K-$50K/month. Calculator shows $4/month, reality is $1,900+. Includes hidden $1,836 fine-tuning fees, PTU vs pay-per-token comparison, and cost calculator from managing real enterprise AI deployments."
+modified: 2025-12-29
+summary: "Complete Azure OpenAI pricing table for Dec 2025: GPT-4o ($0.005/1K input), GPT-4 Turbo ($0.01/1K), GPT-3.5 ($0.002/1K). Includes cost calculator, hidden fine-tuning fees ($1,836/month), token comparison table, and production cost examples from enterprise deployments."
 tags:
 - Azure
 - FinOps
