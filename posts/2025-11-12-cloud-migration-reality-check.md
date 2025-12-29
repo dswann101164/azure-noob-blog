@@ -1,8 +1,8 @@
 ---
-title: "Azure Migration: 55 Questions That Save $50K+ (Before You Touch Azure Migrate)"
+title: "Why 70% of Azure Migrations Fail: The Hidden Cost of Ownership Confusion"
 date: 2025-11-12
 modified: 2025-12-29
-summary: "Real migration disasters cost $50K-$200K+ because teams skip 55 critical questions before using Azure Migrate. Professional Excel framework prevents: licensing violations ($30K audit), missed vendor contracts ($80K early term fees), compliance failures (project delays), wrong cost assumptions (15-30% budget overruns). Tested on 100+ enterprise applications."
+summary: "Most migrations stall at 80% because of the 'Not My Job' syndrome. Discover the hidden costs of undefined ownership and why you need a RACI matrix before you move a single VM."
 tags: ["azure", "Azure Migrate", "Cloud Migration", "Migration Checklist", "Azure Migration", "Cloud Migration Strategy", "Migration Planning", "Azure Assessment", "Migration Strategy", "Enterprise Migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"
@@ -45,6 +45,11 @@ Nobody knows.
 Not Azure Migrate. Not CAF documentation. Not consultant proposals.
 
 A systematic framework with 55 questions that expose the gaps before you spend millions.
+
+### The 80% Stall (The 'Not My Job' Syndrome)
+This is why 70% of migrations fail or stall at the 80% mark. You migrate the easy stuff (Lift & Shift), but when you hit the complex legacy apps, everything stops.
+Why? Because the "Cloud Team" thinks the "App Team" owns the refactoring, and the "App Team" thinks the "Cloud Team" owns the server.
+Without a clear **RACI Matrix**, you will hit a wall of "That's not my job" tickets that burn your budget for months.
 
 ---
 
@@ -301,8 +306,15 @@ You have it now. Use it.
 
 **Want more operational reality checks?** Subscribe below for Azure content that addresses the problems Microsoft's documentation ignores.
 
-### Azure Admin Starter Kit (Free Download)
+### 🛑 The "Pre-Flight Checklist" You Are Missing
 
-Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+You wouldn't let a pilot fly without a checklist. Don't let your team migrate without a defined RACI.
+Ensure every server, database, and application has a signed-off owner *before* the migration truck leaves the dock.
 
-[Get the Starter Kit →](/blog/starter-kit/)
+**[Download the Azure RACI Matrix Template](https://gumroad.com/l/raci-template?ref=migration-post)**
+
+It includes the specific "Migration-Ready" roles you need to assign to prevent the 80% stall.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=migration-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Migration Checklist</a>
+</div>
