@@ -1,5 +1,5 @@
 ---
-title: The Azure Cost Optimization Facade
+title: The Azure Advisor Facade: Why Real Optimization Works Differently (2025)
 date: 2025-11-03
 summary: Most Azure optimization advice is surface-level. Reserved instances aren’t
   FinOps. Here’s what meaningful cost reduction really takes.
@@ -140,3 +140,29 @@ Azure Advisor is a starting point—not a strategy.
 **Reality Check**: Want to see what meaningful cost reduction looks like? Check out my [Complete Guide to Azure Cost Optimization](#) where I walk through the actual process—tags, KQL queries, accountability models, and the conversations with Finance that actually work.
 
 No fluff. Just the blueprint I've used to cut real Azure spend without breaking production.
+
+---
+
+### 🔍 Find REAL Oversized VMs
+
+Advisor guesses. This query proves it based on 30-day P95 CPU peaking under 5%.
+
+```kusto
+// Find REAL Oversized VMs (P95 CPU < 5% for 30 days)
+Perf
+| where ObjectName == "Processor" and CounterName == "% Processor Time"
+| where TimeGenerated > ago(30d)
+| summarize P95 = percentile(CounterValue, 95) by Computer
+| where P95 < 5
+```
+
+---
+
+### 🛑 Don't Let Advisor Decide
+
+Advisor is an algorithm, not a manager.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-facade)** to put a human in charge of validation and execution.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-facade" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+</div>

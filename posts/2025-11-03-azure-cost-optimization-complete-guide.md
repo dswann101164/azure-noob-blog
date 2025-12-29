@@ -1,5 +1,5 @@
 ---
-title: 'Azure Cost Optimization: A Complete Practical Guide'
+title: 'Azure Cost Optimization 2025: The Complete Framework'
 date: 2025-11-03
 summary: A real-world guide to optimizing Azure costs using rightsizing, automation,
   cleanup, governance, tags, and financial accountability.
@@ -134,6 +134,22 @@ Resources
 ```
 
 **Reality check**: This will find your real orphaned disksâ€”not the ones Azure Advisor flags (which are often DR/backup disks).
+
+---
+
+### 🔍 Find the "Zombie" Resources
+
+These are resources that exist but show ZERO metrics for 30 days.
+
+```kusto
+// Find "Zombie" Resources (No metrics for 30 days)
+// Note: Requires Metrics access
+InsightsMetrics
+| where TimeGenerated > ago(30d)
+| summarize MaxVal = max(Val) by _ResourceId
+| where MaxVal == 0
+| project _ResourceId
+```
 
 ---
 
@@ -700,6 +716,15 @@ It worksâ€”if you commit to the full framework, not just cherry-picking the
 **Good luck. You've got this.** ðŸš€
 
 ---
+
+### 🛑 Optimization Requires Authority
+
+You can identify waste, but can you delete it?
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-guide)** to give your FinOps team the authority to decommission zombie resources.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Optimization RACI</a>
+</div>
 
 **Want the KQL queries from this guide in a ready-to-use format?** Check out my [Azure Cost Optimization KQL Library on GitHub](#)â€”all queries organized, tested, and ready to copy/paste.
 

@@ -1,5 +1,5 @@
 ---
-title: 'Azure Tag Governance: Policy Patterns That Actually Work'
+title: Azure Tag Governance 2025: Policies That Actually Enforce
 date: 2025-10-31
 summary: How to turn Azure tags from 'nice to have' into enforceable governance using
   Azure Policy, deny/modify effects, and remediation so teams can’t slip around your
@@ -414,4 +414,35 @@ Tag governance isn't exciting, but it's the foundation for cost allocation, secu
 
 ---
 
+---
+
+### 🔍 Auto-Deny the "Unknowns"
+
+Don't just audit. Block bad financial data at the door with this policy snippet.
+
+```json
+// Deny deployment if Department tag causes "Unknown" financial route
+{
+  "if": {
+    "field": "tags['Department']",
+    "equals": "Unknown"
+  },
+  "then": {
+    "effect": "deny"
+  }
+}
+```
+
+---
+
+### 🛑 Policy Needs People
+
+A 'Deny' policy stops deployment, but who handles the support ticket?
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-tag-policy)** to define the 'Policy Exception Approver' role.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-tag-policy" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Governance RACI</a>
+</div>
+
 *All policies and scripts from this post are available in the [Azure Tag Governance repo on GitHub](https://github.com/dswann101164).*
+

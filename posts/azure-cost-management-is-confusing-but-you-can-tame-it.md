@@ -1,5 +1,5 @@
 ---
-title: Azure Cost Management Is Confusing—But You Can Tame It
+title: Taming Azure Cost Management: The 2025 Survival Guide
 slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15
 summary: Azure Cost Management has too many blades, scopes, and exports. Learn the
@@ -164,3 +164,27 @@ VAR EndComma = FIND(",", Src, StartPos, LEN(Src) + 1)
 VAR EndPos   = MIN(EndSemi, EndComma)
 VAR RawValue = IF(StartPos > 0, MID(Src, StartPos, EndPos - StartPos), BLANK())
 RETURN
+
+---
+
+### 🔍 Find the "Blank" Tags
+
+Dashboards hate blanks. Run this to find exactly which subscriptions are guilty.
+
+```kusto
+// Identify "Blank" Tags causing reporting gaps
+Resources
+| where isnull(tags) or tags == "{}"
+| summarize Count=count() by subscriptionId
+```
+
+---
+
+### 🛑 Who Fixes the Blanks?
+
+Dashboards don't fix themselves.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-taming)** to assign the cleanup duty to the Application Owner, not the Cloud Admin.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-taming" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Reporting RACI</a>
+</div>

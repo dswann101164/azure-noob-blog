@@ -1,5 +1,5 @@
 ---
-title: "The Lie Azure Cost Management Tells Large Enterprises"
+title: "The Lie Azure Cost Management Tells Enterprises in 2025"
 date: 2025-12-16
 summary: "Azure Cost Management works beautifully—if you have perfect subscriptions or perfect tags. At enterprise scale, you have neither. Here's why Microsoft's cost tooling assumes a reality that doesn't exist, and what actually works when you're managing 40+ subscriptions with legacy chaos, M&A artifacts, and shared services everywhere."
 tags: ["Azure", "Cost Management", "FinOps", "Enterprise", "Cost Optimization", "Governance"]
@@ -683,6 +683,29 @@ If you get #1 wrong (subscription boundaries), nothing else will save you.
 Cost Management will faithfully report the chaos you've created architecturally.
 
 ---
+
+### 🔍 Find the Shared Service Conflicts
+
+Run this to see which "Shared" subscriptions are actually a mess of conflicting Cost Centers.
+
+```kusto
+// Resources in "Shared" Subscriptions with disparate Cost Centers
+Resources
+| where subscriptionId == "SHARED-SUB-ID"
+| summarize DistinctCostCenters = dcount(tags.CostCenter) by resourceGroup
+| where DistinctCostCenters > 1
+```
+
+---
+
+### 🛑 Defensible Cost Allocation
+
+Stop guessing. Start governing.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-lie)** to define the 'Shared Services Owner' and their chargeback responsibilities.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-lie" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Governance RACI</a>
+</div>
 
 ### Related Posts
 

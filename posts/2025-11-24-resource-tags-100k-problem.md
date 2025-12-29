@@ -1,5 +1,5 @@
 ---
-title: The 100,000 Tag Problem in Enterprise Azure
+title: "The $100k Tag Problem: Calculating Hidden Azure Costs (2025)"
 date: 2025-11-24
 summary: What happens when an enterprise ends up with 100,000+ tag variations, why
   it happens in the real world, and how to systematically clean it up without breaking
@@ -772,5 +772,30 @@ Resources
 **Start with TYPE. Everything else follows from there.**
 
 ---
+
+---
+
+### 🔍 Find the Missing Types
+
+The 'Type' tag is your primary filter. Find what's missing it now.
+
+```kusto
+// Find resources missing the critical 'Type' tag
+Resources
+| where tags !has "Type"
+| summarize Count=count() by subscriptionId
+| render barchart
+```
+
+---
+
+### 🛑 Who Defines the Types?
+
+The 'Type' tag saves money, but only if applied consistently.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-100k)** to assign the 'Tag Standard Owner' role.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-100k" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance RACI</a>
+</div>
 
 **Next in this series:** "Azure Policy for On-Premises: How to Maintain Your Tagging Investment (So It Doesn't Decay Back to Chaos)"

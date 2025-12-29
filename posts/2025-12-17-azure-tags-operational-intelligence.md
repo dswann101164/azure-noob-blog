@@ -1,5 +1,5 @@
 ---
-title: "Azure Tags for Operational Intelligence: How We Answer Executive Questions in 30 Seconds Instead of 3 Days"
+title: "Operational Intelligence: Using Azure Tags for Instant Answers (2025)"
 date: 2025-12-17
 summary: "Azure tags evolved from preventing Azure Update Manager disasters to becoming our operational intelligence layer. The Type tag excludes appliances from automated patching while enabling instant answers to executive questions about on-prem footprint, vendor inventory, and migration progress. Policy enforcement in Deny mode, tag-based filtering workflows, and KQL queries that answer 'how many machines on-prem?' in 30 seconds instead of manual 3-day inventory projects."
 tags:
@@ -916,6 +916,17 @@ Resources
 - "Cost by application?" → **30 seconds (KQL query)**
 
 **Tags transform Azure from infrastructure into intelligence.**
+
+---
+
+### 🛑 Ownership of Intelligence
+
+Who answers the executive questions? The person with the data.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-ops-intel)** to empower your Operations team with defined reporting responsibilities.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-ops-intel" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Ops RACI</a>
+</div>
 
 ---
 

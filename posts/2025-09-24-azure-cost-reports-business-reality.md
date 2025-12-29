@@ -1,5 +1,5 @@
 ---
-title: Why Your Azure Cost Reports Don’t Match Business Reality
+title: Why Your Azure Cost Reports Fail Business Reality (2025)
 date: 2025-09-24
 summary: Azure Cost Management often conflicts with how businesses track spend. Here's
   why your cost reports never align and how to fix it at scale.
@@ -161,6 +161,21 @@ The uncomfortable question every organization needs to answer: Are you trying to
 
 ---
 
+### 🔍 Find the Unowned "Unknowns"
+
+Reports fail when ownership is unclear. Run this query to find exactly how much "Unknown" waste you have.
+
+```kusto
+// Find costs where Owner tag is missing or generic "Unknown"
+Usage
+| where Tags !has "Owner" or Tags has "Unknown"
+| summarize TotalWaste = sum(Cost) by SubscriptionName, ResourceGroup
+| order by TotalWaste desc
+| render piechart
+```
+
+---
+
 **Want to assess your cost allocation challenges?** Start with these questions:
 - Do you have shared Azure infrastructure serving multiple applications?
 - Do those applications need costs allocated to different cost centers?
@@ -168,5 +183,14 @@ The uncomfortable question every organization needs to answer: Are you trying to
 - Do your finance teams trust your Azure cost reports?
 
 If you answered yes to these questions, you're facing the same consumption-based allocation challenges every enterprise encounters. The solution isn't better Azure tagging - it's better business processes that use Azure data appropriately.
+
+### 🛑 Who Owns the "Unknowns"?
+
+Reports fail when ownership is unclear.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-business-reality)** to assign an explicit owner for every cost center and subscription.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-business-reality" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Cost Governance RACI</a>
+</div>
 
 *Next in this series: "The Azure Support Cost Mystery: Why Your Bills Include Charges You Can't Track"*

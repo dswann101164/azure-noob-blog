@@ -1,5 +1,5 @@
 ---
-title: Azure Costs Follow Applications, Not Subscriptions
+title: "Azure Subscriptions vs. Apps: The 2025 Cost Model Guide"
 date: 2025-10-11
 summary: Azure bills at the subscription level—but the business thinks in terms of
   applications. Here's how to realign cost models for reality.
@@ -224,4 +224,29 @@ I learned this managing 44 subscriptions and 31,000 resources through a merger c
 
 ---
 
+### 🔍 Find the Unclaimed Apps
+
+Run this query to find which resource groups are missing an application tag—these are your billing ghosts.
+
+```kusto
+// Find Resources WITHOUT an Application Tag
+Resources
+| where tags !has "Application"
+| summarize Count=count(), EstimatedCost=sum(todouble(properties.billingDetails.resourceUsage)) by resourceGroup
+| order by Count desc
+```
+
+---
+
 *Want the KQL queries for resource inventory? Tag enforcement policies? Cost allocation workbooks? I'll share them in future posts. First, get your subscription design right.*
+
+---
+
+### 🛑 Apps Need Owners, Not Just Tags
+
+Tagging apps is step one. Assigning a human responsible for the bill is step two.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-apps-model)** to define the 'Application Cost Owner' role.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-apps-model" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+</div>

@@ -1,5 +1,5 @@
 ---
-title: Designing an Azure Chargeback Model with Tags
+title: Azure Chargeback Tags 2025: The 6 Tags That Actually Work
 date: 2025-10-16
 summary: A chargeback/showback model built on tags that finance, app owners, and cloud
   teams can all live with—without 47 competing cost spreadsheets.
@@ -176,3 +176,29 @@ $result | Export-Csv -NoTypeInformation -Path "Tag-Remediation-MissingCoreTags.c
 - Mark shared services and split fairly. Start with showback, then charge back.
 
 This six-tag model is the smallest practical set that made our governance, security, and FinOps reporting finally agree with each other — and with Finance.
+
+---
+
+### 🔍 Audit Your "Big 6" Compliance
+
+Are you actually tagging? Or just talking about it?
+
+```kusto
+// Audit the "Big 6" Tags
+Resources
+| extend hasOwner = iif(tags has "Owner", 1, 0)
+| extend hasApp = iif(tags has "Application", 1, 0)
+| extend hasCC = iif(tags has "CostCenter", 1, 0)
+| summarize ComplianceScore = (sum(hasOwner) + sum(hasApp) + sum(hasCC)) * 100.0 / (count() * 3)
+```
+
+---
+
+### 🛑 Chargeback Governance
+
+Tags are only useful if they trigger a bill.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-chargeback)** to link Tag Compliance to Financial Accountability.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-chargeback" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Chargeback RACI</a>
+</div>
