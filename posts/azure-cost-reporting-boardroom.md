@@ -1,5 +1,5 @@
 ---
-title: How to Present Azure Costs in the Boardroom
+title: "Azure Cost Reporting for the Boardroom: 2025 Executive Guide & Hidden Costs"
 date: 2025-09-14
 summary: Executives don’t care about vCores or storage accounts. Learn how to translate
   Azure costs into a business narrative leaders actually understand.
@@ -87,6 +87,23 @@ Here’s how to take the first step toward board-level visibility:
 
 ---
 
+## 🔍 Validation: Find the Spikes Before They Do
+
+Don't let the CFO distinguish the spike first. Run this KQL query to find daily cost anomalies > 50%.
+
+```kusto
+// Detect Cost Anomalies > 50% vs previous 7-day average
+Usage
+| where TimeGenerated > ago(30d)
+| summarize DailyCost = sum(Cost) by bin(TimeGenerated, 1d), SubscriptionId
+| serialize 
+| extend SevenDayAvg = row_window_session(DailyCost, -7d, -1d, 7d)
+| extend Anomaly = iff(DailyCost > 1.5 * SevenDayAvg, "Spike", "Normal")
+| where Anomaly == "Spike"
+```
+
+---
+
 ## The Payoff
 
 With proper reporting in place, you move from answering *“What did we spend?”* to *“What value are we creating?”*
@@ -94,5 +111,16 @@ With proper reporting in place, you move from answering *“What did we spend?�
 And that’s the only story your board really wants to hear.
 
 ---
+
+---
+
+### 🛑 Stop Explaining Spikes. Start Managing Ownership.
+
+The board doesn't want to hear about "technical anomalies." They want to know **who** is accountable.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-boardroom)** to assign clear financial ownership to every subscription.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-boardroom" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+</div>
 
 📌 *Credit to [Chris Bowman](https://github.com/chris-bowman) for his Azure-Cost-Reporting project, which inspired this approach.*

@@ -1,5 +1,5 @@
 ---
-title: 'Azure Tagging Best Practices: The $2.3M Tag Mess (247 Variations of One Tag)'
+title: 'Azure Tagging Best Practices 2025: The $2.3M Hidden Cost of Tag Variations'
 date: 2025-11-30
 modified: 2025-12-06
 summary: "One tag key. 247 different spellings. $2.3M in cost allocation failures. Real lessons from enterprise Azure tag governance: why Azure Policy isn't enough and the automation that finally stopped tag chaos across 31,000 resources."
@@ -798,6 +798,31 @@ tag-governance-kit/
 **Clone it. Customize it. Deploy it.**
 
 ---
+
+### 🔍 Find the "Shadow" Resources (No Tags)
+
+The most dangerous resources isn't the one with the misspelled tag—it's the one with *no* tags. 
+
+```kusto
+// Find "Shadow IT" resources (Older than 30 days, Zero tags)
+Resources
+| where tags == "{}" or isnull(tags)
+| where todatetime(properties.timeCreated) < ago(30d)
+| project name, resourceGroup, subscriptionId, location, properties.timeCreated
+```
+
+---
+
+---
+
+### 🛑 You Can't Tag What You Don't Own
+
+Tag governance fails when no one is responsible for enforcing it.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-variations)** and assign the 'Governance Enforcer' role today.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-variations" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
+</div>
 
 ## The One Thing Microsoft Won't Tell You
 

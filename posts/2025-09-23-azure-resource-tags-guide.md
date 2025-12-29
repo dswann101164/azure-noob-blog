@@ -1,5 +1,5 @@
 ---
-title: 'Azure Tagging Best Practices 2025: Complete Enterprise Guide'
+title: 'Azure Tagging Best Practices 2025: The Guide to Hidden Costs & Governance'
 date: 2025-09-23
 modified: 2025-11-29
 summary: 'Azure tagging best practices for 2025 - Enterprise guide to tag governance, cost allocation, Azure Policy enforcement, and preventing the 247 variations problem at scale.'
@@ -287,4 +287,31 @@ Get them right and your finance team will actually understand your Azure bill.
 
 ---
 
+### 🔍 Audit Your Tag Compliance
+
+Run this query to find every resource that is missing the "CostCenter" tag.
+
+```kusto
+// Find resources missing the CostCenter tag
+Resources
+| where tags !has "CostCenter"
+| summarize Count=count() by resourceGroup
+| render barchart
+```
+
+---
+
+---
+
 *Have tag horror stories or questions? Hit me up at david@azure-noob.com - I've probably made the same mistake.*
+
+---
+
+### 🛑 Who Enforces the Tags?
+
+Tags don't enforce themselves. People do.
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-tags-guide)** to assign 'Tag Enforcer' to a specific role.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-tags-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
+</div>

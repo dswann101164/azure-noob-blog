@@ -1,5 +1,5 @@
 ﻿---
-title: "Azure Cost Optimization: What Actually Works (Not Azure Advisor Recommendations)"
+title: "Azure Cost Optimization 2025: Hidden Costs & What Actually Works"
 date: 2025-12-08
 summary: "Azure Advisor says 'right-size your VMs.' Finance says 'why is our cloud bill still increasing?' Here's what actually reduces Azure costs in production: the tactics that work when reserved instances and Advisor recommendations aren't enough."
 tags: ["azure", "Cost Optimization", "FinOps", "Cost Management", "Azure Advisor", "governance"]
@@ -586,6 +586,32 @@ Your organization is exactly WHY this approach works. Simple, repeatable, automa
 
 ---
 
+### 🔍 Find the Hidden Waste (Orphans)
+
+Don't wait for Advisor. Run this query to find orphaned disks costing you money right now.
+
+```kusto
+// Find Orphaned Managed Disks (Not attached to any VM)
+Resources
+| where type =~ 'microsoft.compute/disks'
+| where properties.diskState == 'Unattached'
+| project name, resourceGroup, sku.name, diskSizeGB = properties.diskSizeGB
+| sort by diskSizeGB desc
+```
+
+---
+
 **Questions about cost optimization?** Let me know what you're struggling with. Email or comment below.
+
+---
+
+### 🛑 Optimization is a Role, Not a Task
+
+Optimization works when someone's job description says "Cost Efficiency."
+**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-optimization)** to define who owns the optimization lifecycle.
+
+<div class="downloads" style="text-align: center; margin-top: 2rem;">
+  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-optimization" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+</div>
 
 *Updated December 8, 2025*
