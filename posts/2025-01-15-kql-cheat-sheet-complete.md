@@ -39,7 +39,7 @@ This cheat sheet focuses on **Azure Resource Graph** - querying your Azure infra
 
 > **📥 Want this as a PDF?** Download the free KQL cheat sheet PDF with all 15 essential queries formatted for printing and offline reference.
 > 
-> [Download Free KQL Cheat Sheet PDF →](/static/downloads/KQL-Query-Library.pdf)
+> [Download Free KQL Cheat Sheet PDF →](/static/downloads/kql-query-library.pdf)
 
 ---
 
