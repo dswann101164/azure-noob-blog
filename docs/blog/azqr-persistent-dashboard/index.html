@@ -1,0 +1,1731 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage) · Azure Noob</title>
+  <meta name="description" content="Microsoft&#39;s Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally....">
+  
+  <link rel="canonical" href="https://azure-noob.com/blog/azqr-persistent-dashboard" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)">
+  <meta property="og:description" content="Microsoft&#39;s Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally....">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/azqr-persistent-dashboard">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/azqr-persistent-dashboard.png">
+
+  
+    <meta property="article:published_time" content="2025-12-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-17T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Operations">
+      
+        <meta property="article:tag" content="Governance">
+      
+        <meta property="article:tag" content="App Service">
+      
+        <meta property="article:tag" content="Docker">
+      
+        <meta property="article:tag" content="AZQR">
+      
+        <meta property="article:tag" content="Automation">
+      
+        <meta property="article:tag" content="Compliance">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)">
+  <meta name="twitter:description" content="Microsoft&#39;s Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally....">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azqr-persistent-dashboard.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/products" style="font-weight: 700; color: #ff6b6b;">Products</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)",
+  "description": "Microsoft&#39;s Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally....",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/azqr-persistent-dashboard.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-12-17T00:00:00+00:00",
+  "dateModified": "2025-12-17T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/azqr-persistent-dashboard"
+  },
+  "keywords": "Azure, Operations, Governance, App Service, Docker, AZQR, Automation, Compliance",
+  "articleSection": "Azure",
+  "wordCount": "6804",
+  "timeRequired": "PT34M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)",
+      "item": "https://azure-noob.com/blog/azqr-persistent-dashboard"
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/azqr-persistent-dashboard.png" alt="Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)</h1>
+    <p class="muted">
+      2025-12-17 · ~34 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Azure" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Operations" class="tag-badge">Operations</a></li>
+      
+      <li><a href="/tags/Governance" class="tag-badge">Governance</a></li>
+      
+      <li><a href="/tags/App%20Service" class="tag-badge">App Service</a></li>
+      
+      <li><a href="/tags/Docker" class="tag-badge">Docker</a></li>
+      
+      <li><a href="/tags/AZQR" class="tag-badge">AZQR</a></li>
+      
+      <li><a href="/tags/Automation" class="tag-badge">Automation</a></li>
+      
+      <li><a href="/tags/Compliance" class="tag-badge">Compliance</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Microsoft&#39;s Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally. Here&#39;s how to host it in Azure App Service for 24/7 team access, scheduled scans, and historical tracking. Complete with Dockerfile, deployment scripts, and Entra ID authentication. Part 3 of the Azure Operations Platform series.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <h1>Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)</h1>
+<h2>Short Answer</h2>
+<p>Azure Quick Review (AZQR) consolidates Azure Advisor, Defender for Cloud, Azure Policy, and Cost Management into a single web dashboard, but runs only as a local process on localhost:8080. Hosting AZQR in Azure App Service with Azure Storage backend creates a persistent operations dashboard accessible 24/7 at a custom URL with Entra ID authentication. Scheduled scans via cron or Logic Apps generate daily/weekly compliance reports stored as Excel files in blob storage for historical tracking. Total cost: $15-30/month for B1 App Service + storage, providing complete Azure operations visibility for entire teams without third-party tools.</p>
+<hr />
+<h2>Series Context: Building the Azure Operations Platform</h2>
+<p>This is <strong>Part 3</strong> of the Azure Operations Platform series:</p>
+<ul>
+<li><strong>Part 1:</strong> <a href="/blog/azure-tags-operational-intelligence/">Azure Tags for Operational Intelligence</a> - The data layer (tags enable 30-second KQL queries)</li>
+<li><strong>Part 2:</strong> <a href="/blog/logic-app-certificate-monitor/">Logic App Certificate Monitoring</a> - The automation layer (continuous monitoring)</li>
+<li><strong>Part 3:</strong> Building a Persistent AZQR Dashboard - The visualization layer (you are here)</li>
+<li><strong>Part 4:</strong> Complete Platform Integration - How all three layers work together (coming soon)</li>
+</ul>
+<hr />
+<h2>Why AZQR's local dashboard isn't enough</h2>
+<p>Microsoft built Azure Quick Review (AZQR) as a CLI tool that consolidates operational data from multiple sources:</p>
+<ul>
+<li>Azure Advisor (Well-Architected Framework recommendations)</li>
+<li>Defender for Cloud (security posture and compliance)</li>
+<li>Azure Policy (governance and non-compliant resources)</li>
+<li>Cost Management (spend analysis and optimization)</li>
+<li>Resource inventory (complete infrastructure catalog)</li>
+</ul>
+<p><strong>The problem:</strong> AZQR's dashboard only runs locally.</p>
+<h3><strong>The local workflow:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Scan your environment</span>
+azqr<span class="w"> </span>scan
+
+<span class="c1"># Launch dashboard</span>
+azqr<span class="w"> </span>show<span class="w"> </span>--file<span class="w"> </span>azqr-2025-12-17.xlsx
+
+<span class="c1"># Dashboard opens at http://localhost:8080</span>
+</code></pre></div>
+
+<p><strong>What this gives you:</strong><br />
+- Complete operations dashboard<br />
+- All Azure compliance data in one place<br />
+- Better than checking six different portals</p>
+<p><strong>What this doesn't give you:</strong><br />
+- ❌ Dashboard dies when you close terminal<br />
+- ❌ Only accessible on your machine<br />
+- ❌ Team can't access it<br />
+- ❌ No scheduled scans (manual only)<br />
+- ❌ No historical tracking<br />
+- ❌ Can't share URL with executives</p>
+<hr />
+<h2>What happens when you need persistent access</h2>
+<p><strong>Real scenario from our environment:</strong></p>
+<blockquote>
+<p>Security team: "What's our current Defender for Cloud compliance score?"</p>
+<p>Me: "Let me run AZQR scan... okay, launching dashboard... here's the link: localhost:8080"</p>
+<p>Security team: "Can you send me that link?"</p>
+<p>Me: "It's on my laptop. I'll screenshot it."</p>
+<p>Security team: "Can we check this daily?"</p>
+<p>Me: "I'd have to run it manually each time and share my screen."</p>
+</blockquote>
+<p><strong>This doesn't scale.</strong></p>
+<p><strong>What we needed:</strong><br />
+- Persistent URL anyone can access<br />
+- Always-on dashboard (24/7 availability)<br />
+- Scheduled scans (daily at 6 AM)<br />
+- Historical reports (track progress over time)<br />
+- Team access with authentication</p>
+<hr />
+<h2>Traditional vs Persistent: Two approaches to compliance</h2>
+<h3><strong>Traditional AZQR workflow:</strong></h3>
+<p><strong>Run assessment</strong> → Generate point-in-time snapshot<br />
+<strong>Download report</strong> → Excel file on your laptop<br />
+<strong>Review findings</strong> → Manual analysis in spreadsheet<br />
+<strong>Fix issues</strong> → Track remediation separately<br />
+<strong>Repeat cycle</strong> → 3-6 months later (if remembered)</p>
+<p><strong>Result:</strong> Compliance is a periodic event, not an operational state</p>
+<hr />
+<h3><strong>Persistent dashboard workflow:</strong></h3>
+<p><strong>Continuous ingestion</strong> → Automated daily scans<br />
+<strong>Trend visibility</strong> → Historical tracking over months<br />
+<strong>Ownership clarity</strong> → Team access with authentication<br />
+<strong>Operational relevance</strong> → Dashboard integrated into daily workflows</p>
+<p><strong>Result:</strong> Compliance becomes operational visibility, not quarterly reporting</p>
+<hr />
+<h3><strong>The fundamental difference:</strong></h3>
+<p>Traditional AZQR treats compliance as:<br />
+- A project (start, report, finish)<br />
+- A document (Excel in email)<br />
+- A snapshot (point-in-time)<br />
+- An audit requirement (external driver)</p>
+<p>Persistent dashboard treats compliance as:<br />
+- A system (continuous operation)<br />
+- A signal (actionable data)<br />
+- A trend (directional movement)<br />
+- An operational input (internal driver)</p>
+<p><strong>This shift—from report to system—is why persistence matters.</strong></p>
+<hr />
+<p><strong>The solution:</strong> Host AZQR in Azure App Service.</p>
+<hr />
+<h2>The architecture: AZQR in Azure</h2>
+<h3><strong>Components:</strong></h3>
+<p><strong>1. Azure App Service (Linux)</strong><br />
+- Runs AZQR dashboard in Docker container<br />
+- Always accessible at custom URL<br />
+- Handles multiple concurrent users<br />
+- Scales horizontally if needed</p>
+<p><strong>2. Azure Storage Account</strong><br />
+- Blob container for Excel reports<br />
+- Historical snapshots (daily/weekly/monthly)<br />
+- Retention policy (12 months)<br />
+- Mounted to App Service via Azure Files</p>
+<p><strong>3. Scheduled Scans</strong><br />
+- Option A: Cron inside container (simple)<br />
+- Option B: Logic App webhook (enterprise)<br />
+- Generates new report daily/weekly</p>
+<p><strong>4. Entra ID Authentication</strong><br />
+- SSO for team access<br />
+- Role-based access control<br />
+- No password management<br />
+- Conditional access policies</p>
+<p><strong>5. Application Insights (optional)</strong><br />
+- Dashboard usage metrics<br />
+- Performance monitoring<br />
+- Error tracking</p>
+<hr />
+<h2>Who should build a persistent AZQR dashboard?</h2>
+<p><strong>This approach matters if you:</strong></p>
+<ul>
+<li><strong>Manage multiple Azure subscriptions</strong> (10+ subscriptions, consolidated visibility needed)</li>
+<li><strong>Operate in regulated environments</strong> (financial services, healthcare, government)</li>
+<li><strong>Need leadership-level visibility</strong> (executives, auditors, compliance teams)</li>
+<li><strong>Support distributed teams</strong> (remote admins, multiple locations, 24/7 operations)</li>
+<li><strong>Track security posture over time</strong> (quarterly trend analysis, board reporting)</li>
+</ul>
+<p><strong>You probably don't need this if:</strong></p>
+<ul>
+<li>Small environment (&lt;20 resources)</li>
+<li>Single admin managing everything</li>
+<li>Ad-hoc compliance checks sufficient</li>
+<li>Already using enterprise tools (Prisma Cloud, Wiz, etc.)</li>
+</ul>
+<p><strong>The sweet spot:</strong> Organizations large enough to need systematic compliance tracking, but not so large they've already invested in expensive third-party platforms.</p>
+<p><strong>That's 70% of Azure customers. Microsoft expects you to check six portals manually. We're building the dashboard they should provide.</strong></p>
+<hr />
+<h2>What AZQR actually scans</h2>
+<p>Before we build the infrastructure, understand what AZQR provides.</p>
+<h3><strong>Azure Advisor recommendations:</strong></h3>
+<p><strong>Five pillars of Well-Architected Framework:</strong><br />
+- Reliability (high availability, disaster recovery)<br />
+- Security (encryption, network security)<br />
+- Cost Optimization (underutilized resources, reservations)<br />
+- Operational Excellence (monitoring, automation)<br />
+- Performance Efficiency (scaling, caching)</p>
+<p><strong>Example findings:</strong><br />
+- App Service: Minimum instance count should be 2 (scalability)<br />
+- Front Door: Enable diagnostic settings (monitoring)<br />
+- Storage: Disable shared key access (security)</p>
+<hr />
+<h3><strong>Defender for Cloud security posture:</strong></h3>
+<p><strong>Security plans enabled/disabled:</strong><br />
+- Defender for Servers (Plan 1 vs Plan 2)<br />
+- Defender for Storage (per-transaction pricing)<br />
+- Defender for Containers (Kubernetes security)<br />
+- Defender for Databases (SQL threat detection)</p>
+<p><strong>Security recommendations:</strong><br />
+- Virtual machines should encrypt temp disks<br />
+- Storage accounts should use private endpoints<br />
+- Key vaults should enable soft delete</p>
+<hr />
+<h3><strong>Azure Policy compliance:</strong></h3>
+<p><strong>Policy assignments:</strong><br />
+- Microsoft Security Benchmark (foundational CSPM)<br />
+- Custom policy initiatives<br />
+- Resource-specific policies</p>
+<p><strong>Non-compliant resources:</strong><br />
+- VMs without required tags<br />
+- Storage accounts allowing public access<br />
+- Network security groups with permissive rules</p>
+<hr />
+<h3><strong>Cost analysis:</strong></h3>
+<p><strong>Spend breakdown:</strong><br />
+- Cost by service (VM, Storage, Networking)<br />
+- Cost by resource group<br />
+- Cost by location<br />
+- Underutilized resources</p>
+<p><strong>Optimization recommendations:</strong><br />
+- Right-size oversized VMs<br />
+- Delete unattached disks<br />
+- Remove old snapshots<br />
+- Purchase reservations</p>
+<hr />
+<h3><strong>Resource inventory:</strong></h3>
+<p><strong>Complete catalog:</strong><br />
+- All resources by type<br />
+- Resource groups and locations<br />
+- Tags applied (connects to <a href="/blog/azure-tags-operational-intelligence/">Part 1</a>)<br />
+- Resource IDs for automation</p>
+<hr />
+<h2>Building the Docker container</h2>
+<h3><strong>Dockerfile for AZQR dashboard:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">mcr.microsoft.com/azure-cli:latest</span>
+
+<span class="c"># Install AZQR CLI</span>
+<span class="k">RUN</span><span class="w"> </span>curl<span class="w"> </span>-sL<span class="w"> </span>https://github.com/Azure/azqr/releases/latest/download/azqr-linux-amd64<span class="w"> </span>-o<span class="w"> </span>/usr/local/bin/azqr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/azqr
+
+<span class="c"># Install dependencies</span>
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>bash<span class="w"> </span>dcron
+
+<span class="c"># Create directories</span>
+<span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/app<span class="w"> </span>/reports<span class="w"> </span>/logs
+
+<span class="c"># Set working directory</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Copy scan script</span>
+<span class="k">COPY</span><span class="w"> </span>scan.sh<span class="w"> </span>/app/
+<span class="k">RUN</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/app/scan.sh
+
+<span class="c"># Copy cron configuration</span>
+<span class="k">COPY</span><span class="w"> </span>crontab<span class="w"> </span>/etc/crontabs/root
+
+<span class="c"># Expose port for dashboard</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+
+<span class="c"># Health check</span>
+<span class="k">HEALTHCHECK</span><span class="w"> </span>--interval<span class="o">=</span>30s<span class="w"> </span>--timeout<span class="o">=</span>3s<span class="w"> </span>--start-period<span class="o">=</span>5s<span class="w"> </span>--retries<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>CMD<span class="w"> </span>wget<span class="w"> </span>--no-verbose<span class="w"> </span>--tries<span class="o">=</span><span class="m">1</span><span class="w"> </span>--spider<span class="w"> </span>http://localhost:8080<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+
+<span class="c"># Start cron and dashboard</span>
+<span class="k">CMD</span><span class="w"> </span>crond<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>azqr<span class="w"> </span>show<span class="w"> </span>--file<span class="w"> </span>/reports/azqr-latest.xlsx<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0
+</code></pre></div>
+
+<hr />
+<h3><strong>The scan script (scan.sh):</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Configuration</span>
+<span class="nv">REPORT_DIR</span><span class="o">=</span><span class="s2">&quot;/reports&quot;</span>
+<span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y-%m-%d-%H%M<span class="k">)</span>
+<span class="nv">LATEST_REPORT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-latest.xlsx&quot;</span>
+<span class="nv">DATED_REPORT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-</span><span class="nv">$DATE</span><span class="s2">.xlsx&quot;</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/logs/scan-</span><span class="nv">$DATE</span><span class="s2">.log&quot;</span>
+
+<span class="c1"># Log start</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Starting AZQR scan&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+
+<span class="c1"># Authenticate with Azure (using managed identity)</span>
+az<span class="w"> </span>login<span class="w"> </span>--identity<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="c1"># Run AZQR scan</span>
+azqr<span class="w"> </span>scan<span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="c1"># Check if scan succeeded</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan completed successfully&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Copy to latest (for dashboard)</span>
+<span class="w">    </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LATEST_REPORT</span><span class="s2">&quot;</span>
+
+<span class="w">    </span><span class="c1"># Clean up old reports (keep last 30 days)</span>
+<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;azqr-*.xlsx&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Report updated: </span><span class="nv">$LATEST_REPORT</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan failed with error code </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># Log completion</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan process completed&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Cron schedule (crontab):</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="gh">#</span> Run AZQR scan daily at 6:00 AM UTC
+0 6 <span class="gs">* *</span> * /app/scan.sh
+
+<span class="gh">#</span> Alternative schedules:
+<span class="gh">#</span> Every 12 hours: 0 */12 * * * /app/scan.sh
+<span class="gh">#</span> Weekly on Monday: 0 6 * * 1 /app/scan.sh
+<span class="gh">#</span> First day of month: 0 6 1 * * /app/scan.sh
+</code></pre></div>
+
+<hr />
+<h2>Deploying to Azure App Service</h2>
+<h3><strong>Step 1: Create Azure resources</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Variables</span>
+<span class="nv">RESOURCE_GROUP</span><span class="o">=</span><span class="s2">&quot;rg-operations&quot;</span>
+<span class="nv">LOCATION</span><span class="o">=</span><span class="s2">&quot;eastus&quot;</span>
+<span class="nv">STORAGE_ACCOUNT</span><span class="o">=</span><span class="s2">&quot;stazqrreports&quot;</span>
+<span class="nv">APP_SERVICE_PLAN</span><span class="o">=</span><span class="s2">&quot;asp-operations&quot;</span>
+<span class="nv">APP_SERVICE_NAME</span><span class="o">=</span><span class="s2">&quot;azqr-dashboard&quot;</span>
+<span class="nv">CONTAINER_REGISTRY</span><span class="o">=</span><span class="s2">&quot;acrazqr&quot;</span>
+
+<span class="c1"># Create resource group</span>
+az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--location<span class="w"> </span><span class="nv">$LOCATION</span>
+
+<span class="c1"># Create storage account for reports</span>
+az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--location<span class="w"> </span><span class="nv">$LOCATION</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sku<span class="w"> </span>Standard_LRS<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kind<span class="w"> </span>StorageV2
+
+<span class="c1"># Create blob container</span>
+az<span class="w"> </span>storage<span class="w"> </span>container<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--auth-mode<span class="w"> </span>login
+
+<span class="c1"># Create Azure Container Registry</span>
+az<span class="w"> </span>acr<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sku<span class="w"> </span>Basic
+
+<span class="c1"># Create App Service Plan (Linux)</span>
+az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_PLAN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--is-linux<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sku<span class="w"> </span>B1
+</code></pre></div>
+
+<hr />
+<h3><strong>Step 2: Build and push container</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Login to ACR</span>
+az<span class="w"> </span>acr<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>
+
+<span class="c1"># Build container</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>azqr-dashboard:latest<span class="w"> </span>.
+
+<span class="c1"># Tag for ACR</span>
+docker<span class="w"> </span>tag<span class="w"> </span>azqr-dashboard:latest<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:latest
+
+<span class="c1"># Push to ACR</span>
+docker<span class="w"> </span>push<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:latest
+</code></pre></div>
+
+<hr />
+<h3><strong>Step 3: Create App Service with managed identity</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create App Service</span>
+az<span class="w"> </span>webapp<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--plan<span class="w"> </span><span class="nv">$APP_SERVICE_PLAN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--deployment-container-image-name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:latest
+
+<span class="c1"># Enable managed identity</span>
+az<span class="w"> </span>webapp<span class="w"> </span>identity<span class="w"> </span>assign<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span>
+
+<span class="c1"># Get managed identity principal ID</span>
+<span class="nv">IDENTITY_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>webapp<span class="w"> </span>identity<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span>principalId<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Grant Reader permissions at subscription level</span>
+<span class="nv">SUBSCRIPTION_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>account<span class="w"> </span>show<span class="w"> </span>--query<span class="w"> </span>id<span class="w"> </span>--output<span class="w"> </span>tsv<span class="k">)</span>
+
+az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$SUBSCRIPTION_ID</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Why managed identity matters:</strong><br />
+- No credentials in code<br />
+- Automatic authentication<br />
+- Audit trail in Entra ID<br />
+- Follows zero-trust principles</p>
+<hr />
+<h3><strong>Step 4: Mount Azure Storage</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get storage account key</span>
+<span class="nv">STORAGE_KEY</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>keys<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;[0].value&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Mount storage to App Service</span>
+az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> </span>storage-account<span class="w"> </span>add<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--custom-id<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--storage-type<span class="w"> </span>AzureBlob<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--share-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-key<span class="w"> </span><span class="nv">$STORAGE_KEY</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--mount-path<span class="w"> </span>/reports
+</code></pre></div>
+
+<p><strong>Result:</strong> Reports persist in Azure Storage, survive container restarts, accessible for historical analysis</p>
+<hr />
+<h3><strong>Step 5: Configure App Service settings</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set container registry authentication</span>
+az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> </span>container<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-custom-image-name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-registry-server-url<span class="w"> </span>https://<span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-registry-server-user<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-registry-server-password<span class="w"> </span><span class="k">$(</span>az<span class="w"> </span>acr<span class="w"> </span>credential<span class="w"> </span>show<span class="w"> </span>--name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;passwords[0].value&quot;</span><span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Enable container logging</span>
+az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-container-logging<span class="w"> </span>filesystem
+
+<span class="c1"># Set health check path</span>
+az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--health-check-path<span class="w"> </span><span class="s2">&quot;/&quot;</span>
+</code></pre></div>
+
+<hr />
+<h2>Enabling Entra ID authentication</h2>
+<h3><strong>Why authentication matters:</strong></h3>
+<p><strong>Without authentication:</strong><br />
+- Dashboard publicly accessible<br />
+- Anyone with URL can view compliance data<br />
+- Security risk (exposes vulnerabilities)<br />
+- Compliance violation (unauthorized access to audit data)</p>
+<p><strong>With Entra ID:</strong><br />
+- Only authenticated users access dashboard<br />
+- SSO (no separate passwords)<br />
+- Conditional access policies<br />
+- Audit trail (who accessed when)</p>
+<hr />
+<h3><strong>Configure authentication:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable Entra ID authentication</span>
+az<span class="w"> </span>webapp<span class="w"> </span>auth<span class="w"> </span>update<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--enabled<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--action<span class="w"> </span>LoginWithAzureActiveDirectory<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--aad-allowed-token-audiences<span class="w"> </span><span class="s2">&quot;https://</span><span class="nv">$APP_SERVICE_NAME</span><span class="s2">.azurewebsites.net&quot;</span>
+
+<span class="c1"># Get the authentication settings</span>
+az<span class="w"> </span>webapp<span class="w"> </span>auth<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Configure via Azure Portal (alternative):</strong></h3>
+<ol>
+<li>Navigate to App Service → Authentication</li>
+<li>Click "Add identity provider"</li>
+<li>Select "Microsoft"</li>
+<li>Choose "Create new app registration"</li>
+<li>Supported account types: "Current tenant - Single tenant"</li>
+<li>Click "Add"</li>
+</ol>
+<p><strong>Result:</strong> Users must authenticate with corporate credentials before accessing dashboard</p>
+<hr />
+<h3><strong>Assign access to users/groups:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get the app registration</span>
+<span class="nv">APP_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>webapp<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;identity.principalId&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Assign users or groups</span>
+az<span class="w"> </span>ad<span class="w"> </span>app<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--id<span class="w"> </span><span class="nv">$APP_ID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--api<span class="w"> </span><span class="m">00000003</span>-0000-0000-c000-000000000000
+</code></pre></div>
+
+<p><strong>Or via Azure Portal:</strong><br />
+1. Entra ID → App registrations<br />
+2. Find your app ($APP_SERVICE_NAME)<br />
+3. Users and groups → Add user/group<br />
+4. Select operations team members</p>
+<hr />
+<h2>Scheduled scans: Cron vs Logic App</h2>
+<h3><strong>Option A: Cron inside container (simple)</strong></h3>
+<p><strong>Pros:</strong><br />
+- Self-contained (everything in one container)<br />
+- No external dependencies<br />
+- Simple to maintain</p>
+<p><strong>Cons:</strong><br />
+- Requires container restart to change schedule<br />
+- No external monitoring<br />
+- Logs only in container</p>
+<p><strong>When to use:</strong> Small teams, simple requirements, daily scans sufficient</p>
+<hr />
+<h3><strong>Option B: Logic App webhook (enterprise)</strong></h3>
+<p><strong>Create webhook endpoint in App Service:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Add webhook endpoint to scan script</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>webhook.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">#!/bin/bash</span>
+
+<span class="s"># Simple HTTP server to receive webhook</span>
+<span class="s">while true; do</span>
+<span class="s">    echo &quot;Waiting for webhook trigger...&quot;</span>
+<span class="s">    nc -l -p 8081 -e /app/scan.sh</span>
+<span class="s">done</span>
+<span class="s">EOF</span>
+
+chmod<span class="w"> </span>+x<span class="w"> </span>webhook.sh
+</code></pre></div>
+
+<hr />
+<p><strong>Logic App workflow:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Trigger_AZQR_Scan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://azqr-dashboard.azurewebsites.net/webhook&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;authentication&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ManagedServiceIdentity&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;Wait_for_Completion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wait&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Minute&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;runAfter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Trigger_AZQR_Scan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Succeeded&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;Send_Teams_Notification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@parameters(&#39;TeamsWebhookUrl&#39;)&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AZQR scan completed. View dashboard: https://azqr-dashboard.azurewebsites.net&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;runAfter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Wait_for_Completion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Succeeded&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;triggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Recurrence&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;schedule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;hours&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;6&quot;</span><span class="p">]</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Pros:</strong><br />
+- External scheduling (change without container rebuild)<br />
+- Notifications (Teams, email)<br />
+- Advanced logic (scan on-demand, conditional scans)<br />
+- Azure Monitor integration</p>
+<p><strong>Cons:</strong><br />
+- More complex architecture<br />
+- Additional Azure resource (Logic App cost)<br />
+- Requires webhook endpoint</p>
+<p><strong>When to use:</strong> Enterprise environments, complex workflows, notifications required</p>
+<hr />
+<h2>Accessing your dashboard</h2>
+<h3><strong>Dashboard URL:</strong></h3>
+<div class="codehilite"><pre><span></span><code>https://azqr-dashboard.azurewebsites.net
+</code></pre></div>
+
+<p><strong>First access:</strong><br />
+1. Navigate to URL<br />
+2. Entra ID login prompt<br />
+3. Authenticate with corporate credentials<br />
+4. Dashboard loads</p>
+<hr />
+<h3><strong>What you see:</strong></h3>
+<p><strong>Overview tab:</strong><br />
+- Total resources scanned<br />
+- Recommendations by severity (Critical/High/Medium/Low)<br />
+- Compliance score<br />
+- Last scan timestamp</p>
+<p><strong>Best Practices tab (Azure Advisor):</strong><br />
+- Reliability recommendations<br />
+- Security recommendations<br />
+- Cost optimization opportunities<br />
+- Performance improvements<br />
+- Operational excellence guidance</p>
+<p><strong>Security tab (Defender for Cloud):</strong><br />
+- Active Defender plans<br />
+- Security recommendations<br />
+- Secure score<br />
+- Compliance standards (CIS, PCI-DSS, etc.)</p>
+<p><strong>Governance tab (Azure Policy):</strong><br />
+- Policy assignments<br />
+- Non-compliant resources<br />
+- Policy definitions<br />
+- Exemptions</p>
+<p><strong>Cost Analysis tab:</strong><br />
+- Spend by service<br />
+- Spend by resource group<br />
+- Cost trends<br />
+- Optimization recommendations</p>
+<p><strong>Inventory tab:</strong><br />
+- All resources by type<br />
+- Resource groups<br />
+- Locations<br />
+- Tags (view your <a href="/blog/azure-tags-operational-intelligence/">tag intelligence layer</a>)<br />
+- Resource IDs</p>
+<hr />
+<h2>Historical tracking and analysis</h2>
+<h3><strong>Automated report retention:</strong></h3>
+<p>Reports stored in Azure Storage: <code>/reports/azqr-YYYY-MM-DD-HHMM.xlsx</code></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># List all historical reports</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>table
+
+<span class="c1"># Download specific report</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>azqr-2025-12-01-0600.xlsx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./azqr-december.xlsx
+</code></pre></div>
+
+<hr />
+<h3><strong>Retention policy:</strong></h3>
+<p><strong>Automated cleanup in scan script:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Keep last 30 days</span>
+find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;azqr-*.xlsx&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+</code></pre></div>
+
+<p><strong>Or configure blob lifecycle management:</strong></p>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>management-policy<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--policy<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;rules&quot;: [{</span>
+<span class="s1">      &quot;name&quot;: &quot;DeleteOldReports&quot;,</span>
+<span class="s1">      &quot;enabled&quot;: true,</span>
+<span class="s1">      &quot;type&quot;: &quot;Lifecycle&quot;,</span>
+<span class="s1">      &quot;definition&quot;: {</span>
+<span class="s1">        &quot;filters&quot;: {</span>
+<span class="s1">          &quot;blobTypes&quot;: [&quot;blockBlob&quot;],</span>
+<span class="s1">          &quot;prefixMatch&quot;: [&quot;reports/azqr-&quot;]</span>
+<span class="s1">        },</span>
+<span class="s1">        &quot;actions&quot;: {</span>
+<span class="s1">          &quot;baseBlob&quot;: {</span>
+<span class="s1">            &quot;delete&quot;: {</span>
+<span class="s1">              &quot;daysAfterModificationGreaterThan&quot;: 365</span>
+<span class="s1">            }</span>
+<span class="s1">          }</span>
+<span class="s1">        }</span>
+<span class="s1">      }</span>
+<span class="s1">    }]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+
+<p><strong>Result:</strong> Keep 1 year of reports, automatic cleanup</p>
+<hr />
+<h3><strong>Compare over time:</strong></h3>
+<p><strong>Download monthly snapshots:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># January 2025</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>azqr-2025-01-01-0600.xlsx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./jan-2025.xlsx
+
+<span class="c1"># February 2025</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>azqr-2025-02-01-0600.xlsx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./feb-2025.xlsx
+
+<span class="c1"># March 2025</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>azqr-2025-03-01-0600.xlsx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./mar-2025.xlsx
+</code></pre></div>
+
+<p><strong>Analysis questions:</strong><br />
+- Is security posture improving? (Defender recommendations decreasing?)<br />
+- Is policy compliance trending up? (Fewer non-compliant resources?)<br />
+- Is cost optimization working? (Underutilized resources being addressed?)<br />
+- Are Well-Architected Framework gaps closing? (Advisor recommendations resolved?)</p>
+<hr />
+<h2>How AZQR complements tags and Logic Apps</h2>
+<p><strong>This is Part 3 of a three-layer platform.</strong></p>
+<h3><strong>Layer 1: Tags (<a href="/blog/azure-tags-operational-intelligence/">Part 1</a>)</strong></h3>
+<p><strong>What tags provide:</strong><br />
+- Operational designation (Type: Server, Appliance, WSUS)<br />
+- Hybrid footprint tracking (OnPrem: Yes/No)<br />
+- Cost allocation (CostCenter, Application, Owner)<br />
+- Instant KQL queries (30-second answers)</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// How many on-prem machines?</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span>
+<span class="c">// Result: 847 machines (30 seconds)</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Layer 2: Logic Apps (<a href="/blog/logic-app-certificate-monitor/">Part 2</a>)</strong></h3>
+<p><strong>What Logic Apps provide:</strong><br />
+- Certificate expiration monitoring<br />
+- Automated alerts (email, Teams, webhooks)<br />
+- Continuous monitoring (not monthly snapshots)<br />
+- Proactive problem detection</p>
+<p><strong>Example:</strong><br />
+- Monitors 284 certificates across environment<br />
+- Alerts 30 days before expiration<br />
+- Catches <a href="/blog/azure-migrate-certificate-18-month-limit/">Azure Migrate 18-month timer</a></p>
+<hr />
+<h3><strong>Layer 3: AZQR Dashboard (this post)</strong></h3>
+<p><strong>What AZQR provides:</strong><br />
+- Policy compliance scanning<br />
+- Security posture assessment<br />
+- Cost optimization recommendations<br />
+- Best practices validation<br />
+- Executive presentation layer</p>
+<p><strong>Example:</strong><br />
+- Monthly compliance reports<br />
+- Historical tracking (trend analysis)<br />
+- Visual dashboard (non-technical stakeholders)<br />
+- Audit evidence (compliance requirements)</p>
+<hr />
+<h3><strong>How they work together:</strong></h3>
+<p><strong>Daily operations:</strong><br />
+- Tags + KQL: "How many servers in production?" → 30 seconds<br />
+- Logic Apps: Certificate expires in 25 days → automated alert</p>
+<p><strong>Weekly reviews:</strong><br />
+- AZQR Dashboard: Review security recommendations<br />
+- Tags: Validate operational designations still accurate<br />
+- Logic Apps: Check automation health</p>
+<p><strong>Monthly compliance:</strong><br />
+- AZQR: Generate formal report<br />
+- Tags: Cost allocation accuracy<br />
+- Logic Apps: Review automation coverage</p>
+<p><strong>Quarterly audits:</strong><br />
+- AZQR: Historical trend analysis (12 months)<br />
+- Tags: Tag governance effectiveness<br />
+- Logic Apps: Automation ROI</p>
+<hr />
+<h2>What AZQR finds (real examples)</h2>
+<h3><strong>Security findings from our environment:</strong></h3>
+<p><strong>App Services without proper scaling:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">Medium</span>
+<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Scalability</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Services</span>
+<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">auto</span><span class="o">-</span><span class="n">scaling</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="n">instances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+</code></pre></div>
+
+<p><strong>Storage accounts with shared key access:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Disable</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">access</span>
+<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">High</span>
+<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Security</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Accounts</span>
+<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Enforce</span><span class="w"> </span><span class="n">Entra</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="n">authentication</span><span class="w"> </span><span class="n">only</span>
+</code></pre></div>
+
+<p><strong>Network Watchers missing tags:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">tags</span>
+<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">Low</span>
+<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Governance</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="n">Watchers</span>
+<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Tag</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Type</span><span class="o">,</span><span class="w"> </span><span class="n">CostCenter</span><span class="o">,</span><span class="w"> </span><span class="n">Owner</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Cost findings:</strong></h3>
+<p><strong>Underutilized VMs:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Right</span><span class="o">-</span><span class="n">size</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">D4s_v3</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">D2s_v3</span>
+<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$150</span><span class="o">/</span><span class="n">month</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">VM</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">VMs</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Resize</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">maintenance</span><span class="w"> </span><span class="n">window</span>
+</code></pre></div>
+
+<p><strong>Unattached disks:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">unattached</span><span class="w"> </span><span class="n">managed</span><span class="w"> </span><span class="n">disks</span>
+<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$45</span><span class="o">/</span><span class="n">month</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">disks</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">longer</span><span class="w"> </span><span class="n">needed</span><span class="o">,</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="n">delete</span>
+</code></pre></div>
+
+<p><strong>Old snapshots:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">snapshots</span><span class="w"> </span><span class="n">older</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span><span class="n">days</span>
+<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$80</span><span class="o">/</span><span class="n">month</span>
+<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="n">snapshots</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">retention</span><span class="w"> </span><span class="n">policy</span><span class="o">,</span><span class="w"> </span><span class="n">delete</span><span class="w"> </span><span class="n">old</span><span class="w"> </span><span class="n">snapshots</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Well-Architected Framework gaps:</strong></h3>
+<p><strong>Front Door missing diagnostics:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Pillar</span><span class="o">:</span><span class="w"> </span><span class="n">Operational</span><span class="w"> </span><span class="n">Excellence</span>
+<span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Enable</span><span class="w"> </span><span class="n">diagnostic</span><span class="w"> </span><span class="n">settings</span>
+<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Low</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="n">Analytics</span><span class="w"> </span><span class="n">workspace</span>
+</code></pre></div>
+
+<p><strong>Front Door availability not configured:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Pillar</span><span class="o">:</span><span class="w"> </span><span class="n">Reliability</span>
+<span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">proper</span><span class="w"> </span><span class="n">availability</span><span class="w"> </span><span class="n">settings</span>
+<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="o">(</span><span class="n">SLA</span><span class="w"> </span><span class="n">risk</span><span class="o">)</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">Front</span><span class="w"> </span><span class="n">Door</span><span class="w"> </span><span class="n">configuration</span>
+</code></pre></div>
+
+<hr />
+<h2>What AZQR misses (and why you still need tags + Logic Apps)</h2>
+<p><strong>AZQR is excellent for compliance scanning, but:</strong></p>
+<h3><strong>Certificate expiration (Logic App catches this):</strong></h3>
+<p>AZQR doesn't monitor:<br />
+- Certificate expiration dates<br />
+- Azure Migrate 18-month certificate timer<br />
+- Key Vault certificate lifecycle<br />
+- App Service certificate renewal</p>
+<p><strong>Solution:</strong> <a href="/blog/logic-app-certificate-monitor/">Logic App certificate monitoring</a></p>
+<hr />
+<h3><strong>Tag drift over time (KQL queries catch this):</strong></h3>
+<p>AZQR shows tags in inventory, but doesn't detect:<br />
+- Type tag changed from Server to Appliance (why?)<br />
+- OnPrem tag still "Yes" but VM migrated 6 months ago<br />
+- CostCenter tag missing on new resources (policy bypass?)</p>
+<p><strong>Solution:</strong> KQL queries in <a href="/blog/azure-tags-operational-intelligence/">tag intelligence post</a></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// VMs in Azure still tagged OnPrem=Yes (drift)</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;azure&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Vendor appliance patching status:</strong></h3>
+<p>AZQR scans policy compliance, but doesn't know:<br />
+- Which Palo Alto firewalls need vendor updates<br />
+- Azure Migrate appliances approaching end of support<br />
+- Which appliances are vendor-managed vs self-managed</p>
+<p><strong>Solution:</strong> Type tag + Appliance/Vendor subtags (from tag intelligence)</p>
+<hr />
+<h3><strong>Operational patterns:</strong></h3>
+<p>AZQR provides snapshots, not continuous patterns:<br />
+- Cost anomalies (sudden 40% spend increase)<br />
+- Resource creation velocity (100 VMs created last night?)<br />
+- Failed deployments (5 attempts to create storage account?)</p>
+<p><strong>Solution:</strong> Logic Apps + Azure Monitor for continuous detection</p>
+<hr />
+<h2>Cost breakdown</h2>
+<h3><strong>Monthly costs:</strong></h3>
+<p><strong>App Service (B1 tier):</strong><br />
+- $13.14/month (Linux, 1.75 GB RAM, 1 vCPU)<br />
+- Sufficient for AZQR dashboard<br />
+- Scales to B2/B3 if needed</p>
+<p><strong>Azure Storage:</strong><br />
+- ~$2-5/month depending on report volume<br />
+- Blob storage: $0.0184/GB (LRS)<br />
+- 365 reports × 2 MB average = 730 MB = $0.01/month<br />
+- Operations: Minimal cost</p>
+<p><strong>Azure Container Registry (Basic):</strong><br />
+- $5/month<br />
+- 10 GB storage included</p>
+<p><strong>Logic App (if using scheduled triggers):</strong><br />
+- $0 (consumption plan)<br />
+- ~$0.01/month for daily triggers</p>
+<p><strong>Total: $15-25/month</strong></p>
+<p><strong>Compare to:</strong><br />
+- Third-party compliance tools: $500-2,000/month<br />
+- Manual compliance checking: 8 hours/week = 32 hours/month<br />
+- At $50/hour = $1,600/month in labor</p>
+<p><strong>ROI: Pays for itself in 1 day of manual work avoided.</strong></p>
+<hr />
+<h2>Implementation roadmap</h2>
+<h3><strong>Week 1: Foundation</strong></h3>
+<p><strong>Day 1: Understand AZQR locally</strong><br />
+- Install AZQR on laptop<br />
+- Run first scan<br />
+- Explore dashboard tabs<br />
+- Identify key metrics for your org</p>
+<p><strong>Day 2: Build container</strong><br />
+- Create Dockerfile<br />
+- Test locally with Docker Desktop<br />
+- Verify scan.sh script works<br />
+- Test cron scheduling</p>
+<p><strong>Day 3: Deploy to Azure</strong><br />
+- Create Azure resources (storage, ACR, App Service)<br />
+- Push container to ACR<br />
+- Deploy to App Service<br />
+- Verify dashboard accessible</p>
+<hr />
+<h3><strong>Week 2: Authentication &amp; Automation</strong></h3>
+<p><strong>Day 4: Enable authentication</strong><br />
+- Configure Entra ID<br />
+- Test SSO login<br />
+- Assign user access<br />
+- Verify security</p>
+<p><strong>Day 5: Configure managed identity</strong><br />
+- Enable system-assigned identity<br />
+- Grant Reader role at subscription<br />
+- Test automated scans<br />
+- Verify reports generating</p>
+<p><strong>Day 6: Storage integration</strong><br />
+- Mount Azure Storage<br />
+- Verify reports persisting<br />
+- Configure retention policy<br />
+- Test historical access</p>
+<p><strong>Day 7: Scheduled scans</strong><br />
+- Choose: Cron vs Logic App<br />
+- Configure schedule (daily 6 AM)<br />
+- Test automated execution<br />
+- Review logs</p>
+<hr />
+<h3><strong>Week 3: Integration</strong></h3>
+<p><strong>Day 8-10: Connect to existing systems</strong><br />
+- Cross-reference with <a href="/blog/azure-tags-operational-intelligence/">tag intelligence</a><br />
+- Integrate with <a href="/blog/logic-app-certificate-monitor/">Logic App monitoring</a><br />
+- Add to operations runbook<br />
+- Train team on dashboard</p>
+<hr />
+<h2>Monitoring and maintenance</h2>
+<h3><strong>Health checks:</strong></h3>
+<p><strong>Daily automated checks:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check if dashboard is responding</span>
+curl<span class="w"> </span>-f<span class="w"> </span>https://azqr-dashboard.azurewebsites.net<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Dashboard down!&quot;</span>
+
+<span class="c1"># Check if latest report exists</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>exists<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>azqr-latest.xlsx
+</code></pre></div>
+
+<hr />
+<h3><strong>View container logs:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Stream logs</span>
+az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </span>tail<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span>
+
+<span class="c1"># Download logs</span>
+az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--log-file<span class="w"> </span>logs.zip
+</code></pre></div>
+
+<hr />
+<h3><strong>Monitor scan execution:</strong></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Check scan logs in storage</span>
+az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--container-name<span class="w"> </span>reports<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>logs/scan-2025-12-17-0600.log<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--file<span class="w"> </span>./latest-scan.log
+
+<span class="c1"># Review for errors</span>
+cat<span class="w"> </span>latest-scan.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error
+</code></pre></div>
+
+<hr />
+<h3><strong>Common issues:</strong></h3>
+<p><strong>Dashboard not loading:</strong><br />
+- Check App Service status: <code>az webapp show --resource-group $RESOURCE_GROUP --name $APP_SERVICE_NAME</code><br />
+- Verify container running: Check container logs<br />
+- Test authentication: Disable auth temporarily to isolate issue</p>
+<p><strong>Scans failing:</strong><br />
+- Verify managed identity has Reader role<br />
+- Check authentication: <code>az login --identity</code> in container<br />
+- Review scan logs for specific errors</p>
+<p><strong>Old dashboard data:</strong><br />
+- Verify azqr-latest.xlsx updated: Check blob modified time<br />
+- Check cron running: Review cron logs in container<br />
+- Verify scan.sh copying report: Review scan logs</p>
+<hr />
+<h2>Production considerations</h2>
+<h3><strong>High availability:</strong></h3>
+<p><strong>For enterprise environments:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Scale to Standard tier for staging slots</span>
+az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>update<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_PLAN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sku<span class="w"> </span>S1
+
+<span class="c1"># Create staging slot</span>
+az<span class="w"> </span>webapp<span class="w"> </span>deployment<span class="w"> </span>slot<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--slot<span class="w"> </span>staging
+
+<span class="c1"># Deploy to staging first</span>
+az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> </span>container<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--slot<span class="w"> </span>staging<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--docker-custom-image-name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:v2
+
+<span class="c1"># Test staging</span>
+curl<span class="w"> </span>https://azqr-dashboard-staging.azurewebsites.net
+
+<span class="c1"># Swap to production (zero downtime)</span>
+az<span class="w"> </span>webapp<span class="w"> </span>deployment<span class="w"> </span>slot<span class="w"> </span>swap<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--slot<span class="w"> </span>staging
+</code></pre></div>
+
+<hr />
+<h3><strong>Multi-subscription scanning:</strong></h3>
+<p><strong>Grant Reader across multiple subscriptions:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get managed identity</span>
+<span class="nv">IDENTITY_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>webapp<span class="w"> </span>identity<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span>principalId<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
+
+<span class="c1"># Grant Reader on multiple subscriptions</span>
+az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/subscription-id-1&quot;</span>
+
+az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/subscription-id-2&quot;</span>
+
+<span class="c1"># AZQR will automatically scan all accessible subscriptions</span>
+</code></pre></div>
+
+<hr />
+<h3><strong>Filtering specific resource groups:</strong></h3>
+<p><strong>YAML configuration (azqr-config.yaml):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nt">subscriptions</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">subscription-id-1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">subscription-id-2</span>
+
+<span class="nt">resourceGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Production</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Staging</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Shared-Services</span>
+
+<span class="nt">exclude</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test-*</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dev-*</span>
+
+<span class="nt">resourceTypes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">asp</span><span class="w">    </span><span class="c1"># App Service Plans</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sites</span><span class="w">  </span><span class="c1"># Web Apps</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vnet</span><span class="w">   </span><span class="c1"># Virtual Networks</span>
+</code></pre></div>
+
+<p><strong>Update scan script to use config:</strong></p>
+<div class="codehilite"><pre><span></span><code>azqr<span class="w"> </span>scan<span class="w"> </span>--filters<span class="w"> </span>/app/azqr-config.yaml<span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<hr />
+<h2>Next steps: Complete platform integration</h2>
+<p><strong>You now have three operational layers:</strong></p>
+<ol>
+<li>✅ <strong>Tags</strong> - Data layer (operational intelligence)</li>
+<li>✅ <strong>Logic Apps</strong> - Automation layer (continuous monitoring)</li>
+<li>✅ <strong>AZQR Dashboard</strong> - Visualization layer (compliance reporting)</li>
+</ol>
+<p><strong>Part 4 (coming next):</strong> How these three layers work together as a unified operations platform.</p>
+<p><strong>Topics covered:</strong><br />
+- Daily operational workflow<br />
+- Weekly review process<br />
+- Monthly compliance reporting<br />
+- Quarterly trend analysis<br />
+- Executive presentations<br />
+- Audit evidence generation</p>
+<hr />
+<h2>What you've built</h2>
+<p><strong>Before:</strong><br />
+- Six different Azure portals to check<br />
+- Manual compliance checking<br />
+- No historical tracking<br />
+- Hours of weekly work</p>
+<p><strong>After:</strong><br />
+- One unified operations dashboard<br />
+- Always accessible at custom URL<br />
+- Automated daily scans<br />
+- 12 months of historical reports<br />
+- Team access with SSO<br />
+- Complete audit trail</p>
+<p><strong>Cost:</strong> $15-25/month<br />
+<strong>Setup time:</strong> 2-3 days<br />
+<strong>Ongoing maintenance:</strong> &lt;1 hour/week</p>
+<p><strong>The Azure operations dashboard you've been looking for already exists. Microsoft built it. You just hosted it properly.</strong></p>
+<hr />
+<p><strong>Compliance tools generate data. Dashboards create accountability.</strong></p>
+<p><strong>Part 4 of this series shows how tags, Logic Apps, and this dashboard work together as a complete operations platform. Coming next.</strong></p>
+<hr />
+<h2>Related posts in this series</h2>
+<p><strong>Part 1:</strong> <a href="/blog/azure-tags-operational-intelligence/">Azure Tags for Operational Intelligence</a><br />
+<strong>Part 2:</strong> <a href="/blog/logic-app-certificate-monitor/">Logic App Certificate Monitoring</a><br />
+<strong>Part 3:</strong> Building a Persistent AZQR Dashboard (you are here)<br />
+<strong>Part 4:</strong> Complete Platform Integration (coming soon)</p>
+<hr />
+<h2>Additional resources</h2>
+<p><strong>AZQR documentation:</strong><br />
+- Official repo: https://github.com/Azure/azqr<br />
+- Supported services: https://github.com/Azure/azqr#supported-services<br />
+- Rule definitions: <code>azqr rules</code> command</p>
+<p><strong>Azure documentation:</strong><br />
+- App Service on Linux: https://learn.microsoft.com/azure/app-service/<br />
+- Managed identities: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/<br />
+- Azure Storage: https://learn.microsoft.com/azure/storage/</p>
+<p><strong>Related operational posts:</strong><br />
+- <a href="/blog/azure-update-manager-reality-check/">Azure Update Manager Reality Check</a><br />
+- <a href="/blog/azure-migrate-certificate-18-month-limit/">Azure Migrate 18-Month Limitation</a></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <aside class="email-capture" style="max-width: 800px; margin: 4rem auto; padding: 3rem; background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); border-radius: 12px; text-align: center; color: white;">
+    <h3 style="margin-top: 0; color: white; font-size: 1.75rem;">Get Azure operational guides in your inbox</h3>
+    <p style="margin: 1rem 0 2rem; font-size: 1.1rem; color: white;">Weekly tips from managing 44 Azure subscriptions. No marketing BS.</p>
+    
+    <form action="https://app.kit.com/forms/8896829/subscriptions" method="post" style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+      <input type="email" 
+             name="email_address" 
+             placeholder="your@email.com" 
+             required 
+             style="flex: 1; min-width: 250px; padding: 0.875rem 1rem; border: none; border-radius: 8px; font-size: 1rem; color: #333;">
+      <button type="submit" 
+              style="padding: 0.875rem 2rem; background: white; color: #0078d4; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem; transition: all 0.2s;">
+        Subscribe
+      </button>
+    </form>
+    
+    <p style="margin: 1.5rem 0 0; font-size: 0.9rem; opacity: 0.9; color: white;">
+      Join 500+ Azure admins. Unsubscribe anytime.
+    </p>
+  </aside>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-tags-operational-intelligence" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Operational Intelligence: Using Azure Tags for Instant Answers (2025)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-17</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/pull-meta-from-arm" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-10</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/four-logic-apps-every-azure-admin-needs" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-10-29</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: General Email Capture (KIT INLINE FORM) -->
+<div class="cta-block" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: white;">Get Azure operational guides in your inbox</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1rem; line-height: 1.5; color: white;">
+    Weekly tips from managing 44 Azure subscriptions. No marketing BS.
+  </p>
+  
+  <!-- Kit inline form - no JavaScript conflicts -->
+  <form action="https://app.kit.com/forms/7867186/subscriptions" method="post" style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email_address" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 250px; padding: 0.75rem 1rem; border: none; border-radius: 6px; font-size: 1rem; color: #333;">
+    <button type="submit" 
+            style="padding: 0.75rem 1.5rem; background: white; color: #4facfe; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem;">
+      Subscribe
+    </button>
+  </form>
+  
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.9; color: white;">
+    Join 500+ Azure admins. Unsubscribe anytime.
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-tags-operational-intelligence">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>Operational Intelligence: Using Azure Tags for Instant Answers (2025)</strong>
+      </a>
+    
+    
+      <a href="/blog/azure-arc-enterprise-scale-problems" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>Azure Arc at Enterprise Scale: The Problems Microsoft Doesn&#39;t Document</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+
+  <!-- Exit-Intent Popup -->
+  <div id="exit-popup" class="exit-popup" style="display: none;">
+    <div class="exit-popup-content">
+      <button class="exit-popup-close" onclick="closeExitPopup()">&times;</button>
+      <h2>Wait! Before You Go...</h2>
+      <p class="exit-popup-subtitle">Get the <strong>FREE Azure Admin Starter Kit</strong></p>
+      <ul class="exit-popup-benefits">
+        <li>✓ 15 Essential KQL Queries</li>
+        <li>✓ 50 Windows Commands</li>
+        <li>✓ 50 Linux Commands</li>
+      </ul>
+      <form id="exit-popup-form" class="exit-popup-form">
+        <input type="email" id="popup-email" placeholder="Enter your email" required>
+        <button type="submit" class="exit-popup-submit">Send Me The Free Kit</button>
+      </form>
+      <p class="exit-popup-privacy">We'll also notify you about new tools & guides. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <style>
+  .exit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exit-popup-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .exit-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+  }
+
+  .exit-popup-close:hover {
+    color: #333;
+  }
+
+  .exit-popup h2 {
+    margin: 0 0 0.5rem 0;
+    color: #0078d4;
+    font-size: 2rem;
+  }
+
+  .exit-popup-subtitle {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .exit-popup-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-benefits li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .exit-popup-form {
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-form input[type="email"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .exit-popup-form input[type="email"]:focus {
+    outline: none;
+    border-color: #0078d4;
+  }
+
+  .exit-popup-submit {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .exit-popup-submit:hover {
+    background: #005a9e;
+  }
+
+  .exit-popup-privacy {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  </style>
+
+  <script>
+  // Exit-intent detection
+  let exitPopupShown = false;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    // If mouse leaves through top of viewport and popup hasn't been shown
+    if (!exitPopupShown && e.clientY <= 0 && mouseY <= 100) {
+      // Check if user has seen it before (session storage)
+      if (!sessionStorage.getItem('exitPopupSeen')) {
+        showExitPopup();
+      }
+    }
+  });
+
+  function showExitPopup() {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+    sessionStorage.setItem('exitPopupSeen', 'true');
+  }
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
+
+  // Handle form submission
+  document.getElementById('exit-popup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('popup-email').value;
+    
+    // Send to Kit (ConvertKit)
+    try {
+      const FORM_ID = '8896829'; // Your Kit Form ID
+      
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Email captured to Kit:', email);
+      }
+      
+      closeExitPopup();
+      
+      // Track in Google Analytics
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'signup', {
+          'event_category': 'email',
+          'event_label': 'exit_popup',
+          'value': email
+        });
+      }
+      
+      // Redirect to starter kit page
+      window.location.href = '/blog/starter-kit/';
+      
+    } catch (error) {
+      console.error('Error:', error);
+      // Still redirect even if tracking fails
+      window.location.href = '/blog/starter-kit/';
+    }
+  });
+
+  // Close on background click
+  document.getElementById('exit-popup').addEventListener('click', (e) => {
+    if (e.target.id === 'exit-popup') {
+      closeExitPopup();
+    }
+  });
+  </script>
+</body>
+</html>
