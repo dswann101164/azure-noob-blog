@@ -1,9 +1,7 @@
 ---
-title: Azure Tag Governance 2025: Policies That Actually Enforce
+title: "Azure Tag Governance 2025: Policies That Actually Enforce"
 date: 2025-10-31
-summary: How to turn Azure tags from 'nice to have' into enforceable governance using
-  Azure Policy, deny/modify effects, and remediation so teams can’t slip around your
-  standards.
+summary: "How to turn Azure tags from 'nice to have' into enforceable governance using Azure Policy, deny/modify effects, and remediation so teams can’t slip around your standards."
 tags:
 - Azure
 - Azure Policy

@@ -1,9 +1,8 @@
 ---
-title: Taming Azure Cost Management: The 2025 Survival Guide
+title: "Taming Azure Cost Management: The 2025 Survival Guide"
 slug: azure-cost-management-is-confusing-but-you-can-tame-it
 date: 2025-09-15
-summary: Azure Cost Management has too many blades, scopes, and exports. Learn the
-  core workflows you actually need to make FinOps sustainable.
+summary: "Azure Cost Management has too many blades, scopes, and exports. Learn the core workflows you actually need to make FinOps sustainable."
 tags:
 - Azure
 - FinOps

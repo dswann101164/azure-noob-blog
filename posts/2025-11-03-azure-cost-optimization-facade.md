@@ -1,8 +1,7 @@
 ---
-title: The Azure Advisor Facade: Why Real Optimization Works Differently (2025)
+title: "The Azure Advisor Facade: Why Real Optimization Works Differently (2025)"
 date: 2025-11-03
-summary: Most Azure optimization advice is surface-level. Reserved instances aren’t
-  FinOps. Here’s what meaningful cost reduction really takes.
+summary: "Most Azure optimization advice is surface-level. Reserved instances aren’t FinOps. Here’s what meaningful cost reduction really takes."
 tags:
 - Azure
 - FinOps

@@ -1,8 +1,7 @@
 ---
-title: Azure Chargeback Tags 2025: The 6 Tags That Actually Work
+title: "Azure Chargeback Tags 2025: The 6 Tags That Actually Work"
 date: 2025-10-16
-summary: A chargeback/showback model built on tags that finance, app owners, and cloud
-  teams can all live with—without 47 competing cost spreadsheets.
+summary: "A chargeback/showback model built on tags that finance, app owners, and cloud teams can all live with—without 47 competing cost spreadsheets."
 tags:
 - Azure
 - Chargeback
