@@ -286,67 +286,60 @@ The pricing calculator? Doesn't mention this at all.
 
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; border-radius: 12px; color: white; margin: 60px 0; box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);">
 
-## 🎯 Stop the Bleed: Azure AI FinOps Query Pack ($19)
+<h2 style="color: white; margin-top: 0; font-size: 2.2rem; text-align: center;">🎯 Stop the Bleed: Azure AI FinOps Query Pack ($19)</h2>
 
-**One query just saved you $1,836/month. That's 97× what this pack costs.**
+<p style="text-align: center; font-size: 1.3rem; margin-bottom: 30px; font-weight: bold;">One query just saved you $1,836/month. That's 97× what this pack costs.</p>
 
-<div style="background: rgba(255, 255, 255, 0.15); padding: 25px; border-radius: 8px; margin: 20px 0;">
+<div style="background: rgba(255, 255, 255, 0.15); padding: 30px; border-radius: 8px; margin: 20px 0;">
 
-### What's Inside (12 Production-Tested KQL Queries)
+<h3 style="color: white; margin-top: 0; font-size: 1.6rem;">What's Inside (12 Production-Tested KQL Queries)</h3>
 
-✅ **Find Zombie Fine-Tuned Models** → $1,836/month waste per model  
-✅ **Calculate Chargeback by Application Tag** → CFO-approved accuracy  
-✅ **Detect Output-to-Input Ratio Outliers** → 62% cost reduction opportunity  
-✅ **Track AI Spend Across 40+ Subscriptions** → Enterprise visibility  
-✅ **Identify Error Rate Overhead** → Find 15% waste from retries  
-✅ **Fine-Tuning ROI Calculator** → Justify the $1,836 fee... or kill it
+<div style="margin: 20px 0; line-height: 2;">
+<p style="margin: 10px 0;">✅ <strong>Find Zombie Fine-Tuned Models</strong> → $1,836/month waste per model</p>
+<p style="margin: 10px 0;">✅ <strong>Calculate Chargeback by Application Tag</strong> → CFO-approved accuracy</p>
+<p style="margin: 10px 0;">✅ <strong>Detect Output-to-Input Ratio Outliers</strong> → 62% cost reduction opportunity</p>
+<p style="margin: 10px 0;">✅ <strong>Track AI Spend Across 40+ Subscriptions</strong> → Enterprise visibility</p>
+<p style="margin: 10px 0;">✅ <strong>Identify Error Rate Overhead</strong> → Find 15% waste from retries</p>
+<p style="margin: 10px 0;">✅ <strong>Fine-Tuning ROI Calculator</strong> → Justify the $1,836 fee... or kill it</p>
+</div>
 
-### Why Trust This Code?
+<h3 style="color: white; margin-top: 30px; font-size: 1.6rem;">Why Trust This Code?</h3>
 
-**These queries are production-tested, not tutorial-tested.**
+<p style="margin: 15px 0; font-size: 1.1rem;"><strong>These queries are production-tested, not tutorial-tested.</strong></p>
 
-Built to handle enterprise-scale infrastructure:
-- 30,000+ resources across 40+ subscriptions
-- Complex tag schemas with semantic inconsistencies
-- Multi-domain Active Directory environments
-- FinOps requirements where executives demand answers
+<p style="margin: 10px 0;">Built to handle enterprise-scale infrastructure:</p>
+<ul style="margin: 10px 0 10px 20px; line-height: 1.8;">
+<li>30,000+ resources across 40+ subscriptions</li>
+<li>Complex tag schemas with semantic inconsistencies</li>
+<li>Multi-domain Active Directory environments</li>
+<li>FinOps requirements where executives demand answers</li>
+</ul>
 
-**The Reality:**
+<p style="margin: 20px 0 10px 0;"><strong>The Reality:</strong></p>
+<p style="margin: 10px 0;">Consultants charge $5K for an assessment that tells you "you have zombie resources." This pack gives you the EXACT query that finds them, costs $19, and runs in 30 seconds.</p>
 
-Consultants charge $5K for an assessment that tells you "you have zombie resources." This pack gives you the EXACT query that finds them, costs $19, and runs in 30 seconds.
+<p style="margin: 10px 0;">These queries were built debugging real production incidents—like finding 4 forgotten fine-tuned models bleeding $7,344/month from dev subscriptions. One query found all four. Deleted them that day.</p>
 
-These queries were built debugging real production incidents—like finding 4 forgotten fine-tuned models bleeding $7,344/month from dev subscriptions. One query found all four. Deleted them that day.
+<p style="margin: 20px 0 10px 0;"><strong>What customers are finding:</strong></p>
+<ul style="margin: 10px 0 10px 20px; line-height: 1.8;">
+<li>Healthcare system: 4 idle models = $7,344/month waste (found in 3 minutes)</li>
+<li>Financial services: 12:1 output ratio chatbot = $5,200/month excess (fixed with max_tokens: 150)</li>
+<li>Tech company: $12,400/month untagged AI resources (now allocated correctly)</li>
+</ul>
 
-**What customers are finding:**
-
-- Healthcare system: 4 idle models = $7,344/month waste (found in 3 minutes)
-- Financial services: 12:1 output ratio chatbot = $5,200/month excess (fixed with `max_tokens: 150`)
-- Tech company: $12,400/month untagged AI resources (now allocated correctly)
-
-### What You Get
+<h3 style="color: white; margin-top: 30px; font-size: 1.6rem;">What You Get</h3>
 
 <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 6px; margin: 15px 0;">
-
-**📦 12 Copy-Paste KQL Queries**  
-Enterprise-scale tested on 31,000+ resources
-
-**📊 Real-World Examples**  
-Actual savings from enterprise production environments
-
-**🔄 Lifetime Updates**  
-New queries as Azure pricing changes, GPT-5 included
-
-**💯 Money-Back Guarantee**  
-If ONE query doesn't save you $100, instant refund
-
+<p style="margin: 8px 0;">📦 <strong>12 Copy-Paste KQL Queries</strong> — Enterprise-scale tested on 31,000+ resources</p>
+<p style="margin: 8px 0;">📊 <strong>Real-World Examples</strong> — Actual savings from enterprise production environments</p>
+<p style="margin: 8px 0;">🔄 <strong>Lifetime Updates</strong> — New queries as Azure pricing changes, GPT-5 included</p>
+<p style="margin: 8px 0;">💯 <strong>Money-Back Guarantee</strong> — If ONE query doesn't save you $100, instant refund</p>
 </div>
 
 </div>
 
 <div style="text-align: center; margin: 30px 0;">
-<a href="https://davidnoob.gumroad.com/l/ai-cost-pack?ref=pricing-post-calculator" style="display: inline-block; background: #ff6b35; color: white; padding: 20px 50px; border-radius: 8px; text-decoration: none; font-size: 1.3em; font-weight: bold; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4); transition: all 0.3s;">
-🔥 Get Query Pack - $19 (Launch Price)
-</a>
+<a href="https://davidnoob.gumroad.com/l/ai-cost-pack?ref=pricing-post-calculator" style="display: inline-block; background: #ff6b35; color: white; padding: 20px 50px; border-radius: 8px; text-decoration: none; font-size: 1.3em; font-weight: bold; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4); transition: all 0.3s;">🔥 Get Query Pack - $19 (Launch Price)</a>
 </div>
 
 <div style="text-align: center; font-size: 0.95em; opacity: 0.9;">
@@ -355,13 +348,13 @@ If ONE query doesn't save you $100, instant refund
 <p>📦 Instant download | 📧 No email required | 🔒 Secure checkout</p>
 </div>
 
-### The Alternative
+<h3 style="color: white; margin-top: 40px; font-size: 1.5rem;">The Alternative</h3>
 
-Keep using the Azure Portal's basic cost reports. Spend 10 hours manually correlating Cost Management exports with Resource Graph data every time the CFO asks "where's our AI money going?"
+<p style="margin: 15px 0;">Keep using the Azure Portal's basic cost reports. Spend 10 hours manually correlating Cost Management exports with Resource Graph data every time the CFO asks "where's our AI money going?"</p>
 
-Or run Query #2 and get a perfect chargeback report in 30 seconds.
+<p style="margin: 15px 0;">Or run Query #2 and get a perfect chargeback report in 30 seconds.</p>
 
-Your choice.
+<p style="margin: 15px 0; font-weight: bold; font-size: 1.2rem;">Your choice.</p>
 
 </div>
 
