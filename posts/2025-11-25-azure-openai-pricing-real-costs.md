@@ -767,7 +767,7 @@ Stop guessing. Define the ownership structure explicitly before you deploy your 
 Or get the **Complete RACI Template** to deploy the governance model immediately:
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=openai-pricing-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Download RACI Template & AI Roles</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=openai-pricing-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Download RACI Template & AI Roles</a>
 </div>
 
 ---
