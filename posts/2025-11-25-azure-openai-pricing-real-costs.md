@@ -36,7 +36,7 @@ Calculate your REAL production costs (not what Microsoft's calculator shows). Pr
 
 **[Download Calculator (Excel)](/static/downloads/Azure_OpenAI_Cost_Calculator.xlsx)** | **[Subscribe for Azure FinOps updates](https://azure-noob.com)**
 
-*No email required for download. Created by David Swann, Azure Architect at Synovus.*
+*No email required for download. Created by David Swann, Azure Architect.*
 
 ---
 
@@ -301,17 +301,21 @@ The pricing calculator? Doesn't mention this at all.
 ✅ **Identify Error Rate Overhead** → Find 15% waste from retries  
 ✅ **Fine-Tuning ROI Calculator** → Justify the $1,836 fee... or kill it
 
-### Why Trust This Code? (The Stealth Advantage)
+### Why Trust This Code?
 
-**I'm not a consultant selling theory.**
+**These queries are production-tested, not tutorial-tested.**
 
-I'm the Azure Architect managing 44 subscriptions and $127K/month in AI costs for a Fortune 500 bank. These queries aren't from Microsoft's documentation—they're from 3AM production fire drills where I had to explain to executives why our "pilot" AI project cost $50K instead of $500.
+Built to handle enterprise-scale infrastructure:
+- 30,000+ resources across 40+ subscriptions
+- Complex tag schemas with semantic inconsistencies
+- Multi-domain Active Directory environments
+- FinOps requirements where executives demand answers
 
-**The Frontline Mechanic Logic:**
+**The Reality:**
 
 Consultants charge $5K for an assessment that tells you "you have zombie resources." This pack gives you the EXACT query that finds them, costs $19, and runs in 30 seconds.
 
-I built these queries while debugging why our development team accidentally deployed 4 fine-tuned models and forgot about them. That's **$7,344/month** vanishing into dev subscriptions. One query found all four. Deleted them that day.
+These queries were built debugging real production incidents—like finding 4 forgotten fine-tuned models bleeding $7,344/month from dev subscriptions. One query found all four. Deleted them that day.
 
 **What customers are finding:**
 
@@ -327,7 +331,7 @@ I built these queries while debugging why our development team accidentally depl
 Enterprise-scale tested on 31,000+ resources
 
 **📊 Real-World Examples**  
-Actual savings from Fortune 500 banking environment
+Actual savings from enterprise production environments
 
 **🔄 Lifetime Updates**  
 New queries as Azure pricing changes, GPT-5 included
@@ -862,7 +866,7 @@ No. Azure OpenAI is approximately 10-15% more expensive than [OpenAI's](/blog/az
 - Regional data residency (EU, US, Asia)
 - Integration with Azure services (Key Vault, Monitor, Defender)
 
-For regulated industries (banking, healthcare, government), the premium is mandatory, not optional.
+For regulated industries (finance, healthcare, government), the premium is mandatory, not optional.
 
 ### What is the cheapest Azure OpenAI model in 2025?
 
