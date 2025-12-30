@@ -80,5 +80,5 @@ I built this **Azure Noob Governance Suite** to solve the *implementation gap*. 
 *   **The "Tagging Enforcer"**: The exact policy definition mapping to ensure every Resource Group inherits the 'Owner' tag from this specific matrix.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=raci-post-bottom" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Standardize Your Governance Now</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=raci-post-bottom" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Standardize Your Governance Now</a>
 </div>

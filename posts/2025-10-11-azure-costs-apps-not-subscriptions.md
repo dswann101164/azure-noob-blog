@@ -245,10 +245,10 @@ Resources
 ### 🛑 Apps Need Owners, Not Just Tags
 
 Tagging apps is step one. Assigning a human responsible for the bill is step two.
-**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-apps-model)** to define the 'Application Cost Owner' role.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-apps-model)** to define the 'Application Cost Owner' role.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-apps-model" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-apps-model" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

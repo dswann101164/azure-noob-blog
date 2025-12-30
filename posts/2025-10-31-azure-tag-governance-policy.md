@@ -436,10 +436,10 @@ Don't just audit. Block bad financial data at the door with this policy snippet.
 ### 🛑 Policy Needs People
 
 A 'Deny' policy stops deployment, but who handles the support ticket?
-**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-tag-policy)** to define the 'Policy Exception Approver' role.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-tag-policy)** to define the 'Policy Exception Approver' role.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-tag-policy" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Governance RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-tag-policy" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Governance RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

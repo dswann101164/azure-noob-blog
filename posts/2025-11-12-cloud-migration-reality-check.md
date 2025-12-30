@@ -311,10 +311,10 @@ You have it now. Use it.
 You wouldn't let a pilot fly without a checklist. Don't let your team migrate without a defined RACI.
 Ensure every server, database, and application has a signed-off owner *before* the migration truck leaves the dock.
 
-**[Download the Azure RACI Matrix Template](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=migration-post)**
+**[Download the Azure RACI Matrix Template](https://davidnoob.gumroad.com/l/ifojm?ref=migration-post)**
 
 It includes the specific "Migration-Ready" roles you need to assign to prevent the 80% stall.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=migration-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Migration Checklist</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=migration-post" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the RACI Migration Checklist</a>
 </div>

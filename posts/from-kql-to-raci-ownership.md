@@ -38,10 +38,10 @@ A RACI model defines **Accountability**. When you ask "Can I delete this?", the 
 
 Don't just be the person who sends the charts. Be the person who stops the bill.
 
-**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-recovery-loop)** to close the loop between detection and deletion.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/ifojm?ref=cost-recovery-loop)** to close the loop between detection and deletion.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-recovery-loop" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Execution RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-recovery-loop" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Execution RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

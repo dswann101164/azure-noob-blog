@@ -310,8 +310,8 @@ Resources
 ### 🛑 Who Enforces the Tags?
 
 Tags don't enforce themselves. People do.
-**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-tags-guide)** to assign 'Tag Enforcer' to a specific role.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-tags-guide)** to assign 'Tag Enforcer' to a specific role.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-tags-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-tags-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
 </div>

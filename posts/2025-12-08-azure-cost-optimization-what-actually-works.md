@@ -608,10 +608,10 @@ Resources
 ### ?? Optimization is a Role, Not a Task
 
 Optimization works when someone's job description says "Cost Efficiency."
-**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-optimization)** to define who owns the optimization lifecycle.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-optimization)** to define who owns the optimization lifecycle.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-optimization" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-optimization" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
 </div>
 
 *Updated December 8, 2025*

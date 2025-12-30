@@ -818,10 +818,10 @@ More strategies: [Azure Cost Optimization: What Actually Works](/blog/azure-cost
 ### 🛑 Who Owns the Budget?
 
 FinOps fails when 'everyone' is responsible for costs, which means no one is.
-**[Download the RACI Template](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=finops-guide)** to stop the finger-pointing and define exactly who owns the budget.
+**[Download the RACI Template](https://davidnoob.gumroad.com/l/ifojm?ref=finops-guide)** to stop the finger-pointing and define exactly who owns the budget.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=finops-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps Ownership Matrix</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=finops-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps Ownership Matrix</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>
