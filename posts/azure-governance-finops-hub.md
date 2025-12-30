@@ -1,7 +1,7 @@
 ---
 title: "The Enterprise Azure Governance & FinOps Strategy Hub (2025)"
 date: 2025-12-29
-summary: "The comprehensive guide to Azure governance and cost management. A structured roadmap through 14 essential articles covering strategy, execution, and enforcement for enterprise environments."
+summary: "The comprehensive guide to Azure governance and cost management. A structured roadmap through 15 essential articles covering strategy, execution, enforcement, and crisis recovery for enterprise environments."
 tags: ["Azure", "Governance", "FinOps", "Cost Management", "Strategy", "Hub"]
 hub: "governance"
 layout: "Post"
@@ -10,12 +10,21 @@ layout: "Post"
 <div class="raci-cta-box" style="background-color: #f0f6ff; padding: 20px; border-left: 5px solid #0078d4; margin-bottom: 2rem;">
     <h3 style="margin-top: 0;">🛑 Stop Leasing Your Governance</h3>
     <p>Architecture documents don't enforce themselves. You need a clear map of who owns the bill, who owns the tag, and who owns the cleanup.</p>
-    <p><strong><a href="https://gumroad.com/l/raci-template?ref=hub-governance-finops-top">Download the Azure Governance & FinOps RACI Matrix</a></strong></p>
+    <p><strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=hub-governance-finops-top">Download the Azure Governance & FinOps RACI Matrix</a></strong></p>
 </div>
 
 Most organizations fail at Azure governance not because they lack tools, but because they treat governance as a settings configuration rather than an operational discipline.
 
-This hub organizes our core "Reality Check" series into a 3-phase roadmap for regaining control of your Azure environment.
+This hub organizes our core "Reality Check" series into a 4-phase roadmap for regaining control of your Azure environment.
+
+---
+
+**New to Azure governance?** Start with these 3 posts:
+1. [The Napkin Test](/blog/azure-governance-napkin-test/) - Define defensibility before writing policies
+2. [Why Azure Cost Reports Fail Business Reality](/blog/azure-cost-reports-business-reality/) - Bridge IT metrics to CFO language
+3. [Azure Chargeback Tags That Actually Work](/blog/azure-chargeback-tags-model/) - The 6 tags that satisfy Finance, Ops, and Security
+
+Read these first. Then come back for the deep dives.
 
 ---
 
@@ -43,6 +52,15 @@ Once the strategy is clear, you need tactical execution. These guides provide th
 
 ---
 
+🚨 **Already in crisis mode?** If your Azure environment is ungoverned and you need results in 90 days:
+1. [Baseline your costs](/blog/azure-cost-optimization-complete-guide/) - Stage 1: Know what you're spending
+2. [Kill zombie resources](/blog/azure-cost-optimization-facade/) - Find the waste Azure Advisor won't show you
+3. [Assign ownership](/blog/azure-chargeback-tags-model/) - Start with the expensive stuff first
+
+Then circle back to Phase 1 for long-term governance.
+
+---
+
 ## Phase 3: Governance Policy & Tagging (Enforcement)
 
 Finally, you must automate the sustainment of your model. If it requires good intentions to survive, it will fail. Make it structural.
@@ -54,12 +72,24 @@ Finally, you must automate the sustainment of your model. If it requires good in
 
 ---
 
-## Phase 4: The Recovery Plan (Crisis Management)
+## Phase 4: Crisis Recovery (When Everything's Already Broken)
 
-When you don't have time for a 12-month transformation. This is the triage protocol for brownfield environments that are currently "on fire."
+Most governance guides assume greenfield environments. This phase addresses brownfield reality: 12,000 untagged resources, $800K/month bills with no owner map, and 90 days to prove governance works or get replaced.
 
-*   **[Azure Governance Crisis Mode: The 90-Day Recovery Framework (2025)](/blog/azure-governance-crisis-recovery-90-day-plan/)** - The triage sequence: Stop the bleeding, build the firewall, empty the kill list.
-*   **[Closing the Loop: Why KQL Finds Waste but RACI Deletes It](/blog/from-kql-to-raci-ownership/)** - Fixing the "Authority Gap" so you can actually decommission what you find.
+*   **[Azure Governance Crisis Mode: The 90-Day Recovery Framework](/blog/azure-governance-crisis-recovery-90-days/)** - The enterprise-tested triage sequence: Kill zombies (Week 1-2), Map ownership (Week 3-6), Tag the expensive stuff (Week 7-10), Lock down new resources (Week 11-12).
+
+**When to use this:** Your Azure environment is "on fire" and the CFO wants answers by Friday. You don't have 18 months for a CAF rollout. You need stopbleeds, visibility, and quick wins—in that order.
+
+---
+
+### 🛠️ Governance Toolkit
+
+Theory alone doesn't govern. You need working code:
+- **[KQL Cheat Sheet](/blog/kql-cheat-sheet-complete/)** - 48 production queries for cost, compliance, and security
+- **[Azure Tag Governance Policies](/blog/azure-tag-governance-policy/)** - Working policy JSON for enforcement
+- **[Tag Semantic Cleanup](/blog/tag-governance-247-variations/)** - Script to normalize "prod" vs "production" vs "PROD"
+
+Download the toolkit. Then get the RACI Matrix to define who runs these tools.
 
 ---
 
@@ -70,8 +100,6 @@ Reading these guides gives you the knowledge. The RACI Matrix gives you the auth
 Assign the **'Cost Allocation Owner'**, **'Tag Standard Approver'**, and **'Resource Decommissioner'** roles today.
 
 <div class="downloads" style="text-align: center; margin-top: 3rem; margin-bottom: 3rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=hub-governance-finops-bottom" style="font-size: 1.5em; padding: 20px 40px; background-color: #0078d4; color: white; border-radius: 5px; text-decoration: none;">Get the Executive RACI Matrix</a>
-  <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
-     <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
-  </div>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/ifojm?ref=hub-governance-finops-bottom" style="font-size: 1.5em; padding: 20px 40px; background-color: #0078d4; color: white; border-radius: 5px; text-decoration: none;">Get the Executive RACI Matrix</a>
+  <p style="margin-top: 1rem; color: #666;">Includes Excel Matrix + Implementation Guide + Crisis Mode Modifications</p>
 </div>
