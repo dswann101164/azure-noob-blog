@@ -35,6 +35,14 @@ Kusto Query Language (KQL) is the query language for Azure Resource Graph, Log A
 
 This cheat sheet focuses on **Azure Resource Graph** - querying your Azure infrastructure metadata to inventory resources, check configurations, and troubleshoot issues.
 
+---
+
+> **📥 Want this as a PDF?** Download the free KQL cheat sheet PDF with all 15 essential queries formatted for printing and offline reference.
+> 
+> [Download Free KQL Cheat Sheet PDF →](/static/downloads/KQL-Query-Library.pdf)
+
+---
+
 ## Getting Started
 
 **Where to Run:** Azure Portal > Resource Graph Explorer (search "resource-graph" in the portal).

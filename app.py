@@ -265,7 +265,7 @@ def blog_index():
                          posts=posts,
                          canonical_url=get_canonical_url(),
                          page_title='70+ Azure Production Battle Stories: Real Enterprise Problems Microsoft Won\'t Document',
-                         meta_description='Azure tutorials from managing 31,000+ resources: FinOps reality, KQL queries that work, governance teams follow, Arc ghost cleanup, OpenAI cost breakdowns. Updated 2x/week with real production scenarios.')
+                         meta_description='114+ Azure guides from managing 31,000+ resources across 44 subscriptions: Cost allocation templates, KQL queries for inventory, governance policies teams follow, Arc ghost cleanup scripts, OpenAI pricing breakdowns. Production-tested solutions updated 2x/week.')
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
