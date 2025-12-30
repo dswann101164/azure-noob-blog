@@ -720,10 +720,10 @@ It worksâ€”if you commit to the full framework, not just cherry-picking the
 ### 🛑 Optimization Requires Authority
 
 You can identify waste, but can you delete it?
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-guide)** to give your FinOps team the authority to decommission zombie resources.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-guide)** to give your FinOps team the authority to decommission zombie resources.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Optimization RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-guide" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Optimization RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

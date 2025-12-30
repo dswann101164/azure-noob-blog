@@ -182,10 +182,10 @@ Resources
 ### 🛑 Who Fixes the Blanks?
 
 Dashboards don't fix themselves.
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-taming)** to assign the cleanup duty to the Application Owner, not the Cloud Admin.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-taming)** to assign the cleanup duty to the Application Owner, not the Cloud Admin.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-taming" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Reporting RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-taming" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Reporting RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

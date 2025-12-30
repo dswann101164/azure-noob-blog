@@ -117,10 +117,10 @@ And that’s the only story your board really wants to hear.
 ### 🛑 Stop Explaining Spikes. Start Managing Ownership.
 
 The board doesn't want to hear about "technical anomalies." They want to know **who** is accountable.
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-boardroom)** to assign clear financial ownership to every subscription.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-boardroom)** to assign clear financial ownership to every subscription.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-boardroom" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-boardroom" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
 </div>
 
 📌 *Credit to [Chris Bowman](https://github.com/chris-bowman) for his Azure-Cost-Reporting project, which inspired this approach.*

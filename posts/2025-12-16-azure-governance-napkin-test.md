@@ -506,10 +506,10 @@ That's a question worth exploring.
 ### 🛑 Who Owns Your Azure Environment?
 
 If you can't explain who owns a resource on a napkin, you can't govern it.
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=napkin-test)** to map every subscription to a clear business owner today.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=napkin-test)** to map every subscription to a clear business owner today.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=napkin-test-cta" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Azure Governance RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=napkin-test-cta" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Azure Governance RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

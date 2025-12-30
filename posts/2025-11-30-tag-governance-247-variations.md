@@ -818,10 +818,10 @@ Resources
 ### 🛑 You Can't Tag What You Don't Own
 
 Tag governance fails when no one is responsible for enforcing it.
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-variations)** and assign the 'Governance Enforcer' role today.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-variations)** and assign the 'Governance Enforcer' role today.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-variations" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-variations" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Tag Governance Matrix</a>
 </div>
 
 ## The One Thing Microsoft Won't Tell You

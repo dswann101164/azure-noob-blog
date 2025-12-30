@@ -376,10 +376,10 @@ It's the same framework I use to audit enterprise Azure environments at 30,000+ 
 ### 🛑 Who Owns the Landing Zone?
 
 Landing Zones drift when no one is accountable for the drift.
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=landing-zone-post)** to assign 'Drift Management' to a specific role.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=landing-zone-post)** to assign 'Drift Management' to a specific role.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=landing-zone-reality" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Architecture RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=landing-zone-reality" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the Architecture RACI</a>
   <div class="preview-block" style="margin-top: 10px; font-size: 0.9em; color: #555;">
      <span>✅ Roles Included</span> • <span>💲 Price: $29</span> • <span>📊 Excel Format</span>
   </div>

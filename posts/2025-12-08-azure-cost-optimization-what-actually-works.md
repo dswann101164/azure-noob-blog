@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Azure Cost Optimization 2025: Hidden Costs & What Actually Works"
 date: 2025-12-08
 summary: "Azure Advisor says 'right-size your VMs.' Finance says 'why is our cloud bill still increasing?' Here's what actually reduces Azure costs in production: the tactics that work when reserved instances and Advisor recommendations aren't enough."
@@ -350,7 +350,7 @@ Old blobs cost money. Delete them automatically.
 
 **Tactic 3: Orphaned resource cleanup**
 
-Unattached disks, unused NICs, old snapshotsÃ¢â‚¬â€nobody notices them until the bill arrives.
+Unattached disks, unused NICs, old snapshotsâ€”nobody notices them until the bill arrives.
 
 **KQL query to find orphaned disks:**
 
@@ -436,7 +436,7 @@ For Phase 1 inventory and application owner conversations
 
 ## What Doesn't Work (Don't Waste Time)
 
-### **Ã¢ÂÅ’ Reserved Instances Without Governance**
+### **âŒ Reserved Instances Without Governance**
 
 **Scenario:** You buy 3-year reserved instances. Savings: 40%.
 
@@ -447,7 +447,7 @@ For Phase 1 inventory and application owner conversations
 - Business commitment (not getting decommissioned)
 - Tag governance (you can track what it's for)
 
-### **Ã¢ÂÅ’ Cost Optimization Without Tag Governance**
+### **âŒ Cost Optimization Without Tag Governance**
 
 **Scenario:** You optimize costs by 20%. Finance asks "Which applications saved money?"
 
@@ -455,7 +455,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Phase 2 (cost allocation) enables Phase 3 (optimization). Don't skip it.
 
-### **Ã¢ÂÅ’ Relying on Advisor Recommendations Alone**
+### **âŒ Relying on Advisor Recommendations Alone**
 
 **Scenario:** Azure Advisor says "save $1,200/month with these 10 changes."
 
@@ -463,7 +463,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Advisor finds optimization opportunities. It doesn't implement them or assess risk. You need automation.
 
-### **Ã¢ÂÅ’ Sending Email Surveys About Resource Usage**
+### **âŒ Sending Email Surveys About Resource Usage**
 
 **Scenario:** You email 50 application owners: "Do you still need these VMs?"
 
@@ -586,7 +586,7 @@ Your organization is exactly WHY this approach works. Simple, repeatable, automa
 
 ---
 
-### 🔍 Find the Hidden Waste (Orphans)
+### ?? Find the Hidden Waste (Orphans)
 
 Don't wait for Advisor. Run this query to find orphaned disks costing you money right now.
 
@@ -605,13 +605,13 @@ Resources
 
 ---
 
-### 🛑 Optimization is a Role, Not a Task
+### ?? Optimization is a Role, Not a Task
 
 Optimization works when someone's job description says "Cost Efficiency."
-**[Download the Azure RACI Matrix](https://gumroad.com/l/raci-template?ref=cost-batch-optimization)** to define who owns the optimization lifecycle.
+**[Download the Azure RACI Matrix](https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-optimization)** to define who owns the optimization lifecycle.
 
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
-  <a class="btn" href="https://gumroad.com/l/raci-template?ref=cost-batch-optimization" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
+  <a class="btn" href="https://davidnoob.gumroad.com/l/azure-raci-ops?ref=cost-batch-optimization" style="font-size: 1.2em; padding: 15px 30px; background-color: #0078d4; color: white;">Get the FinOps RACI</a>
 </div>
 
 *Updated December 8, 2025*
