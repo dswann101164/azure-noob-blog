@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Azure Automation at Scale - Azure Noob</title>
+  <meta name="description" content="PowerShell scripts, Logic Apps, IPAM tools, and automation patterns for enterprise Azure operations.">
+  
+  <link rel="canonical" href="https://azure-noob.com/hub/automation" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Azure Automation at Scale - Azure Noob">
+  <meta property="og:description" content="PowerShell scripts, Logic Apps, IPAM tools, and automation patterns for enterprise Azure operations.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://azure-noob.com/hub/automation">
+  <meta property="og:image" content="/static/images/hero/cloud-wars.webp">
+
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Azure Automation at Scale - Azure Noob">
+  <meta name="twitter:description" content="PowerShell scripts, Logic Apps, IPAM tools, and automation patterns for enterprise Azure operations.">
+  <meta name="twitter:image" content="/static/images/hero/cloud-wars.webp">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/products" style="font-weight: 700; color: #ff6b6b;">Products</a>
+        <a href="/start-here">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+<!-- HUB HERO SECTION -->
+<div class="hub-hero" style="
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  padding: 3rem 0;
+  margin: -1rem -1.5rem 3rem;
+  color: white;
+  text-align: center;
+  border-radius: 0 0 16px 16px;
+">
+  <div class="wrap">
+    <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 700; font-size: 0.9rem;">
+      ⚡ Automation
+    </div>
+    <h1 style="font-size: 2.75rem; margin: 0 0 1rem; font-weight: 800;">Azure Automation at Scale</h1>
+    <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto; opacity: 0.95; line-height: 1.6;">PowerShell scripts, Logic Apps, IPAM tools, and automation patterns for enterprise Azure operations.</p>
+  </div>
+</div>
+
+<!-- PHILOSOPHY SECTION -->
+<section style="max-width: 800px; margin: 0 auto 3rem;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 1rem; color: #1a202c;">Automation Isn&#39;t About Writing Scripts — It&#39;s About Eliminating Repetitive Decisions</h2>
+  <div style="font-size: 1.125rem; line-height: 1.8; color: #2d3748;">
+    
+            <p><strong>The automation trap:</strong> Teams write PowerShell scripts for every repetitive task, then wonder why their "automation" requires constant maintenance and breaks when Azure changes. Scripts automate actions, but they don't automate <em>decisions</em>.</p>
+            
+            <p>After automating operations across 31,000+ Azure resources, I've learned that sustainable automation requires three layers:</p>
+            
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Tool consolidation first</strong> — Stop building custom scripts for every problem. Most operational needs have existing tools (IPAM, inventory, dashboard generators).</li>
+                <li><strong>Logic Apps over scheduled scripts</strong> — Event-driven automation scales better than cron jobs running PowerShell. Let Azure trigger your automation, not the clock.</li>
+                <li><strong>Self-service over tickets</strong> — The best automation eliminates the need for humans to approve routine requests.</li>
+            </ul>
+            
+            <p>This hub contains the automation tools, PowerShell patterns, and Logic App workflows I've built to reduce operational overhead in enterprise Azure environments. Every tool here eliminates repetitive work, not just speeds it up.</p>
+        
+  </div>
+</section>
+
+<!-- CURATED CONTENT SECTIONS -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">1. Infrastructure Automation Tools</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Production-ready tools for Azure inventory, IPAM, and resource management.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/service-inventory-tool.svg" 
+             alt="Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-service-inventory-tool" style="color: #1a202c; text-decoration: none;">
+            Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-29</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">A practical service inventory pattern for Azure: map resources to real business services, owners, and environments so governance and audits stop being guesswork.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">CMDB</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Governance</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-service-inventory-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-ipam.png" 
+             alt="Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-ipam-tool" style="color: #1a202c; text-decoration: none;">
+            Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-06</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">An Azure IPAM workbook and process for tracking IP address usage across subscriptions, VNets, and environments without losing your mind.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">IP Management</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">IPAM</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-ipam-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/pull-meta-from-arm.svg" 
+             alt="I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/pull-meta-from-arm" style="color: #1a202c; text-decoration: none;">
+            I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-11-10</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">A reusable pattern for pulling metadata from ARM at scale to feed CMDBs, reports, and governance dashboards when Azure alone isn’t enough.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">ARM</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Automation</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/pull-meta-from-arm" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">2. Logic Apps &amp; Event-Driven Automation</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Replace scheduled scripts with event-driven workflows that scale.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/logic-apps-automation.svg" 
+             alt="4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/four-logic-apps-every-azure-admin-needs" style="color: #1a202c; text-decoration: none;">
+            4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-29</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Stop wasting 10+ hours per week on manual Azure operations. These 4 production-tested Logic Apps automate unused resource cleanup ($4K/month savings), certificate monitoring (zero outages), tag enforcement (FinOps compliance), and backup verification. Complete deployment scripts and ROI calculator included.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Logic Apps</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Automation</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/four-logic-apps-every-azure-admin-needs" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">3. PowerShell &amp; Script Modernization</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Migrate from PowerShell 5.1 to 7.x and fix automation dependency hell.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/powershell-7-enterprise-migration.svg" 
+             alt="PowerShell 7 Migration Guide (Complete Checklist + Time Savings Calculator)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/powershell-7-enterprise-migration" style="color: #1a202c; text-decoration: none;">
+            PowerShell 7 Migration Guide (Complete Checklist + Time Savings Calculator)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-11-03</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">PowerShell 7 migration reduces Azure admin workload by 70% through parallel processing. Complete enterprise migration checklist, VS Code setup guide, compatibility testing framework, and ROI calculator. Includes 30-day migration plan and real-world time savings from managing 50+ Azure subscriptions.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">powershell</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">automation</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/powershell-7-enterprise-migration" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-automation-debugging.png" 
+             alt="Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-vm-automation-dependency-hell" style="color: #1a202c; text-decoration: none;">
+            Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-09-29</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">powershell</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">automation</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-vm-automation-dependency-hell" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/powershell-version-gap.png" 
+             alt="Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won&#39;t Tell You)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-scripts-break-server-2025" style="color: #1a202c; text-decoration: none;">
+            Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won&#39;t Tell You)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-06</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here&#39;s the gap nobody explains.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">powershell</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">automation</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-scripts-break-server-2025" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;"></span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">4. Dashboard &amp; Workbook Automation</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Generate dashboards and workbooks programmatically instead of clicking through the portal.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1.5rem;">
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/workbook-app-tool.svg" 
+             alt="Extract KQL Queries from Azure Workbooks (Workbook → App Tool)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/workbook-app-tool" style="color: #1a202c; text-decoration: none;">
+            Extract KQL Queries from Azure Workbooks (Workbook → App Tool)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-13</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">KQL</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Monitoring</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/workbook-app-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/azure-dashboard-rebrand.png" 
+             alt="How I Rebranded Microsoft&#39;s Azure Resource Inventory Dashboard (Without Corrupting Excel)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/azure-dashboard-rebranding-tool" style="color: #1a202c; text-decoration: none;">
+            How I Rebranded Microsoft&#39;s Azure Resource Inventory Dashboard (Without Corrupting Excel)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-11-21</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">A dark-mode rebranding tool for Azure dashboards and Excel exports so your reports look as modern as your cloud environment.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">ARI</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Automation</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">Azure</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/azure-dashboard-rebranding-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+    <article style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 1.5rem;
+      align-items: start;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateX(0)'">
+      
+      
+      <div style="flex-shrink: 0; width: 120px; height: 80px; overflow: hidden; border-radius: 8px;">
+        <img src="/static/images/hero/pbix-modernizer.svg" 
+             alt="How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+
+      <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem;">
+          <a href="/blog/pbix-modernizer-tool" style="color: #1a202c; text-decoration: none;">
+            How I Reverse-Engineered a Power BI Dashboard (PBIX Modernizer Tool)
+          </a>
+        </h3>
+        <p style="color: #718096; font-size: 0.95rem; margin: 0 0 0.75rem;">2025-10-13</p>
+        <p style="color: #4a5568; line-height: 1.6; margin: 0;">Chris Bowman&#39;s CCO Dashboard is 200+ pages of Power BI. I needed to understand it to build CCO 2.0. Built a tool that extracts all queries, measures, and relationships in seconds. .pbix files are just ZIP archives.</p>
+        
+        
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">azure</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">power-bi</span>
+          
+          <span class="tag-badge" style="font-size: 0.8rem;">python</span>
+          
+        </div>
+        
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <a href="/blog/pbix-modernizer-tool" class="btn" style="white-space: nowrap;">Read →</a>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+
+<!-- GITHUB RESOURCES SECTION -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem;">
+  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2rem;">💻</span>
+    <div>
+      <h2 style="font-size: 1.75rem; margin: 0; color: #1a202c;">GitHub Resources</h2>
+      <p style="margin: 0.25rem 0 0; color: #718096; font-size: 1rem;">Production-ready code and tools</p>
+    </div>
+  </div>
+
+  <div style="display: grid; gap: 1rem;">
+    
+    <a href="/static/downloads/Get-AzureServiceInventory.ps1" target="_blank" rel="noopener" style="
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border: 2px solid #cbd5e1;
+      border-left: 6px solid #0078d4;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,120,212,0.2)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+      <div>
+        <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Azure Service Inventory Script</div>
+        <div style="color: #718096; font-size: 0.95rem;">PowerShell script to export complete Azure resource inventory across all subscriptions.</div>
+      </div>
+      <span style="color: #0078d4; font-size: 1.5rem;">→</span>
+    </a>
+    
+    <a href="https://github.com/dswann101164" target="_blank" rel="noopener" style="
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border: 2px solid #cbd5e1;
+      border-left: 6px solid #0078d4;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.transform='translateX(4px)'; this.style.boxShadow='0 4px 12px rgba(0,120,212,0.2)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'">
+      <div>
+        <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Azure IPAM Tool</div>
+        <div style="color: #718096; font-size: 0.95rem;">IP address management across Azure subscriptions with conflict detection.</div>
+      </div>
+      <span style="color: #0078d4; font-size: 1.5rem;">→</span>
+    </a>
+    
+  </div>
+</section>
+
+
+<!-- RELATED HUBS -->
+
+<section style="max-width: 900px; margin: 0 auto 3rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+  <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: #1a202c; text-align: center;">Explore Related Topics</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+    
+    <a href="/hub/governance" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Azure Governance</div>
+      <div style="color: #718096; font-size: 0.9rem;">7 articles</div>
+    </a>
+    
+    <a href="/hub/monitoring" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📊</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">Monitoring</div>
+      <div style="color: #718096; font-size: 0.9rem;">5 articles</div>
+    </a>
+    
+    <a href="/hub/kql" style="
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    " onmouseover="this.style.borderColor='#0078d4'; this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
+      <div style="font-weight: 700; font-size: 1.15rem; color: #1a202c; margin-bottom: 0.25rem;">KQL Mastery</div>
+      <div style="color: #718096; font-size: 0.9rem;">7 articles</div>
+    </a>
+    
+  </div>
+</section>
+
+
+<!-- SMART LEAD MAGNET CTA -->
+
+
+
+<section style="
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+    <h2 style="font-size: 2.25rem; margin: 0 0 1rem; color: white; font-weight: 700;">
+      Automate Azure Operations with KQL
+    </h2>
+    <p style="font-size: 1.2rem; margin: 0 0 1.5rem; opacity: 0.95; line-height: 1.6;">
+      Download the KQL Query Library
+    </p>
+    <ul style="text-align: left; max-width: 600px; margin: 0 auto 2rem; list-style: none; padding: 0;">
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        Queries that power automation, inventory tools, and Logic App workflows
+      </li>
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        Stop building custom PowerShell scripts for everything
+      </li>
+      
+      <li style="font-size: 1rem; margin-bottom: 0.75rem; opacity: 0.95; padding-left: 1.5rem; position: relative;">
+        <span style="position: absolute; left: 0; top: 0;">✓</span>
+        Use KQL to query Azure Resource Graph and trigger automation based on real resource state
+      </li>
+      
+    </ul>
+    <a href="/static/downloads/KQL-Query-Library.pdf" download style="
+      display: inline-block;
+      background: white;
+      color: #b91c1c;
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+      📥 Get Automation Queries (Free)
+    </a>
+    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.85;">
+      45+ queries • PDF download
+    </p>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION CTA -->
+<section style="
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 3rem;
+  margin-top: 4rem;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+">
+  <h2 style="font-size: 2rem; margin: 0 0 1rem; color: white;">Want Deep Dives on Automation?</h2>
+  <p style="font-size: 1.15rem; margin: 0 0 1.5rem; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">
+    Join Azure architects getting practical automation strategies, real KQL queries, and solutions that actually work in production.
+  </p>
+  <a href="#subscribe" class="btn-subscribe">Subscribe for Automation Insights</a>
+</section>
+
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+
+  <!-- Exit-Intent Popup -->
+  <div id="exit-popup" class="exit-popup" style="display: none;">
+    <div class="exit-popup-content">
+      <button class="exit-popup-close" onclick="closeExitPopup()">&times;</button>
+      <h2>Wait! Before You Go...</h2>
+      <p class="exit-popup-subtitle">Get the <strong>FREE Azure Admin Starter Kit</strong></p>
+      <ul class="exit-popup-benefits">
+        <li>✓ 15 Essential KQL Queries</li>
+        <li>✓ 50 Windows Commands</li>
+        <li>✓ 50 Linux Commands</li>
+      </ul>
+      <form id="exit-popup-form" class="exit-popup-form">
+        <input type="email" id="popup-email" placeholder="Enter your email" required>
+        <button type="submit" class="exit-popup-submit">Send Me The Free Kit</button>
+      </form>
+      <p class="exit-popup-privacy">We'll also notify you about new tools & guides. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <style>
+  .exit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exit-popup-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .exit-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+  }
+
+  .exit-popup-close:hover {
+    color: #333;
+  }
+
+  .exit-popup h2 {
+    margin: 0 0 0.5rem 0;
+    color: #0078d4;
+    font-size: 2rem;
+  }
+
+  .exit-popup-subtitle {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .exit-popup-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-benefits li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .exit-popup-form {
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-form input[type="email"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .exit-popup-form input[type="email"]:focus {
+    outline: none;
+    border-color: #0078d4;
+  }
+
+  .exit-popup-submit {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .exit-popup-submit:hover {
+    background: #005a9e;
+  }
+
+  .exit-popup-privacy {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  </style>
+
+  <script>
+  // Exit-intent detection
+  let exitPopupShown = false;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    // If mouse leaves through top of viewport and popup hasn't been shown
+    if (!exitPopupShown && e.clientY <= 0 && mouseY <= 100) {
+      // Check if user has seen it before (session storage)
+      if (!sessionStorage.getItem('exitPopupSeen')) {
+        showExitPopup();
+      }
+    }
+  });
+
+  function showExitPopup() {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+    sessionStorage.setItem('exitPopupSeen', 'true');
+  }
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
+
+  // Handle form submission
+  document.getElementById('exit-popup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('popup-email').value;
+    
+    // Send to Kit (ConvertKit)
+    try {
+      const FORM_ID = '8896829'; // Your Kit Form ID
+      
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Email captured to Kit:', email);
+      }
+      
+      closeExitPopup();
+      
+      // Track in Google Analytics
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'signup', {
+          'event_category': 'email',
+          'event_label': 'exit_popup',
+          'value': email
+        });
+      }
+      
+      // Redirect to starter kit page
+      window.location.href = '/blog/starter-kit/';
+      
+    } catch (error) {
+      console.error('Error:', error);
+      // Still redirect even if tracking fails
+      window.location.href = '/blog/starter-kit/';
+    }
+  });
+
+  // Close on background click
+  document.getElementById('exit-popup').addEventListener('click', (e) => {
+    if (e.target.id === 'exit-popup') {
+      closeExitPopup();
+    }
+  });
+  </script>
+</body>
+</html>
