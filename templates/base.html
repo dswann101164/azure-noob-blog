@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {% set default_og = url_for('static', filename='images/hero/cloud-wars.webp') %}
-  {% set default_canonical = SITE_URL ~ request.path %}
+  {% set canonical_path = request.path if request.path.endswith('/') else request.path + '/' %}
+  {% set default_canonical = SITE_URL ~ canonical_path %}
 
   <!-- Primary SEO -->
   <title>{% block title %}{{ page_title or site_name }}{% endblock %}</title>
