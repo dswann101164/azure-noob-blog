@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+  
+
+  <!-- Primary SEO -->
+  <title>KQL Across 5 Azure Systems: The Query Compatibility Guide · Azure Noob</title>
+  <meta name="description" content="Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.">
+  
+  <link rel="canonical" href="https://azure-noob.com/blog/kql-multiple-systems/" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="KQL Across 5 Azure Systems: The Query Compatibility Guide">
+  <meta property="og:description" content="Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/kql-multiple-systems/">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/kql-systems-maze.png">
+
+  
+    <meta property="article:published_time" content="2025-10-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-24T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="Architecture">
+      
+        <meta property="article:tag" content="Azure">
+      
+        <meta property="article:tag" content="Dashboards">
+      
+        <meta property="article:tag" content="KQL">
+      
+        <meta property="article:tag" content="Log Analytics">
+      
+        <meta property="article:tag" content="Resource Graph">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KQL Across 5 Azure Systems: The Query Compatibility Guide">
+  <meta name="twitter:description" content="Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/kql-systems-maze.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/products/" style="font-weight: 700; color: #ff6b6b;">Products</a>
+        <a href="/start-here/">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about/">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search/">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "KQL Across 5 Azure Systems: The Query Compatibility Guide",
+  "description": "Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/kql-systems-maze.png",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-24T00:00:00+00:00",
+  "dateModified": "2025-10-24T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/kql-multiple-systems/"
+  },
+  "keywords": "Architecture, Azure, Dashboards, KQL, Log Analytics, Resource Graph",
+  "articleSection": "Architecture",
+  "wordCount": "3775",
+  "timeRequired": "PT19M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "Architecture"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "KQL Across 5 Azure Systems: The Query Compatibility Guide",
+      "item": "https://azure-noob.com/blog/kql-multiple-systems/"
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/kql-systems-maze.png" alt="KQL Across 5 Azure Systems: The Query Compatibility Guide" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>KQL Across 5 Azure Systems: The Query Compatibility Guide</h1>
+    <p class="muted">
+      2025-10-24 · ~19 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/Architecture/" class="tag-badge">Architecture</a></li>
+      
+      <li><a href="/tags/Azure/" class="tag-badge">Azure</a></li>
+      
+      <li><a href="/tags/Dashboards/" class="tag-badge">Dashboards</a></li>
+      
+      <li><a href="/tags/KQL/" class="tag-badge">KQL</a></li>
+      
+      <li><a href="/tags/Log%20Analytics/" class="tag-badge">Log Analytics</a></li>
+      
+      <li><a href="/tags/Resource%20Graph/" class="tag-badge">Resource Graph</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <p>This guide is part of our <a href="/hub/kql/">KQL Mastery hub</a> covering query patterns, optimization techniques, and real-world Azure Resource Graph examples.<br />
+You learned KQL from Microsoft Learn. You wrote your first queries in Log Analytics. They worked. You kept writing more.</p>
+<p>Three months later, your queries are timing out. Six months later, you're staring at a $10,000 monthly Log Analytics bill. One year later, you discover Azure Resource Graph exists and realize you've been building everything in the wrong place.</p>
+<p>Here's what nobody told you: KQL isn't one system. It's one language across five completely different systems, and Microsoft's documentation never explains which one to use when.</p>
+<p>This is that explanation.</p>
+<h2>The Walk-Right-By Problem</h2>
+<p>Microsoft Learn teaches KQL in the Log Analytics context. The Azure Portal defaults to Log Analytics for everything. Example queries are Log Analytics focused. Most blog posts assume you already know about the other systems.</p>
+<p>So you learn KQL, write queries in Log Analytics because that's what you learned, and walk right past four other systems that might be better for your actual use case.</p>
+<p><strong>The progression looks like this:</strong></p>
+<p>Month 1: Learn KQL syntax, write sample queries<br />
+Month 2: Build VM inventory queries in Log Analytics<br />
+Month 3: Queries start timing out, results take 30+ seconds<br />
+Month 4: See first shocking bill, start optimizing queries<br />
+Month 6: Can't correlate data across 10 different workspaces<br />
+Month 12: Finally discover Resource Graph exists<br />
+Month 18: Realize half your queries are in the wrong system, start migration</p>
+<p><strong>The hidden cost:</strong></p>
+<p>You're paying for Log Analytics ingestion you don't need. You're running slow queries that could be instant. You created multiple workspaces when you needed one system. You built technical debt that requires rework.</p>
+<p>And nobody warned you any of this would happen.</p>
+<h2>The Five KQL Systems</h2>
+<p>Same language. Completely different purposes. Here's what each one actually does.</p>
+<h3>System 1: Azure Resource Graph</h3>
+<p><strong>What it is:</strong><br />
+A real-time inventory database for Azure resources. It mirrors Azure Resource Manager (ARM) state and answers "what exists right now" questions. It's free, included with your Azure subscription, and queries complete in under a second.</p>
+<p><strong>What it's not:</strong><br />
+Not for logs. Not for metrics. Not for security events. Not for application telemetry. No retention window because it only shows current state.</p>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>VM inventory across all subscriptions</li>
+<li>Resource tagging compliance reports  </li>
+<li>Network topology mapping (VNets, subnets, NSGs)</li>
+<li>Cost allocation foundations</li>
+<li>"Show me all resources of type X in any subscription"</li>
+</ul>
+<p><strong>Example query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span><span class="n">osType</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p>This runs across every subscription you have access to. Instantly. Free.</p>
+<p><strong>The classic mistake:</strong></p>
+<p>Running this inventory query in Log Analytics instead. You're paying for 30-90 days of retention on data that Resource Graph gives you for free and faster. I've seen organizations spend thousands per month ingesting VM inventory data into Log Analytics when Resource Graph would have been free.</p>
+<h3>System 2: Log Analytics Workspaces</h3>
+<p><strong>What it is:</strong><br />
+Time-series log storage and analytics with an ingestion cost model. You pay per GB ingested plus retention. It's built for troubleshooting and historical analysis, requires agents or diagnostic settings to send data, and multiple workspaces create data silos.</p>
+<p><strong>What it's not:</strong><br />
+Not free. Not real-time inventory. Not automatically populated.</p>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>Performance troubleshooting (VM had high CPU 3 days ago, why?)</li>
+<li>Application log analysis  </li>
+<li>Windows Event Log queries</li>
+<li>Capacity planning with historical metrics</li>
+<li>Compliance audit trails</li>
+<li>"What happened at 2 AM last Tuesday?"</li>
+</ul>
+<p><strong>Example query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Perf</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">7</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ObjectName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Processor&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">CounterName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;% Processor Time&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">InstanceName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;_Total&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">AvgCPU</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">CounterValue</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AvgCPU</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">80</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>This query needs historical performance data. Resource Graph can't answer it. Log Analytics is the right tool.</p>
+<p><strong>Classic mistakes:</strong></p>
+<p>Creating 10+ workspaces because you created one per subscription or one per team. Now you can't query across them easily.</p>
+<p>Ingesting data you never query. You're paying for storage you don't use.</p>
+<p>Using Log Analytics for inventory questions when Resource Graph is free and faster.</p>
+<p>Not setting retention policies appropriately. Paying for 2 years of data when you only need 30 days.</p>
+<h3>System 3: Microsoft Sentinel</h3>
+<p><strong>What it is:</strong><br />
+A SIEM (Security Information and Event Management system) built on top of Log Analytics. It correlates security events and detects threats. Costs include both Log Analytics ingestion and Sentinel licensing.</p>
+<p><strong>What it's not:</strong><br />
+Not required for basic Azure monitoring. Not for general-purpose log analysis. Not cheaper than Log Analytics (it's Log Analytics plus additional costs).</p>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>Security incident investigations</li>
+<li>Threat hunting across multiple data sources</li>
+<li>Automated response to security events  </li>
+<li>Compliance reporting (SOC 2, PCI-DSS)</li>
+<li>Correlating Azure logs with firewall, Active Directory, and Office 365 security events</li>
+</ul>
+<p><strong>Example query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">SecurityEvent</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">EventID</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">4625</span><span class="w"> </span><span class="c">// Failed logon attempts</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">FailedLogons</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Account</span><span class="p">,</span><span class="w"> </span><span class="n">Computer</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">FailedLogons</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailedLogons</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>This hunts for brute force attacks across your environment. Sentinel is built for this.</p>
+<p><strong>The classic mistake:</strong></p>
+<p>Enabling Sentinel because it's "recommended" without understanding you're adding 20-30% cost on top of Log Analytics. If you don't have a security operations center or compliance requirements, you probably don't need it yet.</p>
+<h3>System 4: Application Insights</h3>
+<p><strong>What it is:</strong><br />
+Application performance monitoring (APM) for code. It captures telemetry like exceptions, requests, dependencies, and custom events. Built on Log Analytics but with application-specific schemas.</p>
+<p><strong>What it's not:</strong><br />
+Not for infrastructure monitoring. Not for Azure resource inventory. Not automatically populated (requires SDK/instrumentation in your code).</p>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>Application performance troubleshooting  </li>
+<li>Exception tracking and debugging</li>
+<li>User session analysis</li>
+<li>API dependency mapping</li>
+<li>"Why is my web app slow?"</li>
+</ul>
+<p><strong>Example query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">requests</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">FailedRequests</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">operation_Name</span><span class="p">,</span><span class="w"> </span><span class="n">resultCode</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailedRequests</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>This shows which API endpoints are failing. Application Insights is the only system with this data.</p>
+<p><strong>The classic mistake:</strong></p>
+<p>Trying to query Application Insights data with Resource Graph queries or vice versa. They use the same language but completely different data models. A Resource Graph query won't return application telemetry.</p>
+<h3>System 5: Microsoft Defender / Microsoft 365 Defender / Purview</h3>
+<p><strong>What it is:</strong><br />
+Security-focused KQL for endpoint protection, email security, identity threats, and data loss prevention. Separate portal, separate data model, built for security analysts.</p>
+<p><strong>What it's not:</strong><br />
+Not for Azure infrastructure monitoring. Not for application logs. Not integrated with Resource Graph or Log Analytics.</p>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>Endpoint threat hunting (compromised laptops)</li>
+<li>Email security investigations (phishing campaigns)</li>
+<li>Identity risk analysis (unusual sign-ins)  </li>
+<li>Data loss prevention queries (Purview)</li>
+<li>"Which endpoints have this vulnerability?"</li>
+</ul>
+<p><strong>Example query:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">DeviceProcessEvents</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Timestamp</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">7</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ProcessCommandLine</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;powershell&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ProcessCommandLine</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;-encodedcommand&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">DeviceName</span><span class="p">,</span><span class="w"> </span><span class="n">AccountName</span><span class="p">,</span><span class="w"> </span><span class="n">ProcessCommandLine</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Timestamp</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p>This hunts for obfuscated PowerShell commands that might indicate malware. Defender for Endpoint is the only system with this data.</p>
+<p><strong>The classic mistake:</strong></p>
+<p>Assuming Defender queries work in Log Analytics. Same language, completely different system with different tables and schemas.</p>
+<h2>The Decision Framework</h2>
+<p>Here's how to choose the right system every time.</p>
+<h3>Question 1: What Are You Actually Trying to Do?</h3>
+<p><strong>"I need to know what EXISTS right now"</strong><br />
+→ Azure Resource Graph</p>
+<p>Examples: VM inventory, missing tags, network topology, cost allocation queries, compliance checks</p>
+<p><strong>"I need to know what HAPPENED (historical data)"</strong><br />
+→ Log Analytics</p>
+<p>Examples: VM was slow yesterday, who accessed this file last week, application errors on Tuesday, 90-day CPU trends, audit trail for deleted resource</p>
+<p><strong>"I need to HUNT THREATS or investigate security incidents"</strong><br />
+→ Sentinel (Azure/infrastructure) or Defender (endpoints/Office 365)</p>
+<p>Examples: Unusual sign-ins, lateral movement, data exfiltration attempts, phishing campaigns, malware spreading</p>
+<p><strong>"I need to troubleshoot APPLICATION CODE performance"</strong><br />
+→ Application Insights</p>
+<p>Examples: Slow API endpoint, database query timeouts, exception spikes, user session flows, dependency mapping</p>
+<h3>Question 2: How Much Are You Willing to Pay?</h3>
+<p><strong>Free (included with Azure):</strong><br />
+- Azure Resource Graph: Unlimited queries, no ingestion costs</p>
+<p><strong>Pay-per-GB ingested:</strong><br />
+- Log Analytics: ~$2.30/GB ingested + retention costs<br />
+- Application Insights: ~$2.30/GB ingested + retention costs<br />
+- Sentinel: Log Analytics costs + $2.00/GB Sentinel licensing</p>
+<p><strong>Decision tree:</strong></p>
+<p>If the data already exists in ARM state → Use Resource Graph (free)</p>
+<p>If you need historical logs → Accept Log Analytics costs but tune retention carefully</p>
+<p>If you need security correlation → Budget for Sentinel properly, it's not cheap</p>
+<p>If you need app telemetry → Instrument carefully, Application Insights costs add up fast</p>
+<h3>Question 3: How Many Workspaces Do You Actually Need?</h3>
+<p><strong>The workspace sprawl problem:</strong></p>
+<p>Most organizations accidentally create:<br />
+- One workspace per subscription (can't query across them)<br />
+- One workspace per environment (dev, test, prod all separated)<br />
+- One workspace per team (siloed data)</p>
+<p>Result: 10-30 workspaces, impossible to correlate data, operational nightmare.</p>
+<p><strong>Better approach:</strong></p>
+<p>Start with ONE Log Analytics workspace for your entire organization. Only create additional workspaces for genuine isolation needs:</p>
+<ul>
+<li>Regulatory requirements (PCI data must be isolated)</li>
+<li>Cost allocation by business unit for chargeback  </li>
+<li>Data residency requirements (EU data must stay in EU region)</li>
+<li>Security boundaries (HR data separate from general IT)</li>
+</ul>
+<p><strong>Resource Graph advantage:</strong></p>
+<p>Automatically queries across ALL subscriptions. No workspace sprawl problem.</p>
+<h2>Practical Tools and Workflows</h2>
+<h3>Tool 1: VSCode + Kusto Extension</h3>
+<p>Stop writing queries in the Azure Portal. Use VSCode.</p>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Install "Kusto" extension in VSCode</li>
+<li>Configure connections for each system:</li>
+<li>Resource Graph: <code>https://management.azure.com</code></li>
+<li>Log Analytics: Your workspace ID  </li>
+<li>Sentinel: Workspace ID with Sentinel connection</li>
+<li>App Insights: Your application ID</li>
+</ol>
+<p><strong>Workflow benefits:</strong></p>
+<ul>
+<li>Write queries once, save in Git for version control</li>
+<li>Syntax highlighting and IntelliSense for each system</li>
+<li>Export results to CSV/JSON  </li>
+<li>No switching between Portal tabs</li>
+<li>Share queries with team through Git repo</li>
+</ul>
+<p><strong>Example VSCode workspace structure:</strong></p>
+<div class="codehilite"><pre><span></span><code>/queries
+  /resource-graph
+    vm-inventory.kql
+    network-topology.kql
+    tag-compliance.kql
+  /log-analytics  
+    performance-troubleshooting.kql
+    audit-queries.kql
+    capacity-planning.kql
+  /sentinel
+    threat-hunting.kql
+    failed-logon-analysis.kql
+  /app-insights
+    api-performance.kql
+    exception-tracking.kql
+</code></pre></div>
+
+<h3>Tool 2: PowerShell Automation</h3>
+<p><strong>Resource Graph queries at scale:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Query across ALL subscriptions automatically</span>
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">Resources</span>
+<span class="sh">| where type == &#39;microsoft.compute/virtualmachines&#39;</span>
+<span class="sh">| extend vmSize = properties.hardwareProfile.vmSize</span>
+<span class="sh">| project name, resourceGroup, location, vmSize, subscriptionId</span>
+<span class="sh">&quot;@</span>
+
+<span class="nv">$results</span> <span class="p">=</span> <span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="nv">$query</span>
+
+<span class="c"># Export to CSV for reporting</span>
+<span class="nv">$results</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;vm-inventory.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+</code></pre></div>
+
+<p><strong>Log Analytics queries:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Query specific workspace</span>
+<span class="nv">$workspaceId</span> <span class="p">=</span> <span class="s2">&quot;your-workspace-id&quot;</span>
+
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">Perf</span>
+<span class="sh">| where TimeGenerated &gt; ago(1h)</span>
+<span class="sh">| where CounterName == &quot;% Processor Time&quot;</span>
+<span class="sh">| summarize AvgCPU = avg(CounterValue) by Computer</span>
+<span class="sh">| where AvgCPU &gt; 80</span>
+<span class="sh">&quot;@</span>
+
+<span class="nv">$results</span> <span class="p">=</span> <span class="nb">Invoke-AzOperationalInsightsQuery</span> <span class="n">-WorkspaceId</span> <span class="nv">$workspaceId</span> <span class="n">-Query</span> <span class="nv">$query</span>
+
+<span class="c"># Process results</span>
+<span class="nv">$results</span><span class="p">.</span><span class="n">Results</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+</code></pre></div>
+
+<p><strong>When to automate:</strong></p>
+<ul>
+<li>Daily inventory reports → Resource Graph + scheduled PowerShell</li>
+<li>Weekly cost allocation → Resource Graph + export to Excel</li>
+<li>Security compliance checks → Sentinel + automated alerts  </li>
+<li>Performance baselines → Log Analytics + trend analysis</li>
+</ul>
+<h3>Tool 3: Azure Resource Graph Explorer</h3>
+<p><strong>When to use the Portal:</strong></p>
+<ul>
+<li>Quick inventory checks during incident response</li>
+<li>Ad-hoc queries (one-time questions)</li>
+<li>Learning KQL on a free system before paying for Log Analytics</li>
+</ul>
+<p><strong>When NOT to use the Portal:</strong></p>
+<ul>
+<li>Production reporting (no version control, no repeatability)</li>
+<li>Scheduled queries (use PowerShell instead)  </li>
+<li>Complex queries with 50+ lines (use VSCode for better editing)</li>
+</ul>
+<h2>The Cost Optimization Play</h2>
+<p>Let's fix the damage.</p>
+<h3>Audit: What Are You Paying For?</h3>
+<p><strong>Run this Resource Graph query to find all your Log Analytics workspaces:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.operationalinsights/workspaces&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">dailyQuotaGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">dailyQuotaGb</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">retentionDays</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">retentionInDays</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">sku</span><span class="err">.</span><span class="n">name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">dailyQuotaGB</span><span class="p">,</span><span class="w"> </span><span class="n">retentionDays</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p><strong>Questions to ask:</strong></p>
+<ol>
+<li>How many workspaces do we have? (Should be 1-3, not 10+)</li>
+<li>What's our total daily ingestion? (Should match actual needs, not uncapped)</li>
+<li>What's our retention policy? (90 days default, but do you need it?)</li>
+<li>Are we ingesting data we never query? (Check query patterns in Portal)</li>
+</ol>
+<p><strong>Check your Log Analytics costs:</strong></p>
+<p>Go to Azure Portal → Cost Management → Cost Analysis<br />
+Filter by Service: Log Analytics<br />
+Group by Resource<br />
+Sort by cost descending</p>
+<p>Now you know what's expensive.</p>
+<h3>Migration: Move Queries to the Right System</h3>
+<p><strong>Step 1: Identify inventory queries in Log Analytics</strong></p>
+<p>Look for queries that don't filter by <code>TimeGenerated</code>. These are probably inventory queries that should be in Resource Graph.</p>
+<div class="codehilite"><pre><span></span><code><span class="c">// This is in the WRONG system (Log Analytics)</span>
+<span class="n">Heartbeat</span>
+<span class="p">|</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">OSType</span><span class="p">,</span><span class="w"> </span><span class="n">ComputerIP</span><span class="p">,</span><span class="w"> </span><span class="n">SubscriptionId</span>
+</code></pre></div>
+
+<p><strong>Step 2: Rewrite for Resource Graph</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c">// This is in the RIGHT system (Resource Graph - free!)</span>
+<span class="n">Resources</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">vmId</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">osType</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">asc</span>
+</code></pre></div>
+
+<p><strong>Savings:</strong></p>
+<ul>
+<li>Eliminate Log Analytics ingestion for VM inventory data</li>
+<li>Reduce to free Resource Graph queries</li>
+<li>Faster results (sub-second vs 30+ seconds)</li>
+<li>Spans all subscriptions automatically</li>
+</ul>
+<p><strong>Common candidates for migration:</strong></p>
+<ul>
+<li>VM inventory queries</li>
+<li>Network topology queries (VNets, subnets, NSGs)</li>
+<li>Resource tagging reports</li>
+<li>Cost allocation queries (resources by subscription/resource group)</li>
+<li>Compliance checks (encryption enabled? public IPs exposed?)</li>
+</ul>
+<h3>Retention Tuning: Stop Paying for Old Data</h3>
+<p><strong>Default retention: 90 days</strong></p>
+<p>What most organizations actually need:</p>
+<ul>
+<li>Performance data: 30 days (troubleshoot recent issues)</li>
+<li>Security logs: 90-365 days (compliance requirements)  </li>
+<li>Application logs: 30 days (debug recent releases)</li>
+<li>Audit logs: 365+ days (regulatory requirements)</li>
+</ul>
+<p><strong>How to tune retention per table:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Set 30-day retention for Perf table</span>
+<span class="nb">Set-AzOperationalInsightsTable</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;your-rg&quot;</span> <span class="p">`</span>
+    <span class="n">-WorkspaceName</span> <span class="s2">&quot;your-workspace&quot;</span> <span class="p">`</span>
+    <span class="n">-TableName</span> <span class="s2">&quot;Perf&quot;</span> <span class="p">`</span>
+    <span class="n">-RetentionInDays</span> <span class="n">30</span>
+
+<span class="c"># Set 365-day retention for security audit logs</span>
+<span class="nb">Set-AzOperationalInsightsTable</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;your-rg&quot;</span> <span class="p">`</span>
+    <span class="n">-WorkspaceName</span> <span class="s2">&quot;your-workspace&quot;</span> <span class="p">`</span>
+    <span class="n">-TableName</span> <span class="s2">&quot;AzureActivity&quot;</span> <span class="p">`</span>
+    <span class="n">-RetentionInDays</span> <span class="n">365</span>
+</code></pre></div>
+
+<p><strong>Archive strategy:</strong></p>
+<p>For compliance data that must be kept for years but is rarely queried:</p>
+<ol>
+<li>Keep 30-90 days in Log Analytics (fast queries)</li>
+<li>Archive older data to Azure Data Explorer or blob storage (cheap storage, slower queries)</li>
+<li>Query archived data only when needed for audits/investigations</li>
+</ol>
+<h2>Your Action Plan (Start Monday)</h2>
+<h3>Week 1: Audit Current State</h3>
+<p><strong>Monday morning checklist:</strong></p>
+<ol>
+<li>Run the Resource Graph query above to count your workspaces</li>
+<li>Check daily ingestion rates in Azure Portal → Monitor → Log Analytics</li>
+<li>Review your top 10 most-queried tables (Usage and Estimated Costs blade)</li>
+<li>Identify inventory queries (candidates for Resource Graph migration)</li>
+</ol>
+<p><strong>Deliverable:</strong></p>
+<p>Create a spreadsheet with:</p>
+<table>
+<thead>
+<tr>
+<th>Workspace Name</th>
+<th>Daily Ingestion (GB)</th>
+<th>Retention (Days)</th>
+<th>Monthly Cost</th>
+<th>Migration Candidates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prod-workspace</td>
+<td>50 GB</td>
+<td>90</td>
+<td>$3,450</td>
+<td>VM inventory, tag reports</td>
+</tr>
+<tr>
+<td>dev-workspace</td>
+<td>10 GB</td>
+<td>90</td>
+<td>$690</td>
+<td>Network topology</td>
+</tr>
+</tbody>
+</table>
+<h3>Week 2: Start Migration</h3>
+<p><strong>Priority 1: Move inventory queries to Resource Graph</strong></p>
+<p>Migrate these first:<br />
+- VM inventory<br />
+- Tag compliance reports<br />
+- Network topology queries<br />
+- Cost allocation foundations</p>
+<p><strong>Process:</strong></p>
+<ol>
+<li>Copy existing Log Analytics query</li>
+<li>Rewrite for Resource Graph schema (Resources table)</li>
+<li>Test in Resource Graph Explorer</li>
+<li>Save in Git repo (VSCode workspace)  </li>
+<li>Update documentation and dashboards</li>
+</ol>
+<p><strong>Expected outcome:</strong></p>
+<ul>
+<li>10-20% reduction in Log Analytics ingestion</li>
+<li>Faster query performance (instant vs 30 seconds)</li>
+<li>Single pane across all subscriptions</li>
+</ul>
+<h3>Week 3: Consolidate Workspaces (If Needed)</h3>
+<p><strong>Only do this if you have 5+ workspaces with no regulatory justification</strong></p>
+<p><strong>Process:</strong></p>
+<ol>
+<li>Document current workspace usage (what data, who queries it)</li>
+<li>Identify genuine isolation requirements (regulatory, security, residency)</li>
+<li>Plan consolidation target: 1-3 workspaces maximum  </li>
+<li>Migrate agents and diagnostic settings to new workspace</li>
+<li>Update queries and dashboards with new workspace IDs</li>
+<li>Decommission old workspaces after validation period</li>
+</ol>
+<p><strong>Warning:</strong></p>
+<p>Workspace consolidation is disruptive. Only do this if sprawl is causing real problems: can't correlate data, excessive costs, operational complexity.</p>
+<h3>Week 4: Set Up Proper Tooling</h3>
+<p><strong>VSCode workspace for queries:</strong></p>
+<ol>
+<li>Install Kusto extension in VSCode</li>
+<li>Create folder structure (resource-graph/, log-analytics/, sentinel/, etc.)</li>
+<li>Migrate your top 10 queries from Portal to VSCode  </li>
+<li>Commit to Git repo (queries now version controlled)</li>
+<li>Share with team</li>
+</ol>
+<p><strong>PowerShell automation:</strong></p>
+<ol>
+<li>Automate daily VM inventory report using Resource Graph</li>
+<li>Schedule weekly cost allocation exports</li>
+<li>Create alert for unexpected Log Analytics ingestion spikes  </li>
+<li>Document automation in team wiki</li>
+</ol>
+<h2>The Three Rules to Never Forget</h2>
+<h3>Rule 1: If It Exists Right Now, Use Resource Graph</h3>
+<p>Not Log Analytics.</p>
+<p>Resource Graph is free, fast, and automatically spans all subscriptions.</p>
+<p><strong>Exceptions:</strong></p>
+<ul>
+<li>You need historical data (what existed 3 days ago)</li>
+<li>You need performance metrics (Log Analytics has Perf table)</li>
+</ul>
+<h3>Rule 2: Every GB Ingested Into Log Analytics Costs You</h3>
+<p>Don't ingest data "just in case."</p>
+<p><strong>Before enabling a new data source, ask:</strong></p>
+<ol>
+<li>What questions will this answer?</li>
+<li>How often will we query it?  </li>
+<li>Can we answer this with Resource Graph instead?</li>
+<li>What's the retention requirement?</li>
+</ol>
+<p>If you don't have answers, don't enable it.</p>
+<h3>Rule 3: One Workspace Per Organization Unless You Have a Damn Good Reason</h3>
+<p>Workspace sprawl is the enemy of correlation.</p>
+<p><strong>Valid reasons for multiple workspaces:</strong></p>
+<ul>
+<li>✅ Regulatory isolation (PCI, HIPAA requirements)</li>
+<li>✅ Data residency (EU data must stay in EU region)  </li>
+<li>✅ Cost allocation with formal chargeback model</li>
+<li>✅ Security boundaries (HR data separate from IT operations)</li>
+</ul>
+<p><strong>Invalid reasons:</strong></p>
+<ul>
+<li>❌ "One workspace per subscription" (Resource Graph spans subscriptions)</li>
+<li>❌ "One workspace per team" (use RBAC instead)  </li>
+<li>❌ "One workspace per environment" (use tags to separate dev/prod data)</li>
+</ul>
+<h2>Conclusion: The Guide Microsoft Didn't Give You</h2>
+<p>Five systems. Same language. Completely different purposes.</p>
+<p>You learned KQL syntax. Nobody explained there were five different places to use it.</p>
+<p>Now you know:</p>
+<ul>
+<li>Which system to use when (decision framework)</li>
+<li>How to stop wasting money (cost optimization)  </li>
+<li>Where to write your queries (VSCode, not Portal)</li>
+<li>How to avoid workspace sprawl (one workspace unless you can't)</li>
+</ul>
+<p><strong>The next time someone says "Just learn KQL":</strong></p>
+<p>Ask them: "Which KQL system? Because there are five."</p>
+<p>Then send them this article.</p>
+<h2>Quick Reference Table</h2>
+<table>
+<thead>
+<tr>
+<th>Question Type</th>
+<th>System</th>
+<th>Cost</th>
+<th>Speed</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What exists right now?</td>
+<td>Resource Graph</td>
+<td>Free</td>
+<td>Sub-second</td>
+<td>All subscriptions</td>
+</tr>
+<tr>
+<td>What happened last week?</td>
+<td>Log Analytics</td>
+<td>$2.30/GB</td>
+<td>5-30 seconds</td>
+<td>Per workspace</td>
+</tr>
+<tr>
+<td>Security incident?</td>
+<td>Sentinel</td>
+<td>LA + $2/GB</td>
+<td>10-60 seconds</td>
+<td>Per workspace</td>
+</tr>
+<tr>
+<td>App performance?</td>
+<td>App Insights</td>
+<td>$2.30/GB</td>
+<td>5-30 seconds</td>
+<td>Per app</td>
+</tr>
+<tr>
+<td>Endpoint threat?</td>
+<td>Defender</td>
+<td>Included</td>
+<td>5-30 seconds</td>
+<td>Per tenant</td>
+</tr>
+</tbody>
+</table>
+<h2>Further Reading</h2>
+<p><strong>Official Microsoft Documentation:</strong><br />
+- Azure Resource Graph documentation (finally, the thing you should have learned first)<br />
+- Log Analytics retention and costs (prepare for sticker shock)<br />
+- Sentinel pricing calculator (spoiler: it's expensive)</p>
+<p><strong>Tools:</strong><br />
+- VSCode Kusto extension (where you should actually write queries)<br />
+- Azure Resource Graph sample queries on GitHub (working examples)</p>
+<p><strong>Community Resources:</strong><br />
+- KQL cheat sheet (syntax reference)<br />
+- Resource Graph query examples (real-world patterns)</p>
+<hr />
+<p><em>This post is part of the Azure Noob series. If this helped you avoid the $10k mistake, consider sharing it with your team.</em></p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <aside class="email-capture" style="max-width: 800px; margin: 4rem auto; padding: 3rem; background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); border-radius: 12px; text-align: center; color: white;">
+    <h3 style="margin-top: 0; color: white; font-size: 1.75rem;">Get Azure operational guides in your inbox</h3>
+    <p style="margin: 1rem 0 2rem; font-size: 1.1rem; color: white;">Weekly tips from managing 44 Azure subscriptions. No marketing BS.</p>
+    
+    <form action="https://app.kit.com/forms/8896829/subscriptions" method="post" style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+      <input type="email" 
+             name="email_address" 
+             placeholder="your@email.com" 
+             required 
+             style="flex: 1; min-width: 250px; padding: 0.875rem 1rem; border: none; border-radius: 8px; font-size: 1rem; color: #333;">
+      <button type="submit" 
+              style="padding: 0.875rem 2rem; background: white; color: #0078d4; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem; transition: all 0.2s;">
+        Subscribe
+      </button>
+    </form>
+    
+    <p style="margin: 1.5rem 0 0; font-size: 0.9rem; opacity: 0.9; color: white;">
+      Join 500+ Azure admins. Unsubscribe anytime.
+    </p>
+  </aside>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/kql-cheat-sheet-complete/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">KQL Cheat Sheet for Azure Migration Discovery: 48 Production-Tested Queries</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-01-15</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/kql-cheat-sheet-FREE/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">KQL Cheat Sheet: Getting Started with Azure Resource Graph</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-01-15</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/pull-meta-from-arm/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">I&#39;ll Pull The Meta From ARM - What 6 Months of KQL Actually Looks Like</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-10</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: KQL Query Library -->
+<div class="cta-block" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">📊 Stop Rewriting the Same KQL Queries</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+    Get <strong>45+ production-ready KQL queries</strong> for Azure Resource Graph, Log Analytics, and Activity Logs.
+    Copy-paste ready with comments and business context.
+  </p>
+  <a href="/static/downloads/KQL-Query-Library-Complete.pdf" 
+     download
+     style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #f5576c; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    Download Complete Query Library
+  </a>
+  <p style="margin: 1rem 0 0; font-size: 0.9rem; opacity: 0.9;">
+    PDF format • No email required • Instant download
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/azure-ai-30-day-test/">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>I Spent 30 Days Testing Azure AI in a Regulated Environment. Here&#39;s What Actually Works.</strong>
+      </a>
+    
+    
+      <a href="/blog/azure-support-ticket-reality/" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>What Happens When You Open an Azure Support Ticket: Inside the Enterprise Support Model</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+
+  <!-- Exit-Intent Popup -->
+  <div id="exit-popup" class="exit-popup" style="display: none;">
+    <div class="exit-popup-content">
+      <button class="exit-popup-close" onclick="closeExitPopup()">&times;</button>
+      <h2>Wait! Before You Go...</h2>
+      <p class="exit-popup-subtitle">Get the <strong>FREE Azure Admin Starter Kit</strong></p>
+      <ul class="exit-popup-benefits">
+        <li>✓ 15 Essential KQL Queries</li>
+        <li>✓ 50 Windows Commands</li>
+        <li>✓ 50 Linux Commands</li>
+      </ul>
+      <form id="exit-popup-form" class="exit-popup-form">
+        <input type="email" id="popup-email" placeholder="Enter your email" required>
+        <button type="submit" class="exit-popup-submit">Send Me The Free Kit</button>
+      </form>
+      <p class="exit-popup-privacy">We'll also notify you about new tools & guides. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <style>
+  .exit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exit-popup-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .exit-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+  }
+
+  .exit-popup-close:hover {
+    color: #333;
+  }
+
+  .exit-popup h2 {
+    margin: 0 0 0.5rem 0;
+    color: #0078d4;
+    font-size: 2rem;
+  }
+
+  .exit-popup-subtitle {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .exit-popup-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-benefits li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .exit-popup-form {
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-form input[type="email"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .exit-popup-form input[type="email"]:focus {
+    outline: none;
+    border-color: #0078d4;
+  }
+
+  .exit-popup-submit {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .exit-popup-submit:hover {
+    background: #005a9e;
+  }
+
+  .exit-popup-privacy {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  </style>
+
+  <script>
+  // Exit-intent detection
+  let exitPopupShown = false;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    // If mouse leaves through top of viewport and popup hasn't been shown
+    if (!exitPopupShown && e.clientY <= 0 && mouseY <= 100) {
+      // Check if user has seen it before (session storage)
+      if (!sessionStorage.getItem('exitPopupSeen')) {
+        showExitPopup();
+      }
+    }
+  });
+
+  function showExitPopup() {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+    sessionStorage.setItem('exitPopupSeen', 'true');
+  }
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
+
+  // Handle form submission
+  document.getElementById('exit-popup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('popup-email').value;
+    
+    // Send to Kit (ConvertKit)
+    try {
+      const FORM_ID = '8896829'; // Your Kit Form ID
+      
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Email captured to Kit:', email);
+      }
+      
+      closeExitPopup();
+      
+      // Track in Google Analytics
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'signup', {
+          'event_category': 'email',
+          'event_label': 'exit_popup',
+          'value': email
+        });
+      }
+      
+      // Redirect to starter kit page
+      window.location.href = '/blog/starter-kit/';
+      
+    } catch (error) {
+      console.error('Error:', error);
+      // Still redirect even if tracking fails
+      window.location.href = '/blog/starter-kit/';
+    }
+  });
+
+  // Close on background click
+  document.getElementById('exit-popup').addEventListener('click', (e) => {
+    if (e.target.id === 'exit-popup') {
+      closeExitPopup();
+    }
+  });
+  </script>
+</body>
+</html>

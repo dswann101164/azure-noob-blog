@@ -54,6 +54,10 @@ def start_here():
     yield {}
 
 @freezer.register_generator
+def products():
+    yield {}
+
+@freezer.register_generator
 def search():
     yield {}
 
@@ -128,6 +132,7 @@ def write_sitemap():
         {"loc": f"{base}/tags/", "changefreq": "monthly", "priority": "0.8"},
         {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base}/start-here/", "changefreq": "monthly", "priority": "0.7"},
+        {"loc": f"{base}/products/", "changefreq": "weekly", "priority": "0.9"},
         {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
     ]
 

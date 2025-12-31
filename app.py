@@ -49,6 +49,10 @@ def handle_trailing_slashes_and_redirects():
     if path == '/':
         return None
     
+    # Don't add trailing slashes to file-like endpoints (xml, json, txt, etc.)
+    if any(path.endswith(ext) for ext in ['.xml', '.json', '.txt', '.rss', '.atom']):
+        return None
+    
     # Redirect /index.html URLs to clean URLs with trailing slash
     if path.endswith('/index.html'):
         clean_path = path.replace('/index.html', '/')
@@ -271,7 +275,7 @@ def blog_index():
                          page_title='70+ Azure Production Battle Stories: Real Enterprise Problems Microsoft Won\'t Document',
                          meta_description='114+ Azure guides from managing 31,000+ resources across 44 subscriptions: Cost allocation templates, KQL queries for inventory, governance policies teams follow, Arc ghost cleanup scripts, OpenAI pricing breakdowns. Production-tested solutions updated 2x/week.')
 
-@app.route('/blog/<slug>')
+@app.route('/blog/<slug>/')
 def blog_post(slug):
     posts = load_posts()
     post = next((p for p in posts if p['slug'] == slug), None)
@@ -377,7 +381,7 @@ def tags_index():
                          page_title='Tags - Azure Noob',
                          meta_description='Browse Azure tutorials by tag.')
 
-@app.route('/tags/<tag>')
+@app.route('/tags/<tag>/')
 def tag_posts(tag):
     posts = load_posts()
     tagged_posts = [p for p in posts if tag in p['tags']]
@@ -394,7 +398,7 @@ def tag_posts(tag):
                          page_title=f'{tag} - Azure Noob',
                          meta_description=f'Azure tutorials and guides about {tag}.')
 
-@app.route('/search')
+@app.route('/search/')
 def search():
     return render_template('search.html',
                          canonical_url=get_canonical_url(),
@@ -423,21 +427,21 @@ def search_json():
     response.headers['X-Robots-Tag'] = 'noindex'
     return response
 
-@app.route('/about')
+@app.route('/about/')
 def about():
     return render_template('about.html',
                          canonical_url=get_canonical_url(),
                          page_title='About - Azure Noob',
                          meta_description='About Azure Noob and David Swann.')
 
-@app.route('/start-here')
+@app.route('/start-here/')
 def start_here():
     return render_template('start_here.html',
                          canonical_url=get_canonical_url(),
                          page_title='Start Here - Azure Noob',
                          meta_description='New to Azure Noob? Start here for the best Azure tutorials.')
 
-@app.route('/products')
+@app.route('/products/')
 def products():
     return render_template('products.html',
                          canonical_url=get_canonical_url(),
@@ -454,7 +458,7 @@ def hubs_index():
                          page_title='Content Hubs - Azure Noob',
                          meta_description='Curated Azure learning paths and content hubs.')
 
-@app.route('/hub/<slug>')
+@app.route('/hub/<slug>/')
 def hub_page(slug):
     """Display a specific content hub."""
     hub_config = get_hub_config(slug)

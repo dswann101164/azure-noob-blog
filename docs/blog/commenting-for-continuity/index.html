@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  
+  
+
+  <!-- Primary SEO -->
+  <title>Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose) · Azure Noob</title>
+  <meta name="description" content="Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.">
+  
+  <link rel="canonical" href="https://azure-noob.com/blog/commenting-for-continuity/" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/static/images/logo.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)">
+  <meta property="og:description" content="Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://azure-noob.com/blog/commenting-for-continuity/">
+  <meta property="og:image" content="https://azure-noob.com/static/images/hero/code-architecture.svg">
+
+  
+    <meta property="article:published_time" content="2025-10-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-27T00:00:00+00:00">
+    <meta property="article:author" content="David Swann">
+    
+      
+        <meta property="article:tag" content="azure">
+      
+        <meta property="article:tag" content="devops">
+      
+        <meta property="article:tag" content="kql">
+      
+        <meta property="article:tag" content="powershell">
+      
+        <meta property="article:tag" content="Terraform">
+      
+        <meta property="article:tag" content="governance">
+      
+    
+  
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)">
+  <meta name="twitter:description" content="Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.">
+  <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/code-architecture.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/styles.css">
+
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZNHGEB0BNZ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <div class="brand-block">
+        <a href="/" class="brand-link">
+          <img src="/static/images/logo.png" alt="Azure Noob logo" class="logo">
+        </a>
+        <span class="brand-text">
+          <small>Official Website of</small>
+          <strong>Azure Noob</strong>
+        </span>
+      </div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/hubs/" style="font-weight: 700;">Content Hubs</a>
+        <a href="/products/" style="font-weight: 700; color: #ff6b6b;">Products</a>
+        <a href="/start-here/">Start Here</a>
+        <a href="/blog/starter-kit/">Starter Kit</a>
+        <a href="/about/">About</a>
+        <a href="/tags/">Tags</a>
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+        <a href="/search/">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="wrap">
+      
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)",
+  "description": "Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://azure-noob.com/static/images/hero/code-architecture.svg",
+    "width": 1200,
+    "height": 630
+  },
+  "author": {
+    "@type": "Person",
+    "name": "David Swann",
+    "url": "https://azure-noob.com/about/",
+    "description": "Azure Architect specializing in enterprise cloud infrastructure",
+    "jobTitle": "Azure Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Synovus"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://azure-noob.com/static/images/logo.png"
+    }
+  },
+  "datePublished": "2025-10-27T00:00:00+00:00",
+  "dateModified": "2025-10-27T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://azure-noob.com/blog/commenting-for-continuity/"
+  },
+  "keywords": "azure, devops, kql, powershell, Terraform, governance",
+  "articleSection": "azure",
+  "wordCount": "1486",
+  "timeRequired": "PT7M",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": "True",
+  "about": {
+    "@type": "Thing",
+    "name": "azure"
+  }
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://azure-noob.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://azure-noob.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)",
+      "item": "https://azure-noob.com/blog/commenting-for-continuity/"
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+
+<article class="post">
+
+  
+  
+    
+    <div class="hero">
+      <img src="/static/images/hero/code-architecture.svg" alt="Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)" loading="eager">
+    </div>
+  
+
+  <header class="post-header">
+    <h1>Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)</h1>
+    <p class="muted">
+      2025-10-27 · ~7 min read
+      
+    </p>
+    
+    
+    <ul class="tags-list">
+      
+      <li><a href="/tags/azure/" class="tag-badge">azure</a></li>
+      
+      <li><a href="/tags/devops/" class="tag-badge">devops</a></li>
+      
+      <li><a href="/tags/kql/" class="tag-badge">kql</a></li>
+      
+      <li><a href="/tags/powershell/" class="tag-badge">powershell</a></li>
+      
+      <li><a href="/tags/Terraform/" class="tag-badge">Terraform</a></li>
+      
+      <li><a href="/tags/governance/" class="tag-badge">governance</a></li>
+      
+    </ul>
+    
+    
+    
+      <p class="summary">Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.</p>
+    
+  </header>
+
+  
+  <p class="post-actions" style="margin:.5rem 0 0; text-align: center;">
+    <button class="btn"
+            onclick="window.print(); return false;"
+            title="Print this page"
+            aria-label="Print this page"
+            style="cursor: pointer; background: none; border: 2px solid var(--azure-blue);">
+      🖨️ Print this page
+    </button>
+  </p>
+
+  
+  <div class="post-body">
+    <h2>TL;DR</h2>
+<p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
+<p>Typical "best practices" stop at readability. My commenting style is built for <strong>continuity</strong>—so an Azure admin, auditor, or on-call responder can reconstruct intent, verify outcomes, and roll back safely without tribal knowledge.</p>
+<hr />
+<h2>The Problem with "Good Comments"</h2>
+<p>Every coding guide tells you the same thing:</p>
+<ol>
+<li><strong>Comment the why, not the what</strong></li>
+<li><strong>Avoid duplicating code</strong></li>
+<li><strong>Keep it short</strong></li>
+</ol>
+<p>All true—<strong>but insufficient for cloud operations.</strong></p>
+<p>In Azure, your comments must serve:<br />
+- <strong>Change Advisory Board (CAB)</strong> reviews<br />
+- <strong>Audit responses</strong> (SOC 2, PCI, HIPAA)<br />
+- <strong>Incident recovery</strong> (at 2 AM when the author is unreachable)<br />
+- <strong>Knowledge transfer</strong> (when you're the only one who knows how this works)</p>
+<p>If a CAB member asks:<br />
+- "What changed?"<br />
+- "Why now?"<br />
+- "How do we verify success?"<br />
+- "How do we roll back?"</p>
+<p>...your "why" comments won't cut it.</p>
+<hr />
+<h2>My Model: Comments as Operational Memory</h2>
+<p>I use a <strong>universal, lightweight schema</strong> that works in PowerShell, KQL, Terraform, Bash, Python—any language.</p>
+<div class="codehilite"><pre><span></span><code>TITLE | PURPOSE | CONTEXT | ASSUMPTIONS | INPUTS | OUTPUTS
+RISKS &amp; LIMITS | VERIFICATION | ROLLBACK | RUNBOOK/LINKS
+OWNER | LAST UPDATED | CHANGELOG
+</code></pre></div>
+
+<p>These fields map <strong>1:1 to what change boards, incident reviews, and future teammates need.</strong></p>
+<p>Not every script needs all fields. But the schema is consistent, so anyone reading your code knows what to look for.</p>
+<hr />
+<h2>Side-by-Side: Common Advice vs Continuity Model</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Typical Comment</th>
+<th>Continuity Model (Mine)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PowerShell inventory script</strong></td>
+<td>"Gets subscriptions and exports CSV."</td>
+<td><strong>PURPOSE:</strong> Tenant-wide inventory for audit.<br><strong>ASSUMPTIONS:</strong> Reader on all subs.<br><strong>RISKS:</strong> Throttling; retries 3x.<br><strong>VERIFICATION:</strong> Expect N rows ≈ ARG count.<br><strong>ROLLBACK:</strong> N/A (read-only).</td>
+</tr>
+<tr>
+<td><strong>KQL detection query</strong></td>
+<td>"Finds old agents."</td>
+<td><strong>PURPOSE:</strong> Identify VMs on MMA for migration.<br><strong>LIMITS:</strong> Arc reports differ.<br><strong>VERIFICATION:</strong> Spot-check in Portal → VM → Extensions.<br><strong>RUNBOOK:</strong> ADR-015.</td>
+</tr>
+<tr>
+<td><strong>Terraform hub VNet</strong></td>
+<td>"Creates hub network."</td>
+<td><strong>CONTEXT:</strong> CAF landing zone; peered spokes.<br><strong>RISKS:</strong> CIDR change forces replacement.<br><strong>ROLLBACK:</strong> <code>terraform apply</code> previous planfile.<br><strong>OWNER/LAST UPDATED</strong> included.</td>
+</tr>
+</tbody>
+</table>
+<p>The difference: <strong>The continuity model answers questions before they're asked.</strong></p>
+<hr />
+<h2>Concrete Examples</h2>
+<h3>PowerShell (Advanced Function Header)</h3>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;#</span>
+<span class="cm">TITLE: Resource Deletions (Last 90d)</span>
+<span class="cm">PURPOSE: SOC 2 quarterly audit – who deleted what/when</span>
+<span class="cm">CONTEXT: Activity Log via Log Analytics (control plane only)</span>
+<span class="cm">ASSUMPTIONS: ≥90d retention; Reader on target subscriptions</span>
+<span class="cm">INPUTS: $LookbackDays = 90</span>
+<span class="cm">OUTPUTS: CSV with TimeGenerated, Caller, ResourceId</span>
+<span class="cm">RISKS &amp; LIMITS: </span>
+<span class="cm">  - Soft deletes not visible (e.g., Key Vault)</span>
+<span class="cm">  - Guest UPNs appear as UUIDs</span>
+<span class="cm">VERIFICATION: </span>
+<span class="cm">  - Pivot CorrelationId in Portal → Activity log to confirm operation</span>
+<span class="cm">ROLLBACK: N/A (read-only query)</span>
+<span class="cm">RUNBOOK/LINKS: RBK-DEL-001, ADR-004</span>
+<span class="cm">OWNER: David Swann</span>
+<span class="cm">LAST UPDATED: 2025-10-27</span>
+<span class="cm">CHANGELOG:</span>
+<span class="cm">  - 2025-10-27: Initial implementation</span>
+<span class="cm">#&gt;</span>
+
+<span class="k">function</span> <span class="nb">Get-AzureResourceDeletions</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span>
+        <span class="no">[int]</span><span class="nv">$LookbackDays</span> <span class="p">=</span> <span class="n">90</span>
+    <span class="p">)</span>
+
+    <span class="c"># Query implementation here...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this gives you:</strong><br />
+- <strong>Auditor asks:</strong> "How far back does this go?" → <strong>ASSUMPTIONS</strong><br />
+- <strong>Manager asks:</strong> "What if something breaks?" → <strong>RISKS &amp; LIMITS</strong><br />
+- <strong>On-call asks:</strong> "How do I verify this worked?" → <strong>VERIFICATION</strong></p>
+<h3>KQL (Inline, Concise)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">// TITLE: Agent Migration Readiness</span>
+<span class="c">// PURPOSE: Identify VMs still on MMA (14d grace period ending)</span>
+<span class="c">// LIMITS: Arc-enabled VMs may report differently</span>
+<span class="c">// VERIFY: Portal → VM → Extensions should show AMA (not MMA)</span>
+
+<span class="n">Heartbeat</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">lastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">AgentVersion</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">lastSeen</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">14</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AgentVersion</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">&quot;MMA&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">AgentVersion</span><span class="p">,</span><span class="w"> </span><span class="n">DaysSinceLastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">lastSeen</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DaysSinceLastSeen</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+
+<p><strong>What this gives you:</strong><br />
+- <strong>Teammate asks:</strong> "What's this query for?" → <strong>PURPOSE</strong><br />
+- <strong>You ask yourself 3 months later:</strong> "Why 14 days?" → <strong>PURPOSE</strong> (grace period)<br />
+- <strong>Verification fails:</strong> → <strong>VERIFY</strong> tells you where to spot-check</p>
+<h3>Terraform (Module Doc Block)</h3>
+<div class="codehilite"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">TITLE: Hub VNet Module</span>
+<span class="cm">PURPOSE: Standard hub with shared services + routing to on-prem</span>
+<span class="cm">CONTEXT: Aligns with CAF landing zone architecture; peered to spokes</span>
+<span class="cm">ASSUMPTIONS:</span>
+<span class="cm">  - azurerm provider &gt;= 4.36</span>
+<span class="cm">  - Remote state configured (state.tf)</span>
+<span class="cm">  - Address space doesn&#39;t conflict with existing VNets</span>
+<span class="cm">OUTPUTS: vnet_id, subnet_ids</span>
+<span class="cm">RISKS &amp; LIMITS:</span>
+<span class="cm">  - CIDR changes force VNet replacement (destructive)</span>
+<span class="cm">  - NSG rules managed separately (not in module)</span>
+<span class="cm">VERIFICATION:</span>
+<span class="cm">  - `terraform plan` should be stable with no input changes</span>
+<span class="cm">  - Test connectivity from spoke VM to hub firewall</span>
+<span class="cm">ROLLBACK:</span>
+<span class="cm">  - Apply previous planfile: `terraform apply tfplan-[timestamp]`</span>
+<span class="cm">  - Or checkout previous Git tag: `git checkout v1.2.0`</span>
+<span class="cm">OWNER: D. Swann</span>
+<span class="cm">LAST UPDATED: 2025-10-27</span>
+<span class="cm">*/</span>
+
+<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;hub&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.vnet_name</span>
+<span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
+<span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
+<span class="w">  </span><span class="na">address_space</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.address_space</span>
+
+<span class="c1">  # Configuration...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>What this gives you:</strong><br />
+- <strong>CAB asks:</strong> "What happens if we change the CIDR?" → <strong>RISKS &amp; LIMITS</strong><br />
+- <strong>Incident responder asks:</strong> "How do we roll back?" → <strong>ROLLBACK</strong><br />
+- <strong>New team member asks:</strong> "Is this up to date?" → <strong>LAST UPDATED</strong></p>
+<hr />
+<h2>Why This Wins in Azure Operations</h2>
+<h3>1. Traceability</h3>
+<p><strong>Owner, date, and changelog</strong> reduce "who touched this?" hunts.</p>
+<p>Instead of:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># Fixed the query - DW</span>
+</code></pre></div>
+
+<p>You get:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"># LAST UPDATED: 2025-10-27</span>
+<span class="c"># CHANGELOG:</span>
+<span class="c">#   - 2025-10-27: Added retry logic for throttling (D. Swann)</span>
+<span class="c">#   - 2025-09-15: Initial version (J. Smith)</span>
+</code></pre></div>
+
+<h3>2. Audit-Ready</h3>
+<p><strong>Purpose/assumptions/verification</strong> map directly to CAB forms.</p>
+<p>Your script header becomes your change request documentation:<br />
+- <strong>Purpose</strong> → Business justification<br />
+- <strong>Risks &amp; Limits</strong> → Impact assessment<br />
+- <strong>Verification</strong> → Success criteria<br />
+- <strong>Rollback</strong> → Backout plan</p>
+<h3>3. Faster Handoffs</h3>
+<p>A responder can <strong>verify and roll back without paging the author.</strong></p>
+<p>At 2 AM, when a Terraform apply fails:<br />
+- <strong>VERIFICATION</strong> tells them what "success" looks like<br />
+- <strong>ROLLBACK</strong> gives them the exact command to undo<br />
+- <strong>RUNBOOK/LINKS</strong> points them to the full procedure</p>
+<h3>4. AI-Friendly</h3>
+<p><strong>Structured fields are parseable by copilots</strong> to build docs or PR notes.</p>
+<p>GitHub Copilot, ChatGPT, and other tools can extract:<br />
+- Purpose → README summary<br />
+- Inputs/Outputs → Parameter documentation<br />
+- Verification → Test cases</p>
+<hr />
+<h2>VS Code: Make It One Keystroke</h2>
+<p>Add a <strong>global snippet</strong> (<code>crumbs</code>) so every file gets the same header in seconds.</p>
+<p><strong>File:</strong> <code>%APPDATA%\Code\User\snippets\global.code-snippets</code></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Breadcrumb Header&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crumbs&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;TITLE: ${1:Short title}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;PURPOSE: ${2:What this does and why}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;CONTEXT:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${3:Key constraints/decisions}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;ASSUMPTIONS:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${4:Environment, versions, data}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;INPUTS:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${5:name=, example=}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;OUTPUTS:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${6:files/returns/side effects}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;RISKS &amp; LIMITS:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${7:Edge cases/gaps}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;VERIFICATION:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${8:Command or check to prove success}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;ROLLBACK:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${9:How to undo safely}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;RUNBOOK/LINKS:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${10:ADR-xxx / PR# / wiki}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;OWNER: ${11:Your Name}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;LAST UPDATED: ${12:YYYY-MM-DD}&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;CHANGELOG:&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;  - ${13:YYYY-MM-DD}: ${14:Initial} (${15:you})&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Usage:</strong><br />
+1. Open any file<br />
+2. Type <code>crumbs</code><br />
+3. Hit Tab<br />
+4. Fill in the fields</p>
+<p><strong>Result:</strong> Every script, query, and module gets consistent documentation in 30 seconds.</p>
+<hr />
+<h2>"But Won't This Be Too Verbose?"</h2>
+<p><strong>Only the header is verbose.</strong></p>
+<p>Inline comments stay tight with tags like:<br />
+- <code>NOTE:</code> → Clarification<br />
+- <code>WHY:</code> → Business reason<br />
+- <code>CAVEAT:</code> → Edge case<br />
+- <code>VERIFY:</code> → Spot</p>
+  </div>
+
+  
+  <section class="starter-kit-callout" style="
+    max-width: 800px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    text-align: left;
+  ">
+    <h3 style="margin-top: 0;">Azure Admin Starter Kit (Free Download)</h3>
+    <p style="margin-bottom: 1rem;">
+      Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.
+    </p>
+    <a href="/blog/starter-kit/" class="btn">Get the Starter Kit →</a>
+  </section>
+
+  
+  <aside class="email-capture" style="max-width: 800px; margin: 4rem auto; padding: 3rem; background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); border-radius: 12px; text-align: center; color: white;">
+    <h3 style="margin-top: 0; color: white; font-size: 1.75rem;">Get Azure operational guides in your inbox</h3>
+    <p style="margin: 1rem 0 2rem; font-size: 1.1rem; color: white;">Weekly tips from managing 44 Azure subscriptions. No marketing BS.</p>
+    
+    <form action="https://app.kit.com/forms/8896829/subscriptions" method="post" style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+      <input type="email" 
+             name="email_address" 
+             placeholder="your@email.com" 
+             required 
+             style="flex: 1; min-width: 250px; padding: 0.875rem 1rem; border: none; border-radius: 8px; font-size: 1rem; color: #333;">
+      <button type="submit" 
+              style="padding: 0.875rem 2rem; background: white; color: #0078d4; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem; transition: all 0.2s;">
+        Subscribe
+      </button>
+    </form>
+    
+    <p style="margin: 1.5rem 0 0; font-size: 0.9rem; opacity: 0.9; color: white;">
+      Join 500+ Azure admins. Unsubscribe anytime.
+    </p>
+  </aside>
+
+  
+  
+  <aside class="related-posts" style="max-width: 800px; margin: 3rem auto; padding: 2rem; background: var(--bg-light); border-radius: 12px;">
+    <h3 style="margin-top: 0;">Related Posts</h3>
+    <ul style="list-style: none; padding: 0;">
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/starter-kit/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure Admin Starter Kit (Free Download)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-12-10</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/azure-ai-foundry-terraform/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not Portal Clickops)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-24</span>
+        </a>
+      </li>
+      
+      <li style="margin: 1rem 0;">
+        <a href="/blog/terraform-remote-state-azure/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">From Chaos to Enterprise: How I Set Up Terraform Remote State in Azure (And Why You Need This Yesterday)</span>
+          <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-16</span>
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+  
+
+  
+  
+  
+    <!-- CTA: KQL Query Library -->
+<div class="cta-block" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 8px; margin: 3rem 0; text-align: center; color: white;">
+  <h3 style="margin: 0 0 1rem; font-size: 1.75rem; color: white;">📊 Stop Rewriting the Same KQL Queries</h3>
+  <p style="margin: 0 0 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+    Get <strong>45+ production-ready KQL queries</strong> for Azure Resource Graph, Log Analytics, and Activity Logs.
+    Copy-paste ready with comments and business context.
+  </p>
+  <a href="/static/downloads/KQL-Query-Library-Complete.pdf" 
+     download
+     style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #f5576c; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease;"
+     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.2)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+    Download Complete Query Library
+  </a>
+  <p style="margin: 1rem 0 0; font-size: 0.9rem; opacity: 0.9;">
+    PDF format • No email required • Instant download
+  </p>
+</div>
+  
+
+  
+  <nav class="post-nav">
+    
+      <a href="/blog/soc2-activity-log-step-by-step/">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
+        <strong>The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)</strong>
+      </a>
+    
+    
+      <a href="/blog/migrating-my-avd-win10-to-win11-512gb/" style="text-align: right;">
+        <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
+        <strong>I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space</strong>
+      </a>
+    
+  </nav>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2025 Azure Noob — Don&#39;t be a Noob</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">
+        "Trust in the Lord with all your heart, and lean not on your own understanding;<br>
+        in all your ways acknowledge Him, and He will make your paths straight" — Proverbs 3:5-6
+      </p>
+    </div>
+  </footer>
+
+  <!-- Copy code functionality -->
+  <script src="/static/copy-code.js"></script>
+
+  <!-- Exit-Intent Popup -->
+  <div id="exit-popup" class="exit-popup" style="display: none;">
+    <div class="exit-popup-content">
+      <button class="exit-popup-close" onclick="closeExitPopup()">&times;</button>
+      <h2>Wait! Before You Go...</h2>
+      <p class="exit-popup-subtitle">Get the <strong>FREE Azure Admin Starter Kit</strong></p>
+      <ul class="exit-popup-benefits">
+        <li>✓ 15 Essential KQL Queries</li>
+        <li>✓ 50 Windows Commands</li>
+        <li>✓ 50 Linux Commands</li>
+      </ul>
+      <form id="exit-popup-form" class="exit-popup-form">
+        <input type="email" id="popup-email" placeholder="Enter your email" required>
+        <button type="submit" class="exit-popup-submit">Send Me The Free Kit</button>
+      </form>
+      <p class="exit-popup-privacy">We'll also notify you about new tools & guides. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <style>
+  .exit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exit-popup-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .exit-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+  }
+
+  .exit-popup-close:hover {
+    color: #333;
+  }
+
+  .exit-popup h2 {
+    margin: 0 0 0.5rem 0;
+    color: #0078d4;
+    font-size: 2rem;
+  }
+
+  .exit-popup-subtitle {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .exit-popup-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-benefits li {
+    padding: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .exit-popup-form {
+    margin: 1.5rem 0;
+  }
+
+  .exit-popup-form input[type="email"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .exit-popup-form input[type="email"]:focus {
+    outline: none;
+    border-color: #0078d4;
+  }
+
+  .exit-popup-submit {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .exit-popup-submit:hover {
+    background: #005a9e;
+  }
+
+  .exit-popup-privacy {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  </style>
+
+  <script>
+  // Exit-intent detection
+  let exitPopupShown = false;
+  let mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    // If mouse leaves through top of viewport and popup hasn't been shown
+    if (!exitPopupShown && e.clientY <= 0 && mouseY <= 100) {
+      // Check if user has seen it before (session storage)
+      if (!sessionStorage.getItem('exitPopupSeen')) {
+        showExitPopup();
+      }
+    }
+  });
+
+  function showExitPopup() {
+    exitPopupShown = true;
+    document.getElementById('exit-popup').style.display = 'flex';
+    sessionStorage.setItem('exitPopupSeen', 'true');
+  }
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
+
+  // Handle form submission
+  document.getElementById('exit-popup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('popup-email').value;
+    
+    // Send to Kit (ConvertKit)
+    try {
+      const FORM_ID = '8896829'; // Your Kit Form ID
+      
+      const response = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      });
+      
+      if (response.ok) {
+        console.log('✅ Email captured to Kit:', email);
+      }
+      
+      closeExitPopup();
+      
+      // Track in Google Analytics
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'signup', {
+          'event_category': 'email',
+          'event_label': 'exit_popup',
+          'value': email
+        });
+      }
+      
+      // Redirect to starter kit page
+      window.location.href = '/blog/starter-kit/';
+      
+    } catch (error) {
+      console.error('Error:', error);
+      // Still redirect even if tracking fails
+      window.location.href = '/blog/starter-kit/';
+    }
+  });
+
+  // Close on background click
+  document.getElementById('exit-popup').addEventListener('click', (e) => {
+    if (e.target.id === 'exit-popup') {
+      closeExitPopup();
+    }
+  });
+  </script>
+</body>
+</html>
