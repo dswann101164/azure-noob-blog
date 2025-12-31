@@ -339,7 +339,7 @@ The pricing calculator? Doesn't mention this at all.
 </div>
 
 <div style="text-align: center; margin: 30px 0;">
-<a href="https://davidnoob.gumroad.com/l/ai-cost-pack?ref=pricing-post-calculator" style="display: inline-block; background: #ff6b35; color: white; padding: 20px 50px; border-radius: 8px; text-decoration: none; font-size: 1.3em; font-weight: bold; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4); transition: all 0.3s;">🔥 Get Query Pack - $19 (Launch Price)</a>
+<a href="https://davidnoob.gumroad.com/l/syvej?ref=pricing-post-calculator" style="display: inline-block; background: #ff6b35; color: white; padding: 20px 50px; border-radius: 8px; text-decoration: none; font-size: 1.3em; font-weight: bold; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4); transition: all 0.3s;">🔥 Get Query Pack - $19 (Launch Price)</a>
 </div>
 
 <div style="text-align: center; font-size: 0.95em; opacity: 0.9;">
