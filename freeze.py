@@ -119,34 +119,34 @@ def _fmt_lastmod(dt):
         return None
 
 def write_sitemap():
-    """Generate sitemap.xml with NO trailing slashes"""
+    """Generate sitemap.xml with trailing slashes to match GitHub Pages behavior"""
     base = BASE_URL
     urls = [
         {"loc": f"{base}/", "changefreq": "weekly", "priority": "1.0"},
-        {"loc": f"{base}/blog", "changefreq": "weekly", "priority": "0.9"},
-        {"loc": f"{base}/hubs", "changefreq": "weekly", "priority": "0.9"},
-        {"loc": f"{base}/tags", "changefreq": "monthly", "priority": "0.8"},
-        {"loc": f"{base}/about", "changefreq": "monthly", "priority": "0.5"},
-        {"loc": f"{base}/start-here", "changefreq": "monthly", "priority": "0.7"},
-        {"loc": f"{base}/search", "changefreq": "monthly", "priority": "0.3"},
+        {"loc": f"{base}/blog/", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base}/hubs/", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base}/tags/", "changefreq": "monthly", "priority": "0.8"},
+        {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base}/start-here/", "changefreq": "monthly", "priority": "0.7"},
+        {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
     ]
 
     posts = load_posts()
     tags = build_tags()
     hubs = get_all_hubs()
 
-    # Tag pages (NO trailing slashes)
+    # Tag pages (WITH trailing slashes)
     for t in tags.keys():
-        urls.append({"loc": f"{base}/tags/{t}", "changefreq": "monthly", "priority": "0.6"})
+        urls.append({"loc": f"{base}/tags/{t}/", "changefreq": "monthly", "priority": "0.6"})
     
-    # Hub pages (NO trailing slashes)
+    # Hub pages (WITH trailing slashes)
     for hub_slug in hubs.keys():
-        urls.append({"loc": f"{base}/hub/{hub_slug}", "changefreq": "weekly", "priority": "0.9"})
+        urls.append({"loc": f"{base}/hub/{hub_slug}/", "changefreq": "weekly", "priority": "0.9"})
 
-    # Blog posts (NO trailing slashes)
+    # Blog posts (WITH trailing slashes)
     for p in posts:
         urls.append({
-            "loc": f"{base}/blog/{p['slug']}",
+            "loc": f"{base}/blog/{p['slug']}/",
             "lastmod": _fmt_lastmod(p.get("date")),
             "changefreq": "monthly",
             "priority": "0.7",
@@ -165,28 +165,11 @@ def write_sitemap():
             f.write("  </url>\n")
         f.write("</urlset>\n")
 
-    log(f"✓ Sitemap written with {len(urls)} URLs (NO trailing slashes)")
+    log(f"✓ Sitemap written with {len(urls)} URLs (WITH trailing slashes)")
 
 def remove_trailing_slashes_from_sitemap():
-    """Post-process sitemap to remove ALL trailing slashes except root"""
-    import re
-    
-    sitemap_path = os.path.join(DEST, "sitemap.xml")
-    with open(sitemap_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
-    # Remove trailing slashes: <loc>https://azure-noob.com/PATH/</loc> -> <loc>https://azure-noob.com/PATH</loc>
-    original_count = content.count('</loc>')
-    content = re.sub(
-        r'<loc>(https://azure-noob\.com/[^<]+)/</loc>',
-        r'<loc>\1</loc>',
-        content
-    )
-    
-    with open(sitemap_path, 'w', encoding='utf-8') as f:
-        f.write(content)
-    
-    log(f"✓ Removed trailing slashes from sitemap ({original_count} URLs processed)")
+    """DEPRECATED: We now KEEP trailing slashes to match GitHub Pages behavior"""
+    pass
 
 def normalize_generated_html_files():
     """Move extensionless HTML files into folders with `index.html`.
@@ -275,12 +258,10 @@ if __name__ == "__main__":
         freezer.freeze()
         log("Writing sitemap…")
         write_sitemap()
-        log("Cleaning trailing slashes from sitemap…")
-        remove_trailing_slashes_from_sitemap()
         log("Normalizing generated HTML files for static hosting…")
         normalize_generated_html_files()
         log("✓ Done! Site frozen to docs/")
-        log(f"✓ All URLs standardized (NO trailing slashes)")
+        log(f"✓ All URLs standardized (WITH trailing slashes to match GitHub Pages)")
     except Exception:
         traceback.print_exc()
         sys.exit(1)

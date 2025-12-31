@@ -27,9 +27,9 @@ def handle_trailing_slashes_and_redirects():
     Handle URL normalization and redirects to fix Google 404 errors.
     - Force HTTPS for all requests
     - Force non-WWW (azure-noob.com over www.azure-noob.com)
-    - Remove trailing slashes from non-root paths (except /blog/)
+    - ADD trailing slashes to match GitHub Pages behavior
     - Redirect date-prefixed blog URLs to clean URLs
-    - Redirect /index.html URLs to clean URLs
+    - Redirect /index.html URLs to clean URLs with trailing slashes
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
     """
@@ -45,13 +45,13 @@ def handle_trailing_slashes_and_redirects():
     
     path = request.path
     
-    # Don't touch root path or index pages that need trailing slashes
-    if path in ['/', '/blog/', '/tags/', '/hubs/']:
+    # Root path already has trailing slash
+    if path == '/':
         return None
     
-    # Redirect /index.html URLs to clean URLs (CRITICAL FIX for 28 404s!)
+    # Redirect /index.html URLs to clean URLs with trailing slash
     if path.endswith('/index.html'):
-        clean_path = path.replace('/index.html', '')
+        clean_path = path.replace('/index.html', '/')
         return redirect(clean_path, code=301)
     
     # Redirect date-prefixed blog URLs to clean URLs (CRITICAL FIX for duplicates!)
@@ -65,18 +65,22 @@ def handle_trailing_slashes_and_redirects():
                 clean_slug = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', part)
                 parts[i] = clean_slug
                 clean_path = '/'.join(parts)
+                # Ensure trailing slash
+                if not clean_path.endswith('/'):
+                    clean_path += '/'
                 return redirect(clean_path, code=301)
     
-    # Remove trailing slash and redirect (permanent 301)
-    if path.endswith('/') and path != '/':
-        return redirect(path.rstrip('/'), code=301)
+    # ADD trailing slash if missing (permanent 301)
+    # GitHub Pages serves directories with index.html and expects trailing slashes
+    if not path.endswith('/') and path != '/':
+        return redirect(path + '/', code=301)
     
     return None
 
 def get_canonical_url():
-    """Generate canonical URL for current request."""
+    """Generate canonical URL for current request with trailing slash."""
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
-    path = request.path.rstrip('/') if request.path != '/' else request.path
+    path = request.path if request.path.endswith('/') else request.path + '/'
     return f"{site_url}{path}"
 
 def coerce_date(value, default_dt):
