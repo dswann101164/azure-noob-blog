@@ -1,8 +1,8 @@
 ---
-title: "The $1,836 Azure OpenAI Fee Microsoft Hides (2025)"
+title: "Azure OpenAI Pricing 2025: Complete Model Cost Guide & The $1,836 Fee"
 date: 2025-11-25
-modified: 2025-12-30
-summary: "Microsoft's calculator showed $4/month. Your bill says $1,906. The 47,000% pricing gap comes from zombie fine-tuned models ($1,836/month hosting), 2× output token costs, and infrastructure fees. Stop the bleed with the 12 KQL queries that find hidden waste before your CFO sees it."
+modified: 2025-12-31
+summary: "Azure OpenAI pricing 2025 complete guide: GPT-4o costs $0.005/1K input tokens, GPT-4 Turbo $0.01/1K. But Microsoft's calculator hides the $1,836/month fine-tuning hosting fee, 2× output token costs, and infrastructure overhead. Real production costs are 10-50× calculator estimates."
 tags:
 - Azure
 - FinOps
@@ -17,6 +17,28 @@ related_posts:
   - azure-cost-optimization-complete-guide
   - azure-resource-tags-guide
 faq_schema: true
+---
+
+## Azure OpenAI Pricing 2025: Quick Reference
+
+Here are the current token costs for the most commonly used models (December 2025):
+
+| Model | Input (per 1K tokens) | Output (per 1K tokens) | Best For |
+|-------|----------------------|------------------------|----------|
+| **GPT-4o** | $0.005 | $0.015 | General production use, best price/performance |
+| **GPT-4o mini** | $0.00015 | $0.0006 | High-volume simple tasks, 60× cheaper |
+| **GPT-4 Turbo** | $0.01 | $0.02 | Complex reasoning, code generation |
+| **GPT-4 (32K)** | $0.06 | $0.12 | Large context windows (rarely needed) |
+| **GPT-3.5 Turbo** | $0.002 | $0.002 | Simple tasks, legacy compatibility |
+
+**Hidden costs not in the table:**
+- Fine-tuned model hosting: **$1,836-$2,160/month** per model (flat fee)
+- Infrastructure overhead: **$35-50/month** (Cognitive Services, Key Vault, monitoring)
+- Output tokens cost **2× more** than input tokens
+- PTU (Provisioned Throughput): Starting at **$2,448/month** (enterprise only)
+
+**Example real cost:** A "$4/month" calculator estimate becomes **$1,906/month** in production when fine-tuning and infrastructure are included.
+
 ---
 
 ## What does Azure OpenAI actually cost?
