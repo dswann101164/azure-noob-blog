@@ -308,9 +308,39 @@ You now know how to:
 
 ---
 
-## 🚀 KQL for Migration Discovery
+<div style="background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); padding: 2.5rem; border-radius: 8px; text-align: center; color: white; margin: 3rem 0;">
+  <h2 style="color: white; margin-top: 0; font-size: 2rem;">🔒 Enterprise KQL Library: Migration Discovery Queries</h2>
+  <p style="font-size: 1.15rem; margin: 1rem 0 1.5rem; line-height: 1.6;">
+    The 15 queries above cover the <strong>fundamentals</strong>.<br>
+    Ready for <strong>production-level migration discovery</strong>?
+  </p>
+  <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+    Join <strong>500+ Azure Architects</strong> and get the <strong>47-Query Enterprise Library</strong> in a searchable PDF + my weekly operations brief.
+  </p>
+  
+  <form action="https://app.kit.com/forms/8896829/subscriptions" method="post" style="max-width: 450px; margin: 0 auto; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+    <input type="email" 
+           name="email_address" 
+           placeholder="your@email.com" 
+           required 
+           style="flex: 1; min-width: 250px; padding: 1rem; border: none; border-radius: 6px; font-size: 1rem; color: #333;">
+    <button type="submit" 
+            style="padding: 1rem 2rem; background: white; color: #0078d4; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem;">
+      Get Enterprise Library
+    </button>
+  </form>
+  
+  <p style="margin: 1.5rem 0 0; font-size: 0.9rem; opacity: 0.95;">
+    ✔️ 47 production-tested queries • ✔️ Migration discovery workflows • ✔️ Advanced joins & aggregations<br>
+    <span style="font-size: 0.85rem; opacity: 0.9;">Instant PDF delivery • No spam • Unsubscribe anytime</span>
+  </p>
+</div>
+
+## 🚀 KQL for Migration Discovery (Preview)
 
 **Before you touch Azure Migrate**, you need accurate inventory data. These queries answer the 55 questions in the [Azure Migration Assessment Pro](/products/) without guesswork.
+
+<em style="opacity: 0.8;">Note: The complete migration discovery queries (15+ additional queries) are included in the Enterprise Library above. Below is a preview of what's included.</em>
 
 ### Critical Migration Questions KQL Can Answer:
 
