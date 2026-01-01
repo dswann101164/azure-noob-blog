@@ -35,7 +35,7 @@ faq_schema: true
     Get the <strong>2026 Azure OpenAI ROI & Cost Optimization Toolkit ($497)</strong><br>
     <span style="font-size: 0.95rem; opacity: 0.9;">Interactive Excel calculator • TCO models • PTU analysis • No consulting needed</span>
   </p>
-  <a href="https://azurenoob.gumroad.com/l/azure-openai-roi-toolkit" 
+  <a href="https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit" 
      style="display: inline-block; padding: 1rem 2.5rem; background: white; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;"
      target="_blank" rel="noopener">
     Get the ROI Toolkit →

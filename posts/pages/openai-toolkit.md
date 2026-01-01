@@ -298,7 +298,7 @@ The toolkit includes:
   <p style="font-size: 1.1rem; margin: 1rem 0 2rem; opacity: 0.95;">
     One-time purchase • Instant delivery • Lifetime updates
   </p>
-  <a href="https://azurenoob.gumroad.com/l/azure-openai-roi-toolkit" 
+  <a href="https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit" 
      style="display: inline-block; padding: 1.25rem 3rem; background: white; color: #667eea; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.25rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3); transition: all 0.3s ease;"
      target="_blank" rel="noopener">
     Get Instant Access →
