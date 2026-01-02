@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing Guide 2026: ROI Calculator & Cost Analysis"
+title: "Azure OpenAI Real Costs 2026: PTU vs Pay-As-You-Go Calculator"
 date: 2025-11-25
-modified: 2025-12-31
-summary: "Avoid the $1,800/token trap. 2026 Azure OpenAI pricing breakdown including ROI calculators, TCO models, and PTU analysis for enterprise architects."
+modified: 2026-01-02
+summary: "Microsoft's calculator shows $150/mo. You'll actually pay $1,906. Free break-even calculator shows when to switch to PTU. No consultant required."
 tags:
 - Azure
 - FinOps
@@ -97,6 +97,27 @@ Microsoft's [Azure Pricing Calculator](https://azure.microsoft.com/en-us/pricing
 - No hosting fees, monitoring, or supporting services
 
 These assumptions never match production deployments.
+
+---
+
+<div style="background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-left: 4px solid #0078d4; padding: 2rem; margin: 2rem 0; border-radius: 8px;">
+  <h3 style="margin: 0 0 0.5rem 0; color: #0078d4; font-size: 1.5rem;">🎯 FREE: Azure OpenAI Break-Even Calculator (Lite)</h3>
+  <p style="margin: 0 0 1rem 0; font-size: 1.05rem;"><strong>Stop guessing when to switch to PTU.</strong> Get our free Excel calculator that shows:</p>
+  <ul style="margin: 0 0 1.5rem 0; padding-left: 1.5rem;">
+    <li>Your current pay-as-you-go cost (actual, not Microsoft's estimate)</li>
+    <li>PTU cost with 1-year and 3-year commitment pricing</li>
+    <li>Monthly break-even point (the day PTU becomes cheaper)</li>
+  </ul>
+  <p style="margin: 0 0 1rem 0; font-size: 0.95rem; font-weight: 600;">Used by 200+ enterprise architects to justify $500K+ Azure budgets.</p>
+  <form action="https://app.convertkit.com/forms/8896829/subscriptions" method="post" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <input type="email" name="email_address" placeholder="Enter your email" required style="flex: 1; min-width: 250px; padding: 0.875rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem;">
+    <button type="submit" style="padding: 0.875rem 2rem; background: #0078d4; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer;">Download Free Calculator →</button>
+  </form>
+  <p style="margin: 1rem 0 0; font-size: 0.85rem; opacity: 0.8;">Used by 200+ enterprise architects. No spam, unsubscribe anytime.</p>
+  <p style="margin: 0.5rem 0 0; font-size: 0.9rem;"><em>Want the full ROI toolkit with TCO models, optimization strategies, and CFO-ready reports? <a href="/blog/openai-toolkit/" style="color: #0078d4; font-weight: 600;">See Enterprise Edition ($497) →</a></em></p>
+</div>
+
+---
 
 ### What breaks between calculator and production
 
