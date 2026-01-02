@@ -1,5 +1,5 @@
 ---
-title: "Azure OpenAI Real Costs 2026: PTU vs Pay-As-You-Go Calculator"
+title: "Azure OpenAI Real Costs (2026 Update): PTU vs Pay-As-You-Go Calculator"
 date: 2026-01-02
 modified: 2026-01-02
 summary: "Microsoft's calculator shows $150/mo. You'll actually pay $1,906. Free break-even calculator shows when to switch to PTU. No consultant required."
