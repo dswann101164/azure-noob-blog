@@ -32,6 +32,7 @@ def handle_trailing_slashes_and_redirects():
     - Redirect /index.html URLs to clean URLs with trailing slashes
     - Handle case-insensitive tag URLs
     - Redirect old URL patterns to canonical versions
+    - Strategic redirects for high-volume search queries
     """
     # CRITICAL FIX: Force HTTPS redirect (COMMENTED FOR LOCAL TESTING)
     # if request.url.startswith('http://'):
@@ -42,6 +43,22 @@ def handle_trailing_slashes_and_redirects():
     if request.host.startswith('www.'):
         url = request.url.replace('://www.', '://', 1)
         return redirect(url, code=301)
+    
+    path = request.path
+    
+    # STRATEGIC REDIRECTS: High-volume search queries to money pages
+    strategic_redirects = {
+        '/azure-openai-pricing/': '/blog/azure-openai-pricing-real-costs/',
+        '/azure-openai-pricing-2026/': '/blog/azure-openai-pricing-real-costs/',
+        '/azure-openai-cost/': '/blog/azure-openai-pricing-real-costs/',
+        '/azure-finops/': '/blog/azure-finops-complete-guide/',
+        '/finops-azure/': '/blog/azure-finops-complete-guide/',
+        '/kql-cheat-sheet/': '/blog/kql-cheat-sheet-complete/',
+        '/kql-query-library/': '/products/',
+    }
+    
+    if path in strategic_redirects:
+        return redirect(strategic_redirects[path], code=301)
     
     path = request.path
     
