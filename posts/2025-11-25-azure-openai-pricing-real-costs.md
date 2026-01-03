@@ -158,9 +158,57 @@ function calculateCosts() {
 - Retry/error overhead: 10-15% additional usage
 - **Actual total: $1,906/month**
 
+**The $1,836/month trap is the most expensive mistake in Azure OpenAI.**
+
+Most organizations discover zombie fine-tuned models 3-6 months after deployment. By then, they've burned $5,508-$11,016 on models that never answered a single query.
+
+---
+
+<div style="background: linear-gradient(135deg, #fff3cd 0%, #fff 50%, #fff3cd 100%); border: 3px solid #ff6b35; padding: 2.5rem; margin: 3rem 0; border-radius: 12px; box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);">
+
+### 🚨 The Reality Gap: Why the Lite Calculator Isn't Enough for Enterprise
+
+<div style="background: white; padding: 2rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #dc3545;">
+<p style="font-size: 1.2rem; font-weight: bold; color: #dc3545; margin: 0 0 1rem 0;">⚠️ What the FREE calculator shows you:</p>
+<ul style="font-size: 1.05rem; line-height: 1.8; margin: 0;">
+  <li>Basic token cost estimates</li>
+  <li>Simple PTU break-even (yes/no)</li>
+  <li>Static fine-tuning costs</li>
+</ul>
+</div>
+
+<div style="background: white; padding: 2rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
+<p style="font-size: 1.2rem; font-weight: bold; color: #28a745; margin: 0 0 1rem 0;">✅ What the ENTERPRISE toolkit prevents:</p>
+<ul style="font-size: 1.05rem; line-height: 1.8; margin: 0; font-weight: 600;">
+  <li><strong>The $7,344/month zombie model disaster</strong> (4 idle fine-tuned models found in 3 minutes)</li>
+  <li><strong>The 47,000% cost blowup</strong> (Output-to-input ratio detection)</li>
+  <li><strong>The $180K/year PTU mistake</strong> (Commitment calculator: 1-year vs 3-year ROI)</li>
+  <li><strong>The CFO rejection</strong> (Board-ready TCO models + Executive summary template)</li>
+  <li><strong>The 15-hour Excel nightmare</strong> (Pre-built scenarios for 20 common use cases)</li>
+</ul>
+</div>
+
+<div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; margin: 2rem 0;">
+<h3 style="color: white; margin: 0 0 1rem 0; font-size: 1.8rem;">💎 Enterprise ROI Toolkit - $497</h3>
+<p style="color: white; font-size: 1.15rem; margin: 0 0 1.5rem 0; opacity: 0.95;">The $497 that prevents $100K+ mistakes</p>
+<a href="https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit" 
+   style="display: inline-block; padding: 1.25rem 3rem; background: white; color: #667eea; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.3rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: all 0.3s ease;"
+   onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.4)';" 
+   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)';">
+  Get Instant Access →
+</a>
+<p style="color: white; font-size: 0.95rem; margin: 1.5rem 0 0; opacity: 0.9;">🔒 Instant download • Lifetime updates • 14-day money-back guarantee</p>
+</div>
+
+<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 2px solid #6c757d;">
+<p style="font-size: 1.05rem; margin: 0; color: #495057;"><strong>💰 Real customer result:</strong> Healthcare CTO found $7,344/month in zombie costs in 3 minutes. <strong>ROI: 475× in month one.</strong></p>
+</div>
+
+</div>
+
 ---
 
 ### The PTU (Provisioned Throughput) Break-Even
 Provisioned Throughput starts at **$2,448/month**. Based on 2026 pricing, if your pay-as-you-go token costs exceed **$1,800/month**, you are essentially losing money by not committing to a PTU reservation. 
 
-For a complete breakdown of PTU vs Pay-As-You-Go, check out our [Enterprise ROI Toolkit](https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit).
+The Enterprise ROI Toolkit includes a complete PTU commitment calculator that shows 1-year vs 3-year ROI scenarios across 20 common workload patterns.
