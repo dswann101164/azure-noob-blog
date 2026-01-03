@@ -137,8 +137,8 @@ function calculateCosts() {
   <h3 style="margin: 0 0 0.5rem 0; color: #0078d4; font-size: 1.5rem;">🎯 FREE: Azure OpenAI Break-Even Calculator (Lite)</h3>
   <p style="margin: 0 0 1rem 0;">Get the Excel file that shows you exactly when to switch to PTU.</p>
   
-  <form action="https://app.convertkit.com/forms/8896829/subscriptions" method="post" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-    <input type="hidden" name="id" value="8896829" />
+  <form action="https://app.convertkit.com/forms/8932139/subscriptions" method="post" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <input type="hidden" name="id" value="8932139" />
     <input type="email" name="email_address" placeholder="Enter your email" required style="flex: 1; min-width: 250px; padding: 0.875rem; border: 2px solid #ddd; border-radius: 6px;">
     <button type="submit" style="padding: 0.875rem 2rem; background: #0078d4; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">Send Me The Calculator →</button>
   </form>
