@@ -34,10 +34,10 @@ def handle_trailing_slashes_and_redirects():
     - Redirect old URL patterns to canonical versions
     - Strategic redirects for high-volume search queries
     """
-    # CRITICAL FIX: Force HTTPS redirect (COMMENTED FOR LOCAL TESTING)
-    # if request.url.startswith('http://'):
-    #     url = request.url.replace('http://', 'https://', 1)
-    #     return redirect(url, code=301)
+    # CRITICAL FIX: Force HTTPS redirect
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
     
     # CRITICAL FIX: Force non-WWW redirect
     if request.host.startswith('www.'):
