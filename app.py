@@ -394,7 +394,6 @@ def tags_index():
                          tags=tags_with_counts, 
                          tag_posts=tag_posts,
                          canonical_url=get_canonical_url(),
-                         noindex=True,
                          page_title='Tags - Azure Noob',
                          meta_description='Browse Azure tutorials by tag.')
 
@@ -411,7 +410,6 @@ def tag_posts(tag):
                          tag=tag, 
                          posts=tagged_posts,
                          canonical_url=canonical_url,
-                         noindex=True,
                          page_title=f'{tag} - Azure Noob',
                          meta_description=f'Azure tutorials and guides about {tag}.')
 
