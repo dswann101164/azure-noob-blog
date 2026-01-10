@@ -2,7 +2,7 @@
 import os, shutil, sys, traceback
 from datetime import datetime
 from flask_frozen import Freezer
-from app import app, load_posts, build_tags
+from app import app, load_posts, build_tags, slugify_tag
 from hubs_config import get_all_hubs   # import hub configuration
 
 DEST = "docs"
@@ -79,8 +79,13 @@ def tags_index():
 @freezer.register_generator
 def tag_posts():
     tags = build_tags()
+    # Only yield slugified tag names to avoid duplicates
+    seen = set()
     for tag in tags.keys():
-        yield {"tag": tag}
+        tag_slug = slugify_tag(tag)
+        if tag_slug not in seen:
+            seen.add(tag_slug)
+            yield {"tag": tag_slug}
 
 # Content Hubs
 @freezer.register_generator
@@ -140,9 +145,13 @@ def write_sitemap():
     tags = build_tags()
     hubs = get_all_hubs()
 
-    # Tag pages (WITH trailing slashes)
+    # Tag pages (WITH trailing slashes) - use slugified versions only
+    seen_tags = set()
     for t in tags.keys():
-        urls.append({"loc": f"{base}/tags/{t}/", "changefreq": "monthly", "priority": "0.6"})
+        tag_slug = slugify_tag(t)
+        if tag_slug not in seen_tags:
+            seen_tags.add(tag_slug)
+            urls.append({"loc": f"{base}/tags/{tag_slug}/", "changefreq": "monthly", "priority": "0.6"})
     
     # Hub pages (WITH trailing slashes)
     for hub_slug in hubs.keys():

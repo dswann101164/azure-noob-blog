@@ -3,7 +3,7 @@ from pathlib import Path
 import frontmatter
 from datetime import datetime
 import re
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.fenced_code import FencedCodeExtension
@@ -91,6 +91,18 @@ def handle_trailing_slashes_and_redirects():
                     clean_path += '/'
                 return redirect(clean_path, code=301)
     
+    
+    # TAG URL REDIRECTS: Fix old URLs with spaces/mixed case
+    if '/tags/' in path:
+        # Extract tag from path
+        tag_match = re.match(r'/tags/([^/]+)/?$', path)
+        if tag_match:
+            tag_from_url = tag_match.group(1)
+            tag_slugified = slugify_tag(unquote(tag_from_url))
+            
+            # If the URL tag doesn't match the slugified version, redirect
+            if tag_from_url != tag_slugified:
+                return redirect(f'/tags/{tag_slugified}/', code=301)
     # ADD trailing slash if missing (permanent 301)
     # GitHub Pages serves directories with index.html and expects trailing slashes
     if not path.endswith('/') and path != '/':
@@ -200,7 +212,8 @@ def get_all_tags():
     posts = load_posts()
     tags = set()
     for post in posts:
-        tags.update(post['tags'])
+        # Slugify tags to ensure URL-safe versions
+        tags.update([slugify_tag(tag) for tag in post['tags']])
     return sorted(tags)
 
 def get_related_posts(current_post, limit=3):
@@ -255,6 +268,16 @@ def generate_meta_description(summary, content, max_length=160):
         truncated = truncated[:last_space]
     return truncated + '...'
 
+
+def slugify_tag(tag):
+    """
+    Convert tag names to URL-safe slugs.
+    Examples:
+        'Hybrid Cloud' -> 'hybrid-cloud'
+        'DNS Resolver' -> 'dns-resolver'
+        'Azure' -> 'azure'
+    """
+    return tag.lower().replace(' ', '-').replace(',', '').strip()
 def load_faq_schema(slug):
     """
     Load FAQ schema JSON for a post if it exists.
@@ -400,18 +423,28 @@ def tags_index():
 @app.route('/tags/<tag>/')
 def tag_posts(tag):
     posts = load_posts()
-    tagged_posts = [p for p in posts if tag in p['tags']]
+    # Match posts by slugified tag
+    tag_slug = slugify_tag(tag)
+    tagged_posts = [p for p in posts if any(slugify_tag(t) == tag_slug for t in p['tags'])]
+    
+    # Find original tag name (with proper casing) for display
+    original_tag = tag
+    for post in tagged_posts:
+        for t in post['tags']:
+            if slugify_tag(t) == tag_slug:
+                original_tag = t
+                break
     
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
-    # Build canonical URL without URL encoding (spaces should remain as spaces)
-    canonical_url = f"{site_url}/tags/{tag}"
+    canonical_url = f"{site_url}/tags/{tag_slug}/"
     
     return render_template('tags.html', 
-                         tag=tag, 
+                         tag=original_tag,  # Display name
+                         tag_slug=tag_slug,  # URL slug
                          posts=tagged_posts,
                          canonical_url=canonical_url,
-                         page_title=f'{tag} - Azure Noob',
-                         meta_description=f'Azure tutorials and guides about {tag}.')
+                         page_title=f'{original_tag} - Azure Noob',
+                         meta_description=f'Azure tutorials and guides about {original_tag}.')
 
 @app.route('/search/')
 def search():
