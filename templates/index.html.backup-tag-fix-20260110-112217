@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block title %}Home · {{ site_name }}{% endblock %}
+
+{% block content %}
+
+<!-- GRADIENT HERO BANNER (same as blog index) -->
+<section class="hero-banner">
+  <h1>{{ site_name }}</h1>
+  <p class="tagline">{{ site_tagline }}</p>
+  <p class="tagline" style="font-size: 1.1rem; margin-top: 1rem;">
+    Azure solutions that survive production. Real KQL queries, working automation scripts, 
+    and the uncomfortable truths about cost management that official docs won't tell you.
+  </p>
+  
+  <a href="{{ url_for('blog_index') }}" class="btn-subscribe">Read the Blog</a>
+</section>
+
+<!-- PRODUCTS CARD -->
+<section style="background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); padding: var(--space-2xl) var(--space-lg); margin: var(--space-2xl) 0; border-radius: 12px; color: white; box-shadow: 0 8px 24px rgba(0, 120, 212, 0.3);">
+  <div class="wrap" style="max-width: 900px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-xl); align-items: center;">
+      <div>
+        <div style="display: inline-block; background: rgba(255, 255, 255, 0.2); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold; margin-bottom: var(--space-md);">JUST LAUNCHED</div>
+        <h2 style="font-size: 2rem; margin-bottom: var(--space-md); color: white;">🛒 Production-Tested Azure Tools</h2>
+        <p style="font-size: 1.15rem; opacity: 0.95; margin-bottom: var(--space-lg); line-height: 1.6;">
+          KQL query libraries, automation scripts, and reference guides from managing 30,000+ Azure resources in regulated environments.
+        </p>
+        <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+          <a href="{{ url_for('products') }}" style="background: white; color: #0078d4; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: all 0.2s; display: inline-block;">Shop Now →</a>
+          <span style="align-self: center; font-size: 0.95rem; opacity: 0.9;">Complete KQL Library - $19 (launch price)</span>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <img src="/static/images/products/kql-cover.png" alt="Complete KQL Query Library" style="max-width: 200px; width: 100%; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    section div[style*="grid-template-columns: 2fr 1fr"] {
+      grid-template-columns: 1fr !important;
+      text-align: center;
+    }
+    section div[style*="text-align: right"] {
+      text-align: center !important;
+    }
+    section div[style*="text-align: right"] img {
+      max-width: 150px;
+    }
+  }
+</style>
+
+<!-- EMAIL CAPTURE ABOVE FOLD -->
+<section style="background: #f7fafc; padding: 2.5rem; text-align: center; margin: 2rem 0; border-radius: 12px; border: 2px solid #0078d4;">
+  <h3 style="font-size: 1.8rem; margin: 0 0 1rem 0; color: #1a202c;">📬 Get Free KQL Queries Every Week</h3>
+  <p style="font-size: 1.1rem; color: #666; margin-bottom: 1.5rem;">Join 500+ Azure admins getting production-tested queries and cost optimization tips</p>
+  <form action="https://api.convertkit.com/v3/forms/8896829/subscribe" method="post" style="display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+    <input type="email" name="email" placeholder="Your email" required style="padding: 1rem 1.5rem; border: 2px solid #0078d4; border-radius: 6px; font-size: 1.1rem; min-width: 300px;">
+    <button type="submit" style="padding: 1rem 2rem; background: #0078d4; color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">Get Free Queries →</button>
+  </form>
+  <p style="font-size: 0.85rem; color: #999; margin-top: 1rem;">No spam. Unsubscribe anytime.</p>
+</section>
+
+<!-- FEATURED GUIDES SECTION (for internal link equity) -->
+<section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: var(--space-2xl) 0; margin: var(--space-3xl) 0; border-radius: 12px; color: white;">
+  <div class="wrap">
+    <h2 style="text-align: center; font-size: 1.75rem; margin-bottom: var(--space-lg); color: white;">Start Here: Most Popular Guides</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+      <!-- FinOps Guide -->
+      <a href="/blog/azure-finops-complete-guide" style="
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: var(--space-lg);
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+        display: block;
+      " class="featured-guide-card">
+        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">💰</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: var(--space-sm); color: white;">Azure FinOps Complete Guide</h3>
+        <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Cost allocation, tag governance, and chargeback models when subscriptions are security boundaries.</p>
+      </a>
+      
+      <!-- OpenAI Pricing -->
+      <a href="/blog/azure-openai-pricing-real-costs" style="
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: var(--space-lg);
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+        display: block;
+      " class="featured-guide-card">
+        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🤖</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: var(--space-sm); color: white;">Azure OpenAI Pricing Reality</h3>
+        <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Why Microsoft's calculator shows $4/month but your first bill is $1,900. Real costs with December 2025 pricing.</p>
+      </a>
+      
+      <!-- KQL Cheat Sheet -->
+      <a href="/blog/kql-cheat-sheet-complete" style="
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: var(--space-lg);
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+        display: block;
+      " class="featured-guide-card">
+        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔍</div>
+        <h3 style="font-size: 1.2rem; margin-bottom: var(--space-sm); color: white;">KQL Cheat Sheet Complete</h3>
+        <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Production-ready KQL queries for Azure Resource Graph, Log Analytics, and cost analysis at scale.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-guide-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+<!-- CONTENT HUBS SECTION -->
+<section style="background: var(--bg-light); padding: var(--space-3xl) 0; margin: var(--space-3xl) 0; border-radius: 12px;">
+  <div class="wrap">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: var(--space-md);">Explore by Topic</h2>
+    <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem; margin-bottom: var(--space-2xl); max-width: 700px; margin-left: auto; margin-right: auto;">
+      Curated learning paths for Azure FinOps, KQL mastery, governance at scale, and operational excellence.
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-lg);">
+      {% for hub in hub_nav %}
+      <a href="{{ url_for('hub_page', slug=hub.slug) }}" style="
+        background: white;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: var(--space-xl);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+      " class="hub-card-mini">
+        <div style="font-size: 2.5rem; margin-bottom: var(--space-md);">{{ hub.icon }}</div>
+        <h3 style="font-size: 1.25rem; margin-bottom: var(--space-sm); color: var(--text-dark);">{{ hub.title }}</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">{{ hub.tagline }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    
+    <p style="text-align: center; margin-top: var(--space-xl);">
+      <a class="btn" href="{{ url_for('hubs_index') }}" style="font-size: 1rem; padding: 0.65rem 1.25rem;">
+        View All Content Hubs →
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .hub-card-mini:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--azure-blue);
+  }
+</style>
+
+<!-- LATEST POSTS GRID -->
+<section class="latest">
+  <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Latest Posts</h2>
+  
+  <div class="post-grid">
+    {% for p in posts[:6] %}
+    <article class="post-card">
+      {% if p.cover_url %}
+      <a href="{{ url_for('blog_post', slug=p.slug) }}">
+        <img src="{{ url_for('static', filename=p.cover_url.lstrip('/').replace('static/', '')) }}" alt="{{ p.title }}" class="post-card-image" loading="lazy">
+      </a>
+      {% endif %}
+      
+      <div class="post-card-content">
+        <h2 class="post-card-title">
+          <a href="{{ url_for('blog_post', slug=p.slug) }}">{{ p.title }}</a>
+        </h2>
+        
+        <p class="post-card-meta">
+          {{ p.date|ymd }}
+        </p>
+        
+        {% if p.summary %}
+        <p class="post-card-summary">{{ p.summary }}</p>
+        {% endif %}
+        
+        <div class="post-card-footer">
+          {% if p.tags and p.tags|length %}
+          <ul class="tags-list">
+            {% for tag in p.tags[:3] %}
+            <li><a href="{{ url_for('tag_posts', tag=tag) }}" class="tag-badge">{{ tag }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          
+          <a class="btn" href="{{ url_for('blog_post', slug=p.slug) }}">Read →</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  
+  <p style="text-align: center; margin-top: 3rem;">
+    <a class="btn" href="{{ url_for('blog_index') }}" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">
+      See all posts →
+    </a>
+  </p>
+</section>
+
+{% endblock %}

@@ -402,16 +402,30 @@ def blog_post(slug):
 
 @app.route('/tags/')
 def tags_index():
-    all_tags = get_all_tags()
+    all_tags = get_all_tags()  # Returns slugified tags
     posts = load_posts()
 
-    # Group posts by tag and create (tag, count) tuples
+    # Group posts by tag and create (tag_slug, count) tuples
     tag_posts = {}
     tags_with_counts = []
 
-    for tag in all_tags:
-        tag_posts[tag] = [p for p in posts if tag in p['tags']]
-        tags_with_counts.append((tag, len(tag_posts[tag])))
+    print(f"\n=== TAGS_INDEX ROUTE DEBUG ===")
+    print(f"Total slugified tags: {len(all_tags)}")
+    
+    for tag_slug in all_tags:
+        # Match posts by slugified tag comparison
+        tag_posts[tag_slug] = [p for p in posts if any(slugify_tag(t) == tag_slug for t in p['tags'])]
+        tags_with_counts.append((tag_slug, len(tag_posts[tag_slug])))
+    
+    # Check what we're passing
+    problem_tags = ['Active Directory', 'active-directory', 'Azure AD', 'azure-ad']
+    for pt in problem_tags:
+        found = any(t == pt for t, c in tags_with_counts)
+        if found:
+            print(f"  WARNING: Passing '{pt}' to template")
+    
+    print(f"First 10 tags being passed: {[t for t, c in tags_with_counts[:10]]}")
+    print("=== END TAGS_INDEX DEBUG ===\n")
 
     return render_template('tags_index.html', 
                          tags=tags_with_counts, 
@@ -793,9 +807,8 @@ def robots():
     robots_content = """User-agent: *
 Allow: /
 
-# Don't index API endpoints
+# Don't index API endpoint
 Disallow: /search.json
-Disallow: /*.json
 
 Sitemap: https://azure-noob.com/sitemap.xml"""
 
@@ -930,13 +943,14 @@ def now():
 
 def build_tags():
     """Build tag pages for frozen site generation."""
-    tags = get_all_tags()
+    tags = get_all_tags()  # Already returns slugified tags
     posts = load_posts()
 
-    # Group posts by tag
+    # Group posts by slugified tag
     tag_posts = {}
-    for tag in tags:
-        tag_posts[tag] = [p for p in posts if tag in p['tags']]
+    for tag_slug in tags:
+        # Find all posts that have a tag matching this slug
+        tag_posts[tag_slug] = [p for p in posts if any(slugify_tag(t) == tag_slug for t in p['tags'])]
 
     return tag_posts
 
