@@ -52,6 +52,15 @@
         (function() {
             const path = window.location.pathname;
             
+            // Check if this is root /index.html
+            if (path === '/index.html') {
+                document.getElementById('redirect-message').style.display = 'block';
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 500);
+                return;
+            }
+            
             // Check if this is a tag URL
             if (path.includes('/tags/')) {
                 let newPath = path;
