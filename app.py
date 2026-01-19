@@ -941,6 +941,11 @@ def now():
     """Make current datetime available to templates."""
     return datetime.now()
 
+@app.errorhandler(404)
+def page_not_found(e):
+    """Handle 404 errors with smart redirect page."""
+    return render_template('404.html'), 404
+
 def build_tags():
     """Build tag pages for frozen site generation."""
     tags = get_all_tags()  # Already returns slugified tags

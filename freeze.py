@@ -36,6 +36,16 @@ def prepare_dest():
     with open(os.path.join(DEST, "CNAME"), "w", encoding="utf-8") as f:
         f.write("azure-noob.com")
 
+def copy_404_page():
+    """Copy 404.html to docs/ root for GitHub Pages"""
+    src = os.path.join("templates", "404.html")
+    dst = os.path.join(DEST, "404.html")
+    if os.path.exists(src):
+        shutil.copy(src, dst)
+        log("✓ Copied 404.html to docs/")
+    else:
+        log("⚠ Warning: templates/404.html not found")
+
 # ---- Generators for all routes we need to freeze ----
 @freezer.register_generator
 def index():
@@ -119,6 +129,11 @@ def sitemap_xml():
 # Robots.txt
 @freezer.register_generator
 def robots():
+    yield {}
+
+# 404 page
+@freezer.register_generator
+def page_not_found():
     yield {}
 
 # ---- Sitemap generation (NO trailing slashes) ----
@@ -275,6 +290,8 @@ if __name__ == "__main__":
         freezer.freeze()
         log("Writing sitemap…")
         write_sitemap()
+        log("Copying 404 page…")
+        copy_404_page()
         log("Normalizing generated HTML files for static hosting…")
         normalize_generated_html_files()
         log("✓ Done! Site frozen to docs/")
