@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -48,7 +48,7 @@
     <p><a href="/">Return to Azure Noob home</a></p>
 
     <script>
-        // Smart redirect for old tag URLs with spaces or capitals
+        // Smart redirect for old URLs: date-prefixed blog URLs, tag URLs with spaces/capitals
         (function() {
             const path = window.location.pathname;
             
@@ -59,6 +59,24 @@
                     window.location.href = '/';
                 }, 500);
                 return;
+            }
+            
+            // CRITICAL FIX: Redirect date-prefixed blog URLs to clean URLs
+            // Example: /blog/2025-01-15-kql-cheat-sheet-complete/ → /blog/kql-cheat-sheet-complete/
+            if (path.includes('/blog/')) {
+                // Match pattern: /blog/YYYY-MM-DD-slug or /blog/YYYY-MM-DD-slug/
+                const dateMatch = path.match(/\/blog\/(\d{4}-\d{2}-\d{2}-)(.+)/);
+                if (dateMatch) {
+                    const cleanSlug = dateMatch[2];
+                    const newPath = '/blog/' + cleanSlug + (cleanSlug.endsWith('/') ? '' : '/');
+                    document.getElementById('redirect-message').style.display = 'block';
+                    document.getElementById('redirect-message').innerHTML = 
+                        '<p>Redirecting to the current URL format...</p>';
+                    setTimeout(function() {
+                        window.location.href = newPath;
+                    }, 500);
+                    return;
+                }
             }
             
             // Check if this is a tag URL
