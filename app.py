@@ -8,6 +8,7 @@ import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.fenced_code import FencedCodeExtension
 from hubs_config import get_hub_config, get_all_hubs, get_hub_navigation
+from config.tag_descriptions import get_tag_description
 import json
 
 app = Flask(__name__)
@@ -449,16 +450,32 @@ def tag_posts(tag):
                 original_tag = t
                 break
     
+    # Get tag description data for SEO
+    tag_data = get_tag_description(tag_slug)
+    
     site_url = app.config.get('SITE_URL', 'https://azure-noob.com')
     canonical_url = f"{site_url}/tags/{tag_slug}/"
+    
+    # Generate meta description from tag data or fall back to default
+    if tag_data and tag_data.get('description'):
+        # Use first 160 characters of description for meta
+        desc_text = tag_data['description'][:160].strip()
+        # Find last complete sentence
+        last_period = desc_text.rfind('.')
+        if last_period > 100:
+            desc_text = desc_text[:last_period + 1]
+        meta_description = desc_text
+    else:
+        meta_description = f'Azure tutorials and guides about {original_tag}.'
     
     return render_template('tags.html', 
                          tag=original_tag,  # Display name
                          tag_slug=tag_slug,  # URL slug
+                         tag_data=tag_data,  # Description and CTA data
                          posts=tagged_posts,
                          canonical_url=canonical_url,
                          page_title=f'{original_tag} - Azure Noob',
-                         meta_description=f'Azure tutorials and guides about {original_tag}.')
+                         meta_description=meta_description)
 
 @app.route('/search/')
 def search():
