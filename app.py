@@ -918,6 +918,11 @@ def dateformat(date, format='%B %d, %Y'):
         date = datetime.strptime(date, '%Y-%m-%d')
     return date.strftime(format)
 
+@app.template_filter('slugify_tag')
+def slugify_tag_filter(tag):
+    """Template filter version of slugify_tag for consistent URL generation."""
+    return slugify_tag(tag)
+
 @app.template_filter('urlencode')
 def urlencode_filter(s):
     """URL encode strings for templates."""
