@@ -25,29 +25,46 @@ WARNED_SLUGS = set()
 @app.before_request
 def handle_trailing_slashes_and_redirects():
     """
-    Handle URL normalization and redirects to fix Google 404 errors.
-    - Force HTTPS for all requests
-    - Force non-WWW (azure-noob.com over www.azure-noob.com)
-    - ADD trailing slashes to match GitHub Pages behavior
-    - Redirect date-prefixed blog URLs to clean URLs
-    - Redirect /index.html URLs to clean URLs with trailing slashes
-    - Handle case-insensitive tag URLs
-    - Redirect old URL patterns to canonical versions
-    - Strategic redirects for high-volume search queries
+    Single-pass redirect handler to eliminate redirect chains.
+    Checks ALL conditions once and builds final URL, then redirects once (or not at all).
+    
+    This fixes Google Search Console "Page with redirect" errors by ensuring
+    no more than ONE 301 redirect per request.
     """
-    # CRITICAL FIX: Force HTTPS redirect
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        return redirect(url, code=301)
+    # Track original request details
+    original_scheme = request.scheme
+    original_host = request.host
+    original_path = request.path
     
-    # CRITICAL FIX: Force non-WWW redirect
-    if request.host.startswith('www.'):
-        url = request.url.replace('://www.', '://', 1)
-        return redirect(url, code=301)
+    # Initialize final URL components (start with originals)
+    final_scheme = original_scheme
+    final_host = original_host
+    final_path = original_path
+    needs_redirect = False
     
-    path = request.path
+    # 1. Force HTTPS
+    if final_scheme == 'http':
+        final_scheme = 'https'
+        needs_redirect = True
     
-    # STRATEGIC REDIRECTS: High-volume search queries to money pages
+    # 2. Force non-WWW
+    if final_host.startswith('www.'):
+        final_host = final_host.replace('www.', '', 1)
+        needs_redirect = True
+    
+    # 3. Root path - no changes needed
+    if final_path == '/':
+        if needs_redirect:
+            return redirect(f'{final_scheme}://{final_host}{final_path}', code=301)
+        return None
+    
+    # 4. File-like endpoints - no trailing slash changes
+    if any(final_path.endswith(ext) for ext in ['.xml', '.json', '.txt', '.rss', '.atom']):
+        if needs_redirect:
+            return redirect(f'{final_scheme}://{final_host}{final_path}', code=301)
+        return None
+    
+    # 5. Strategic redirects (high-priority money pages)
     strategic_redirects = {
         '/azure-openai-pricing/': '/blog/azure-openai-pricing-real-costs/',
         '/azure-openai-pricing-2026/': '/blog/azure-openai-pricing-real-costs/',
@@ -58,56 +75,45 @@ def handle_trailing_slashes_and_redirects():
         '/kql-query-library/': '/products/',
     }
     
-    if path in strategic_redirects:
-        return redirect(strategic_redirects[path], code=301)
+    if final_path in strategic_redirects:
+        final_path = strategic_redirects[final_path]
+        needs_redirect = True
     
-    path = request.path
+    # 6. Remove /index.html suffix
+    if final_path.endswith('/index.html'):
+        final_path = final_path.replace('/index.html', '/')
+        needs_redirect = True
     
-    # Root path already has trailing slash
-    if path == '/':
-        return None
-    
-    # Don't add trailing slashes to file-like endpoints (xml, json, txt, etc.)
-    if any(path.endswith(ext) for ext in ['.xml', '.json', '.txt', '.rss', '.atom']):
-        return None
-    
-    # Redirect /index.html URLs to clean URLs with trailing slash
-    if path.endswith('/index.html'):
-        clean_path = path.replace('/index.html', '/')
-        return redirect(clean_path, code=301)
-    
-    # Redirect date-prefixed blog URLs to clean URLs (CRITICAL FIX for duplicates!)
+    # 7. Remove date prefix from blog URLs
     # Example: /blog/2025-01-15-kql-cheat-sheet-complete/ -> /blog/kql-cheat-sheet-complete/
-    if '/blog/' in path and re.match(r'.*/blog/\d{4}-\d{2}-\d{2}-.+', path):
-        # Extract the slug part after the date
-        parts = path.split('/')
+    if '/blog/' in final_path and re.match(r'.*/blog/\d{4}-\d{2}-\d{2}-.+', final_path):
+        parts = final_path.split('/')
         for i, part in enumerate(parts):
-            if part.startswith('202') and '-' in part:  # Date-prefixed slug
-                # Remove YYYY-MM-DD- prefix
-                clean_slug = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', part)
-                parts[i] = clean_slug
-                clean_path = '/'.join(parts)
-                # Ensure trailing slash
-                if not clean_path.endswith('/'):
-                    clean_path += '/'
-                return redirect(clean_path, code=301)
+            if re.match(r'^\d{4}-\d{2}-\d{2}-.+', part):
+                parts[i] = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', part)
+                final_path = '/'.join(parts)
+                needs_redirect = True
+                break
     
-    
-    # TAG URL REDIRECTS: Fix old URLs with spaces/mixed case
-    if '/tags/' in path:
-        # Extract tag from path
-        tag_match = re.match(r'/tags/([^/]+)/?$', path)
+    # 8. Slugify tag URLs
+    if '/tags/' in final_path:
+        tag_match = re.match(r'/tags/([^/]+)/?$', final_path)
         if tag_match:
             tag_from_url = tag_match.group(1)
             tag_slugified = slugify_tag(unquote(tag_from_url))
-            
-            # If the URL tag doesn't match the slugified version, redirect
             if tag_from_url != tag_slugified:
-                return redirect(f'/tags/{tag_slugified}/', code=301)
-    # ADD trailing slash if missing (permanent 301)
-    # GitHub Pages serves directories with index.html and expects trailing slashes
-    if not path.endswith('/') and path != '/':
-        return redirect(path + '/', code=301)
+                final_path = f'/tags/{tag_slugified}/'
+                needs_redirect = True
+    
+    # 9. Add trailing slash if missing
+    if not final_path.endswith('/'):
+        final_path += '/'
+        needs_redirect = True
+    
+    # Perform single redirect if any changes were needed
+    if needs_redirect:
+        final_url = f'{final_scheme}://{final_host}{final_path}'
+        return redirect(final_url, code=301)
     
     return None
 

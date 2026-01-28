@@ -131,10 +131,7 @@ def sitemap_xml():
 def robots():
     yield {}
 
-# 404 page
-@freezer.register_generator
-def page_not_found():
-    yield {}
+# Note: 404.html is copied manually via copy_404_page() - error handlers cannot be frozen via URL generation
 
 # ---- Sitemap generation (NO trailing slashes) ----
 def _fmt_lastmod(dt):
