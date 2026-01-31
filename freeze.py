@@ -260,8 +260,12 @@ def generate_tag_redirects():
 
 def update_robots_txt():
     """
-    Update robots.txt to block crawling of wrong tag URL patterns.
-    This prevents Google from indexing the redirect shim pages.
+    Update robots.txt for the site.
+    
+    NOTE: We do NOT block redirect shim URLs here. Google needs to crawl them
+    to discover the redirects. The redirect HTML pages have <meta name="robots" 
+    content="noindex, follow"> which tells Google to follow the redirect but 
+    not index the redirect page itself. This is the correct approach.
     """
     robots_content = """User-agent: *
 Allow: /
@@ -269,31 +273,13 @@ Allow: /
 # Don't index API endpoint
 Disallow: /search.json
 
-# Block tag URLs with spaces or uppercase (these are redirects)
-# Only crawl lowercase, hyphenated tag URLs
-Disallow: /tags/*%20
-Disallow: /tags/*%2520
-Disallow: /tags/Azure*
-Disallow: /tags/Web*
-Disallow: /tags/Management*
-Disallow: /tags/Log*
-Disallow: /tags/Hybrid*
-Disallow: /tags/DNS*
-Disallow: /tags/Cloud*
-Disallow: /tags/Private*
-Disallow: /tags/Future*
-Disallow: /tags/Update*
-Disallow: /tags/Active*
-Disallow: /tags/Cost*
-Disallow: /tags/Bicep*
-
 Sitemap: https://azure-noob.com/sitemap.xml"""
     
     robots_file = os.path.join(DEST, "robots.txt")
     with open(robots_file, "w", encoding="utf-8") as f:
         f.write(robots_content)
     
-    log("✓ Updated robots.txt to block wrong tag URL patterns")
+    log("✓ Updated robots.txt (redirect shims are crawlable)")
 
 def normalize_generated_html_files():
     """Move extensionless HTML files into folders with `index.html`.
