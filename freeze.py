@@ -200,6 +200,101 @@ def remove_trailing_slashes_from_sitemap():
     """DEPRECATED: We now KEEP trailing slashes to match GitHub Pages behavior"""
     pass
 
+def generate_tag_redirects():
+    """
+    Generate HTML redirect shims for common wrong tag URL patterns.
+    
+    PROBLEM: External sites link to tags using display names with spaces/caps
+    (e.g., /tags/Azure Arc/ instead of /tags/azure-arc/)
+    
+    SOLUTION: Create redirect HTML files that use meta refresh + JavaScript
+    to redirect to the correct canonical URL.
+    """
+    posts = load_posts()
+    
+    # Extract all unique tag display names from posts
+    display_names = set()
+    for post in posts:
+        for tag in post.get('tags', []):
+            display_names.add(tag)
+    
+    redirects_created = 0
+    redirect_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, follow">
+  <meta http-equiv="refresh" content="0; url={canonical_url}">
+  <link rel="canonical" href="{canonical_url}">
+  <title>Redirecting...</title>
+  <script>window.location.href = "{canonical_url}";</script>
+</head>
+<body>
+  <p>Redirecting to <a href="{canonical_url}">{canonical_url}</a>...</p>
+</body>
+</html>"""
+    
+    for display_name in display_names:
+        tag_slug = slugify_tag(display_name)
+        
+        # Skip if display name == slug (no redirect needed)
+        if display_name == tag_slug:
+            continue
+        
+        # Generate correct canonical URL
+        canonical_url = f"{BASE_URL}/tags/{tag_slug}/"
+        
+        # Create redirect file for the WRONG URL pattern (display name)
+        wrong_tag_dir = os.path.join(DEST, "tags", display_name)
+        os.makedirs(wrong_tag_dir, exist_ok=True)
+        
+        redirect_file = os.path.join(wrong_tag_dir, "index.html")
+        with open(redirect_file, "w", encoding="utf-8") as f:
+            f.write(redirect_template.format(canonical_url=canonical_url))
+        
+        redirects_created += 1
+        log(f"  Created redirect: /tags/{display_name}/ → /tags/{tag_slug}/")
+    
+    log(f"✓ Generated {redirects_created} tag redirect shims")
+    return redirects_created
+
+def update_robots_txt():
+    """
+    Update robots.txt to block crawling of wrong tag URL patterns.
+    This prevents Google from indexing the redirect shim pages.
+    """
+    robots_content = """User-agent: *
+Allow: /
+
+# Don't index API endpoint
+Disallow: /search.json
+
+# Block tag URLs with spaces or uppercase (these are redirects)
+# Only crawl lowercase, hyphenated tag URLs
+Disallow: /tags/*%20
+Disallow: /tags/*%2520
+Disallow: /tags/Azure*
+Disallow: /tags/Web*
+Disallow: /tags/Management*
+Disallow: /tags/Log*
+Disallow: /tags/Hybrid*
+Disallow: /tags/DNS*
+Disallow: /tags/Cloud*
+Disallow: /tags/Private*
+Disallow: /tags/Future*
+Disallow: /tags/Update*
+Disallow: /tags/Active*
+Disallow: /tags/Cost*
+Disallow: /tags/Bicep*
+
+Sitemap: https://azure-noob.com/sitemap.xml"""
+    
+    robots_file = os.path.join(DEST, "robots.txt")
+    with open(robots_file, "w", encoding="utf-8") as f:
+        f.write(robots_content)
+    
+    log("✓ Updated robots.txt to block wrong tag URL patterns")
+
 def normalize_generated_html_files():
     """Move extensionless HTML files into folders with `index.html`.
     GitHub Pages (and many static hosts) serve `index.html` inside a
@@ -285,14 +380,19 @@ if __name__ == "__main__":
         prepare_dest()
         log("Freezing Flask routes…")
         freezer.freeze()
+        log("Generating tag redirect shims…")
+        generate_tag_redirects()
         log("Writing sitemap…")
         write_sitemap()
+        log("Updating robots.txt…")
+        update_robots_txt()
         log("Copying 404 page…")
         copy_404_page()
         log("Normalizing generated HTML files for static hosting…")
         normalize_generated_html_files()
         log("✓ Done! Site frozen to docs/")
         log(f"✓ All URLs standardized (WITH trailing slashes to match GitHub Pages)")
+        log(f"✓ Redirect shims created for wrong tag URL patterns")
     except Exception:
         traceback.print_exc()
         sys.exit(1)
