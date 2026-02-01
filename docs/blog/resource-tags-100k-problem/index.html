@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="What happens when an enterprise ends up with 100,000+ tag variations, why it happens in the real world, and how to systematically clean it up without...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-tags-100k.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The $100k Tag Problem: Calculating Hidden Azure Costs (2025)",
   "description": "What happens when an enterprise ends up with 100,000+ tag variations, why it happens in the real world, and how to systematically clean it up without...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "Azure, Compliance, FinOps, Governance, Tags, Technical Debt",
   "articleSection": "Azure",
-  "wordCount": "6454",
+  "wordCount": "6482",
   "timeRequired": "PT32M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/resource-tags-100k-problem/"
+}
+</script>
+
+
+
 
 
 
@@ -249,7 +295,7 @@ In my <a href="https://azure-noob.com/blog/azure-update-manager-reality-check/">
 - Can't filter out systems that shouldn't be there</p>
 <p>The absence of these tags just cost my organization $100,000. We bought Red Hat Satellite because we couldn't answer basic questions about 47 Linux servers. Questions that proper tagging would have answered in seconds.</p>
 <p>This post is the resource tagging strategy I wish we'd implemented three years ago. It would have saved us six figures and countless hours of organizational paralysis.</p>
-<h2>The Problem - Azure Shows Everything With No Context</h2>
+<h2 id="the-problem-azure-shows-everything-with-no-context">The Problem - Azure Shows Everything With No Context</h2>
 <p>When you connect on-premises servers to Azure Arc, they appear in the Azure Portal immediately. Azure Resource Manager sees them. Azure Update Manager sees them. Cost Management sees them.</p>
 <p><strong>But Azure has no idea what they actually are.</strong></p>
 <p>Here's what happened in our environment:</p>
@@ -276,7 +322,7 @@ Machines needing updates: 1,791
 
 <p><strong>Azure couldn't tell the difference because we had no tags.</strong></p>
 <p>Every compliance report was wrong. Every cost report was meaningless. Every attempt to delegate responsibility failed because we couldn't answer: "Which systems are yours?"</p>
-<h2>The Real-World Cost - The $100K Satellite Purchase</h2>
+<h2 id="the-real-world-cost-the-100k-satellite-purchase">The Real-World Cost - The $100K Satellite Purchase</h2>
 <p>Here's how the absence of resource tags cost us $100,000.</p>
 <p><strong>The scenario:</strong></p>
 <p>We had 47 RHEL 6 servers running on-premises in VMware. RHEL 6 went end-of-life in November 2020. We needed a patching solution during our 2-3 year migration to RHEL 8.</p>
@@ -323,9 +369,9 @@ Savings we didn&#39;t get: $113,800
 <p><strong>Instead, we bought Satellite for all 47 at $100/server/year.</strong></p>
 <p><strong>We needed it for maybe 35 actual servers. We wasted $5,640 on systems that shouldn't have been in the solution at all.</strong></p>
 <p><strong>Tags would have saved $113,800.</strong></p>
-<h2>The Enterprise Tagging Taxonomy</h2>
+<h2 id="the-enterprise-tagging-taxonomy">The Enterprise Tagging Taxonomy</h2>
 <p>Here's the complete tagging standard that would have prevented our $100K mistake.</p>
-<h3>The Foundation: TYPE Tag</h3>
+<h3 id="the-foundation-type-tag">The Foundation: TYPE Tag</h3>
 <p>Before anything else, you must classify what TYPE of resource you're dealing with.</p>
 <p><strong>This is your primary filter. Everything else depends on it.</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="o">:</span><span class="w"> </span><span class="n">Type</span>
@@ -363,9 +409,9 @@ Savings we didn&#39;t get: $113,800
 
 <p><strong>This is why we saw 1,791 VMs in Update Manager instead of 348.</strong></p>
 <p><strong>Without TYPE tags, Azure treated everything the same.</strong></p>
-<h3>The Five Additional Critical Tags</h3>
+<h3 id="the-five-additional-critical-tags">The Five Additional Critical Tags</h3>
 <p>Once you know the TYPE, you need these five tags for complete organizational context:</p>
-<h4>1. Owner (Who's responsible)</h4>
+<h4 id="1-owner-who-s-responsible">1. Owner (Who's responsible)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="o">:</span><span class="w"> </span><span class="n">Owner</span>
 <span class="n">Values</span><span class="o">:</span><span class="w"> </span><span class="n">Finance</span><span class="o">-</span><span class="n">Team</span><span class="o">,</span><span class="w"> </span><span class="n">Marketing</span><span class="o">-</span><span class="n">Team</span><span class="o">,</span><span class="w"> </span><span class="n">Engineering</span><span class="o">-</span><span class="n">Team</span><span class="o">,</span><span class="w"> </span><span class="n">IT</span><span class="o">-</span><span class="n">Infrastructure</span><span class="o">,</span><span class="w"> </span><span class="n">Security</span><span class="o">-</span><span class="n">Team</span>
 <span class="n">Purpose</span><span class="o">:</span><span class="w"> </span><span class="n">Who</span><span class="w"> </span><span class="n">owns</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">makes</span><span class="w"> </span><span class="n">decisions</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">it</span>
@@ -374,7 +420,7 @@ Savings we didn&#39;t get: $113,800
 <span class="n">Why</span><span class="w"> </span><span class="n">critical</span><span class="o">:</span><span class="w"> </span><span class="n">Delegation</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">accountability</span>
 </code></pre></div>
 
-<h4>2. Application (What runs on it)</h4>
+<h4 id="2-application-what-runs-on-it">2. Application (What runs on it)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="w">  </span>
 <span class="n">Values</span><span class="p">:</span><span class="w"> </span><span class="n">ERP</span><span class="o">-</span><span class="n">System</span><span class="p">,</span><span class="w"> </span><span class="n">CRM</span><span class="p">,</span><span class="w"> </span><span class="n">Databricks</span><span class="p">,</span><span class="w"> </span><span class="n">Citrix</span><span class="o">-</span><span class="n">VDI</span><span class="p">,</span><span class="w"> </span><span class="n">Palo</span><span class="o">-</span><span class="n">Alto</span><span class="o">-</span><span class="n">Firewall</span><span class="p">,</span><span class="w"> </span><span class="n">SQL</span><span class="o">-</span><span class="n">Server</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="o">.</span>
 <span class="n">Purpose</span><span class="p">:</span><span class="w"> </span><span class="n">What</span><span class="w"> </span><span class="n">workload</span><span class="o">/</span><span class="n">application</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">supports</span>
@@ -431,7 +477,7 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <p><strong>The Application tag turns chaos into a migration roadmap.</strong></p>
-<h4>3. Environment (Production vs Dev vs Test)</h4>
+<h4 id="3-environment-production-vs-dev-vs-test">3. Environment (Production vs Dev vs Test)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="o">:</span><span class="w"> </span><span class="n">Environment</span>
 <span class="n">Values</span><span class="o">:</span><span class="w"> </span><span class="n">Production</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Development</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Staging</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">DR</span>
 <span class="n">Purpose</span><span class="o">:</span><span class="w"> </span><span class="n">Deployment</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="n">control</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">scheduling</span>
@@ -443,7 +489,7 @@ Savings we didn&#39;t get: $113,800
 <span class="o">-</span><span class="w"> </span><span class="n">Cost</span><span class="w"> </span><span class="n">allocation</span><span class="w"> </span><span class="o">(</span><span class="n">prod</span><span class="w"> </span><span class="n">vs</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">prod</span><span class="o">)</span>
 </code></pre></div>
 
-<h4>4. CostCenter (Who pays)</h4>
+<h4 id="4-costcenter-who-pays">4. CostCenter (Who pays)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="o">:</span><span class="w"> </span><span class="n">CostCenter</span>
 <span class="n">Values</span><span class="o">:</span><span class="w"> </span><span class="mi">680</span><span class="o">-</span><span class="mi">5019</span><span class="o">,</span><span class="w"> </span><span class="mi">680</span><span class="o">-</span><span class="mi">5056</span><span class="o">,</span><span class="w"> </span><span class="mi">680</span><span class="o">-</span><span class="mi">5101</span><span class="w"> </span><span class="o">(</span><span class="n">your</span><span class="w"> </span><span class="n">accounting</span><span class="w"> </span><span class="n">codes</span><span class="o">)</span>
 <span class="n">Purpose</span><span class="o">:</span><span class="w"> </span><span class="n">Which</span><span class="w"> </span><span class="n">budget</span><span class="o">/</span><span class="n">department</span><span class="w"> </span><span class="n">pays</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">resource</span>
@@ -455,7 +501,7 @@ Savings we didn&#39;t get: $113,800
 <span class="o">-</span><span class="w"> </span><span class="n">Cost</span><span class="w"> </span><span class="n">optimization</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">department</span>
 </code></pre></div>
 
-<h4>5. PatchingMethod (How it gets patched)</h4>
+<h4 id="5-patchingmethod-how-it-gets-patched">5. PatchingMethod (How it gets patched)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">Tag</span><span class="o">:</span><span class="w"> </span><span class="n">PatchingMethod</span>
 <span class="n">Values</span><span class="o">:</span><span class="w"> </span><span class="n">Azure</span><span class="o">-</span><span class="n">Update</span><span class="o">-</span><span class="n">Manager</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SCCM</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Intune</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Vendor</span><span class="o">-</span><span class="n">Managed</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Golden</span><span class="o">-</span><span class="n">Image</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Manual</span>
 <span class="n">Purpose</span><span class="o">:</span><span class="w"> </span><span class="n">Which</span><span class="w"> </span><span class="n">tool</span><span class="o">/</span><span class="n">process</span><span class="w"> </span><span class="n">patches</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">resource</span>
@@ -472,7 +518,7 @@ Savings we didn&#39;t get: $113,800
 <span class="o">-</span><span class="w"> </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">PatchingMethod</span><span class="o">:</span><span class="w"> </span><span class="n">Vendor</span><span class="o">-</span><span class="n">Managed</span><span class="w"> </span><span class="o">(</span><span class="n">correct</span><span class="o">)</span>
 </code></pre></div>
 
-<h3>Additional Useful Tags</h3>
+<h3 id="additional-useful-tags">Additional Useful Tags</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">PatchingOwner</span><span class="p">:</span><span class="w"> </span><span class="n">Cloud</span><span class="o">-</span><span class="n">Team</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SCCM</span><span class="o">-</span><span class="n">Team</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Linux</span><span class="o">-</span><span class="n">Admin</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Security</span><span class="o">-</span><span class="n">Team</span>
 <span class="n">MaintenanceWindow</span><span class="p">:</span><span class="w"> </span><span class="n">Sunday</span><span class="o">-</span><span class="mi">2</span><span class="n">AM</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Wednesday</span><span class="o">-</span><span class="n">Midnight</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Saturday</span><span class="o">-</span><span class="mi">3</span><span class="n">AM</span>
 <span class="n">Criticality</span><span class="p">:</span><span class="w"> </span><span class="n">Critical</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Medium</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Low</span>
@@ -491,7 +537,7 @@ Savings we didn&#39;t get: $113,800
 <span class="n">DataResidency</span><span class="p">:</span><span class="w"> </span><span class="n">US</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">EU</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">APAC</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Multi</span><span class="o">-</span><span class="n">Region</span>
 </code></pre></div>
 
-<h2>The Hard Truth - Discovery is Manual Work</h2>
+<h2 id="the-hard-truth-discovery-is-manual-work">The Hard Truth - Discovery is Manual Work</h2>
 <p><strong>Here's what I need to tell you upfront:</strong></p>
 <p><strong>Azure Arc gives you visibility into your on-premises VMs. It does NOT give you context.</strong></p>
 <p>When you install the Arc agent on a VM:<br />
@@ -503,8 +549,8 @@ Savings we didn&#39;t get: $113,800
 - ❌ Azure doesn't know what app runs on it</p>
 <p><strong>You must do discovery and classification manually.</strong></p>
 <p>This takes weeks or months, depending on your environment size. There's no magic button.</p>
-<h3>The Discovery Process</h3>
-<h4>Phase 1: Technical Inventory (Week 1-2)</h4>
+<h3 id="the-discovery-process">The Discovery Process</h3>
+<h4 id="phase-1-technical-inventory-week-1-2">Phase 1: Technical Inventory (Week 1-2)</h4>
 <p><strong>Once Arc agents are connected, use KQL to see what you have:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Complete inventory of Arc-connected machines</span>
 <span class="n">Resources</span>
@@ -546,7 +592,7 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <p><strong>The "Unknown - Investigate" entries need manual review - this is where you start your manual classification.</strong></p>
-<h4>Phase 2: Classification (Week 3-4)</h4>
+<h4 id="phase-2-classification-week-3-4">Phase 2: Classification (Week 3-4)</h4>
 <p><strong>Now the manual work: Classify each VM by TYPE</strong></p>
 <p>Create a spreadsheet and start classifying based on OS, role, and naming patterns.</p>
 <p><strong>Track classification progress with KQL:</strong></p>
@@ -574,13 +620,13 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <p><strong>This helps you classify in bulk - VMs with similar prefixes often have the same TYPE.</strong></p>
-<h4>Phase 3: Ownership Discovery (Week 5-6)</h4>
+<h4 id="phase-3-ownership-discovery-week-5-6">Phase 3: Ownership Discovery (Week 5-6)</h4>
 <p><strong>Figure out who owns each VM through interviews, resource organization analysis, network segments, and Finance cost center mapping.</strong></p>
 <p>This is time-consuming but essential. You need to talk to application owners and business stakeholders.</p>
-<h4>Phase 4: Application Mapping (Week 7-8)</h4>
+<h4 id="phase-4-application-mapping-week-7-8">Phase 4: Application Mapping (Week 7-8)</h4>
 <p><strong>Map applications to VMs for migration planning and dependency tracking.</strong></p>
 <p>Use naming conventions, Azure Migrate dependency mapping, and application owner interviews to document which VMs belong to which applications.</p>
-<h4>Phase 5: Create the Master Spreadsheet (Week 9-10)</h4>
+<h4 id="phase-5-create-the-master-spreadsheet-week-9-10">Phase 5: Create the Master Spreadsheet (Week 9-10)</h4>
 <p><strong>Combine all discovery into one classification spreadsheet:</strong></p>
 <table>
 <thead>
@@ -634,7 +680,7 @@ Savings we didn&#39;t get: $113,800
 </tbody>
 </table>
 <p><strong>This spreadsheet is the result of 8-10 weeks of work. This is the hard part. There's no automation for this.</strong></p>
-<h2>Bulk Tagging Implementation</h2>
+<h2 id="bulk-tagging-implementation">Bulk Tagging Implementation</h2>
 <p><strong>Now that you have the classification spreadsheet, apply tags with PowerShell:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Import your classification spreadsheet</span>
 <span class="nv">$vmClassification</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\VM-Classification-Complete.csv&quot;</span>
@@ -703,14 +749,14 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <p><strong>Target: 95%+ compliance rate</strong></p>
-<h2>Enforcement - Azure Policy Prevents Tag Drift</h2>
+<h2 id="enforcement-azure-policy-prevents-tag-drift">Enforcement - Azure Policy Prevents Tag Drift</h2>
 <p><strong>The problem with manual tagging:</strong></p>
 <p>You spend 8-12 weeks tagging everything perfectly. Six months later, it's chaos again because:<br />
 - New Arc VMs connect without tags<br />
 - Different admins don't follow tagging standards<br />
 - Urgent deployments skip tagging ("we'll tag it later")</p>
 <p><strong>The solution: Azure Policy enforces tags at connection time.</strong></p>
-<h3>Deny Arc Connection Without Required Tags</h3>
+<h3 id="deny-arc-connection-without-required-tags">Deny Arc Connection Without Required Tags</h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Indexed&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;policyRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -759,7 +805,7 @@ Savings we didn&#39;t get: $113,800
 
 <p><strong>This ensures your 8-12 weeks of tagging work STAYS clean.</strong></p>
 <p><em>Full policy implementation covered in next post: "Azure Policy for On-Premises: How to Maintain Your Tagging Investment"</em></p>
-<h2>Filtering Update Manager with Tags</h2>
+<h2 id="filtering-update-manager-with-tags">Filtering Update Manager with Tags</h2>
 <p><strong>Now that everything is tagged, you can filter properly:</strong></p>
 <p><strong>Show Only Servers That Should Use Update Manager:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
@@ -785,7 +831,7 @@ Savings we didn&#39;t get: $113,800
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<h2>Cost Allocation with Tags</h2>
+<h2 id="cost-allocation-with-tags">Cost Allocation with Tags</h2>
 <p><strong>Tags enable accurate cost allocation and chargeback:</strong></p>
 <p><strong>Cost by Business Unit:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
@@ -818,7 +864,7 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <p><strong>This query would have shown: Satellite costs 2.7x more than Arc for fewer servers!</strong></p>
-<h2>What We Should Have Done (The $100K Lesson Revisited)</h2>
+<h2 id="what-we-should-have-done-the-100k-lesson-revisited">What We Should Have Done (The $100K Lesson Revisited)</h2>
 <p><strong>If we'd implemented tagging before the RHEL 6 EOL crisis:</strong></p>
 <p><strong>What we would have discovered:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="mf">35</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">RHEL</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="n">servers</span><span class="w"> </span><span class="p">(</span><span class="n">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Server</span><span class="p">)</span>
@@ -853,14 +899,14 @@ Savings we didn&#39;t get: $113,800
 - <strong>What we actually paid: $118,000</strong></p>
 <p><strong>The Application tag enabled migration planning that would have saved $86,800 to $113,800.</strong></p>
 <p><strong>Without Application tags, we couldn't create a migration wave strategy. We treated all 47 "servers" the same and bought the expensive solution for all of them.</strong></p>
-<h2>Getting Started - Your Tagging Implementation Plan</h2>
+<h2 id="getting-started-your-tagging-implementation-plan">Getting Started - Your Tagging Implementation Plan</h2>
 <p><strong>Week 1-2:</strong> Inventory &amp; Technical Discovery<br />
 <strong>Week 3-4:</strong> TYPE Classification<br />
 <strong>Week 5-6:</strong> Ownership Discovery<br />
 <strong>Week 7-8:</strong> Application Mapping<br />
 <strong>Week 9-10:</strong> Tagging Implementation<br />
 <strong>Week 11-12:</strong> Validation &amp; Reporting</p>
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>Resource tags are not optional metadata.</strong></p>
 <p><strong>They're the organizational structure that makes Azure's "one pane of glass" actually work.</strong></p>
 <p><strong>Without tags (especially TYPE):</strong><br />
@@ -885,7 +931,7 @@ Savings we didn&#39;t get: $113,800
 <p><strong>Start with TYPE. Everything else follows from there.</strong></p>
 <hr />
 <hr />
-<h3>🔍 Find the Missing Types</h3>
+<h3 id="find-the-missing-types">🔍 Find the Missing Types</h3>
 <p>The 'Type' tag is your primary filter. Find what's missing it now.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find resources missing the critical &#39;Type&#39; tag</span>
 <span class="n">Resources</span>
@@ -895,7 +941,7 @@ Savings we didn&#39;t get: $113,800
 </code></pre></div>
 
 <hr />
-<h3>🛑 Who Defines the Types?</h3>
+<h3 id="who-defines-the-types">🛑 Who Defines the Types?</h3>
 <p>The 'Type' tag saves money, but only if applied consistently.<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-100k">Download the Azure RACI Matrix</a></strong> to assign the 'Tag Standard Owner' role.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

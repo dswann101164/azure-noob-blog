@@ -11,7 +11,7 @@ tags:
 - Tags
 cover: /static/images/hero/azure-tag-governance.png
 slug: azure-tag-governance-policy
-
+faq_schema: true
 
 related_posts:
   - azure-resource-tags-guide

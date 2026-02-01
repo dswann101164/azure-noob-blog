@@ -61,6 +61,30 @@
   <meta name="twitter:description" content="What Azure Update Manager really looks like in an enterprise: agent confusion, SCCM overlap, and how to make patching governance work.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-update-manager-reality-check.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -111,7 +135,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported",
   "description": "What Azure Update Manager really looks like in an enterprise: agent confusion, SCCM overlap, and how to make patching governance work.",
   "image": {
@@ -126,6 +150,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -148,10 +176,12 @@
   },
   "keywords": "Azure, Azure Governance, Azure Update Manager, Governance, KQL, Monitoring, Operations, Patching, Update Management, Update Manager, VM Management",
   "articleSection": "Azure",
-  "wordCount": "1474",
+  "wordCount": "1485",
   "timeRequired": "PT7M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -186,6 +216,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-update-manager-reality-check/"
+}
+</script>
+
+
+
 
 
 
@@ -257,17 +303,17 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
-<h1>Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported</h1>
+<h1 id="azure-update-manager-reality-check-why-77-of-your-vms-are-unsupported">Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported</h1>
 <p>When I first opened Azure Update Manager, I nearly had a heart attack. The dashboard cheerfully informed me that <strong>1,791 virtual machines</strong> needed attention. As someone responsible for keeping our Azure environment secure and compliant, seeing that number felt like staring down an impossible task.</p>
 <p>Here's what I wish someone had told me on day one: <strong>that number is completely misleading</strong>.</p>
 <p>After digging deep into our environment, running queries, and actually understanding what Azure Update Manager can and can't handle, I discovered the uncomfortable truth: <strong>only 348 of those 1,791 VMs should actually be managed by Azure Update Manager</strong>. That's 77% of our environment that shouldn't be there in the first place.</p>
 <p>If you're facing a similar shock when you open Azure Update Manager, this post will save you weeks of confusion and help you focus on what actually matters.</p>
-<h2>The Problem: Azure Update Manager Shows Everything</h2>
+<h2 id="the-problem-azure-update-manager-shows-everything">The Problem: Azure Update Manager Shows Everything</h2>
 <p>Azure Update Manager has a dirty little secret: it displays every single VM it can see, regardless of whether it should manage that VM or not. It doesn't understand that your environment is complex. It doesn't know about your Citrix VDI infrastructure, your Databricks clusters, or your security appliances that should never be touched by automated updates.</p>
 <p><img alt="Azure Update Manager Dashboard showing 1,791 VMs" src="/static/images/azure-update-manager-before.png" /></p>
 <p>Looking at this dashboard, my first instinct was panic. How could we possibly manage updates for nearly 1,800 virtual machines? Where do we even start?</p>
 <p>The answer: we don't. Because most of these VMs are being managed by other tools, are specialized appliances, or simply aren't suitable for Azure Update Manager.</p>
-<h2>The Reality: Most VMs Have Better Update Methods</h2>
+<h2 id="the-reality-most-vms-have-better-update-methods">The Reality: Most VMs Have Better Update Methods</h2>
 <p>Here's the breakdown of our "1,791 VMs that need updates":</p>
 <table>
 <thead>
@@ -325,16 +371,16 @@
 </table>
 <p><strong>The real number of VMs that should use Azure Update Manager? 348.</strong></p>
 <p>That's a 77% reduction from what the dashboard initially showed us. Suddenly, the task went from "impossible" to "manageable."</p>
-<h2>Why This Happens: Azure Update Manager Doesn't Understand Context</h2>
+<h2 id="why-this-happens-azure-update-manager-doesn-t-understand-context">Why This Happens: Azure Update Manager Doesn't Understand Context</h2>
 <p>Azure Update Manager is designed to be simple: "Hey, there are VMs here, they probably need updates!" But enterprise environments are anything but simple.</p>
 <p><strong>Citrix VDI Systems (900 VMs):</strong> These are managed through Intune with carefully orchestrated update schedules that coordinate with user sessions. Azure Update Manager would break this process.</p>
 <p><strong>Azure Databricks (170 VMs):</strong> These are ephemeral compute clusters managed by the Databricks service itself. They get updated as part of the cluster lifecycle, not through traditional patching.</p>
 <p><strong>Security Appliances (46 VMs):</strong> Firewalls, intrusion detection systems, and other security tools require vendor-specific update procedures. One wrong automatic update could take down your entire network security posture.</p>
 <p><strong>Desktop VMs (44 VMs):</strong> Windows 10/11 virtual desktops are managed through Intune with different policies than servers. They need user-focused update schedules, not server maintenance windows.</p>
 <p><strong>The lesson:</strong> Just because Azure Update Manager can see a VM doesn't mean it should manage that VM.</p>
-<h2>The Solution: KQL Queries to Find Your Real Targets</h2>
+<h2 id="the-solution-kql-queries-to-find-your-real-targets">The Solution: KQL Queries to Find Your Real Targets</h2>
 <p>Instead of trying to manage all 1,791 VMs, I used Azure Resource Graph queries to identify which systems should actually be excluded from Azure Update Manager.</p>
-<h3>Query 1: Identify Unsupported Systems</h3>
+<h3 id="query-1-identify-unsupported-systems">Query 1: Identify Unsupported Systems</h3>
 <p>This query finds all the VMs that should be managed by other tools:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -352,7 +398,7 @@
 - <strong>Publisher patterns</strong>: Databricks VMs, security appliances, Windows Desktop images<br />
 - <strong>Subscription patterns</strong>: Anything with "Citrix" in the subscription name<br />
 - <strong>Resource group patterns</strong>: Groups containing "citrix" or "databricks"</p>
-<h3>Query 2: Count Unsupported Systems by Type</h3>
+<h3 id="query-2-count-unsupported-systems-by-type">Query 2: Count Unsupported Systems by Type</h3>
 <p>To understand the scope of what we're excluding:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -367,24 +413,24 @@
 </code></pre></div>
 
 <p>This showed us exactly where our unsupported VMs were concentrated and helped validate our filtering logic.</p>
-<h2>The Filter Effect: From Chaos to Clarity</h2>
+<h2 id="the-filter-effect-from-chaos-to-clarity">The Filter Effect: From Chaos to Clarity</h2>
 <p>After applying these filters in Azure Update Manager (by excluding the problematic resource groups and subscriptions), the dashboard transformation was dramatic:</p>
 <p><strong>Before filtering:</strong> 1,791 VMs<br />
 <strong>After filtering:</strong> 348 VMs</p>
 <p><img alt="Azure Update Manager Dashboard after filtering" src="/static/images/azure-update-manager-after.png" /></p>
 <p>Suddenly, Azure Update Manager became a useful tool instead of an overwhelming problem. We went from "How do we handle 1,800 VMs?" to "Here are the 348 VMs we actually need to focus on."</p>
-<h2>The Business Impact: Focus on What Matters</h2>
+<h2 id="the-business-impact-focus-on-what-matters">The Business Impact: Focus on What Matters</h2>
 <p>This filtering approach delivered immediate business value:</p>
 <p><strong>Risk Reduction:</strong> We eliminated the risk of accidentally updating critical appliances or breaking carefully managed VDI environments.</p>
 <p><strong>Resource Optimization:</strong> Our team could focus on 348 VMs instead of trying to understand 1,791 different systems.</p>
 <p><strong>Clear Accountability:</strong> Each system type has a clear owner and update methodology. No more confusion about who's responsible for what.</p>
 <p><strong>Realistic Planning:</strong> Update schedules and maintenance windows became manageable when scoped to the right systems.</p>
-<h2>Key Takeaways for Your Environment</h2>
+<h2 id="key-takeaways-for-your-environment">Key Takeaways for Your Environment</h2>
 <p><strong>Don't trust the initial numbers:</strong> Azure Update Manager will show you every VM it can see. Most of them probably shouldn't be there.</p>
 <p><strong>Understand your ecosystem:</strong> Map out which tools are already managing updates for different system types. Don't create duplicate or conflicting processes.</p>
 <p><strong>Use filtering aggressively:</strong> Azure Update Manager works best when it's focused on systems that actually belong there.</p>
 <p><strong>Document your exclusions:</strong> Keep track of why certain VMs are excluded so future team members understand the decisions.</p>
-<h2>What's Next: Making the 348 VMs Actually Automated</h2>
+<h2 id="what-s-next-making-the-348-vms-actually-automated">What's Next: Making the 348 VMs Actually Automated</h2>
 <p>Having identified our real target VMs is just the first step. In my next post, I'll show you why those 348 VMs still aren't being updated automatically, even with Azure Update Manager policies in place, and the missing piece that most Azure documentation doesn't tell you about.</p>
 <p>The short version: policies configure VMs for automation, but they don't actually schedule when updates happen. That requires maintenance configurations, and there's a gap between the two that catches most administrators off guard.</p>
 <hr />

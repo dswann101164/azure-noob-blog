@@ -1,0 +1,62 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you configure Azure Activity Logs for SOC 2 compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create a Log Analytics Workspace with 365-day retention, create a Storage Account for 7-year archive, then configure diagnostic settings to export Activity Logs to both destinations. Select all 8 log categories (Administrative, Security, ServiceHealth, Alert, Recommendation, Policy, Autoscale, ResourceHealth) and save the diagnostic setting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does Azure keep Activity Logs by default?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure keeps Activity Logs for only 90 days by default. SOC 2 requires 12+ months of retention. You must configure diagnostic settings to export logs to a Log Analytics Workspace with 365-day retention and a Storage Account for 7-year archive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does Azure Activity Log retention cost for SOC 2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For small environments with 1-3 subscriptions, expect $4-15 per month. Medium environments with 10-20 subscriptions cost $60-170 per month. Enterprise environments with 40+ subscriptions cost $730-950 per month. Compare this to a failed SOC 2 audit finding which can cost $50,000-$500,000 in remediation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Azure Activity Log categories should I enable for SOC 2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enable all 8 categories: Administrative (who created, deleted, or modified resources), Security (security alerts and violations), ServiceHealth (Azure outages), Alert (monitoring alerts), Recommendation (Azure Advisor), Policy (governance failures), Autoscale (capacity changes), and ResourceHealth (resource status changes). SOC 2 auditors ask random questions spanning all categories."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you verify Azure Activity Logs are actually being exported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wait 15-30 minutes after configuration, then run the KQL query 'AzureActivity | take 10' in your Log Analytics Workspace. You should see 10 rows with columns like TimeGenerated, Caller, and OperationName. If no results appear, check that all 8 categories are enabled, the correct workspace is selected, and try generating activity by creating a test resource group."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What SOC 2 controls does Azure Activity Log retention satisfy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Activity Log retention satisfies SOC 2 CC6.1 (Logical Access Controls) by proving who accessed what, and SOC 2 CC6.7 (System Monitoring) by providing 12+ months of monitoring data. This covers ARM resources like VMs, storage accounts, and networks. Azure AD audit logs for identity events require separate configuration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Azure Activity Log export cover Azure AD sign-in logs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Activity Logs cover ARM resource operations like VM creation, storage account changes, and network modifications. Azure AD logs covering user sign-ins, app registrations, admin consent grants, role assignments, and password resets are a completely separate system requiring separate diagnostic settings configuration."
+      }
+    }
+  ]
+}

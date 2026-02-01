@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="Complete Azure migration checklist: 80% of migration failures happen because you didn&#39;t ask these 8 questions BEFORE starting. License keys, vendor...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/application-migration-checklist.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Migration Checklist: 8 Critical Questions Before You Migrate",
   "description": "Complete Azure migration checklist: 80% of migration failures happen because you didn&#39;t ask these 8 questions BEFORE starting. License keys, vendor...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "azure, migration, operations, enterprise, Checklist, Cloud Migration, Planning",
   "articleSection": "azure",
-  "wordCount": "2189",
+  "wordCount": "2208",
   "timeRequired": "PT11M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/application-migration-checklist-azure/"
+}
+</script>
+
+
+
 
 
 
@@ -242,7 +288,7 @@
 
   
   <div class="post-body">
-    <h2>The Problem Nobody Talks About</h2>
+    <h2 id="the-problem-nobody-talks-about">The Problem Nobody Talks About</h2>
 <p>This guide is part of our <a href="/hub/migration/">Azure Migration hub</a> covering assessment, planning, execution, and post-migration optimization.</p>
 <p>You've read Microsoft's migration guides. You've attended the webinars. You've even done the Azure Migrate assessment. Everything looks green.</p>
 <p>Then you start the actual migration and discover:<br />
@@ -254,9 +300,9 @@
 <p>After managing large-scale enterprise Azure migrations involving thousands of resources across dozens of subscriptions, I've learned this hard truth:</p>
 <p><strong>Migrations don't fail because of technical problems. They fail because of institutional knowledge problems.</strong></p>
 <p>The information you need exists somewhere in someone's head, in an old email, or in a spreadsheet that hasn't been updated since 2019. And you don't discover this until 2 AM during your maintenance window when the application won't start because you don't have the license key.</p>
-<h2>The Checklist That Should Have Been In Microsoft's Docs</h2>
+<h2 id="the-checklist-that-should-have-been-in-microsoft-s-docs">The Checklist That Should Have Been In Microsoft's Docs</h2>
 <p>Here's what I actually use before approving any application migration. This isn't theory - this is what prevents 2 AM emergency calls.</p>
-<h3>Question 1: Do you have a copy of the application software installation files?</h3>
+<h3 id="question-1-do-you-have-a-copy-of-the-application-software-installation-files">Question 1: Do you have a copy of the application software installation files?</h3>
 <p><strong>Why this matters:</strong> You'd think this is obvious, but I've seen production applications where the installation media is literally on a CD-ROM in someone's desk drawer. Or the installer was downloaded 7 years ago and the vendor's website doesn't have that version anymore.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - You can't rebuild the application if the migration fails<br />
@@ -266,7 +312,7 @@
 <p><strong>The answer you want:</strong> "Yes, and here's the exact path to the installer in our software repository with SHA-256 hash verification."</p>
 <p><strong>The answer you'll probably get:</strong> "I think Bob has it on his laptop?"</p>
 <hr />
-<h3>Question 2: Do you have a copy of the Software License Key?</h3>
+<h3 id="question-2-do-you-have-a-copy-of-the-software-license-key">Question 2: Do you have a copy of the Software License Key?</h3>
 <p><strong>Why this matters:</strong> Because Azure doesn't magically know your on-premises license keys. And when the application starts asking for activation after migration, you better have it.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - Application won't start after migration<br />
@@ -276,7 +322,7 @@
 <p><strong>The answer you want:</strong> "Yes, it's in our password vault with the maintenance contract that shows we're paid through 2027."</p>
 <p><strong>The answer you'll probably get:</strong> "It's installed, so it must be somewhere?"</p>
 <hr />
-<h3>Question 3: Do you have the Vendor's Contact Information?</h3>
+<h3 id="question-3-do-you-have-the-vendor-s-contact-information">Question 3: Do you have the Vendor's Contact Information?</h3>
 <p><strong>Why this matters:</strong> When things go wrong (and they will), you need to contact the vendor. Not the sales guy who cold-called you 5 years ago. The actual support contact who can help.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - Can't open a support ticket when migration fails<br />
@@ -290,7 +336,7 @@
 - Support plan tier (24/7 or business hours only)</p>
 <p><strong>The answer you'll probably get:</strong> "Can't we just Google them?"</p>
 <hr />
-<h3>Question 4: Is the application software still supported by the vendor?</h3>
+<h3 id="question-4-is-the-application-software-still-supported-by-the-vendor">Question 4: Is the application software still supported by the vendor?</h3>
 <p><strong>Why this matters:</strong> If the vendor doesn't support the version you're running, they DEFINITELY won't support it in Azure. And when it breaks, you're on your own.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - Vendor refuses to help because "that version is end-of-life"<br />
@@ -300,7 +346,7 @@
 <p><strong>The answer you want:</strong> "Yes, we're on the current major version with active support through [date], and the vendor has confirmed Azure is a supported platform."</p>
 <p><strong>The answer you'll probably get:</strong> "It works, so it must be supported?"</p>
 <hr />
-<h3>Question 5: Does the software currently have Firewall Rules in place?</h3>
+<h3 id="question-5-does-the-software-currently-have-firewall-rules-in-place">Question 5: Does the software currently have Firewall Rules in place?</h3>
 <p><strong>Why this matters:</strong> Because Azure isn't going to magically know what ports your application needs. And Network Security Groups default to blocking everything.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - Application can't talk to the database (port blocked)<br />
@@ -315,7 +361,7 @@
 - Why each rule exists (seriously, document this)</p>
 <p><strong>The answer you'll probably get:</strong> "Let me ask the network team... they don't work here anymore."</p>
 <hr />
-<h3>Question 6: Does the application deal with PCI data?</h3>
+<h3 id="question-6-does-the-application-deal-with-pci-data">Question 6: Does the application deal with PCI data?</h3>
 <p><strong>Why this matters:</strong> Because if it touches credit card data, you just signed up for a completely different migration process with compliance requirements, audit trails, and encryption at rest.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - Compliance violation discovered mid-migration<br />
@@ -325,7 +371,7 @@
 <p><strong>The answer you want:</strong> "No, this application never touches payment card data, and here's the data flow diagram to prove it."</p>
 <p><strong>The answer that should make you nervous:</strong> "I don't think so?"</p>
 <hr />
-<h3>Question 7: Does the application currently sit behind a VIP (or load balancer)?</h3>
+<h3 id="question-7-does-the-application-currently-sit-behind-a-vip-or-load-balancer">Question 7: Does the application currently sit behind a VIP (or load balancer)?</h3>
 <p><strong>Why this matters:</strong> Because load balancer configuration isn't in Active Directory, it's not in DNS, and it's probably not documented anywhere. But if you don't recreate it in Azure, your application won't work the same way.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - High availability features don't work<br />
@@ -341,7 +387,7 @@
 - Backend pool members and weights</p>
 <p><strong>The answer you'll probably get:</strong> "It has high availability, so yes?"</p>
 <hr />
-<h3>Question 8: Does the application have any certificate(s) installed?</h3>
+<h3 id="question-8-does-the-application-have-any-certificate-s-installed">Question 8: Does the application have any certificate(s) installed?</h3>
 <p><strong>Why this matters:</strong> Because certificates don't migrate automatically, they usually can't be exported without the private key password, and they're probably going to expire during your migration window.</p>
 <p><strong>What breaks when you don't have it:</strong><br />
 - HTTPS doesn't work (browser warnings)<br />
@@ -365,7 +411,7 @@
 <p><strong>The answer you want:</strong> "Yes, here's the certificate, private key, password, expiration date, and renewal process documentation."</p>
 <p><strong>The answer you'll probably get:</strong> "It's in IIS somewhere?"</p>
 <hr />
-<h2>The Ugly Truth About Enterprise Migrations</h2>
+<h2 id="the-ugly-truth-about-enterprise-migrations">The Ugly Truth About Enterprise Migrations</h2>
 <p>Here's what Microsoft's migration guides don't tell you:</p>
 <p><strong>The technical migration is the easy part.</strong> Azure Migrate can move VMs. Azure Database Migration Service can move databases. ASR can replicate entire environments.</p>
 <p><strong>The hard part is institutional knowledge.</strong> The information about how things actually work exists in:<br />
@@ -375,33 +421,33 @@
 - A Word doc (on a file share that doesn't exist anymore)<br />
 - "Tribal knowledge" (which means nowhere)</p>
 <p><strong>This checklist isn't about technology. It's about organizational memory.</strong></p>
-<h2>How to Actually Use This Checklist</h2>
+<h2 id="how-to-actually-use-this-checklist">How to Actually Use This Checklist</h2>
 <p>Don't wait until migration day to ask these questions. Here's the process that works:</p>
-<h3>Step 1: Run the checklist 30 days before migration</h3>
+<h3 id="step-1-run-the-checklist-30-days-before-migration">Step 1: Run the checklist 30 days before migration</h3>
 <p>Send this to the application owner. Make them fill it out. If they put "Don't Know" for anything, that's a red flag.</p>
-<h3>Step 2: Verify the answers</h3>
+<h3 id="step-2-verify-the-answers">Step 2: Verify the answers</h3>
 <p>Don't just accept "Yes" as an answer. Make them show you:<br />
 - The actual installer files<br />
 - The actual license key (test it)<br />
 - The actual firewall rules (export them)<br />
 - The actual certificates (export them with private keys)</p>
-<h3>Step 3: Document everything in a runbook</h3>
+<h3 id="step-3-document-everything-in-a-runbook">Step 3: Document everything in a runbook</h3>
 <p>Create a migration runbook that includes:<br />
 - Every answer from this checklist<br />
 - Screenshots of current configuration<br />
 - Export of current settings<br />
 - Contact information for vendor support<br />
 - Rollback procedures</p>
-<h3>Step 4: Test the migration in a dev environment</h3>
+<h3 id="step-4-test-the-migration-in-a-dev-environment">Step 4: Test the migration in a dev environment</h3>
 <p>Don't go straight to production. Use these answers to build a test environment and verify everything works.</p>
-<h2>The Template</h2>
+<h2 id="the-template">The Template</h2>
 <p>I've turned this into an Excel template you can actually use. It includes:<br />
 - All 8 questions<br />
 - Space for additional information<br />
 - Answer key (Yes/No/Not Applicable/Don't Know)<br />
 - Instructions for application owners</p>
 <p><strong>Download it here:</strong> <a href="/static/downloads/Azure-Application-Migration-Checklist.xlsx">Azure Application Migration Checklist Template</a></p>
-<h2>What's Missing From This Checklist</h2>
+<h2 id="what-s-missing-from-this-checklist">What's Missing From This Checklist</h2>
 <p>This checklist covers the basic technical stuff. But here's what it doesn't cover (and probably should):</p>
 <ul>
 <li><strong>Database connection strings</strong> (where are they configured?)</li>
@@ -412,7 +458,7 @@
 <li><strong>Monitoring configuration</strong> (how do you know if it's working?)</li>
 </ul>
 <p>Maybe that's a different blog post.</p>
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>Before you migrate anything to Azure, ask these 8 questions.</strong> </p>
 <p>If you get "Don't Know" for more than 2 questions, you're not ready to migrate. Go find the answers first.</p>
 <p>If the application owner gets defensive about filling this out, that tells you everything you need to know about how this migration is going to go.</p>

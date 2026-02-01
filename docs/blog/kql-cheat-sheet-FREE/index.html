@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Essential KQL reference for Azure admins: 15 fundamental queries for VM inventory, resource discovery, and basic troubleshooting. Start learning Azure...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/kql-cheat-sheet.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "KQL Cheat Sheet: Getting Started with Azure Resource Graph",
   "description": "Essential KQL reference for Azure admins: 15 fundamental queries for VM inventory, resource discovery, and basic troubleshooting. Start learning Azure...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "Azure, Cheat Sheet, KQL, Log Analytics, Query Language, Resource Graph",
   "articleSection": "Azure",
-  "wordCount": "1719",
+  "wordCount": "1753",
   "timeRequired": "PT9M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/kql-cheat-sheet-FREE/"
+}
+</script>
+
+
+
 
 
 
@@ -238,17 +284,17 @@
 
   
   <div class="post-body">
-    <h1>KQL Cheat Sheet: Getting Started with Azure Resource Graph</h1>
+    <h1 id="kql-cheat-sheet-getting-started-with-azure-resource-graph">KQL Cheat Sheet: Getting Started with Azure Resource Graph</h1>
 <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
 <blockquote>
 <p><strong>Note:</strong> No Azure certification teaches KQL for operational queries. The AZ-104 exam shows you two sample queries. That's it. No Resource Graph training. No joins. No performance optimization. Nothing about the queries you'll actually write daily.</p>
 <p>I wrote about this gap: <a href="/blog/azure-reporting-role-microsoft-should-create/">The Azure Role Microsoft Forgot to Certify</a>. Until Microsoft fixes this, here's the KQL guide you need.</p>
 </blockquote>
 <hr />
-<h2>What is KQL?</h2>
+<h2 id="what-is-kql">What is KQL?</h2>
 <p>Kusto Query Language (KQL) is the query language for Azure Resource Graph, Log Analytics, and Microsoft Sentinel. If you manage Azure resources, you need to know KQL.</p>
 <p>This cheat sheet focuses on <strong>Azure Resource Graph</strong> - querying your Azure infrastructure metadata to inventory resources, check configurations, and troubleshoot issues.</p>
-<h2>Getting Started</h2>
+<h2 id="getting-started">Getting Started</h2>
 <p><strong>Where to Run:</strong> Azure Portal &gt; Resource Graph Explorer (search "resource-graph" in the portal).</p>
 <p><strong>Key Tables:</strong><br />
 - <code>Resources</code>: Contains all Azure resources (VMs, NICs, disks, storage, etc.)<br />
@@ -261,8 +307,8 @@
 </code></pre></div>
 
 <hr />
-<h2>Your First 3 Queries</h2>
-<h3>1. List All Your VMs</h3>
+<h2 id="your-first-3-queries">Your First 3 Queries</h2>
+<h3 id="1-list-all-your-vms">1. List All Your VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
@@ -270,7 +316,7 @@
 
 <p><strong>What it does:</strong> Shows every VM across all your subscriptions.</p>
 <hr />
-<h3>2. Find VMs in a Specific Resource Group</h3>
+<h3 id="2-find-vms-in-a-specific-resource-group">2. Find VMs in a Specific Resource Group</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w">  </span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production-RG&quot;</span>
@@ -279,7 +325,7 @@
 
 <p><strong>What it does:</strong> Filters to VMs in one resource group only.</p>
 <hr />
-<h3>3. Count VMs by Location</h3>
+<h3 id="3-count-vms-by-location">3. Count VMs by Location</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
@@ -287,68 +333,68 @@
 
 <p><strong>What it does:</strong> Shows how many VMs you have in each Azure region.</p>
 <hr />
-<h2>Core KQL Concepts</h2>
-<h3>Tables = Your Data Sources</h3>
+<h2 id="core-kql-concepts">Core KQL Concepts</h2>
+<h3 id="tables-your-data-sources">Tables = Your Data Sources</h3>
 <p>Think of tables like Excel sheets - each contains different types of data:<br />
 - <code>Resources</code> = all your Azure resources<br />
 - <code>ResourceContainers</code> = subscriptions and resource groups</p>
-<h3>Where = Your Filter</h3>
+<h3 id="where-your-filter">Where = Your Filter</h3>
 <p>Like Excel filters - narrows down your data:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;eastus&quot;</span>
 </code></pre></div>
 
 <p><strong>Always filter early for better performance.</strong></p>
-<h3>Project = Your Columns</h3>
+<h3 id="project-your-columns">Project = Your Columns</h3>
 <p>Selects which columns to display:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <p>Keeps output clean and focused.</p>
-<h3>Summarize = Aggregations</h3>
+<h3 id="summarize-aggregations">Summarize = Aggregations</h3>
 <p>Count, sum, or group your data:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h2>15 Essential Queries</h2>
-<h3>Query 1: List All VMs</h3>
+<h2 id="15-essential-queries">15 Essential Queries</h2>
+<h3 id="query-1-list-all-vms">Query 1: List All VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 2: List All Storage Accounts</h3>
+<h3 id="query-2-list-all-storage-accounts">Query 2: List All Storage Accounts</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 3: Find Resources by Tag</h3>
+<h3 id="query-3-find-resources-by-tag">Query 3: Find Resources by Tag</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 4: Count Resources by Type</h3>
+<h3 id="query-4-count-resources-by-type">Query 4: Count Resources by Type</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 5: List All Network Interfaces</h3>
+<h3 id="query-5-list-all-network-interfaces">Query 5: List All Network Interfaces</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 6: Find Untagged Resources</h3>
+<h3 id="query-6-find-untagged-resources">Query 6: Find Untagged Resources</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">bag_keys</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
@@ -356,21 +402,21 @@
 </code></pre></div>
 
 <hr />
-<h3>Query 7: List All Managed Disks</h3>
+<h3 id="query-7-list-all-managed-disks">Query 7: List All Managed Disks</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 8: Count Resources by Location</h3>
+<h3 id="query-8-count-resources-by-location">Query 8: Count Resources by Location</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 9: Find VMs with Specific OS</h3>
+<h3 id="query-9-find-vms-with-specific-os">Query 9: Find VMs with Specific OS</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
@@ -379,14 +425,14 @@
 </code></pre></div>
 
 <hr />
-<h3>Query 10: List Public IP Addresses</h3>
+<h3 id="query-10-list-public-ip-addresses">Query 10: List Public IP Addresses</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/publicipaddresses&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 11: Find Large Disks (&gt;100GB)</h3>
+<h3 id="query-11-find-large-disks-100gb">Query 11: Find Large Disks (&gt;100GB)</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
@@ -395,14 +441,14 @@
 </code></pre></div>
 
 <hr />
-<h3>Query 12: List All Resource Groups</h3>
+<h3 id="query-12-list-all-resource-groups">Query 12: List All Resource Groups</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">ResourceContainers</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.resources/resourcegroups&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 13: Count VMs by Resource Group</h3>
+<h3 id="query-13-count-vms-by-resource-group">Query 13: Count VMs by Resource Group</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
@@ -410,14 +456,14 @@
 </code></pre></div>
 
 <hr />
-<h3>Query 14: Find Resources in Specific Subscription</h3>
+<h3 id="query-14-find-resources-in-specific-subscription">Query 14: Find Resources in Specific Subscription</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;your-subscription-id-here&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
 </code></pre></div>
 
 <hr />
-<h3>Query 15: Get VM with Network Details</h3>
+<h3 id="query-15-get-vm-with-network-details">Query 15: Get VM with Network Details</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
@@ -425,7 +471,7 @@
 </code></pre></div>
 
 <hr />
-<h2>What You've Learned</h2>
+<h2 id="what-you-ve-learned">What You've Learned</h2>
 <p>You now know how to:<br />
 - ✅ Query Azure Resource Graph<br />
 - ✅ Filter resources by type, location, tags<br />
@@ -433,10 +479,10 @@
 - ✅ Find untagged resources<br />
 - ✅ Extract basic properties from resources</p>
 <hr />
-<h2>🚀 Want the Complete KQL Library?</h2>
+<h2 id="want-the-complete-kql-library">🚀 Want the Complete KQL Library?</h2>
 <p>This free guide covers the <strong>fundamentals</strong> - 15 essential queries to get started.</p>
 <p><strong>Ready for production-level Azure administration?</strong> </p>
-<h3>Get the Complete KQL Query Library ($29)</h3>
+<h3 id="get-the-complete-kql-query-library-29">Get the Complete KQL Query Library ($29)</h3>
 <p><strong>What's included:</strong><br />
 - ✅ <strong>48 production-tested queries</strong> (vs 15 basic queries here)<br />
 - ✅ <strong>Advanced joins</strong> - Link VMs to NICs, disks, subnets, subscriptions<br />
@@ -453,21 +499,21 @@
 - 44 Azure subscriptions<br />
 - 31,000+ resources<br />
 - Enterprise-scale environments</p>
-<h3>Why Upgrade?</h3>
+<h3 id="why-upgrade">Why Upgrade?</h3>
 <p><strong>This free guide teaches you KQL basics</strong> → Get started in 30 minutes</p>
 <p><strong>The complete library gives you production-ready queries</strong> → Save 10+ hours/month</p>
 <p><strong>Price: $29</strong> (one-time purchase, instant download)</p>
 <p><a href="#">Get the Complete KQL Library →</a></p>
 <p><em>Money-back guarantee if it doesn't save you 2+ hours in the first week.</em></p>
 <hr />
-<h2>Additional Resources</h2>
+<h2 id="additional-resources">Additional Resources</h2>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/azure/data-explorer/kql-quick-reference">KQL Quick Reference (Microsoft)</a></li>
 <li><a href="https://docs.microsoft.com/en-us/azure/governance/resource-graph/">Azure Resource Graph Documentation</a></li>
 <li><a href="https://azure-noob.com">More Azure insights at azure-noob.com</a></li>
 </ul>
 <hr />
-<h3>Azure Admin Starter Kit (Free Download)</h3>
+<h3 id="azure-admin-starter-kit-free-download">Azure Admin Starter Kit (Free Download)</h3>
 <p>Get my complete Azure admin toolkit: KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.</p>
 <p><a href="/blog/starter-kit/">Get the Starter Kit →</a></p>
 <hr />

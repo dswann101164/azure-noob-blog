@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="How to turn Azure tags from &#39;nice to have&#39; into enforceable governance using Azure Policy, deny/modify effects, and remediation so teams can’t slip around...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-tag-governance.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Tag Governance 2025: Policies That Actually Enforce",
   "description": "How to turn Azure tags from &#39;nice to have&#39; into enforceable governance using Azure Policy, deny/modify effects, and remediation so teams can’t slip around...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "Azure, Azure Policy, Compliance, FinOps, Governance, Tags",
   "articleSection": "Azure",
-  "wordCount": "2522",
+  "wordCount": "2566",
   "timeRequired": "PT13M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -178,9 +208,82 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-tag-governance-policy/"
+}
+</script>
 
 
 
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you enforce Azure tags using Azure Policy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create a custom Azure Policy that checks for tag name existence (not values) using the exists:false condition, group multiple tag policies into an initiative with two policies per tag (one to apply tags to resource groups, one to inherit tags to child resources), and assign the initiative at management group scope for automatic inheritance to all subscriptions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Azure tag inheritance work from resource groups to resources?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using the built-in policy Inherit a tag from the resource group if missing, Azure automatically copies tag names and values from resource groups to new child resources created within them. Existing resources need a separate remediation task. The policy will not overwrite existing tag values on resources."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use deny or modify effect for Azure tag policies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with modify effect to automatically apply tags with blank values, reducing friction for users. Switch to deny effect for critical tags that must have specific values like Environment. The modify approach lets users create resources without thinking about tags, while deny forces users to tag correctly during creation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the minimum tags to start with for Azure governance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with three core tags: Application or Workload to identify what the resource is for, Environment to distinguish Production, Development, and Test, and CostCenter or Owner to identify who pays. Add more tags later as governance maturity grows."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you remediate existing untagged Azure resources?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create remediation tasks in Policy > Remediation for each tag policy. Azure Policy scans all resource groups in scope and applies missing tag names with blank values. For large environments with 1000+ resources, remediation can take 10-30 minutes. Break large tasks into smaller chunks by subscription to avoid Resource Graph 10,000 result limits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an Azure Policy initiative for tags?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An initiative (policy set) groups multiple tag policies into a single assignment. For three tags you need six total policies: two per tag (one custom policy to apply tags to resource groups, one built-in policy to inherit tags to child resources). Initiative parameters let you change tag names at assignment level without modifying the initiative."
+      }
+    }
+  ]
+}
+</script>
 
 
 <article class="post">
@@ -240,7 +343,7 @@
 If you're managing more than a handful of Azure subscriptions, you've already discovered that tag chaos is real. Finance wants chargeback tags. Security wants owner tags. Compliance wants environment tags. And nobody wants to manually tag 10,000 resources.</p>
 <p>Here's how to fix it using Azure Policy to enforce tags at scale and automatically inherit them to child resources.</p>
 <p><strong>Updated for 2025:</strong> This guide uses the current Microsoft-recommended approach as of November 2025, including integration with the FinOps Toolkit and FOCUS exports. The core method hasn't changed - it's still Azure Policy with modify effects and tag inheritance - but I've added the latest production recommendations.</p>
-<h2>The Problem</h2>
+<h2 id="the-problem">The Problem</h2>
 <p>Manual tagging doesn't scale. You can beg people to tag resources correctly. You can send reminder emails. You can write wiki documentation that nobody reads. Or you can use Azure Policy to make tags mandatory and automatic.</p>
 <p>This guide walks through:<br />
 - Creating custom tag policies that check for tag names (not values)<br />
@@ -248,11 +351,11 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 - Assigning policies at management group scope for automatic inheritance<br />
 - Remediating existing resources to apply tags retroactively<br />
 - Demonstrating automatic tag inheritance from resource groups to resources</p>
-<h2>Step 1: Create a Custom Tag Policy</h2>
+<h2 id="step-1-create-a-custom-tag-policy">Step 1: Create a Custom Tag Policy</h2>
 <p>Azure has a built-in policy called "Add or replace a tag on resource groups" - but we're going to customize it because the default behavior checks both tag name AND value. We only care if the tag name exists.</p>
-<h3>Why Customize?</h3>
+<h3 id="why-customize">Why Customize?</h3>
 <p>The built-in policy uses <code>notEquals</code> condition, which means it tries to enforce both the tag name AND a specific value. We want flexibility - just ensure the tag exists, let users set their own values.</p>
-<h3>Create the Custom Policy</h3>
+<h3 id="create-the-custom-policy">Create the Custom Policy</h3>
 <ol>
 <li>Navigate to <strong>Policy &gt; Definitions</strong></li>
 <li>Filter by category: <strong>Tags</strong></li>
@@ -260,7 +363,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Click <strong>Duplicate definition</strong></li>
 <li>Save at your <strong>Management Group scope</strong></li>
 </ol>
-<h3>Key Changes to Policy Logic</h3>
+<h3 id="key-changes-to-policy-logic">Key Changes to Policy Logic</h3>
 <p><strong>Change 1: Replace the condition</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Old (built-in)</span>
 <span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -288,9 +391,9 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 </code></pre></div>
 
 <p>When a missing tag is found, the policy applies the tag with a blank value. Users can then populate the value themselves.</p>
-<h2>Step 2: Create a Tag Initiative</h2>
+<h2 id="step-2-create-a-tag-initiative">Step 2: Create a Tag Initiative</h2>
 <p>Instead of assigning individual tag policies, group them into an <strong>initiative</strong> (policy set). This makes it easier to manage multiple tags.</p>
-<h3>Create New Initiative</h3>
+<h3 id="create-new-initiative">Create New Initiative</h3>
 <ol>
 <li>Navigate to <strong>Policy &gt; Definitions &gt; + Initiative Definition</strong></li>
 <li>Set basic configuration:</li>
@@ -299,7 +402,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li><strong>Description</strong>: <code>Enforce required tags on resource groups and inherit to resources</code></li>
 <li><strong>Category</strong>: <code>Tags</code></li>
 </ol>
-<h3>Add Policy Definitions</h3>
+<h3 id="add-policy-definitions">Add Policy Definitions</h3>
 <p>For each tag you want to govern, add TWO policies:</p>
 <ol>
 <li><strong>Your custom policy</strong>: Applies tags to resource groups</li>
@@ -313,7 +416,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 - Built-in policy #2: Inherit Environment tag from RG<br />
 - Custom policy #3: CostCenter tag on resource groups<br />
 - Built-in policy #3: Inherit CostCenter tag from RG</p>
-<h3>Create Initiative Parameters</h3>
+<h3 id="create-initiative-parameters">Create Initiative Parameters</h3>
 <p>Create one parameter for each tag name:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;tagName1&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -335,7 +438,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Map Policy Parameters to Initiative Parameters</h3>
+<h3 id="map-policy-parameters-to-initiative-parameters">Map Policy Parameters to Initiative Parameters</h3>
 <p>For each policy definition in your initiative, map the policy's <code>tagName</code> parameter to the related initiative parameter:</p>
 <ul>
 <li>Policy Definition Parameter: <code>tagName</code></li>
@@ -343,9 +446,9 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Value: Select <code>tagName1</code>, <code>tagName2</code>, or <code>tagName3</code></li>
 </ul>
 <p>This allows you to change tag names at the assignment level without modifying the initiative.</p>
-<h2>Step 3: Assign the Initiative</h2>
+<h2 id="step-3-assign-the-initiative">Step 3: Assign the Initiative</h2>
 <p>Now assign your new initiative to enforce tag governance.</p>
-<h3>Assignment Configuration</h3>
+<h3 id="assignment-configuration">Assignment Configuration</h3>
 <ol>
 <li><strong>Scope</strong>: Your management group (inherits to all subscriptions below)</li>
 <li><strong>Enforcement mode</strong>: <strong>Enabled</strong> (automatic remediation for new/changed resources)</li>
@@ -355,9 +458,9 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Tag Name 3: <code>CostCenter</code></li>
 <li><strong>Managed Identity</strong>: Required for <code>modify</code> effect policies (auto-created)</li>
 </ol>
-<h3>Why Management Group Scope?</h3>
+<h3 id="why-management-group-scope">Why Management Group Scope?</h3>
 <p>Assigning at the management group means every subscription underneath automatically inherits the tag policies. Add a new subscription? It's already governed.</p>
-<h2>Step 4: Trigger Policy Scan (Optional)</h2>
+<h2 id="step-4-trigger-policy-scan-optional">Step 4: Trigger Policy Scan (Optional)</h2>
 <p>Policy compliance stats update automatically in the background, but you can manually trigger a fresh scan:</p>
 <p><strong>Using Azure Cloud Shell:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Trigger policy scan for a specific subscription</span>
@@ -371,9 +474,9 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 </code></pre></div>
 
 <p>This updates compliance stats on-demand instead of waiting for the automatic scan.</p>
-<h2>Step 5: Remediate Existing Resources</h2>
+<h2 id="step-5-remediate-existing-resources">Step 5: Remediate Existing Resources</h2>
 <p>Your policy assignment only applies to NEW or CHANGED resources. Existing resource groups need manual remediation.</p>
-<h3>Create Remediation Task</h3>
+<h3 id="create-remediation-task">Create Remediation Task</h3>
 <ol>
 <li>Navigate to <strong>Policy &gt; Remediation</strong></li>
 <li>Select your policy assignment: <code>Azure Tag Governance</code></li>
@@ -384,11 +487,11 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Click <strong>Remediate</strong></li>
 </ol>
 <p>Repeat for all three custom policies (Application, Environment, CostCenter on resource groups).</p>
-<h3>What Happens During Remediation?</h3>
+<h3 id="what-happens-during-remediation">What Happens During Remediation?</h3>
 <p>Azure Policy scans all resource groups in scope and applies the missing tag names with blank values. You'll see the tags appear in the Azure portal within a few minutes.</p>
-<h2>Step 6: Test Tag Inheritance</h2>
+<h2 id="step-6-test-tag-inheritance">Step 6: Test Tag Inheritance</h2>
 <p>Now for the magic - demonstrating that tags automatically inherit from resource groups to resources.</p>
-<h3>Update Tag Values on Resource Group</h3>
+<h3 id="update-tag-values-on-resource-group">Update Tag Values on Resource Group</h3>
 <ol>
 <li>Select any resource group</li>
 <li>Navigate to <strong>Tags</strong></li>
@@ -398,23 +501,23 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Environment: <code>Production</code></li>
 <li>CostCenter: <code>12345</code></li>
 </ol>
-<h3>Create a New Resource</h3>
+<h3 id="create-a-new-resource">Create a New Resource</h3>
 <ol>
 <li>Create any resource within that resource group (NSG, Storage Account, VM, etc.)</li>
 <li><strong>Don't specify any tags during creation</strong></li>
 <li>After creation, check the resource's tags</li>
 </ol>
 <p><strong>Result</strong>: The resource automatically has all three tags with values inherited from the parent resource group.</p>
-<h2>How It Actually Works</h2>
+<h2 id="how-it-actually-works">How It Actually Works</h2>
 <p>Here's the policy logic in action:</p>
-<h3>Resource Group Creation</h3>
+<h3 id="resource-group-creation">Resource Group Creation</h3>
 <ol>
 <li>You create a resource group (with or without tags)</li>
 <li>Policy detects missing tag names: <code>Application</code>, <code>Environment</code>, <code>CostCenter</code></li>
 <li>Policy applies these tags with blank values</li>
 <li>You manually set the tag values</li>
 </ol>
-<h3>Resource Creation</h3>
+<h3 id="resource-creation">Resource Creation</h3>
 <ol>
 <li>You create a resource (VM, Storage, etc.)</li>
 <li>Resource doesn't have required tags</li>
@@ -422,37 +525,37 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li>Policy copies tag names AND values to the resource</li>
 <li>Your resource is now properly tagged</li>
 </ol>
-<h3>Resource Group Updates</h3>
+<h3 id="resource-group-updates">Resource Group Updates</h3>
 <p>If you change a resource group tag value:<br />
 - Existing resources keep their current values (policy won't overwrite)<br />
 - NEW resources created after the change inherit the updated value</p>
-<h2>Why This Approach Works</h2>
+<h2 id="why-this-approach-works">Why This Approach Works</h2>
 <p><strong>Flexibility</strong>: Tag names are enforced, but users control the values<br />
 <strong>Automation</strong>: No manual tagging required for child resources<br />
 <strong>Scale</strong>: Works across thousands of resources automatically<br />
 <strong>Compliance</strong>: Policy compliance dashboard shows coverage<br />
 <strong>Retroactive</strong>: Remediation applies to existing resources</p>
-<h2>Common Gotchas</h2>
-<h3>Policy Won't Overwrite Existing Tag Values</h3>
+<h2 id="common-gotchas">Common Gotchas</h2>
+<h3 id="policy-won-t-overwrite-existing-tag-values">Policy Won't Overwrite Existing Tag Values</h3>
 <p>If a resource already has a tag value, the policy won't change it. This is by design - you don't want policies overwriting intentional tag values.</p>
 <p><strong>Solution</strong>: Delete the incorrect tag, let the policy reapply it, then set the correct value.</p>
-<h3>Remediation Isn't Instant</h3>
+<h3 id="remediation-isn-t-instant">Remediation Isn't Instant</h3>
 <p>Policy remediation tasks run in the background. For large environments (1000+ resources), it can take 10-30 minutes.</p>
 <p><strong>Solution</strong>: Check the remediation task status in <strong>Policy &gt; Remediation</strong> to monitor progress.</p>
-<h3>Tags Don't Inherit to Existing Resources</h3>
+<h3 id="tags-don-t-inherit-to-existing-resources">Tags Don't Inherit to Existing Resources</h3>
 <p>The inheritance policy only applies to NEW resources created after the policy assignment.</p>
 <p><strong>Solution</strong>: Run a separate remediation task for the inheritance policies to retroactively apply tags to existing resources.</p>
-<h3>Management Groups Require Planning</h3>
+<h3 id="management-groups-require-planning">Management Groups Require Planning</h3>
 <p>If you assign policies at the wrong management group level, you'll govern resources you didn't intend to.</p>
 <p><strong>Solution</strong>: Test policy assignments in a non-production management group first. Use exclusions if needed.</p>
-<h2>Production Recommendations</h2>
-<h3>Start with Three Core Tags</h3>
+<h2 id="production-recommendations">Production Recommendations</h2>
+<h3 id="start-with-three-core-tags">Start with Three Core Tags</h3>
 <p>Don't try to govern 20 tags immediately. Start with:<br />
 1. <strong>Application</strong> or <strong>Workload</strong> - What is this resource for?<br />
 2. <strong>Environment</strong> - Production, Development, Test<br />
 3. <strong>CostCenter</strong> or <strong>Owner</strong> - Who pays for this?</p>
 <p>Add more tags later as your governance matures.</p>
-<h3>Use FinOps Toolkit for Tag Monitoring (2025 Update)</h3>
+<h3 id="use-finops-toolkit-for-tag-monitoring-2025-update">Use FinOps Toolkit for Tag Monitoring (2025 Update)</h3>
 <p>Once your policies are working, deploy the <strong>FinOps Toolkit Governance Workbook</strong> to visualize tag compliance across your environment.</p>
 <p><strong>What it shows:</strong><br />
 - Tag coverage percentage by subscription<br />
@@ -469,7 +572,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 
 <p>The Governance Workbook integrates with your Policy compliance data and Cost Management to show the business impact of proper tagging. This is way more effective than staring at Policy compliance stats.</p>
 <p><strong>Resource:</strong> <a href="https://learn.microsoft.com/en-us/cloud-computing/finops/toolkit/workbooks/governance">FinOps Toolkit Governance Workbook</a></p>
-<h3>Enable FOCUS Exports for Cross-Cloud Reporting</h3>
+<h3 id="enable-focus-exports-for-cross-cloud-reporting">Enable FOCUS Exports for Cross-Cloud Reporting</h3>
 <p>Azure now supports the <strong>FinOps Open Cost &amp; Usage Specification (FOCUS)</strong> format. Your tags automatically flow into FOCUS exports, enabling standardized cost reporting across Azure, AWS, and GCP.</p>
 <p><strong>Why this matters:</strong> If you're in a multi-cloud environment (or might be someday), FOCUS lets you use the same cost allocation model across all clouds. Your tag governance work pays dividends beyond Azure.</p>
 <p><strong>Setup:</strong><br />
@@ -477,24 +580,24 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 2. Create new export<br />
 3. Select <strong>FOCUS 1.0</strong> as the schema<br />
 4. Your tags appear as columns in the export</p>
-<h3>Use Deny Effect for Critical Tags</h3>
+<h3 id="use-deny-effect-for-critical-tags">Use Deny Effect for Critical Tags</h3>
 <p>For tags that MUST have specific values (like Environment: Production, Development, Test), use a <code>deny</code> effect policy instead of <code>modify</code>.</p>
 <p><strong>Why</strong>: Prevents users from creating resources with invalid tag values.</p>
-<h3>Support Tags with Spaces (2025 Feature)</h3>
+<h3 id="support-tags-with-spaces-2025-feature">Support Tags with Spaces (2025 Feature)</h3>
 <p>Azure Policy now supports <strong>"promoted tags"</strong> - tags with spaces in the key name. Previously, tag keys like <code>Cost Center</code> would break policies. Now they work fine.</p>
 <p>If you're migrating from on-premises systems that use spaces in tag names, you don't need to rename everything anymore.</p>
-<h3>Document Your Tag Standards</h3>
+<h3 id="document-your-tag-standards">Document Your Tag Standards</h3>
 <p>Create a wiki page or README explaining:<br />
 - What each tag means<br />
 - Valid values for each tag<br />
 - Examples of correct tagging</p>
 <p>Nobody reads documentation, but at least you have it when someone asks.</p>
-<h3>Monitor Compliance Dashboard</h3>
+<h3 id="monitor-compliance-dashboard">Monitor Compliance Dashboard</h3>
 <p>Check <strong>Policy &gt; Compliance</strong> weekly to identify:<br />
 - Resources that aren't compliant<br />
 - Subscriptions with low compliance rates<br />
 - Policy definitions that aren't working as expected</p>
-<h3>Watch for Resource Graph Limits</h3>
+<h3 id="watch-for-resource-graph-limits">Watch for Resource Graph Limits</h3>
 <p>Azure Resource Graph queries are limited to <strong>10,000 results</strong>. In large environments (10K+ resources), this can cause tag remediation to fail silently.</p>
 <p><strong>Solution:</strong> Filter remediation by management group or subscription instead of running tenant-wide. Break large remediation tasks into smaller chunks:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Instead of remediating all resources at once</span>
@@ -505,7 +608,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Alternative: Use Deny Instead of Modify</h2>
+<h2 id="alternative-use-deny-instead-of-modify">Alternative: Use Deny Instead of Modify</h2>
 <p>If you want to FORCE users to tag resources correctly during creation, use the <code>deny</code> effect instead of <code>modify</code>.</p>
 <p><strong>Modify Effect</strong> (what we used):<br />
 - Automatically applies tags<br />
@@ -516,7 +619,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 - Forces users to think about tagging<br />
 - Good for strict compliance</p>
 <p><strong>My recommendation</strong>: Start with <code>modify</code> to reduce friction, then switch to <code>deny</code> for critical tags once users understand the tagging model.</p>
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ol>
 <li><strong>Custom policies beat built-in</strong>: Customize the logic to check tag existence, not values</li>
 <li><strong>Initiatives make management easier</strong>: Group related policies instead of assigning individually</li>
@@ -524,7 +627,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <li><strong>Tag inheritance is automatic</strong>: Resource groups pass tags to child resources</li>
 <li><strong>Remediation handles existing resources</strong>: Don't manually tag 10,000 resources</li>
 </ol>
-<h2>What's Next?</h2>
+<h2 id="what-s-next">What's Next?</h2>
 <p>You now have basic tag governance working. Next steps:</p>
 <ol>
 <li><strong>Add more tags</strong> as your FinOps maturity grows</li>
@@ -535,7 +638,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <p>Tag governance isn't exciting, but it's the foundation for cost allocation, security ownership, and operational accountability at scale. Get this right, and everything else gets easier.</p>
 <hr />
 <hr />
-<h3>🔍 Auto-Deny the "Unknowns"</h3>
+<h3 id="auto-deny-the-unknowns">🔍 Auto-Deny the "Unknowns"</h3>
 <p>Don't just audit. Block bad financial data at the door with this policy snippet.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Deny deployment if Department tag causes &quot;Unknown&quot; financial route</span>
 <span class="p">{</span>
@@ -550,7 +653,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 </code></pre></div>
 
 <hr />
-<h3>🛑 Policy Needs People</h3>
+<h3 id="policy-needs-people">🛑 Policy Needs People</h3>
 <p>A 'Deny' policy stops deployment, but who handles the support ticket?<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-tag-policy">Download the Azure RACI Matrix</a></strong> to define the 'Policy Exception Approver' role.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

@@ -47,6 +47,30 @@
   <meta name="twitter:description" content="Fresh Windows 11 Enterprise N VMs from Azure Marketplace have broken winget dependencies. Here&#39;s the Chocolatey automation that actually works.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-marketplace-vms-broken-winget-chocolatey-fix.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -97,7 +121,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Marketplace VMs Ship with Broken winget - Use Chocolatey Instead",
   "description": "Fresh Windows 11 Enterprise N VMs from Azure Marketplace have broken winget dependencies. Here&#39;s the Chocolatey automation that actually works.",
   "image": {
@@ -112,6 +136,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -134,10 +162,12 @@
   },
   "keywords": "Automation, PowerShell, Azure VMs, DevOps",
   "articleSection": "Automation",
-  "wordCount": "3628",
+  "wordCount": "3651",
   "timeRequired": "PT18M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Automation"
@@ -172,6 +202,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-marketplace-vms-broken-winget-chocolatey-fix/"
+}
+</script>
+
+
+
 
 
 
@@ -228,11 +274,11 @@
 
   
   <div class="post-body">
-    <h2>Short Answer</h2>
+    <h2 id="short-answer">Short Answer</h2>
 <p>Fresh Windows 11 Enterprise N VMs from Azure Marketplace ship with winget v1.19 and VCLibs 14.0.30704.0, which creates an unresolvable dependency loop. You can't use winget to install packages on a fresh marketplace VM. The solution: use Chocolatey instead. It bypasses all Microsoft dependency issues and works immediately on fresh VMs.</p>
 <p><strong>Get the complete automation script:</strong> <a href="https://github.com/dswann101164/azure-admin-workstation-setup">⭐ GitHub: azure-admin-workstation-setup</a></p>
 <hr />
-<h2>The Problem: Microsoft's Dependency Loop</h2>
+<h2 id="the-problem-microsoft-s-dependency-loop">The Problem: Microsoft's Dependency Loop</h2>
 <p>You spin up a fresh Windows 11 Enterprise N VM from Azure Marketplace. You try to install PowerShell 7 with winget:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">winget</span> <span class="n">install</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span>
 </code></pre></div>
@@ -257,7 +303,7 @@
 <p><strong>You're stuck in a dependency loop on a fresh Azure VM.</strong></p>
 <p>This affects every Windows 11 Enterprise N VM from Azure Marketplace. It's been broken since late 2024.</p>
 <hr />
-<h2>Why This Matters: You Can't Bootstrap PowerShell 7</h2>
+<h2 id="why-this-matters-you-can-t-bootstrap-powershell-7">Why This Matters: You Can't Bootstrap PowerShell 7</h2>
 <p>Here's the catch-22 that makes this dependency hell worse:</p>
 <p><strong>You need PowerShell 7 for modern Azure automation.</strong> Microsoft recommends it. Every new Azure CLI example uses it. PowerShell ISE is deprecated. Windows PowerShell 5.1 is in maintenance mode.</p>
 <p><strong>But you can't install PowerShell 7 on a fresh Azure VM using winget</strong> because winget is broken on fresh marketplace VMs.</p>
@@ -269,7 +315,7 @@
 - Your modern Azure scripts don't work</p>
 <p><strong>Most Azure admins are still using PowerShell 5.1 and ISE because they can't easily bootstrap PowerShell 7 on fresh VMs.</strong></p>
 <p>This isn't just an inconvenience. It's blocking the entire Azure admin community from adopting modern tooling.</p>
-<h3>PowerShell 5.1 vs PowerShell 7: What You're Missing</h3>
+<h3 id="powershell-5-1-vs-powershell-7-what-you-re-missing">PowerShell 5.1 vs PowerShell 7: What You're Missing</h3>
 <p><strong>PowerShell 5.1 (Windows PowerShell):</strong><br />
 - Ships with Windows<br />
 - Last major update: 2016<br />
@@ -286,7 +332,7 @@
 - Required for new Azure modules</p>
 <p><strong>Microsoft's guidance:</strong> Use PowerShell 7 for all new Azure work.</p>
 <p><strong>Enterprise reality:</strong> Most admins are stuck on 5.1 because provisioning fresh VMs with PowerShell 7 is unnecessarily difficult.</p>
-<h3>The Bootstrap Problem</h3>
+<h3 id="the-bootstrap-problem">The Bootstrap Problem</h3>
 <p>On a fresh Azure Marketplace VM:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># You start here (PowerShell 5.1)</span>
 <span class="nv">$PSVersionTable</span><span class="p">.</span><span class="n">PSVersion</span>
@@ -310,14 +356,14 @@
 <p><strong>You end up spending 2-3 hours manually downloading and installing tools on every new admin workstation.</strong></p>
 <p>This is why Chocolatey matters. It solves the bootstrap problem.</p>
 <hr />
-<h2>Why This Happens</h2>
+<h2 id="why-this-happens">Why This Happens</h2>
 <p><strong>Microsoft's assumption:</strong> You're running Windows on physical hardware with Windows Update enabled.</p>
 <p><strong>Enterprise reality:</strong> You're running isolated VMs in Azure with Windows Update managed by WSUS or disabled entirely during initial provisioning.</p>
 <p>The marketplace images are built months before you deploy them. By the time you provision a VM, the included winget version is outdated and the certificate chain has changed.</p>
 <p>Microsoft provides no automated way to bootstrap the dependency chain on a fresh VM. You're expected to manually download and install components in the correct order.</p>
 <p><strong>This breaks infrastructure-as-code.</strong></p>
 <hr />
-<h2>What Microsoft Expects You to Do</h2>
+<h2 id="what-microsoft-expects-you-to-do">What Microsoft Expects You to Do</h2>
 <p>The "official" fix according to various GitHub issues and forums:</p>
 <ol>
 <li>Manually download VCLibs from Microsoft's site</li>
@@ -332,7 +378,7 @@
 </ol>
 <p>I spent 4 hours going down this path. Every manual fix led to another dependency error.</p>
 <hr />
-<h2>The Solution: Chocolatey</h2>
+<h2 id="the-solution-chocolatey">The Solution: Chocolatey</h2>
 <p>Chocolatey is a Windows package manager that:<br />
 - Doesn't depend on App Installer<br />
 - Doesn't require VCLibs<br />
@@ -352,7 +398,7 @@
 
 <p><strong>It just works.</strong></p>
 <hr />
-<h2>The Automated Setup Script</h2>
+<h2 id="the-automated-setup-script">The Automated Setup Script</h2>
 <p>I packaged this into a complete Azure admin workstation setup script.</p>
 <p><strong>What it installs:</strong><br />
 - PowerShell 7<br />
@@ -374,7 +420,7 @@
 <p><strong>Time to complete:</strong> 15-20 minutes (downloads + installs)</p>
 <p><strong>Manual steps required:</strong> Zero</p>
 <hr />
-<h2>Complete Script (with PowerShell 7 First)</h2>
+<h2 id="complete-script-with-powershell-7-first">Complete Script (with PowerShell 7 First)</h2>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;#</span>
 <span class="sd">.SYNOPSIS</span>
 <span class="cm">    Automated Azure admin workstation setup using Chocolatey</span>
@@ -546,7 +592,7 @@
 
 <p><strong>Download from GitHub:</strong> <a href="https://github.com/dswann101164/azure-admin-workstation-setup/blob/main/Setup-AzureAdminWorkstation-Chocolatey.ps1">Setup-AzureAdminWorkstation-Chocolatey.ps1</a></p>
 <hr />
-<h2>Why Chocolatey Works (and winget Doesn't)</h2>
+<h2 id="why-chocolatey-works-and-winget-doesn-t">Why Chocolatey Works (and winget Doesn't)</h2>
 <p><strong>Chocolatey:</strong><br />
 - Uses direct HTTPS downloads<br />
 - No dependency on Microsoft's App Installer infrastructure<br />
@@ -559,9 +605,9 @@
 - Breaks on isolated/offline systems</p>
 <p>For enterprise Azure VMs where you control the provisioning pipeline, Chocolatey is more reliable.</p>
 <hr />
-<h2>The PowerShell 7 Migration Path</h2>
+<h2 id="the-powershell-7-migration-path">The PowerShell 7 Migration Path</h2>
 <p>Once you have PowerShell 7 installed via Chocolatey, here's what changes:</p>
-<h3>Stop Using PowerShell ISE</h3>
+<h3 id="stop-using-powershell-ise">Stop Using PowerShell ISE</h3>
 <p>PowerShell ISE (Integrated Scripting Environment) only works with PowerShell 5.1. It's deprecated. Microsoft stopped development in 2016.</p>
 <p><strong>Old workflow (PowerShell 5.1 + ISE):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Open PowerShell ISE</span>
@@ -591,7 +637,7 @@
 <span class="nb">Get-AzVM</span> <span class="n">-Name</span> <span class="s2">&quot;myvm&quot;</span> <span class="p">&amp;&amp;</span> <span class="nb">Start-AzVM</span> <span class="n">-Name</span> <span class="s2">&quot;myvm&quot;</span> <span class="p">||</span> <span class="nb">Write-Error</span> <span class="s2">&quot;VM not found&quot;</span>
 </code></pre></div>
 
-<h3>Modern Azure Modules Require PowerShell 7</h3>
+<h3 id="modern-azure-modules-require-powershell-7">Modern Azure Modules Require PowerShell 7</h3>
 <p>Many new Azure PowerShell modules target PowerShell 7:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># PowerShell 7 required</span>
 <span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Az</span><span class="p">.</span><span class="n">App</span> <span class="n">-Force</span>  <span class="c"># Azure Container Apps</span>
@@ -600,7 +646,7 @@
 </code></pre></div>
 
 <p><strong>If you're on PowerShell 5.1, you're missing entire Azure service modules.</strong></p>
-<h3>Script Compatibility</h3>
+<h3 id="script-compatibility">Script Compatibility</h3>
 <p>Your existing PowerShell 5.1 scripts will run in PowerShell 7 (99% compatibility).</p>
 <p><strong>But:</strong> Some deprecated cmdlets don't work. Test your scripts after migration.</p>
 <p><strong>Common issues:</strong></p>
@@ -617,7 +663,7 @@
 <span class="nv">$PSVersionTable</span><span class="p">.</span><span class="n">PSVersion</span>  <span class="c"># Use this instead</span>
 </code></pre></div>
 
-<h3>Running Both Side-by-Side</h3>
+<h3 id="running-both-side-by-side">Running Both Side-by-Side</h3>
 <p>PowerShell 7 installs alongside PowerShell 5.1. Both remain available:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Launch PowerShell 5.1 (Windows PowerShell)</span>
 <span class="n">powershell</span><span class="p">.</span><span class="n">exe</span>
@@ -631,7 +677,7 @@
 2. Keep PowerShell 5.1 for legacy scripts that can't migrate<br />
 3. Gradually migrate old scripts to PowerShell 7</p>
 <hr />
-<h2>When You Actually Need winget</h2>
+<h2 id="when-you-actually-need-winget">When You Actually Need winget</h2>
 <p>If you're managing end-user workstations with:<br />
 - Windows Update enabled<br />
 - Regular feature updates<br />
@@ -640,7 +686,7 @@
 <p>Then winget works fine and integrates better with Windows 11's package management.</p>
 <p><strong>For Azure infrastructure VMs, use Chocolatey.</strong></p>
 <hr />
-<h2>Automating This in Your Deployment Pipeline</h2>
+<h2 id="automating-this-in-your-deployment-pipeline">Automating This in Your Deployment Pipeline</h2>
 <p><strong>Terraform:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_machine_extension&quot;</span><span class="w"> </span><span class="nv">&quot;setup&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;setup-workstation&quot;</span>
@@ -696,7 +742,7 @@
 </code></pre></div>
 
 <hr />
-<h2>What Gets Installed (PowerShell 7 First)</h2>
+<h2 id="what-gets-installed-powershell-7-first">What Gets Installed (PowerShell 7 First)</h2>
 <p><strong>PowerShell 7 (installed first):</strong><br />
 - PowerShell 7.4+ (replaces need for Windows PowerShell 5.1)<br />
 - Parallel installation (5.1 remains available)<br />
@@ -725,7 +771,7 @@
 3. Install Azure modules: <code>Install-Module -Name Az -Force</code></p>
 <p><strong>Total install time:</strong> 15-20 minutes</p>
 <hr />
-<h2>Troubleshooting</h2>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <p><strong>Problem:</strong> Script fails with execution policy error</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">Set-ExecutionPolicy</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
@@ -744,14 +790,14 @@
 </code></pre></div>
 
 <hr />
-<h2>Alternative: The winget Version (If You Must)</h2>
+<h2 id="alternative-the-winget-version-if-you-must">Alternative: The winget Version (If You Must)</h2>
 <p>If you've already updated your marketplace image or have a functioning winget, there's a winget-based version in the repo:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="n">Setup-AzureAdminWorkstation</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-NoPrompts</span>
 </code></pre></div>
 
 <p><strong>But:</strong> This will fail on fresh marketplace VMs. Use the Chocolatey version.</p>
 <hr />
-<h2>Get the Complete Scripts</h2>
+<h2 id="get-the-complete-scripts">Get the Complete Scripts</h2>
 <p><strong>⭐ GitHub Repository:</strong> <a href="https://github.com/dswann101164/azure-admin-workstation-setup">azure-admin-workstation-setup</a></p>
 <p><strong>What's included:</strong><br />
 - Chocolatey version (recommended)<br />
@@ -761,7 +807,7 @@
 - Terraform/ARM/Bicep examples</p>
 <p>Star the repo if this saves you time.</p>
 <hr />
-<h2>Related Guides</h2>
+<h2 id="related-guides">Related Guides</h2>
 <p><strong>Automation:</strong><br />
 - <a href="/hub/automation/">Azure Automation Hub</a> - PowerShell automation patterns<br />
 - <a href="/blog/azure-scripts-break-server-2025/">PowerShell Scripts Break on Server 2025</a> - ISE vs PowerShell 7 migration</p>

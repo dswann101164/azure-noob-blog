@@ -57,6 +57,30 @@
   <meta name="twitter:description" content="Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-admin-starter-kit.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -107,7 +131,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Command Finder - Interactive Troubleshooting Tool",
   "description": "Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures,...",
   "image": {
@@ -122,6 +146,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -144,10 +172,12 @@
   },
   "keywords": "Azure, Troubleshooting, Commands, Tools, PowerShell, Azure CLI, RDP, Active Directory, Linux",
   "articleSection": "Azure",
-  "wordCount": "1941",
+  "wordCount": "1946",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -182,6 +212,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-command-finder/"
+}
+</script>
+
+
+
 
 
 
@@ -250,16 +296,16 @@
 
   
   <div class="post-body">
-    <h2>Common Azure Admin Problems - Instant Solutions</h2>
+    <h2 id="common-azure-admin-problems-instant-solutions">Common Azure Admin Problems - Instant Solutions</h2>
 <p>This interactive troubleshooting tool provides copy-paste ready commands for the most common Azure administration problems. Select your issue below to get step-by-step PowerShell, Azure CLI, and Bash commands that work in production environments.</p>
-<h3>What This Tool Solves</h3>
+<h3 id="what-this-tool-solves">What This Tool Solves</h3>
 <p><strong>RDP Connection Issues</strong> - When you can't remote desktop into your Azure VM, the problem is usually one of three things: Network Security Group blocking port 3389, the Remote Desktop service stopped inside Windows, or NSG inbound rules misconfigured. This tool gives you the exact commands to diagnose which layer is broken and fix it without opening multiple Azure Portal tabs.</p>
 <p><strong>Active Directory Integration</strong> - Domain join failures on Azure VMs waste hours of troubleshooting. The most common causes are DNS configuration pointing to Azure DNS instead of your domain controller, time sync drift preventing Kerberos authentication, or VNet peering not allowing LDAP traffic. The tool walks through the diagnostic sequence that identifies the root cause in 5 minutes instead of spending an afternoon with support.</p>
 <p><strong>Group Policy Problems</strong> - When GPO settings don't apply to Azure VMs, it's almost always a broken secure channel trust or incorrect OU placement. But administrators waste time forcing gpupdate repeatedly without checking the underlying trust relationship first. This tool starts with the diagnostic commands that identify trust breaks before attempting policy refresh.</p>
 <p><strong>Cost Management</strong> - Unexpected Azure bill increases usually come from three sources: dev/test VMs left running 24/7, orphaned managed disks consuming storage costs after VM deletion, or over-provisioned VM sizes that could be downsized. The tool provides KQL queries that find these cost leaks across all subscriptions in seconds instead of manually checking resource groups.</p>
 <p><strong>VM Startup Failures</strong> - When VMs get stuck in Starting state, the Activity Log and boot diagnostics contain the actual error, but administrators often restart the VM repeatedly hoping it fixes itself. This tool teaches the diagnostic sequence: check instance view for allocation failures, review boot diagnostics for disk errors, verify extension provisioning status, then attempt fixes in order of likelihood.</p>
 <p><strong>Linux Domain Join</strong> - Joining Ubuntu or RHEL VMs to Active Directory requires specific packages (realmd, sssd, adcli) and DNS configuration that differs from Windows. Most admins attempt this once per year and forget the exact package names and configuration file locations. The tool provides the complete command sequence tested on Ubuntu 20.04/22.04 and RHEL 8/9.</p>
-<h3>How To Use This Tool</h3>
+<h3 id="how-to-use-this-tool">How To Use This Tool</h3>
 <p>Click the button matching your problem type. The tool displays a numbered sequence of commands to run in order. Each command includes a copy button for pasting directly into PowerShell, Azure CLI, or Bash. The tool shows expected output so you know if the command succeeded or revealed the root cause. If you don't find the fix after 3 hours of troubleshooting, escalate to Azure Support with the command output attached to the ticket.</p>
 <p>All commands are tested in production enterprise environments managing 31,000+ Azure resources across 44 subscriptions, including hybrid scenarios with ExpressRoute, Private Endpoints, and cross-premises Active Directory integration. The workflows reflect actual troubleshooting patterns from a regulated banking environment where changes require change control approval.</p>
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
@@ -680,7 +726,7 @@ function copyCommand(button) {
 </script>
 
 <hr />
-<h2>About This Tool</h2>
+<h2 id="about-this-tool">About This Tool</h2>
 <p>This interactive command finder provides step-by-step troubleshooting workflows for common Azure problems. Each workflow includes:</p>
 <ul>
 <li><strong>Exact commands</strong> to run (PowerShell, Azure CLI, Bash)</li>
@@ -690,7 +736,7 @@ function copyCommand(button) {
 </ul>
 <p>All commands are tested in a production banking environment with 31,000+ Azure resources.</p>
 <hr />
-<h2>Related Resources</h2>
+<h2 id="related-resources">Related Resources</h2>
 <ul>
 <li><a href="/blog/50-windows-commands-azure/">50 Windows Commands for Azure</a> - Complete command reference</li>
 <li><a href="/blog/50-linux-commands-azure/">50 Linux Commands for Azure</a> - Full Linux guide</li>

@@ -5,6 +5,7 @@ summary: "Every guide says 'configure diagnostic settings.' Nobody shows you whi
 tags: ["azure", "SOC2", "Compliance", "Monitoring", "Activity Logs"]
 cover: "/static/images/hero/azure-soc2-activity-log.svg"
 hub: governance
+faq_schema: true
 related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy

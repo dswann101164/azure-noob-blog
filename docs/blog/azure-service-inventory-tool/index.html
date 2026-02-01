@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="A practical service inventory pattern for Azure: map resources to real business services, owners, and environments so governance and audits stop being...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/service-inventory-tool.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?",
   "description": "A practical service inventory pattern for Azure: map resources to real business services, owners, and environments so governance and audits stop being...",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Azure, CMDB, Governance, Inventory, Operations, PowerShell, Resource Graph, Tools",
   "articleSection": "Azure",
-  "wordCount": "3275",
-  "timeRequired": "PT16M",
+  "wordCount": "3315",
+  "timeRequired": "PT17M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -182,6 +212,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-service-inventory-tool/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -200,7 +246,7 @@
   <header class="post-header">
     <h1>Azure Service Inventory Tool: Which of the 397 Services Do You Actually Use?</h1>
     <p class="muted">
-      2025-10-29 · ~16 min read
+      2025-10-29 · ~17 min read
       
     </p>
     
@@ -257,7 +303,7 @@ Microsoft says there are <strong>397 Azure services</strong>.</p>
 <p>So I built a tool to answer: <strong>"Which of the 397 Azure services am I actually using?"</strong></p>
 <p>Turns out: <strong>38 services</strong>. Out of 397.</p>
 <p>This post shows you how to build the same tool for your environment.</p>
-<h2>The Problem with the Periodic Table</h2>
+<h2 id="the-problem-with-the-periodic-table">The Problem with the Periodic Table</h2>
 <p>The Azure Periodic Table is gorgeous. Great for:<br />
 - Learning what services exist<br />
 - Finding service descriptions<br />
@@ -269,7 +315,7 @@ Microsoft says there are <strong>397 Azure services</strong>.</p>
 - "What's deprecated that we need to migrate off?"<br />
 - "Who owns Azure SQL in our environment?"</p>
 <p>The periodic table shows all 397 services. I need to know which <strong>38</strong> I'm responsible for.</p>
-<h2>What the Tool Does</h2>
+<h2 id="what-the-tool-does">What the Tool Does</h2>
 <p>This tool creates an <strong>Azure Service Inventory</strong> for your environment:</p>
 <p><strong>Input:</strong> Your Azure subscriptions</p>
 <p><strong>Output:</strong> Excel spreadsheet with:<br />
@@ -294,8 +340,8 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 </code></pre></div>
 
 <p><strong>The Insight:</strong> Out of 397 possible services, you're using 38. Focus on those.</p>
-<h2>How It Works</h2>
-<h3>Step 1: Query Your Environment</h3>
+<h2 id="how-it-works">How It Works</h2>
+<h3 id="step-1-query-your-environment">Step 1: Query Your Environment</h3>
 <p>Use Azure Resource Graph to get every resource type:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
@@ -311,7 +357,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 </code></pre></div>
 
 <p>This returns every resource type in your environment with counts.</p>
-<h3>Step 2: Enrich with Service Metadata</h3>
+<h3 id="step-2-enrich-with-service-metadata">Step 2: Enrich with Service Metadata</h3>
 <p>Match resource types against known Azure services:</p>
 <ul>
 <li>Service category (Compute, Networking, etc.)</li>
@@ -320,9 +366,9 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <li>Documentation links</li>
 <li>Common use cases</li>
 </ul>
-<h3>Step 3: Export to Excel</h3>
+<h3 id="step-3-export-to-excel">Step 3: Export to Excel</h3>
 <p>Create a searchable, sortable spreadsheet your team can use.</p>
-<h2>The PowerShell Script</h2>
+<h2 id="the-powershell-script">The PowerShell Script</h2>
 <p>Here's the complete tool:</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;#</span>
 <span class="sd">.SYNOPSIS</span>
@@ -512,7 +558,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
 </code></pre></div>
 
-<h3>Running the Script</h3>
+<h3 id="running-the-script">Running the Script</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Run against all subscriptions</span>
 <span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span>
 
@@ -523,7 +569,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutputPath</span> <span class="s2">&quot;C:\Reports\ServiceInventory.csv&quot;</span>
 </code></pre></div>
 
-<h3>Output Example</h3>
+<h3 id="output-example">Output Example</h3>
 <p>The script creates a CSV with these columns:</p>
 <table>
 <thead>
@@ -583,9 +629,9 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 </tr>
 </tbody>
 </table>
-<h2>What You Learn</h2>
+<h2 id="what-you-learn">What You Learn</h2>
 <p>Running this against my 44 subscriptions revealed:</p>
-<h3>The 80/20 Rule Applies</h3>
+<h3 id="the-80-20-rule-applies">The 80/20 Rule Applies</h3>
 <p><strong>Top 10 services = 92% of all resources:</strong><br />
 1. Network Interfaces (8,234)<br />
 2. Disks (4,156)<br />
@@ -598,7 +644,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 9. Key Vaults (287)<br />
 10. Recovery Services Vaults (156)</p>
 <p><strong>Bottom 28 services = 8% of resources</strong></p>
-<h3>We're Using 38 Services (Out of 397)</h3>
+<h3 id="we-re-using-38-services-out-of-397">We're Using 38 Services (Out of 397)</h3>
 <p><strong>Breakdown by category:</strong><br />
 - Compute: 8 service types<br />
 - Networking: 12 service types<br />
@@ -609,12 +655,12 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 - Management: 2 service types<br />
 - Other: 2 service types</p>
 <p><strong>The other 359 Azure services?</strong> Marketing.</p>
-<h3>We Have Deprecated Services</h3>
+<h3 id="we-have-deprecated-services">We Have Deprecated Services</h3>
 <p><strong>3 classic services still in use:</strong><br />
 - Classic Storage Accounts: 12 instances<br />
 - Classic Virtual Networks: 3 instances</p>
 <p>These need migration before they're force-retired.</p>
-<h3>Multi-Subscription Sprawl is Real</h3>
+<h3 id="multi-subscription-sprawl-is-real">Multi-Subscription Sprawl is Real</h3>
 <p>Some services exist in <strong>18 different subscriptions</strong>:<br />
 - Storage Accounts<br />
 - Virtual Networks<br />
@@ -624,15 +670,15 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 - Security policy<br />
 - Compliance auditing</p>
 <p>The inventory makes this visible.</p>
-<h2>How to Use This Tool</h2>
-<h3>1. Service Rationalization</h3>
+<h2 id="how-to-use-this-tool">How to Use This Tool</h2>
+<h3 id="1-service-rationalization">1. Service Rationalization</h3>
 <p><strong>Question:</strong> "Do we really need 8 different monitoring solutions?"</p>
 <p><strong>Inventory shows:</strong><br />
 - Log Analytics Workspaces: 8<br />
 - Application Insights: 12<br />
 - Monitor Diagnostic Settings: 156</p>
 <p><strong>Decision:</strong> Consolidate to 2 centralized Log Analytics workspaces.</p>
-<h3>2. Ownership Mapping</h3>
+<h3 id="2-ownership-mapping">2. Ownership Mapping</h3>
 <p>Open the CSV in Excel. Add Owner column:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">ServiceType</span><span class="w">              </span><span class="n">Count</span><span class="w">   </span><span class="n">Owner</span>
 <span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
@@ -643,7 +689,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 </code></pre></div>
 
 <p><strong>Result:</strong> 423 storage accounts with no owner. Time to fix that.</p>
-<h3>3. Cost Optimization Targets</h3>
+<h3 id="3-cost-optimization-targets">3. Cost Optimization Targets</h3>
 <p>Filter by CostTier = "High":</p>
 <div class="codehilite"><pre><span></span><code>ServiceType          Count   CostTier   Monthly Cost (est)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -653,14 +699,14 @@ Application Gateways   12     High       $18,000
 </code></pre></div>
 
 <p><strong>Priority:</strong> Focus cost optimization on VMs first (biggest impact).</p>
-<h3>4. Migration Planning (Merger Use Case)</h3>
+<h3 id="4-migration-planning-merger-use-case">4. Migration Planning (Merger Use Case)</h3>
 <p>We're merging 44 subscriptions down to 12.</p>
 <p><strong>Inventory shows:</strong><br />
 - Company A uses: Azure Firewall<br />
 - Company B uses: Network Virtual Appliances</p>
 <p><strong>Decision needed:</strong> Standardize on one solution.</p>
 <p>The inventory makes these conflicts visible <strong>before</strong> the migration.</p>
-<h3>5. Compliance &amp; Audit</h3>
+<h3 id="5-compliance-audit">5. Compliance &amp; Audit</h3>
 <p><strong>Auditor:</strong> "Show me all database services in scope."</p>
 <p><strong>Excel filter:</strong> Category = "Databases"</p>
 <div class="codehilite"><pre><span></span><code>ServiceType                Count   Locations
@@ -671,9 +717,9 @@ MySQL Servers               4      centralus
 </code></pre></div>
 
 <p><strong>Export:</strong> Send filtered CSV to auditor. Done in 30 seconds.</p>
-<h2>Advanced: Add Cost Data</h2>
+<h2 id="advanced-add-cost-data">Advanced: Add Cost Data</h2>
 <p>The basic inventory shows <em>cost tier</em>. But you can add <strong>actual cost</strong>:</p>
-<h3>Query Cost Management API</h3>
+<h3 id="query-cost-management-api">Query Cost Management API</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Add this to the script after building inventory</span>
 <span class="nv">$costQuery</span> <span class="p">=</span> <span class="sh">@&quot;</span>
 <span class="sh">{</span>
@@ -702,7 +748,7 @@ MySQL Servers               4      centralus
 </code></pre></div>
 
 <p><strong>Result:</strong> Add "ActualMonthlyCost" column to inventory.</p>
-<h2>Why This Matters</h2>
+<h2 id="why-this-matters">Why This Matters</h2>
 <p>Microsoft publishes 397 Azure services.</p>
 <p>Most organizations use <strong>30-50</strong> of them.</p>
 <p>But without an inventory, you don't know:<br />
@@ -717,22 +763,22 @@ MySQL Servers               4      centralus
 - "What's our Azure footprint?"<br />
 - "Which services are we responsible for?"<br />
 - "What should we focus on?"</p>
-<h2>Real-World Use Cases</h2>
-<h3>Use Case 1: New Azure Admin Onboarding</h3>
+<h2 id="real-world-use-cases">Real-World Use Cases</h2>
+<h3 id="use-case-1-new-azure-admin-onboarding">Use Case 1: New Azure Admin Onboarding</h3>
 <p><strong>Problem:</strong> New hire asks "What services do we use?"</p>
 <p><strong>Old answer:</strong> "Um, VMs, storage, networking... lots of stuff."</p>
 <p><strong>New answer:</strong> "Here's the inventory. We use 38 services. Focus on these 10."</p>
-<h3>Use Case 2: M&amp;A Due Diligence</h3>
+<h3 id="use-case-2-m-a-due-diligence">Use Case 2: M&amp;A Due Diligence</h3>
 <p><strong>Problem:</strong> Acquiring company. Need to understand their Azure environment.</p>
 <p><strong>Old approach:</strong> Manual discovery. Takes weeks.</p>
 <p><strong>New approach:</strong> Run the script. Inventory in 2 minutes.</p>
-<h3>Use Case 3: Service Consolidation</h3>
+<h3 id="use-case-3-service-consolidation">Use Case 3: Service Consolidation</h3>
 <p><strong>Problem:</strong> 8 Log Analytics workspaces. Do we need all of them?</p>
 <p><strong>Inventory shows:</strong><br />
 - 3 workspaces with &gt;1000 resources<br />
 - 5 workspaces with &lt;50 resources</p>
 <p><strong>Decision:</strong> Consolidate the 5 small ones.</p>
-<h3>Use Case 4: Budget Planning</h3>
+<h3 id="use-case-4-budget-planning">Use Case 4: Budget Planning</h3>
 <p><strong>CFO:</strong> "What are we spending on Azure?"</p>
 <p><strong>Inventory filtered by CostTier:</strong><br />
 - High: 12 service types<br />
@@ -740,12 +786,12 @@ MySQL Servers               4      centralus
 - Low: 6 service types<br />
 - Free: 2 service types</p>
 <p><strong>Budget focus:</strong> The 12 high-cost services drive 80% of spend.</p>
-<h2>Common Patterns You'll Find</h2>
+<h2 id="common-patterns-you-ll-find">Common Patterns You'll Find</h2>
 <p>After running this on multiple organizations:</p>
-<h3>Pattern 1: The 80/20 Service Distribution</h3>
+<h3 id="pattern-1-the-80-20-service-distribution">Pattern 1: The 80/20 Service Distribution</h3>
 <p><strong>80% of resources</strong> = 10-15 service types (VMs, storage, networking basics)</p>
 <p><strong>20% of resources</strong> = 20-30 service types (databases, monitoring, security, etc.)</p>
-<h3>Pattern 2: Zombie Services</h3>
+<h3 id="pattern-2-zombie-services">Pattern 2: Zombie Services</h3>
 <p>Services with Count = 1-3 that nobody remembers creating:</p>
 <div class="codehilite"><pre><span></span><code>ServiceType              Count   Owner
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -755,7 +801,7 @@ Container Registry          1     Unknown
 </code></pre></div>
 
 <p><strong>Investigation needed:</strong> What are these? Can we delete them?</p>
-<h3>Pattern 3: Multi-Subscription Sprawl</h3>
+<h3 id="pattern-3-multi-subscription-sprawl">Pattern 3: Multi-Subscription Sprawl</h3>
 <p>Same service type across 15+ subscriptions:</p>
 <ul>
 <li>Harder to secure consistently</li>
@@ -764,7 +810,7 @@ Container Registry          1     Unknown
 <li>Harder to audit</li>
 </ul>
 <p><strong>Strategy:</strong> Consolidate where possible.</p>
-<h3>Pattern 4: Classic Resource Debt</h3>
+<h3 id="pattern-4-classic-resource-debt">Pattern 4: Classic Resource Debt</h3>
 <p>Classic resources still running:</p>
 <div class="codehilite"><pre><span></span><code>ServiceType                      Count   Deprecated
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -773,7 +819,7 @@ Classic Virtual Networks           3     YES
 </code></pre></div>
 
 <p><strong>Action required:</strong> Migration project before force retirement.</p>
-<h2>Limitations</h2>
+<h2 id="limitations">Limitations</h2>
 <p>This tool doesn't:</p>
 <ol>
 <li><strong>Track service features</strong> - Just that App Service exists, not which tiers/features</li>
@@ -788,31 +834,31 @@ Classic Virtual Networks           3     YES
 - Cost Management (actual costs)<br />
 - Resource Graph Explorer (detailed queries)<br />
 - Azure Monitor (health/performance)</p>
-<h2>Next Steps</h2>
-<h3>1. Run the Script</h3>
+<h2 id="next-steps">Next Steps</h2>
+<h3 id="1-run-the-script">1. Run the Script</h3>
 <div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span>
 </code></pre></div>
 
-<h3>2. Open in Excel</h3>
+<h3 id="2-open-in-excel">2. Open in Excel</h3>
 <ul>
 <li>Add filters</li>
 <li>Sort by Count</li>
 <li>Add Owner column</li>
 <li>Add Notes column</li>
 </ul>
-<h3>3. Share with Your Team</h3>
+<h3 id="3-share-with-your-team">3. Share with Your Team</h3>
 <p>Use it for:<br />
 - Service ownership mapping<br />
 - Cost optimization planning<br />
 - Migration preparation<br />
 - Audit documentation<br />
 - New hire onboarding</p>
-<h3>4. Re-Run Quarterly</h3>
+<h3 id="4-re-run-quarterly">4. Re-Run Quarterly</h3>
 <p>Track how your service footprint changes:<br />
 - New services added<br />
 - Old services retired<br />
 - Resource counts growing/shrinking</p>
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p>Microsoft offers 397 Azure services.</p>
 <p>You're probably using <strong>30-50</strong> of them.</p>
 <p>But you don't know which ones without an inventory.</p>

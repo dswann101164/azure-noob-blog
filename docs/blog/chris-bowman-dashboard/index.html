@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard model for real-world enterprise environments.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/chris-bowman-dashboard.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The Truth About Chris Bowman&#39;s Azure Cost Dashboard",
   "description": "Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard model for real-world enterprise environments.",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Architecture, Azure, Cost Management, Dashboards, Executive, FinOps, Monitoring, Power BI",
   "articleSection": "Architecture",
-  "wordCount": "4936",
+  "wordCount": "4980",
   "timeRequired": "PT25M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Architecture"
@@ -180,6 +210,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/chris-bowman-dashboard/"
+}
+</script>
+
+
+
 
 
 
@@ -245,7 +291,7 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/finops/">Azure FinOps hub</a> covering cost management, chargeback models, and financial operations at enterprise scale.</p>
-<h2>The Problem Everyone Hits</h2>
+<h2 id="the-problem-everyone-hits">The Problem Everyone Hits</h2>
 <p>Someone on Reddit asks: "Does anyone have a good Power BI template for Azure cost monitoring?"</p>
 <p>The top answer: "Check out Chris Bowman's template on GitHub."</p>
 <p>So you download it. You connect your data. And then:</p>
@@ -256,7 +302,7 @@
 <li>You can't refresh more than 3 months without timing out</li>
 </ul>
 <p>Nobody in that Reddit thread mentioned any of this. Nobody explained what you're actually getting into. Let me fix that.</p>
-<h2>Premium Workspace: Not Optional for Production</h2>
+<h2 id="premium-workspace-not-optional-for-production">Premium Workspace: Not Optional for Production</h2>
 <p><strong>Power BI Pro limits:</strong><br />
 - 1GB dataset size<br />
 - ~3 months of detailed cost data<br />
@@ -268,7 +314,7 @@
 - Incremental refresh capability</p>
 <p><strong>Real cost:</strong> $9.99/user/month (Pro) vs $20/user/month (Premium Per User) vs ~$4,995/month (Premium Capacity - P1)</p>
 <p>For financial reporting at scale, Premium isn't a luxury—it's required infrastructure.</p>
-<h2>The Calendar Table Secret</h2>
+<h2 id="the-calendar-table-secret">The Calendar Table Secret</h2>
 <p>Open Chris's .pbix and look at the data model. The Calendar table isn't imported—<strong>it's calculated</strong>.</p>
 <p><strong>Here's the DAX:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nf">Calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">CALENDAR</span><span class="p">(</span><span class="nf">FIRSTDATE</span><span class="p">(</span><span class="na">&#39;Usage Details&#39;[Date]</span><span class="p">),</span><span class="nf">LASTDATE</span><span class="p">(</span><span class="na">&#39;Usage Details&#39;[Date]</span><span class="p">))</span>
@@ -284,7 +330,7 @@ This single line creates a table with every date between your first and last cos
 <p>Chris then adds calculated columns for Month, Week, and date flags. This keeps the base table simple and the logic transparent.</p>
 <p><strong>The alternative approach</strong> (which you DON'T need):<br />
 Some templates hardcode dates like <code>CALENDAR(DATE(2023,1,1), DATE(2025,12,31))</code>. This breaks when you hit 2026 or want historical data before 2023. Chris's approach is smarter.</p>
-<h2>What The Data Model Actually Looks Like</h2>
+<h2 id="what-the-data-model-actually-looks-like">What The Data Model Actually Looks Like</h2>
 <p>Chris's template isn't just a simple cost report—it's a <strong>comprehensive FinOps platform</strong>. </p>
 <p><strong>The structure:</strong><br />
 - <strong>17+ interconnected tables</strong> (not a typo)<br />
@@ -302,7 +348,7 @@ This isn't "plug and play." This is an <strong>enterprise-grade data model</stro
 <p><strong>The reality check:</strong><br />
 When people say "Chris Bowman's template is 2GB," they're not wrong. You're not just importing cost data—you're building a <strong>FinOps analytics platform</strong> with 17+ data sources.</p>
 <p>This is why Premium workspace isn't optional. This is why the initial refresh takes hours. You're not downloading a spreadsheet—you're constructing a data warehouse.</p>
-<h2>The Shocking Part: Almost No Custom DAX</h2>
+<h2 id="the-shocking-part-almost-no-custom-dax">The Shocking Part: Almost No Custom DAX</h2>
 <p>Here's what surprised me most: <strong>Chris's dashboard has minimal custom DAX measures.</strong></p>
 <p>Looking through the data model, most calculations rely on:<br />
 - <strong>Built-in aggregations</strong> from the Cost Management connector<br />
@@ -316,24 +362,24 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - btEOM (end of month flag)</p>
 <p>Simple, focused, maintainable.</p>
 <p><strong>The lesson:</strong> Good data modeling &gt; complex DAX. Chris spent time on the <strong>relationships and structure</strong>, not building elaborate measures.</p>
-<h2>The Usage Details vs Usage Details Amortized Trap</h2>
+<h2 id="the-usage-details-vs-usage-details-amortized-trap">The Usage Details vs Usage Details Amortized Trap</h2>
 <p><strong>This is where most people get burned.</strong> Chris's template includes TWO cost tables:<br />
 - Usage Details<br />
 - Usage Details Amortized</p>
 <p><strong>They look similar. They are NOT the same.</strong></p>
-<h3>Usage Details (Actual Costs)</h3>
+<h3 id="usage-details-actual-costs">Usage Details (Actual Costs)</h3>
 <p>This is <strong>what you actually paid</strong> and <strong>what's on your invoice</strong>.</p>
 <p><strong>Example scenario:</strong><br />
 - You buy a 1-year VM reservation for $12,000 in January<br />
 - Usage Details shows: <strong>$12,000 in January, $0 for the rest of the year</strong><br />
 - Your CFO sees a massive spike and asks "Why did Azure costs explode?"</p>
-<h3>Usage Details Amortized (Spread Costs)</h3>
+<h3 id="usage-details-amortized-spread-costs">Usage Details Amortized (Spread Costs)</h3>
 <p>This <strong>spreads reservation costs</strong> over the commitment period to show "true" daily consumption.</p>
 <p><strong>Same scenario, amortized view:</strong><br />
 - You buy a 1-year VM reservation for $12,000 in January<br />
 - Usage Details Amortized shows: <strong>$1,000 per month for 12 months</strong><br />
 - Your CFO sees stable costs that match budgets</p>
-<h3>Why This Matters</h3>
+<h3 id="why-this-matters">Why This Matters</h3>
 <p><strong>The trap:</strong> You build a dashboard using Usage Details, present it to leadership, and they see massive cost spikes that don't match their understanding of Azure consumption.</p>
 <p>Or worse: You use Amortized for month-to-month trending, but Finance wants to reconcile against invoices—and <strong>the numbers don't match</strong>.</p>
 <p><strong>Microsoft's guidance:</strong><br />
@@ -342,16 +388,16 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 <p><strong>In Chris's template:</strong> Most visuals use Amortized (better for operational reporting), but both tables exist so you can switch if needed.</p>
 <p><strong>The fix:</strong> Always clarify which view you're using. Add a text box to your reports: "This dashboard shows AMORTIZED costs" or "This dashboard shows ACTUAL costs."</p>
 <p><strong>Don't mix them.</strong> Pick one view per dashboard and stick with it.</p>
-<h3>How To Tell Which Table A Visual Uses</h3>
+<h3 id="how-to-tell-which-table-a-visual-uses">How To Tell Which Table A Visual Uses</h3>
 <p>In Power BI Desktop:<br />
 1. Click on a visual<br />
 2. Look at the Fields pane (right side)<br />
 3. Check if the measure references "Usage Details" or "Usage Details Amortized"</p>
 <p>If you see both tables being used in the same report, <strong>that's a red flag.</strong></p>
-<h2>The 2GB Problem (And Why It's Actually 19GB For Enterprise)</h2>
+<h2 id="the-2gb-problem-and-why-it-s-actually-19gb-for-enterprise">The 2GB Problem (And Why It's Actually 19GB For Enterprise)</h2>
 <p>Blog posts and Reddit threads make Chris's template sound simple: "Download, connect, done!"</p>
 <p>Here's what they don't tell you about the file size.</p>
-<h3>The Math Nobody Shows You</h3>
+<h3 id="the-math-nobody-shows-you">The Math Nobody Shows You</h3>
 <p><strong>My environment:</strong><br />
 - Regional bank infrastructure<br />
 - 31,000 Azure assets (VMs, storage accounts, disks, App Services, databases, etc.)<br />
@@ -360,7 +406,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - <strong>3 months of data: 791 MB</strong><br />
 - <strong>13 months of data: 19 GB</strong></p>
 <p>Let me break down why this happens.</p>
-<h3>Why Cost Data Explodes</h3>
+<h3 id="why-cost-data-explodes">Why Cost Data Explodes</h3>
 <p><strong>The line-item reality:</strong><br />
 - Each Azure resource generates cost line items<br />
 - Most resources bill hourly<br />
@@ -373,7 +419,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - Usage Details Amortized table is similar size<br />
 - Combined: ~580 million rows across both tables</p>
 <p><strong>19 GB starts to make sense.</strong></p>
-<h3>The Power BI Pro Trap</h3>
+<h3 id="the-power-bi-pro-trap">The Power BI Pro Trap</h3>
 <p><strong>Here's the timeline nobody warns you about:</strong></p>
 <p><strong>Months 1-3: Everything works</strong><br />
 - File size: 791 MB<br />
@@ -392,7 +438,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - <strong>But actual growth is exponential</strong><br />
 - At 13 months: 19 GB (not 3.2 GB)<br />
 - You need Premium from day one if you want full-year history</p>
-<h3>Why Growth Isn't Linear</h3>
+<h3 id="why-growth-isn-t-linear">Why Growth Isn't Linear</h3>
 <p>File size doesn't just add up—it multiplies. Here's why:</p>
 <p><strong>Data model overhead:</strong><br />
 - Calendar table calculations expand with date range<br />
@@ -400,7 +446,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - DAX measures store intermediate calculation results<br />
 - Cross-filtering across millions of rows adds memory pressure</p>
 <p><strong>The larger the dataset, the more overhead Power BI needs to make it performant.</strong></p>
-<h3>What This Means For Different Organization Sizes</h3>
+<h3 id="what-this-means-for-different-organization-sizes">What This Means For Different Organization Sizes</h3>
 <p><strong>Small organization (100-500 resources):</strong><br />
 - 3 months: Maybe 50-100 MB<br />
 - 12 months: Could stay under 1 GB<br />
@@ -417,7 +463,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - 3 months: 791 MB<br />
 - 13 months: 19 GB<br />
 - Premium Capacity: Not optional, required from the start</p>
-<h3>The Cost Reality</h3>
+<h3 id="the-cost-reality">The Cost Reality</h3>
 <p><strong>Power BI Pro:</strong> $9.99/user/month<br />
 - 1 GB dataset limit<br />
 - <strong>You'll hit this at month 4 with any significant Azure footprint</strong></p>
@@ -428,7 +474,7 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - Up to 25 GB per dataset (P1)<br />
 - Required for enterprise cost reporting<br />
 - This is what I'm running</p>
-<h3>The Lesson</h3>
+<h3 id="the-lesson">The Lesson</h3>
 <p>Chris Bowman's template isn't bloated. <strong>The Azure Cost Management connector pulls every line item for every resource.</strong></p>
 <p>If you have thousands of resources, you have millions of rows. If you want 12 months of history, you need Premium Capacity.</p>
 <p>This isn't a bug. This is reality. And it's why nobody in that Reddit thread mentioned file size—most people haven't run this at scale yet.</p>
@@ -437,9 +483,9 @@ When people say "Chris Bowman's template is 2GB," they're not wrong. You're not 
 - Mid-size: Budget for Premium Per User from day one<br />
 - Enterprise: Premium Capacity is required, no way around it<br />
 - Know your asset count before you start</p>
-<h2>Common Gotchas (And How To Fix Them)</h2>
+<h2 id="common-gotchas-and-how-to-fix-them">Common Gotchas (And How To Fix Them)</h2>
 <p>Here's what actually bit me when setting up Chris's template.</p>
-<h3>Gotcha 1: Initial Refresh Takes Forever</h3>
+<h3 id="gotcha-1-initial-refresh-takes-forever">Gotcha 1: Initial Refresh Takes Forever</h3>
 <p><strong>The problem:</strong><br />
 You connect the data source in Power BI Desktop. Click refresh. And wait. And wait.</p>
 <p><strong>My experience:</strong><br />
@@ -452,7 +498,7 @@ The connector is pulling every cost line item for every resource you have. For 3
 - Close other applications - this refresh is memory-intensive<br />
 - Don't panic if it takes 20-30 minutes on large environments<br />
 - Watch Task Manager - if Power BI Desktop is using CPU/memory, it's working</p>
-<h3>Gotcha 2: File Size Explodes</h3>
+<h3 id="gotcha-2-file-size-explodes">Gotcha 2: File Size Explodes</h3>
 <p><strong>The problem:</strong><br />
 You get the initial refresh working. File is 200 MB. You add another month of data. File jumps to 600 MB. Another month: 1.2 GB. It's not linear.</p>
 <p><strong>Why it happens:</strong><br />
@@ -462,7 +508,7 @@ Data model overhead multiplies as the dataset grows. Relationships between 17+ t
 - If approaching 1 GB and you're on Pro: Stop, upgrade to Premium first<br />
 - Don't wait until refresh fails to address this<br />
 - Calculate your growth rate early: (file size ÷ months of data) × 12 = projected annual size</p>
-<h3>Gotcha 3: Refresh Timeout In Power BI Desktop</h3>
+<h3 id="gotcha-3-refresh-timeout-in-power-bi-desktop">Gotcha 3: Refresh Timeout In Power BI Desktop</h3>
 <p><strong>The problem:</strong><br />
 Scheduled refresh works in the service, but refreshing locally in Desktop times out or crashes.</p>
 <p><strong>Why it happens:</strong><br />
@@ -472,7 +518,7 @@ Desktop has memory limitations. The service (especially Premium) has more resour
 - Publish to the service and refresh there<br />
 - If you need to make changes: modify, publish, refresh in service<br />
 - Use Desktop for development/testing with small date ranges only</p>
-<h3>Gotcha 4: The Shocking Simplicity</h3>
+<h3 id="gotcha-4-the-shocking-simplicity">Gotcha 4: The Shocking Simplicity</h3>
 <p><strong>What surprised me most:</strong> Chris's template has <strong>minimal custom DAX</strong>.</p>
 <p>I expected complex measures everywhere. Instead:<br />
 - Most calculations use built-in aggregations from the Cost Management connector<br />
@@ -488,7 +534,7 @@ Good data modeling beats clever DAX. But if you're used to well-organized Power 
 - Consistent naming conventions for measures<br />
 - Comments in DAX for maintainability<br />
 - Additional date intelligence measures</p>
-<h3>Gotcha 5: Azure Costing Knowledge Required</h3>
+<h3 id="gotcha-5-azure-costing-knowledge-required">Gotcha 5: Azure Costing Knowledge Required</h3>
 <p><strong>The problem:</strong><br />
 This template assumes you understand Azure cost concepts:<br />
 - Actual vs Amortized costs<br />
@@ -509,7 +555,7 @@ Before implementing this template:<br />
 4. Understand your tagging strategy (or lack thereof)<br />
 5. Review an actual Azure invoice alongside the dashboard</p>
 <p><strong>This isn't a "plug and play" solution.</strong> It's a tool for people who already understand FinOps and need better visualization.</p>
-<h3>Gotcha 6: Filters Don't Always Behave As Expected</h3>
+<h3 id="gotcha-6-filters-don-t-always-behave-as-expected">Gotcha 6: Filters Don't Always Behave As Expected</h3>
 <p><strong>The problem:</strong><br />
 You filter on a subscription. Some visuals update correctly. Others don't. Or they show unexpected results.</p>
 <p><strong>Why it happens:</strong><br />
@@ -519,16 +565,16 @@ With 17+ tables and multiple relationships, filter context can be tricky. The Ca
 - Test every filter on every visual before presenting to stakeholders<br />
 - Use the "View Relationships" feature to understand filter flow<br />
 - Don't assume filters work globally - verify each page</p>
-<h3>The Bottom Line</h3>
+<h3 id="the-bottom-line">The Bottom Line</h3>
 <p>Chris built a production-ready FinOps platform, not a simple cost dashboard. That means:<br />
 - Longer setup time<br />
 - More complexity<br />
 - Higher infrastructure requirements (Premium)<br />
 - Deeper Azure knowledge needed</p>
 <p>But the payoff is comprehensive cost visibility across your entire Azure estate. Just don't expect it to be easy.</p>
-<h2>How To Customize It For Your Org</h2>
+<h2 id="how-to-customize-it-for-your-org">How To Customize It For Your Org</h2>
 <p>Chris's template is excellent out of the box, but it assumes your Azure environment has clean, consistent tags. If you're like most organizations, it doesn't.</p>
-<h3>Step 1: Tag Normalization (The Reality)</h3>
+<h3 id="step-1-tag-normalization-the-reality">Step 1: Tag Normalization (The Reality)</h3>
 <p><strong>The problems you'll hit:</strong><br />
 - <code>Environment: prod</code> vs <code>Environment: Prod</code> vs <code>Environment: PROD</code> - Power BI treats these as three different values<br />
 - <code>CostCenter: 12345</code> vs <code>Cost Center: 12345</code> vs <code>costcenter: 12345</code> - spelling and spacing variations<br />
@@ -536,7 +582,7 @@ With 17+ tables and multiple relationships, filter context can be tricky. The Ca
 - Empty tags, null tags, and "Unassigned" - different flavors of missing data</p>
 <p><strong>I wrote a complete guide on Azure tag cleanup here:</strong> <a href="https://azure-noob.com/blog/azure-resource-tags-guide/">What I Wish I Knew About Azure Resource Tags</a></p>
 <p>Read that first if you haven't dealt with tag governance yet. It explains the problems in detail.</p>
-<h3>Step 2: DAX To Handle Tag Chaos</h3>
+<h3 id="step-2-dax-to-handle-tag-chaos">Step 2: DAX To Handle Tag Chaos</h3>
 <p>Once you understand the problems, here's how I fixed them in Power BI.</p>
 <p><strong>Tag Normalization with DAX:</strong></p>
 <p>I added calculated columns to the Usage Details table to clean up tag variations:</p>
@@ -565,7 +611,7 @@ With 17+ tables and multiple relationships, filter context can be tricky. The Ca
 - Empty strings and BLANK() both become "Unassigned"<br />
 - Unmapped values pass through unchanged (so you can find new variations)</p>
 <p><strong>You need to do this for every tag you report on:</strong> CostCenter, Environment, Department, Application, Owner.</p>
-<h3>Step 3: Tag Inheritance Hierarchy</h3>
+<h3 id="step-3-tag-inheritance-hierarchy">Step 3: Tag Inheritance Hierarchy</h3>
 <p><strong>The bigger problem:</strong> Some costs bill at the resource level (tagged), some at resource group level (different tags), some at subscription level (no tags at all).</p>
 <p>Leadership asks: "What did Finance spend this month?"</p>
 <p>If you only show resource-level costs, <strong>you're missing subscription-level charges</strong> like support plans and reservations.</p>
@@ -614,7 +660,7 @@ You won't get this right the first time. Here's what I did:</p>
 <li><strong>Result:</strong> Got "Unassigned" down to 5% (mostly test resources)</li>
 </ol>
 <p><strong>The key insight:</strong> You'll keep finding high-dollar "Unassigned" items. Each time, add logic to handle them.</p>
-<h3>Step 4: Custom Groupings For Leadership</h3>
+<h3 id="step-4-custom-groupings-for-leadership">Step 4: Custom Groupings For Leadership</h3>
 <p>Chris's template shows costs by subscription, resource group, and meter category. Leadership doesn't think in those terms.</p>
 <p><strong>What I added:</strong><br />
 - Business unit view (Engineering, Finance, Operations, IT)<br />
@@ -633,7 +679,7 @@ You won't get this right the first time. Here's what I did:</p>
 <span class="p">)</span>
 </code></pre></div>
 
-<h3>Step 5: Executive Summary Page</h3>
+<h3 id="step-5-executive-summary-page">Step 5: Executive Summary Page</h3>
 <p>Chris's template is comprehensive but overwhelming for executives. I added a single-page summary:</p>
 <p><strong>What executives actually want to see:</strong><br />
 - Month-over-month total cost trend<br />
@@ -641,7 +687,7 @@ You won't get this right the first time. Here's what I did:</p>
 - Budget vs actual (if you have budgets)<br />
 - Major variances explained (one text box, manually updated)</p>
 <p><strong>Keep it to ONE page.</strong> If they want details, they can drill into other pages.</p>
-<h3>The Reality Check</h3>
+<h3 id="the-reality-check">The Reality Check</h3>
 <p><strong>Time investment for customization:</strong><br />
 - Tag normalization DAX: 2-3 hours<br />
 - Hierarchy logic: 2-4 hours (iterative discovery)<br />
@@ -656,9 +702,9 @@ You won't get this right the first time. Here's what I did:</p>
 4. Repeat until "Unassigned" is under 10%<br />
 5. Then build custom views for leadership</p>
 <p>Don't try to perfect it upfront. Fix the biggest problems first, iterate based on what your stakeholders actually ask for.</p>
-<h2>When To Use This Template vs Build Your Own</h2>
+<h2 id="when-to-use-this-template-vs-build-your-own">When To Use This Template vs Build Your Own</h2>
 <p>Chris Bowman's template isn't the only way to do Azure cost reporting. Here's when it makes sense and when it doesn't.</p>
-<h3>Use Chris's Template When:</h3>
+<h3 id="use-chris-s-template-when">Use Chris's Template When:</h3>
 <p><strong>You need comprehensive FinOps tracking</strong><br />
 - Not just costs, but reservation utilization, Azure Hybrid Benefit tracking, VM sizing recommendations<br />
 - This template tracks 17+ data sources - it's a full FinOps platform</p>
@@ -673,7 +719,7 @@ You won't get this right the first time. Here's what I did:</p>
 - Tag normalization takes time<br />
 - Building hierarchy logic takes iteration<br />
 - Executive dashboards need custom work</p>
-<h3>Build Your Own When:</h3>
+<h3 id="build-your-own-when">Build Your Own When:</h3>
 <p><strong>You need cost exports (not the connector)</strong><br />
 - Some organizations require exports to data lakes for compliance<br />
 - You're already using Azure Data Factory or Synapse pipelines<br />
@@ -690,7 +736,7 @@ You won't get this right the first time. Here's what I did:</p>
 <p><strong>You can't get Premium workspace</strong><br />
 - Small org with 100-500 resources might stay under 1 GB on Pro<br />
 - But verify file size growth before committing to custom build</p>
-<h3>The Alternatives</h3>
+<h3 id="the-alternatives">The Alternatives</h3>
 <p><strong>Microsoft FinOps Toolkit</strong><br />
 - Built and maintained by Microsoft<br />
 - More modular than Chris's template<br />
@@ -704,7 +750,7 @@ You won't get this right the first time. Here's what I did:</p>
 - Full control, but you're building everything from scratch<br />
 - Use if you have complex requirements Chris's template can't meet<br />
 - Budget 40-80 hours of development time</p>
-<h3>My Recommendation</h3>
+<h3 id="my-recommendation">My Recommendation</h3>
 <p><strong>Start with Chris's template</strong> unless you have a specific reason not to.</p>
 <p>Even if you end up building custom, using Chris's template first shows you:<br />
 - What data the connector provides<br />
@@ -713,15 +759,15 @@ You won't get this right the first time. Here's what I did:</p>
 - What your file size will be at scale</p>
 <p>Then customize from there or rebuild if needed.</p>
 <p>The worst approach: spending weeks building custom when Chris already solved 90% of your problems.</p>
-<h2>Quick Start Guide</h2>
+<h2 id="quick-start-guide">Quick Start Guide</h2>
 <p>Here's the minimal path to get Chris's template running. Full details are in <a href="https://github.com/chris-bowman/Azure-Cost-Reporting">his GitHub repo</a>.</p>
-<h3>Prerequisites</h3>
+<h3 id="prerequisites">Prerequisites</h3>
 <p><strong>Before you start:</strong><br />
 - Power BI Desktop installed<br />
 - Azure Cost Management Reader role on the subscription(s) you want to report on<br />
 - Premium workspace available (or plan to upgrade when you hit Pro limit)<br />
 - 30-60 minutes of uninterrupted time</p>
-<h3>Installation Steps</h3>
+<h3 id="installation-steps">Installation Steps</h3>
 <p><strong>Step 1: Download the template</strong></p>
 <div class="codehilite"><pre><span></span><code>git clone https://github.com/chris-bowman/Azure-Cost-Reporting.git
 </code></pre></div>
@@ -750,7 +796,7 @@ You won't get this right the first time. Here's what I did:</p>
 - Publish to Premium workspace (not Pro)<br />
 - Set up scheduled refresh (daily or weekly)<br />
 - Test refresh in the service before declaring victory</p>
-<h3>Common First-Time Issues</h3>
+<h3 id="common-first-time-issues">Common First-Time Issues</h3>
 <p><strong>Issue: Refresh fails with timeout</strong><br />
 - Solution: Reduce date range, try again</p>
 <p><strong>Issue: File size already near 1 GB</strong><br />
@@ -759,7 +805,7 @@ You won't get this right the first time. Here's what I did:</p>
 - Solution: Verify you're looking at Usage Details Amortized (not Actual) for operational reporting</p>
 <p><strong>Issue: Tons of "Unassigned" costs</strong><br />
 - Solution: This is normal, see the customization section for tag cleanup</p>
-<h3>What To Do After Initial Setup</h3>
+<h3 id="what-to-do-after-initial-setup">What To Do After Initial Setup</h3>
 <ol>
 <li><strong>Run it for a week</strong> - understand what data you're getting</li>
 <li><strong>Identify "Unassigned" costs</strong> - build your cleanup plan</li>
@@ -768,7 +814,7 @@ You won't get this right the first time. Here's what I did:</p>
 <li><strong>Build executive summary page</strong> - one page for leadership</li>
 </ol>
 <p>Don't over-customize before you understand what people actually need.</p>
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line_1">The Bottom Line</h2>
 <p>Chris Bowman built a production-ready FinOps platform, not a simple cost dashboard. Reddit threads make it sound like "download and go" - it's not.</p>
 <p><strong>What you need to understand:</strong></p>
 <p><strong>1. File size is real</strong><br />

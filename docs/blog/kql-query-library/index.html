@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Complete KQL query library with 150+ production-tested queries for Azure Resource Graph, Log Analytics, and Sentinel. Copy-paste ready, enterprise-scale...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/products/kql-cover.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "KQL Query Library: 150+ Production-Ready Azure Resource Graph Queries",
   "description": "Complete KQL query library with 150+ production-tested queries for Azure Resource Graph, Log Analytics, and Sentinel. Copy-paste ready, enterprise-scale...",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "KQL, Azure, Resource Graph, Queries, Monitoring",
   "articleSection": "KQL",
-  "wordCount": "2959",
+  "wordCount": "2989",
   "timeRequired": "PT15M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "KQL"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/kql-query-library/"
+}
+</script>
+
+
+
 
 
 
@@ -274,9 +320,9 @@
 </div>
 
 <hr />
-<h2>10 Essential KQL Queries (Free Examples)</h2>
+<h2 id="10-essential-kql-queries-free-examples">10 Essential KQL Queries (Free Examples)</h2>
 <p>Here are 10 production-ready queries you can use right now. <strong>Want all 150+ queries?</strong> <a href="https://davidnoob.gumroad.com/l/hooih">Get the complete library for $19 →</a></p>
-<h3>1. Find All Virtual Machines with Public IPs</h3>
+<h3 id="1-find-all-virtual-machines-with-public-ips">1. Find All Virtual Machines with Public IPs</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">nicId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
@@ -297,7 +343,7 @@
 
 <p><strong>Why this matters:</strong> Public IPs cost $3-5/month each and are security risks. This query finds all VMs exposed to the internet.</p>
 <hr />
-<h3>2. VMs Without Backup Configured</h3>
+<h3 id="2-vms-without-backup-configured">2. VMs Without Backup Configured</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Environment&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;Production&#39;</span>
@@ -314,7 +360,7 @@
 
 <p><strong>Business impact:</strong> Each unprotected production VM is a potential data loss incident. This query finds the gaps.</p>
 <hr />
-<h3>3. Monthly Cost by Resource Group</h3>
+<h3 id="3-monthly-cost-by-resource-group">3. Monthly Cost by Resource Group</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">CostManagementExports</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">startofmonth</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">CostInBillingCurrency</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ResourceGroup</span>
@@ -324,7 +370,7 @@
 
 <p><strong>CFO-ready:</strong> Shows exactly where money is going. Essential for chargeback and budget tracking.</p>
 <hr />
-<h3>4. Storage Accounts Without HTTPS Enforcement</h3>
+<h3 id="4-storage-accounts-without-https-enforcement">4. Storage Accounts Without HTTPS Enforcement</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.storage/storageaccounts&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">supportsHttpsTrafficOnly</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">false</span>
@@ -333,7 +379,7 @@
 
 <p><strong>Security risk:</strong> HTTP traffic is unencrypted. Compliance teams flag this immediately.</p>
 <hr />
-<h3>5. VMs Running Old OS Versions</h3>
+<h3 id="5-vms-running-old-os-versions">5. VMs Running Old OS Versions</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
@@ -344,7 +390,7 @@
 
 <p><strong>Patching nightmare:</strong> Windows Server 2012 reached end-of-life. This finds technical debt.</p>
 <hr />
-<h3>6. Untagged Resources (Compliance Violation)</h3>
+<h3 id="6-untagged-resources-compliance-violation">6. Untagged Resources (Compliance Violation)</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&#39;CostCenter&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&#39;Department&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&#39;Owner&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span>
@@ -353,7 +399,7 @@
 
 <p><strong>FinOps essential:</strong> Can't do chargeback without tags. This query finds the violations.</p>
 <hr />
-<h3>7. VMs Stopped But Still Costing Money</h3>
+<h3 id="7-vms-stopped-but-still-costing-money">7. VMs Stopped But Still Costing Money</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">code</span><span class="p">)</span>
@@ -363,7 +409,7 @@
 
 <p><strong>Cost trap:</strong> "Stopped" VMs still incur compute charges. "Deallocated" is free.</p>
 <hr />
-<h3>8. SQL Databases Over 100GB</h3>
+<h3 id="8-sql-databases-over-100gb">8. SQL Databases Over 100GB</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.sql/servers/databases&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&#39;master&#39;</span>
@@ -375,7 +421,7 @@
 
 <p><strong>Cost optimization:</strong> Large databases are expensive. Identifies candidates for archival or tiering.</p>
 <hr />
-<h3>9. Network Security Groups Allowing RDP from Internet</h3>
+<h3 id="9-network-security-groups-allowing-rdp-from-internet">9. Network Security Groups Allowing RDP from Internet</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networksecuritygroups&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">securityRules</span>
@@ -388,7 +434,7 @@
 
 <p><strong>Security critical:</strong> Open RDP is an attack vector. SOC teams monitor this constantly.</p>
 <hr />
-<h3>10. Resources by Region (Multi-Region Deployment Check)</h3>
+<h3 id="10-resources-by-region-multi-region-deployment-check">10. Resources by Region (Multi-Region Deployment Check)</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
@@ -397,7 +443,7 @@
 
 <p><strong>Disaster recovery:</strong> Shows if you're actually multi-region or just paying for it.</p>
 <hr />
-<h2>Why Learn KQL Instead of Azure Portal Clicking?</h2>
+<h2 id="why-learn-kql-instead-of-azure-portal-clicking">Why Learn KQL Instead of Azure Portal Clicking?</h2>
 <p><strong>Portal problems:</strong><br />
 - Can only search one subscription at a time<br />
 - Can't filter by multiple criteria<br />
@@ -411,29 +457,29 @@
 <p><strong>Time saved:</strong> 5 minutes clicking per resource × 1,000 resources = 83 hours/month<br />
 <strong>With KQL:</strong> 30 seconds to write query, 5 seconds to run = <strong>83 hours saved</strong></p>
 <hr />
-<h2>KQL Use Cases by Role</h2>
-<h3>Azure Administrators</h3>
+<h2 id="kql-use-cases-by-role">KQL Use Cases by Role</h2>
+<h3 id="azure-administrators">Azure Administrators</h3>
 <ul>
 <li>Find VMs without monitoring agents</li>
 <li>Track resource group ownership</li>
 <li>Identify orphaned resources (disks, IPs)</li>
 <li>Generate compliance reports</li>
 </ul>
-<h3>FinOps Teams</h3>
+<h3 id="finops-teams">FinOps Teams</h3>
 <ul>
 <li>Cost by department/project/environment</li>
 <li>Untagged resource tracking</li>
 <li>Reserved Instance utilization</li>
 <li>Waste identification (idle VMs, unused disks)</li>
 </ul>
-<h3>Security Teams</h3>
+<h3 id="security-teams">Security Teams</h3>
 <ul>
 <li>Public-facing resources inventory</li>
 <li>NSG rule violations</li>
 <li>Storage accounts without encryption</li>
 <li>Identity &amp; Access anomalies</li>
 </ul>
-<h3>DevOps Engineers</h3>
+<h3 id="devops-engineers">DevOps Engineers</h3>
 <ul>
 <li>Pipeline resource provisioning status</li>
 <li>Environment resource counts</li>
@@ -441,29 +487,29 @@
 <li>Infrastructure drift detection</li>
 </ul>
 <hr />
-<h2>KQL Learning Path (30 Days to Mastery)</h2>
-<h3>Week 1: Basics</h3>
+<h2 id="kql-learning-path-30-days-to-mastery">KQL Learning Path (30 Days to Mastery)</h2>
+<h3 id="week-1-basics">Week 1: Basics</h3>
 <ul>
 <li>[ ] Understand <code>Resources</code> table</li>
 <li>[ ] Learn <code>where</code>, <code>project</code>, <code>extend</code></li>
 <li>[ ] Write your first 5 queries</li>
 <li>[ ] Practice in Azure Resource Graph Explorer</li>
 </ul>
-<h3>Week 2: Joins &amp; Aggregations</h3>
+<h3 id="week-2-joins-aggregations">Week 2: Joins &amp; Aggregations</h3>
 <ul>
 <li>[ ] Master <code>join</code> (inner, outer, anti)</li>
 <li>[ ] Use <code>summarize</code> for counts/sums</li>
 <li>[ ] Learn <code>mv-expand</code> for arrays</li>
 <li>[ ] Build your first dashboard</li>
 </ul>
-<h3>Week 3: Advanced Patterns</h3>
+<h3 id="week-3-advanced-patterns">Week 3: Advanced Patterns</h3>
 <ul>
 <li>[ ] Multi-subscription queries</li>
 <li>[ ] Complex filtering logic</li>
 <li>[ ] Performance optimization</li>
 <li>[ ] JSON property parsing</li>
 </ul>
-<h3>Week 4: Production Deployment</h3>
+<h3 id="week-4-production-deployment">Week 4: Production Deployment</h3>
 <ul>
 <li>[ ] Save queries to Azure Monitor</li>
 <li>[ ] Create PowerShell automation</li>
@@ -472,8 +518,8 @@
 </ul>
 <p><strong>Shortcut:</strong> <a href="https://davidnoob.gumroad.com/l/hooih">Get 150+ production-ready queries ($19)</a> and skip straight to Week 4.</p>
 <hr />
-<h2>Common KQL Mistakes (And How to Fix Them)</h2>
-<h3>Mistake #1: Querying All Subscriptions When You Only Need One</h3>
+<h2 id="common-kql-mistakes-and-how-to-fix-them">Common KQL Mistakes (And How to Fix Them)</h2>
+<h3 id="mistake-1-querying-all-subscriptions-when-you-only-need-one">Mistake #1: Querying All Subscriptions When You Only Need One</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
@@ -489,7 +535,7 @@
 
 <p><strong>Why:</strong> Filters at the top reduce query time from 30 seconds to 2 seconds.</p>
 <hr />
-<h3>Mistake #2: Case-Sensitive Comparisons</h3>
+<h3 id="mistake-2-case-sensitive-comparisons">Mistake #2: Case-Sensitive Comparisons</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Microsoft.Compute/virtualMachines&#39;</span><span class="w">  </span><span class="c">// Fails if casing differs</span>
 </code></pre></div>
@@ -500,7 +546,7 @@
 
 <p><strong>Why:</strong> Azure resource types aren't consistently cased. Always use <code>=~</code> for strings.</p>
 <hr />
-<h3>Mistake #3: Not Handling Empty/Null Values</h3>
+<h3 id="mistake-3-not-handling-empty-null-values">Mistake #3: Not Handling Empty/Null Values</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;CostCenter&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="w">  </span><span class="c">// Misses null tags</span>
 </code></pre></div>
@@ -511,7 +557,7 @@
 
 <p><strong>Why:</strong> Empty and null are different. Check both to catch all violations.</p>
 <hr />
-<h2>KQL vs SQL: Key Differences</h2>
+<h2 id="kql-vs-sql-key-differences">KQL vs SQL: Key Differences</h2>
 <table>
 <thead>
 <tr>
@@ -555,7 +601,7 @@
 </table>
 <p><strong>SQL developers:</strong> KQL reads top-to-bottom (pipeline), not inside-out like SQL.</p>
 <hr />
-<h2>Free KQL Resources</h2>
+<h2 id="free-kql-resources">Free KQL Resources</h2>
 <p><strong>Official Microsoft:</strong><br />
 - <a href="https://docs.microsoft.com/azure/data-explorer/kql-quick-reference">KQL Quick Reference</a><br />
 - <a href="https://portal.azure.com/#blade/HubsExtension/ArgQueryBlade">Azure Resource Graph Explorer</a><br />
@@ -600,7 +646,7 @@
 </div>
 
 <hr />
-<h2>FAQ: KQL Query Library</h2>
+<h2 id="faq-kql-query-library">FAQ: KQL Query Library</h2>
 <p><strong>Q: Do I need programming experience to use KQL?</strong><br />
 A: No. If you can write Excel formulas, you can learn KQL. The syntax is more English-like than SQL.</p>
 <p><strong>Q: Will these queries work in my environment?</strong><br />
@@ -614,7 +660,7 @@ A: Yes. Lifetime updates included. When new Azure services launch or resource ty
 <p><strong>Q: What if a query doesn't work in my environment?</strong><br />
 A: Email me the error and I'll fix it within 24 hours. Or just request a refund—no questions asked.</p>
 <hr />
-<h2>Ready to Master KQL?</h2>
+<h2 id="ready-to-master-kql">Ready to Master KQL?</h2>
 <p><strong>Free path:</strong> Start with the <a href="/blog/kql-cheat-sheet-complete/">KQL Cheat Sheet</a> (15 essential queries)<br />
 <strong>Fast path:</strong> <a href="https://davidnoob.gumroad.com/l/hooih">Get the Complete Library ($19)</a> (150+ queries, instant access)</p>
 <p><strong>Either way, you'll be querying Azure like a pro within 30 days.</strong></p>

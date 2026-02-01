@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="The OSI model isn’t dead — it just moved to the cloud. Here’s how to map Azure services to OSI layers and use that framework to troubleshoot IaaS, PaaS, and...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-osi-model-mapping.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The OSI Model for Azure Admins: How to Troubleshoot the Cloud Like a Network Engineer",
   "description": "The OSI model isn’t dead — it just moved to the cloud. Here’s how to map Azure services to OSI layers and use that framework to troubleshoot IaaS, PaaS, and...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, networking, troubleshooting, IaaS, PaaS, SaaS",
   "articleSection": "azure",
-  "wordCount": "1280",
+  "wordCount": "1293",
   "timeRequired": "PT6M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-osi-model-for-admins/"
+}
+</script>
+
+
+
 
 
 
@@ -237,13 +283,13 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/automation/">Azure Automation hub</a> covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.</p>
-<h2>🧭 Introduction</h2>
+<h2 id="introduction">🧭 Introduction</h2>
 <p>The <strong>OSI model</strong> (Open Systems Interconnection) is still one of the best mental maps for troubleshooting networks — even in the cloud.</p>
 <p>In Azure, every issue — from a VM that won’t ping to an App Service failing to load — lives somewhere on those <strong>seven layers</strong>.<br />
 If you can pinpoint the layer, you can pinpoint the problem.</p>
 <p>This guide maps Azure’s IaaS, PaaS, and SaaS services directly to the OSI model and shows how to use that structure to troubleshoot modern cloud environments.</p>
 <hr />
-<h2>🔷 Layer 1 — Physical: The Azure Fabric</h2>
+<h2 id="layer-1-physical-the-azure-fabric">🔷 Layer 1 — Physical: The Azure Fabric</h2>
 <p><strong>Concept:</strong> Hardware, cabling, physical connectivity<br />
 <strong>Azure Reality:</strong> The physical hosts, SDN fabric, and storage managed by Microsoft</p>
 <p><strong>Services:</strong><br />
@@ -256,7 +302,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Check <strong>Resource Health</strong> on VMs or disks<br />
 - Review <strong>Maintenance events</strong> or <strong>host reallocation logs</strong></p>
 <hr />
-<h2>🔷 Layer 2 — Data Link: Virtual Network Isolation</h2>
+<h2 id="layer-2-data-link-virtual-network-isolation">🔷 Layer 2 — Data Link: Virtual Network Isolation</h2>
 <p><strong>Concept:</strong> MAC addressing, switching, local delivery<br />
 <strong>Azure Reality:</strong> VNets, subnets, NSGs, and Private Endpoints form layer-2 boundaries</p>
 <p><strong>Services:</strong><br />
@@ -270,7 +316,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Check <strong>Effective Security Rules</strong> for NSGs<br />
 - Validate <strong>Private Endpoint DNS</strong> mapping and status</p>
 <hr />
-<h2>🔷 Layer 3 — Network: Routing &amp; Addressing</h2>
+<h2 id="layer-3-network-routing-addressing">🔷 Layer 3 — Network: Routing &amp; Addressing</h2>
 <p><strong>Concept:</strong> IP routing and path selection<br />
 <strong>Azure Reality:</strong> Virtual routers and firewalls manage IP movement between VNets and regions</p>
 <p><strong>Services:</strong><br />
@@ -286,7 +332,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Check for overlapping IP spaces or missing routes<br />
 - Validate DNS resolution for storage or service endpoints</p>
 <hr />
-<h2>🔷 Layer 4 — Transport: Ports &amp; Load Balancing</h2>
+<h2 id="layer-4-transport-ports-load-balancing">🔷 Layer 4 — Transport: Ports &amp; Load Balancing</h2>
 <p><strong>Concept:</strong> TCP/UDP sessions and port control<br />
 <strong>Azure Reality:</strong> Load balancers, firewalls, and NSGs enforce connectivity at this layer</p>
 <p><strong>Services:</strong><br />
@@ -302,7 +348,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Check <strong>Load Balancer health probes</strong><br />
 - Confirm firewall and NVA NAT rules  </p>
 <hr />
-<h2>🔷 Layer 5 — Session: Identity &amp; Persistence</h2>
+<h2 id="layer-5-session-identity-persistence">🔷 Layer 5 — Session: Identity &amp; Persistence</h2>
 <p><strong>Concept:</strong> Establishing and maintaining sessions<br />
 <strong>Azure Reality:</strong> Authentication, tokens, and session lifetimes managed by Entra ID or SAS tokens</p>
 <p><strong>Services:</strong><br />
@@ -318,7 +364,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Validate <strong>RBAC or SAS permissions</strong><br />
 - Ensure <strong>sticky sessions</strong> are configured if required  </p>
 <hr />
-<h2>🔷 Layer 6 — Presentation: Encryption &amp; Format</h2>
+<h2 id="layer-6-presentation-encryption-format">🔷 Layer 6 — Presentation: Encryption &amp; Format</h2>
 <p><strong>Concept:</strong> Data encryption, serialization, translation<br />
 <strong>Azure Reality:</strong> TLS, Key Vault, and encryption at rest or in transit  </p>
 <p><strong>Services:</strong><br />
@@ -334,7 +380,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Review <strong>SSL policy</strong> on App Gateway<br />
 - Confirm <strong>encryption configuration</strong> in Storage or SQL  </p>
 <hr />
-<h2>🔷 Layer 7 — Application: Apps, APIs &amp; Data Services</h2>
+<h2 id="layer-7-application-apps-apis-data-services">🔷 Layer 7 — Application: Apps, APIs &amp; Data Services</h2>
 <p><strong>Concept:</strong> End-user and application-level communication<br />
 <strong>Azure Reality:</strong> Where workloads and user experiences live  </p>
 <p><strong>Services:</strong><br />
@@ -356,7 +402,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Review API exceptions and HTTP codes (403, 409)<br />
 - Validate DNS and endpoint reachability  </p>
 <hr />
-<h2>🧩 Layer-to-Service Mapping Table</h2>
+<h2 id="layer-to-service-mapping-table">🧩 Layer-to-Service Mapping Table</h2>
 <table>
 <thead>
 <tr>
@@ -412,7 +458,7 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 </tbody>
 </table>
 <hr />
-<h2>⚙️ Applying the OSI Model in Real Troubleshooting</h2>
+<h2 id="applying-the-osi-model-in-real-troubleshooting">⚙️ Applying the OSI Model in Real Troubleshooting</h2>
 <blockquote>
 <p>When something breaks — start low, climb up.</p>
 </blockquote>
@@ -429,19 +475,19 @@ If you can pinpoint the layer, you can pinpoint the problem.</p>
 - Review <strong>SSL policy (L6)</strong><br />
 - Inspect <strong>query errors (L7)</strong>  </p>
 <hr />
-<h2>🧠 Key Takeaways</h2>
+<h2 id="key-takeaways">🧠 Key Takeaways</h2>
 <ul>
 <li>The OSI model is a <strong>cloud-agnostic troubleshooting map</strong>.  </li>
 <li>Azure’s layers stack cleanly across IaaS, PaaS, and SaaS.  </li>
 <li>Starting from the bottom prevents chasing phantom “app” issues caused by simple network misconfigurations.</li>
 </ul>
 <hr />
-<h2>🖼️ Hero Image Prompt</h2>
+<h2 id="hero-image-prompt">🖼️ Hero Image Prompt</h2>
 <blockquote>
 <p>“An Azure-blue layered diagram of the 7-layer OSI model on the left, matched with Azure icons and services (VMs, VNets, NSGs, Route Tables, Firewall, Key Vault, App Service, AKS, Functions, Storage, SQL, and Front Door) on the right, connected with curved data-flow lines.”</p>
 </blockquote>
 <hr />
-<h2>💬 Final Thought</h2>
+<h2 id="final-thought">💬 Final Thought</h2>
 <p>The next time your app “just stops working,” don’t panic — <strong>walk the stack</strong>.</p>
 <p>Layer 1: Is Azure itself healthy?<br />
 Layer 2–3: Is the network open?<br />

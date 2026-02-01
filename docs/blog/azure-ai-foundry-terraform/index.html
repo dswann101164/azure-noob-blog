@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Complete Terraform code for Azure AI Foundry RAG: secure, repeatable, version-controlled deployment. Includes private endpoints, managed identity,...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-ai-foundry-terraform.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not Portal Clickops)",
   "description": "Complete Terraform code for Azure AI Foundry RAG: secure, repeatable, version-controlled deployment. Includes private endpoints, managed identity,...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, Terraform, Infrastructure as Code, Azure AI Foundry, RAG, devops",
   "articleSection": "azure",
-  "wordCount": "9035",
+  "wordCount": "9065",
   "timeRequired": "PT45M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-ai-foundry-terraform/"
+}
+</script>
+
+
+
 
 
 
@@ -252,7 +298,7 @@
 - How to avoid the "works on my machine" problem</p>
 <p>I manage 44 Azure subscriptions with 31,000 resources. Manual deployments don't scale. Terraform does.</p>
 <p>Here's the production-ready Terraform configuration for Azure AI Foundry RAG that includes security, monitoring, cost management, and everything the tutorials skip.</p>
-<h2>Why Terraform for Azure AI Foundry?</h2>
+<h2 id="why-terraform-for-azure-ai-foundry">Why Terraform for Azure AI Foundry?</h2>
 <p><strong>The Portal approach (tutorials):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Need</span><span class="w"> </span><span class="n">RAG</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="n">environment</span>
 <span class="n">Solution</span><span class="o">:</span><span class="w"> </span><span class="n">Click</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">minutes</span>
@@ -305,7 +351,7 @@
 - ✅ Testable (validate before applying)<br />
 - ✅ Documented (code IS documentation)</p>
 <p><strong>This is how you deploy at enterprise scale.</strong></p>
-<h2>Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <p><strong>What you need before starting:</strong></p>
 <ol>
 <li><strong>Azure subscription</strong> with sufficient quota</li>
@@ -321,7 +367,7 @@
 </code></pre></div>
 
 <p><strong>Cost warning:</strong> This will create billable resources (~$300-$1,000/month depending on tier choices).</p>
-<h2>Project Structure</h2>
+<h2 id="project-structure">Project Structure</h2>
 <p><strong>Organize your Terraform like this:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">azure</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">foundry</span><span class="o">-</span><span class="n">terraform</span><span class="o">/</span>
 <span class="err">├──</span><span class="w"> </span><span class="n">main</span><span class="o">.</span><span class="n">tf</span><span class="w">                 </span><span class="c1"># Main orchestration</span>
@@ -374,8 +420,8 @@
 - Environment-specific configs<br />
 - Clear separation of concerns<br />
 - Team collaboration</p>
-<h2>Core Terraform Configuration</h2>
-<h3>1. Provider and Backend Setup</h3>
+<h2 id="core-terraform-configuration">Core Terraform Configuration</h2>
+<h3 id="1-provider-and-backend-setup">1. Provider and Backend Setup</h3>
 <p><strong>providers.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.5.0&quot;</span>
@@ -428,7 +474,7 @@
 - State locking (prevents concurrent modifications)<br />
 - Encryption at rest<br />
 - Backup and recovery</p>
-<h3>2. Variables Definition</h3>
+<h3 id="2-variables-definition">2. Variables Definition</h3>
 <p><strong>variables.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;environment&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment name (dev, staging, prod)&quot;</span>
@@ -520,7 +566,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>3. Main Orchestration</h3>
+<h3 id="3-main-orchestration">3. Main Orchestration</h3>
 <p><strong>main.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Generate unique suffix for globally unique names</span>
 <span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;random_string&quot;</span><span class="w"> </span><span class="nv">&quot;suffix&quot;</span><span class="w"> </span><span class="p">{</span>
@@ -647,7 +693,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Module Implementation: Azure AI Search</h2>
+<h2 id="module-implementation-azure-ai-search">Module Implementation: Azure AI Search</h2>
 <p><strong>modules/ai-search/main.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_search_service&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
@@ -847,7 +893,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Module Implementation: Azure OpenAI</h2>
+<h2 id="module-implementation-azure-openai">Module Implementation: Azure OpenAI</h2>
 <p><strong>modules/openai/main.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_cognitive_account&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
@@ -954,7 +1000,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Module Implementation: Storage Account</h2>
+<h2 id="module-implementation-storage-account">Module Implementation: Storage Account</h2>
 <p><strong>modules/storage/main.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_account&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
@@ -1066,7 +1112,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Environment-Specific Configurations</h2>
+<h2 id="environment-specific-configurations">Environment-Specific Configurations</h2>
 <p><strong>environments/dev.tfvars:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span>
 <span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus2&quot;</span>
@@ -1142,8 +1188,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Deployment Workflow</h2>
-<h3>Initial Setup</h3>
+<h2 id="deployment-workflow">Deployment Workflow</h2>
+<h3 id="initial-setup">Initial Setup</h3>
 <p><strong>1. Initialize Terraform:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Clone your repo</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourorg/azure-ai-foundry-terraform.git
@@ -1182,7 +1228,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>dev.tfplan
 terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/dev.tfvars&quot;</span>
 </code></pre></div>
 
-<h3>Deploying to Production</h3>
+<h3 id="deploying-to-production">Deploying to Production</h3>
 <p><strong>1. Create prod workspace:</strong></p>
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>workspace<span class="w"> </span>new<span class="w"> </span>prod
 terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k">select</span><span class="w"> </span>prod
@@ -1198,7 +1244,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span clas
 terraform<span class="w"> </span>apply<span class="w"> </span>prod.tfplan
 </code></pre></div>
 
-<h3>Making Changes</h3>
+<h3 id="making-changes">Making Changes</h3>
 <p><strong>1. Update Terraform files:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Edit modules/ai-search/main.tf (example)</span>
 vim<span class="w"> </span>modules/ai-search/main.tf
@@ -1227,7 +1273,7 @@ terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k
 terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/prod.tfvars&quot;</span>
 </code></pre></div>
 
-<h2>Cost Management with Terraform</h2>
+<h2 id="cost-management-with-terraform">Cost Management with Terraform</h2>
 <p><strong>Add cost tags for tracking:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">cost_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -1287,8 +1333,8 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Security Best Practices</h2>
-<h3>1. No Secrets in Code</h3>
+<h2 id="security-best-practices">Security Best Practices</h2>
+<h3 id="1-no-secrets-in-code">1. No Secrets in Code</h3>
 <p><strong>❌ Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_cognitive_account&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="c1">  # ...</span>
@@ -1308,7 +1354,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="c1"># Using managed identity authentication</span>
 </code></pre></div>
 
-<h3>2. Use Managed Identities</h3>
+<h3 id="2-use-managed-identities">2. Use Managed Identities</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Enable managed identity on all services</span>
 <span class="nb">identity</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SystemAssigned&quot;</span>
@@ -1322,7 +1368,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>3. Private Endpoints for Production</h3>
+<h3 id="3-private-endpoints-for-production">3. Private Endpoints for Production</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Disable public access</span>
 <span class="na">public_network_access_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 
@@ -1332,7 +1378,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>4. Network Restrictions</h3>
+<h3 id="4-network-restrictions">4. Network Restrictions</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Firewall rules</span>
 <span class="nb">network_rules</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">default_action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Deny&quot;</span>
@@ -1341,7 +1387,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Monitoring and Alerts</h2>
+<h2 id="monitoring-and-alerts">Monitoring and Alerts</h2>
 <p><strong>Create alerts for failures:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_metric_alert&quot;</span><span class="w"> </span><span class="nv">&quot;search_failures&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-search-failures&quot;</span>
@@ -1382,7 +1428,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>CI/CD Integration</h2>
+<h2 id="ci-cd-integration">CI/CD Integration</h2>
 <p><strong>Azure DevOps Pipeline:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># azure-pipelines.yml</span>
 <span class="nt">trigger</span><span class="p">:</span>
@@ -1454,8 +1500,8 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">  </span><span class="c1"># Repeat for staging and prod with approval gates</span>
 </code></pre></div>
 
-<h2>Troubleshooting Common Issues</h2>
-<h3>Issue 1: "Resource Already Exists"</h3>
+<h2 id="troubleshooting-common-issues">Troubleshooting Common Issues</h2>
+<h3 id="issue-1-resource-already-exists">Issue 1: "Resource Already Exists"</h3>
 <p><strong>Problem:</strong> Importing existing resources</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Import existing resource</span>
@@ -1466,7 +1512,7 @@ terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w">
 terraform<span class="w"> </span>apply
 </code></pre></div>
 
-<h3>Issue 2: "Insufficient Quota"</h3>
+<h3 id="issue-2-insufficient-quota">Issue 2: "Insufficient Quota"</h3>
 <p><strong>Problem:</strong> Azure subscription quota limits</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check quota</span>
@@ -1476,7 +1522,7 @@ az<span class="w"> </span>vm<span class="w"> </span>list-usage<span class="w"> <
 <span class="c1"># Or use smaller SKUs in terraform.tfvars</span>
 </code></pre></div>
 
-<h3>Issue 3: "Backend Initialization Failed"</h3>
+<h3 id="issue-3-backend-initialization-failed">Issue 3: "Backend Initialization Failed"</h3>
 <p><strong>Problem:</strong> State storage not accessible</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Create state storage manually first</span>
@@ -1495,7 +1541,7 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
 <span class="c1"># Then terraform init</span>
 </code></pre></div>
 
-<h2>Outputs for Application Use</h2>
+<h2 id="outputs-for-application-use">Outputs for Application Use</h2>
 <p><strong>outputs.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">&quot;search_endpoint&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure AI Search endpoint&quot;</span>
@@ -1553,7 +1599,7 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
 <span class="n">openai_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">&quot;openai-key&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
 </code></pre></div>
 
-<h2>What We Accomplished</h2>
+<h2 id="what-we-accomplished">What We Accomplished</h2>
 <p><strong>With this Terraform configuration, you have:</strong></p>
 <p>✅ <strong>Repeatable deployments</strong> - Deploy identical environments with one command<br />
 ✅ <strong>Version control</strong> - Infrastructure changes tracked in git<br />
@@ -1568,7 +1614,7 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
 - Terraform: 5 minutes per environment, version controlled, identical</p>
 <p><strong>This is how enterprises deploy Azure AI Foundry at scale.</strong></p>
 <hr />
-<h2>Next Steps</h2>
+<h2 id="next-steps">Next Steps</h2>
 <p><strong>Now that you have the infrastructure:</strong></p>
 <ol>
 <li><strong>Deploy to dev</strong> and test thoroughly</li>

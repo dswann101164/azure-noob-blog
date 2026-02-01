@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="The biggest Azure migration mistakes enterprises make: moving applications nobody understands. Real migration failures, institutional knowledge loss, and...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-migration-failure.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Common Azure Migration Mistakes | Why Enterprise Cloud Migrations Fail",
   "description": "The biggest Azure migration mistakes enterprises make: moving applications nobody understands. Real migration failures, institutional knowledge loss, and...",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "azure, migration, cloud-strategy, enterprise, mistakes",
   "articleSection": "azure",
-  "wordCount": "1432",
+  "wordCount": "1442",
   "timeRequired": "PT7M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/why-most-azure-migrations-fail/"
+}
+</script>
+
+
+
 
 
 
@@ -232,12 +278,12 @@
 
   
   <div class="post-body">
-    <h1>Why Most Azure Migrations Fail: The Institutional Knowledge Problem</h1>
+    <h1 id="why-most-azure-migrations-fail-the-institutional-knowledge-problem">Why Most Azure Migrations Fail: The Institutional Knowledge Problem</h1>
 <p>This guide is part of our <a href="/hub/migration/">Azure Migration hub</a> covering assessment, planning, execution, and post-migration optimization.</p>
 <p>Last month, I sat in a migration planning meeting where the application owner confidently stated they were "ready to move to Azure." When I asked for the software license key, they went silent. When I asked about firewall rules, they said "it works now, so it should be fine." When I asked who the vendor contact was, they admitted the person who maintained that relationship left the company two years ago.</p>
 <p>This wasn't a small company with immature IT practices. This was a Fortune 500 enterprise with a dedicated cloud migration budget and executive mandate to modernize their infrastructure.</p>
 <p>The uncomfortable truth about Azure migrations: Azure Migrate works exactly as advertised. The problem is that most enterprises are trying to migrate applications that nobody in the building actually understands anymore.</p>
-<h2>The Real Migration Blocker Isn't Technical</h2>
+<h2 id="the-real-migration-blocker-isn-t-technical">The Real Migration Blocker Isn't Technical</h2>
 <p>Azure provides excellent migration tools. The documentation is comprehensive. The technical process is well-understood. Yet most enterprise migrations either fail outright or succeed technically while failing operationally.</p>
 <p>Here's what I discovered after running migration assessments across multiple organizations: the applications work in their current environment through a combination of institutional knowledge, undocumented dependencies, and frankly, luck. The moment you try to move them, you expose years of accumulated technical debt that nobody wants to acknowledge.</p>
 <p>Consider this simple pre-migration checklist I use:</p>
@@ -253,7 +299,7 @@
 <li><strong>Is this application actually suitable for IaaS migration?</strong></li>
 </ol>
 <p>In my experience, organizations can confidently answer maybe half these questions. The other half reveals the institutional knowledge gap that kills migrations and leads to expensive architectural decisions.</p>
-<h2>The IaaS Default Problem</h2>
+<h2 id="the-iaas-default-problem">The IaaS Default Problem</h2>
 <p>Question 9 on my checklist reveals another costly consequence of the institutional knowledge gap: most organizations default to "lift and shift to VMs" not because it's the best architectural choice, but because it's the only choice they understand well enough to execute.</p>
 <p>When you don't know how your application actually works, IaaS feels safer. You're essentially recreating the existing server environment in Azure, hoping the application will continue to function the same way. But this approach often leads to the worst possible outcome: you pay cloud VM costs for applications that could run much cheaper on Platform-as-a-Service options.</p>
 <p><strong>The architectural knowledge gap:</strong><br />
@@ -264,20 +310,20 @@
 <p>Without understanding the application's actual requirements, dependencies, and architecture patterns, the safest migration path appears to be recreating the current environment exactly. This leads to expensive Azure VM sprawl when simpler, cheaper solutions would work better.</p>
 <p><strong>The hidden cost of architectural ignorance:</strong><br />
 A legacy web application running on a Windows Server VM in Azure might cost $200/month. The same application on Azure App Service might cost $50/month and require less maintenance. But if you don't understand the application well enough to evaluate the migration options, you default to the expensive choice.</p>
-<h2>The Turnover Problem</h2>
+<h2 id="the-turnover-problem">The Turnover Problem</h2>
 <p>The person who originally installed the application left three years ago. The person who documented the network dependencies took a job at a competitor last year. The current "application owner" inherited responsibility six months ago and has been hoping nothing breaks.</p>
 <p>This isn't negligence - it's the natural result of normal business operations. People leave. Knowledge walks out the door. Applications that worked perfectly under the care of someone who understood them become archaeological artifacts that current staff are afraid to touch.</p>
 <p>When migration time comes, you're not just moving applications to Azure. You're reverse-engineering your own infrastructure while trying to maintain business operations.</p>
-<h2>The "Just Move It" Trap</h2>
+<h2 id="the-just-move-it-trap">The "Just Move It" Trap</h2>
 <p>Leadership sees successful Azure case studies and assumes migration is straightforward. They hear "lift and shift" and imagine a simple technical process: point the migration tool at your servers and wait for them to appear in Azure.</p>
 <p>The reality is different. When leadership demands speed over discovery, they're asking IT to migrate applications blindly and take responsibility for whatever breaks afterward.</p>
 <p>I've had executives say "just move it" when I explained we were missing critical application details. My response: "It doesn't matter if it works afterward, right?" </p>
 <p>That question clarifies the real requirements. Leadership wants both speed and reliability, but those requirements conflict when you're working with undocumented applications built by people who no longer work for the company.</p>
-<h2>The Ownership Transfer Problem</h2>
+<h2 id="the-ownership-transfer-problem">The Ownership Transfer Problem</h2>
 <p>Many organizations compound this challenge with policies that transfer application ownership to infrastructure teams during migration. "If you touch it, you own it" means that IT becomes responsible not just for moving applications, but for maintaining them indefinitely.</p>
 <p>This creates a perverse incentive structure: the safer choice for IT is to slow down migration and force proper discovery, which makes them appear obstructionist to leadership pushing for cloud adoption.</p>
 <p>The result: IT teams resist migrations not because they don't understand Azure technology, but because they understand the organizational dynamics that will make them responsible for applications they didn't build and don't understand.</p>
-<h2>The Real Cost of Fast Migration</h2>
+<h2 id="the-real-cost-of-fast-migration">The Real Cost of Fast Migration</h2>
 <p>Here's what actually happens when organizations prioritize speed over discovery:</p>
 <p><strong>Week 1-2:</strong> Applications successfully migrate to Azure using Microsoft's tools. Technical success is celebrated.</p>
 <p><strong>Month 2:</strong> First application issue occurs. IT team discovers undocumented database dependency that doesn't work the same way in Azure.</p>
@@ -285,20 +331,20 @@ A legacy web application running on a Windows Server VM in Azure might cost $200
 <p><strong>Month 4:</strong> Vendor support call fails because the support contract was tied to a physical server that no longer exists.</p>
 <p><strong>Month 6:</strong> Application performance issues emerge. Troubleshooting reveals network configuration that worked by accident in the old environment but doesn't scale in Azure.</p>
 <p>The "fast" migration becomes a six-month remediation project that costs more than doing proper discovery would have.</p>
-<h2>What Actually Works</h2>
+<h2 id="what-actually-works">What Actually Works</h2>
 <p>Organizations that succeed at Azure migration solve the knowledge problem before they solve the technical problem:</p>
 <p><strong>Document before you migrate:</strong> Use the pre-migration assessment to force institutional knowledge capture. If you can't answer basic questions about how the application works, you're not ready to move it.</p>
 <p><strong>Fix ownership before you transfer:</strong> Clarify who owns application functionality vs. infrastructure. Migration should not automatically transfer business application ownership to IT operations.</p>
 <p><strong>Start with applications you understand:</strong> Migrate systems where you have complete knowledge first. Use these as learning experiences for your migration process.</p>
 <p><strong>Invest in discovery tools:</strong> Application dependency mapping, network monitoring, and configuration management systems help capture institutional knowledge before people leave.</p>
-<h2>The Business Case for Proper Discovery</h2>
+<h2 id="the-business-case-for-proper-discovery">The Business Case for Proper Discovery</h2>
 <p>The fastest Azure migration is the one that doesn't happen until you can answer fundamental questions about your applications. Moving broken, undocumented systems to Azure creates expensive cloud-hosted problems that are harder to troubleshoot than the original on-premises issues.</p>
 <p>Consider the real costs:<br />
 - Failed migration: 6 months of remediation work<br />
 - Successful blind migration: Ongoing operational issues and higher cloud costs<br />
 - Proper discovery phase: 4-8 weeks upfront, smooth operation afterward</p>
 <p>The discovery phase isn't a delay - it's the difference between migration success and operational disaster.</p>
-<h2>The Path Forward</h2>
+<h2 id="the-path-forward">The Path Forward</h2>
 <p>Azure migration technology is mature and reliable. The challenge is organizational: most enterprises have accumulated years of technical debt that becomes visible only when you try to change something fundamental like hosting location.</p>
 <p>Success requires acknowledging that migration is a 20% technical problem and 80% organizational problem. The organizations that recognize this and invest in solving the knowledge gap before the technical gap are the ones whose Azure migrations actually deliver business value.</p>
 <p>The uncomfortable question every organization needs to answer: Are you migrating to Azure to modernize your applications, or are you simply moving your technical debt to a more expensive hosting environment?</p>

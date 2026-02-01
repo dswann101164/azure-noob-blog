@@ -57,6 +57,30 @@
   <meta name="twitter:description" content="How Azure Arc ghost registrations happen, why they wreck governance reporting, and how to detect and clean them up at scale.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-arc-ghost-registrations.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -107,7 +131,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn&#39;t Exist",
   "description": "How Azure Arc ghost registrations happen, why they wreck governance reporting, and how to detect and clean them up at scale.",
   "image": {
@@ -122,6 +146,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -144,10 +172,12 @@
   },
   "keywords": "Azure, Azure Arc, Ghost Registrations, Governance, Hybrid, Inventory, Power BI, Reconciliation, VMware",
   "articleSection": "Azure",
-  "wordCount": "3744",
+  "wordCount": "3795",
   "timeRequired": "PT19M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -182,6 +212,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-arc-ghost-registrations/"
+}
+</script>
+
+
+
 
 
 
@@ -306,12 +352,12 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/kql/">KQL Mastery hub</a> covering query patterns, optimization techniques, and real-world Azure Resource Graph examples.</p>
-<h1>Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist</h1>
+<h1 id="azure-arc-ghost-registrations-why-64-of-my-arc-inventory-doesn-t-exist">Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn't Exist</h1>
 <p>I ran a reconciliation between Azure Arc and our VMware environment using RVTools. The results were shocking: <strong>64% of our Arc inventory consisted of ghost registrations for VMs that no longer exist.</strong></p>
 <p>This isn't an operational failure. It's an architectural limitation that affects every enterprise using manual Arc agent deployment.</p>
 <p>Here's what I found, why it happens, and how Microsoft's Arc Resource Bridge solves it.</p>
 <hr />
-<h2>The Reconciliation Results</h2>
+<h2 id="the-reconciliation-results">The Reconciliation Results</h2>
 <p><strong>Azure Arc Inventory:</strong><br />
 - 467 registered machines<br />
 - Single subscription and resource group</p>
@@ -326,9 +372,9 @@
 - <strong>167 VMs matched</strong> (16.4% actual coverage)</p>
 <p>64% of my Arc inventory was fake.</p>
 <hr />
-<h2>Why This Happens: Static vs Dynamic Registration</h2>
+<h2 id="why-this-happens-static-vs-dynamic-registration">Why This Happens: Static vs Dynamic Registration</h2>
 <p>The root cause is simple: <strong>manual Arc agent deployment creates a static snapshot, not a dynamic sync.</strong></p>
-<h3>The Static Registration Model (Pre-November 2023)</h3>
+<h3 id="the-static-registration-model-pre-november-2023">The Static Registration Model (Pre-November 2023)</h3>
 <p>Before Microsoft introduced Arc Resource Bridge, the only way to onboard VMware VMs to Azure Arc was manual agent installation:</p>
 <ol>
 <li>Administrator logs into VM (RDP/SSH)</li>
@@ -371,7 +417,7 @@
 </table>
 <p><strong>Your Arc inventory freezes on installation day.</strong></p>
 <hr />
-<h2>My Environment: Proof of Static Drift</h2>
+<h2 id="my-environment-proof-of-static-drift">My Environment: Proof of Static Drift</h2>
 <p>I deployed Arc agents approximately 6-8 months ago. Since then:</p>
 <p><strong>VMs Created (Never Got Arc):</strong><br />
 - 850 VMs added to VMware environment<br />
@@ -390,7 +436,7 @@
 - No tags for cost center allocation<br />
 - Finance can't track ESU spending by application</p>
 <hr />
-<h2>The Power BI Dashboard: Visualizing the Gap</h2>
+<h2 id="the-power-bi-dashboard-visualizing-the-gap">The Power BI Dashboard: Visualizing the Gap</h2>
 <p>I built a Power BI dashboard to reconcile Arc inventory against VMware reality:</p>
 <p><strong>Data Sources:</strong><br />
 1. <strong>RVTools Export</strong> - Production, Non-Prod, and Lab vCenters<br />
@@ -411,10 +457,10 @@ Ghost VMs = CALCULATE(COUNTROWS(arc_machines),
 - Server 2012 ESU Gap: <strong>78 VMs</strong> (37.5% at risk)</p>
 <p>The dashboard exposed what Excel reconciliation hinted at: <strong>my Arc inventory was a lie.</strong></p>
 <hr />
-<h2>November 2023: Microsoft's Solution</h2>
+<h2 id="november-2023-microsoft-s-solution">November 2023: Microsoft's Solution</h2>
 <p>On <a href="https://techcommunity.microsoft.com/t5/azure-arc-blog/bring-azure-to-your-vmware-environment-announcing-ga-of-vmware/ba-p/3974305">November 9, 2023</a>, Microsoft announced general availability of <strong>Azure Arc-enabled VMware vSphere</strong>, introducing <strong>Arc Resource Bridge</strong> as the foundation for vCenter integration.</p>
 <p>This fundamentally changed how Arc works with VMware.</p>
-<h3>The Dynamic Registration Model (Arc Resource Bridge)</h3>
+<h3 id="the-dynamic-registration-model-arc-resource-bridge">The Dynamic Registration Model (Arc Resource Bridge)</h3>
 <p>Arc Resource Bridge is a virtual appliance that connects directly to vCenter Server:</p>
 <div class="codehilite"><pre><span></span><code>vCenter (Source of Truth)
    ↓
@@ -460,8 +506,8 @@ Azure Arc (Always Current)
 </table>
 <p><strong>Arc inventory stays synchronized with vCenter reality.</strong></p>
 <hr />
-<h2>Static vs Dynamic: The Key Difference</h2>
-<h3>Installation Day (Both Models Look Identical)</h3>
+<h2 id="static-vs-dynamic-the-key-difference">Static vs Dynamic: The Key Difference</h2>
+<h3 id="installation-day-both-models-look-identical">Installation Day (Both Models Look Identical)</h3>
 <p><strong>Manual Arc Agents:</strong><br />
 - 467 VMs in VMware<br />
 - 467 Arc registrations<br />
@@ -470,7 +516,7 @@ Azure Arc (Always Current)
 - 467 VMs in VMware<br />
 - 467 Arc registrations<br />
 - 100% coverage ✅</p>
-<h3>6 Months Later (Massive Divergence)</h3>
+<h3 id="6-months-later-massive-divergence">6 Months Later (Massive Divergence)</h3>
 <p><strong>Manual Arc Agents (Static):</strong><br />
 - 1,017 VMs in VMware (550 added)<br />
 - 467 Arc registrations (unchanged)<br />
@@ -483,7 +529,7 @@ Azure Arc (Always Current)
 - 1,017 valid registrations (100% coverage) ✅</p>
 <p><strong>The gap grows daily with static registration.</strong></p>
 <hr />
-<h2>Why Most Enterprises Have This Problem</h2>
+<h2 id="why-most-enterprises-have-this-problem">Why Most Enterprises Have This Problem</h2>
 <p>If you deployed Arc using any of these methods, you have static registration:</p>
 <ol>
 <li><strong>Manual installation</strong> on individual VMs</li>
@@ -495,14 +541,14 @@ Azure Arc (Always Current)
 <p><strong>None of these maintain sync with vCenter.</strong></p>
 <p>You took a snapshot on deployment day. Since then, your Arc inventory has diverged from reality.</p>
 <hr />
-<h2>The Cost of Static Registration</h2>
-<h3>1. False Compliance Reporting</h3>
+<h2 id="the-cost-of-static-registration">The Cost of Static Registration</h2>
+<h3 id="1-false-compliance-reporting">1. False Compliance Reporting</h3>
 <p><strong>Server 2012 ESU Example:</strong><br />
 - Arc shows 78 Server 2012 VMs without ESU<br />
 - But 64% of Arc inventory is ghosts<br />
 - Actual compliance status: Unknown</p>
 <p>You're reporting on ghost inventory.</p>
-<h3>2. Wasted Azure Spending</h3>
+<h3 id="2-wasted-azure-spending">2. Wasted Azure Spending</h3>
 <p><strong>Arc agent costs:</strong><br />
 - 300 ghost registrations × $X/month<br />
 - Paying for machines that don't exist</p>
@@ -510,21 +556,21 @@ Azure Arc (Always Current)
 - Azure Monitor agents on ghosts<br />
 - Defender agents on ghosts<br />
 - Update Management on ghosts</p>
-<h3>3. Operational Overhead</h3>
+<h3 id="3-operational-overhead">3. Operational Overhead</h3>
 <p><strong>Manual maintenance burden:</strong><br />
 - 285 expired agents requiring updates<br />
 - No automated lifecycle management<br />
 - Monthly cleanup scripts required<br />
 - Ghost detection and removal</p>
-<h3>4. Lost Cost Allocation</h3>
+<h3 id="4-lost-cost-allocation">4. Lost Cost Allocation</h3>
 <p><strong>Finance nightmare:</strong><br />
 - All VMs in one resource group<br />
 - No cost center tags<br />
 - Can't allocate ESU costs by application<br />
 - Chargeback impossible</p>
 <hr />
-<h2>Arc Resource Bridge: Technical Architecture</h2>
-<h3>What Gets Deployed</h3>
+<h2 id="arc-resource-bridge-technical-architecture">Arc Resource Bridge: Technical Architecture</h2>
+<h3 id="what-gets-deployed">What Gets Deployed</h3>
 <p><strong>Per vCenter Instance:</strong><br />
 - Arc Resource Bridge (virtual appliance)<br />
 - 4 vCPUs, 16 GB RAM, 100 GB disk<br />
@@ -535,7 +581,7 @@ Azure Arc (Always Current)
 - Access to vCenter API (443)<br />
 - No inbound access required<br />
 - No guest OS credentials needed</p>
-<h3>How It Works</h3>
+<h3 id="how-it-works">How It Works</h3>
 <ol>
 <li><strong>Connection Phase:</strong></li>
 <li>Arc Resource Bridge deployed to vCenter</li>
@@ -568,8 +614,8 @@ Azure Arc (Always Current)
 <li>Tags synced: vCenter → Azure</li>
 </ol>
 <hr />
-<h2>Deployment Guide</h2>
-<h3>Prerequisites</h3>
+<h2 id="deployment-guide">Deployment Guide</h2>
+<h3 id="prerequisites">Prerequisites</h3>
 <p>Following Microsoft's <a href="https://learn.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/quick-start-connect-vcenter-to-arc-using-script">deployment guide</a>:</p>
 <p><strong>vCenter Requirements:</strong><br />
 - vCenter Server 7.0 or higher<br />
@@ -599,7 +645,7 @@ Azure Arc (Always Current)
 <span class="n">az</span> <span class="n">login</span> <span class="p">-</span><span class="n">-use-device-code</span>
 </code></pre></div>
 
-<h3>Deployment Steps</h3>
+<h3 id="deployment-steps">Deployment Steps</h3>
 <p><strong>1. Download Onboarding Script</strong></p>
 <p>From Azure Portal:<br />
 - Navigate to <strong>Azure Arc</strong><br />
@@ -640,8 +686,8 @@ Azure Arc (Always Current)
 - vCenter resource created<br />
 - VM inventory begins appearing</p>
 <hr />
-<h2>Migration Strategy: Static to Dynamic</h2>
-<h3>Week 1: Deploy Arc Resource Bridge</h3>
+<h2 id="migration-strategy-static-to-dynamic">Migration Strategy: Static to Dynamic</h2>
+<h3 id="week-1-deploy-arc-resource-bridge">Week 1: Deploy Arc Resource Bridge</h3>
 <p><strong>Per vCenter Instance:</strong><br />
 1. Deploy Arc Resource Bridge (Production)<br />
 2. Deploy Arc Resource Bridge (Non-Production)<br />
@@ -651,7 +697,7 @@ Azure Arc (Always Current)
 - Bridge appliance VM running in vCenter<br />
 - Bridge status "Online" in Azure Portal<br />
 - Custom location created successfully</p>
-<h3>Week 2: Sync and Compare</h3>
+<h3 id="week-2-sync-and-compare">Week 2: Sync and Compare</h3>
 <p><strong>Let Bridge Discover Inventory:</strong><br />
 - Wait 24-48 hours for full discovery<br />
 - Bridge will create Arc representations for all VMs<br />
@@ -668,7 +714,7 @@ Azure Arc (Always Current)
 - Manual (old): 467 registrations<br />
 - Bridge (new): 1,017 registrations<br />
 - Overlap: 167 VMs in both</p>
-<h3>Week 3: Clean Up Ghosts</h3>
+<h3 id="week-3-clean-up-ghosts">Week 3: Clean Up Ghosts</h3>
 <p><strong>Identify Ghosts:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all manual Arc registrations</span>
 <span class="nv">$manualArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> 
@@ -703,7 +749,7 @@ Azure Arc (Always Current)
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Week 4: Cutover</h3>
+<h3 id="week-4-cutover">Week 4: Cutover</h3>
 <p><strong>Disable Manual Onboarding:</strong><br />
 - Remove Arc deployment scripts from automation<br />
 - Delete GPOs that install Arc agents<br />
@@ -719,8 +765,8 @@ Azure Arc (Always Current)
 - <strong>Remove agents:</strong> If only using Bridge for inventory/lifecycle</p>
 <p>Most environments keep both.</p>
 <hr />
-<h2>The Results: Static vs Dynamic</h2>
-<h3>Before (Static Manual Arc)</h3>
+<h2 id="the-results-static-vs-dynamic">The Results: Static vs Dynamic</h2>
+<h3 id="before-static-manual-arc">Before (Static Manual Arc)</h3>
 <p><strong>Inventory:</strong><br />
 - 467 Arc registrations<br />
 - 300 ghosts (64%)<br />
@@ -735,7 +781,7 @@ Azure Arc (Always Current)
 - One resource group for all Arc VMs<br />
 - No cost center attribution<br />
 - ESU chargeback impossible</p>
-<h3>After (Dynamic Arc Resource Bridge)</h3>
+<h3 id="after-dynamic-arc-resource-bridge">After (Dynamic Arc Resource Bridge)</h3>
 <p><strong>Inventory:</strong><br />
 - 1,017 Arc registrations<br />
 - 0 ghosts (0%)<br />
@@ -752,8 +798,8 @@ Azure Arc (Always Current)
 - ESU costs allocated properly<br />
 - Chargeback enabled</p>
 <hr />
-<h2>Arc Resource Bridge vs Manual Agents</h2>
-<h3>Can They Coexist?</h3>
+<h2 id="arc-resource-bridge-vs-manual-agents">Arc Resource Bridge vs Manual Agents</h2>
+<h3 id="can-they-coexist">Can They Coexist?</h3>
 <p><strong>YES.</strong> Arc Resource Bridge (vCenter-level) and Arc Connected Machine agents (VM-level) serve different purposes:</p>
 <table>
 <thead>
@@ -806,7 +852,7 @@ Azure Arc (Always Current)
 </tr>
 </tbody>
 </table>
-<h3>Recommended Approach</h3>
+<h3 id="recommended-approach">Recommended Approach</h3>
 <p><strong>Tier 1: All VMs</strong><br />
 - Deploy Arc Resource Bridge<br />
 - Get lifecycle management, inventory sync, cost allocation<br />
@@ -817,7 +863,7 @@ Azure Arc (Always Current)
 - Requires guest OS credentials</p>
 <p><strong>Most enterprises use both.</strong></p>
 <hr />
-<h2>Maintenance Requirements</h2>
+<h2 id="maintenance-requirements">Maintenance Requirements</h2>
 <p>Arc Resource Bridge requires <a href="https://learn.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/upgrade-azure-arc-resource-bridge">ongoing maintenance</a>:</p>
 <p><strong>Version Support:</strong><br />
 - Supported: Latest and previous 3 versions (n-3)<br />
@@ -838,7 +884,7 @@ Azure Arc (Always Current)
 <p><strong>Downtime:</strong> Brief intermittent during handoff (few minutes)</p>
 <p><strong><a href="https://learn.microsoft.com/en-us/azure/azure-arc/resource-bridge/release-notes">Release notes</a></strong> track versions and features.</p>
 <hr />
-<h2>Cost Analysis</h2>
+<h2 id="cost-analysis">Cost Analysis</h2>
 <p>From Microsoft's <a href="https://techcommunity.microsoft.com/t5/azure-arc-blog/bring-azure-to-your-vmware-environment-announcing-ga-of-vmware/ba-p/3974305">GA announcement</a>:</p>
 <blockquote>
 <p>"There aren't any additional charges to connect your VMware vSphere resources in Azure by enabling them with Azure Arc. Azure Arc provides select inventory and VM provisioning capabilities for free."</p>
@@ -867,40 +913,40 @@ Azure Arc (Always Current)
 - ESU chargeback<br />
 - Azure Migrate integration for future migrations</p>
 <hr />
-<h2>Lessons Learned</h2>
-<h3>1. Arc Inventory Requires Reconciliation</h3>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<h3 id="1-arc-inventory-requires-reconciliation">1. Arc Inventory Requires Reconciliation</h3>
 <p>Don't trust your Arc inventory without validation:<br />
 - Export Arc inventory monthly<br />
 - Compare against VMware reality (RVTools)<br />
 - Track coverage percentage over time<br />
 - Monitor ghost accumulation</p>
-<h3>2. Static Registration Degrades Over Time</h3>
+<h3 id="2-static-registration-degrades-over-time">2. Static Registration Degrades Over Time</h3>
 <p>Manual Arc deployment is inherently static:<br />
 - Coverage decreases as new VMs are added<br />
 - Ghosts accumulate as VMs are deleted<br />
 - Requires active lifecycle management</p>
-<h3>3. Arc Resource Bridge is Preventive, Not Reactive</h3>
+<h3 id="3-arc-resource-bridge-is-preventive-not-reactive">3. Arc Resource Bridge is Preventive, Not Reactive</h3>
 <p>Bridge prevents ghost accumulation:<br />
 - Don't deploy Bridge to clean up ghosts<br />
 - Deploy Bridge to prevent future ghosts<br />
 - Clean up existing ghosts separately</p>
-<h3>4. COTS Environments Benefit Most</h3>
+<h3 id="4-cots-environments-benefit-most">4. COTS Environments Benefit Most</h3>
 <p>If your environment is mostly COTS (commercial off-the-shelf software):<br />
 - You don't need GitHub Copilot code analysis<br />
 - You don't need deep dependency mapping<br />
 - Arc Resource Bridge + manual tagging = sufficient<br />
 - Vendor documentation &gt; automated discovery</p>
-<h3>5. Start With Jump Box</h3>
+<h3 id="5-start-with-jump-box">5. Start With Jump Box</h3>
 <p>A proper jump box setup is critical:<br />
 - Azure CLI, PowerShell, Arc extensions installed<br />
 - Network access to vCenter and Azure<br />
 - Credentials stored in Azure Key Vault<br />
 - See my <a href="https://azure-noob.com/blog/azure-arc-private-lab/">Arc lab setup guide</a></p>
 <hr />
-<h2>Check Your Own Environment</h2>
+<h2 id="check-your-own-environment">Check Your Own Environment</h2>
 <p><strong>When did you deploy Arc agents?</strong></p>
 <p>Run this reconciliation:</p>
-<h3>Step 1: Export Arc Inventory</h3>
+<h3 id="step-1-export-arc-inventory">Step 1: Export Arc Inventory</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all Arc machines</span>
 <span class="nb">Connect-AzAccount</span>
 <span class="nv">$arcVMs</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span>
@@ -913,13 +959,13 @@ Azure Arc (Always Current)
 <span class="nb">Write-Host</span> <span class="s2">&quot;Arc VMs: </span><span class="p">$(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Step 2: Export VMware Inventory</h3>
+<h3 id="step-2-export-vmware-inventory">Step 2: Export VMware Inventory</h3>
 <p>Use <a href="https://www.robware.net/rvtools/">RVTools</a>:<br />
 1. Download and install RVTools<br />
 2. Connect to each vCenter<br />
 3. Export "vInfo" tab to Excel<br />
 4. Combine all vCenter exports</p>
-<h3>Step 3: Reconcile</h3>
+<h3 id="step-3-reconcile">Step 3: Reconcile</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Load both inventories</span>
 <span class="nv">$arcVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;arc-inventory.csv&quot;</span>
 <span class="nv">$vmwareVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;rvtools-export.csv&quot;</span>
@@ -946,7 +992,7 @@ Azure Arc (Always Current)
 <span class="nb">Write-Host</span> <span class="s2">&quot;Coverage: </span><span class="p">$(</span><span class="nv">$coverage</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">))</span><span class="s2">%&quot;</span>
 </code></pre></div>
 
-<h3>Step 4: Visualize (Optional)</h3>
+<h3 id="step-4-visualize-optional">Step 4: Visualize (Optional)</h3>
 <p>Build a Power BI dashboard:<br />
 - Import both CSVs<br />
 - Create relationships on VM name<br />
@@ -954,7 +1000,7 @@ Azure Arc (Always Current)
 - Add slicers for environment, OS, cluster</p>
 <p>I'll publish my Power BI template on GitHub soon.</p>
 <hr />
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>If you deployed Arc manually, your inventory is probably frozen in time.</strong></p>
 <p>The solution isn't better cleanup scripts or more frequent reconciliation.</p>
 <p><strong>The solution is architectural: Arc Resource Bridge.</strong></p>
@@ -962,7 +1008,7 @@ Azure Arc (Always Current)
 <p>Microsoft introduced this capability in November 2023. If you're still using manual Arc deployment, you're running the old model.</p>
 <p><strong>Check your environment. Reconcile your inventory. I bet you have ghosts too.</strong></p>
 <hr />
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <p><strong>Microsoft Documentation:</strong><br />
 - <a href="https://learn.microsoft.com/en-us/azure/azure-arc/vmware-vsphere/overview">Azure Arc-enabled VMware vSphere Overview</a><br />
 - <a href="https://learn.microsoft.com/en-us/azure/azure-arc/resource-bridge/overview">Arc Resource Bridge Overview</a><br />
@@ -976,14 +1022,14 @@ Azure Arc (Always Current)
 - <a href="https://www.robware.net/rvtools/">RVTools</a> - VMware inventory export<br />
 - Power BI Desktop - Reconciliation dashboard (template coming soon)</p>
 <hr />
-<h2>📋 Related: Azure Arc Enterprise Readiness Checklist</h2>
+<h2 id="related-azure-arc-enterprise-readiness-checklist">📋 Related: Azure Arc Enterprise Readiness Checklist</h2>
 <p>Deploying Arc at enterprise scale? Download the complete pre-deployment checklist covering governance, networking, cost planning, and vCenter integration to prevent ghost registrations from day one.</p>
 <p><strong><a href="/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.pdf">Download Free Checklist (PDF)</a></strong> | <strong><a href="/static/downloads/Azure-Arc-Enterprise-Readiness-Checklist.xlsx">Excel Version</a></strong></p>
 <hr />
 <p><strong>Questions? Spot an error? Let me know in the comments below.</strong></p>
 <p><em>Published: December 6, 2025</em></p>
 <hr />
-<h2>🎯 Ready for Production-Ready Queries?</h2>
+<h2 id="ready-for-production-ready-queries">🎯 Ready for Production-Ready Queries?</h2>
 <p>This guide covers the basics, but <strong>scaling to 30,000+ resources requires battle-tested patterns.</strong></p>
 <p><strong>The Complete KQL Query Library includes:</strong><br />
 - ✅ 48 copy-paste ready queries (VMs, networking, security, cost)<br />

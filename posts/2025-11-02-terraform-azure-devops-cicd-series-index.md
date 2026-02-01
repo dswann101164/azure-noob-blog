@@ -5,6 +5,7 @@ summary: "The complete 6-part guide to deploying Azure infrastructure with Terra
 tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps", "Series"]
 cover: "static/images/hero/terraform-devops-series-index.png"
 hub: governance
+faq_schema: true
 related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy

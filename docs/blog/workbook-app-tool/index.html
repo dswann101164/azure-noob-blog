@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/workbook-app-tool.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Extract KQL Queries from Azure Workbooks (Workbook → App Tool)",
   "description": "An Azure Monitor workbook-driven app concept: turn your dashboards into lightweight tools for operators instead of static reports.",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Azure, KQL, Monitoring, Operations, Python, Streamlit, Tools, Workbooks",
   "articleSection": "Azure",
-  "wordCount": "4165",
+  "wordCount": "4180",
   "timeRequired": "PT21M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -180,6 +210,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/workbook-app-tool/"
+}
+</script>
+
+
+
 
 
 
@@ -249,7 +295,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <p>Azure Workbooks are JSON files with deeply nested structure. To understand what's inside—what queries run, what data gets displayed, how items connect—I'd need to click through 110+ items in Azure Portal. Each query buried in JSON. Each parameter block hidden in properties. Each text section wrapped in metadata.</p>
 <p>Or I could spend three hours building a tool that parses it in 10 seconds.</p>
 <p>I built the tool.</p>
-<h2>The Problem with Azure Workbooks</h2>
+<h2 id="the-problem-with-azure-workbooks">The Problem with Azure Workbooks</h2>
 <p>Azure Workbooks are powerful: rich visualizations, interactive parameters, complex KQL queries across subscriptions. Microsoft uses them for everything from security dashboards to resource inventory.</p>
 <p>But <strong>understanding someone else's workbook is painful:</strong></p>
 <p><strong>Azure Portal workflow:</strong><br />
@@ -267,7 +313,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 - Extract all KQL queries in one shot<br />
 - Export everything for analysis<br />
 - Test queries locally without Portal</p>
-<h2>The Realization: Workbooks Are Just JSON</h2>
+<h2 id="the-realization-workbooks-are-just-json">The Realization: Workbooks Are Just JSON</h2>
 <p>Like .pbix files (which are ZIP archives), Azure Workbooks have a simple truth:</p>
 <p><strong>Workbook files are JSON with a predictable structure.</strong></p>
 <p>When you export a workbook from Azure Portal:</p>
@@ -303,9 +349,9 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 - <code>11</code> = groups<br />
 - <code>12</code> = metrics</p>
 <p>The entire structure is sitting there in JSON. You just need to parse it.</p>
-<h2>Building the Workbook → App Tool</h2>
+<h2 id="building-the-workbook-app-tool">Building the Workbook → App Tool</h2>
 <p>I built a Streamlit app that turns workbook JSON into a navigable interface.</p>
-<h3>The Core Parser</h3>
+<h3 id="the-core-parser">The Core Parser</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_items</span><span class="p">(</span><span class="n">workbook</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract all items from workbook JSON with type, name, and content.&quot;&quot;&quot;</span>
     <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
@@ -340,7 +386,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 - Handles multiple workbook export formats<br />
 - Extracts type, name, and full content for each item<br />
 - Returns flat list for easy navigation</p>
-<h3>Extracting KQL Queries</h3>
+<h3 id="extracting-kql-queries">Extracting KQL Queries</h3>
 <p>KQL queries hide in different places depending on the workbook version:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_kql</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract KQL query from item, handling multiple schema formats.&quot;&quot;&quot;</span>
@@ -375,7 +421,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 </code></pre></div>
 
 <p><strong>The challenge:</strong> Microsoft changed the workbook schema over time. This parser handles all common formats.</p>
-<h3>The Bug I Had to Fix</h3>
+<h3 id="the-bug-i-had-to-fix">The Bug I Had to Fix</h3>
 <p>Initial version crashed on Billy York's workbook:</p>
 <div class="codehilite"><pre><span></span><code>AttributeError: &#39;int&#39; object has no attribute &#39;lower&#39;
 </code></pre></div>
@@ -411,7 +457,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 </code></pre></div>
 
 <p>Now <code>type: 3</code> displays as <code>"query (3)"</code> and parses correctly.</p>
-<h3>The Streamlit Interface</h3>
+<h3 id="the-streamlit-interface">The Streamlit Interface</h3>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
 
 <span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">page_title</span><span class="o">=</span><span class="s2">&quot;Azure Workbook → App&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
@@ -461,7 +507,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 - Jump to any item instantly<br />
 - Display KQL queries with syntax highlighting<br />
 - Optionally execute queries (requires Log Analytics workspace ID)</p>
-<h3>Export Functionality</h3>
+<h3 id="export-functionality">Export Functionality</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Extract all KQL queries</span>
 <span class="n">kql_rows</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
@@ -514,7 +560,7 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <span class="p">)</span>
 </code></pre></div>
 
-<h2>Real-World Result: Billy York's Workbook</h2>
+<h2 id="real-world-result-billy-york-s-workbook">Real-World Result: Billy York's Workbook</h2>
 <p>Running the tool on <a href="https://github.com/scautomation/Azure-Inventory-Workbook">Billy York's Azure Inventory Workbook</a>:</p>
 <p><strong>Input:</strong> <code>template.json</code> (213 KB)</p>
 <p><strong>Output:</strong></p>
@@ -552,7 +598,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 </code></pre></div>
 
 <hr />
-<h2>Item 15: query (3) — Azure Compute Overview</h2>
+<h2 id="item-15-query-3-azure-compute-overview">Item 15: query (3) — Azure Compute Overview</h2>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmID</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -643,7 +689,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 - Azure authentication (<code>az login</code> or DefaultAzureCredential)<br />
 - Log Analytics workspace ID<br />
 - Toggle enabled in sidebar</p>
-<h2>When You Need This Tool</h2>
+<h2 id="when-you-need-this-tool">When You Need This Tool</h2>
 <p><strong>Use Workbook → App when you need to:</strong><br />
 - Understand someone else's workbook structure<br />
 - Extract all KQL queries for reuse<br />
@@ -655,7 +701,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 - You built the workbook yourself (you already know the structure)<br />
 - Workbook is simple (&lt; 10 items, basic queries)<br />
 - Just viewing results (use Azure Portal)</p>
-<h2>Comparison to PBIX Modernizer</h2>
+<h2 id="comparison-to-pbix-modernizer">Comparison to PBIX Modernizer</h2>
 <p>Similar concept, different Azure file format:</p>
 <table>
 <thead>
@@ -704,7 +750,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 </tbody>
 </table>
 <p><strong>Both solve the same problem:</strong> Extract and analyze Azure/BI files without clicking through slow UI.</p>
-<h2>The GitHub Repo</h2>
+<h2 id="the-github-repo">The GitHub Repo</h2>
 <p>The complete tool is available on GitHub:</p>
 <p><strong>Features:</strong><br />
 - Upload workbook JSON (drag and drop)<br />
@@ -729,14 +775,14 @@ streamlit<span class="w"> </span>run<span class="w"> </span>streamlit_workbook_a
 </code></pre></div>
 
 <p><strong>No Azure credentials required</strong> unless you want to execute queries.</p>
-<h2>The Real Lesson</h2>
+<h2 id="the-real-lesson">The Real Lesson</h2>
 <p>When you need to understand complex Azure files (workbooks, ARM templates, policies), don't click through the Portal for hours.</p>
 <p>The structure is sitting in JSON. Extract it. Parse it. Analyze it.</p>
 <p>Billy York's 110-item workbook with 41 complex KQL queries? <strong>Parsed in 10 seconds.</strong> Full structure exported to Markdown. All queries in CSV. Ready for enhancement.</p>
 <p><strong>This tool saved weeks of manual work</strong> during workbook enhancement and migration projects.</p>
 <p>It might do the same for you.</p>
 <hr />
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <p><strong>GitHub Repo:</strong> <a href="https://github.com/yourusername/workbook_app">Azure Workbook → App Tool</a><br />
 <strong>Billy York's Original Workbook:</strong> <a href="https://github.com/scautomation/Azure-Inventory-Workbook">Azure Inventory Workbook</a><br />
 <strong>My Enhancement:</strong> <a href="/blog/modernizing-azure-workbooks/">Modernizing Azure Workbooks</a><br />

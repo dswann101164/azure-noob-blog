@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/code-architecture.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)",
   "description": "Most guides say &#39;comment the why, not the what.&#39; Azure admins need more: comments that double as runbooks, audit trails, and change-board briefs.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, devops, kql, powershell, Terraform, governance",
   "articleSection": "azure",
-  "wordCount": "1486",
-  "timeRequired": "PT7M",
+  "wordCount": "1501",
+  "timeRequired": "PT8M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/commenting-for-continuity/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -196,7 +242,7 @@
   <header class="post-header">
     <h1>Commenting for Continuity: Why My Code Comments Don&#39;t Look Like Yours (On Purpose)</h1>
     <p class="muted">
-      2025-10-27 · ~7 min read
+      2025-10-27 · ~8 min read
       
     </p>
     
@@ -236,11 +282,11 @@
 
   
   <div class="post-body">
-    <h2>TL;DR</h2>
+    <h2 id="tl-dr">TL;DR</h2>
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
 <p>Typical "best practices" stop at readability. My commenting style is built for <strong>continuity</strong>—so an Azure admin, auditor, or on-call responder can reconstruct intent, verify outcomes, and roll back safely without tribal knowledge.</p>
 <hr />
-<h2>The Problem with "Good Comments"</h2>
+<h2 id="the-problem-with-good-comments">The Problem with "Good Comments"</h2>
 <p>Every coding guide tells you the same thing:</p>
 <ol>
 <li><strong>Comment the why, not the what</strong></li>
@@ -260,7 +306,7 @@
 - "How do we roll back?"</p>
 <p>...your "why" comments won't cut it.</p>
 <hr />
-<h2>My Model: Comments as Operational Memory</h2>
+<h2 id="my-model-comments-as-operational-memory">My Model: Comments as Operational Memory</h2>
 <p>I use a <strong>universal, lightweight schema</strong> that works in PowerShell, KQL, Terraform, Bash, Python—any language.</p>
 <div class="codehilite"><pre><span></span><code>TITLE | PURPOSE | CONTEXT | ASSUMPTIONS | INPUTS | OUTPUTS
 RISKS &amp; LIMITS | VERIFICATION | ROLLBACK | RUNBOOK/LINKS
@@ -270,7 +316,7 @@ OWNER | LAST UPDATED | CHANGELOG
 <p>These fields map <strong>1:1 to what change boards, incident reviews, and future teammates need.</strong></p>
 <p>Not every script needs all fields. But the schema is consistent, so anyone reading your code knows what to look for.</p>
 <hr />
-<h2>Side-by-Side: Common Advice vs Continuity Model</h2>
+<h2 id="side-by-side-common-advice-vs-continuity-model">Side-by-Side: Common Advice vs Continuity Model</h2>
 <table>
 <thead>
 <tr>
@@ -299,8 +345,8 @@ OWNER | LAST UPDATED | CHANGELOG
 </table>
 <p>The difference: <strong>The continuity model answers questions before they're asked.</strong></p>
 <hr />
-<h2>Concrete Examples</h2>
-<h3>PowerShell (Advanced Function Header)</h3>
+<h2 id="concrete-examples">Concrete Examples</h2>
+<h3 id="powershell-advanced-function-header">PowerShell (Advanced Function Header)</h3>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;#</span>
 <span class="cm">TITLE: Resource Deletions (Last 90d)</span>
 <span class="cm">PURPOSE: SOC 2 quarterly audit – who deleted what/when</span>
@@ -334,7 +380,7 @@ OWNER | LAST UPDATED | CHANGELOG
 - <strong>Auditor asks:</strong> "How far back does this go?" → <strong>ASSUMPTIONS</strong><br />
 - <strong>Manager asks:</strong> "What if something breaks?" → <strong>RISKS &amp; LIMITS</strong><br />
 - <strong>On-call asks:</strong> "How do I verify this worked?" → <strong>VERIFICATION</strong></p>
-<h3>KQL (Inline, Concise)</h3>
+<h3 id="kql-inline-concise">KQL (Inline, Concise)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// TITLE: Agent Migration Readiness</span>
 <span class="c">// PURPOSE: Identify VMs still on MMA (14d grace period ending)</span>
 <span class="c">// LIMITS: Arc-enabled VMs may report differently</span>
@@ -352,7 +398,7 @@ OWNER | LAST UPDATED | CHANGELOG
 - <strong>Teammate asks:</strong> "What's this query for?" → <strong>PURPOSE</strong><br />
 - <strong>You ask yourself 3 months later:</strong> "Why 14 days?" → <strong>PURPOSE</strong> (grace period)<br />
 - <strong>Verification fails:</strong> → <strong>VERIFY</strong> tells you where to spot-check</p>
-<h3>Terraform (Module Doc Block)</h3>
+<h3 id="terraform-module-doc-block">Terraform (Module Doc Block)</h3>
 <div class="codehilite"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">TITLE: Hub VNet Module</span>
 <span class="cm">PURPOSE: Standard hub with shared services + routing to on-prem</span>
@@ -390,8 +436,8 @@ OWNER | LAST UPDATED | CHANGELOG
 - <strong>Incident responder asks:</strong> "How do we roll back?" → <strong>ROLLBACK</strong><br />
 - <strong>New team member asks:</strong> "Is this up to date?" → <strong>LAST UPDATED</strong></p>
 <hr />
-<h2>Why This Wins in Azure Operations</h2>
-<h3>1. Traceability</h3>
+<h2 id="why-this-wins-in-azure-operations">Why This Wins in Azure Operations</h2>
+<h3 id="1-traceability">1. Traceability</h3>
 <p><strong>Owner, date, and changelog</strong> reduce "who touched this?" hunts.</p>
 <p>Instead of:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Fixed the query - DW</span>
@@ -404,27 +450,27 @@ OWNER | LAST UPDATED | CHANGELOG
 <span class="c">#   - 2025-09-15: Initial version (J. Smith)</span>
 </code></pre></div>
 
-<h3>2. Audit-Ready</h3>
+<h3 id="2-audit-ready">2. Audit-Ready</h3>
 <p><strong>Purpose/assumptions/verification</strong> map directly to CAB forms.</p>
 <p>Your script header becomes your change request documentation:<br />
 - <strong>Purpose</strong> → Business justification<br />
 - <strong>Risks &amp; Limits</strong> → Impact assessment<br />
 - <strong>Verification</strong> → Success criteria<br />
 - <strong>Rollback</strong> → Backout plan</p>
-<h3>3. Faster Handoffs</h3>
+<h3 id="3-faster-handoffs">3. Faster Handoffs</h3>
 <p>A responder can <strong>verify and roll back without paging the author.</strong></p>
 <p>At 2 AM, when a Terraform apply fails:<br />
 - <strong>VERIFICATION</strong> tells them what "success" looks like<br />
 - <strong>ROLLBACK</strong> gives them the exact command to undo<br />
 - <strong>RUNBOOK/LINKS</strong> points them to the full procedure</p>
-<h3>4. AI-Friendly</h3>
+<h3 id="4-ai-friendly">4. AI-Friendly</h3>
 <p><strong>Structured fields are parseable by copilots</strong> to build docs or PR notes.</p>
 <p>GitHub Copilot, ChatGPT, and other tools can extract:<br />
 - Purpose → README summary<br />
 - Inputs/Outputs → Parameter documentation<br />
 - Verification → Test cases</p>
 <hr />
-<h2>VS Code: Make It One Keystroke</h2>
+<h2 id="vs-code-make-it-one-keystroke">VS Code: Make It One Keystroke</h2>
 <p>Add a <strong>global snippet</strong> (<code>crumbs</code>) so every file gets the same header in seconds.</p>
 <p><strong>File:</strong> <code>%APPDATA%\Code\User\snippets\global.code-snippets</code></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
@@ -465,7 +511,7 @@ OWNER | LAST UPDATED | CHANGELOG
 4. Fill in the fields</p>
 <p><strong>Result:</strong> Every script, query, and module gets consistent documentation in 30 seconds.</p>
 <hr />
-<h2>"But Won't This Be Too Verbose?"</h2>
+<h2 id="but-won-t-this-be-too-verbose">"But Won't This Be Too Verbose?"</h2>
 <p><strong>Only the header is verbose.</strong></p>
 <p>Inline comments stay tight with tags like:<br />
 - <code>NOTE:</code> → Clarification<br />
