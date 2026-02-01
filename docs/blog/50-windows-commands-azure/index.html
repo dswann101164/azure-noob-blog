@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="The essential Windows commands every Azure administrator needs—from PowerShell basics to Active Directory domain join and Group Policy troubleshooting in...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/windows-commands-azure.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "50 Windows Commands for Azure VMs (PowerShell + Active Directory)",
   "description": "The essential Windows commands every Azure administrator needs—from PowerShell basics to Active Directory domain join and Group Policy troubleshooting in...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, windows, powershell, active-directory, group-policy, troubleshooting",
   "articleSection": "azure",
-  "wordCount": "6553",
+  "wordCount": "6623",
   "timeRequired": "PT33M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/50-windows-commands-azure/"
+}
+</script>
+
+
+
 
 
 
@@ -240,14 +286,14 @@
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
 <p>This is when you need actual Windows commands.</p>
 <p>This guide covers the 50 PowerShell and CMD commands that bridge the gap between successful deployment and operational readiness. These are the commands I use daily managing Windows Server infrastructure in a regulated banking environment.</p>
-<h2>Who This is For</h2>
+<h2 id="who-this-is-for">Who This is For</h2>
 <ul>
 <li>Azure administrators managing Windows Server VMs</li>
 <li>Enterprise environments with Active Directory requirements</li>
 <li>Anyone troubleshooting Group Policy, domain trust, or authentication issues</li>
 <li>Operations teams bridging traditional infrastructure and Azure</li>
 </ul>
-<h2>Table of Contents</h2>
+<h2 id="table-of-contents">Table of Contents</h2>
 <ol>
 <li><a href="#azure-basics">Azure-Specific Basics</a></li>
 <li><a href="#system-admin">System Administration</a></li>
@@ -261,8 +307,8 @@
 <li><a href="#quick-reference">Quick Reference</a></li>
 </ol>
 <hr />
-<h2><a name="azure-basics"></a>Part 1: Azure-Specific Basics</h2>
-<h3>Azure VM Agent (Windows)</h3>
+<h2 id="part-1-azure-specific-basics"><a name="azure-basics"></a>Part 1: Azure-Specific Basics</h2>
+<h3 id="azure-vm-agent-windows">Azure VM Agent (Windows)</h3>
 <p>The Azure VM Agent enables extensions, monitoring, and automation. When Custom Script Extensions fail or Azure Automation won't work, start here:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check VM Agent service status</span>
 <span class="nb">Get-Service</span> <span class="n">WindowsAzureGuestAgent</span>
@@ -289,7 +335,7 @@
 <span class="nb">Get-Content</span> <span class="s2">&quot;C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\*\RuntimeSettings\*.settings&quot;</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
 </code></pre></div>
 
-<h3>Azure Instance Metadata Service (IMDS)</h3>
+<h3 id="azure-instance-metadata-service-imds">Azure Instance Metadata Service (IMDS)</h3>
 <p>Query VM metadata and managed identity tokens:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get VM metadata</span>
 <span class="nv">$metadata</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="n">-Headers</span> <span class="p">@{</span><span class="s2">&quot;Metadata&quot;</span><span class="p">=</span><span class="s2">&quot;true&quot;</span><span class="p">}</span> <span class="n">-Uri</span> <span class="s2">&quot;http://169.254.169.254/metadata/instance?api-version=2021-02-01&quot;</span>
@@ -308,7 +354,7 @@
 <span class="nv">$metadata</span><span class="p">.</span><span class="n">compute</span><span class="p">.</span><span class="n">identity</span>
 </code></pre></div>
 
-<h3>Run Command Execution Status</h3>
+<h3 id="run-command-execution-status">Run Command Execution Status</h3>
 <p>When you deploy scripts via Azure Run Command:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># List all Run Commands on this VM (requires Az PowerShell module)</span>
 <span class="nb">Get-AzVMRunCommand</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;myRG&quot;</span> <span class="n">-VMName</span> <span class="s2">&quot;myVM&quot;</span>
@@ -324,15 +370,15 @@
 <p><strong>💼 Enterprise Callout: Active Directory Domain Join</strong></p>
 <p>If you need to join Azure VMs to Active Directory for centralized authentication:<br />
 ```powershell</p>
-<h1>Quick test if domain join succeeded</h1>
+<h1 id="quick-test-if-domain-join-succeeded">Quick test if domain join succeeded</h1>
 <p>Test-ComputerSecureChannel<br />
 Get-ADComputer $env:COMPUTERNAME<br />
 ```</p>
 <p><a href="#active-directory">Jump to full Active Directory guide →</a></p>
 </blockquote>
 <hr />
-<h2><a name="system-admin"></a>Part 2: System Administration</h2>
-<h3>Process &amp; Performance Monitoring</h3>
+<h2 id="part-2-system-administration"><a name="system-admin"></a>Part 2: System Administration</h2>
+<h3 id="process-performance-monitoring">Process &amp; Performance Monitoring</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># List running processes sorted by CPU</span>
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">CPU</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span>
 
@@ -349,7 +395,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="p">(</span><span class="nb">Get-Date</span><span class="p">)</span> <span class="p">-</span> <span class="p">(</span><span class="nb">Get-CimInstance</span> <span class="n">Win32_OperatingSystem</span><span class="p">).</span><span class="n">LastBootUpTime</span>
 </code></pre></div>
 
-<h3>Service Management</h3>
+<h3 id="service-management">Service Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check service status</span>
 <span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s2">&quot;Running&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">StartType</span>
 
@@ -369,7 +415,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-Service</span> <span class="n">-Name</span> <span class="s2">&quot;NTDS&quot;</span> <span class="n">-RequiredServices</span>
 </code></pre></div>
 
-<h3>Event Log Monitoring</h3>
+<h3 id="event-log-monitoring">Event Log Monitoring</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># View recent system errors</span>
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="n">-EntryType</span> <span class="n">Error</span> <span class="n">-Newest</span> <span class="n">20</span>
 
@@ -393,7 +439,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="n">-EntryType</span> <span class="n">Error</span> <span class="n">-Newest</span> <span class="n">100</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">SystemErrors</span><span class="p">.</span><span class="n">csv</span> <span class="n">-NoTypeInformation</span>
 </code></pre></div>
 
-<h3>User &amp; Permission Management</h3>
+<h3 id="user-permission-management">User &amp; Permission Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># List local users</span>
 <span class="nb">Get-LocalUser</span>
 
@@ -415,11 +461,11 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="active-directory"></a>Part 3: Active Directory &amp; Domain Join</h2>
+<h2 id="part-3-active-directory-domain-join"><a name="active-directory"></a>Part 3: Active Directory &amp; Domain Join</h2>
 <blockquote>
 <p><strong>Note:</strong> This section covers traditional Active Directory Domain Controllers, not Azure AD Domain Services. Most enterprises run traditional AD in Azure for hybrid scenarios.</p>
 </blockquote>
-<h3>Prerequisites for Domain Join</h3>
+<h3 id="prerequisites-for-domain-join">Prerequisites for Domain Join</h3>
 <p>Before joining a Windows VM to Active Directory:</p>
 <ol>
 <li><strong>DNS must point to domain controller</strong> (not Azure DNS or 8.8.8.8)</li>
@@ -427,7 +473,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <li><strong>Time sync within 5 minutes</strong> (Kerberos requirement)</li>
 <li><strong>Account with domain join privileges</strong></li>
 </ol>
-<h3>Required Ports</h3>
+<h3 id="required-ports">Required Ports</h3>
 <table>
 <thead>
 <tr>
@@ -494,8 +540,8 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </tr>
 </tbody>
 </table>
-<h3>Domain Join Process</h3>
-<h4>Step 1: Configure DNS</h4>
+<h3 id="domain-join-process">Domain Join Process</h3>
+<h4 id="step-1-configure-dns">Step 1: Configure DNS</h4>
 <p><strong>Critical:</strong> VM must use domain controller as DNS server.</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check current DNS configuration</span>
 <span class="nb">Get-DnsClientServerAddress</span>
@@ -513,7 +559,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <p><strong>Note:</strong> For permanent DNS changes in Azure, configure at the VNet level in Azure Portal, not on the VM itself.</p>
-<h4>Step 2: Configure Time Sync</h4>
+<h4 id="step-2-configure-time-sync">Step 2: Configure Time Sync</h4>
 <p><strong>This is critical.</strong> Kerberos authentication fails if time difference exceeds 5 minutes.</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check time sync status</span>
 <span class="n">w32tm</span> <span class="p">/</span><span class="n">query</span> <span class="p">/</span><span class="n">status</span>
@@ -529,7 +575,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">w32tm</span> <span class="p">/</span><span class="n">stripchart</span> <span class="p">/</span><span class="n">computer</span><span class="p">:</span><span class="n">DC01</span><span class="p">.</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span> <span class="p">/</span><span class="n">samples</span><span class="p">:</span><span class="n">5</span> <span class="p">/</span><span class="n">dataonly</span>
 </code></pre></div>
 
-<h4>Step 3: Test Connectivity to Domain Controller</h4>
+<h4 id="step-3-test-connectivity-to-domain-controller">Step 3: Test Connectivity to Domain Controller</h4>
 <div class="codehilite"><pre><span></span><code><span class="c"># Ping domain controller</span>
 <span class="nb">Test-NetConnection</span> <span class="n">DC01</span><span class="p">.</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span>
 
@@ -547,7 +593,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">nltest</span> <span class="p">/</span><span class="n">dclist</span><span class="p">:</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span>
 </code></pre></div>
 
-<h4>Step 4: Join Domain</h4>
+<h4 id="step-4-join-domain">Step 4: Join Domain</h4>
 <div class="codehilite"><pre><span></span><code><span class="c"># Join domain (interactive - prompts for credentials)</span>
 <span class="nb">Add-Computer</span> <span class="n">-DomainName</span> <span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span> <span class="n">-Restart</span>
 
@@ -562,7 +608,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Add-Computer</span> <span class="n">-DomainName</span> <span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span> <span class="n">-Credential</span> <span class="nv">$credential</span>
 </code></pre></div>
 
-<h4>Step 5: Verify Domain Join</h4>
+<h4 id="step-5-verify-domain-join">Step 5: Verify Domain Join</h4>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check computer&#39;s domain</span>
 <span class="p">(</span><span class="nb">Get-WmiObject</span> <span class="n">Win32_ComputerSystem</span><span class="p">).</span><span class="n">Domain</span>
 
@@ -579,8 +625,8 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">nltest</span> <span class="p">/</span><span class="n">dclist</span><span class="p">:</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span>
 </code></pre></div>
 
-<h3>Troubleshooting Domain Join</h3>
-<h4>Test Secure Channel</h4>
+<h3 id="troubleshooting-domain-join">Troubleshooting Domain Join</h3>
+<h4 id="test-secure-channel">Test Secure Channel</h4>
 <div class="codehilite"><pre><span></span><code><span class="c"># Test domain trust</span>
 <span class="nb">Test-ComputerSecureChannel</span>
 
@@ -591,7 +637,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Reset-ComputerMachinePassword</span> <span class="n">-Credential</span> <span class="p">(</span><span class="nb">Get-Credential</span><span class="p">)</span>
 </code></pre></div>
 
-<h4>Domain Join Errors</h4>
+<h4 id="domain-join-errors">Domain Join Errors</h4>
 <p><strong>Error: "The specified domain either does not exist or could not be contacted"</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check DNS configuration</span>
 <span class="nb">Get-DnsClientServerAddress</span>
@@ -630,7 +676,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">w32tm</span> <span class="p">/</span><span class="n">config</span> <span class="p">/</span><span class="n">manualpeerlist</span><span class="p">:</span><span class="s2">&quot;DC01.CONTOSO.COM&quot;</span> <span class="p">/</span><span class="n">syncfromflags</span><span class="p">:</span><span class="n">manual</span> <span class="p">/</span><span class="n">reliable</span><span class="p">:</span><span class="n">yes</span> <span class="p">/</span><span class="n">update</span>
 </code></pre></div>
 
-<h3>Active Directory Queries</h3>
+<h3 id="active-directory-queries">Active Directory Queries</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Import AD module (if not already loaded)</span>
 <span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
 
@@ -654,9 +700,9 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="group-policy"></a>Part 4: Group Policy Troubleshooting</h2>
+<h2 id="part-4-group-policy-troubleshooting"><a name="group-policy"></a>Part 4: Group Policy Troubleshooting</h2>
 <p>Group Policy is critical in regulated environments. When GP won't apply to Azure VMs, use these commands:</p>
-<h3>Force Group Policy Update</h3>
+<h3 id="force-group-policy-update">Force Group Policy Update</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Force GP update</span>
 <span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
 
@@ -670,7 +716,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">gpupdate</span> <span class="p">/</span><span class="n">target</span><span class="p">:</span><span class="n">user</span> <span class="p">/</span><span class="n">force</span>
 </code></pre></div>
 
-<h3>Check Group Policy Results</h3>
+<h3 id="check-group-policy-results">Check Group Policy Results</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Show currently applied policies (summary)</span>
 <span class="n">gpresult</span> <span class="p">/</span><span class="nb">r</span>
 
@@ -687,7 +733,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">scope</span><span class="p">:</span><span class="n">user</span>
 </code></pre></div>
 
-<h3>PowerShell Group Policy Commands</h3>
+<h3 id="powershell-group-policy-commands">PowerShell Group Policy Commands</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get Resultant Set of Policy</span>
 <span class="nb">Get-GPResultantSetOfPolicy</span> <span class="n">-ReportType</span> <span class="n">Html</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">RSoP</span><span class="p">.</span><span class="n">html</span>
 
@@ -704,7 +750,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-GPOReport</span> <span class="n">-Name</span> <span class="s2">&quot;Azure VM Security Policy&quot;</span> <span class="n">-ReportType</span> <span class="n">Html</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">GPO</span><span class="p">.</span><span class="n">html</span>
 </code></pre></div>
 
-<h3>Group Policy Event Logs</h3>
+<h3 id="group-policy-event-logs">Group Policy Event Logs</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check GP application events</span>
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="n">-Source</span> <span class="s2">&quot;Microsoft-Windows-GroupPolicy&quot;</span> <span class="n">-Newest</span> <span class="n">50</span>
 
@@ -718,7 +764,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*Group Policy*&quot;</span> <span class="o">-and</span> <span class="nv">$_</span><span class="p">.</span><span class="n">EntryType</span> <span class="o">-eq</span> <span class="s2">&quot;Error&quot;</span><span class="p">}</span>
 </code></pre></div>
 
-<h3>Common Group Policy Issues</h3>
+<h3 id="common-group-policy-issues">Common Group Policy Issues</h3>
 <p><strong>Issue: "Group Policy not applying to Azure VM"</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check domain membership</span>
 <span class="p">(</span><span class="nb">Get-WmiObject</span> <span class="n">Win32_ComputerSystem</span><span class="p">).</span><span class="n">Domain</span>
@@ -754,8 +800,8 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="networking"></a>Part 5: Networking</h2>
-<h3>Connectivity Testing</h3>
+<h2 id="part-5-networking"><a name="networking"></a>Part 5: Networking</h2>
+<h3 id="connectivity-testing">Connectivity Testing</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Test basic connectivity</span>
 <span class="nb">Test-NetConnection</span> <span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span>
 <span class="nb">Test-Connection</span> <span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span> <span class="n">-Count</span> <span class="n">4</span>
@@ -779,7 +825,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">nslookup</span> <span class="n">-type</span><span class="p">=</span><span class="n">SRV</span> <span class="n">_ldap</span><span class="p">.</span><span class="n">_tcp</span><span class="p">.</span><span class="n">dc</span><span class="p">.</span><span class="n">_msdcs</span><span class="p">.</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span>
 </code></pre></div>
 
-<h3>Network Configuration</h3>
+<h3 id="network-configuration">Network Configuration</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Show network adapters</span>
 <span class="nb">Get-NetAdapter</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Status</span><span class="p">,</span> <span class="n">LinkSpeed</span><span class="p">,</span> <span class="n">MacAddress</span>
 
@@ -801,7 +847,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">ipconfig</span> <span class="p">/</span><span class="n">flushdns</span>
 </code></pre></div>
 
-<h3>Firewall Management</h3>
+<h3 id="firewall-management">Firewall Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check firewall status</span>
 <span class="nb">Get-NetFirewallProfile</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span>
 
@@ -821,7 +867,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Set-NetFirewallProfile</span> <span class="n">-Profile</span> <span class="n">Domain</span><span class="p">,</span><span class="n">Public</span><span class="p">,</span><span class="n">Private</span> <span class="n">-Enabled</span> <span class="n">False</span>
 </code></pre></div>
 
-<h3>Network Troubleshooting</h3>
+<h3 id="network-troubleshooting">Network Troubleshooting</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Test port connectivity (legacy)</span>
 <span class="n">telnet</span> <span class="n">DC01</span><span class="p">.</span><span class="n">CONTOSO</span><span class="p">.</span><span class="n">COM</span> <span class="n">389</span>
 
@@ -843,9 +889,9 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="disk-operations"></a>Part 6: Disk Operations</h2>
+<h2 id="part-6-disk-operations"><a name="disk-operations"></a>Part 6: Disk Operations</h2>
 <p>When you attach a managed disk via Portal or PowerShell, it shows as "attached" but isn't initialized or formatted.</p>
-<h3>Check Available Disks</h3>
+<h3 id="check-available-disks">Check Available Disks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># List all disks</span>
 <span class="nb">Get-Disk</span>
 
@@ -862,7 +908,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-Partition</span>
 </code></pre></div>
 
-<h3>Initialize and Format Disk</h3>
+<h3 id="initialize-and-format-disk">Initialize and Format Disk</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Initialize disk (replace 2 with your disk number)</span>
 <span class="nb">Initialize-Disk</span> <span class="n">-Number</span> <span class="n">2</span> <span class="n">-PartitionStyle</span> <span class="n">GPT</span>
 
@@ -879,7 +925,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Format-Volume</span> <span class="n">-Partition</span> <span class="nv">$partition</span> <span class="n">-FileSystem</span> <span class="n">NTFS</span> <span class="n">-NewFileSystemLabel</span> <span class="s2">&quot;Data&quot;</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
 </code></pre></div>
 
-<h3>Disk Management</h3>
+<h3 id="disk-management">Disk Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Bring disk online</span>
 <span class="nb">Set-Disk</span> <span class="n">-Number</span> <span class="n">2</span> <span class="n">-IsOffline</span> <span class="nv">$false</span>
 
@@ -899,8 +945,8 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="security-logs"></a>Part 7: Security &amp; Event Logs</h2>
-<h3>Security Event Log</h3>
+<h2 id="part-7-security-event-logs"><a name="security-logs"></a>Part 7: Security &amp; Event Logs</h2>
+<h3 id="security-event-log">Security Event Log</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Failed logon attempts (Event ID 4625)</span>
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="n">-InstanceId</span> <span class="n">4625</span> <span class="n">-Newest</span> <span class="n">50</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">TimeGenerated</span><span class="p">,</span> <span class="n">Message</span> <span class="n">-AutoSize</span>
 
@@ -920,7 +966,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="n">-InstanceId</span> <span class="n">4720</span>
 </code></pre></div>
 
-<h3>System Event Log</h3>
+<h3 id="system-event-log">System Event Log</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># System errors</span>
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="n">-EntryType</span> <span class="n">Error</span> <span class="n">-Newest</span> <span class="n">50</span>
 
@@ -938,7 +984,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;System&#39;</span><span class="p">;</span> <span class="n">Level</span><span class="p">=</span><span class="n">2</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$startTime</span><span class="p">}</span>
 </code></pre></div>
 
-<h3>Application Event Log</h3>
+<h3 id="application-event-log">Application Event Log</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Application errors</span>
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">Application</span> <span class="n">-EntryType</span> <span class="n">Error</span> <span class="n">-Newest</span> <span class="n">50</span>
 
@@ -949,7 +995,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">Application</span> <span class="n">-Source</span> <span class="s2">&quot;Application Hang&quot;</span> <span class="n">-Newest</span> <span class="n">20</span>
 </code></pre></div>
 
-<h3>Azure-Specific Logs</h3>
+<h3 id="azure-specific-logs">Azure-Specific Logs</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Windows Azure Guest Agent logs</span>
 <span class="nb">Get-Content</span> <span class="s2">&quot;C:\WindowsAzure\Logs\WaAppAgent.log&quot;</span> <span class="n">-Tail</span> <span class="n">50</span>
 
@@ -960,7 +1006,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Get-Content</span> <span class="s2">&quot;C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\*\Status\*.status&quot;</span>
 </code></pre></div>
 
-<h3>Audit Current Security Settings</h3>
+<h3 id="audit-current-security-settings">Audit Current Security Settings</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check local security policy</span>
 <span class="n">secedit</span> <span class="p">/</span><span class="n">export</span> <span class="p">/</span><span class="n">cfg</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span>
 
@@ -978,8 +1024,8 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="azure-powershell"></a>Part 8: Azure PowerShell Commands</h2>
-<h3>Installation &amp; Authentication</h3>
+<h2 id="part-8-azure-powershell-commands"><a name="azure-powershell"></a>Part 8: Azure PowerShell Commands</h2>
+<h3 id="installation-authentication">Installation &amp; Authentication</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Install Azure PowerShell module</span>
 <span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Az</span> <span class="n">-Repository</span> <span class="n">PSGallery</span> <span class="n">-Force</span>
 
@@ -1002,7 +1048,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Set-AzContext</span> <span class="n">-SubscriptionId</span> <span class="s2">&quot;subscription-id&quot;</span>
 </code></pre></div>
 
-<h3>VM Management</h3>
+<h3 id="vm-management">VM Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># List all VMs in subscription</span>
 <span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">ResourceGroupName</span><span class="p">,</span> <span class="n">Location</span>
 
@@ -1025,7 +1071,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="nb">Restart-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;myRG&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;myVM&quot;</span>
 </code></pre></div>
 
-<h3>Network &amp; Disk Operations</h3>
+<h3 id="network-disk-operations">Network &amp; Disk Operations</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># List NSG rules</span>
 <span class="nb">Get-AzNetworkSecurityGroup</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;myRG&quot;</span> <span class="p">|</span> <span class="nb">Get-AzNetworkSecurityRuleConfig</span>
 
@@ -1046,15 +1092,15 @@ Get-ADComputer $env:COMPUTERNAME<br />
 </code></pre></div>
 
 <hr />
-<h2><a name="serial-console"></a>Part 9: Serial Console (Special Admin Console)</h2>
+<h2 id="part-9-serial-console-special-admin-console"><a name="serial-console"></a>Part 9: Serial Console (Special Admin Console)</h2>
 <p>When RDP fails, use Azure Serial Console. It's a text-based console that gives you CMD access even when networking is broken.</p>
-<h3>Accessing Serial Console</h3>
+<h3 id="accessing-serial-console">Accessing Serial Console</h3>
 <ol>
 <li>Azure Portal → VM → Help → Serial Console</li>
 <li>Press Enter to get CMD prompt</li>
 <li>You're now in a CMD window with SYSTEM privileges</li>
 </ol>
-<h3>Essential Serial Console Commands</h3>
+<h3 id="essential-serial-console-commands">Essential Serial Console Commands</h3>
 <p><strong>Note:</strong> Serial Console uses CMD, not PowerShell. Screen is limited to 80x24 characters.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">REM</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">configuration</span>
 <span class="n">ipconfig</span><span class="w"> </span><span class="o">/</span><span class="n">all</span>
@@ -1102,7 +1148,7 @@ Get-ADComputer $env:COMPUTERNAME<br />
 <span class="n">wmic</span><span class="w"> </span><span class="n">logicaldisk</span><span class="w"> </span><span class="n">get</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="n">freespace</span><span class="p">,</span><span class="n">size</span>
 </code></pre></div>
 
-<h3>PowerShell from Serial Console</h3>
+<h3 id="powershell-from-serial-console">PowerShell from Serial Console</h3>
 <p>You can launch PowerShell from SAC:</p>
 <div class="codehilite"><pre><span></span><code>REM Start PowerShell
 powershell
@@ -1113,7 +1159,7 @@ Get-EventLog -LogName System -Newest 10
 Test-ComputerSecureChannel
 </code></pre></div>
 
-<h3>Common Serial Console Scenarios</h3>
+<h3 id="common-serial-console-scenarios">Common Serial Console Scenarios</h3>
 <p><strong>Scenario 1: RDP Not Working After Update</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">REM</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">status</span>
 <span class="n">sc</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">TermService</span>
@@ -1151,7 +1197,7 @@ Test-ComputerSecureChannel
 </code></pre></div>
 
 <hr />
-<h2><a name="quick-reference"></a>Quick Reference Table</h2>
+<h2 id="quick-reference-table"><a name="quick-reference"></a>Quick Reference Table</h2>
 <table>
 <thead>
 <tr>
@@ -1299,9 +1345,9 @@ Test-ComputerSecureChannel
 </tbody>
 </table>
 <hr />
-<h2>Domain Controller Management (Bonus)</h2>
+<h2 id="domain-controller-management-bonus">Domain Controller Management (Bonus)</h2>
 <p>If you're running Domain Controllers in Azure (many enterprises do):</p>
-<h3>DC Health Checks</h3>
+<h3 id="dc-health-checks">DC Health Checks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check AD services</span>
 <span class="nb">Get-Service</span> <span class="n">NTDS</span><span class="p">,</span> <span class="n">DNS</span><span class="p">,</span> <span class="n">Kerberos</span><span class="p">,</span> <span class="n">Netlogon</span><span class="p">,</span> <span class="n">W32Time</span>
 
@@ -1322,7 +1368,7 @@ Test-ComputerSecureChannel
 <span class="nb">Move-ADDirectoryServerOperationMasterRole</span> <span class="n">-Identity</span> <span class="s2">&quot;DC02&quot;</span> <span class="n">-OperationMasterRole</span> <span class="n">SchemaMaster</span>
 </code></pre></div>
 
-<h3>DNS Diagnostics</h3>
+<h3 id="dns-diagnostics">DNS Diagnostics</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Run dcdiag DNS tests</span>
 <span class="n">dcdiag</span> <span class="p">/</span><span class="n">test</span><span class="p">:</span><span class="n">dns</span>
 
@@ -1339,7 +1385,7 @@ Test-ComputerSecureChannel
 <span class="nb">Resolve-DnsName</span> <span class="n">www</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span> <span class="n">-Server</span> <span class="n">localhost</span>
 </code></pre></div>
 
-<h3>Time Sync for DCs</h3>
+<h3 id="time-sync-for-dcs">Time Sync for DCs</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check time source (PDC Emulator should sync with external source)</span>
 <span class="n">w32tm</span> <span class="p">/</span><span class="n">query</span> <span class="p">/</span><span class="n">source</span>
 <span class="n">w32tm</span> <span class="p">/</span><span class="n">query</span> <span class="p">/</span><span class="n">status</span>
@@ -1358,7 +1404,7 @@ Test-ComputerSecureChannel
 </code></pre></div>
 
 <hr />
-<h2>What Microsoft Doesn't Document Well</h2>
+<h2 id="what-microsoft-doesn-t-document-well">What Microsoft Doesn't Document Well</h2>
 <p>Microsoft's Azure Windows documentation assumes:</p>
 <ol>
 <li><strong>Domain join always works</strong> - It doesn't. DNS misconfiguration, time sync, and network issues are common.</li>
@@ -1369,8 +1415,8 @@ Test-ComputerSecureChannel
 </ol>
 <p>This guide fills those gaps with commands you'll actually use in production.</p>
 <hr />
-<h2>Common Production Scenarios</h2>
-<h3>Scenario 1: "Domain trust failed after VM restart"</h3>
+<h2 id="common-production-scenarios">Common Production Scenarios</h2>
+<h3 id="scenario-1-domain-trust-failed-after-vm-restart">Scenario 1: "Domain trust failed after VM restart"</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check secure channel</span>
 <span class="nb">Test-ComputerSecureChannel</span>
 <span class="c"># If returns False:</span>
@@ -1386,7 +1432,7 @@ Test-ComputerSecureChannel
 <span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">System</span> <span class="n">-Source</span> <span class="s2">&quot;Microsoft-Windows-GroupPolicy&quot;</span> <span class="n">-Newest</span> <span class="n">10</span>
 </code></pre></div>
 
-<h3>Scenario 2: "Group Policy not applying to Azure VMs"</h3>
+<h3 id="scenario-2-group-policy-not-applying-to-azure-vms">Scenario 2: "Group Policy not applying to Azure VMs"</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Force GP update</span>
 <span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
 
@@ -1409,7 +1455,7 @@ Test-ComputerSecureChannel
 <span class="n">nltest</span> <span class="p">/</span><span class="n">dsgetsite</span>
 </code></pre></div>
 
-<h3>Scenario 3: "Can't RDP after Windows Update"</h3>
+<h3 id="scenario-3-can-t-rdp-after-windows-update">Scenario 3: "Can't RDP after Windows Update"</h3>
 <p>Use Serial Console:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">REM</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">service</span>
 <span class="n">sc</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">TermService</span>
@@ -1429,7 +1475,7 @@ Test-ComputerSecureChannel
 <span class="n">powershell</span><span class="w"> </span><span class="n">Get</span><span class="o">-</span><span class="n">EventLog</span><span class="w"> </span><span class="o">-</span><span class="n">LogName</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="o">-</span><span class="n">EntryType</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="o">-</span><span class="n">Newest</span><span class="w"> </span><span class="mh">20</span>
 </code></pre></div>
 
-<h3>Scenario 4: "New disk attached but not showing in Explorer"</h3>
+<h3 id="scenario-4-new-disk-attached-but-not-showing-in-explorer">Scenario 4: "New disk attached but not showing in Explorer"</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check if disk is visible</span>
 <span class="nb">Get-Disk</span>
 
@@ -1443,14 +1489,14 @@ Test-ComputerSecureChannel
 </code></pre></div>
 
 <hr />
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>These 50 commands cover 90% of Windows Server Azure administration tasks. Whether you manage 5 VMs or 5,000, these commands bridge the gap between successful deployment and operational reality.</p>
 <p><strong>For most administrators:</strong> Focus on Parts 1-6 for daily operations</p>
 <p><strong>For enterprise environments:</strong> Add Parts 3-4 (Active Directory + Group Policy) for domain-joined infrastructure</p>
 <p><strong>For troubleshooting:</strong> Part 9 (Serial Console) is critical when RDP fails</p>
 <p>The key insight: Infrastructure-as-code deploys the VMs. These Windows commands fix the 20% that breaks after deployment.</p>
 <hr />
-<h2>Download: Complete Command Reference</h2>
+<h2 id="download-complete-command-reference">Download: Complete Command Reference</h2>
 <p>Want this as a searchable PDF cheat sheet?</p>
 <p><strong><a href="#">Download: Azure Windows Command Reference (PDF)</a></strong></p>
 <p>Includes:<br />
@@ -1463,7 +1509,7 @@ Test-ComputerSecureChannel
 <p>Enter your email below and I'll send you the complete guide:</p>
 <p>[Beehiiv email capture form]</p>
 <hr />
-<h2>What's Next?</h2>
+<h2 id="what-s-next">What's Next?</h2>
 <p><strong>Related posts:</strong><br />
 - <a href="/blog/50-linux-commands-azure/">50 Linux Commands for Azure</a><br />
 - <a href="/blog/azure-vm-inventory-kql/">Azure VM Inventory with KQL</a><br />
@@ -1473,7 +1519,7 @@ Test-ComputerSecureChannel
 <hr />
 <p><em>Updated December 2025 - Tested on Windows Server 2019, 2022, and Windows 10/11 in Azure production environments.</em></p>
 <hr />
-<h2>🎯 Ready for Production-Ready Queries?</h2>
+<h2 id="ready-for-production-ready-queries">🎯 Ready for Production-Ready Queries?</h2>
 <p>This guide covers the basics, but <strong>scaling to 30,000+ resources requires battle-tested patterns.</strong></p>
 <p><strong>The Complete KQL Query Library includes:</strong><br />
 - ✅ 48 copy-paste ready queries (VMs, networking, security, cost)<br />

@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="The grill assembly manual for capturing Azure AD audit logs - app registrations, consent grants, sign-ins, and role assignments. Every click, every command,...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-ad-audit-logs.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)",
   "description": "The grill assembly manual for capturing Azure AD audit logs - app registrations, consent grants, sign-ins, and role assignments. Every click, every command,...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "azure, Compliance, Auditing, Azure AD, Entra ID, Security, SOC 2",
   "articleSection": "azure",
-  "wordCount": "9892",
-  "timeRequired": "PT49M",
+  "wordCount": "9965",
+  "timeRequired": "PT50M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -180,6 +210,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/soc2-azure-ad-audit-logs-step-by-step/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -198,7 +244,7 @@
   <header class="post-header">
     <h1>SOC 2 Audit Prep Part 2: Azure AD Audit Log Retention Setup (Step-by-Step)</h1>
     <p class="muted">
-      2025-10-27 · ~49 min read
+      2025-10-27 · ~50 min read
       
     </p>
     
@@ -240,7 +286,7 @@
 
   
   <div class="post-body">
-    <h2>What This Is</h2>
+    <h2 id="what-this-is">What This Is</h2>
 <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
 <p>This is Part 2 of fixing the Azure audit gap. <strong><a href="/blog/2025-10-27-soc2-activity-log-step-by-step/">Part 1 covered Activity Logs</a></strong> (ARM resources like VMs and storage accounts). This post covers <strong>Azure AD Audit Logs</strong> (identity layer: app registrations, consent grants, sign-ins, role assignments).</p>
 <p>Same format: every click, every command, every field. Grill assembly manual level detail.</p>
@@ -253,7 +299,7 @@
 - App registration tracking (external spreadsheet)</p>
 <p><strong>Time required:</strong> 45-60 minutes</p>
 <p><strong>Cost:</strong> $50-200/month (depending on user count and sign-in volume)</p>
-<h2>Who This Is For</h2>
+<h2 id="who-this-is-for">Who This Is For</h2>
 <p>You need this if:</p>
 <ul>
 <li>You get Tenable alerts about "unused app registrations"</li>
@@ -264,7 +310,7 @@
 <li>Your Azure AD logs only go back 30 days (the default)</li>
 </ul>
 <p><strong>Critical context:</strong> Azure AD logs are SEPARATE from Activity Logs. You're not done after Part 1. You need both.</p>
-<h2>Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <p>Before you start:</p>
 <ol>
 <li><strong>Azure AD Premium P1 or P2 license</strong> (REQUIRED)</li>
@@ -305,9 +351,9 @@
 </code></pre></div>
 
 <p><strong>If you don't have Azure AD Premium:</strong> Stop here. Talk to procurement. You CANNOT export Azure AD diagnostic logs without it. This is a hard requirement.</p>
-<h2>The Five Log Categories (What You're Capturing)</h2>
+<h2 id="the-five-log-categories-what-you-re-capturing">The Five Log Categories (What You're Capturing)</h2>
 <p>Azure AD has five separate log types. Here's what each one captures and why you need it:</p>
-<h3>1. AuditLogs - The "Who Did What" Log</h3>
+<h3 id="1-auditlogs-the-who-did-what-log">1. AuditLogs - The "Who Did What" Log</h3>
 <p><strong>What it captures:</strong><br />
 - App registration creation/deletion/modification<br />
 - Service principal changes<br />
@@ -321,7 +367,7 @@
 - Documents consent grants<br />
 - Shows configuration changes</p>
 <p><strong>Example audit question:</strong> "Who added John Doe to Global Administrator role?"</p>
-<h3>2. SignInLogs - User Authentication Events</h3>
+<h3 id="2-signinlogs-user-authentication-events">2. SignInLogs - User Authentication Events</h3>
 <p><strong>What it captures:</strong><br />
 - Interactive user sign-ins (username/password)<br />
 - Failed login attempts<br />
@@ -334,7 +380,7 @@
 - Validates MFA enforcement<br />
 - Documents access from specific locations/devices</p>
 <p><strong>Example audit question:</strong> "Show me all sign-ins from Russia in the last 90 days"</p>
-<h3>3. NonInteractiveUserSignInLogs - Background Authentication</h3>
+<h3 id="3-noninteractiveusersigninlogs-background-authentication">3. NonInteractiveUserSignInLogs - Background Authentication</h3>
 <p><strong>What it captures:</strong><br />
 - Token refresh events (user not typing password)<br />
 - Background authentication for apps<br />
@@ -345,7 +391,7 @@
 - Shows background access patterns<br />
 - Identifies token-based access</p>
 <p><strong>Example audit question:</strong> "Is this user's token still being used after offboarding?"</p>
-<h3>4. ServicePrincipalSignInLogs - App Registration Usage</h3>
+<h3 id="4-serviceprincipalsigninlogs-app-registration-usage">4. ServicePrincipalSignInLogs - App Registration Usage</h3>
 <p><strong>What it captures:</strong><br />
 - Service principal authentication (client credentials flow)<br />
 - App registration sign-ins<br />
@@ -357,7 +403,7 @@
 - Tracks which resources an app accesses<br />
 - Documents app behavior</p>
 <p><strong>Example audit question:</strong> "Has this app registration been used in the last 90 days?"</p>
-<h3>5. ManagedIdentitySignInLogs - System Identities</h3>
+<h3 id="5-managedidentitysigninlogs-system-identities">5. ManagedIdentitySignInLogs - System Identities</h3>
 <p><strong>What it captures:</strong><br />
 - Managed identity authentication events<br />
 - System-assigned identity access<br />
@@ -368,10 +414,10 @@
 - Validates least privilege enforcement</p>
 <p><strong>Example audit question:</strong> "What resources does this managed identity access?"</p>
 <p><strong>The reality:</strong> You need ALL FIVE. Don't pick and choose. Enable all of them.</p>
-<h2>Step 1: Create Log Analytics Workspace (If You Don't Have One)</h2>
+<h2 id="step-1-create-log-analytics-workspace-if-you-don-t-have-one">Step 1: Create Log Analytics Workspace (If You Don't Have One)</h2>
 <p>If you completed Part 1, <strong>skip this section</strong> and reuse your existing workspace.</p>
 <p>If you're starting here:</p>
-<h3>Portal Method</h3>
+<h3 id="portal-method">Portal Method</h3>
 <p><strong>1. Navigate to Log Analytics Workspaces</strong></p>
 <ul>
 <li>Azure Portal → Search bar → Type "Log Analytics workspaces"</li>
@@ -421,7 +467,7 @@
 - Left menu → <strong>Properties</strong><br />
 - Copy the <strong>Resource ID</strong> (long path starting with <code>/subscriptions/...</code>)<br />
 - Save it. You'll need it in the next step.</p>
-<h3>PowerShell Method (Faster)</h3>
+<h3 id="powershell-method-faster">PowerShell Method (Faster)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Set variables</span>
 <span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;governance-rg&quot;</span>
 <span class="nv">$workspaceName</span> <span class="p">=</span> <span class="s2">&quot;audit-logs-workspace&quot;</span>
@@ -465,9 +511,9 @@
 <span class="c"># ProvisioningState      : Succeeded</span>
 </code></pre></div>
 
-<h2>Step 2: Configure Azure AD Diagnostic Settings</h2>
+<h2 id="step-2-configure-azure-ad-diagnostic-settings">Step 2: Configure Azure AD Diagnostic Settings</h2>
 <p>This is where we export Azure AD logs to the workspace.</p>
-<h3>Portal Method</h3>
+<h3 id="portal-method_1">Portal Method</h3>
 <p><strong>1. Navigate to Azure Active Directory</strong></p>
 <ul>
 <li>Azure Portal → Search bar → Type "Azure Active Directory"</li>
@@ -528,7 +574,7 @@
 <p><strong>8. Click "Save"</strong></p>
 <p>Top of the page.</p>
 <p><strong>Wait 5-10 minutes.</strong> Logs don't appear instantly. Azure needs to start the export pipeline.</p>
-<h3>PowerShell Method (Recommended for Automation)</h3>
+<h3 id="powershell-method-recommended-for-automation">PowerShell Method (Recommended for Automation)</h3>
 <p>This requires Microsoft Graph PowerShell module:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Install Microsoft Graph module (if not already installed)</span>
 <span class="nb">Install-Module</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">Graph</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Force</span>
@@ -573,7 +619,7 @@
 <span class="c"># If you don&#39;t have the right role, ask someone who does to run this script</span>
 </code></pre></div>
 
-<h3>Azure CLI Method (Alternative)</h3>
+<h3 id="azure-cli-method-alternative">Azure CLI Method (Alternative)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Login</span>
 az<span class="w"> </span>login
 
@@ -589,9 +635,9 @@ az<span class="w"> </span>login
 </code></pre></div>
 
 <hr />
-<h2>CRITICAL: Verify Your Configuration (Before Testing Queries)</h2>
+<h2 id="critical-verify-your-configuration-before-testing-queries">CRITICAL: Verify Your Configuration (Before Testing Queries)</h2>
 <p><strong>The problem your screenshot revealed:</strong> The diagnostic settings list view shows a setting exists, but doesn't prove what categories are enabled.</p>
-<h3>Step 2a: Verify Categories Are Actually Enabled</h3>
+<h3 id="step-2a-verify-categories-are-actually-enabled">Step 2a: Verify Categories Are Actually Enabled</h3>
 <p><strong>Don't trust the list view.</strong> You need to click "Edit setting" to see the actual configuration.</p>
 <p><strong>Portal verification (DO THIS NOW):</strong></p>
 <ol>
@@ -643,7 +689,7 @@ az<span class="w"> </span>login
 - Click "Save"<br />
 - Wait 15 minutes<br />
 - Recheck</p>
-<h3>PowerShell Verification (Proves Configuration)</h3>
+<h3 id="powershell-verification-proves-configuration">PowerShell Verification (Proves Configuration)</h3>
 <p>This exports exactly what's configured - run this and save the output:</p>
 <p><strong>For Activity Logs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get subscription diagnostic settings</span>
@@ -704,9 +750,9 @@ az<span class="w"> </span>login
 4. Where logs are going</p>
 <p><strong>Save these monthly</strong> - Creates audit trail showing continuous compliance.</p>
 <hr />
-<h2>Step 3: Verify Logs Are Flowing</h2>
+<h2 id="step-3-verify-logs-are-flowing">Step 3: Verify Logs Are Flowing</h2>
 <p>Wait 10-15 minutes after configuration, then verify.</p>
-<h3>Portal Verification</h3>
+<h3 id="portal-verification">Portal Verification</h3>
 <p><strong>1. Navigate to Log Analytics Workspace</strong></p>
 <ul>
 <li>Azure Portal → Search for your workspace name</li>
@@ -718,7 +764,7 @@ az<span class="w"> </span>login
 <li>Close the "Queries" popup (X in top right)</li>
 </ul>
 <p><strong>3. Run verification queries:</strong></p>
-<h4>Query 1: Check for AuditLogs</h4>
+<h4 id="query-1-check-for-auditlogs">Query 1: Check for AuditLogs</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
@@ -730,7 +776,7 @@ az<span class="w"> </span>login
 - Wait another 10 minutes<br />
 - Check diagnostic settings are saved (Portal → Azure AD → Diagnostic settings)<br />
 - Verify you have Azure AD Premium P1/P2</p>
-<h4>Query 2: Check for SignInLogs</h4>
+<h4 id="query-2-check-for-signinlogs">Query 2: Check for SignInLogs</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">SignInLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
@@ -741,7 +787,7 @@ az<span class="w"> </span>login
 <p><strong>If zero rows:</strong><br />
 - Wait longer (sign-ins might be sparse in dev environments)<br />
 - Try <code>ago(24h)</code> instead of <code>ago(1h)</code></p>
-<h4>Query 3: Check for Service Principal Activity</h4>
+<h4 id="query-3-check-for-service-principal-activity">Query 3: Check for Service Principal Activity</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">AADServicePrincipalSignInLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">1</span><span class="n">h</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">take</span><span class="w"> </span><span class="mi">10</span>
@@ -753,7 +799,7 @@ az<span class="w"> </span>login
 - This is normal if no apps are currently authenticating<br />
 - Try <code>ago(7d)</code> for a wider window<br />
 - Not all environments have high app activity</p>
-<h4>Query 4: Verify All Log Types Exist</h4>
+<h4 id="query-4-verify-all-log-types-exist">Query 4: Verify All Log Types Exist</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Check which log types are present</span>
 <span class="k">search</span><span class="w"> </span><span class="p">*</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
@@ -813,7 +859,7 @@ az<span class="w"> </span>login
 - Check which log categories you enabled in diagnostic settings<br />
 - Wait longer (some logs are infrequent)<br />
 - Verify you selected all five checkboxes in Step 2</p>
-<h3>PowerShell Verification</h3>
+<h3 id="powershell-verification">PowerShell Verification</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Install Az.OperationalInsights if needed</span>
 <span class="nb">Install-Module</span> <span class="n">Az</span><span class="p">.</span><span class="n">OperationalInsights</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Force</span>
 
@@ -842,9 +888,9 @@ az<span class="w"> </span>login
 <span class="c"># Should show multiple log types with row counts</span>
 </code></pre></div>
 
-<h2>Step 4: Build Your Azure AD Query Library</h2>
+<h2 id="step-4-build-your-azure-ad-query-library">Step 4: Build Your Azure AD Query Library</h2>
 <p>These are the queries auditors WILL ask for. Build them now.</p>
-<h3>Query 1: Who Created This App Registration?</h3>
+<h3 id="query-1-who-created-this-app-registration">Query 1: Who Created This App Registration?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find app registration creation events</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add application&quot;</span>
@@ -865,7 +911,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> Security flags an app registration. You need to know who created it.</p>
 <p><strong>Save this query as:</strong> <code>App Registration Creation History</code></p>
-<h3>Query 2: Who Granted Admin Consent?</h3>
+<h3 id="query-2-who-granted-admin-consent">Query 2: Who Granted Admin Consent?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track admin consent grants to apps</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Consent to application&quot;</span>
@@ -887,7 +933,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> "Who approved Graph API permissions for this app?"</p>
 <p><strong>Save as:</strong> <code>Admin Consent Grants</code></p>
-<h3>Query 3: Is This App Registration Being Used?</h3>
+<h3 id="query-3-is-this-app-registration-being-used">Query 3: Is This App Registration Being Used?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Check service principal sign-in activity</span>
 <span class="n">let</span><span class="w"> </span><span class="n">appId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;YOUR-APP-ID-GUID&quot;</span><span class="p">;</span><span class="w">  </span><span class="c">// Replace with actual App ID</span>
 <span class="n">AADServicePrincipalSignInLogs</span>
@@ -915,7 +961,7 @@ az<span class="w"> </span>login
 <p><strong>Use case:</strong> Tenable alert "unused app registration" - verify if it's actually unused.</p>
 <p><strong>Save as:</strong> <code>App Registration Usage Check</code></p>
 <p><strong>Pro tip:</strong> Run this for ALL app registrations monthly. Automate it. Find the truly unused ones.</p>
-<h3>Query 4: Failed Sign-In Attempts (Brute Force Detection)</h3>
+<h3 id="query-4-failed-sign-in-attempts-brute-force-detection">Query 4: Failed Sign-In Attempts (Brute Force Detection)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find repeated failed sign-in attempts</span>
 <span class="n">SignInLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
@@ -934,7 +980,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> Security incident response - identify brute force attempts.</p>
 <p><strong>Save as:</strong> <code>Brute Force Detection - Failed Logins</code></p>
-<h3>Query 5: New Admin Role Assignments</h3>
+<h3 id="query-5-new-admin-role-assignments">Query 5: New Admin Role Assignments</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track who was granted admin roles</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add member to role&quot;</span>
@@ -954,7 +1000,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> Quarterly access review - "who has Global Administrator?"</p>
 <p><strong>Save as:</strong> <code>Admin Role Grants</code></p>
-<h3>Query 6: Sign-Ins from Specific Country</h3>
+<h3 id="query-6-sign-ins-from-specific-country">Query 6: Sign-Ins from Specific Country</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find sign-ins from specific location (adjust for your compliance needs)</span>
 <span class="n">SignInLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
@@ -973,7 +1019,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> Compliance review - "show me all successful sign-ins from [restricted country]"</p>
 <p><strong>Save as:</strong> <code>Sign-Ins from [Country]</code></p>
-<h3>Query 7: Conditional Access Policy Changes</h3>
+<h3 id="query-7-conditional-access-policy-changes">Query 7: Conditional Access Policy Changes</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track changes to Conditional Access policies</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Policy&quot;</span>
@@ -994,7 +1040,7 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> "Who changed the MFA policy last week?"</p>
 <p><strong>Save as:</strong> <code>Conditional Access Policy Changes</code></p>
-<h3>Query 8: Service Principal Secret/Certificate Additions</h3>
+<h3 id="query-8-service-principal-secret-certificate-additions">Query 8: Service Principal Secret/Certificate Additions</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track when secrets or certificates are added to app registrations</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Add service principal credentials&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Update application – Certificates and secrets management&quot;</span><span class="p">)</span>
@@ -1014,10 +1060,10 @@ az<span class="w"> </span>login
 
 <p><strong>Use case:</strong> Security review - "who added credentials to this app this month?"</p>
 <p><strong>Save as:</strong> <code>App Registration Credential Additions</code></p>
-<h2>Step 5: App Registration External Tracking</h2>
+<h2 id="step-5-app-registration-external-tracking">Step 5: App Registration External Tracking</h2>
 <p>App registrations <strong>cannot be tagged</strong> because they're Azure AD objects, not ARM resources.</p>
 <p>You need external tracking. Here's how.</p>
-<h3>Option 1: Spreadsheet (Quick Start)</h3>
+<h3 id="option-1-spreadsheet-quick-start">Option 1: Spreadsheet (Quick Start)</h3>
 <p>Create this in Excel/Google Sheets:</p>
 <table>
 <thead>
@@ -1085,7 +1131,7 @@ az<span class="w"> </span>login
 - Monthly → Run export script (below) and cross-check<br />
 - Quarterly → Full review with security team<br />
 - Tenable alert → Check this sheet first</p>
-<h3>Option 2: Automated Export Script</h3>
+<h3 id="option-2-automated-export-script">Option 2: Automated Export Script</h3>
 <p>Run this monthly to keep your spreadsheet current:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Export all app registrations to CSV</span>
 <span class="nb">Connect-AzureAD</span>
@@ -1160,7 +1206,7 @@ az<span class="w"> </span>login
 <span class="nv">$newApps</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">AppId</span><span class="p">,</span> <span class="n">CreatedDateTime</span><span class="p">,</span> <span class="n">Owners</span> <span class="p">|</span> <span class="nb">Format-Table</span>
 </code></pre></div>
 
-<h3>Option 3: CMDB Integration (Enterprise)</h3>
+<h3 id="option-3-cmdb-integration-enterprise">Option 3: CMDB Integration (Enterprise)</h3>
 <p>If you have ServiceNow, Jira, or Azure DevOps:</p>
 <p><strong>Create CI Type: "Azure App Registration"</strong></p>
 <p>Fields:<br />
@@ -1201,10 +1247,10 @@ az<span class="w"> </span>login
 </code></pre></div>
 
 <p>Run weekly via Azure Automation Runbook.</p>
-<h2>Step 6: Storage Account Archive (7-Year Retention)</h2>
+<h2 id="step-6-storage-account-archive-7-year-retention">Step 6: Storage Account Archive (7-Year Retention)</h2>
 <p>Log Analytics retention (730 days max) costs ~$0.12/GB/month. Storage costs ~$0.01/GB/month.</p>
 <p>For 7-year compliance: export to storage.</p>
-<h3>Create Storage Account (If Needed)</h3>
+<h3 id="create-storage-account-if-needed">Create Storage Account (If Needed)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Set variables</span>
 <span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;governance-rg&quot;</span>
 <span class="nv">$storageAccountName</span> <span class="p">=</span> <span class="s2">&quot;auditarchive</span><span class="p">$(</span><span class="nb">Get-Random</span><span class="p">)</span><span class="s2">&quot;</span>  <span class="c"># Must be globally unique</span>
@@ -1233,7 +1279,7 @@ az<span class="w"> </span>login
 <span class="nb">Write-Host</span> <span class="s2">&quot;Soft delete enabled (30-day retention)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 </code></pre></div>
 
-<h3>Add Storage to Diagnostic Settings</h3>
+<h3 id="add-storage-to-diagnostic-settings">Add Storage to Diagnostic Settings</h3>
 <p><strong>Portal method:</strong><br />
 1. Azure Portal → Azure Active Directory → Diagnostic settings<br />
 2. Click on your existing diagnostic setting (<code>export-azuread-to-law</code>)<br />
@@ -1270,7 +1316,7 @@ az<span class="w"> </span>login
 <span class="c"># Apply via REST API (same as Step 2 but with storage added)</span>
 </code></pre></div>
 
-<h3>Verify Storage Archive</h3>
+<h3 id="verify-storage-archive">Verify Storage Archive</h3>
 <p>After 24 hours, check that logs are appearing in storage:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># List containers in storage account</span>
 <span class="nv">$ctx</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="p">`</span>
@@ -1313,9 +1359,9 @@ az<span class="w"> </span>login
 <span class="nb">Write-Host</span> <span class="s2">&quot;Immutability policy set - logs cannot be deleted for 7 years&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 </code></pre></div>
 
-<h2>Cost Breakdown</h2>
+<h2 id="cost-breakdown">Cost Breakdown</h2>
 <p>Let's talk money. Here's what this actually costs.</p>
-<h3>Small Environment (100-500 users)</h3>
+<h3 id="small-environment-100-500-users">Small Environment (100-500 users)</h3>
 <p><strong>Assumptions:</strong><br />
 - 100 users<br />
 - 500 sign-ins/day<br />
@@ -1364,7 +1410,7 @@ az<span class="w"> </span>login
 </tbody>
 </table>
 <p><strong>Reality check:</strong> The Azure AD Premium license is the big cost. The logging infrastructure itself is cheap.</p>
-<h3>Medium Environment (500-2,000 users)</h3>
+<h3 id="medium-environment-500-2-000-users">Medium Environment (500-2,000 users)</h3>
 <p><strong>Assumptions:</strong><br />
 - 1,000 users<br />
 - 5,000 sign-ins/day<br />
@@ -1412,7 +1458,7 @@ az<span class="w"> </span>login
 </tr>
 </tbody>
 </table>
-<h3>Enterprise Environment (5,000+ users)</h3>
+<h3 id="enterprise-environment-5-000-users">Enterprise Environment (5,000+ users)</h3>
 <p><strong>Assumptions:</strong><br />
 - 10,000 users<br />
 - 50,000 sign-ins/day<br />
@@ -1460,7 +1506,7 @@ az<span class="w"> </span>login
 </tr>
 </tbody>
 </table>
-<h3>Cost Optimization Tips</h3>
+<h3 id="cost-optimization-tips">Cost Optimization Tips</h3>
 <p><strong>1. Reduce Log Analytics retention:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Set to 90 days instead of 730 days</span>
 <span class="nb">Set-AzOperationalInsightsWorkspace</span> <span class="p">`</span>
@@ -1508,8 +1554,8 @@ az<span class="w"> </span>login
 <span class="c"># Savings: 80% on old logs you rarely access</span>
 </code></pre></div>
 
-<h2>Troubleshooting Common Issues</h2>
-<h3>Issue 1: "Table not found" in Log Analytics</h3>
+<h2 id="troubleshooting-common-issues">Troubleshooting Common Issues</h2>
+<h3 id="issue-1-table-not-found-in-log-analytics">Issue 1: "Table not found" in Log Analytics</h3>
 <p><strong>Symptoms:</strong><br />
 - Query returns "Table 'AuditLogs' not found"<br />
 - Or: "Table 'SignInLogs' not found"</p>
@@ -1534,7 +1580,7 @@ az<span class="w"> </span>login
 - Wait 30 minutes<br />
 - Generate some activity (sign in, create a test app registration)<br />
 - Query again</p>
-<h3>Issue 2: SignInLogs Present, But AuditLogs Missing</h3>
+<h3 id="issue-2-signinlogs-present-but-auditlogs-missing">Issue 2: SignInLogs Present, But AuditLogs Missing</h3>
 <p><strong>Symptoms:</strong><br />
 - <code>SignInLogs</code> table exists and has data<br />
 - <code>AuditLogs</code> table missing or empty</p>
@@ -1552,7 +1598,7 @@ az<span class="w"> </span>login
 <li>Click "Save"</li>
 <li>Wait 15 minutes</li>
 </ol>
-<h3>Issue 3: High Costs (Unexpected Log Analytics Bill)</h3>
+<h3 id="issue-3-high-costs-unexpected-log-analytics-bill">Issue 3: High Costs (Unexpected Log Analytics Bill)</h3>
 <p><strong>Symptoms:</strong><br />
 - Log Analytics ingestion costs higher than expected<br />
 - SignInLogs consuming most of the data volume</p>
@@ -1604,7 +1650,7 @@ az<span class="w"> </span>login
 1. Reduce retention from 730 days to 90 days<br />
 2. Rely on storage account for long-term archive<br />
 3. Disable NonInteractiveUserSignInLogs (if security approves)</p>
-<h3>Issue 4: Can't Find Specific App Registration in Logs</h3>
+<h3 id="issue-4-can-t-find-specific-app-registration-in-logs">Issue 4: Can't Find Specific App Registration in Logs</h3>
 <p><strong>Symptoms:</strong><br />
 - Query for app registration creation returns no results<br />
 - You know the app exists, but can't find the audit trail</p>
@@ -1628,7 +1674,7 @@ az<span class="w"> </span>login
 <p><strong>Workaround:</strong><br />
 - Document app registration details NOW (use the export script from Step 5)<br />
 - Going forward, you'll have the audit trail</p>
-<h3>Issue 5: Storage Account Access Denied</h3>
+<h3 id="issue-5-storage-account-access-denied">Issue 5: Storage Account Access Denied</h3>
 <p><strong>Symptoms:</strong><br />
 - Can't browse blobs in storage account<br />
 - "AuthorizationPermissionMismatch" error</p>
@@ -1649,12 +1695,12 @@ az<span class="w"> </span>login
 <span class="nb">Write-Host</span> <span class="s2">&quot;Role assigned - wait 5 minutes for permission propagation&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 </code></pre></div>
 
-<h2>Quarterly Testing Checklist</h2>
+<h2 id="quarterly-testing-checklist">Quarterly Testing Checklist</h2>
 <p>Test your setup every quarter. This catches issues before audits.</p>
-<h3>Q4 2025 Azure AD Audit Drill</h3>
+<h3 id="q4-2025-azure-ad-audit-drill">Q4 2025 Azure AD Audit Drill</h3>
 <p><strong>Test Date:</strong> October 27, 2025<br />
 <strong>Tester:</strong> [Your Name]</p>
-<h4>Test 1: Log Retention Verification</h4>
+<h4 id="test-1-log-retention-verification">Test 1: Log Retention Verification</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Verify logs exist from 90+ days ago</span>
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
@@ -1669,7 +1715,7 @@ az<span class="w"> </span>login
 <li>[ ] Storage account has logs older than 90 days: ☐ Yes ☐ No</li>
 </ul>
 <p><strong>Pass/Fail:</strong> _____</p>
-<h4>Test 2: Query Execution</h4>
+<h4 id="test-2-query-execution">Test 2: Query Execution</h4>
 <ul>
 <li>[ ] Run Query 1 (Who created app registration): Works? ☐ Yes ☐ No</li>
 <li>[ ] Run Query 2 (Admin consent grants): Works? ☐ Yes ☐ No</li>
@@ -1677,7 +1723,7 @@ az<span class="w"> </span>login
 <li>[ ] Run Query 5 (Admin role assignments): Shows recent changes</li>
 </ul>
 <p><strong>Pass/Fail:</strong> _____</p>
-<h4>Test 3: App Registration Inventory</h4>
+<h4 id="test-3-app-registration-inventory">Test 3: App Registration Inventory</h4>
 <ul>
 <li>[ ] Open tracking spreadsheet/CMDB</li>
 <li>[ ] Last updated date: <strong><em>_</em></strong>____</li>
@@ -1685,7 +1731,7 @@ az<span class="w"> </span>login
 <li>[ ] New apps created this quarter: _____ (compare to last export)</li>
 </ul>
 <p><strong>Pass/Fail:</strong> _____</p>
-<h4>Test 4: Storage Archive Verification</h4>
+<h4 id="test-4-storage-archive-verification">Test 4: Storage Archive Verification</h4>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check storage containers exist and have recent data</span>
 <span class="nv">$containers</span> <span class="p">=</span> <span class="nb">Get-AzStorageContainer</span> <span class="n">-Context</span> <span class="nv">$ctx</span>
 <span class="nv">$containers</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
@@ -1706,7 +1752,7 @@ az<span class="w"> </span>login
 <li>[ ] Total storage size: _____ GB (expected: increasing monthly)</li>
 </ul>
 <p><strong>Pass/Fail:</strong> _____</p>
-<h4>Test 5: Access &amp; Documentation</h4>
+<h4 id="test-5-access-documentation">Test 5: Access &amp; Documentation</h4>
 <ul>
 <li>[ ] Compliance team has Log Analytics access: ☐ Yes ☐ No</li>
 <li>[ ] Storage account access restricted (RBAC verified): ☐ Yes ☐ No</li>
@@ -1714,18 +1760,18 @@ az<span class="w"> </span>login
 <li>[ ] App registration inventory accessible: ☐ Yes ☐ No</li>
 </ul>
 <p><strong>Pass/Fail:</strong> _____</p>
-<h3>Issues Found</h3>
+<h3 id="issues-found">Issues Found</h3>
 <p>[List any issues discovered during drill]</p>
-<h3>Action Items</h3>
+<h3 id="action-items">Action Items</h3>
 <ul>
 <li>[ ] Fix issue #1: <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
 <li>[ ] Update documentation: <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
 <li>[ ] Retest failed items in 30 days</li>
 </ul>
 <p><strong>Next Drill:</strong> January 27, 2026</p>
-<h2>Real-World Audit Scenarios</h2>
+<h2 id="real-world-audit-scenarios">Real-World Audit Scenarios</h2>
 <p>Here's what this looks like when auditors actually ask questions:</p>
-<h3>Scenario 1: SOX Quarterly Access Review</h3>
+<h3 id="scenario-1-sox-quarterly-access-review">Scenario 1: SOX Quarterly Access Review</h3>
 <p><strong>Auditor request:</strong><br />
 <em>"Provide a list of all users granted Global Administrator role in Q3 2025, including who granted the role and when."</em></p>
 <p><strong>Your response time:</strong> 5 minutes</p>
@@ -1752,7 +1798,7 @@ az<span class="w"> </span>login
 </code></pre></div>
 
 <p><strong>Auditor reaction:</strong> ✅ Satisfied. Documentation clear. Closed finding.</p>
-<h3>Scenario 2: Security Incident - Compromised Account</h3>
+<h3 id="scenario-2-security-incident-compromised-account">Scenario 2: Security Incident - Compromised Account</h3>
 <p><strong>Security team request:</strong><br />
 <em>"User john.doe@company.com's credentials were compromised. Show all sign-in activity for the last 90 days, including IP addresses and locations."</em></p>
 <p><strong>Your response time:</strong> 10 minutes</p>
@@ -1785,7 +1831,7 @@ az<span class="w"> </span>login
 </code></pre></div>
 
 <p><strong>Security team reaction:</strong> ✅ Full visibility. Identified compromise window. Remediation plan confirmed.</p>
-<h3>Scenario 3: Tenable Scanner Alert</h3>
+<h3 id="scenario-3-tenable-scanner-alert">Scenario 3: Tenable Scanner Alert</h3>
 <p><strong>Alert:</strong><br />
 <em>"50 app registrations detected with client secrets expiring in 30 days. Identify owner and usage."</em></p>
 <p><strong>Your response time:</strong> 30 minutes (bulk analysis)</p>
@@ -1828,7 +1874,7 @@ az<span class="w"> </span>login
 </code></pre></div>
 
 <p><strong>Security team reaction:</strong> ✅ Clear action plan. Unused apps identified for deletion. Active apps flagged for renewal.</p>
-<h2>Integration with Part 1 (Activity Logs)</h2>
+<h2 id="integration-with-part-1-activity-logs">Integration with Part 1 (Activity Logs)</h2>
 <p>You've now configured both systems:</p>
 <p><strong>Part 1 (Activity Logs):</strong><br />
 - ARM resources (VMs, storage, networks, etc.)<br />
@@ -1851,30 +1897,30 @@ az<span class="w"> </span>login
 <li><strong>Quarterly:</strong> Run audit drill, verify retention, test queries</li>
 <li><strong>Annually:</strong> Present to auditors with confidence</li>
 </ol>
-<h2>Next Steps</h2>
+<h2 id="next-steps">Next Steps</h2>
 <p>You're done with the technical setup. Now:</p>
-<h3>Immediate Actions (This Week)</h3>
+<h3 id="immediate-actions-this-week">Immediate Actions (This Week)</h3>
 <ol>
 <li>✅ Verify logs are flowing (Step 3 queries)</li>
 <li>✅ Save query library to workspace</li>
 <li>✅ Export app registrations to spreadsheet</li>
 <li>✅ Document your architecture (one-page reference)</li>
 </ol>
-<h3>Short Term (This Month)</h3>
+<h3 id="short-term-this-month">Short Term (This Month)</h3>
 <ol>
 <li>Run first monthly export of app registrations</li>
 <li>Cross-check with Tenable alerts</li>
 <li>Identify and flag apps without owners</li>
 <li>Schedule first quarterly audit drill</li>
 </ol>
-<h3>Ongoing (Every Quarter)</h3>
+<h3 id="ongoing-every-quarter">Ongoing (Every Quarter)</h3>
 <ol>
 <li>Run audit drill (testing checklist above)</li>
 <li>Review app registration inventory</li>
 <li>Update query library based on actual audit requests</li>
 <li>Verify retention is working (storage + Log Analytics)</li>
 </ol>
-<h2>The Takeaway</h2>
+<h2 id="the-takeaway">The Takeaway</h2>
 <p>Azure AD logs are <strong>separate</strong> from Activity Logs. You need both.</p>
 <p><strong>Part 1 (Activity Logs):</strong> Covers ARM resources<br />
 <strong>Part 2 (Azure AD Logs):</strong> Covers identity layer</p>

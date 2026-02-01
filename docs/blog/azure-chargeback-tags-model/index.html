@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="A chargeback/showback model built on tags that finance, app owners, and cloud teams can all live with—without 47 competing cost spreadsheets.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-chargeback-model.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Chargeback Tags 2025: The 6 Tags That Actually Work",
   "description": "A chargeback/showback model built on tags that finance, app owners, and cloud teams can all live with—without 47 competing cost spreadsheets.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "Azure, Chargeback, FinOps, Governance, Showback, Tags",
   "articleSection": "Azure",
-  "wordCount": "1554",
+  "wordCount": "1568",
   "timeRequired": "PT8M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-chargeback-tags-model/"
+}
+</script>
+
+
+
 
 
 
@@ -237,7 +283,7 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/finops/">Azure FinOps hub</a> covering cost management, chargeback models, and financial operations at enterprise scale.</p>
-<h2>The story (from the trenches)</h2>
+<h2 id="the-story-from-the-trenches">The story (from the trenches)</h2>
 <p>When Finance first asked for a chargeback report by Line of Business, I thought our tags would make it easy.<br />
 Every resource had <code>Owner</code>, <code>Application</code>, and <code>CostCenter</code> — what could go wrong?<br />
 Everything, it turns out.</p>
@@ -253,7 +299,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 
 <p>It looked clean, but it told the wrong story — who operates it, not who funds it.</p>
 <hr />
-<h2>The minimal tag set that actually works</h2>
+<h2 id="the-minimal-tag-set-that-actually-works">The minimal tag set that actually works</h2>
 <table>
 <thead>
 <tr>
@@ -299,7 +345,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 <p><strong>Key idea:</strong> <code>Owner</code> is <strong>not</strong> the payer. <code>CostCenter</code> is the money tag. <code>Application</code> is the bridge between Ops (Owner) and Finance (CostCenter). <code>Type</code> and <code>DomainJoined</code> make your inventory and patching views accurate.</p>
 </blockquote>
 <hr />
-<h2>Shared services: how we made chargeback fair</h2>
+<h2 id="shared-services-how-we-made-chargeback-fair">Shared services: how we made chargeback fair</h2>
 <p>Shared platforms (databases, monitoring, identity, logging) don’t map to a single payer. We used <strong>ChargebackType=Shared</strong> to mark them and <strong>cost allocation rules</strong> to split costs fairly among consuming CostCenters.</p>
 <p><strong>Example split (concept):</strong></p>
 <table>
@@ -332,8 +378,8 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 <p>Start with <strong>showback</strong> (no internal billing) for a few cycles to build trust. Move to <strong>chargeback</strong> once your tag coverage is stable.</p>
 </blockquote>
 <hr />
-<h2>Queries you’ll use every week</h2>
-<h3>1) Find resources missing critical tags</h3>
+<h2 id="queries-you-ll-use-every-week">Queries you’ll use every week</h2>
+<h3 id="1-find-resources-missing-critical-tags">1) Find resources missing critical tags</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">),</span><span class="w"> </span><span class="n">App</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">),</span><span class="w"> </span><span class="n">CC</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span><span class="p">),</span><span class="w"> </span><span class="n">Type</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">),</span><span class="w"> </span><span class="n">DJ</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;DomainJoined&#39;</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">Owner</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">App</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">Type</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">DJ</span><span class="p">)</span>
@@ -341,20 +387,20 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
 </code></pre></div>
 
-<h3>2) Showback view by Line of Business (CostCenter) and Application</h3>
+<h3 id="2-showback-view-by-line-of-business-costcenter-and-application">2) Showback view by Line of Business (CostCenter) and Application</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">CostByResource</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">CostUSD</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">AmortizedCost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">CostCenter</span><span class="p">,</span><span class="w"> </span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">UsageDate</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UsageDate</span><span class="w"> </span><span class="n">asc</span>
 </code></pre></div>
 
-<h3>3) Patch &amp; compliance slice by Type and DomainJoined</h3>
+<h3 id="3-patch-compliance-slice-by-type-and-domainjoined">3) Patch &amp; compliance slice by Type and DomainJoined</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Type</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">),</span><span class="w"> </span><span class="n">DJ</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;DomainJoined&#39;</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">CountVMs</span><span class="p">=</span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Type</span><span class="p">,</span><span class="w"> </span><span class="n">DJ</span>
 </code></pre></div>
 
-<h3>4) Owner ≠ Payer sanity check</h3>
+<h3 id="4-owner-payer-sanity-check">4) Owner ≠ Payer sanity check</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Owner</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">),</span><span class="w"> </span><span class="n">App</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">),</span><span class="w"> </span><span class="n">CC</span><span class="p">=</span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Resources</span><span class="p">=</span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">CC</span>
@@ -362,7 +408,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 </code></pre></div>
 
 <hr />
-<h2>Azure Policy: deny on missing tags (with friendly remediation)</h2>
+<h2 id="azure-policy-deny-on-missing-tags-with-friendly-remediation">Azure Policy: deny on missing tags (with friendly remediation)</h2>
 <p>Require the six tags on create. Deny if missing; pair with an initiative that adds a <strong>Modify</strong> policy for auto-append in well-known RGs.</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -388,7 +434,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 <p>Tip: keep tag names <strong>exact</strong> (<code>DomainJoined</code>, not <code>Is Domain Joined</code>). If you’re already live with variants, standardize and migrate with a one-time script.</p>
 </blockquote>
 <hr />
-<h2>PowerShell: weekly tag health &amp; nudge</h2>
+<h2 id="powershell-weekly-tag-health-nudge">PowerShell: weekly tag health &amp; nudge</h2>
 <div class="codehilite"><pre><span></span><code><span class="nb">Connect-AzAccount</span>
 
 <span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
@@ -405,7 +451,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 </code></pre></div>
 
 <hr />
-<h2>Operating model that stuck</h2>
+<h2 id="operating-model-that-stuck">Operating model that stuck</h2>
 <ol>
 <li><strong>Designate tag owners</strong>: each Application has a named owner responsible for fixing missing tags.</li>
 <li><strong>Showback first</strong>: publish CostCenter/Application dashboards monthly; fix gaps.</li>
@@ -413,7 +459,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 <li><strong>Hold the line</strong>: deny on create, auto-append only in controlled landing zones.</li>
 </ol>
 <hr />
-<h2>TL;DR</h2>
+<h2 id="tl-dr">TL;DR</h2>
 <ul>
 <li><code>Owner</code> tells us who runs it. <code>CostCenter</code> tells us who pays. <code>Application</code> ties the story together.</li>
 <li>Add <code>Type</code>, <code>DomainJoined</code>, and <code>ChargebackType</code> to unlock patching, inventory, and FinOps accuracy.</li>
@@ -421,7 +467,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 </ul>
 <p>This six-tag model is the smallest practical set that made our governance, security, and FinOps reporting finally agree with each other — and with Finance.</p>
 <hr />
-<h3>🔍 Audit Your "Big 6" Compliance</h3>
+<h3 id="audit-your-big-6-compliance">🔍 Audit Your "Big 6" Compliance</h3>
 <p>Are you actually tagging? Or just talking about it?</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Audit the &quot;Big 6&quot; Tags</span>
 <span class="n">Resources</span>
@@ -432,7 +478,7 @@ So I rebuilt the model from the ground up using six simple tags that finally mad
 </code></pre></div>
 
 <hr />
-<h3>🛑 Chargeback Governance</h3>
+<h3 id="chargeback-governance">🛑 Chargeback Governance</h3>
 <p>Tags are only useful if they trigger a bill.<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-chargeback">Download the Azure RACI Matrix</a></strong> to link Tag Compliance to Financial Accountability.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

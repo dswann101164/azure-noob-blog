@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="Scale from single environment to Dev/Test/Prod with separate state files, environment-specific approvals, and production hardening. This is how enterprises...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part5.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Terraform + Azure DevOps CI/CD: Part 5 - Production Best Practices &amp; Multi-Environment Setup",
   "description": "Scale from single environment to Dev/Test/Prod with separate state files, environment-specific approvals, and production hardening. This is how enterprises...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "azure, Terraform, devops, CICD, IaC, Azure DevOps, Production",
   "articleSection": "azure",
-  "wordCount": "4174",
+  "wordCount": "4212",
   "timeRequired": "PT21M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part5-production-best-practices/"
+}
+</script>
+
+
+
 
 
 
@@ -250,8 +296,8 @@
 - 🚨 Production deployment windows<br />
 - 📊 Deployment metrics and reporting</p>
 <p>This is the difference between "I can deploy infrastructure" and "I can run infrastructure at scale."</p>
-<h2>Environment Strategy</h2>
-<h3>The Three-Environment Model</h3>
+<h2 id="environment-strategy">Environment Strategy</h2>
+<h3 id="the-three-environment-model">The Three-Environment Model</h3>
 <p><strong>Development (Dev):</strong><br />
 - Purpose: Active development and testing<br />
 - Approval: Auto-deploy (no human approval)<br />
@@ -270,7 +316,7 @@
 - Cost: Full production workload<br />
 - Uptime: 24/7 with HA/DR<br />
 - State file: <code>terraform-prod.tfstate</code></p>
-<h3>Why Separate State Files?</h3>
+<h3 id="why-separate-state-files">Why Separate State Files?</h3>
 <p><strong>Without separation:</strong><br />
 - One corrupted state file affects all environments<br />
 - Terraform can't distinguish what's in dev vs. prod<br />
@@ -279,7 +325,7 @@
 - Each environment has isolated state<br />
 - State corruption limited to one environment<br />
 - Clear separation of concerns</p>
-<h2>File Structure for Multi-Environment</h2>
+<h2 id="file-structure-for-multi-environment">File Structure for Multi-Environment</h2>
 <p>Update your repository structure:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">repo</span><span class="o">/</span>
 <span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">/</span>
@@ -311,8 +357,8 @@
 - <strong>Shared code</strong> in <code>/terraform</code> (modules, providers, main logic)<br />
 - <strong>Environment-specific config</strong> in <code>/terraform/environments/{env}/</code><br />
 - <strong>No secrets in Git</strong> (still using Key Vault)</p>
-<h2>Configure Multiple State Files</h2>
-<h3>Create Environment-Specific Backend Configs</h3>
+<h2 id="configure-multiple-state-files">Configure Multiple State Files</h2>
+<h3 id="create-environment-specific-backend-configs">Create Environment-Specific Backend Configs</h3>
 <p><strong>File: <code>terraform/environments/dev/backend.tf</code></strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
@@ -347,7 +393,7 @@
 </code></pre></div>
 
 <p><strong>Notice:</strong> The only difference is the <code>key</code> parameter. Each environment gets its own state file in the same storage account.</p>
-<h3>Create Environment-Specific Variable Files</h3>
+<h3 id="create-environment-specific-variable-files">Create Environment-Specific Variable Files</h3>
 <p><strong>File: <code>terraform/environments/dev/terraform.tfvars</code></strong></p>
 <div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span>
 <span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
@@ -405,8 +451,8 @@
 - VM sizes increase from dev → test → prod<br />
 - Service tiers increase (Basic → S3 → P2)<br />
 - Tags change to reflect environment and cost attribution</p>
-<h2>Update Terraform Code for Environment Support</h2>
-<h3>Global Variables (Shared)</h3>
+<h2 id="update-terraform-code-for-environment-support">Update Terraform Code for Environment Support</h2>
+<h3 id="global-variables-shared">Global Variables (Shared)</h3>
 <p><strong>File: <code>terraform/variables.tf</code></strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;environment&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment name (dev, test, prod)&quot;</span>
@@ -460,7 +506,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Resource Naming with Environment</h3>
+<h3 id="resource-naming-with-environment">Resource Naming with Environment</h3>
 <p><strong>File: <code>terraform/main.tf</code></strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
 <span class="c1">  # Generate environment-specific resource names</span>
@@ -504,9 +550,9 @@
 - Resource names include environment (e.g., <code>rsg-dev-001</code>, <code>rsg-prod-001</code>)<br />
 - IP ranges differ per environment (prod = 10.0.x.x, test = 10.1.x.x, dev = 10.2.x.x)<br />
 - All resources get environment-specific tags</p>
-<h2>Create Environment-Specific Build Pipelines</h2>
+<h2 id="create-environment-specific-build-pipelines">Create Environment-Specific Build Pipelines</h2>
 <p>You need separate build pipelines for each environment.</p>
-<h3>Clone the Existing Build Pipeline (3 Times)</h3>
+<h3 id="clone-the-existing-build-pipeline-3-times">Clone the Existing Build Pipeline (3 Times)</h3>
 <ol>
 <li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
 <li>Find <strong>Terraform Plan (Create Artifact)</strong></li>
@@ -514,7 +560,7 @@
 <li>Rename to: <strong>Terraform Plan - Dev</strong></li>
 </ol>
 <p>Repeat for <strong>Test</strong> and <strong>Prod</strong>.</p>
-<h3>Update Each Pipeline's Init Task</h3>
+<h3 id="update-each-pipeline-s-init-task">Update Each Pipeline's Init Task</h3>
 <p>Edit <strong>Terraform Plan - Dev</strong> pipeline:</p>
 <p>Find the <strong>Terraform Init</strong> task and update the script:</p>
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
@@ -526,7 +572,7 @@
 <p><strong>Repeat for other environments:</strong><br />
 - <strong>Test:</strong> <code>-backend-config="key=test/terraform.tfstate"</code> and working directory <code>terraform/environments/test</code><br />
 - <strong>Prod:</strong> <code>-backend-config="key=prod/terraform.tfstate"</code> and working directory <code>terraform/environments/prod</code></p>
-<h3>Update Each Pipeline's Plan Task</h3>
+<h3 id="update-each-pipeline-s-plan-task">Update Each Pipeline's Plan Task</h3>
 <p>Edit the <strong>Terraform Plan</strong> task to include the environment-specific <code>.tfvars</code>:</p>
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
@@ -539,7 +585,7 @@
 </code></pre></div>
 
 <p><strong>What changed:</strong> Added <code>-var-file="terraform.tfvars"</code> to load environment-specific variables.</p>
-<h3>Update Triggers for Each Pipeline</h3>
+<h3 id="update-triggers-for-each-pipeline">Update Triggers for Each Pipeline</h3>
 <p><strong>Dev Pipeline:</strong><br />
 - <strong>CI trigger:</strong> ON<br />
 - <strong>Branch filter:</strong> <code>main</code><br />
@@ -553,8 +599,8 @@
 - <strong>Branch filter:</strong> <code>main</code><br />
 - <strong>Path filter:</strong> <code>terraform/environments/prod/**</code></p>
 <p><strong>What this does:</strong> Only trigger the relevant environment's pipeline when its files change.</p>
-<h2>Create Environment-Specific Release Pipelines</h2>
-<h3>Dev Release Pipeline</h3>
+<h2 id="create-environment-specific-release-pipelines">Create Environment-Specific Release Pipelines</h2>
+<h3 id="dev-release-pipeline">Dev Release Pipeline</h3>
 <p>Clone your existing release pipeline and rename to: <strong>Deploy Terraform - Dev</strong></p>
 <p><strong>Changes:</strong><br />
 1. <strong>Artifact source:</strong> <code>Terraform Plan - Dev</code><br />
@@ -567,7 +613,7 @@
 <span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=dev/terraform.tfstate&quot;</span>
 </code></pre></div>
 
-<h3>Test Release Pipeline</h3>
+<h3 id="test-release-pipeline">Test Release Pipeline</h3>
 <p>Clone and rename to: <strong>Deploy Terraform - Test</strong></p>
 <p><strong>Changes:</strong><br />
 1. <strong>Artifact source:</strong> <code>Terraform Plan - Test</code><br />
@@ -582,7 +628,7 @@
 <span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=test/terraform.tfstate&quot;</span>
 </code></pre></div>
 
-<h3>Prod Release Pipeline</h3>
+<h3 id="prod-release-pipeline">Prod Release Pipeline</h3>
 <p>Clone and rename to: <strong>Deploy Terraform - Prod</strong></p>
 <p><strong>Changes:</strong><br />
 1. <strong>Artifact source:</strong> <code>Terraform Plan - Prod</code><br />
@@ -599,7 +645,7 @@
 <span class="w">  </span>-backend-config<span class="o">=</span><span class="s2">&quot;key=prod/terraform.tfstate&quot;</span>
 </code></pre></div>
 
-<h3>Add Deployment Gates for Production</h3>
+<h3 id="add-deployment-gates-for-production">Add Deployment Gates for Production</h3>
 <p>Deployment gates add additional automation checks before deployment.</p>
 <p><strong>Configure gates for Prod release:</strong></p>
 <ol>
@@ -628,8 +674,8 @@
 </code></pre></div>
 
 <p><strong>Alternative if you don't have Azure Functions:</strong> Use <strong>Query Work Items</strong> gate to check Azure Boards for blocking issues.</p>
-<h2>Production Hardening</h2>
-<h3>1. State File Locking</h3>
+<h2 id="production-hardening">Production Hardening</h2>
+<h3 id="1-state-file-locking">1. State File Locking</h3>
 <p>Ensure state file locking is enabled (prevents concurrent modifications).</p>
 <p>Azure Blob Storage supports locking by default, but verify:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check storage account settings</span>
@@ -651,7 +697,7 @@
 <span class="w">  </span><span class="n">Created</span><span class="o">:</span><span class="w">   </span><span class="mi">2025</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">07</span><span class="w"> </span><span class="mi">14</span><span class="o">:</span><span class="mi">23</span><span class="o">:</span><span class="mf">45.123</span><span class="w"> </span><span class="n">UTC</span>
 </code></pre></div>
 
-<h3>2. State File Backups</h3>
+<h3 id="2-state-file-backups">2. State File Backups</h3>
 <p>Enable blob versioning and soft delete (you should have done this in Part 1, but verify):</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">$ctx</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rsg-terraform-state&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;sttfstate1234&quot;</span><span class="p">).</span><span class="n">Context</span>
 
@@ -666,7 +712,7 @@
 </code></pre></div>
 
 <p><strong>Why:</strong> If someone corrupts state or accidentally deletes it, you have 30 days to recover.</p>
-<h3>3. Terraform Version Pinning</h3>
+<h3 id="3-terraform-version-pinning">3. Terraform Version Pinning</h3>
 <p><strong>File: <code>terraform/providers.tf</code></strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 1.5.7&quot;</span><span class="c1">  # Exact version, not &gt;= 1.5.7</span>
@@ -689,7 +735,7 @@
 1. Test new provider version in dev<br />
 2. If stable, promote to test<br />
 3. If no issues, update prod during next maintenance window</p>
-<h3>4. Import Existing Resources (Avoid Drift)</h3>
+<h3 id="4-import-existing-resources-avoid-drift">4. Import Existing Resources (Avoid Drift)</h3>
 <p>If someone manually created resources in the portal, import them into state:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Import existing resource group</span>
 terraform<span class="w"> </span>import<span class="w"> </span>azurerm_resource_group.main<span class="w"> </span>/subscriptions/SUB-ID/resourceGroups/rsg-manual-001
@@ -702,7 +748,7 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 - Policy: "Resources must have 'ManagedBy: Terraform' tag"<br />
 - Effect: Deny creation if tag is missing<br />
 - Exemptions: Emergency service accounts only</p>
-<h3>5. Drift Detection (Daily Scheduled Check)</h3>
+<h3 id="5-drift-detection-daily-scheduled-check">5. Drift Detection (Daily Scheduled Check)</h3>
 <p>Create a scheduled pipeline that runs <code>terraform plan</code> daily and alerts on drift.</p>
 <p><strong>New pipeline:</strong> <code>Terraform Drift Detection - Prod</code></p>
 <p><strong>Schedule:</strong><br />
@@ -722,7 +768,7 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 <span class="k">fi</span>
 </code></pre></div>
 
-<h3>6. Production Deployment Windows</h3>
+<h3 id="6-production-deployment-windows">6. Production Deployment Windows</h3>
 <p>Restrict prod deployments to approved maintenance windows.</p>
 <p><strong>Configure release pipeline:</strong><br />
 1. Edit <strong>Deploy Terraform - Prod</strong><br />
@@ -733,9 +779,9 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
    - <strong>Schedule:</strong> Saturday, 2:00 AM - 6:00 AM</p>
 <p><strong>What this does:</strong> Releases only deploy during the approved window. Outside this window, releases queue but don't start.</p>
 <p><strong>Override for emergencies:</strong> Admins can manually trigger releases outside the window (logged for audit).</p>
-<h2>Multi-Stage Promotion Workflow</h2>
+<h2 id="multi-stage-promotion-workflow">Multi-Stage Promotion Workflow</h2>
 <p>For the safest deployment process, promote changes through environments:</p>
-<h3>Workflow: Dev → Test → Prod</h3>
+<h3 id="workflow-dev-test-prod">Workflow: Dev → Test → Prod</h3>
 <p><strong>Week 1:</strong><br />
 1. Merge PR to <code>main</code><br />
 2. Dev pipeline runs → auto-deploys to dev<br />
@@ -752,9 +798,9 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 11. Monitor for 24 hours<br />
 12. Incident-free? Mark as stable.</p>
 <p><strong>Key principle:</strong> Never promote from dev directly to prod. Always: dev → test → prod.</p>
-<h2>Rollback Strategy</h2>
+<h2 id="rollback-strategy">Rollback Strategy</h2>
 <p>Despite best efforts, sometimes deployments fail. Have a rollback plan.</p>
-<h3>Option 1: Roll Forward (Preferred)</h3>
+<h3 id="option-1-roll-forward-preferred">Option 1: Roll Forward (Preferred)</h3>
 <p>Fix the issue and deploy a new release.</p>
 <p><strong>Why preferred:</strong> Maintains audit trail and doesn't rely on state manipulation.</p>
 <p><strong>Process:</strong><br />
@@ -763,7 +809,7 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 3. Fix Terraform code<br />
 4. Emergency PR → merge<br />
 5. Emergency release approval → deploy</p>
-<h3>Option 2: Revert PR</h3>
+<h3 id="option-2-revert-pr">Option 2: Revert PR</h3>
 <p>If the deployment succeeded but introduced a functional bug:</p>
 <ol>
 <li>Go to <strong>Repos &gt; Pull requests &gt; Completed</strong></li>
@@ -773,7 +819,7 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 <li>Merge → deploy</li>
 </ol>
 <p><strong>Result:</strong> Infrastructure returns to previous state.</p>
-<h3>Option 3: Manual State Rollback (Last Resort)</h3>
+<h3 id="option-3-manual-state-rollback-last-resort">Option 3: Manual State Rollback (Last Resort)</h3>
 <p>If state is corrupted and you need to restore from backup:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Download current state (backup before changing)</span>
 az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>download<span class="w"> </span><span class="se">\</span>
@@ -802,8 +848,8 @@ terraform<span class="w"> </span>plan
 </code></pre></div>
 
 <p><strong>Warning:</strong> Only do this if you understand the implications. Incorrect state restoration can cause resource deletion.</p>
-<h2>Monitoring and Reporting</h2>
-<h3>1. Deployment Metrics Dashboard</h3>
+<h2 id="monitoring-and-reporting">Monitoring and Reporting</h2>
+<h3 id="1-deployment-metrics-dashboard">1. Deployment Metrics Dashboard</h3>
 <p>Create a Power BI dashboard tracking:<br />
 - <strong>Deployment frequency</strong> (per environment)<br />
 - <strong>Success rate</strong> (successful vs. failed deployments)<br />
@@ -811,7 +857,7 @@ terraform<span class="w"> </span>plan
 - <strong>Deployment duration</strong> (time from approval to completion)<br />
 - <strong>Rollback frequency</strong></p>
 <p><strong>Data source:</strong> Azure DevOps REST API</p>
-<h3>2. Cost Tracking by Environment</h3>
+<h3 id="2-cost-tracking-by-environment">2. Cost Tracking by Environment</h3>
 <p>Tag all resources with environment name, then use Azure Cost Management:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// KQL query for cost by environment</span>
 <span class="n">AzureActivity</span>
@@ -820,7 +866,7 @@ terraform<span class="w"> </span>plan
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DeploymentCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Environment</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
 </code></pre></div>
 
-<h3>3. Audit Log for Approvals</h3>
+<h3 id="3-audit-log-for-approvals">3. Audit Log for Approvals</h3>
 <p>Query Azure DevOps for approval history:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all releases for the last 30 days</span>
 <span class="nv">$releases</span> <span class="p">=</span> <span class="n">az</span> <span class="n">pipelines</span> <span class="n">runs</span> <span class="n">list</span> <span class="p">-</span><span class="n">-pipeline-ids</span> <span class="n">PIPELINE-ID</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[?finishTime &gt;= &#39;2025-10-01&#39;]&quot;</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
@@ -836,7 +882,7 @@ terraform<span class="w"> </span>plan
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ol>
 <li><strong>Separate state files per environment</strong> - Isolation prevents cascading failures</li>
 <li><strong>Environment-specific approval workflows</strong> - Dev auto-deploys, prod requires multiple approvals</li>

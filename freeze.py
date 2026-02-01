@@ -23,8 +23,8 @@ app.config["FREEZER_STATIC_IGNORE"] = []
 
 freezer = Freezer(app)
 
-def log(msg): 
-    print(msg, flush=True)
+def log(msg):
+    print(msg.encode('ascii', 'replace').decode('ascii'), flush=True)
 
 def prepare_dest():
     # Clean output dir and prep essentials
@@ -272,6 +272,28 @@ Allow: /
 
 # Don't index API endpoint
 Disallow: /search.json
+
+# AI crawlers - explicitly allowed for GEO/AEO visibility
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 Sitemap: https://azure-noob.com/sitemap.xml"""
     

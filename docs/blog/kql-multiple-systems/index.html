@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/kql-systems-maze.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "KQL Across 5 Azure Systems: The Query Compatibility Guide",
   "description": "Patterns for writing KQL that works across multiple systems and tables—ARG, Log Analytics, and workbooks—without losing your mind.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "Architecture, Azure, Dashboards, KQL, Log Analytics, Resource Graph",
   "articleSection": "Architecture",
-  "wordCount": "3775",
+  "wordCount": "3806",
   "timeRequired": "PT19M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Architecture"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/kql-multiple-systems/"
+}
+</script>
+
+
+
 
 
 
@@ -241,7 +287,7 @@ You learned KQL from Microsoft Learn. You wrote your first queries in Log Analyt
 <p>Three months later, your queries are timing out. Six months later, you're staring at a $10,000 monthly Log Analytics bill. One year later, you discover Azure Resource Graph exists and realize you've been building everything in the wrong place.</p>
 <p>Here's what nobody told you: KQL isn't one system. It's one language across five completely different systems, and Microsoft's documentation never explains which one to use when.</p>
 <p>This is that explanation.</p>
-<h2>The Walk-Right-By Problem</h2>
+<h2 id="the-walk-right-by-problem">The Walk-Right-By Problem</h2>
 <p>Microsoft Learn teaches KQL in the Log Analytics context. The Azure Portal defaults to Log Analytics for everything. Example queries are Log Analytics focused. Most blog posts assume you already know about the other systems.</p>
 <p>So you learn KQL, write queries in Log Analytics because that's what you learned, and walk right past four other systems that might be better for your actual use case.</p>
 <p><strong>The progression looks like this:</strong></p>
@@ -255,9 +301,9 @@ Month 18: Realize half your queries are in the wrong system, start migration</p>
 <p><strong>The hidden cost:</strong></p>
 <p>You're paying for Log Analytics ingestion you don't need. You're running slow queries that could be instant. You created multiple workspaces when you needed one system. You built technical debt that requires rework.</p>
 <p>And nobody warned you any of this would happen.</p>
-<h2>The Five KQL Systems</h2>
+<h2 id="the-five-kql-systems">The Five KQL Systems</h2>
 <p>Same language. Completely different purposes. Here's what each one actually does.</p>
-<h3>System 1: Azure Resource Graph</h3>
+<h3 id="system-1-azure-resource-graph">System 1: Azure Resource Graph</h3>
 <p><strong>What it is:</strong><br />
 A real-time inventory database for Azure resources. It mirrors Azure Resource Manager (ARM) state and answers "what exists right now" questions. It's free, included with your Azure subscription, and queries complete in under a second.</p>
 <p><strong>What it's not:</strong><br />
@@ -282,7 +328,7 @@ Not for logs. Not for metrics. Not for security events. Not for application tele
 <p>This runs across every subscription you have access to. Instantly. Free.</p>
 <p><strong>The classic mistake:</strong></p>
 <p>Running this inventory query in Log Analytics instead. You're paying for 30-90 days of retention on data that Resource Graph gives you for free and faster. I've seen organizations spend thousands per month ingesting VM inventory data into Log Analytics when Resource Graph would have been free.</p>
-<h3>System 2: Log Analytics Workspaces</h3>
+<h3 id="system-2-log-analytics-workspaces">System 2: Log Analytics Workspaces</h3>
 <p><strong>What it is:</strong><br />
 Time-series log storage and analytics with an ingestion cost model. You pay per GB ingested plus retention. It's built for troubleshooting and historical analysis, requires agents or diagnostic settings to send data, and multiple workspaces create data silos.</p>
 <p><strong>What it's not:</strong><br />
@@ -312,7 +358,7 @@ Not free. Not real-time inventory. Not automatically populated.</p>
 <p>Ingesting data you never query. You're paying for storage you don't use.</p>
 <p>Using Log Analytics for inventory questions when Resource Graph is free and faster.</p>
 <p>Not setting retention policies appropriately. Paying for 2 years of data when you only need 30 days.</p>
-<h3>System 3: Microsoft Sentinel</h3>
+<h3 id="system-3-microsoft-sentinel">System 3: Microsoft Sentinel</h3>
 <p><strong>What it is:</strong><br />
 A SIEM (Security Information and Event Management system) built on top of Log Analytics. It correlates security events and detects threats. Costs include both Log Analytics ingestion and Sentinel licensing.</p>
 <p><strong>What it's not:</strong><br />
@@ -337,7 +383,7 @@ Not required for basic Azure monitoring. Not for general-purpose log analysis. N
 <p>This hunts for brute force attacks across your environment. Sentinel is built for this.</p>
 <p><strong>The classic mistake:</strong></p>
 <p>Enabling Sentinel because it's "recommended" without understanding you're adding 20-30% cost on top of Log Analytics. If you don't have a security operations center or compliance requirements, you probably don't need it yet.</p>
-<h3>System 4: Application Insights</h3>
+<h3 id="system-4-application-insights">System 4: Application Insights</h3>
 <p><strong>What it is:</strong><br />
 Application performance monitoring (APM) for code. It captures telemetry like exceptions, requests, dependencies, and custom events. Built on Log Analytics but with application-specific schemas.</p>
 <p><strong>What it's not:</strong><br />
@@ -361,7 +407,7 @@ Not for infrastructure monitoring. Not for Azure resource inventory. Not automat
 <p>This shows which API endpoints are failing. Application Insights is the only system with this data.</p>
 <p><strong>The classic mistake:</strong></p>
 <p>Trying to query Application Insights data with Resource Graph queries or vice versa. They use the same language but completely different data models. A Resource Graph query won't return application telemetry.</p>
-<h3>System 5: Microsoft Defender / Microsoft 365 Defender / Purview</h3>
+<h3 id="system-5-microsoft-defender-microsoft-365-defender-purview">System 5: Microsoft Defender / Microsoft 365 Defender / Purview</h3>
 <p><strong>What it is:</strong><br />
 Security-focused KQL for endpoint protection, email security, identity threats, and data loss prevention. Separate portal, separate data model, built for security analysts.</p>
 <p><strong>What it's not:</strong><br />
@@ -386,9 +432,9 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 <p>This hunts for obfuscated PowerShell commands that might indicate malware. Defender for Endpoint is the only system with this data.</p>
 <p><strong>The classic mistake:</strong></p>
 <p>Assuming Defender queries work in Log Analytics. Same language, completely different system with different tables and schemas.</p>
-<h2>The Decision Framework</h2>
+<h2 id="the-decision-framework">The Decision Framework</h2>
 <p>Here's how to choose the right system every time.</p>
-<h3>Question 1: What Are You Actually Trying to Do?</h3>
+<h3 id="question-1-what-are-you-actually-trying-to-do">Question 1: What Are You Actually Trying to Do?</h3>
 <p><strong>"I need to know what EXISTS right now"</strong><br />
 → Azure Resource Graph</p>
 <p>Examples: VM inventory, missing tags, network topology, cost allocation queries, compliance checks</p>
@@ -401,7 +447,7 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 <p><strong>"I need to troubleshoot APPLICATION CODE performance"</strong><br />
 → Application Insights</p>
 <p>Examples: Slow API endpoint, database query timeouts, exception spikes, user session flows, dependency mapping</p>
-<h3>Question 2: How Much Are You Willing to Pay?</h3>
+<h3 id="question-2-how-much-are-you-willing-to-pay">Question 2: How Much Are You Willing to Pay?</h3>
 <p><strong>Free (included with Azure):</strong><br />
 - Azure Resource Graph: Unlimited queries, no ingestion costs</p>
 <p><strong>Pay-per-GB ingested:</strong><br />
@@ -413,7 +459,7 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 <p>If you need historical logs → Accept Log Analytics costs but tune retention carefully</p>
 <p>If you need security correlation → Budget for Sentinel properly, it's not cheap</p>
 <p>If you need app telemetry → Instrument carefully, Application Insights costs add up fast</p>
-<h3>Question 3: How Many Workspaces Do You Actually Need?</h3>
+<h3 id="question-3-how-many-workspaces-do-you-actually-need">Question 3: How Many Workspaces Do You Actually Need?</h3>
 <p><strong>The workspace sprawl problem:</strong></p>
 <p>Most organizations accidentally create:<br />
 - One workspace per subscription (can't query across them)<br />
@@ -430,8 +476,8 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 </ul>
 <p><strong>Resource Graph advantage:</strong></p>
 <p>Automatically queries across ALL subscriptions. No workspace sprawl problem.</p>
-<h2>Practical Tools and Workflows</h2>
-<h3>Tool 1: VSCode + Kusto Extension</h3>
+<h2 id="practical-tools-and-workflows">Practical Tools and Workflows</h2>
+<h3 id="tool-1-vscode-kusto-extension">Tool 1: VSCode + Kusto Extension</h3>
 <p>Stop writing queries in the Azure Portal. Use VSCode.</p>
 <p><strong>Setup:</strong></p>
 <ol>
@@ -468,7 +514,7 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
     exception-tracking.kql
 </code></pre></div>
 
-<h3>Tool 2: PowerShell Automation</h3>
+<h3 id="tool-2-powershell-automation">Tool 2: PowerShell Automation</h3>
 <p><strong>Resource Graph queries at scale:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Query across ALL subscriptions automatically</span>
 <span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
@@ -509,7 +555,7 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 <li>Security compliance checks → Sentinel + automated alerts  </li>
 <li>Performance baselines → Log Analytics + trend analysis</li>
 </ul>
-<h3>Tool 3: Azure Resource Graph Explorer</h3>
+<h3 id="tool-3-azure-resource-graph-explorer">Tool 3: Azure Resource Graph Explorer</h3>
 <p><strong>When to use the Portal:</strong></p>
 <ul>
 <li>Quick inventory checks during incident response</li>
@@ -522,9 +568,9 @@ Not for Azure infrastructure monitoring. Not for application logs. Not integrate
 <li>Scheduled queries (use PowerShell instead)  </li>
 <li>Complex queries with 50+ lines (use VSCode for better editing)</li>
 </ul>
-<h2>The Cost Optimization Play</h2>
+<h2 id="the-cost-optimization-play">The Cost Optimization Play</h2>
 <p>Let's fix the damage.</p>
-<h3>Audit: What Are You Paying For?</h3>
+<h3 id="audit-what-are-you-paying-for">Audit: What Are You Paying For?</h3>
 <p><strong>Run this Resource Graph query to find all your Log Analytics workspaces:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.operationalinsights/workspaces&quot;</span>
@@ -548,7 +594,7 @@ Filter by Service: Log Analytics<br />
 Group by Resource<br />
 Sort by cost descending</p>
 <p>Now you know what's expensive.</p>
-<h3>Migration: Move Queries to the Right System</h3>
+<h3 id="migration-move-queries-to-the-right-system">Migration: Move Queries to the Right System</h3>
 <p><strong>Step 1: Identify inventory queries in Log Analytics</strong></p>
 <p>Look for queries that don't filter by <code>TimeGenerated</code>. These are probably inventory queries that should be in Resource Graph.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// This is in the WRONG system (Log Analytics)</span>
@@ -582,7 +628,7 @@ Sort by cost descending</p>
 <li>Cost allocation queries (resources by subscription/resource group)</li>
 <li>Compliance checks (encryption enabled? public IPs exposed?)</li>
 </ul>
-<h3>Retention Tuning: Stop Paying for Old Data</h3>
+<h3 id="retention-tuning-stop-paying-for-old-data">Retention Tuning: Stop Paying for Old Data</h3>
 <p><strong>Default retention: 90 days</strong></p>
 <p>What most organizations actually need:</p>
 <ul>
@@ -614,8 +660,8 @@ Sort by cost descending</p>
 <li>Archive older data to Azure Data Explorer or blob storage (cheap storage, slower queries)</li>
 <li>Query archived data only when needed for audits/investigations</li>
 </ol>
-<h2>Your Action Plan (Start Monday)</h2>
-<h3>Week 1: Audit Current State</h3>
+<h2 id="your-action-plan-start-monday">Your Action Plan (Start Monday)</h2>
+<h3 id="week-1-audit-current-state">Week 1: Audit Current State</h3>
 <p><strong>Monday morning checklist:</strong></p>
 <ol>
 <li>Run the Resource Graph query above to count your workspaces</li>
@@ -652,7 +698,7 @@ Sort by cost descending</p>
 </tr>
 </tbody>
 </table>
-<h3>Week 2: Start Migration</h3>
+<h3 id="week-2-start-migration">Week 2: Start Migration</h3>
 <p><strong>Priority 1: Move inventory queries to Resource Graph</strong></p>
 <p>Migrate these first:<br />
 - VM inventory<br />
@@ -673,7 +719,7 @@ Sort by cost descending</p>
 <li>Faster query performance (instant vs 30 seconds)</li>
 <li>Single pane across all subscriptions</li>
 </ul>
-<h3>Week 3: Consolidate Workspaces (If Needed)</h3>
+<h3 id="week-3-consolidate-workspaces-if-needed">Week 3: Consolidate Workspaces (If Needed)</h3>
 <p><strong>Only do this if you have 5+ workspaces with no regulatory justification</strong></p>
 <p><strong>Process:</strong></p>
 <ol>
@@ -686,7 +732,7 @@ Sort by cost descending</p>
 </ol>
 <p><strong>Warning:</strong></p>
 <p>Workspace consolidation is disruptive. Only do this if sprawl is causing real problems: can't correlate data, excessive costs, operational complexity.</p>
-<h3>Week 4: Set Up Proper Tooling</h3>
+<h3 id="week-4-set-up-proper-tooling">Week 4: Set Up Proper Tooling</h3>
 <p><strong>VSCode workspace for queries:</strong></p>
 <ol>
 <li>Install Kusto extension in VSCode</li>
@@ -702,8 +748,8 @@ Sort by cost descending</p>
 <li>Create alert for unexpected Log Analytics ingestion spikes  </li>
 <li>Document automation in team wiki</li>
 </ol>
-<h2>The Three Rules to Never Forget</h2>
-<h3>Rule 1: If It Exists Right Now, Use Resource Graph</h3>
+<h2 id="the-three-rules-to-never-forget">The Three Rules to Never Forget</h2>
+<h3 id="rule-1-if-it-exists-right-now-use-resource-graph">Rule 1: If It Exists Right Now, Use Resource Graph</h3>
 <p>Not Log Analytics.</p>
 <p>Resource Graph is free, fast, and automatically spans all subscriptions.</p>
 <p><strong>Exceptions:</strong></p>
@@ -711,7 +757,7 @@ Sort by cost descending</p>
 <li>You need historical data (what existed 3 days ago)</li>
 <li>You need performance metrics (Log Analytics has Perf table)</li>
 </ul>
-<h3>Rule 2: Every GB Ingested Into Log Analytics Costs You</h3>
+<h3 id="rule-2-every-gb-ingested-into-log-analytics-costs-you">Rule 2: Every GB Ingested Into Log Analytics Costs You</h3>
 <p>Don't ingest data "just in case."</p>
 <p><strong>Before enabling a new data source, ask:</strong></p>
 <ol>
@@ -721,7 +767,7 @@ Sort by cost descending</p>
 <li>What's the retention requirement?</li>
 </ol>
 <p>If you don't have answers, don't enable it.</p>
-<h3>Rule 3: One Workspace Per Organization Unless You Have a Damn Good Reason</h3>
+<h3 id="rule-3-one-workspace-per-organization-unless-you-have-a-damn-good-reason">Rule 3: One Workspace Per Organization Unless You Have a Damn Good Reason</h3>
 <p>Workspace sprawl is the enemy of correlation.</p>
 <p><strong>Valid reasons for multiple workspaces:</strong></p>
 <ul>
@@ -736,7 +782,7 @@ Sort by cost descending</p>
 <li>❌ "One workspace per team" (use RBAC instead)  </li>
 <li>❌ "One workspace per environment" (use tags to separate dev/prod data)</li>
 </ul>
-<h2>Conclusion: The Guide Microsoft Didn't Give You</h2>
+<h2 id="conclusion-the-guide-microsoft-didn-t-give-you">Conclusion: The Guide Microsoft Didn't Give You</h2>
 <p>Five systems. Same language. Completely different purposes.</p>
 <p>You learned KQL syntax. Nobody explained there were five different places to use it.</p>
 <p>Now you know:</p>
@@ -749,7 +795,7 @@ Sort by cost descending</p>
 <p><strong>The next time someone says "Just learn KQL":</strong></p>
 <p>Ask them: "Which KQL system? Because there are five."</p>
 <p>Then send them this article.</p>
-<h2>Quick Reference Table</h2>
+<h2 id="quick-reference-table">Quick Reference Table</h2>
 <table>
 <thead>
 <tr>
@@ -798,7 +844,7 @@ Sort by cost descending</p>
 </tr>
 </tbody>
 </table>
-<h2>Further Reading</h2>
+<h2 id="further-reading">Further Reading</h2>
 <p><strong>Official Microsoft Documentation:</strong><br />
 - Azure Resource Graph documentation (finally, the thing you should have learned first)<br />
 - Log Analytics retention and costs (prepare for sticker shock)<br />

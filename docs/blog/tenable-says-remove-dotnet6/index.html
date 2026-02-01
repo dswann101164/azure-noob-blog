@@ -47,6 +47,30 @@
   <meta name="twitter:description" content="Tenable finds a vulnerability. Security creates a ticket. Change management wants approval. App teams say not my problem. Infrastructure doesn&#39;t own the...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-support-ticket.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -97,7 +121,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Security Found .NET 6 on 47 VMs. Now I&#39;m Supposed to Remove It. Here&#39;s Why That&#39;s Impossible.",
   "description": "Tenable finds a vulnerability. Security creates a ticket. Change management wants approval. App teams say not my problem. Infrastructure doesn&#39;t own the...",
   "image": {
@@ -112,6 +136,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -134,10 +162,12 @@
   },
   "keywords": "azure, Security, operations, Change Management",
   "articleSection": "azure",
-  "wordCount": "3343",
+  "wordCount": "3370",
   "timeRequired": "PT17M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -172,6 +202,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/tenable-says-remove-dotnet6/"
+}
+</script>
+
+
+
 
 
 
@@ -228,7 +274,7 @@
 
   
   <div class="post-body">
-    <h2>The Ticket</h2>
+    <h2 id="the-ticket">The Ticket</h2>
 <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Admin</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="o">.</span><span class="na">NET</span><span class="w"> </span><span class="mf">6.0</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="mi">47</span><span class="w"> </span><span class="n">Virtual</span><span class="w"> </span><span class="n">Machines</span>
 <span class="n">Priority</span><span class="o">:</span><span class="w"> </span><span class="n">High</span>
@@ -255,7 +301,7 @@
 - How to even DO this at scale</p>
 <p>Welcome to enterprise cloud operations.</p>
 <hr />
-<h2>The Scale Problem</h2>
+<h2 id="the-scale-problem">The Scale Problem</h2>
 <p>Let's be clear: <strong>You cannot manually RDP into 47 VMs.</strong></p>
 <p>That's 10+ hours of:<br />
 1. Finding each VM in the portal (across 44 subscriptions)<br />
@@ -271,8 +317,8 @@
 - Nobody complains when their app stops working (they will)</p>
 <p>So let's try automation.</p>
 <hr />
-<h2>The Automation Reality</h2>
-<h3>Step 1: Find All .NET 6 Installations</h3>
+<h2 id="the-automation-reality">The Automation Reality</h2>
+<h3 id="step-1-find-all-net-6-installations">Step 1: Find All .NET 6 Installations</h3>
 <p>First, let's use Azure Resource Graph to find which VMs Tenable is complaining about:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -340,7 +386,7 @@
 <p><strong>Time to run this across 47 VMs:</strong> 30-45 minutes (Invoke-AzVMRunCommand is SLOW)</p>
 <p><strong>Results:</strong> A CSV with confirmed .NET 6 installations.</p>
 <hr />
-<h3>Step 2: Remove .NET 6 at Scale</h3>
+<h3 id="step-2-remove-net-6-at-scale">Step 2: Remove .NET 6 at Scale</h3>
 <p>Now let's try to REMOVE it:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Import the inventory</span>
 <span class="nv">$vmsToFix</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;dotnet6-inventory.csv&quot;</span>
@@ -382,15 +428,15 @@
 </code></pre></div>
 
 <hr />
-<h2>Here's Where It Falls Apart</h2>
-<h3>Problem 1: You Don't Know What Will Break</h3>
+<h2 id="here-s-where-it-falls-apart">Here's Where It Falls Apart</h2>
+<h3 id="problem-1-you-don-t-know-what-will-break">Problem 1: You Don't Know What Will Break</h3>
 <p>Removing .NET 6 might:<br />
 - Break a .NET 6 application (obviously)<br />
 - Break a .NET 8 app that ALSO has .NET 6 binaries<br />
 - Break Windows services that depend on .NET 6<br />
 - Break monitoring agents, backup software, or management tools</p>
 <p><strong>You don't know</strong> because <strong>you don't own these applications.</strong></p>
-<h3>Problem 2: Change Management</h3>
+<h3 id="problem-2-change-management">Problem 2: Change Management</h3>
 <p>Your change management process requires:<br />
 1. <strong>Change request submission</strong> (CAB approval needed)<br />
 2. <strong>Business owner approval</strong> (who is that?)<br />
@@ -403,7 +449,7 @@
 - CAB says "too broad, break it down"</p>
 <p>If 47 change requests:<br />
 - You spend 20 hours writing change requests instead of fixing the problem</p>
-<h3>Problem 3: Application Ownership</h3>
+<h3 id="problem-3-application-ownership">Problem 3: Application Ownership</h3>
 <p>You're the <strong>Azure Infrastructure Team</strong>.</p>
 <p>You manage:<br />
 - Virtual machine provisioning<br />
@@ -422,9 +468,9 @@
 - Therefore, Azure team fixes it</p>
 <p>This logic makes sense to <strong>nobody who actually does this work.</strong></p>
 <hr />
-<h2>The Missing Process</h2>
+<h2 id="the-missing-process">The Missing Process</h2>
 <p>Here's what SHOULD exist but doesn't:</p>
-<h3>1. RACI Matrix for Security Remediation</h3>
+<h3 id="1-raci-matrix-for-security-remediation">1. RACI Matrix for Security Remediation</h3>
 <table>
 <thead>
 <tr>
@@ -489,14 +535,14 @@
 </table>
 <p><strong>The problem:</strong> Your organization doesn't have this defined.</p>
 <p>So the ticket lands on Infrastructure by default.</p>
-<h3>2. Application Inventory (CMDB)</h3>
+<h3 id="2-application-inventory-cmdb">2. Application Inventory (CMDB)</h3>
 <p>You need to know:<br />
 - Which VMs run which applications<br />
 - Who owns those applications<br />
 - Contact info for app owners<br />
 - Testing environments for each app</p>
 <p><strong>The reality:</strong> This data doesn't exist, or it's in a SharePoint that hasn't been updated since 2019.</p>
-<h3>3. Patching vs Remediation SLA</h3>
+<h3 id="3-patching-vs-remediation-sla">3. Patching vs Remediation SLA</h3>
 <p>Your organization probably has:<br />
 - <strong>OS patching SLA:</strong> 30 days for critical, 60 days for high<br />
 - <strong>Security vulnerability SLA:</strong> 30 days from scan date</p>
@@ -505,9 +551,9 @@
 - How remediation is prioritized against other work<br />
 - What "remediation" means for third-party software</p>
 <hr />
-<h2>The Real Answer</h2>
+<h2 id="the-real-answer">The Real Answer</h2>
 <p>Here's what you SHOULD do (but probably can't):</p>
-<h3>1. Reassign the Ticket</h3>
+<h3 id="1-reassign-the-ticket">1. Reassign the Ticket</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">To</span><span class="o">:</span><span class="w"> </span><span class="n">Security</span><span class="w"> </span><span class="n">Team</span><span class="w"> </span><span class="n">Manager</span>
 <span class="n">CC</span><span class="o">:</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="n">Services</span><span class="w"> </span><span class="n">Director</span>
 
@@ -536,7 +582,7 @@
 <span class="o">-</span><span class="w"> </span><span class="n">We</span><span class="err">&#39;</span><span class="n">ll</span><span class="w"> </span><span class="n">follow</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">going</span><span class="w"> </span><span class="n">forward</span>
 </code></pre></div>
 
-<h3>2. Build the Missing Inventory</h3>
+<h3 id="2-build-the-missing-inventory">2. Build the Missing Inventory</h3>
 <p>If they won't reassign it, at least BUILD the data you need:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create application inventory from Azure tags</span>
 <span class="nv">$inventory</span> <span class="p">=</span> <span class="p">@()</span>
@@ -565,7 +611,7 @@
 
 <p><strong>Problem:</strong> Your tags are probably wrong, incomplete, or missing.</p>
 <p>See: <a href="/blog/2025-09-xx-azure-tags-are-wrong">Azure Resource Tags Are Wrong and Nobody Cares</a></p>
-<h3>3. Have the Hard Conversation</h3>
+<h3 id="3-have-the-hard-conversation">3. Have the Hard Conversation</h3>
 <p>This requires a meeting with:<br />
 - Security leadership<br />
 - Application services leadership<br />
@@ -583,9 +629,9 @@
 - Ticket stays assigned to you<br />
 - You remove .NET 6 from 47 VMs manually</p>
 <hr />
-<h2>What I Actually Did</h2>
+<h2 id="what-i-actually-did">What I Actually Did</h2>
 <p>Here's what I do in practice:</p>
-<h3>1. Document the Scope</h3>
+<h3 id="1-document-the-scope">1. Document the Scope</h3>
 <div class="codehilite"><pre><span></span><code><span class="gh"># .NET 6 Removal - Scope Documentation</span>
 
 <span class="gu">## Total VMs: 47</span>
@@ -608,7 +654,7 @@
 <span class="k">3.</span> Testing environment access (App teams)
 </code></pre></div>
 
-<h3>2. Push Back with Data</h3>
+<h3 id="2-push-back-with-data">2. Push Back with Data</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">To</span><span class="o">:</span><span class="w"> </span><span class="n">Security</span><span class="w"> </span><span class="n">Team</span><span class="w"> </span><span class="n">Manager</span>
 <span class="n">CC</span><span class="o">:</span><span class="w"> </span><span class="n">My</span><span class="w"> </span><span class="n">Manager</span>
 
@@ -631,7 +677,7 @@
 <span class="n">Re</span><span class="o">-</span><span class="n">assign</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">application</span><span class="w"> </span><span class="n">teams</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">infrastructure</span><span class="w"> </span><span class="n">support</span><span class="w"> </span><span class="n">role</span><span class="w"> </span><span class="n">defined</span><span class="o">.</span>
 </code></pre></div>
 
-<h3>3. Do the Minimum Viable Remediation</h3>
+<h3 id="3-do-the-minimum-viable-remediation">3. Do the Minimum Viable Remediation</h3>
 <p>If I can't reassign it:</p>
 <ol>
 <li><strong>Inventory:</strong> Use the PowerShell script above</li>
@@ -645,7 +691,7 @@
 <p><strong>Result:</strong> Some VMs get fixed, some break, some never get approval.</p>
 <p>The security ticket closes after 60 days whether the work is done or not.</p>
 <hr />
-<h2>The Uncomfortable Truth</h2>
+<h2 id="the-uncomfortable-truth">The Uncomfortable Truth</h2>
 <p><strong>Security scanners CREATE work, but organizations don't define WHO does that work.</strong></p>
 <p>Tenable/Qualys/Rapid7 will find:<br />
 - Outdated software<br />
@@ -667,7 +713,7 @@
 <p>In your organization, it's assigned to whoever touches the asset last.</p>
 <p>And if you're the Azure admin, that's you.</p>
 <hr />
-<h2>What Actually Needs to Happen</h2>
+<h2 id="what-actually-needs-to-happen">What Actually Needs to Happen</h2>
 <ol>
 <li><strong>Define operational boundaries BEFORE scanning.</strong></li>
 <li>What findings go to infrastructure?</li>
@@ -708,7 +754,7 @@
 <li>Infrastructure provides support, not ownership</li>
 </ol>
 <hr />
-<h2>The Post-Mortem</h2>
+<h2 id="the-post-mortem">The Post-Mortem</h2>
 <p>Six weeks after the ticket was created:</p>
 <ul>
 <li><strong>VMs remediated:</strong> 23 of 47</li>
@@ -725,7 +771,7 @@
 3. The next Tenable scan will create 40+ more tickets</p>
 <p>And the cycle continues.</p>
 <hr />
-<h2>The Real Solution</h2>
+<h2 id="the-real-solution">The Real Solution</h2>
 <p>Stop assigning infrastructure-level tickets for application-level problems.</p>
 <p><strong>Create a process:</strong></p>
 <ol>
@@ -759,7 +805,7 @@
 <li>When someone tries to reassign the work back to you</li>
 </ol>
 <hr />
-<h2>Until Then</h2>
+<h2 id="until-then">Until Then</h2>
 <p>You'll keep getting tickets that say:</p>
 <div class="codehilite"><pre><span></span><code><span class="nl">Subject</span><span class="p">:</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="k">Admin</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="o">[</span><span class="n">software</span><span class="o">]</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="o">[</span><span class="n">number</span><span class="o">]</span><span class="w"> </span><span class="n">VMs</span>
 <span class="n">Due</span><span class="w"> </span><span class="nc">Date</span><span class="err">:</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span>
@@ -777,7 +823,7 @@
 <p><strong>Next time someone asks "why is cloud so hard?"</strong></p>
 <p>Show them this post.</p>
 <hr />
-<h2>Resources</h2>
+<h2 id="resources">Resources</h2>
 <p><strong>PowerShell Scripts:</strong><br />
 - <a href="https://github.com/azure-noob/scripts/dotnet-inventory">Find .NET installations across Azure VMs</a><br />
 - <a href="https://github.com/azure-noob/scripts/vm-software-removal">Remove software at scale with RunCommand</a></p>

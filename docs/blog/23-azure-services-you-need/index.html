@@ -45,6 +45,30 @@
   <meta name="twitter:description" content="Azure lists 200+ services. You only need to deeply understand 23 of them. These services appear in every enterprise environment from 20 VMs to 30,000...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-services-map.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -95,7 +119,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The 23 Azure Services You Actually Need to Know (Out of 200+)",
   "description": "Azure lists 200+ services. You only need to deeply understand 23 of them. These services appear in every enterprise environment from 20 VMs to 30,000...",
   "image": {
@@ -110,6 +134,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -132,10 +160,12 @@
   },
   "keywords": "Azure, Architecture, Foundational",
   "articleSection": "Azure",
-  "wordCount": "1948",
+  "wordCount": "1987",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -170,6 +200,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/23-azure-services-you-need/"
+}
+</script>
+
+
+
 
 
 
@@ -234,11 +280,11 @@ Azure lists 200+ services in the portal. In practice, every enterprise environme
 <p>You need to know 23 services.</p>
 <p>These 23 services appear in every real-world enterprise deployment. They form the foundation of every architecture. Everything else is optional until proven otherwise.</p>
 <p>This post breaks them down by function, maps them to AWS and Google Cloud equivalents, and gives you permission to stop feeling guilty about ignoring the other 180 services.</p>
-<h2>Why 23?</h2>
+<h2 id="why-23">Why 23?</h2>
 <p>Because this is what actually shows up when you manage production Azure environments.</p>
 <p>I manage 44 Azure subscriptions with 31,000+ resources across a regulated financial services environment. When I run inventory queries, when I troubleshoot outages, when I write documentation—these 23 services appear over and over.</p>
 <p>The rest? Specialty tools for specific use cases. Important when you need them. Noise until you do.</p>
-<h2>The Mental Model That Makes Azure Click</h2>
+<h2 id="the-mental-model-that-makes-azure-click">The Mental Model That Makes Azure Click</h2>
 <p>Before listing services, you need a framework that makes sense of how they relate.</p>
 <p><strong>Think of Azure as a city:</strong></p>
 <ul>
@@ -251,157 +297,157 @@ Azure lists 200+ services in the portal. In practice, every enterprise environme
 <p>Once you see Azure this way, architecture decisions stop being mysterious. You're not memorizing services—you're understanding how a city functions.</p>
 <p>Now let's map the 23 services to this city.</p>
 <hr />
-<h2>I. Compute Services – Where Work Actually Happens</h2>
+<h2 id="i-compute-services-where-work-actually-happens">I. Compute Services – Where Work Actually Happens</h2>
 <p>Compute services are your labor force. They execute code, host applications, and process data.</p>
-<h3>1. Azure Virtual Machines (VMs)</h3>
+<h3 id="1-azure-virtual-machines-vms">1. Azure Virtual Machines (VMs)</h3>
 <p><strong>The foundation.</strong> Choose your OS, size, disk, and networking. Most enterprise Azure spend is still VMs.</p>
 <p><strong>Used for:</strong> Legacy apps, domain controllers, anything you lifted-and-shifted</p>
 <p><strong>AWS:</strong> EC2 | <strong>Google:</strong> Compute Engine</p>
 <p><strong>Reality check:</strong> If you migrated to Azure, 70% of your workload landed here. Containerizing .NET Framework apps with SQL Server dependencies is a 12-month project, not a weekend task. Azure Migrate lied about complexity.</p>
-<h3>2. Azure Kubernetes Service (AKS)</h3>
+<h3 id="2-azure-kubernetes-service-aks">2. Azure Kubernetes Service (AKS)</h3>
 <p>Managed Kubernetes control plane for containerized workloads.</p>
 <p><strong>Used for:</strong> Microservices, platform engineering, scalable cloud-native apps</p>
 <p><strong>AWS:</strong> EKS | <strong>Google:</strong> GKE</p>
 <p><strong>Reality check:</strong> AKS doesn't remove complexity—it moves it. You still need to understand networking, storage classes, ingress controllers, and pod security. If you're managing 10 microservices or fewer, you probably don't need this yet.</p>
-<h3>3. Azure Functions</h3>
+<h3 id="3-azure-functions">3. Azure Functions</h3>
 <p>Event-driven, serverless compute.</p>
 <p><strong>Used for:</strong> Automation, webhooks, scheduled jobs, event processing</p>
 <p><strong>AWS:</strong> Lambda | <strong>Google:</strong> Cloud Functions</p>
 <p><strong>Example workflow:</strong> Blob uploaded → Function triggers → Image resized → Stored in CDN</p>
 <p><strong>Reality check:</strong> Cold start times make Functions unusable for latency-sensitive APIs. Great for async workflows. Terrible for user-facing requests that need sub-200ms response times.</p>
-<h3>4. Azure App Service</h3>
+<h3 id="4-azure-app-service">4. Azure App Service</h3>
 <p>Platform-as-a-Service hosting for web apps and APIs.</p>
 <p><strong>Used for:</strong> Web applications without VM management</p>
 <p><strong>AWS:</strong> Elastic Beanstalk | <strong>Google:</strong> App Engine</p>
 <p><strong>Reality check:</strong> Works great until you need custom kernel modules, specific OS patches, or non-standard ports. Then you're back to VMs.</p>
-<h3>5. Azure Batch</h3>
+<h3 id="5-azure-batch">5. Azure Batch</h3>
 <p>Massively parallel compute jobs.</p>
 <p><strong>Used for:</strong> Rendering, simulations, HPC workloads, large-scale data processing</p>
 <p><strong>AWS:</strong> AWS Batch | <strong>Google:</strong> Dataflow</p>
 <hr />
-<h2>II. Storage Services – The Warehouse District</h2>
+<h2 id="ii-storage-services-the-warehouse-district">II. Storage Services – The Warehouse District</h2>
 <p>Storage is where data lives. Not where logic runs.</p>
-<h3>6. Azure Blob Storage</h3>
+<h3 id="6-azure-blob-storage">6. Azure Blob Storage</h3>
 <p>Object storage for unstructured data.</p>
 <p><strong>Stores:</strong> Media files, PDFs, logs, backups, anything that isn't a database</p>
 <p><strong>AWS:</strong> S3 | <strong>Google:</strong> Cloud Storage</p>
 <p><strong>Reality check:</strong> Hot tier for frequent access, Cool tier for backups, Archive tier for compliance. Most teams overpay by keeping everything in Hot tier. Review access patterns quarterly.</p>
-<h3>7. Azure Data Lake Storage Gen2</h3>
+<h3 id="7-azure-data-lake-storage-gen2">7. Azure Data Lake Storage Gen2</h3>
 <p>Blob Storage optimized for big data analytics.</p>
 <p><strong>Used for:</strong> Raw data ingestion, data lake architectures, analytics pipelines</p>
 <p><strong>AWS:</strong> S3 (with specific configs) | <strong>Google:</strong> Cloud Storage</p>
 <p><strong>Reality check:</strong> Not a replacement for databases. This is for dumping raw CSV/JSON/Parquet files before transformation. If you have under 5TB of data, you probably don't need this yet.</p>
-<h3>8. Azure Files</h3>
+<h3 id="8-azure-files">8. Azure Files</h3>
 <p>Managed SMB/NFS file shares in the cloud.</p>
 <p><strong>Used for:</strong> Lifted file servers, shared application storage</p>
 <p><strong>AWS:</strong> EFS | <strong>Google:</strong> Filestore</p>
 <p><strong>Reality check:</strong> If you ran a Windows file server on-prem, this is its cloud cousin. Performance degrades over ExpressRoute with high latency. Test before migrating.</p>
 <hr />
-<h2>III. Database Services – The Records Office</h2>
+<h2 id="iii-database-services-the-records-office">III. Database Services – The Records Office</h2>
 <p>Databases are structured truth. Not just storage.</p>
-<h3>9. Azure SQL Database</h3>
+<h3 id="9-azure-sql-database">9. Azure SQL Database</h3>
 <p>Fully managed relational SQL database.</p>
 <p><strong>Used for:</strong> Application databases, modernized SQL Server workloads</p>
 <p><strong>AWS:</strong> RDS (SQL Server) | <strong>Google:</strong> Cloud SQL</p>
 <p><strong>Reality check:</strong> Still Microsoft SQL Server under the hood—just without patching at 2am. Some features from on-prem SQL Server don't exist in Azure SQL DB. Check compatibility before migration.</p>
-<h3>10. Azure Cosmos DB</h3>
+<h3 id="10-azure-cosmos-db">10. Azure Cosmos DB</h3>
 <p>Globally distributed NoSQL database.</p>
 <p><strong>Used for:</strong> Low-latency multi-region apps, globally distributed systems</p>
 <p><strong>AWS:</strong> DynamoDB | <strong>Google:</strong> Firestore/Datastore</p>
 <p><strong>Reality check:</strong> Global replication sounds great until you see the bill. A multi-region Cosmos DB deployment can cost 5x a single-region Azure SQL instance. Understand your actual latency requirements before committing.</p>
 <hr />
-<h2>IV. Networking Services – Roads, Gates, and Bridges</h2>
+<h2 id="iv-networking-services-roads-gates-and-bridges">IV. Networking Services – Roads, Gates, and Bridges</h2>
 <p>Networking defines trust boundaries. Everything secure starts here.</p>
-<h3>11. Azure Virtual Network (VNet)</h3>
+<h3 id="11-azure-virtual-network-vnet">11. Azure Virtual Network (VNet)</h3>
 <p>Your private network boundary. Security perimeter for all resources.</p>
 <p><strong>AWS:</strong> VPC | <strong>Google:</strong> VPC</p>
 <p><strong>Reality check:</strong> 80% of Azure connectivity tickets trace back to VNet peering, NSG rules, or route tables. Understand subnet design before deploying anything. Bad VNet architecture is expensive to fix later.</p>
-<h3>12. Azure Load Balancer</h3>
+<h3 id="12-azure-load-balancer">12. Azure Load Balancer</h3>
 <p>Layer 4 load balancing for VMs and internal services.</p>
 <p><strong>AWS:</strong> Network Load Balancer | <strong>Google:</strong> Network Load Balancing</p>
 <p><strong>Reality check:</strong> Use this for internal VM-to-VM traffic. For internet-facing HTTPS apps, use Application Gateway instead.</p>
-<h3>13. Azure Application Gateway</h3>
+<h3 id="13-azure-application-gateway">13. Azure Application Gateway</h3>
 <p>Layer 7 load balancer with WAF (Web Application Firewall).</p>
 <p><strong>Used for:</strong> Internet-facing web applications, SSL termination, path-based routing</p>
 <p><strong>AWS:</strong> Application Load Balancer | <strong>Google:</strong> Cloud Load Balancing</p>
-<h3>14. Azure ExpressRoute</h3>
+<h3 id="14-azure-expressroute">14. Azure ExpressRoute</h3>
 <p>Private dedicated connectivity between on-prem and Azure.</p>
 <p><strong>Used for:</strong> Enterprise hybrid cloud, low-latency requirements, regulatory compliance</p>
 <p><strong>AWS:</strong> Direct Connect | <strong>Google:</strong> Cloud Interconnect</p>
 <p><strong>Reality check:</strong> ExpressRoute + Private Endpoints + DNS = where most enterprise Azure networking problems come from. Budget 3-6 months for proper implementation.</p>
-<h3>15. Azure VPN Gateway</h3>
+<h3 id="15-azure-vpn-gateway">15. Azure VPN Gateway</h3>
 <p>Encrypted connectivity between on-prem and Azure over the internet.</p>
 <p><strong>Used for:</strong> Smaller sites, branch offices, temporary connectivity</p>
 <p><strong>AWS:</strong> VPN Gateway | <strong>Google:</strong> Cloud VPN</p>
 <p><strong>Reality check:</strong> Cheaper than ExpressRoute but unpredictable latency. Don't use this for latency-sensitive applications.</p>
 <hr />
-<h2>V. Identity &amp; Access – The Security Checkpoint</h2>
-<h3>16. Azure Active Directory (Entra ID)</h3>
+<h2 id="v-identity-access-the-security-checkpoint">V. Identity &amp; Access – The Security Checkpoint</h2>
+<h3 id="16-azure-active-directory-entra-id">16. Azure Active Directory (Entra ID)</h3>
 <p>Identity and access control for everything in Azure.</p>
 <p><strong>Manages:</strong> Users, groups, RBAC, conditional access, MFA</p>
 <p><strong>AWS/Google:</strong> IAM (but Entra ID is far more mature for enterprise identity)</p>
 <p><strong>Reality check:</strong> This isn't optional. Every security audit, every compliance framework, every zero-trust architecture starts here. Invest time understanding Entra ID RBAC roles vs Azure RBAC roles—they're different systems.</p>
 <hr />
-<h2>VI. Management &amp; Monitoring – The Control Center</h2>
+<h2 id="vi-management-monitoring-the-control-center">VI. Management &amp; Monitoring – The Control Center</h2>
 <p>These services answer: "What's happening in my environment right now?"</p>
-<h3>17. Azure Monitor</h3>
+<h3 id="17-azure-monitor">17. Azure Monitor</h3>
 <p>Centralized telemetry, metrics, logs, and alerts.</p>
 <p><strong>Used for:</strong> Performance monitoring, troubleshooting, alerting</p>
 <p><strong>AWS:</strong> CloudWatch | <strong>Google:</strong> Cloud Monitoring</p>
 <p><strong>Reality check:</strong> Azure Monitor is NOT optional at scale. When a distributed application breaks at 2am, this is how you debug it. Without proper logging and metrics, you're flying blind.</p>
-<h3>18. Azure Log Analytics</h3>
+<h3 id="18-azure-log-analytics">18. Azure Log Analytics</h3>
 <p>Query engine for Azure Monitor logs using KQL.</p>
 <p><strong>Used for:</strong> Searching logs, building dashboards, security investigations</p>
 <p><strong>AWS:</strong> CloudWatch Logs Insights | <strong>Google:</strong> Cloud Logging</p>
 <p><strong>Reality check:</strong> Learn KQL. It's the only way to query across 30,000 resources effectively. Every compliance audit asks for log queries. Start building a query library now.</p>
-<h3>19. Azure Policy</h3>
+<h3 id="19-azure-policy">19. Azure Policy</h3>
 <p>Governance as code. Enforce compliance rules automatically.</p>
 <p><strong>Used for:</strong> Tag enforcement, allowed regions, required encryption, compliance</p>
 <p><strong>AWS:</strong> Config + Organizations | <strong>Google:</strong> Organization Policy</p>
 <p><strong>Reality check:</strong> Don't deploy Policy until you understand what your environment looks like today. Auto-remediation can break production workloads if misconfigured.</p>
-<h3>20. Azure DevOps</h3>
+<h3 id="20-azure-devops">20. Azure DevOps</h3>
 <p>End-to-end DevOps platform.</p>
 <p><strong>Includes:</strong> Git repos, CI/CD pipelines, work tracking, artifact management</p>
 <p><strong>AWS:</strong> CodeCommit + CodePipeline + CodeBuild | <strong>Google:</strong> Cloud Build</p>
 <p><strong>Reality check:</strong> If you're already on GitHub, you probably don't need Azure DevOps. But if you need on-prem agents, artifact feeds, and work tracking integrated—this is the best option in the Azure ecosystem.</p>
 <hr />
-<h2>VII. AI &amp; Analytics – The Intelligence Layer</h2>
-<h3>21. Azure OpenAI Service</h3>
+<h2 id="vii-ai-analytics-the-intelligence-layer">VII. AI &amp; Analytics – The Intelligence Layer</h2>
+<h3 id="21-azure-openai-service">21. Azure OpenAI Service</h3>
 <p>Hosted ChatGPT, GPT-4, and other OpenAI models.</p>
 <p><strong>Used for:</strong> Chatbots, content generation, document analysis, embeddings</p>
 <p><strong>AWS:</strong> Bedrock | <strong>Google:</strong> Vertex AI</p>
 <p><strong>Reality check:</strong> Token costs add up fast. A single poorly optimized RAG implementation can cost $10K/month. Understand pricing and implement caching before going to production.</p>
-<h3>22. Azure Cognitive Services</h3>
+<h3 id="22-azure-cognitive-services">22. Azure Cognitive Services</h3>
 <p>Prebuilt AI APIs for vision, speech, language, and search.</p>
 <p><strong>Used for:</strong> OCR, translation, sentiment analysis, speech-to-text</p>
 <p><strong>AWS:</strong> Rekognition, Transcribe, Comprehend | <strong>Google:</strong> Vision AI, Speech-to-Text</p>
 <p><strong>Reality check:</strong> Great for prototyping. Expensive at scale. If you're processing millions of documents monthly, custom models might be cheaper.</p>
-<h3>23. Azure Synapse Analytics</h3>
+<h3 id="23-azure-synapse-analytics">23. Azure Synapse Analytics</h3>
 <p>Enterprise data warehousing and big data analytics.</p>
 <p><strong>Used for:</strong> Data warehouse consolidation, large-scale analytics</p>
 <p><strong>AWS:</strong> Redshift | <strong>Google:</strong> BigQuery</p>
 <p><strong>Reality check:</strong> You're not ready for Synapse until you have 5TB+ data, dedicated data engineers, and a clear analytics strategy. Most companies try this too early.</p>
 <hr />
-<h2>What About Everything Else?</h2>
+<h2 id="what-about-everything-else">What About Everything Else?</h2>
 <p><strong>"But what about Azure Purview / Azure Arc / Azure Sentinel / [insert service]?"</strong></p>
 <p>Those services matter—when you actually need them.</p>
 <p>Here's when to explore beyond the 23:</p>
-<h3>Azure Arc</h3>
+<h3 id="azure-arc">Azure Arc</h3>
 <p><strong>Learn it when:</strong> You need to manage on-prem or multi-cloud resources from Azure<br />
 <strong>Not before:</strong> You've fixed basic Azure governance (tagging, RBAC, cost management)</p>
-<h3>Azure Sentinel</h3>
+<h3 id="azure-sentinel">Azure Sentinel</h3>
 <p><strong>Learn it when:</strong> You need a cloud-native SIEM<br />
 <strong>Not before:</strong> You have centralized logging and a security team to act on alerts</p>
-<h3>Azure Purview</h3>
+<h3 id="azure-purview">Azure Purview</h3>
 <p><strong>Learn it when:</strong> You need data cataloging across multiple data sources<br />
 <strong>Not before:</strong> You have governance that teams actually follow</p>
-<h3>Azure Data Factory</h3>
+<h3 id="azure-data-factory">Azure Data Factory</h3>
 <p><strong>Learn it when:</strong> You need ETL pipelines and data orchestration<br />
 <strong>Not before:</strong> You understand your data flow requirements</p>
 <p>The pattern:</p>
 <p><strong>Don't learn services because Microsoft is promoting them. Learn them when they solve a problem you already have.</strong></p>
 <hr />
-<h2>How to Actually Use This List</h2>
+<h2 id="how-to-actually-use-this-list">How to Actually Use This List</h2>
 <p><strong>If you're new to Azure:</strong><br />
 Start with Compute, Storage, Networking, and Identity. Build something real. Deploy a web app. Break it. Fix it.</p>
 <p><strong>If you manage production Azure:</strong><br />
@@ -411,7 +457,7 @@ Microsoft exams test breadth. This list gives you depth. Master these 23 in prod
 <p><strong>If you're explaining Azure to leadership:</strong><br />
 Use the city analogy. "VNet is our gated community boundary. Monitor is our city operations center. Entra ID is the security checkpoint."</p>
 <hr />
-<h2>Final Reality Check</h2>
+<h2 id="final-reality-check">Final Reality Check</h2>
 <p>Most Azure failures don't happen because someone chose the wrong service.</p>
 <p>They happen because:<br />
 - No one understood how services relate<br />

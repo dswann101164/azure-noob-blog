@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="How to build a Configuration Management Database for Azure using Resource Graph and KQL queries. Track 31,000+ resources across 44 subscriptions with...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/cmdb-wrong.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Building an Azure CMDB | Resource Inventory with Azure Resource Graph and KQL",
   "description": "How to build a Configuration Management Database for Azure using Resource Graph and KQL queries. Track 31,000+ resources across 44 subscriptions with...",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "azure, cmdb, resource-graph, kql, inventory",
   "articleSection": "azure",
-  "wordCount": "4461",
+  "wordCount": "4478",
   "timeRequired": "PT22M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-cmdb-wrong-cloud-fixes-it/"
+}
+</script>
+
+
+
 
 
 
@@ -269,7 +315,7 @@
 <p>All of this because of tech debt baked in from years of people coming and going. Nobody documented what servers do. Nobody updated the CMDB when things changed. The people who built these systems don't work here anymore.</p>
 <p><strong>After 3 months, I had a spreadsheet I barely trusted.</strong></p>
 <p><strong>Then we migrated to Azure. I ran one Resource Graph query. 31,000 accurate, tagged resources in 30 seconds.</strong></p>
-<h2>The Gap That Kills You</h2>
+<h2 id="the-gap-that-kills-you">The Gap That Kills You</h2>
 <p>The problem isn't just that your CMDB is wrong. It's that your on-premises infrastructure has NO SYSTEM that connects:<br />
 - What servers exist (RVtools shows this)<br />
 - What they're for (nobody documented this)<br />
@@ -287,7 +333,7 @@
 - Outdated the moment someone makes a change and forgets to update it</p>
 <p><strong>The gap between "I can see servers exist" and "I know what they do" takes 3 months to bridge manually.</strong></p>
 <p>That's the tech debt that kills enterprise IT.</p>
-<h2>Why Azure Arc Wouldn't Have Fixed This</h2>
+<h2 id="why-azure-arc-wouldn-t-have-fixed-this">Why Azure Arc Wouldn't Have Fixed This</h2>
 <p>Someone will say: "Why didn't you use Azure Arc to manage on-premises infrastructure?"</p>
 <p><strong>Because Arc doesn't magically document your servers.</strong></p>
 <p>Even if we had connected every on-premises VM to Azure Arc (we didn't), I'd still need to:<br />
@@ -297,7 +343,7 @@
 - <strong>Separate servers from desktops</strong> - Arc would connect both, creating MORE noise</p>
 <p>Arc gives you management capabilities. It doesn't fix years of missing documentation. You'd still spend 3 months figuring out what these servers are before you could tag them properly in Arc.</p>
 <p>The problem isn't the tool. The problem is nobody documented anything for years.</p>
-<h2>The Multi-Tool Nightmare</h2>
+<h2 id="the-multi-tool-nightmare">The Multi-Tool Nightmare</h2>
 <p>On-premises environments make this worse because you need MULTIPLE tools just to understand what exists:</p>
 <p><strong>VMware vCenter / RVtools:</strong><br />
 - Shows virtual machines<br />
@@ -333,7 +379,7 @@ ServiceNow says John Smith. John left in 2021. Let me check emails mentioning th
 <p><strong>"What application runs on LEGACY_APP_SERVER?"</strong><br />
 Great question. Nobody documented it. The person who built it left. Let me check what's connecting to it and work backwards...</p>
 <p><strong>Three months of this.</strong> That's what it takes to build an inventory for a merger consolidation when your CMDB is wrong and your infrastructure has years of undocumented tech debt.</p>
-<h2>Why Every CMDB Is Wrong</h2>
+<h2 id="why-every-cmdb-is-wrong">Why Every CMDB Is Wrong</h2>
 <p>Your Configuration Management Database goes out of date the moment it's created:</p>
 <p><strong>The process everyone follows:</strong><br />
 1. IT creates a server<br />
@@ -353,7 +399,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 <p><strong>The excuse:</strong> "We're too busy fixing things to update documentation."</p>
 <p>That excuse is valid. When you're fighting fires, documenting assets falls to the bottom of the priority list. The problem isn't that people are lazy—it's that manual CMDB updates require discipline that doesn't survive operational pressure.</p>
 <p>And nobody has time to go back and fill in the gaps later.</p>
-<h2>Why This Goes Undetected for Years</h2>
+<h2 id="why-this-goes-undetected-for-years">Why This Goes Undetected for Years</h2>
 <p>The CMDB accuracy problem persists because of a knowledge gap at multiple organizational levels.</p>
 <p><strong>Leadership approved the CMDB investment</strong> based on industry best practices. Consultants recommended it. Compliance frameworks required it. The business case was approved. The tool was purchased.</p>
 <p><strong>But validating CMDB accuracy requires technical knowledge</strong> that many senior leaders don't have direct experience with. Most executives came up through different technological eras—they understand business operations, financial systems, and strategic planning. But configuration management databases? That's specialized IT infrastructure knowledge.</p>
@@ -380,7 +426,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 "What's our Windows Server 2012 exposure?" → Run a query, get a list<br />
 "Who owns the Finance infrastructure?" → Filter by Application tag, see owners</p>
 <p>The data becomes accessible to non-technical stakeholders. And when the system enforces tagging at creation, accuracy becomes automatic rather than requiring manual discipline.</p>
-<h2>The Meeting That Exposes It</h2>
+<h2 id="the-meeting-that-exposes-it">The Meeting That Exposes It</h2>
 <p>Leadership asks: "How many servers are running SQL Server?"</p>
 <p>You check ServiceNow CMDB. It says 31 SQL Server instances.</p>
 <p>Someone from the database team: "That can't be right. I manage at least 50."</p>
@@ -395,7 +441,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 - Manually correlate data across systems<br />
 - Email people asking "is this yours?"<br />
 - Build a spreadsheet you barely trust</p>
-<h2>What Cloud Migration Forces</h2>
+<h2 id="what-cloud-migration-forces">What Cloud Migration Forces</h2>
 <p>When you start a cloud migration, you need answers:</p>
 <ul>
 <li>What applications are running?</li>
@@ -408,7 +454,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 <p>You can't migrate what you don't know exists. You can't plan capacity for applications you forgot about. You can't contact owners who left the company three years ago.</p>
 <p><strong>So you run discovery.</strong></p>
 <p>And discovery exposes years of accumulated tech debt. All the documentation nobody maintained. All the servers nobody remembers building. All the applications running on infrastructure nobody can explain.</p>
-<h2>The Discovery That Changed Everything</h2>
+<h2 id="the-discovery-that-changed-everything">The Discovery That Changed Everything</h2>
 <p>We were planning a merger consolidation. 44 Azure subscriptions. 21 Active Directory domains. Leadership wanted a migration plan.</p>
 <p>After three months of RVtools exports, ManageEngine queries, ServiceNow archaeology, and Excel cross-referencing, my spreadsheet showed roughly 8,000 resources.</p>
 <p>Then I ran this Azure Resource Graph query:</p>
@@ -436,7 +482,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 - What does it do? (documented in tags)</p>
 <p>No RVtools export. No ManageEngine query. No ServiceNow cross-reference. No manual correlation.</p>
 <p><strong>One query. 30 seconds. Accurate.</strong></p>
-<h2>Resource Graph Doesn't Fix On-Premises (And That's The Point)</h2>
+<h2 id="resource-graph-doesn-t-fix-on-premises-and-that-s-the-point">Resource Graph Doesn't Fix On-Premises (And That's The Point)</h2>
 <p><strong>Critical clarification:</strong> Azure Resource Graph only works for resources IN Azure. It doesn't help with your on-premises discovery.</p>
 <p><strong>You still need the 3-month archaeology project</strong> to inventory on-prem infrastructure before migration:<br />
 - RVtools exports from multiple VMware vCenters<br />
@@ -473,7 +519,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 - No cross-referencing between systems</p>
 <p><strong>The investment is front-loaded:</strong> Spend 3 months getting accurate on-prem inventory for migration planning, properly tag everything during migration, then never do manual inventory work again.</p>
 <p>That's why cloud migration fixes the CMDB problem. Not by avoiding the discovery work, but by ensuring you never have to repeat it.</p>
-<h2>Azure Resource Graph: The CMDB That Works</h2>
+<h2 id="azure-resource-graph-the-cmdb-that-works">Azure Resource Graph: The CMDB That Works</h2>
 <p>Azure Resource Graph is fundamentally different because it doesn't rely on people maintaining documentation:</p>
 <p><strong>Traditional CMDB (ServiceNow/etc.):</strong><br />
 - Someone creates a VM<br />
@@ -492,7 +538,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 - Someone queries Resource Graph → Gets current state with tags, always</p>
 <p><strong>The difference:</strong> Tags are part of the Azure resource itself. Not a separate documentation system trying to track things. The metadata lives with the resource.</p>
 <p>When you enforce tagging at creation (via Azure Policy), every new resource gets documented properly from day one. No manual CMDB updates. No hoping people remember to document things.</p>
-<h2>The Queries That Actually Work</h2>
+<h2 id="the-queries-that-actually-work">The Queries That Actually Work</h2>
 <p>Here's what you can answer with Azure Resource Graph that took me 3 months to answer on-premises:</p>
 <p><strong>What do we own?</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
@@ -534,7 +580,7 @@ Great question. Nobody documented it. The person who built it left. Let me check
 
 <p>Try doing this on-premises. You'd need RVtools exports from 3 vCenters, ManageEngine exports, ServiceNow exports, and 3 months of manual correlation.</p>
 <p>With Resource Graph: One query. 30 seconds. Always accurate.</p>
-<h2>Why Leadership Suddenly Cares About Inventory</h2>
+<h2 id="why-leadership-suddenly-cares-about-inventory">Why Leadership Suddenly Cares About Inventory</h2>
 <p>Once we had accurate Resource Graph data, leadership could ask questions they couldn't before:</p>
 <p><strong>"How many servers are we actually running?"</strong><br />
 Answer: 2,847 VMs across all subscriptions (my spreadsheet said 1,200)</p>
@@ -548,7 +594,7 @@ Answer: 193 instances, here's where they are (my spreadsheet showed 47)</p>
 Answer: Sarah Johnson, here are her 47 tagged resources</p>
 <p>For the first time, leadership had confidence in IT's answers. Not because I suddenly became better at documentation—because the system enforced documentation automatically.</p>
 <p>No more three-month discovery projects. No more "let me check three different systems and get back to you." No more "the person who knew this left two years ago."</p>
-<h2>The Security Benefit Nobody Talks About</h2>
+<h2 id="the-security-benefit-nobody-talks-about">The Security Benefit Nobody Talks About</h2>
 <p>An accurate inventory is a security control.</p>
 <p><strong>You can't protect what you don't know exists.</strong></p>
 <p>On-premises: "Are all our SQL Servers behind firewalls?"<br />
@@ -564,7 +610,7 @@ Let me check RVtools... and ManageEngine... and ServiceNow... and hope I found t
 <p>Instant answer. Complete list. With owners to contact about fixing the gaps.</p>
 <p>If your on-premises CMDB is missing 146 SQL Server instances (like mine was), your security team has no idea those servers exist, let alone whether they're properly secured.</p>
 <p>Cloud migration forced us to fix this. Now security can run queries themselves and get real answers.</p>
-<h2>The Cost Management Breakthrough</h2>
+<h2 id="the-cost-management-breakthrough">The Cost Management Breakthrough</h2>
 <p>Accurate inventory enables accurate cost allocation.</p>
 <p>On-premises: "How much does the Finance CRM application cost?"<br />
 Well, let me find all the servers... check RVtools... verify with ServiceNow... figure out which ones are actually Finance... estimate costs... maybe get it right...</p>
@@ -580,7 +626,7 @@ Well, let me find all the servers... check RVtools... verify with ServiceNow... 
 </code></pre></div>
 
 <p>Then correlate with Azure Cost Management filtering by Application tag. Accurate costs. Real-time. No guessing.</p>
-<h2>The Business Case Nobody Makes</h2>
+<h2 id="the-business-case-nobody-makes">The Business Case Nobody Makes</h2>
 <p>When leadership asks "Why should we migrate to Azure?" everyone focuses on scalability, uptime, and innovation.</p>
 <p>Nobody mentions: <strong>"You'll finally have an accurate inventory."</strong></p>
 <p>But that's one of the most valuable outcomes. Not the primary reason to migrate, but a massive operational benefit that solves a problem every enterprise has:</p>
@@ -593,7 +639,7 @@ Well, let me find all the servers... check RVtools... verify with ServiceNow... 
 - No manual documentation updates required</p>
 <p>The three-month discovery projects end. The "let me get back to you" conversations stop. The spreadsheet archaeology becomes a query that runs in 30 seconds.</p>
 <p>That's worth something. Probably more than anyone realizes.</p>
-<h2>How to Actually Use This</h2>
+<h2 id="how-to-actually-use-this">How to Actually Use This</h2>
 <p>If you're managing Azure resources, stop trying to maintain a separate CMDB. Use Azure Resource Graph as your inventory system:</p>
 <p><strong>For discovery:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
@@ -628,7 +674,7 @@ Well, let me find all the servers... check RVtools... verify with ServiceNow... 
 </code></pre></div>
 
 <p>These queries answer questions that took me 3 months to answer on-premises. In 30 seconds. With accurate data. Every time.</p>
-<h2>The Uncomfortable Truth</h2>
+<h2 id="the-uncomfortable-truth">The Uncomfortable Truth</h2>
 <p>Your CMDB is wrong. It's been wrong for years. Everyone knows it's wrong.</p>
 <p>The only reason it hasn't caused a bigger problem is that nobody's needed accurate inventory data badly enough to force a fix.</p>
 <p>Until you need to do a merger consolidation. Or a migration. Or answer executive questions about infrastructure that actually require accurate numbers.</p>

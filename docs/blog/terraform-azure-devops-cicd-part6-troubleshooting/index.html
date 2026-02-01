@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Real-world troubleshooting guide for Terraform CI/CD pipelines. These are the issues I&#39;ve actually encountered in production - and how to fix them fast.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part6.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting &amp; Common Production Issues",
   "description": "Real-world troubleshooting guide for Terraform CI/CD pipelines. These are the issues I&#39;ve actually encountered in production - and how to fix them fast.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, Terraform, devops, CICD, IaC, troubleshooting",
   "articleSection": "azure",
-  "wordCount": "4859",
+  "wordCount": "4899",
   "timeRequired": "PT24M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part6-troubleshooting/"
+}
+</script>
+
+
+
 
 
 
@@ -246,9 +292,9 @@
 - âš¡ Performance optimization<br />
 - ðŸ“Š Debugging strategies</p>
 <p>Skip to the section that matches your current fire.</p>
-<h2>Quick Diagnostic Checklist</h2>
+<h2 id="quick-diagnostic-checklist">Quick Diagnostic Checklist</h2>
 <p>Before diving into specific issues, run this diagnostic checklist:</p>
-<h3>Is the Pipeline Healthy?</h3>
+<h3 id="is-the-pipeline-healthy">Is the Pipeline Healthy?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check if Terraform is installed correctly</span>
 terraform<span class="w"> </span>version
 
@@ -271,7 +317,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--account-key<span class="w"> </span><span class="nv">$STORAGE_KEY</span>
 </code></pre></div>
 
-<h3>Are There Stuck Locks?</h3>
+<h3 id="are-there-stuck-locks">Are There Stuck Locks?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check for state locks</span>
 az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
@@ -280,7 +326,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;metadata.lock_id&quot;</span>
 </code></pre></div>
 
-<h3>Is There Drift?</h3>
+<h3 id="is-there-drift">Is There Drift?</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Compare state vs. actual Azure resources</span>
 terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <span class="c1"># Exit code 0 = no changes</span>
@@ -288,8 +334,8 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <span class="c1"># Exit code 2 = changes detected (drift)</span>
 </code></pre></div>
 
-<h2>Authentication Issues</h2>
-<h3>Error: "Failed to get credentials from Key Vault"</h3>
+<h2 id="authentication-issues">Authentication Issues</h2>
+<h3 id="error-failed-to-get-credentials-from-key-vault">Error: "Failed to get credentials from Key Vault"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">retrieve</span><span class="w"> </span><span class="n">secret</span><span class="w"> </span><span class="s1">&#39;sttfstate1234-key1&#39;</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">vault</span><span class="w"> </span><span class="s1">&#39;kv-tfstate-1234&#39;</span>
 <span class="n">Status</span><span class="w"> </span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="mi">403</span>
@@ -312,7 +358,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 </code></pre></div>
 
 <p><strong>Prevention:</strong> Create a script that validates service principal permissions before pipeline runs.</p>
-<h3>Error: "The service principal does not have permission to perform action"</h3>
+<h3 id="error-the-service-principal-does-not-have-permission-to-perform-action">Error: "The service principal does not have permission to perform action"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">authorization</span><span class="o">.</span><span class="na">RoleAssignmentsClient</span><span class="err">#</span><span class="n">Create</span><span class="o">:</span><span class="w"> </span><span class="n">Failure</span><span class="w"> </span><span class="n">responding</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">request</span>
 <span class="n">StatusCode</span><span class="o">=</span><span class="mi">403</span>
@@ -336,7 +382,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 </code></pre></div>
 
 <p><strong>Alternative:</strong> If your security team restricts User Access Administrator, create a custom role with only the specific permissions Terraform needs.</p>
-<h3>Error: "Service Principal password expired"</h3>
+<h3 id="error-service-principal-password-expired">Error: "Service Principal password expired"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">AADSTS7000222</span><span class="o">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">secret</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">expired</span><span class="o">.</span>
 </code></pre></div>
@@ -371,7 +417,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <p><strong>Prevention:</strong> <br />
 1. Set Key Vault secret expiration notifications<br />
 2. Automate secret rotation with Azure Automation</p>
-<h3>Error: "OAuth token has expired"</h3>
+<h3 id="error-oauth-token-has-expired">Error: "OAuth token has expired"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">refresh</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">token</span>
 <span class="n">Error</span><span class="w"> </span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="n">invalid_grant</span>
@@ -389,8 +435,8 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 </code></pre></div>
 
 <p>Each stage gets a fresh token.</p>
-<h2>State File Issues</h2>
-<h3>Error: "Error locking state: another operation in progress"</h3>
+<h2 id="state-file-issues">State File Issues</h2>
+<h3 id="error-error-locking-state-another-operation-in-progress">Error: "Error locking state: another operation in progress"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">acquiring</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="n">lock</span>
 <span class="n">Lock</span><span class="w"> </span><span class="n">Info</span><span class="o">:</span>
@@ -431,7 +477,7 @@ terraform<span class="w"> </span>force-unlock<span class="w"> </span>abc-123-def
 <span class="w">      </span><span class="no">terraform force-unlock -force $(terraform show -json | jq -r &#39;.values.lock_id&#39;)</span>
 </code></pre></div>
 
-<h3>Error: "State file corrupted"</h3>
+<h3 id="error-state-file-corrupted">Error: "State file corrupted"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="n">snapshot</span><span class="w"> </span><span class="n">was</span><span class="w"> </span><span class="n">created</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">Terraform</span><span class="w"> </span><span class="n">v1</span><span class="o">.</span><span class="mf">6.0</span><span class="p">,</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">v1</span><span class="o">.</span><span class="mf">5.7</span>
 </code></pre></div>
@@ -494,7 +540,7 @@ terraform<span class="w"> </span>show<span class="w"> </span>terraform-restored.
     --container-name terraform-state \
     --name prod/terraform.tfstate \
     --file "backup-$(date +%Y%m%d-%H%M%S).tfstate"</code></p>
-<h3>Error: "Backend configuration changed"</h3>
+<h3 id="error-backend-configuration-changed">Error: "Backend configuration changed"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Backend</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">changed</span>
 <span class="n">A</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">backend</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">been</span><span class="w"> </span><span class="n">detected</span><span class="o">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">migrating</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">state</span><span class="o">.</span>
@@ -522,8 +568,8 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--name<span class="w"> </span>OLD-STATE-FILE
 </code></pre></div>
 
-<h2>Resource Drift Issues</h2>
-<h3>Error: "Resource already exists"</h3>
+<h2 id="resource-drift-issues">Resource Drift Issues</h2>
+<h3 id="error-resource-already-exists">Error: "Resource already exists"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="s2">&quot;/subscriptions/.../resourceGroups/rsg-prod-001&quot;</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">exists</span>
 <span class="n">To</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">managed</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">Terraform</span><span class="o">,</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">needs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">imported</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">State</span><span class="o">.</span>
@@ -563,7 +609,7 @@ terraform<span class="w"> </span>plan
 <p><strong>Prevention:</strong> <br />
 - Implement Azure Policy: "Resources must have 'ManagedBy: Terraform' tag"<br />
 - Deny creation if tag is missing</p>
-<h3>Error: "Inconsistent state after apply"</h3>
+<h3 id="error-inconsistent-state-after-apply">Error: "Inconsistent state after apply"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Provider</span><span class="w"> </span><span class="n">produced</span><span class="w"> </span><span class="n">inconsistent</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">apply</span>
 <span class="n">When</span><span class="w"> </span><span class="n">applying</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">azurerm_virtual_machine</span><span class="o">.</span><span class="na">main</span><span class="o">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">provider</span><span class="w"> </span><span class="n">produced</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">unexpected</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">value</span><span class="o">.</span>
@@ -599,7 +645,7 @@ terraform<span class="w"> </span>import<span class="w"> </span>azurerm_virtual_m
 terraform<span class="w"> </span>apply
 </code></pre></div>
 
-<h3>Drift Detection: Resource Modified Outside Terraform</h3>
+<h3 id="drift-detection-resource-modified-outside-terraform">Drift Detection: Resource Modified Outside Terraform</h3>
 <p><strong>Symptoms:</strong><br />
 Daily drift detection pipeline reports changes.</p>
 <p><strong>Example:</strong></p>
@@ -630,11 +676,11 @@ Daily drift detection pipeline reports changes.</p>
 - Educate team: "No manual portal changes"<br />
 - Azure Policy: Enforce tags on all resources<br />
 - Alerting: Daily drift detection emails</p>
-<h2>Pipeline Performance Issues</h2>
-<h3>Issue: Pipeline takes &gt; 10 minutes to run</h3>
+<h2 id="pipeline-performance-issues">Pipeline Performance Issues</h2>
+<h3 id="issue-pipeline-takes-10-minutes-to-run">Issue: Pipeline takes &gt; 10 minutes to run</h3>
 <p><strong>Symptoms:</strong> <code>terraform plan</code> or <code>apply</code> runs very slowly.</p>
 <p><strong>Common causes:</strong></p>
-<h4>1. Large state file</h4>
+<h4 id="1-large-state-file">1. Large state file</h4>
 <p><strong>Check state file size:</strong></p>
 <div class="codehilite"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
@@ -660,7 +706,7 @@ Daily drift detection pipeline reports changes.</p>
 <span class="p">}</span>
 </code></pre></div>
 
-<h4>2. Provider rate limiting</h4>
+<h4 id="2-provider-rate-limiting">2. Provider rate limiting</h4>
 <p><strong>Check pipeline logs for:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">creation</span><span class="o">:</span><span class="w"> </span><span class="n">Code</span><span class="o">=</span><span class="s2">&quot;TooManyRequests&quot;</span>
 </code></pre></div>
@@ -695,7 +741,7 @@ Add delays between resource creation:</p>
 <span class="p">}</span>
 </code></pre></div>
 
-<h4>3. Inefficient dependencies</h4>
+<h4 id="3-inefficient-dependencies">3. Inefficient dependencies</h4>
 <p><strong>Check for unnecessary depends_on:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># BAD: Forces sequential creation</span>
 <span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;vnet1&quot;</span><span class="w"> </span><span class="p">{</span>
@@ -723,8 +769,8 @@ Add delays between resource creation:</p>
 </code></pre></div>
 
 <p>Terraform will create both VNets in parallel (if no implicit dependency).</p>
-<h2>Provider Version Issues</h2>
-<h3>Error: "Provider version mismatch"</h3>
+<h2 id="provider-version-issues">Provider Version Issues</h2>
+<h3 id="error-provider-version-mismatch">Error: "Provider version mismatch"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">Could</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">plugin</span>
 <span class="n">Plugin</span><span class="w"> </span><span class="n">reinitialization</span><span class="w"> </span><span class="n">required</span><span class="o">.</span><span class="w"> </span><span class="n">Please</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="s2">&quot;terraform init&quot;</span><span class="o">.</span>
@@ -753,7 +799,7 @@ Add delays between resource creation:</p>
 5. If stable, promote to test<br />
 6. Test for 1 week<br />
 7. If stable, promote to prod</p>
-<h3>Error: "Feature flag not supported in provider version"</h3>
+<h3 id="error-feature-flag-not-supported-in-provider-version">Error: "Feature flag not supported in provider version"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Unsupported</span><span class="w"> </span><span class="n">argument</span>
 <span class="n">An</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">named</span><span class="w"> </span><span class="s2">&quot;public_network_access_enabled&quot;</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">here</span><span class="o">.</span>
@@ -787,8 +833,8 @@ curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/rep
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Debugging Strategies</h2>
-<h3>Enable Terraform Debug Logging</h3>
+<h2 id="debugging-strategies">Debugging Strategies</h2>
+<h3 id="enable-terraform-debug-logging">Enable Terraform Debug Logging</h3>
 <p>For deep troubleshooting, enable verbose logging:</p>
 <p><strong>Add to pipeline task:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Set log level</span>
@@ -818,7 +864,7 @@ terraform<span class="w"> </span>plan
 <span class="w">    </span><span class="nt">artifactName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;terraform-debug-logs&#39;</span>
 </code></pre></div>
 
-<h3>Use Terraform Graph for Dependency Visualization</h3>
+<h3 id="use-terraform-graph-for-dependency-visualization">Use Terraform Graph for Dependency Visualization</h3>
 <p><strong>Generate dependency graph:</strong></p>
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>graph<span class="w"> </span><span class="p">|</span><span class="w"> </span>dot<span class="w"> </span>-Tpng<span class="w"> </span>&gt;<span class="w"> </span>graph.png
 </code></pre></div>
@@ -831,7 +877,7 @@ terraform<span class="w"> </span>plan
 </code></pre></div>
 
 <p>View the graph to understand why resources are being created in a specific order.</p>
-<h3>Test Locally Before Pipeline</h3>
+<h3 id="test-locally-before-pipeline">Test Locally Before Pipeline</h3>
 <p><strong>Mirror pipeline environment locally:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Set environment variables like the pipeline does</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">ARM_SUBSCRIPTION_ID</span><span class="o">=</span><span class="s2">&quot;YOUR-SUB-ID&quot;</span>
@@ -850,7 +896,7 @@ terraform<span class="w"> </span>plan
 - Full control over debug settings<br />
 - Can use debugger tools</p>
 <p><strong>Warning:</strong> Never run <code>terraform apply</code> locally in production. This bypasses all approval gates.</p>
-<h3>Query Azure Resource Graph</h3>
+<h3 id="query-azure-resource-graph">Query Azure Resource Graph</h3>
 <p>For complex drift scenarios, query Azure directly:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find resources NOT managed by Terraform</span>
 <span class="n">Resources</span>
@@ -864,8 +910,8 @@ terraform<span class="w"> </span>plan
 <div class="codehilite"><pre><span></span><code>az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Resources | where tags.ManagedBy != &#39;Terraform&#39; | project name, resourceGroup&quot;</span>
 </code></pre></div>
 
-<h2>Production War Stories (Real Issues I've Faced)</h2>
-<h3>War Story 1: The 3 AM State Lock</h3>
+<h2 id="production-war-stories-real-issues-i-ve-faced">Production War Stories (Real Issues I've Faced)</h2>
+<h3 id="war-story-1-the-3-am-state-lock">War Story 1: The 3 AM State Lock</h3>
 <p><strong>What happened:</strong><br />
 - Prod deployment failed at 3 AM during maintenance window<br />
 - State file remained locked<br />
@@ -888,7 +934,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 - Monitoring alert: State locked &gt; 15 minutes<br />
 - Auto-unlock script in pipeline cleanup task<br />
 - Redundant Azure DevOps agent pool</p>
-<h3>War Story 2: The Disappearing Resource Group</h3>
+<h3 id="war-story-2-the-disappearing-resource-group">War Story 2: The Disappearing Resource Group</h3>
 <p><strong>What happened:</strong><br />
 - Terraform plan showed: <code>Plan: 0 to add, 0 to change, 0 to destroy</code><br />
 - Ran apply<br />
@@ -908,7 +954,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 - All changes through pipelines only<br />
 - Daily state file backups with retention<br />
 - Audit: Who ran <code>terraform state rm</code>?</p>
-<h3>War Story 3: The Provider Upgrade Disaster</h3>
+<h3 id="war-story-3-the-provider-upgrade-disaster">War Story 3: The Provider Upgrade Disaster</h3>
 <p><strong>What happened:</strong><br />
 - Upgraded azurerm provider from 3.70.0 to 3.80.0 in prod<br />
 - 50+ resources marked for replacement (destroy + recreate)<br />
@@ -927,7 +973,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 - Provider version testing workflow: dev (1 week) â†’ test (1 week) â†’ prod<br />
 - Never upgrade providers in prod without testing<br />
 - Always read provider changelogs: "BREAKING CHANGES" section</p>
-<h3>War Story 4: The Concurrent Apply</h3>
+<h3 id="war-story-4-the-concurrent-apply">War Story 4: The Concurrent Apply</h3>
 <p><strong>What happened:</strong><br />
 - Two release pipelines triggered simultaneously<br />
 - Both acquired state lock somehow<br />
@@ -946,9 +992,9 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 - Release pipeline serialization: Only one release per environment at a time<br />
 - Added inter-pipeline mutex (release queues if another is running)<br />
 - Increased state lock timeout</p>
-<h2>Emergency Runbook</h2>
+<h2 id="emergency-runbook">Emergency Runbook</h2>
 <p>Print this and keep it handy:</p>
-<h3>Emergency: Pipeline Failing in Prod</h3>
+<h3 id="emergency-pipeline-failing-in-prod">Emergency: Pipeline Failing in Prod</h3>
 <p><strong>Step 1: Assess Impact</strong><br />
 - Is prod currently down? â†’ Rollback immediately<br />
 - Is prod still working? â†’ Investigate before action</p>
@@ -971,7 +1017,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 - Document what happened<br />
 - Update runbook<br />
 - Add monitoring to prevent recurrence</p>
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ol>
 <li><strong>Always have state file backups</strong> - Versioning + soft delete + manual backups</li>
 <li><strong>Lock timeouts need monitoring</strong> - Alert on locks &gt; 15 minutes</li>
@@ -980,7 +1026,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 <li><strong>Local testing saves time</strong> - Mirror pipeline environment locally for faster debugging</li>
 <li><strong>Document your fixes</strong> - Future you will thank you</li>
 </ol>
-<h2>Useful Commands Reference</h2>
+<h2 id="useful-commands-reference">Useful Commands Reference</h2>
 <div class="codehilite"><pre><span></span><code><span class="c1"># State management</span>
 terraform<span class="w"> </span>state<span class="w"> </span>list<span class="w">                    </span><span class="c1"># List all resources in state</span>
 terraform<span class="w"> </span>state<span class="w"> </span>show<span class="w"> </span>ADDRESS<span class="w">            </span><span class="c1"># Show specific resource</span>
@@ -1004,7 +1050,7 @@ terraform<span class="w"> </span>destroy<span class="w">                       <
 </code></pre></div>
 
 <hr />
-<h2>Series Complete!</h2>
+<h2 id="series-complete">Series Complete!</h2>
 <p>You've now completed the full Terraform + Azure DevOps CI/CD series:<br />
 - <strong>Part 1:</strong> Prerequisites &amp; Architecture<br />
 - <strong>Part 2:</strong> Build Pipelines<br />

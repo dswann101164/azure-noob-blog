@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="How to treat your KQL queries like code: organize them in Git, reuse patterns, and build a shared query library for your Azure team.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/kql-query-library.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told You About",
   "description": "How to treat your KQL queries like code: organize them in Git, reuse patterns, and build a shared query library for your Azure team.",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "Automation, Azure, Git, KQL, Operations, Productivity, Resource Graph",
   "articleSection": "Automation",
-  "wordCount": "3109",
+  "wordCount": "3134",
   "timeRequired": "PT16M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Automation"
@@ -178,6 +208,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/kql-query-library-git/"
+}
+</script>
+
+
+
 
 
 
@@ -251,7 +297,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 - Desktop folder named "temp queries" (12 untitled .txt files)</p>
 <p><strong>20 minutes later</strong>, I rewrote the query from scratch. Again.</p>
 <p>This is stupid. We use Git for everything else. Why not KQL queries?</p>
-<h2>What You're Building</h2>
+<h2 id="what-you-re-building">What You're Building</h2>
 <p>A Git repository that holds all your KQL queries in organized <code>.kql</code> files. When someone asks "show me X," you:</p>
 <ol>
 <li>Search by filename: <code>resource-deletions.kql</code></li>
@@ -263,7 +309,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <p><strong>Time saved per year:</strong> 10-20 hours (at minimum wage, that's $150-300. At your actual salary, probably $500-1,000.)</p>
 <p><strong>Return on investment:</strong> 30 minutes to set up.</p>
 <p>No-brainer.</p>
-<h2>Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>VS Code installed</li>
 <li>Git repository (GitHub, Azure DevOps, GitLab, whatever)</li>
@@ -275,7 +321,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 - Project management overhead<br />
 - Approval workflows</p>
 <p>Just files. In Git. That's it.</p>
-<h2>Step 1: Install KQL Extension in VS Code (2 minutes)</h2>
+<h2 id="step-1-install-kql-extension-in-vs-code-2-minutes">Step 1: Install KQL Extension in VS Code (2 minutes)</h2>
 <ol>
 <li>Open VS Code</li>
 <li>Press <code>Ctrl+Shift+X</code> (Extensions)</li>
@@ -287,7 +333,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 - Syntax highlighting for <code>.kql</code> files<br />
 - IntelliSense (autocomplete)<br />
 - Query validation (catches errors before you run)</p>
-<h2>Step 2: Create Repository Structure (5 minutes)</h2>
+<h2 id="step-2-create-repository-structure-5-minutes">Step 2: Create Repository Structure (5 minutes)</h2>
 <p>Create a new Git repo or add this to an existing one:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">azure</span><span class="o">-</span><span class="n">kql</span><span class="o">-</span><span class="n">queries</span><span class="o">/</span>
 <span class="err">├──</span><span class="w"> </span><span class="n">README</span><span class="p">.</span><span class="n">md</span>
@@ -326,7 +372,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 - Use hyphens, not underscores (<code>activity-logs</code>, not <code>activity_logs</code>)<br />
 - Lowercase everything<br />
 - Group by Azure service or use case (not by date or person)</p>
-<h2>Step 3: Query File Template (5 minutes)</h2>
+<h2 id="step-3-query-file-template-5-minutes">Step 3: Query File Template (5 minutes)</h2>
 <p>Every <code>.kql</code> file should start with this header:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: Resource Deletions (Last 90 Days)</span>
@@ -371,9 +417,9 @@ Last week, our security team asked: "Show me all resource deletions from August.
 - <strong>Last Updated</strong> tracks query freshness<br />
 - <strong>Comments in the query</strong> explain non-obvious logic</p>
 <p><strong>Save this template as:</strong> <code>_TEMPLATE.kql</code> in the root directory. Copy it every time you create a new query.</p>
-<h2>Step 4: The Five Queries You Need Right Now (10 minutes)</h2>
+<h2 id="step-4-the-five-queries-you-need-right-now-10-minutes">Step 4: The Five Queries You Need Right Now (10 minutes)</h2>
 <p>These are the queries I run most often. Start with these, add your own over time.</p>
-<h3>1. Resource Deletions (Audit Trail)</h3>
+<h3 id="1-resource-deletions-audit-trail">1. Resource Deletions (Audit Trail)</h3>
 <p><strong>File:</strong> <code>activity-logs/resource-deletions.kql</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: Resource Deletions (Last 90 Days)</span>
@@ -399,7 +445,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<h3>2. Admin Role Assignments (Security Review)</h3>
+<h3 id="2-admin-role-assignments-security-review">2. Admin Role Assignments (Security Review)</h3>
 <p><strong>File:</strong> <code>azure-ad/admin-role-assignments.kql</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: New Admin Role Assignments</span>
@@ -427,7 +473,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<h3>3. App Registration Creation (Shadow IT Detection)</h3>
+<h3 id="3-app-registration-creation-shadow-it-detection">3. App Registration Creation (Shadow IT Detection)</h3>
 <p><strong>File:</strong> <code>azure-ad/app-registration-creation.kql</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: New App Registrations</span>
@@ -455,7 +501,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<h3>4. Failed Sign-Ins (Brute Force Detection)</h3>
+<h3 id="4-failed-sign-ins-brute-force-detection">4. Failed Sign-Ins (Brute Force Detection)</h3>
 <p><strong>File:</strong> <code>security/failed-signins.kql</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: Failed Sign-In Attempts (Brute Force Detection)</span>
@@ -480,7 +526,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailedAttempts</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
-<h3>5. Untagged Resources (Governance Check)</h3>
+<h3 id="5-untagged-resources-governance-check">5. Untagged Resources (Governance Check)</h3>
 <p><strong>File:</strong> <code>inventory/untagged-resources.kql</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c">//=============================================================================</span>
 <span class="c">// Query: Resources Without Required Tags</span>
@@ -510,8 +556,8 @@ Last week, our security team asked: "Show me all resource deletions from August.
 </code></pre></div>
 
 <p><strong>Save these five queries.</strong> They cover 80% of common requests.</p>
-<h2>Step 5: Daily Workflow (How to Actually Use This)</h2>
-<h3>When someone asks a question:</h3>
+<h2 id="step-5-daily-workflow-how-to-actually-use-this">Step 5: Daily Workflow (How to Actually Use This)</h2>
+<h3 id="when-someone-asks-a-question">When someone asks a question:</h3>
 <p><strong>Before (the old way):</strong><br />
 1. Try to remember where you saved the query<br />
 2. Search Slack: "kql delete" (12 results, none right)<br />
@@ -526,7 +572,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 5. Press Enter<br />
 6. Copy query, paste into Log Analytics<br />
 7. Done in 30 seconds</p>
-<h3>When you write a new query:</h3>
+<h3 id="when-you-write-a-new-query">When you write a new query:</h3>
 <ol>
 <li>Save it immediately: <code>File &gt; Save As &gt; [folder]/[descriptive-name].kql</code></li>
 <li>Add the header template (purpose, use cases, etc.)</li>
@@ -534,7 +580,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <li>Push: <code>git push</code></li>
 </ol>
 <p><strong>Don't wait.</strong> Save it the moment you write it. Future you will thank you.</p>
-<h3>When you update a query:</h3>
+<h3 id="when-you-update-a-query">When you update a query:</h3>
 <ol>
 <li>Edit the <code>.kql</code> file</li>
 <li>Update the "Last Updated" date in the header</li>
@@ -543,7 +589,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 </ol>
 <p>Git history shows you every version of every query. You can always roll back.</p>
 <hr />
-<h2>My Real-World Query Library Stats</h2>
+<h2 id="my-real-world-query-library-stats">My Real-World Query Library Stats</h2>
 <p>In my current environment, I maintain ~80 KQL queries across 12 folders:</p>
 <table>
 <thead>
@@ -590,8 +636,8 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <p><strong>Queries run per week:</strong> 20-30 (audits, troubleshooting, reviews)</p>
 <p><strong>Percentage of queries reused:</strong> 90% (write once, use many times)</p>
 <hr />
-<h2>Common Mistakes to Avoid</h2>
-<h3>Mistake 1: One Giant File</h3>
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+<h3 id="mistake-1-one-giant-file">Mistake 1: One Giant File</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code>all-queries.kql (2,500 lines)
 </code></pre></div>
@@ -604,7 +650,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 </code></pre></div>
 
 <p><strong>Why:</strong> You can't search a 2,500-line file efficiently. Split by purpose.</p>
-<h3>Mistake 2: No Comments</h3>
+<h3 id="mistake-2-no-comments">Mistake 2: No Comments</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
@@ -622,7 +668,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 </code></pre></div>
 
 <p><strong>Why:</strong> Three months from now, you won't remember why you wrote this or when to use it.</p>
-<h3>Mistake 3: Vague Filenames</h3>
+<h3 id="mistake-3-vague-filenames">Mistake 3: Vague Filenames</h3>
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code>query1.kql
 test.kql
@@ -636,7 +682,7 @@ untagged-resources-by-subscription.kql
 </code></pre></div>
 
 <p><strong>Why:</strong> Filename should tell you exactly what the query does.</p>
-<h3>Mistake 4: Not Committing Often</h3>
+<h3 id="mistake-4-not-committing-often">Mistake 4: Not Committing Often</h3>
 <p><strong>Wrong:</strong> Write 10 queries, commit once a month with message "updates"</p>
 <p><strong>Right:</strong> Write 1 query, commit immediately with descriptive message</p>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add query to find VMs without backup enabled&quot;</span>
@@ -644,7 +690,7 @@ untagged-resources-by-subscription.kql
 
 <p><strong>Why:</strong> Git history becomes your documentation. Each commit explains what changed and why.</p>
 <hr />
-<h2>The 10-Query Starter Pack</h2>
+<h2 id="the-10-query-starter-pack">The 10-Query Starter Pack</h2>
 <p>If you're building this from scratch, start with these 10 queries. They cover the most common requests I get:</p>
 <ol>
 <li><strong>activity-logs/resource-deletions.kql</strong> - Who deleted what</li>
@@ -661,7 +707,7 @@ untagged-resources-by-subscription.kql
 <p><strong>These 10 queries will handle 80% of your requests.</strong></p>
 <p>Add more as you need them. Don't try to build everything at once.</p>
 <hr />
-<h2>Next Steps</h2>
+<h2 id="next-steps">Next Steps</h2>
 <p><strong>This week:</strong><br />
 1. Create the Git repository<br />
 2. Install VS Code KQL extension<br />
@@ -678,7 +724,7 @@ untagged-resources-by-subscription.kql
 - You'll answer audit questions in seconds<br />
 - You'll wonder how you ever lived without this</p>
 <hr />
-<h2>The Real Takeaway</h2>
+<h2 id="the-real-takeaway">The Real Takeaway</h2>
 <p>This isn't about being organized for the sake of organization.</p>
 <p><strong>It's about this moment:</strong></p>
 <p>Security team: "Show me all admin role grants from Q2."</p>
@@ -692,7 +738,7 @@ untagged-resources-by-subscription.kql
 - <a href="/blog/soc2-azure-ad-audit-logs-step-by-step/">SOC 2 Audit Prep Part 2: Azure AD Audit Logs</a><br />
 - <a href="/blog/kql-cheat-sheet-complete/">KQL Cheat Sheet: Complete Guide</a></p>
 <hr />
-<h2>🎯 Ready for Production-Ready Queries?</h2>
+<h2 id="ready-for-production-ready-queries">🎯 Ready for Production-Ready Queries?</h2>
 <p>This guide covers the basics, but <strong>scaling to 30,000+ resources requires battle-tested patterns.</strong></p>
 <p><strong>The Complete KQL Query Library includes:</strong><br />
 - ✅ 48 copy-paste ready queries (VMs, networking, security, cost)<br />

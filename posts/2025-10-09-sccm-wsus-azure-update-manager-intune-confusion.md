@@ -7,6 +7,7 @@ tags: ["azure", "sccm", "wsus", "intune", "azure-update-manager", "patch-managem
 cover: "static/images/hero/patch-management-confusion.svg"
 animated_hero: true
 hub: governance
+faq_schema: true
 related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy

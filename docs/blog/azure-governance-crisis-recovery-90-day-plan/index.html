@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="Your Azure environment is ungoverned: 12,000 untagged resources, $800K/month bill with no owner map, 47 subscriptions in chaos. You have 90 days and limited...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-governance-napkin.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Governance Crisis Mode: The 90-Day Recovery Framework",
   "description": "Your Azure environment is ungoverned: 12,000 untagged resources, $800K/month bill with no owner map, 47 subscriptions in chaos. You have 90 days and limited...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "Azure, Governance, Crisis Management, FinOps, Cost Management, Enterprise, Recovery",
   "articleSection": "Azure",
-  "wordCount": "3745",
+  "wordCount": "3782",
   "timeRequired": "PT19M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -178,6 +208,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-governance-crisis-recovery-90-day-plan/"
+}
+</script>
+
+
+
 
 
 
@@ -249,7 +295,7 @@
 <p><strong>90 days. Starting now.</strong></p>
 <p>This is not a drill. This is the brownfield governance reality that 80% of Azure enterprises face.</p>
 <hr />
-<h2>Why This Framework Exists</h2>
+<h2 id="why-this-framework-exists">Why This Framework Exists</h2>
 <p>This guide is part of our <a href="/hub/governance/">Azure Governance &amp; FinOps Hub</a> covering the complete governance lifecycle from crisis through optimization.</p>
 <p>Most Azure governance guides assume:<br />
 - ✅ Greenfield environment<br />
@@ -264,8 +310,8 @@
 <p><strong>This is crisis mode governance.</strong></p>
 <p>And it requires a completely different approach than the CAF documentation suggests.</p>
 <hr />
-<h2>The 90-Day Triage Model</h2>
-<h3>Core Principle: Stopbleeds, Then Heal</h3>
+<h2 id="the-90-day-triage-model">The 90-Day Triage Model</h2>
+<h3 id="core-principle-stopbleeds-then-heal">Core Principle: Stopbleeds, Then Heal</h3>
 <p>You cannot fix everything in 90 days.</p>
 <p>You CAN:<br />
 1. <strong>Stop the bleeding</strong> (zombie resources, orphaned subscriptions)<br />
@@ -275,9 +321,9 @@
 <p>Then, after demonstrating value in 90 days, you get political capital for Phase 2 (optimization) and Phase 3 (long-term enforcement).</p>
 <p><strong>But if you don't survive the first 90 days, there is no Phase 2.</strong></p>
 <hr />
-<h2>Week 1-2: Baseline &amp; Stopbleeds</h2>
+<h2 id="week-1-2-baseline-stopbleeds">Week 1-2: Baseline &amp; Stopbleeds</h2>
 <p><strong>Goal:</strong> Know what you have. Kill the obvious waste.</p>
-<h3>Day 1-3: Emergency Triage Query</h3>
+<h3 id="day-1-3-emergency-triage-query">Day 1-3: Emergency Triage Query</h3>
 <p><strong>Run this first:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="err">!</span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.insights/components&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.operationalinsights/workspaces&quot;</span><span class="p">)</span>
@@ -299,7 +345,7 @@
 - How many are running vs stopped<br />
 - Which subscriptions/resource groups own the cost</p>
 <p><strong>Action:</strong> Export to Excel. This is your "Triage Dashboard."</p>
-<h3>Day 4-7: Find the Zombies</h3>
+<h3 id="day-4-7-find-the-zombies">Day 4-7: Find the Zombies</h3>
 <p><strong>Zombie resources:</strong> Running for 90+ days with zero activity.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -328,7 +374,7 @@
 - VMs running for 90+ days with no logins, no reboots, no configuration changes<br />
 - Likely cost: $20K-$200K/month depending on environment</p>
 <p><strong>Action:</strong> Create "Zombie Decommission List" with owners (or "Unknown" if no owner exists).</p>
-<h3>Day 8-14: Emergency Stopbleeds</h3>
+<h3 id="day-8-14-emergency-stopbleeds">Day 8-14: Emergency Stopbleeds</h3>
 <p><strong>Kill these immediately (with approval):</strong><br />
 1. <strong>Stopped VMs still incurring storage costs</strong> - Deallocate or delete<br />
 2. <strong>Orphaned disks</strong> (no attached VM) - Delete after 30-day grace period<br />
@@ -338,9 +384,9 @@
 <p><strong>Expected savings:</strong> $50K-$150K/month</p>
 <p><strong>Political capital gain:</strong> CFO sees immediate $150K/month reduction = you get 60 more days.</p>
 <hr />
-<h2>Week 3-6: Power Mapping (Who Owns What)</h2>
+<h2 id="week-3-6-power-mapping-who-owns-what">Week 3-6: Power Mapping (Who Owns What)</h2>
 <p><strong>Goal:</strong> Create the ownership map. Even if imperfect.</p>
-<h3>Week 3: Map Subscriptions to Business Units</h3>
+<h3 id="week-3-map-subscriptions-to-business-units">Week 3: Map Subscriptions to Business Units</h3>
 <p><strong>You need:</strong><br />
 - Subscription Name<br />
 - Business Unit Owner (name + email)<br />
@@ -374,7 +420,7 @@
 - Monthly Cost (from Azure Cost Management)<br />
 - Status (Owned, Orphaned, Decommission Candidate)</p>
 <p><strong>Send this to Finance and each department head:</strong> "This is what you own. Confirm or correct by Friday."</p>
-<h3>Week 4-5: Build the RACI Matrix</h3>
+<h3 id="week-4-5-build-the-raci-matrix">Week 4-5: Build the RACI Matrix</h3>
 <p><strong>Don't build perfect governance. Build clear accountability.</strong></p>
 <p><strong>Required roles (minimum viable):</strong><br />
 1. <strong>Subscription Owner</strong> - Approves budget, decommissions<br />
@@ -432,7 +478,7 @@
 </tbody>
 </table>
 <p><strong>This is your command structure for the next 60 days.</strong></p>
-<h3>Week 6: Assign Ownership to Top 20 Subscriptions</h3>
+<h3 id="week-6-assign-ownership-to-top-20-subscriptions">Week 6: Assign Ownership to Top 20 Subscriptions</h3>
 <p><strong>Focus:</strong> The 20 subscriptions representing 80% of cost.</p>
 <p><strong>Action:</strong><br />
 1. Send email to each business unit: "You own these subscriptions. Confirm or deny."<br />
@@ -441,16 +487,16 @@
 4. If no response after 2 weeks → Mark "Orphaned - Decommission Candidate"</p>
 <p><strong>Expected outcome:</strong> 15/20 subscriptions have clear owners by end of Week 6.</p>
 <hr />
-<h2>Week 7-10: Tag Triage (80/20 Rule)</h2>
+<h2 id="week-7-10-tag-triage-80-20-rule">Week 7-10: Tag Triage (80/20 Rule)</h2>
 <p><strong>Goal:</strong> Tag the expensive stuff first. Ignore the rest.</p>
-<h3>Week 7: Define Minimum Viable Tag Schema</h3>
+<h3 id="week-7-define-minimum-viable-tag-schema">Week 7: Define Minimum Viable Tag Schema</h3>
 <p><strong>Don't create a 15-tag schema that nobody will follow.</strong></p>
 <p><strong>Start with 3 tags:</strong><br />
 1. <strong>CostCenter</strong> (4 digits: matches Finance system)<br />
 2. <strong>Environment</strong> (Production, Development, Staging - pick 3)<br />
 3. <strong>Owner</strong> (email address of person accountable)</p>
 <p><strong>That's it.</strong></p>
-<h3>Week 8-9: Tag the Top 200 Resources by Cost</h3>
+<h3 id="week-8-9-tag-the-top-200-resources-by-cost">Week 8-9: Tag the Top 200 Resources by Cost</h3>
 <p><strong>Query:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">MonthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todouble</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">estimatedCost</span><span class="p">)</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">720</span><span class="w">  </span><span class="c">// rough monthly estimate</span>
@@ -476,7 +522,7 @@
 </code></pre></div>
 
 <p><strong>Expected outcome:</strong> 200 resources (representing 60-70% of cost) are tagged correctly.</p>
-<h3>Week 10: Create Tag Reporting Dashboard</h3>
+<h3 id="week-10-create-tag-reporting-dashboard">Week 10: Create Tag Reporting Dashboard</h3>
 <p><strong>Now you can answer the CFO's question:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
@@ -491,9 +537,9 @@
 <p><strong>This shows:</strong> "$847K/month breaks down as: Finance (4200) = $240K, Sales (5100) = $180K, IT (6000) = $320K, Unknown = $107K."</p>
 <p><strong>CFO's response:</strong> "Good. Now reduce 'Unknown' to zero and charge each department."</p>
 <hr />
-<h2>Week 11-12: Policy Lockdown (Prospective Only)</h2>
+<h2 id="week-11-12-policy-lockdown-prospective-only">Week 11-12: Policy Lockdown (Prospective Only)</h2>
 <p><strong>Goal:</strong> Prevent new chaos. Grandfather existing chaos.</p>
-<h3>Week 11: Create Deny Policies for New Resources</h3>
+<h3 id="week-11-create-deny-policies-for-new-resources">Week 11: Create Deny Policies for New Resources</h3>
 <p><strong>Azure Policy JSON:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Indexed&quot;</span><span class="p">,</span>
@@ -523,7 +569,7 @@
 
 <p><strong>Apply to:</strong> Management group for Production subscriptions only.</p>
 <p><strong>Grandfather:</strong> Existing resources exempt. Policy applies only to NEW resources created after Week 11.</p>
-<h3>Week 12: Communicate the New Rules</h3>
+<h3 id="week-12-communicate-the-new-rules">Week 12: Communicate the New Rules</h3>
 <p><strong>Email to all Azure contributors:</strong></p>
 <blockquote>
 <p>Subject: New Azure tagging requirements effective immediately</p>
@@ -536,9 +582,9 @@
 </blockquote>
 <p><strong>Expected pushback:</strong> 20% will complain. Respond: "CFO mandate. Non-negotiable."</p>
 <hr />
-<h2>Day 90: The Board Presentation</h2>
+<h2 id="day-90-the-board-presentation">Day 90: The Board Presentation</h2>
 <p><strong>CFO to you:</strong> "Give me 5 slides for Friday's board meeting."</p>
-<h3>Slide 1: Governance Crisis → Governance Baseline (90 Days)</h3>
+<h3 id="slide-1-governance-crisis-governance-baseline-90-days">Slide 1: Governance Crisis → Governance Baseline (90 Days)</h3>
 <p><strong>Before (Day 1):</strong><br />
 - 12,347 resources, 11,982 untagged (97%)<br />
 - $847K/month spend, no cost allocation<br />
@@ -549,28 +595,28 @@
 - 3,200 resources tagged (top 200 by cost + top 20 subscriptions)<br />
 - 32 subscriptions with clear owners (68%)<br />
 - Azure Policy enforcing tags on new Production resources</p>
-<h3>Slide 2: Cost Impact</h3>
+<h3 id="slide-2-cost-impact">Slide 2: Cost Impact</h3>
 <p><strong>Zombies killed:</strong> $127K/month savings<br />
 <strong>Orphaned disks deleted:</strong> $18K/month savings<br />
 <strong>Unused storage accounts archived:</strong> $9K/month savings<br />
 <strong>Total:</strong> $154K/month = $1.85M/year</p>
 <p><strong>ROI:</strong> 3-month investment (your time + $0 tools) = $1.85M annual return</p>
-<h3>Slide 3: Ownership Map</h3>
+<h3 id="slide-3-ownership-map">Slide 3: Ownership Map</h3>
 <p><strong>Before:</strong> 81% of subscriptions had "Unknown" owner<br />
 <strong>After:</strong> 68% of subscriptions have confirmed business owners</p>
 <p><strong>Remaining 32%:</strong> Marked for decommission unless claimed by Q1 2026.</p>
-<h3>Slide 4: Chargeback Readiness</h3>
+<h3 id="slide-4-chargeback-readiness">Slide 4: Chargeback Readiness</h3>
 <p><strong>Before:</strong> Finance could not allocate Azure costs to departments<br />
 <strong>After:</strong> 70% of costs are tagged and allocated</p>
 <p><strong>Next 90 days:</strong> Implement monthly chargeback reports to department heads.</p>
-<h3>Slide 5: Phase 2 Plan (Q1 2026)</h3>
+<h3 id="slide-5-phase-2-plan-q1-2026">Slide 5: Phase 2 Plan (Q1 2026)</h3>
 <p><strong>Optimization (90 days):</strong><br />
 - Reserved Instances for Production workloads (20-30% savings)<br />
 - Right-size oversized VMs (10-15% savings)<br />
 - Archive cold storage (5-10% savings)</p>
 <p><strong>Expected additional savings:</strong> $200K-$400K/year</p>
 <hr />
-<h2>The Technical Magnet: Top 50 Untagged Resources by Cost</h2>
+<h2 id="the-technical-magnet-top-50-untagged-resources-by-cost">The Technical Magnet: Top 50 Untagged Resources by Cost</h2>
 <p><strong>Paste this into Azure Resource Graph Explorer:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
@@ -599,7 +645,7 @@
 <p><strong>Save this.</strong> Run it weekly. Your "Top 50 Untagged" list should shrink every week.</p>
 <p><strong>When it hits zero:</strong> You've won.</p>
 <hr />
-<h2>What Comes After Day 90?</h2>
+<h2 id="what-comes-after-day-90">What Comes After Day 90?</h2>
 <p>You've stopped the bleeding. You've created visibility. You've proven governance works.</p>
 <p><strong>Now you can do governance properly:</strong></p>
 <p><strong>Phase 2 (Q1 2026): Optimization</strong><br />
@@ -620,29 +666,29 @@
 - <a href="/blog/azure-finops-complete-guide/">Azure FinOps Complete Framework</a></p>
 <p>But none of that happens if you don't survive the first 90 days.</p>
 <hr />
-<h2>Common Failure Modes (And How to Avoid Them)</h2>
-<h3>Failure #1: Trying to Fix Everything at Once</h3>
+<h2 id="common-failure-modes-and-how-to-avoid-them">Common Failure Modes (And How to Avoid Them)</h2>
+<h3 id="failure-1-trying-to-fix-everything-at-once">Failure #1: Trying to Fix Everything at Once</h3>
 <p><strong>Symptom:</strong> You create a 47-page governance doc, schedule 12 workshops, propose a 6-month CAF rollout.</p>
 <p><strong>Result:</strong> Finance cuts budget before you finish planning.</p>
 <p><strong>Fix:</strong> 90-day triage. Kill waste first. Build governance second.</p>
-<h3>Failure #2: Waiting for Executive Approval</h3>
+<h3 id="failure-2-waiting-for-executive-approval">Failure #2: Waiting for Executive Approval</h3>
 <p><strong>Symptom:</strong> You schedule governance kickoff meetings with VPs, wait for strategy approval, draft charters.</p>
 <p><strong>Result:</strong> 6 weeks gone, zero zombies deleted, CFO loses patience.</p>
 <p><strong>Fix:</strong> Delete zombies on Day 1. Ask forgiveness, not permission. Show immediate ROI.</p>
-<h3>Failure #3: Perfect Tags vs Good Enough Tags</h3>
+<h3 id="failure-3-perfect-tags-vs-good-enough-tags">Failure #3: Perfect Tags vs Good Enough Tags</h3>
 <p><strong>Symptom:</strong> You debate 15-tag schema, semantic standards, taxonomy frameworks.</p>
 <p><strong>Result:</strong> 3 months of debate, zero tags applied.</p>
 <p><strong>Fix:</strong> Start with 3 tags (CostCenter, Environment, Owner). Expand later.</p>
-<h3>Failure #4: Blaming "The Business"</h3>
+<h3 id="failure-4-blaming-the-business">Failure #4: Blaming "The Business"</h3>
 <p><strong>Symptom:</strong> "Business units won't tag their resources. Governance is impossible without buy-in."</p>
 <p><strong>Result:</strong> CFO blames you, not the business units.</p>
 <p><strong>Fix:</strong> Tag the expensive stuff yourself. Prove the model works. Then mandate it.</p>
-<h3>Failure #5: Treating This Like a Project</h3>
+<h3 id="failure-5-treating-this-like-a-project">Failure #5: Treating This Like a Project</h3>
 <p><strong>Symptom:</strong> You set up PMO tracking, write status reports, schedule phase gates.</p>
 <p><strong>Result:</strong> Governance dies after 6 months when "the project ends."</p>
 <p><strong>Fix:</strong> Treat governance as operations, not a project. RACI matrix = permanent org structure.</p>
 <hr />
-<h2>The Authority Framework You Need</h2>
+<h2 id="the-authority-framework-you-need">The Authority Framework You Need</h2>
 <p>Reading this guide gives you the playbook.</p>
 <p><strong>The RACI Matrix gives you the authority to execute it.</strong></p>
 <p>Without clear ownership of:<br />
@@ -651,7 +697,7 @@
 - Who decides what to keep vs kill (CFO + Business Unit Head)</p>
 <p>...you'll spend 90 days asking for permission instead of taking action.</p>
 <hr />
-<h3>🛑 Stop Operating in a Power Vacuum</h3>
+<h3 id="stop-operating-in-a-power-vacuum">🛑 Stop Operating in a Power Vacuum</h3>
 <p>Crisis governance requires command structure, not consensus.</p>
 <p><strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=crisis-recovery">Download the Azure RACI Matrix</a></strong> with 58 Azure operations mapped to 5 roles.</p>
 <p><strong>What's inside:</strong><br />
@@ -668,7 +714,7 @@
 </div>
 
 <hr />
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>Perfect governance takes 18 months.</strong></p>
 <p><strong>Surviving the next 90 days takes triage.</strong></p>
 <p>Kill zombies. Map ownership. Tag the expensive stuff. Lock down new resources.</p>
@@ -676,7 +722,7 @@
 <p><strong>But if you try to build perfect governance while the environment burns, you'll be replaced by someone who knows how to triage.</strong></p>
 <p>This is crisis mode. Act like it.</p>
 <hr />
-<h2>Related Posts</h2>
+<h2 id="related-posts">Related Posts</h2>
 <p><strong>The governance recovery sequence:</strong><br />
 1. <strong>This post</strong> - Crisis mode triage (Days 1-90)<br />
 2. <a href="/blog/azure-cost-optimization-complete-guide/">Azure Cost Optimization Complete Guide</a> - Optimization (Days 91-180)<br />
@@ -691,7 +737,7 @@
 - <a href="/blog/tag-governance-247-variations/">Tag Governance: 247 Variations of "Production"</a> - Semantic standardization<br />
 - <a href="/blog/azure-chargeback-tags-model/">Azure Chargeback That Business Units Accept</a> - The 6 tags that work</p>
 <hr />
-<h3>Azure Admin Starter Kit (Free Download)</h3>
+<h3 id="azure-admin-starter-kit-free-download">Azure Admin Starter Kit (Free Download)</h3>
 <p>Get my KQL cheat sheet, 50 Windows + 50 Linux commands, and an Azure RACI template in one free bundle.</p>
 <p><a href="/blog/starter-kit/">Get the Starter Kit →</a></p>
   </div>

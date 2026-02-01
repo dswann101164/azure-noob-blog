@@ -1,0 +1,62 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between WSUS, SCCM, Azure Update Manager, and Intune?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WSUS is free on-premises patch management for Windows. SCCM is enterprise systems management that includes WSUS for patching plus application deployment and OS imaging. Azure Update Manager is free cloud-native patching for Azure VMs but cannot deploy applications. Intune is cloud-based endpoint management for Windows 10/11 devices at $6-8 per device per month, not designed for servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does SCCM require WSUS to work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. SCCM does not patch by itself. It uses WSUS as the backend update source through the Software Update Point role. If you have SCCM, you have WSUS embedded in the architecture. You cannot use SCCM for patching without WSUS infrastructure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Azure Update Manager replace SCCM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only if your VMs need patching only. Azure Update Manager cannot deploy applications, image operating systems, or perform complex orchestration like patching servers in sequence with application restarts. For on-premises servers, it also requires Azure Arc at $5 per server per month. Most enterprises use both tools during a 3-5 year transition."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When can an enterprise retire SCCM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can retire SCCM when all on-premises servers are migrated or decommissioned, no Azure VMs require complex application deployment, all endpoints are on Intune, and there are no custom OS imaging or complex orchestration needs. For most enterprises this takes 3-5 years minimum."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use Intune for Windows Servers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Intune is designed for Windows 10/11 endpoints like laptops and desktops, not servers. For Windows Server patch management, use SCCM for on-premises servers needing application deployment, or Azure Update Manager for Azure VMs that only need patching."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use both SCCM and Azure Update Manager on the same server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not recommended. Both tools try to control the Windows Update Agent, causing conflicting policies, duplicate updates, and unpredictable behavior. Pick one tool per server: SCCM for on-premises servers and Azure Update Manager for Azure-only VMs, with clear boundaries and no overlap."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is SCCM being discontinued by Microsoft?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, but Microsoft is deprioritizing it. SCCM is still supported through 2027+ with security updates, but new feature investment has shifted to Intune. SCCM remains critical for 60-70% of large enterprises managing legacy infrastructure, and full migration to Intune takes 5-10 years in regulated industries."
+      }
+    }
+  ]
+}

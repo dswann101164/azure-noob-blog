@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="Azure tags evolved from preventing Azure Update Manager disasters to becoming our operational intelligence layer. The Type tag excludes appliances from...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-tags-operational-intelligence.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Operational Intelligence: Using Azure Tags for Instant Answers (2025)",
   "description": "Azure tags evolved from preventing Azure Update Manager disasters to becoming our operational intelligence layer. The Type tag excludes appliances from...",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Azure, Governance, Azure Update Manager, Tags, Operations, Automation, KQL, Policy",
   "articleSection": "Azure",
-  "wordCount": "4815",
+  "wordCount": "4870",
   "timeRequired": "PT24M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -180,6 +210,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-tags-operational-intelligence/"
+}
+</script>
+
+
+
 
 
 
@@ -244,11 +290,11 @@
 
   
   <div class="post-body">
-    <h1>Azure Tags for Operational Intelligence: How We Answer Executive Questions in 30 Seconds Instead of 3 Days</h1>
-<h2>Short Answer</h2>
+    <h1 id="azure-tags-for-operational-intelligence-how-we-answer-executive-questions-in-30-seconds-instead-of-3-days">Azure Tags for Operational Intelligence: How We Answer Executive Questions in 30 Seconds Instead of 3 Days</h1>
+<h2 id="short-answer">Short Answer</h2>
 <p>Azure tags prevent operational disasters by excluding appliances, WSUS-managed VMs, and manual-only systems from Azure Update Manager automated patching while simultaneously enabling instant operational intelligence queries. A Type tag with values (Server, Desktop, Appliance, WSUS, Manual, Exclude) combined with Azure Policy enforcement in Deny mode ensures no VM deploys without explicit patching designation. The same tags answer executive questions about on-prem machine count, vendor appliance inventory, migration progress, and cost allocation in 30-second KQL queries instead of 3-day manual inventory projects.</p>
 <hr />
-<h2>Why did we start tagging Azure resources?</h2>
+<h2 id="why-did-we-start-tagging-azure-resources">Why did we start tagging Azure resources?</h2>
 <p><strong>Original problem:</strong> Azure Update Manager wanted to patch everything.</p>
 <p>We opened the Azure Update Manager console and saw <a href="/blog/azure-update-manager-reality-check/">1,791 VMs flagged for updates</a>. The dashboard showed every VM in our environment as a potential patching target.</p>
 <p><strong>The problem nobody warns you about:</strong></p>
@@ -261,10 +307,10 @@
 <p><strong>Microsoft's solution:</strong> "Just exclude them manually in the portal"</p>
 <p><strong>Reality with dozens of subscriptions:</strong> You need a systematic exclusion mechanism.</p>
 <hr />
-<h2>What happens if you patch the wrong VMs?</h2>
+<h2 id="what-happens-if-you-patch-the-wrong-vms">What happens if you patch the wrong VMs?</h2>
 <p><strong>We didn't learn this the hard way - we prevented it.</strong></p>
 <p>But here's what happens when Azure Update Manager patches systems it shouldn't:</p>
-<h3><strong>Azure Migrate appliances</strong></h3>
+<h3 id="azure-migrate-appliances"><strong>Azure Migrate appliances</strong></h3>
 <p>Azure Migrate appliances are VMs running on-prem or in Azure that discover your environment for migration planning.</p>
 <p><strong>If Azure Update Manager patches them:</strong><br />
 - OS updates modify system files<br />
@@ -275,7 +321,7 @@
 - <a href="/blog/azure-migrate-certificate-18-month-limit/">18 months of dependency mapping at risk</a></p>
 <p><strong>Recovery:</strong> Rebuild appliance, re-register, restart discovery (2-3 days lost)</p>
 <hr />
-<h3><strong>Palo Alto firewall appliances</strong></h3>
+<h3 id="palo-alto-firewall-appliances"><strong>Palo Alto firewall appliances</strong></h3>
 <p>Palo Alto provides hardened firewall appliances as Azure VM images.</p>
 <p><strong>If Azure Update Manager patches them:</strong><br />
 - Vendor image modified by OS updates<br />
@@ -284,7 +330,7 @@
 - Vendor support response: "You modified the image, warranty void"</p>
 <p><strong>Recovery:</strong> Restore from backup, vendor charges for re-provisioning</p>
 <hr />
-<h3><strong>VMs still on WSUS during migration</strong></h3>
+<h3 id="vms-still-on-wsus-during-migration"><strong>VMs still on WSUS during migration</strong></h3>
 <p>During migration, VMs move from on-prem to Azure but might still use on-prem WSUS via ExpressRoute.</p>
 <p><strong>If both WSUS and Azure Update Manager patch the same VM:</strong><br />
 - Both systems schedule reboots independently<br />
@@ -293,7 +339,7 @@
 - Patch conflicts create instability</p>
 <p><strong>Recovery:</strong> Rebuild VM or restore from backup</p>
 <hr />
-<h3><strong>Compliance-hold VMs</strong></h3>
+<h3 id="compliance-hold-vms"><strong>Compliance-hold VMs</strong></h3>
 <p>Some VMs are frozen for audit, legal hold, or compliance reasons.</p>
 <p><strong>If Azure Update Manager modifies them:</strong><br />
 - Audit trail compromised<br />
@@ -301,7 +347,7 @@
 - Legal/regulatory consequences</p>
 <p><strong>Recovery:</strong> None - the violation is permanent in audit logs</p>
 <hr />
-<h2>How the Type tag prevents these disasters</h2>
+<h2 id="how-the-type-tag-prevents-these-disasters">How the Type tag prevents these disasters</h2>
 <p><strong>We implemented one critical tag: Type</strong></p>
 <p><strong>Azure Policy enforcement: Deny mode</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
@@ -329,7 +375,7 @@
 - No "default to patch everything" behavior<br />
 - Makes patching strategy explicit</p>
 <hr />
-<h2>The Type tag values (patching designation)</h2>
+<h2 id="the-type-tag-values-patching-designation">The Type tag values (patching designation)</h2>
 <p><strong>When creating a VM, you must choose:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="n">Servers</span><span class="w"> </span><span class="n">patched</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">Manager</span>
 <span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Desktop</span><span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="n">Desktops</span><span class="w"> </span><span class="o">(</span><span class="n">AUM</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Intune</span><span class="o">)</span>
@@ -341,7 +387,7 @@
 
 <p><strong>This single tag answers:</strong> "Should Azure Update Manager touch this VM?"</p>
 <hr />
-<h2>Azure Update Manager filtering workflow</h2>
+<h2 id="azure-update-manager-filtering-workflow">Azure Update Manager filtering workflow</h2>
 <p><strong>Step 1: Open Azure Update Manager console</strong></p>
 <p>Dashboard shows all VMs in your subscriptions (thousands of VMs across dozens of subscriptions).</p>
 <p><strong>Step 2: Apply filter</strong></p>
@@ -355,7 +401,7 @@
 - No compliance violations</p>
 <p><strong>Result:</strong> From 1,791 VMs → 348 servers (accurate patching scope)</p>
 <hr />
-<h2>Real operational scenario: Palo Alto firewall inventory</h2>
+<h2 id="real-operational-scenario-palo-alto-firewall-inventory">Real operational scenario: Palo Alto firewall inventory</h2>
 <p><strong>The security team question:</strong></p>
 <blockquote>
 <p>"How many Palo Alto firewall appliances do we have across all subscriptions?"</p>
@@ -407,11 +453,11 @@
 - Security audits (inventory all security appliances)<br />
 - Support escalations (which appliances need vendor updates?)</p>
 <hr />
-<h2>Beyond patching: Tags as operational intelligence</h2>
+<h2 id="beyond-patching-tags-as-operational-intelligence">Beyond patching: Tags as operational intelligence</h2>
 <p><strong>We started tagging to prevent Azure Update Manager disasters.</strong></p>
 <p><strong>We kept tagging because suddenly we could answer questions that used to take days.</strong></p>
 <hr />
-<h3><strong>Executive question: "How many machines are on-prem?"</strong></h3>
+<h3 id="executive-question-how-many-machines-are-on-prem"><strong>Executive question: "How many machines are on-prem?"</strong></h3>
 <p><strong>Before tags:</strong><br />
 - Check Azure Arc registrations<br />
 - Review ExpressRoute connectivity<br />
@@ -427,7 +473,7 @@
 
 <p><strong>Answer: 847 machines (30 seconds)</strong></p>
 <hr />
-<h3><strong>Executive question: "How many appliances by vendor?"</strong></h3>
+<h3 id="executive-question-how-many-appliances-by-vendor"><strong>Executive question: "How many appliances by vendor?"</strong></h3>
 <p><strong>Before tags:</strong><br />
 - Manual inventory across subscriptions<br />
 - Check naming conventions<br />
@@ -450,7 +496,7 @@ Datadog         2     (Monitoring)
 </code></pre></div>
 
 <hr />
-<h3><strong>CFO question: "What's our migration progress from WSUS to Azure Update Manager?"</strong></h3>
+<h3 id="cfo-question-what-s-our-migration-progress-from-wsus-to-azure-update-manager"><strong>CFO question: "What's our migration progress from WSUS to Azure Update Manager?"</strong></h3>
 <p><strong>Before tags:</strong><br />
 - Check WSUS server logs<br />
 - Review Azure Update Manager dashboard<br />
@@ -473,7 +519,7 @@ Migration: 74% complete
 </code></pre></div>
 
 <hr />
-<h3><strong>CTO question: "Show me our hybrid footprint"</strong></h3>
+<h3 id="cto-question-show-me-our-hybrid-footprint"><strong>CTO question: "Show me our hybrid footprint"</strong></h3>
 <p><strong>Before tags:</strong><br />
 - Azure Arc inventory<br />
 - ExpressRoute metrics<br />
@@ -500,7 +546,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h3><strong>Finance question: "What's our monthly cost for on-prem connectivity?"</strong></h3>
+<h3 id="finance-question-what-s-our-monthly-cost-for-on-prem-connectivity"><strong>Finance question: "What's our monthly cost for on-prem connectivity?"</strong></h3>
 <p><strong>Before tags:</strong><br />
 - Review ExpressRoute bills<br />
 - Estimate VM overhead<br />
@@ -523,22 +569,22 @@ Hybrid footprint: 40%
 <p><strong>Result: Breakdown by cost center showing hybrid VM distribution</strong></p>
 <p><strong>Follow-up calculation:</strong> 847 VMs × average connectivity cost = monthly hybrid overhead</p>
 <hr />
-<h2>Our complete tag schema (operational intelligence layer)</h2>
+<h2 id="our-complete-tag-schema-operational-intelligence-layer">Our complete tag schema (operational intelligence layer)</h2>
 <p><strong>We use 9 tags total:</strong></p>
-<h3><strong>Critical safety tag:</strong></h3>
+<h3 id="critical-safety-tag"><strong>Critical safety tag:</strong></h3>
 <ol>
 <li><strong>Type</strong> - Patching designation</li>
 <li>Prevents Azure Update Manager disasters</li>
 <li>Enables patching inventory</li>
 <li>Policy enforced (Deny mode)</li>
 </ol>
-<h3><strong>Cost allocation tags:</strong></h3>
+<h3 id="cost-allocation-tags"><strong>Cost allocation tags:</strong></h3>
 <ol>
 <li><strong>CostCenter</strong> - Billing chargeback</li>
 <li><strong>Application</strong> - Cost rollup by business app</li>
 <li><strong>Owner</strong> - Accountability (email address)</li>
 </ol>
-<h3><strong>Operational intelligence tags:</strong></h3>
+<h3 id="operational-intelligence-tags"><strong>Operational intelligence tags:</strong></h3>
 <ol>
 <li><strong>Environment</strong> - Prod/Dev/Test</li>
 <li><strong>Location</strong> - Physical/logical placement</li>
@@ -546,13 +592,13 @@ Hybrid footprint: 40%
 <li><strong>Desktop</strong> - OS category (boolean)</li>
 <li><strong>Server</strong> - OS category (boolean)</li>
 </ol>
-<h3><strong>Future improvement (vendor accountability):</strong></h3>
+<h3 id="future-improvement-vendor-accountability"><strong>Future improvement (vendor accountability):</strong></h3>
 <ol>
 <li><strong>Appliance</strong> - Specific appliance type (not yet implemented)</li>
 <li><strong>Vendor</strong> - Vendor responsibility (not yet implemented)</li>
 </ol>
 <hr />
-<h2>Policy enforcement: Why Deny mode matters</h2>
+<h2 id="policy-enforcement-why-deny-mode-matters">Policy enforcement: Why Deny mode matters</h2>
 <p><strong>We tried Audit mode first.</strong></p>
 <p><strong>Audit mode result:</strong><br />
 - Policy flags non-compliance<br />
@@ -566,8 +612,8 @@ Hybrid footprint: 40%
 - No VMs slip through</p>
 <p><strong>Deny mode forces operational discipline at creation time.</strong></p>
 <hr />
-<h2>Tag validation and audit queries</h2>
-<h3><strong>VMs without Type tag (policy violation)</strong></h3>
+<h2 id="tag-validation-and-audit-queries">Tag validation and audit queries</h2>
+<h3 id="vms-without-type-tag-policy-violation"><strong>VMs without Type tag (policy violation)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">)</span>
@@ -576,7 +622,7 @@ Hybrid footprint: 40%
 
 <p><strong>If this returns results:</strong> Azure Policy isn't applied to all subscriptions</p>
 <hr />
-<h3><strong>Appliances inventory (vendor responsibility)</strong></h3>
+<h3 id="appliances-inventory-vendor-responsibility"><strong>Appliances inventory (vendor responsibility)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
@@ -587,7 +633,7 @@ Hybrid footprint: 40%
 
 <p><strong>Shows:</strong> All systems that vendors should patch, not us</p>
 <hr />
-<h3><strong>Azure VMs still on WSUS (migration tracking)</strong></h3>
+<h3 id="azure-vms-still-on-wsus-migration-tracking"><strong>Azure VMs still on WSUS (migration tracking)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;east&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;central&quot;</span>
@@ -598,7 +644,7 @@ Hybrid footprint: 40%
 
 <p><strong>Shows:</strong> VMs in Azure still using on-prem WSUS (migration in progress)</p>
 <hr />
-<h3><strong>VMs eligible for Azure Update Manager</strong></h3>
+<h3 id="vms-eligible-for-azure-update-manager"><strong>VMs eligible for Azure Update Manager</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
@@ -608,7 +654,7 @@ Hybrid footprint: 40%
 
 <p><strong>Shows:</strong> Accurate scope for Azure Update Manager deployments</p>
 <hr />
-<h3><strong>On-prem vs Azure-only distribution</strong></h3>
+<h3 id="on-prem-vs-azure-only-distribution"><strong>On-prem vs Azure-only distribution</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionDisplayName</span>
@@ -617,7 +663,7 @@ Hybrid footprint: 40%
 
 <p><strong>Shows:</strong> Hybrid footprint by subscription</p>
 <hr />
-<h3><strong>Cost by application (cross-subscription)</strong></h3>
+<h3 id="cost-by-application-cross-subscription"><strong>Cost by application (cross-subscription)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span>
@@ -628,8 +674,8 @@ Hybrid footprint: 40%
 
 <p><strong>Shows:</strong> VM distribution by business application for cost allocation</p>
 <hr />
-<h2>Other operational tags (supporting cast)</h2>
-<h3><strong>Desktop vs Server (patch schedules)</strong></h3>
+<h2 id="other-operational-tags-supporting-cast">Other operational tags (supporting cast)</h2>
+<h3 id="desktop-vs-server-patch-schedules"><strong>Desktop vs Server (patch schedules)</strong></h3>
 <p><strong>Why it matters:</strong><br />
 - Desktops: Can reboot during business hours (less disruptive)<br />
 - Servers: Require maintenance windows (change control)</p>
@@ -642,7 +688,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h3><strong>Location (physical/logical grouping)</strong></h3>
+<h3 id="location-physical-logical-grouping"><strong>Location (physical/logical grouping)</strong></h3>
 <p><strong>Why it matters:</strong><br />
 - Tracks where resources are during migration<br />
 - Helps coordinate hybrid patching<br />
@@ -656,7 +702,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h3><strong>OnPrem (connectivity status)</strong></h3>
+<h3 id="onprem-connectivity-status"><strong>OnPrem (connectivity status)</strong></h3>
 <p><strong>Why it matters:</strong><br />
 - Hybrid resources need different patching paths<br />
 - Migration progress tracking<br />
@@ -670,7 +716,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h3><strong>Environment (maintenance windows)</strong></h3>
+<h3 id="environment-maintenance-windows"><strong>Environment (maintenance windows)</strong></h3>
 <p><strong>Why it matters:</strong><br />
 - Production systems need change control<br />
 - Dev/Test can be patched more aggressively<br />
@@ -684,8 +730,8 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h2>What we got right and what we'd improve</h2>
-<h3><strong>What works (implemented):</strong></h3>
+<h2 id="what-we-got-right-and-what-we-d-improve">What we got right and what we'd improve</h2>
+<h3 id="what-works-implemented"><strong>What works (implemented):</strong></h3>
 <p>✅ <strong>Type tag prevents disasters</strong><br />
 - Azure Update Manager can't touch appliances<br />
 - No double-patching conflicts with WSUS<br />
@@ -703,7 +749,7 @@ Hybrid footprint: 40%
 - "Migration progress?" → 30 seconds<br />
 - "Appliances by vendor?" → 30 seconds</p>
 <hr />
-<h3><strong>What we'd improve (not yet implemented):</strong></h3>
+<h3 id="what-we-d-improve-not-yet-implemented"><strong>What we'd improve (not yet implemented):</strong></h3>
 <p>📋 <strong>Add Appliance subtag for inventory</strong></p>
 <p><strong>Current:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
@@ -743,7 +789,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h2>What Microsoft should provide (but doesn't)</h2>
+<h2 id="what-microsoft-should-provide-but-doesn-t">What Microsoft should provide (but doesn't)</h2>
 <p><strong>Azure Update Manager should natively:</strong><br />
 - Detect known appliance types automatically (Azure Migrate, Backup, Arc)<br />
 - Warn before patching vendor appliances<br />
@@ -756,7 +802,7 @@ Hybrid footprint: 40%
 - Manual filtering only</p>
 <p><strong>Tags fill the gap Microsoft leaves.</strong></p>
 <hr />
-<h2>The bigger pattern: Tags as infrastructure</h2>
+<h2 id="the-bigger-pattern-tags-as-infrastructure">The bigger pattern: Tags as infrastructure</h2>
 <p><strong>Most organizations tag for:</strong><br />
 - Cost allocation (finance requirement)<br />
 - Compliance (audit requirement)</p>
@@ -768,8 +814,8 @@ Hybrid footprint: 40%
 <p><strong>Tags aren't metadata.</strong></p>
 <p><strong>Tags are infrastructure.</strong></p>
 <hr />
-<h2>Production lessons learned</h2>
-<h3><strong>1. Deny mode enforcement is essential</strong></h3>
+<h2 id="production-lessons-learned">Production lessons learned</h2>
+<h3 id="1-deny-mode-enforcement-is-essential"><strong>1. Deny mode enforcement is essential</strong></h3>
 <p><strong>Audit mode doesn't work:</strong><br />
 - People ignore compliance reports<br />
 - VMs created without tags<br />
@@ -780,7 +826,7 @@ Hybrid footprint: 40%
 - No VMs slip through<br />
 - Tag quality remains high</p>
 <hr />
-<h3><strong>2. Simple tag schemas scale better than complex ones</strong></h3>
+<h3 id="2-simple-tag-schemas-scale-better-than-complex-ones"><strong>2. Simple tag schemas scale better than complex ones</strong></h3>
 <p><strong>We started with 9 required tags.</strong></p>
 <p><strong>Reality: Only 3-5 tags get consistently used.</strong></p>
 <p><strong>Core tags (actually enforced):</strong><br />
@@ -792,7 +838,7 @@ Hybrid footprint: 40%
 - Environment, Location, OnPrem, Desktop, Server</p>
 <p><strong>The lesson:</strong> Enforce the critical few, recommend the rest.</p>
 <hr />
-<h3><strong>3. Tag-based queries replace manual inventory</strong></h3>
+<h3 id="3-tag-based-queries-replace-manual-inventory"><strong>3. Tag-based queries replace manual inventory</strong></h3>
 <p><strong>Before tags:</strong><br />
 - "How many VMs?" → Manual count across subscriptions<br />
 - "Migration progress?" → Compare WSUS logs to Azure<br />
@@ -802,7 +848,7 @@ Hybrid footprint: 40%
 - 30 seconds instead of 3 days<br />
 - Data stays current (tags updated at creation)</p>
 <hr />
-<h3><strong>4. Tags enable automation at scale</strong></h3>
+<h3 id="4-tags-enable-automation-at-scale"><strong>4. Tags enable automation at scale</strong></h3>
 <p><strong>Azure Update Manager filtering:</strong><br />
 - Type = Server → Safe patching scope<br />
 - Type = Appliance → Excluded automatically</p>
@@ -813,8 +859,8 @@ Hybrid footprint: 40%
 - Environment = Production → Stricter backup retention<br />
 - OnPrem = Yes → Include in hybrid monitoring</p>
 <hr />
-<h2>How to implement this in your environment</h2>
-<h3><strong>Step 1: Define your Type tag values</strong></h3>
+<h2 id="how-to-implement-this-in-your-environment">How to implement this in your environment</h2>
+<h3 id="step-1-define-your-type-tag-values"><strong>Step 1: Define your Type tag values</strong></h3>
 <p><strong>Minimum viable schema:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span><span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">Manager</span><span class="w"> </span><span class="n">patches</span><span class="w"> </span><span class="k">this</span>
 <span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span><span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="n">Never</span><span class="w"> </span><span class="n">patch</span><span class="w"> </span><span class="o">(</span><span class="n">vendor</span><span class="w"> </span><span class="n">managed</span><span class="o">)</span>
@@ -828,7 +874,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h3><strong>Step 2: Create Azure Policy (Deny mode)</strong></h3>
+<h3 id="step-2-create-azure-policy-deny-mode"><strong>Step 2: Create Azure Policy (Deny mode)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;policyRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -853,7 +899,7 @@ Hybrid footprint: 40%
 <p><strong>Assign to:</strong> All subscriptions</p>
 <p><strong>Result:</strong> No VM creation without Type tag</p>
 <hr />
-<h3><strong>Step 3: Tag existing VMs</strong></h3>
+<h3 id="step-3-tag-existing-vms"><strong>Step 3: Tag existing VMs</strong></h3>
 <p><strong>Query existing VMs without Type tag:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -875,7 +921,7 @@ Hybrid footprint: 40%
 - Vendor appliances → Type: Appliance<br />
 - Frozen VMs → Type: Exclude</p>
 <hr />
-<h3><strong>Step 4: Configure Azure Update Manager filtering</strong></h3>
+<h3 id="step-4-configure-azure-update-manager-filtering"><strong>Step 4: Configure Azure Update Manager filtering</strong></h3>
 <ol>
 <li>Open Azure Update Manager</li>
 <li>Apply filter: <code>Type = Server</code></li>
@@ -883,7 +929,7 @@ Hybrid footprint: 40%
 <li>Deploy patches to filtered scope</li>
 </ol>
 <hr />
-<h3><strong>Step 5: Build operational intelligence queries</strong></h3>
+<h3 id="step-5-build-operational-intelligence-queries"><strong>Step 5: Build operational intelligence queries</strong></h3>
 <p><strong>Save these queries in Azure Resource Graph:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Dashboard: VM distribution by patching type</span>
 <span class="n">Resources</span>
@@ -904,7 +950,7 @@ Hybrid footprint: 40%
 </code></pre></div>
 
 <hr />
-<h2>What executive questions can you answer now?</h2>
+<h2 id="what-executive-questions-can-you-answer-now">What executive questions can you answer now?</h2>
 <p><strong>Before tags:</strong><br />
 - "How many machines on-prem?" → <strong>3 days of manual inventory</strong><br />
 - "How many appliances?" → <strong>Ask each team individually</strong><br />
@@ -917,7 +963,7 @@ Hybrid footprint: 40%
 - "Cost by application?" → <strong>30 seconds (KQL query)</strong></p>
 <p><strong>Tags transform Azure from infrastructure into intelligence.</strong></p>
 <hr />
-<h3>🛑 Ownership of Intelligence</h3>
+<h3 id="ownership-of-intelligence">🛑 Ownership of Intelligence</h3>
 <p>Who answers the executive questions? The person with the data.<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-ops-intel">Download the Azure RACI Matrix</a></strong> to empower your Operations team with defined reporting responsibilities.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">
@@ -928,7 +974,7 @@ Hybrid footprint: 40%
 </div>
 
 <hr />
-<h2>Related operational challenges</h2>
+<h2 id="related-operational-challenges">Related operational challenges</h2>
 <p><strong>This post covered:</strong> Tag-based operational intelligence for patching, inventory, and migration tracking</p>
 <p><strong>Next challenges:</strong><br />
 - <a href="/blog/logic-app-certificate-monitor/">Certificate expiration monitoring</a> (automated Logic App solution)<br />

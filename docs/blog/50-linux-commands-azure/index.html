@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="50 production-tested Linux commands for Azure VMs. Troubleshoot authentication, mount disks, and join Active Directory - all from the command line.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/linux-commands-azure.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "50 Essential Linux Commands for Azure Admins (Complete 2025 Guide)",
   "description": "50 production-tested Linux commands for Azure VMs. Troubleshoot authentication, mount disks, and join Active Directory - all from the command line.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, linux, operations, active-directory, troubleshooting, commands",
   "articleSection": "azure",
-  "wordCount": "5756",
+  "wordCount": "5830",
   "timeRequired": "PT29M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/50-linux-commands-azure/"
+}
+</script>
+
+
+
 
 
 
@@ -240,14 +286,14 @@
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
 <p>This is when you need actual Linux commands.</p>
 <p>This guide covers the 50 commands that bridge the gap between successful deployment and operational readiness. These are the commands I use daily managing Azure infrastructure in a regulated banking environment.</p>
-<h2>Who This is For</h2>
+<h2 id="who-this-is-for">Who This is For</h2>
 <ul>
 <li>Azure administrators managing Linux VMs</li>
 <li>Anyone who's ever seen "Deployment succeeded" but things don't work</li>
 <li>Enterprise environments with Active Directory requirements</li>
 <li>Operations teams bridging cloud and traditional infrastructure</li>
 </ul>
-<h2>Table of Contents</h2>
+<h2 id="table-of-contents">Table of Contents</h2>
 <ol>
 <li><a href="#azure-basics">Azure-Specific Basics</a></li>
 <li><a href="#system-admin">System Administration</a></li>
@@ -260,8 +306,8 @@
 <li><a href="#quick-reference">Quick Reference</a></li>
 </ol>
 <hr />
-<h2><a name="azure-basics"></a>Part 1: Azure-Specific Basics</h2>
-<h3>Azure VM Agent &amp; Extensions</h3>
+<h2 id="part-1-azure-specific-basics"><a name="azure-basics"></a>Part 1: Azure-Specific Basics</h2>
+<h3 id="azure-vm-agent-extensions">Azure VM Agent &amp; Extensions</h3>
 <p>The Azure VM Agent enables extensions, monitoring, and management. When extensions won't install or Azure automation fails, start here:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check agent status</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>walinuxagent
@@ -288,7 +334,7 @@ sudo<span class="w"> </span>cat<span class="w"> </span>/var/lib/waagent/Microsof
 sudo<span class="w"> </span>cat<span class="w"> </span>/var/lib/waagent/Microsoft.Azure.Extensions.CustomScript*/status/*.status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>exitCode
 </code></pre></div>
 
-<h3>Azure Instance Metadata Service (IMDS)</h3>
+<h3 id="azure-instance-metadata-service-imds">Azure Instance Metadata Service (IMDS)</h3>
 <p>Query VM metadata and managed identity tokens:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Get VM metadata</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Metadata:true&quot;</span><span class="w"> </span><span class="s2">&quot;http://169.254.169.254/metadata/instance?api-version=2021-02-01&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
@@ -301,7 +347,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Met
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Metadata:true&quot;</span><span class="w"> </span><span class="s2">&quot;http://169.254.169.254/metadata/instance/compute/identity?api-version=2021-02-01&quot;</span>
 </code></pre></div>
 
-<h3>cloud-init Troubleshooting</h3>
+<h3 id="cloud-init-troubleshooting">cloud-init Troubleshooting</h3>
 <p>If you used custom_data for VM initialization:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check cloud-init logs</span>
 sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </span>/var/log/cloud-init-output.log
@@ -319,15 +365,15 @@ sudo<span class="w"> </span>cloud-init<span class="w"> </span>init
 <p><strong>💼 Enterprise Callout: Active Directory Domain Join</strong></p>
 <p>If you need to join Azure VMs to Active Directory for centralized authentication:<br />
 ```bash</p>
-<h1>Quick test if domain join succeeded</h1>
+<h1 id="quick-test-if-domain-join-succeeded">Quick test if domain join succeeded</h1>
 <p>sudo realm list<br />
 getent passwd username@DOMAIN.COM<br />
 ```</p>
 <p><a href="#active-directory">Jump to full Active Directory guide →</a></p>
 </blockquote>
 <hr />
-<h2><a name="system-admin"></a>Part 2: System Administration</h2>
-<h3>Process &amp; Performance Monitoring</h3>
+<h2 id="part-2-system-administration"><a name="system-admin"></a>Part 2: System Administration</h2>
+<h3 id="process-performance-monitoring">Process &amp; Performance Monitoring</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Real-time process monitoring</span>
 top
 htop<span class="w">  </span><span class="c1"># Install with: apt install htop</span>
@@ -348,7 +394,7 @@ sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w">
 sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>sshd<span class="w"> </span>-f
 </code></pre></div>
 
-<h3>System Resource Checks</h3>
+<h3 id="system-resource-checks">System Resource Checks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Disk usage</span>
 df<span class="w"> </span>-h
 du<span class="w"> </span>-sh<span class="w"> </span>/var/log/*
@@ -368,7 +414,7 @@ cat<span class="w"> </span>/proc/cpuinfo
 top<span class="w"> </span>-b<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
 </code></pre></div>
 
-<h3>User &amp; Permission Management</h3>
+<h3 id="user-permission-management">User &amp; Permission Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Execute as root</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
 
@@ -395,8 +441,8 @@ groups<span class="w"> </span>username
 </code></pre></div>
 
 <hr />
-<h2><a name="networking"></a>Part 3: Networking</h2>
-<h3>Connectivity Testing</h3>
+<h2 id="part-3-networking"><a name="networking"></a>Part 3: Networking</h2>
+<h3 id="connectivity-testing">Connectivity Testing</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Test basic connectivity</span>
 ping<span class="w"> </span><span class="m">8</span>.8.8.8
 ping<span class="w"> </span>DC01.CONTOSO.COM
@@ -420,7 +466,7 @@ dig<span class="w"> </span>DC01.CONTOSO.COM
 cat<span class="w"> </span>/etc/resolv.conf
 </code></pre></div>
 
-<h3>Network Status &amp; Configuration</h3>
+<h3 id="network-status-configuration">Network Status &amp; Configuration</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show network interfaces (modern)</span>
 ip<span class="w"> </span>addr<span class="w"> </span>show
 ip<span class="w"> </span>link<span class="w"> </span>show
@@ -437,7 +483,7 @@ netstat<span class="w"> </span>-tulpn
 netstat<span class="w"> </span>-an<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ESTABLISHED
 </code></pre></div>
 
-<h3>Firewall Management</h3>
+<h3 id="firewall-management">Firewall Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Ubuntu/Debian - UFW</span>
 sudo<span class="w"> </span>ufw<span class="w"> </span>status
 sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">22</span>/tcp
@@ -455,8 +501,8 @@ sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> <
 
 <p><strong>Important:</strong> Azure NSG rules take precedence over VM-level firewalls. If you can't connect, check both.</p>
 <hr />
-<h2><a name="file-operations"></a>Part 4: File Operations</h2>
-<h3>Navigation &amp; Viewing</h3>
+<h2 id="part-4-file-operations"><a name="file-operations"></a>Part 4: File Operations</h2>
+<h3 id="navigation-viewing">Navigation &amp; Viewing</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># List files with details</span>
 ls<span class="w"> </span>-la
 ls<span class="w"> </span>-lh<span class="w">  </span><span class="c1"># Human-readable sizes</span>
@@ -487,7 +533,7 @@ head<span class="w"> </span>-20<span class="w"> </span>/var/log/syslog
 tail<span class="w"> </span>-50<span class="w"> </span>/var/log/syslog
 </code></pre></div>
 
-<h3>Searching</h3>
+<h3 id="searching">Searching</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Find files</span>
 find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
 find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>-7<span class="w">  </span><span class="c1"># Modified in last 7 days</span>
@@ -502,7 +548,7 @@ grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;aut
 grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span>-B<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>logfile.txt
 </code></pre></div>
 
-<h3>File Management</h3>
+<h3 id="file-management">File Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Copy files</span>
 cp<span class="w"> </span>file1.txt<span class="w"> </span>file2.txt
 cp<span class="w"> </span>-r<span class="w"> </span>/source/dir<span class="w"> </span>/destination/dir
@@ -523,7 +569,7 @@ mkdir<span class="w"> </span>/datadisk/backups
 mkdir<span class="w"> </span>-p<span class="w"> </span>/data/app/logs<span class="w">  </span><span class="c1"># Create parent dirs</span>
 </code></pre></div>
 
-<h3>Archive Operations</h3>
+<h3 id="archive-operations">Archive Operations</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Create tar archive</span>
 tar<span class="w"> </span>-czf<span class="w"> </span>backup.tar.gz<span class="w"> </span>/var/www/html/
 
@@ -540,9 +586,9 @@ unzip<span class="w"> </span>archive.zip
 </code></pre></div>
 
 <hr />
-<h2><a name="disk-operations"></a>Part 5: Azure Disk Operations</h2>
+<h2 id="part-5-azure-disk-operations"><a name="disk-operations"></a>Part 5: Azure Disk Operations</h2>
 <p>When you attach a managed disk via Portal, PowerShell, or IaC, it shows as "attached" but isn't mounted. Here's how to make it usable:</p>
-<h3>Check Attached Disks</h3>
+<h3 id="check-attached-disks">Check Attached Disks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># List block devices</span>
 lsblk
 
@@ -553,7 +599,7 @@ sudo<span class="w"> </span>fdisk<span class="w"> </span>-l
 sudo<span class="w"> </span>blkid
 </code></pre></div>
 
-<h3>Partition, Format, and Mount</h3>
+<h3 id="partition-format-and-mount">Partition, Format, and Mount</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Partition the disk (interactive)</span>
 sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sdc
 <span class="c1"># Commands: n (new), p (primary), 1 (partition number), enter, enter, w (write)</span>
@@ -572,7 +618,7 @@ df<span class="w"> </span>-h
 mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>sdc
 </code></pre></div>
 
-<h3>Make Mount Permanent</h3>
+<h3 id="make-mount-permanent">Make Mount Permanent</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Get UUID</span>
 sudo<span class="w"> </span>blkid<span class="w"> </span>/dev/sdc1
 <span class="c1"># Output: /dev/sdc1: UUID=&quot;abc123...&quot; TYPE=&quot;ext4&quot;</span>
@@ -592,8 +638,8 @@ df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><spa
 
 <p><strong>Important:</strong> Always use <code>nofail</code> option in fstab for data disks. Otherwise, if the disk fails to mount, the VM won't boot.</p>
 <hr />
-<h2><a name="security-logs"></a>Part 6: Security &amp; Logs</h2>
-<h3>Log Files</h3>
+<h2 id="part-6-security-logs"><a name="security-logs"></a>Part 6: Security &amp; Logs</h2>
+<h3 id="log-files">Log Files</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># System logs</span>
 sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </span>/var/log/syslog<span class="w">        </span><span class="c1"># Ubuntu/Debian</span>
 sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </span>/var/log/messages<span class="w">      </span><span class="c1"># RHEL/CentOS</span>
@@ -614,7 +660,7 @@ dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>gre
 sudo<span class="w"> </span>journalctl<span class="w"> </span>-b
 </code></pre></div>
 
-<h3>Security Checks</h3>
+<h3 id="security-checks">Security Checks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check login history</span>
 last
 last<span class="w"> </span>-a<span class="w">  </span><span class="c1"># Show hostname</span>
@@ -636,7 +682,7 @@ sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;s
 </code></pre></div>
 
 <hr />
-<h2><a name="azure-cli"></a>Part 7: Azure CLI Commands</h2>
+<h2 id="part-7-azure-cli-commands"><a name="azure-cli"></a>Part 7: Azure CLI Commands</h2>
 <p>Install Azure CLI:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Ubuntu/Debian</span>
 curl<span class="w"> </span>-sL<span class="w"> </span>https://aka.ms/InstallAzureCLIDeb<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash
@@ -686,11 +732,11 @@ az<span class="w"> </span>disk<span class="w"> </span>show<span class="w"> </spa
 </code></pre></div>
 
 <hr />
-<h2><a name="active-directory"></a>Part 8: Active Directory Domain Join (Enterprise Deep-Dive)</h2>
+<h2 id="part-8-active-directory-domain-join-enterprise-deep-dive"><a name="active-directory"></a>Part 8: Active Directory Domain Join (Enterprise Deep-Dive)</h2>
 <blockquote>
 <p><strong>Note:</strong> This section is optional. Skip if you don't need Active Directory integration.</p>
 </blockquote>
-<h3>When You Need This</h3>
+<h3 id="when-you-need-this">When You Need This</h3>
 <ul>
 <li>Centralized user authentication across hybrid infrastructure</li>
 <li>Group Policy management for compliance</li>
@@ -698,7 +744,7 @@ az<span class="w"> </span>disk<span class="w"> </span>show<span class="w"> </spa
 <li>Regulated environments (banking, healthcare, government)</li>
 </ul>
 <p>Most Azure documentation focuses on Azure AD Domain Services (AADDS). This guide covers joining to <strong>traditional Active Directory Domain Controllers</strong>, which is what most enterprises actually run.</p>
-<h3>Prerequisites</h3>
+<h3 id="prerequisites">Prerequisites</h3>
 <p>Before attempting domain join:</p>
 <ol>
 <li><strong>Network connectivity</strong> - VM must reach domain controller</li>
@@ -707,7 +753,7 @@ az<span class="w"> </span>disk<span class="w"> </span>show<span class="w"> </spa
 <li><strong>Ports open</strong> - 53, 88, 389, 445, 636 (minimum)</li>
 <li><strong>Admin credentials</strong> - Account with domain join privileges</li>
 </ol>
-<h3>Required Ports</h3>
+<h3 id="required-ports">Required Ports</h3>
 <table>
 <thead>
 <tr>
@@ -774,7 +820,7 @@ az<span class="w"> </span>disk<span class="w"> </span>show<span class="w"> </spa
 </tr>
 </tbody>
 </table>
-<h3>Installation (Ubuntu/Debian)</h3>
+<h3 id="installation-ubuntu-debian">Installation (Ubuntu/Debian)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Update package list</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 
@@ -785,7 +831,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <span class="c1"># During install, you&#39;ll be prompted for Kerberos realm (DOMAIN.COM in uppercase)</span>
 </code></pre></div>
 
-<h3>Installation (RHEL/CentOS)</h3>
+<h3 id="installation-rhel-centos">Installation (RHEL/CentOS)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Install packages</span>
 sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>realmd<span class="w"> </span>sssd<span class="w"> </span>oddjob<span class="w"> </span>oddjob-mkhomedir<span class="w"> </span>adcli<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>samba-common<span class="w"> </span>samba-common-tools<span class="w"> </span>krb5-workstation
@@ -795,8 +841,8 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">en
 sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>sssd
 </code></pre></div>
 
-<h3>Domain Join Process</h3>
-<h4>Step 1: Configure DNS</h4>
+<h3 id="domain-join-process">Domain Join Process</h3>
+<h4 id="step-1-configure-dns">Step 1: Configure DNS</h4>
 <p><strong>Critical:</strong> VM must use domain controller as DNS server, not Azure DNS or public DNS.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check current DNS</span>
 cat<span class="w"> </span>/etc/resolv.conf
@@ -826,7 +872,7 @@ nslookup<span class="w"> </span>CONTOSO.COM
 nslookup<span class="w"> </span>_ldap._tcp.dc._msdcs.CONTOSO.COM
 </code></pre></div>
 
-<h4>Step 2: Configure Time Sync</h4>
+<h4 id="step-2-configure-time-sync">Step 2: Configure Time Sync</h4>
 <p><strong>This is critical.</strong> Kerberos authentication fails if time difference exceeds 5 minutes.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check current time and timezone</span>
 timedatectl<span class="w"> </span>status
@@ -849,7 +895,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class=
 chronyc<span class="w"> </span>sources
 </code></pre></div>
 
-<h4>Step 3: Discover Domain</h4>
+<h4 id="step-3-discover-domain">Step 3: Discover Domain</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Discover domain</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>discover<span class="w"> </span>CONTOSO.COM
 
@@ -872,7 +918,7 @@ ping<span class="w"> </span>DC01.CONTOSO.COM
 nc<span class="w"> </span>-zv<span class="w"> </span>DC01.CONTOSO.COM<span class="w"> </span><span class="m">389</span>
 </code></pre></div>
 
-<h4>Step 4: Join Domain</h4>
+<h4 id="step-4-join-domain">Step 4: Join Domain</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Join domain (interactive - will prompt for password)</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>CONTOSO.COM
 
@@ -904,7 +950,7 @@ sudo<span class="w"> </span>realm<span class="w"> </span>list
 <span class="w">  </span><span class="nx">login</span><span class="o">-</span><span class="nx">policy</span><span class="p">:</span><span class="w"> </span><span class="nx">allow</span><span class="o">-</span><span class="nx">realm</span><span class="o">-</span><span class="nx">logins</span>
 </code></pre></div>
 
-<h4>Step 5: Configure SSSD</h4>
+<h4 id="step-5-configure-sssd">Step 5: Configure SSSD</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Edit SSSD configuration</span>
 sudo<span class="w"> </span>nano<span class="w"> </span>/etc/sssd/sssd.conf
 
@@ -943,7 +989,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="
 <li><code>ldap_id_mapping = True</code> - Automatically map AD SIDs to Unix UIDs/GIDs</li>
 <li><code>cache_credentials = True</code> - Allow offline authentication</li>
 </ul>
-<h4>Step 6: Configure Home Directory Creation</h4>
+<h4 id="step-6-configure-home-directory-creation">Step 6: Configure Home Directory Creation</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Enable automatic home directory creation</span>
 sudo<span class="w"> </span>pam-auth-update<span class="w"> </span>--enable<span class="w"> </span>mkhomedir
 
@@ -955,7 +1001,7 @@ sudo<span class="w"> </span>pam-auth-update<span class="w"> </span>--enable<span
 sudo<span class="w"> </span>authconfig<span class="w"> </span>--enablemkhomedir<span class="w"> </span>--update
 </code></pre></div>
 
-<h4>Step 7: Configure Sudo Access</h4>
+<h4 id="step-7-configure-sudo-access">Step 7: Configure Sudo Access</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add domain admins to sudoers</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%domain\ admins ALL=(ALL:ALL) ALL&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/domain_admins
 
@@ -969,7 +1015,7 @@ sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">0440</s
 sudo<span class="w"> </span>visudo<span class="w"> </span>-c
 </code></pre></div>
 
-<h4>Step 8: Configure SSH</h4>
+<h4 id="step-8-configure-ssh">Step 8: Configure SSH</h4>
 <p>Allow password authentication for domain users:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Edit SSH config</span>
 sudo<span class="w"> </span>nano<span class="w"> </span>/etc/ssh/sshd_config
@@ -986,8 +1032,8 @@ sudo<span class="w"> </span>nano<span class="w"> </span>/etc/ssh/sshd_config.d/5
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
 </code></pre></div>
 
-<h3>Verification &amp; Testing</h3>
-<h4>Test User Lookup</h4>
+<h3 id="verification-testing">Verification &amp; Testing</h3>
+<h4 id="test-user-lookup">Test User Lookup</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Test user lookup via SSSD</span>
 getent<span class="w"> </span>passwd<span class="w"> </span>john@CONTOSO.COM
 getent<span class="w"> </span>passwd<span class="w"> </span>john<span class="w">  </span><span class="c1"># If use_fully_qualified_names = False</span>
@@ -1004,7 +1050,7 @@ id<span class="w"> </span>john@CONTOSO.COM
 groups<span class="w"> </span>john@CONTOSO.COM
 </code></pre></div>
 
-<h4>Test Kerberos Authentication</h4>
+<h4 id="test-kerberos-authentication">Test Kerberos Authentication</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Get Kerberos ticket</span>
 kinit<span class="w"> </span>john@CONTOSO.COM
 <span class="c1"># Enter password when prompted</span>
@@ -1023,7 +1069,7 @@ klist
 kdestroy
 </code></pre></div>
 
-<h4>Test SSH Login</h4>
+<h4 id="test-ssh-login">Test SSH Login</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># From another machine, SSH with domain credentials</span>
 ssh<span class="w"> </span>john@CONTOSO.COM@vm-hostname.contoso.com
 
@@ -1033,8 +1079,8 @@ ssh<span class="w"> </span>john@vm-hostname.contoso.com
 <span class="c1"># First login will create home directory</span>
 </code></pre></div>
 
-<h3>Troubleshooting Commands</h3>
-<h4>Check SSSD Status</h4>
+<h3 id="troubleshooting-commands">Troubleshooting Commands</h3>
+<h4 id="check-sssd-status">Check SSSD Status</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Service status</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sssd
 sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sssd-kcm
@@ -1048,7 +1094,7 @@ sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span cla
 sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span class="w"> </span>CONTOSO.COM<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Online status&quot;</span>
 </code></pre></div>
 
-<h4>View Logs</h4>
+<h4 id="view-logs">View Logs</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Main SSSD log</span>
 sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </span>/var/log/sssd/sssd.log
 
@@ -1062,7 +1108,7 @@ sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </spa
 sudo<span class="w"> </span>tail<span class="w"> </span>-f<span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>pam
 </code></pre></div>
 
-<h4>Clear Cache &amp; Restart</h4>
+<h4 id="clear-cache-restart">Clear Cache &amp; Restart</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Clear SSSD cache</span>
 sudo<span class="w"> </span>sss_cache<span class="w"> </span>-E
 
@@ -1073,7 +1119,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class=
 sudo<span class="w"> </span>sssctl<span class="w"> </span>cache-expire<span class="w"> </span>-E
 </code></pre></div>
 
-<h4>Test Connectivity to DC</h4>
+<h4 id="test-connectivity-to-dc">Test Connectivity to DC</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Ping DC</span>
 ping<span class="w"> </span>DC01.CONTOSO.COM
 
@@ -1088,7 +1134,7 @@ nc<span class="w"> </span>-zv<span class="w"> </span>DC01.CONTOSO.COM<span class
 ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://DC01.CONTOSO.COM<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;DC=CONTOSO,DC=COM&quot;</span>
 </code></pre></div>
 
-<h4>Debug Kerberos</h4>
+<h4 id="debug-kerberos">Debug Kerberos</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Enable Kerberos tracing</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">KRB5_TRACE</span><span class="o">=</span>/dev/stdout
 kinit<span class="w"> </span>john@CONTOSO.COM
@@ -1101,7 +1147,7 @@ nslookup<span class="w"> </span>-type<span class="o">=</span>SRV<span class="w">
 nslookup<span class="w"> </span>-type<span class="o">=</span>SRV<span class="w"> </span>_ldap._tcp.CONTOSO.COM
 </code></pre></div>
 
-<h4>Check User Authentication Attempts</h4>
+<h4 id="check-user-authentication-attempts">Check User Authentication Attempts</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># View all authentication attempts</span>
 sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;authentication&quot;</span><span class="w"> </span>/var/log/auth.log
 
@@ -1115,8 +1161,8 @@ sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;s
 sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;pam_sss&quot;</span><span class="w"> </span>/var/log/auth.log
 </code></pre></div>
 
-<h3>Common Errors &amp; Solutions</h3>
-<h4>Error: "Couldn't join realm: Failed to enroll machine"</h4>
+<h3 id="common-errors-solutions">Common Errors &amp; Solutions</h3>
+<h4 id="error-couldn-t-join-realm-failed-to-enroll-machine">Error: "Couldn't join realm: Failed to enroll machine"</h4>
 <p><strong>Cause:</strong> DNS not configured correctly</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Verify DNS points to DC</span>
@@ -1130,7 +1176,7 @@ nslookup<span class="w"> </span>_ldap._tcp.dc._msdcs.CONTOSO.COM
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;nameserver 10.0.0.4&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/resolv.conf
 </code></pre></div>
 
-<h4>Error: "realm: Couldn't join realm: Insufficient permissions"</h4>
+<h4 id="error-realm-couldn-t-join-realm-insufficient-permissions">Error: "realm: Couldn't join realm: Insufficient permissions"</h4>
 <p><strong>Cause:</strong> User account doesn't have domain join privileges or wrong password</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Verify account can join domain (run on DC or admin workstation)</span>
@@ -1140,7 +1186,7 @@ Get-ADUser<span class="w"> </span>administrator<span class="w"> </span>-Properti
 sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>domainadmin<span class="w"> </span>CONTOSO.COM
 </code></pre></div>
 
-<h4>Error: "No such file or directory" when trying to SSH</h4>
+<h4 id="error-no-such-file-or-directory-when-trying-to-ssh">Error: "No such file or directory" when trying to SSH</h4>
 <p><strong>Cause:</strong> Home directory not created automatically</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Enable home directory creation</span>
@@ -1151,7 +1197,7 @@ sudo<span class="w"> </span>mkdir<span class="w"> </span>/home/john
 sudo<span class="w"> </span>chown<span class="w"> </span>john:domain<span class="se">\ </span>users<span class="w"> </span>/home/john
 </code></pre></div>
 
-<h4>Error: "Permission denied (publickey,password)"</h4>
+<h4 id="error-permission-denied-publickey-password">Error: "Permission denied (publickey,password)"</h4>
 <p><strong>Cause:</strong> Password authentication disabled in SSH</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check SSH config</span>
@@ -1163,7 +1209,7 @@ sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
 </code></pre></div>
 
-<h4>Error: "Clock skew too great" (Kerberos)</h4>
+<h4 id="error-clock-skew-too-great-kerberos">Error: "Clock skew too great" (Kerberos)</h4>
 <p><strong>Cause:</strong> Time difference between VM and DC exceeds 5 minutes</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check time on both systems</span>
@@ -1182,7 +1228,7 @@ timedatectl<span class="w"> </span>status
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>chronyd
 </code></pre></div>
 
-<h4>Error: "getent passwd username" returns nothing</h4>
+<h4 id="error-getent-passwd-username-returns-nothing">Error: "getent passwd username" returns nothing</h4>
 <p><strong>Cause:</strong> SSSD not properly configured or domain not accessible</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check SSSD status</span>
@@ -1201,7 +1247,7 @@ sleep<span class="w"> </span><span class="m">5</span>
 getent<span class="w"> </span>passwd<span class="w"> </span>username
 </code></pre></div>
 
-<h3>Leave Domain</h3>
+<h3 id="leave-domain">Leave Domain</h3>
 <p>If you need to unjoin the domain:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Leave domain</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>leave<span class="w"> </span>CONTOSO.COM
@@ -1215,7 +1261,7 @@ sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span
 sudo<span class="w"> </span>rm<span class="w"> </span>/etc/sssd/sssd.conf
 </code></pre></div>
 
-<h3>Automation Script</h3>
+<h3 id="automation-script">Automation Script</h3>
 <p>Complete domain join script for Ubuntu:</p>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="c1"># domain-join.sh - Automated domain join for Azure VMs</span>
@@ -1267,7 +1313,7 @@ sudo<span class="w"> </span>realm<span class="w"> </span>list
 </code></pre></div>
 
 <hr />
-<h2><a name="quick-reference"></a>Quick Reference Table</h2>
+<h2 id="quick-reference-table"><a name="quick-reference"></a>Quick Reference Table</h2>
 <table>
 <thead>
 <tr>
@@ -1435,8 +1481,8 @@ sudo<span class="w"> </span>realm<span class="w"> </span>list
 </tbody>
 </table>
 <hr />
-<h2>Pro Tips</h2>
-<h3>Serial Console Essentials</h3>
+<h2 id="pro-tips">Pro Tips</h2>
+<h3 id="serial-console-essentials">Serial Console Essentials</h3>
 <p>When SSH is broken, use Azure Serial Console with these commands:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check SSH status</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>sshd
@@ -1451,7 +1497,7 @@ sudo<span class="w"> </span>journalctl<span class="w"> </span>-xe<span class="w"
 sudo<span class="w"> </span>tail<span class="w"> </span>-50<span class="w"> </span>/var/log/syslog
 </code></pre></div>
 
-<h3>Azure Monitor Agent</h3>
+<h3 id="azure-monitor-agent">Azure Monitor Agent</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check AMA status</span>
 systemctl<span class="w"> </span>status<span class="w"> </span>azuremonitoragent
 
@@ -1462,7 +1508,7 @@ journalctl<span class="w"> </span>-u<span class="w"> </span>azuremonitoragent<sp
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>azuremonitoragent
 </code></pre></div>
 
-<h3>Time Sync (Critical for AD)</h3>
+<h3 id="time-sync-critical-for-ad">Time Sync (Critical for AD)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check time status</span>
 timedatectl<span class="w"> </span>status
 
@@ -1476,7 +1522,7 @@ sudo<span class="w"> </span>ntpdate<span class="w"> </span>DC01.CONTOSO.COM
 chronyc<span class="w"> </span>sources
 </code></pre></div>
 
-<h3>Quick Health Check Script</h3>
+<h3 id="quick-health-check-script">Quick Health Check Script</h3>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== System Health Check ===&quot;</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
@@ -1500,7 +1546,7 @@ sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </spa
 </code></pre></div>
 
 <hr />
-<h2>What's Missing from Microsoft's Docs</h2>
+<h2 id="what-s-missing-from-microsoft-s-docs">What's Missing from Microsoft's Docs</h2>
 <p>Microsoft's Azure Linux documentation assumes you already know:</p>
 <ol>
 <li><strong>Linux basics</strong> - They jump straight to Azure-specific tools</li>
@@ -1513,14 +1559,14 @@ sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </spa
 </ol>
 <p>This guide fills those gaps with commands you'll actually use.</p>
 <hr />
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>These 50 commands cover 90% of Azure Linux administration tasks. Whether you manage 5 VMs or 5,000, these commands bridge the gap between successful deployment and operational reality.</p>
 <p><strong>For most administrators:</strong> Focus on Parts 1-6 for daily operations</p>
 <p><strong>For enterprise environments:</strong> Add Part 8 (Active Directory) for centralized authentication</p>
 <p><strong>For automation:</strong> Wrap these commands in scripts, Ansible playbooks, or deploy via Custom Script Extensions</p>
 <p>The key insight: Infrastructure-as-code gets you 80% there. These Linux commands handle the remaining 20%.</p>
 <hr />
-<h2>Download: Complete Command Reference</h2>
+<h2 id="download-complete-command-reference">Download: Complete Command Reference</h2>
 <p>Want this as a searchable PDF cheat sheet?</p>
 <p><strong><a href="#">Download: Azure Linux Command Reference (PDF)</a></strong></p>
 <p>Includes:<br />
@@ -1532,7 +1578,7 @@ sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </spa
 <p>Enter your email below and I'll send you the complete guide:</p>
 <p>[Beehiiv email capture form]</p>
 <hr />
-<h2>What's Next?</h2>
+<h2 id="what-s-next">What's Next?</h2>
 <p><strong>Related posts:</strong><br />
 - <a href="/blog/azure-vm-inventory-kql/">Azure VM Inventory with KQL</a><br />
 - <a href="/blog/why-most-azure-migrations-fail/">Why Most Azure Migrations Fail</a><br />
@@ -1541,7 +1587,7 @@ sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </spa
 <hr />
 <p><em>Updated December 2025 - Tested on Ubuntu 22.04 LTS and RHEL 9.x in Azure production environments.</em></p>
 <hr />
-<h2>🎯 Ready for Production-Ready Queries?</h2>
+<h2 id="ready-for-production-ready-queries">🎯 Ready for Production-Ready Queries?</h2>
 <p>This guide covers the basics, but <strong>scaling to 30,000+ resources requires battle-tested patterns.</strong></p>
 <p><strong>The Complete KQL Query Library includes:</strong><br />
 - ✅ 48 copy-paste ready queries (VMs, networking, security, cost)<br />

@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Azure Cost Management has too many blades, scopes, and exports. Learn the core workflows you actually need to make FinOps sustainable.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-cost-management-tame.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Taming Azure Cost Management: The 2025 Survival Guide",
   "description": "Azure Cost Management has too many blades, scopes, and exports. Learn the core workflows you actually need to make FinOps sustainable.",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "Azure, FinOps, Cost Management, Billing, Optimization",
   "articleSection": "Azure",
-  "wordCount": "1162",
+  "wordCount": "1172",
   "timeRequired": "PT6M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-cost-management-is-confusing-but-you-can-tame-it/"
+}
+</script>
+
+
+
 
 
 
@@ -233,13 +279,13 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/finops/">Azure FinOps hub</a> covering cost management, chargeback models, and financial operations at enterprise scale.</p>
-<h2>What problem are we solving?</h2>
+<h2 id="what-problem-are-we-solving">What problem are we solving?</h2>
 <p>If you've ever opened the Azure Cost Management blade and thought:<br />
 <em>"Why doesn't this number match the bill I just got?"</em> — you're not alone.  </p>
 <p>Between <strong>EA vs. CSP billing</strong>, <strong>reserved instances</strong>, <strong>mis-tagged resources</strong>, and <strong>the 36 different cost reports Azure offers</strong>, it feels like the system is designed to confuse you. I've burned hours (days) reconciling numbers that <em>should</em> be simple.  </p>
 <p>The problem: cloud spend is too important to ignore, but Azure doesn't make it easy.</p>
 <hr />
-<h2>Subscription vs. Resource Group scope</h2>
+<h2 id="subscription-vs-resource-group-scope">Subscription vs. Resource Group scope</h2>
 <p>This trips up almost everyone:  </p>
 <ul>
 <li><strong>Billing actually happens at the subscription level.</strong><br />
@@ -251,7 +297,7 @@
 </ul>
 <p>👉 <strong>Rule of thumb:</strong> Always reconcile subscription totals first. Use resource group reports for allocation, not for truth-in-billing.</p>
 <hr />
-<h2>Tags: the only way to get sane reporting</h2>
+<h2 id="tags-the-only-way-to-get-sane-reporting">Tags: the only way to get sane reporting</h2>
 <p>As I wrote in <a href="link-to-post">my earlier post on tags and governance</a>, if your tags are junk, your cost reports are junk.  </p>
 <p>Here's my go-to tagging scheme:</p>
 <ul>
@@ -264,7 +310,7 @@
 <p>When these are applied consistently, I can slice and dice costs in ways finance actually cares about.<br />
 When they're missing? I may as well be reading hieroglyphics.</p>
 <hr />
-<h2>The Azure Cost Management connector</h2>
+<h2 id="the-azure-cost-management-connector">The Azure Cost Management connector</h2>
 <p>This is where things start to get powerful:  </p>
 <ul>
 <li>The <strong>Azure Cost Management connector</strong> pulls cost data into <strong>Power BI</strong>.  </li>
@@ -276,7 +322,7 @@ When they're missing? I may as well be reading hieroglyphics.</p>
 - Blend Azure data with <strong>on-prem costs</strong> or other clouds<br />
 - Fix gaps in the portal UI with your own dashboards  </p>
 <hr />
-<h3>What you actually get</h3>
+<h3 id="what-you-actually-get">What you actually get</h3>
 <p>Here's what the connector pulls into Power BI:</p>
 <p><img alt="Azure Cost Management Connector in Power BI" src="/static/images/hero/azure-cost-connector.png" /></p>
 <p>You don't just get one dataset — you get multiple tables like:</p>
@@ -297,20 +343,20 @@ When they're missing? I may as well be reading hieroglyphics.</p>
 </ul>
 <p>This saves hours of modeling work. Instead of manually joining CSVs, you start with a star schema ready for dashboards.</p>
 <hr />
-<h3>How much data should you pull?</h3>
+<h3 id="how-much-data-should-you-pull">How much data should you pull?</h3>
 <p>By default, the connector suggests <strong>3 months of data</strong>. That's not random — the files are <strong>huge</strong> even at 3 months, and refreshes get slow.  </p>
 <p>My <strong>leadership asked me to carry 13 months</strong> for trending and forecasting. Sounds good in theory, but in practice I hit constant <strong>refresh failures</strong>. Even Microsoft support couldn't solve it.  </p>
 <p>The fix:<br />
 - <strong>Premium workspace required.</strong> Standard Power BI just couldn't handle the volume. Once I moved to a premium workspace, refreshes became reliable again.  </p>
 <p>👉 Lesson learned: leadership will always want more history, but you have to balance that against technical limits. Start small, scale if you have capacity.</p>
 <hr />
-<h3>A note on Chris Bowman's Cost Board</h3>
+<h3 id="a-note-on-chris-bowman-s-cost-board">A note on Chris Bowman's Cost Board</h3>
 <p>When I explored Chris Bowman's <a href="https://github.com/ChrisBowman/azure-cost-reporting">Azure Cost Reporting board</a>, one "gotcha" for me:<br />
 - His <strong>Calendar</strong> was a <em>calculated table</em> built in DAX.<br />
 - At first, I couldn't find much DAX, which left me scratching my head.  </p>
 <p>That tripped me up until I realized I needed my own calendar + custom DAX to slice by the tags I care about (<code>Application</code>, <code>Cost Center</code>, <code>Owner</code>, <code>Environment</code>, <code>Type</code>).  </p>
 <hr />
-<h3>Why tags matter (the hard way)</h3>
+<h3 id="why-tags-matter-the-hard-way">Why tags matter (the hard way)</h3>
 <p>As soon as I put those tags into slicers, I saw just how messy things were:  </p>
 <p><img alt="Blank tags in Application slicer" src="/static/images/hero/azure-tags-blank.png" /></p>
 <ul>
@@ -321,7 +367,7 @@ When they're missing? I may as well be reading hieroglyphics.</p>
 <p>And when a cost shows up as <strong>blank</strong> in a board-level report, leadership doesn't shrug — they ask <em>who owns this, why isn't it tagged, and why are we paying for it?</em>  </p>
 <p>That single exercise turned cost reporting into a governance spotlight.</p>
 <hr />
-<h3>Cleaning messy tags with DAX</h3>
+<h3 id="cleaning-messy-tags-with-dax">Cleaning messy tags with DAX</h3>
 <p>This is where cost, meter category, and tags collide.  </p>
 <p>I created a calculated column to <strong>extract a clean Application name</strong> from messy tag strings (Rubrik, Citrix, Databricks, etc.), so I could finally answer the leadership question:<br />
 <em>"How much does that app cost me a day?"</em></p>
@@ -355,7 +401,7 @@ Resources
 </code></pre></div>
 
 <hr />
-<h3>🛑 Who Fixes the Blanks?</h3>
+<h3 id="who-fixes-the-blanks">🛑 Who Fixes the Blanks?</h3>
 <p>Dashboards don't fix themselves.<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-taming">Download the Azure RACI Matrix</a></strong> to assign the cleanup duty to the Application Owner, not the Cloud Admin.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

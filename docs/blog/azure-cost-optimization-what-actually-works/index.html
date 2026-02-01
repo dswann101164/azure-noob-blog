@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Azure Advisor says &#39;right-size your VMs.&#39; Finance says &#39;why is our cloud bill still increasing?&#39; Here&#39;s what actually reduces Azure costs in production: the...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-cost-optimization-complete-guide.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Cost Optimization 2025: Hidden Costs &amp; What Actually Works",
   "description": "Azure Advisor says &#39;right-size your VMs.&#39; Finance says &#39;why is our cloud bill still increasing?&#39; Here&#39;s what actually reduces Azure costs in production: the...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, Cost Optimization, FinOps, Cost Management, Azure Advisor, governance",
   "articleSection": "azure",
-  "wordCount": "3285",
-  "timeRequired": "PT16M",
+  "wordCount": "3330",
+  "timeRequired": "PT17M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-cost-optimization-what-actually-works/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -196,7 +242,7 @@
   <header class="post-header">
     <h1>Azure Cost Optimization 2025: Hidden Costs &amp; What Actually Works</h1>
     <p class="muted">
-      2025-12-08 · ~16 min read
+      2025-12-08 · ~17 min read
       
     </p>
     
@@ -236,8 +282,8 @@
 
   
   <div class="post-body">
-    <h1>Azure Cost Optimization: What Actually Works (Not Azure Advisor Recommendations)</h1>
-<h2>The Problem</h2>
+    <h1 id="azure-cost-optimization-what-actually-works-not-azure-advisor-recommendations">Azure Cost Optimization: What Actually Works (Not Azure Advisor Recommendations)</h1>
+<h2 id="the-problem">The Problem</h2>
 <p>Finance email at 8 AM: "Azure spend is up $47,000 this month. What are we doing about cost optimization?"</p>
 <p>You open Azure Advisor. It says:<br />
 - "Right-size 3 underutilized VMs" (saves $240/month)<br />
@@ -252,7 +298,7 @@
 </ol>
 <p>Here's what actually works when Advisor recommendations aren't enough.</p>
 <hr />
-<h2>What Microsoft Says About Cost Optimization</h2>
+<h2 id="what-microsoft-says-about-cost-optimization">What Microsoft Says About Cost Optimization</h2>
 <p>Microsoft's <a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/">Azure Cost Management documentation</a> focuses on:</p>
 <p><strong>Visibility:</strong><br />
 - Cost analysis dashboards<br />
@@ -270,17 +316,17 @@
 <p><strong>The gap:</strong> Microsoft's cost tools assume you have governance in place. Most organizations don't.</p>
 <p>Here's what to do BEFORE you even look at Advisor recommendations.</p>
 <hr />
-<h2>The 3 Phases of Azure Cost Optimization</h2>
-<h3><strong>Phase 1: Know What You Have (Month 1)</strong></h3>
-<h3><strong>Phase 2: Know Who's Spending It (Month 2-3)</strong></h3>
-<h3><strong>Phase 3: Prevent Waste Automatically (Month 4+)</strong></h3>
+<h2 id="the-3-phases-of-azure-cost-optimization">The 3 Phases of Azure Cost Optimization</h2>
+<h3 id="phase-1-know-what-you-have-month-1"><strong>Phase 1: Know What You Have (Month 1)</strong></h3>
+<h3 id="phase-2-know-who-s-spending-it-month-2-3"><strong>Phase 2: Know Who's Spending It (Month 2-3)</strong></h3>
+<h3 id="phase-3-prevent-waste-automatically-month-4"><strong>Phase 3: Prevent Waste Automatically (Month 4+)</strong></h3>
 <p>Most organizations skip Phase 1 and 2 and jump straight to Phase 3 (buying reserved instances). Then they wonder why costs keep growing.</p>
 <p>Let's fix that.</p>
 <hr />
-<h2>Phase 1: Know What You Have</h2>
+<h2 id="phase-1-know-what-you-have">Phase 1: Know What You Have</h2>
 <p><strong>Time investment:</strong> 2-4 weeks<br />
 <strong>Cost impact:</strong> Identifies 20-30% of resources that shouldn't exist</p>
-<h3>The Problem</h3>
+<h3 id="the-problem_1">The Problem</h3>
 <p>You can't optimize what you can't see. Azure Cost Management shows you <strong>costs</strong>. It doesn't show you:<br />
 - Which resources support which applications<br />
 - Who requested each resource<br />
@@ -288,7 +334,7 @@
 - Which resources are actually being used</p>
 <p><strong>Real example:</strong> Found 47 VMs running in a subscription. Only 12 had been accessed in the last 90 days. <strong>Total waste:</strong> $22,000/month.</p>
 <p><strong>Why it happened:</strong> Developers spin up test VMs, forget about them, move to new projects. No process to track or decommission them.</p>
-<h3>What Actually Works: Resource Inventory with Business Context</h3>
+<h3 id="what-actually-works-resource-inventory-with-business-context">What Actually Works: Resource Inventory with Business Context</h3>
 <p><strong>Step 1: Build the inventory KQL query</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
@@ -333,7 +379,7 @@
 - "When was the last time anyone logged into it?"<br />
 - "What happens if we turn it off for a week?"</p>
 <p><strong>Result from one organization:</strong> 35% of VMs were "probably safe to delete" after these conversations.</p>
-<h3>What to Do With the Results</h3>
+<h3 id="what-to-do-with-the-results">What to Do With the Results</h3>
 <p><strong>Immediate actions (Week 1-2):</strong><br />
 - Delete obviously unused resources (unattached disks, old snapshots, stopped VMs older than 90 days)<br />
 - <strong>Savings:</strong> Usually 5-10% of monthly spend</p>
@@ -346,17 +392,17 @@
 - Tag enforcement (can't create resources without Owner/CostCenter tags)<br />
 - <strong>Savings:</strong> 20-30% of monthly spend</p>
 <hr />
-<h2>Phase 2: Know Who's Spending It</h2>
+<h2 id="phase-2-know-who-s-spending-it">Phase 2: Know Who's Spending It</h2>
 <p><strong>Time investment:</strong> 4-8 weeks<br />
 <strong>Cost impact:</strong> Enables chargeback, creates accountability</p>
-<h3>The Problem</h3>
+<h3 id="the-problem_2">The Problem</h3>
 <p>Azure subscriptions aren't cost centers. Applications are.</p>
 <p><strong>Scenario:</strong> Finance asks "How much did the Payroll application cost us this month?"</p>
 <p><strong>Azure Cost Management shows:</strong> "Subscription XYZ cost $47,000."</p>
 <p><strong>Finance:</strong> "But three applications run in that subscription. How much was Payroll specifically?"</p>
 <p><strong>You:</strong> "Uh..."</p>
 <p><strong>The gap:</strong> Azure tracks costs by subscription, resource group, and tags. Applications span all three.</p>
-<h3>What Actually Works: Tag-Based Cost Allocation</h3>
+<h3 id="what-actually-works-tag-based-cost-allocation">What Actually Works: Tag-Based Cost Allocation</h3>
 <p><strong>Step 1: Define your cost allocation model</strong></p>
 <p><strong>Option A: Chargeback (precise)</strong><br />
 - Every dollar allocated to a business unit<br />
@@ -420,7 +466,7 @@
 - Cost by Owner<br />
 - Drill-down to resource-level details</p>
 <p><strong>Result:</strong> Finance can now answer "How much did Payroll cost?" with real data.</p>
-<h3>What to Do With the Results</h3>
+<h3 id="what-to-do-with-the-results_1">What to Do With the Results</h3>
 <p><strong>Immediate actions (Month 1):</strong><br />
 - Publish cost by application reports monthly<br />
 - Send to application owners<br />
@@ -434,17 +480,17 @@
 - Application owners now have incentive to optimize<br />
 - <strong>Impact:</strong> 10-20% cost reduction as owners optimize their own resources</p>
 <hr />
-<h2>Phase 3: Prevent Waste Automatically</h2>
+<h2 id="phase-3-prevent-waste-automatically">Phase 3: Prevent Waste Automatically</h2>
 <p><strong>Time investment:</strong> Ongoing<br />
 <strong>Cost impact:</strong> Prevents 30-40% of future waste</p>
-<h3>The Problem</h3>
+<h3 id="the-problem_3">The Problem</h3>
 <p>Even with perfect visibility and cost allocation, costs still grow because:<br />
 - Developers forget to delete test resources<br />
 - VMs run 24/7 when they're only needed 8-5<br />
 - Storage accounts accumulate old data nobody needs<br />
 - Nobody notices small resource creep (5 VMs here, 3 storage accounts there)</p>
 <p><strong>Manual optimization doesn't scale.</strong> You need automation.</p>
-<h3>What Actually Works: Automated Governance</h3>
+<h3 id="what-actually-works-automated-governance">What Actually Works: Automated Governance</h3>
 <p><strong>Tactic 1: Auto-shutdown schedules</strong></p>
 <p>Dev/test VMs should not run nights and weekends.</p>
 <p><strong>PowerShell automation:</strong></p>
@@ -507,7 +553,7 @@
 3. Creates Azure DevOps ticket for VM owner<br />
 4. Auto-applies change if owner doesn't respond in 14 days</p>
 <p><strong>Savings:</strong> Actually implements 80% of Advisor recommendations (vs. 10% manual implementation rate)</p>
-<h3>What to Do With the Results</h3>
+<h3 id="what-to-do-with-the-results_2">What to Do With the Results</h3>
 <p><strong>Month 1:</strong><br />
 - Implement auto-shutdown for dev/test VMs<br />
 - <strong>Impact:</strong> 15-25% reduction in VM costs</p>
@@ -522,47 +568,47 @@
 - <strong>Impact:</strong> Another 10-15% reduction from right-sizing</p>
 <p><strong>Cumulative:</strong> 30-40% reduction in Azure spend with minimal ongoing effort</p>
 <hr />
-<h2>The Tools You Actually Need</h2>
+<h2 id="the-tools-you-actually-need">The Tools You Actually Need</h2>
 <p><strong>Forget expensive third-party cost optimization tools.</strong> Here's what you need:</p>
-<h3><strong>1. Azure Resource Graph (Free)</strong></h3>
+<h3 id="1-azure-resource-graph-free"><strong>1. Azure Resource Graph (Free)</strong></h3>
 <p>For inventory and resource discovery</p>
 <p><strong>Learn more:</strong> <a href="/blog/kql-cheat-sheet-complete/">KQL Cheat Sheet</a></p>
-<h3><strong>2. Power BI (Free with Office 365)</strong></h3>
+<h3 id="2-power-bi-free-with-office-365"><strong>2. Power BI (Free with Office 365)</strong></h3>
 <p>For cost allocation reports and executive dashboards</p>
 <p><strong>Learn more:</strong> <a href="/blog/azure-cost-reports-business-reality/">Azure Cost Reports for Business Reality</a></p>
-<h3><strong>3. Azure Policy (Free)</strong></h3>
+<h3 id="3-azure-policy-free"><strong>3. Azure Policy (Free)</strong></h3>
 <p>For tag enforcement and governance</p>
 <p><strong>Learn more:</strong> <a href="/blog/azure-tag-governance-policy/">Azure Tag Governance Policy</a></p>
-<h3><strong>4. Azure Automation (Nearly Free)</strong></h3>
+<h3 id="4-azure-automation-nearly-free"><strong>4. Azure Automation (Nearly Free)</strong></h3>
 <p>For auto-shutdown, cleanup scripts, and Advisor automation</p>
 <p><strong>Cost:</strong> ~$5/month for typical automation workloads</p>
-<h3><strong>5. Excel + 15-Minute Meetings (Free)</strong></h3>
+<h3 id="5-excel-15-minute-meetings-free"><strong>5. Excel + 15-Minute Meetings (Free)</strong></h3>
 <p>For Phase 1 inventory and application owner conversations</p>
 <p><strong>Total cost:</strong> $5/month + your time</p>
 <p><strong>Compare to:</strong> Third-party tools ($10K-50K/year) that do the same thing</p>
 <hr />
-<h2>What Doesn't Work (Don't Waste Time)</h2>
-<h3><strong>âŒ Reserved Instances Without Governance</strong></h3>
+<h2 id="what-doesn-t-work-don-t-waste-time">What Doesn't Work (Don't Waste Time)</h2>
+<h3 id="â-œ-reserved-instances-without-governance"><strong>âŒ Reserved Instances Without Governance</strong></h3>
 <p><strong>Scenario:</strong> You buy 3-year reserved instances. Savings: 40%.</p>
 <p><strong>Problem:</strong> Application gets decommissioned in Year 2. You're stuck paying for reserved capacity you don't need.</p>
 <p><strong>Lesson:</strong> Only buy reserved instances for workloads with:<br />
 - Stable usage patterns (proven 12+ months)<br />
 - Business commitment (not getting decommissioned)<br />
 - Tag governance (you can track what it's for)</p>
-<h3><strong>âŒ Cost Optimization Without Tag Governance</strong></h3>
+<h3 id="â-œ-cost-optimization-without-tag-governance"><strong>âŒ Cost Optimization Without Tag Governance</strong></h3>
 <p><strong>Scenario:</strong> You optimize costs by 20%. Finance asks "Which applications saved money?"</p>
 <p><strong>Problem:</strong> You can't answer because resources aren't tagged with application names.</p>
 <p><strong>Lesson:</strong> Phase 2 (cost allocation) enables Phase 3 (optimization). Don't skip it.</p>
-<h3><strong>âŒ Relying on Advisor Recommendations Alone</strong></h3>
+<h3 id="â-œ-relying-on-advisor-recommendations-alone"><strong>âŒ Relying on Advisor Recommendations Alone</strong></h3>
 <p><strong>Scenario:</strong> Azure Advisor says "save $1,200/month with these 10 changes."</p>
 <p><strong>Problem:</strong> 9 of those recommendations are low-risk but also low-impact. The 10th is high-risk (resize production database) and nobody wants to do it.</p>
 <p><strong>Lesson:</strong> Advisor finds optimization opportunities. It doesn't implement them or assess risk. You need automation.</p>
-<h3><strong>âŒ Sending Email Surveys About Resource Usage</strong></h3>
+<h3 id="â-œ-sending-email-surveys-about-resource-usage"><strong>âŒ Sending Email Surveys About Resource Usage</strong></h3>
 <p><strong>Scenario:</strong> You email 50 application owners: "Do you still need these VMs?"</p>
 <p><strong>Responses:</strong> 3 people reply. 47 ignore the email.</p>
 <p><strong>Lesson:</strong> Schedule 15-minute meetings. Walk through resources together. You'll get real answers.</p>
 <hr />
-<h2>Real-World Results</h2>
+<h2 id="real-world-results">Real-World Results</h2>
 <p><strong>Organization A (Regional financial services company):</strong><br />
 - <strong>Starting point:</strong> $180K/month Azure spend, no tag governance<br />
 - <strong>Phase 1 (Month 1-2):</strong> Resource inventory identified $45K/month in unused VMs<br />
@@ -577,20 +623,20 @@
 - <strong>Result:</strong> $62K/month Azure spend (27% reduction), growth stopped</p>
 <p><strong>Pattern:</strong> Most organizations find 20-40% optimization opportunity. Half of it comes from "delete stuff nobody's using." The other half comes from automation.</p>
 <hr />
-<h2>The 90-Day Cost Optimization Plan</h2>
-<h3><strong>Month 1: Visibility</strong></h3>
+<h2 id="the-90-day-cost-optimization-plan">The 90-Day Cost Optimization Plan</h2>
+<h3 id="month-1-visibility"><strong>Month 1: Visibility</strong></h3>
 <ul>
 <li><strong>Week 1-2:</strong> Resource inventory (KQL queries, Excel export)</li>
 <li><strong>Week 3-4:</strong> Application owner meetings (15 min each)</li>
 <li><strong>Result:</strong> List of resources to delete, downsize, or keep</li>
 </ul>
-<h3><strong>Month 2: Allocation</strong></h3>
+<h3 id="month-2-allocation"><strong>Month 2: Allocation</strong></h3>
 <ul>
 <li><strong>Week 1-2:</strong> Implement tag governance (Azure Policy with "audit" effect)</li>
 <li><strong>Week 3-4:</strong> Build Power BI cost allocation reports</li>
 <li><strong>Result:</strong> Finance can answer "How much did Application X cost?"</li>
 </ul>
-<h3><strong>Month 3: Automation</strong></h3>
+<h3 id="month-3-automation"><strong>Month 3: Automation</strong></h3>
 <ul>
 <li><strong>Week 1:</strong> Auto-shutdown for dev/test VMs</li>
 <li><strong>Week 2:</strong> Storage lifecycle policies</li>
@@ -600,20 +646,20 @@
 </ul>
 <p><strong>Expected outcome:</strong> 25-35% cost reduction, sustained indefinitely</p>
 <hr />
-<h2>Common Objections (And Responses)</h2>
-<h3><strong>"We don't have time for 15-minute meetings with every app owner."</strong></h3>
+<h2 id="common-objections-and-responses">Common Objections (And Responses)</h2>
+<h3 id="we-don-t-have-time-for-15-minute-meetings-with-every-app-owner"><strong>"We don't have time for 15-minute meetings with every app owner."</strong></h3>
 <p>You don't have time NOT to. One meeting prevents $2,000/month in waste. That's $24,000/year. Worth 15 minutes?</p>
-<h3><strong>"Our developers will complain about auto-shutdown breaking their workflows."</strong></h3>
+<h3 id="our-developers-will-complain-about-auto-shutdown-breaking-their-workflows"><strong>"Our developers will complain about auto-shutdown breaking their workflows."</strong></h3>
 <p>Give them an opt-out tag. <code>"AutoShutdown" = "Never"</code> for resources that need 24/7 uptime. 95% of dev/test VMs don't need it.</p>
-<h3><strong>"We tried tag governance before. Nobody followed it."</strong></h3>
+<h3 id="we-tried-tag-governance-before-nobody-followed-it"><strong>"We tried tag governance before. Nobody followed it."</strong></h3>
 <p>Because you didn't enforce it. Move from "audit" to "deny" policy. Can't create resources without tags.</p>
-<h3><strong>"Reserved instances are too risky. What if the workload changes?"</strong></h3>
+<h3 id="reserved-instances-are-too-risky-what-if-the-workload-changes"><strong>"Reserved instances are too risky. What if the workload changes?"</strong></h3>
 <p>Then don't buy 3-year commitments. Buy 1-year. Or use savings plans (more flexible). Or just optimize with automation first.</p>
-<h3><strong>"Our organization is too complex for this simple approach."</strong></h3>
+<h3 id="our-organization-is-too-complex-for-this-simple-approach"><strong>"Our organization is too complex for this simple approach."</strong></h3>
 <p>Your organization is exactly WHY this approach works. Simple, repeatable, automated. Complexity is the enemy of cost control.</p>
 <hr />
 <hr />
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>Azure Advisor recommendations are necessary but not sufficient.</strong></p>
 <p><strong>What Advisor does:</strong><br />
 - Finds optimization opportunities in existing resources<br />
@@ -632,7 +678,7 @@
 <p><strong>Time investment:</strong> 90 days upfront, minimal ongoing effort</p>
 <p><strong>Tools needed:</strong> Azure Resource Graph + Power BI + Azure Policy + Azure Automation (total cost: ~$5/month)</p>
 <hr />
-<h2>Related Resources</h2>
+<h2 id="related-resources">Related Resources</h2>
 <p><strong>Learn the tools for cost optimization:</strong><br />
 - <a href="/blog/kql-cheat-sheet-complete/">KQL Cheat Sheet</a> - Query resources and costs<br />
 - <a href="/hub/finops/">FinOps Hub</a> - Complete cost optimization guides<br />
@@ -643,7 +689,7 @@
 - <a href="/blog/azure-openai-pricing-real-costs/">Azure OpenAI Pricing Reality</a><br />
 - <a href="/blog/tag-governance-247-variations/">Tag Governance: 247 Variations</a></p>
 <hr />
-<h3>?? Find the Hidden Waste (Orphans)</h3>
+<h3 id="find-the-hidden-waste-orphans">?? Find the Hidden Waste (Orphans)</h3>
 <p>Don't wait for Advisor. Run this query to find orphaned disks costing you money right now.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find Orphaned Managed Disks (Not attached to any VM)</span>
 <span class="n">Resources</span>
@@ -656,7 +702,7 @@
 <hr />
 <p><strong>Questions about cost optimization?</strong> Let me know what you're struggling with. Email or comment below.</p>
 <hr />
-<h3>?? Optimization is a Role, Not a Task</h3>
+<h3 id="optimization-is-a-role-not-a-task">?? Optimization is a Role, Not a Task</h3>
 <p>Optimization works when someone's job description says "Cost Efficiency."<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-optimization">Download the Azure RACI Matrix</a></strong> to define who owns the optimization lifecycle.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

@@ -5,6 +5,7 @@ summary: "Landing Zones look perfect in Microsoft's diagrams — but drift is in
 tags: ["Azure", "Cloud Governance", "Enterprise Architecture", "Landing Zones", "FinOps", "Executive Reporting"]
 cover: "/static/images/hero/azure-landing-zone-drift.png"
 hub: governance
+faq_schema: true
 related_posts:
   - azure-policy-doesnt-fix-bad-architecture
   - azure-governance-napkin-test

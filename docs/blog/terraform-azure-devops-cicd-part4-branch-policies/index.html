@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="Enforce GitOps workflow with branch policies that require reviews, trigger automated validation, and prevent direct commits to main. No cowboy deployments...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part4.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Terraform + Azure DevOps CI/CD: Part 4 - Branch Policies &amp; Pull Request Automation",
   "description": "Enforce GitOps workflow with branch policies that require reviews, trigger automated validation, and prevent direct commits to main. No cowboy deployments...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "azure, Terraform, devops, CICD, IaC, Azure DevOps, GitOps",
   "articleSection": "azure",
-  "wordCount": "3012",
+  "wordCount": "3056",
   "timeRequired": "PT15M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part4-branch-policies/"
+}
+</script>
+
+
+
 
 
 
@@ -249,7 +295,7 @@
 - ✅ Human review required<br />
 - ✅ Auto-delete feature branches after merge</p>
 <p>This is what separates hobby projects from enterprise infrastructure.</p>
-<h2>Why Branch Policies Matter</h2>
+<h2 id="why-branch-policies-matter">Why Branch Policies Matter</h2>
 <p>Without branch policies, someone can:<br />
 1. Write bad Terraform code<br />
 2. Commit directly to <code>main</code><br />
@@ -263,15 +309,15 @@
 5. Both pass → merge allowed<br />
 6. Build and release pipelines take over</p>
 <p><strong>The result:</strong> Every infrastructure change has two reviews (automated + human) before deployment.</p>
-<h2>Configure Branch Policies for Main Branch</h2>
-<h3>Step 1: Navigate to Branch Policies</h3>
+<h2 id="configure-branch-policies-for-main-branch">Configure Branch Policies for Main Branch</h2>
+<h3 id="step-1-navigate-to-branch-policies">Step 1: Navigate to Branch Policies</h3>
 <ol>
 <li>Go to <strong>Repos &gt; Branches</strong></li>
 <li>Find the <code>main</code> branch</li>
 <li>Click the <strong>...</strong> menu</li>
 <li>Click <strong>Branch policies</strong></li>
 </ol>
-<h3>Step 2: Require Pull Requests</h3>
+<h3 id="step-2-require-pull-requests">Step 2: Require Pull Requests</h3>
 <p><strong>Require a minimum number of reviewers:</strong><br />
 - Toggle on: <strong>Require a minimum number of reviewers</strong><br />
 - <strong>Minimum number of reviewers:</strong> <code>1</code><br />
@@ -284,20 +330,20 @@
 - If you push new commits to the PR, approvals reset (forces re-review)<br />
 - Author can't approve their own work (if multiple team members)</p>
 <p><strong>Single-person team?</strong> Set minimum reviewers to <code>1</code> and uncheck "requester cannot approve." You'll still review your own plans (good practice).</p>
-<h3>Step 3: Check for Linked Work Items (Optional)</h3>
+<h3 id="step-3-check-for-linked-work-items-optional">Step 3: Check for Linked Work Items (Optional)</h3>
 <p>If you use Azure Boards for work tracking:</p>
 <p><strong>Check for linked work items:</strong><br />
 - Toggle on: <strong>Check for linked work items</strong><br />
 - Select: <strong>Required</strong> (or <strong>Optional</strong> if you don't always have work items)</p>
 <p><strong>What this does:</strong> Forces PRs to link to a user story or task. Good for traceability.</p>
 <p><strong>Don't use Boards?</strong> Skip this.</p>
-<h3>Step 4: Require Comment Resolution</h3>
+<h3 id="step-4-require-comment-resolution">Step 4: Require Comment Resolution</h3>
 <p><strong>Check for comment resolution:</strong><br />
 - Toggle on: <strong>Check for comment resolution</strong><br />
 - Select: <strong>Required</strong> (all comments must be resolved or marked "Won't Fix")</p>
 <p><strong>What this does:</strong> Prevents merging if there are unresolved discussion threads.</p>
 <p><strong>Example:</strong> Reviewer comments "Why are we using westeurope instead of northeurope?" - Must be answered before merge.</p>
-<h3>Step 5: Limit Merge Types</h3>
+<h3 id="step-5-limit-merge-types">Step 5: Limit Merge Types</h3>
 <p><strong>Limit merge types:</strong><br />
 - Toggle on: <strong>Limit merge types</strong><br />
 - Check: <strong>Squash merge</strong> only<br />
@@ -313,7 +359,7 @@
 - "Fix typo again"<br />
 - "Undo last fix"</p>
 <p>Clean history = easier rollbacks.</p>
-<h3>Step 6: Build Validation (Status Check Pipeline)</h3>
+<h3 id="step-6-build-validation-status-check-pipeline">Step 6: Build Validation (Status Check Pipeline)</h3>
 <p>This is the <strong>critical automation</strong>. Status checks run automatically on every PR.</p>
 <p><strong>Build validation:</strong><br />
 - Click <strong>+ Add build policy</strong></p>
@@ -329,7 +375,7 @@
 - Must succeed before merge is allowed<br />
 - If someone commits to <code>main</code> while your PR is open, your PR re-runs validation (ensures no conflicts)</p>
 <p><strong>Click Save</strong>.</p>
-<h3>Step 7: Automatically Include Reviewers (Optional)</h3>
+<h3 id="step-7-automatically-include-reviewers-optional">Step 7: Automatically Include Reviewers (Optional)</h3>
 <p>Useful for teams with designated approvers.</p>
 <p><strong>Automatically include code reviewers:</strong><br />
 - Click <strong>+ Add automatic reviewers</strong></p>
@@ -339,11 +385,11 @@
 - <strong>Reviewers:</strong> Required</p>
 <p><strong>Example use case:</strong> Your security team must review any changes to network security groups or Key Vault access policies.</p>
 <p><strong>Single-person team?</strong> Skip this.</p>
-<h3>Step 8: Save All Policies</h3>
+<h3 id="step-8-save-all-policies">Step 8: Save All Policies</h3>
 <p>Click <strong>Save changes</strong> at the bottom.</p>
-<h2>Test Branch Policies (Intentional Failure)</h2>
+<h2 id="test-branch-policies-intentional-failure">Test Branch Policies (Intentional Failure)</h2>
 <p>Let's test that the policies actually prevent bad code from merging.</p>
-<h3>Step 1: Create a Feature Branch with Bad Terraform</h3>
+<h3 id="step-1-create-a-feature-branch-with-bad-terraform">Step 1: Create a Feature Branch with Bad Terraform</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
 git<span class="w"> </span>pull
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>test-branch-policies
@@ -363,7 +409,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>test-branch-policies
 </code></pre></div>
 
-<h3>Step 2: Create Pull Request</h3>
+<h3 id="step-2-create-pull-request">Step 2: Create Pull Request</h3>
 <ol>
 <li>Go to <strong>Repos &gt; Pull requests</strong></li>
 <li>Click <strong>New pull request</strong></li>
@@ -371,7 +417,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li><strong>Target:</strong> <code>main</code></li>
 <li>Click <strong>Create</strong></li>
 </ol>
-<h3>Step 3: Watch Status Checks Fail</h3>
+<h3 id="step-3-watch-status-checks-fail">Step 3: Watch Status Checks Fail</h3>
 <p>Within seconds, you'll see:<br />
 - ❌ <strong>Terraform Validation</strong> - Failed</p>
 <p>Click the <strong>Checks</strong> tab (or <strong>Status checks</strong>) to see details.</p>
@@ -383,11 +429,11 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <span class="n">Argument</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">value</span><span class="o">,</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">was</span><span class="w"> </span><span class="n">supplied</span><span class="o">.</span>
 </code></pre></div>
 
-<h3>Step 4: Try to Complete the PR</h3>
+<h3 id="step-4-try-to-complete-the-pr">Step 4: Try to Complete the PR</h3>
 <p>Click <strong>Complete</strong> (top right).</p>
 <p>You'll see: <strong>Cannot complete because status checks must succeed</strong></p>
 <p><strong>The merge button is disabled.</strong> Branch policies are working!</p>
-<h3>Step 5: Fix the Code</h3>
+<h3 id="step-5-fix-the-code">Step 5: Fix the Code</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>test-branch-policies
 </code></pre></div>
 
@@ -404,18 +450,18 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 git<span class="w"> </span>push
 </code></pre></div>
 
-<h3>Step 6: Watch Status Checks Pass</h3>
+<h3 id="step-6-watch-status-checks-pass">Step 6: Watch Status Checks Pass</h3>
 <p>The PR page auto-updates. Within a minute:<br />
 - ✅ <strong>Terraform Validation</strong> - Succeeded</p>
 <p>Now the <strong>Complete</strong> button is enabled.</p>
-<h3>Step 7: Clean Up</h3>
+<h3 id="step-7-clean-up">Step 7: Clean Up</h3>
 <p>Don't merge this test PR. Instead:<br />
 1. Click <strong>Abandon</strong> (dropdown next to Complete)<br />
 2. Delete the branch: <code>git branch -D test-branch-policies</code></p>
 <p><strong>Lesson learned:</strong> Branch policies enforce quality. Bad code can't merge.</p>
-<h2>Customize Status Check Comments (Optional)</h2>
+<h2 id="customize-status-check-comments-optional">Customize Status Check Comments (Optional)</h2>
 <p>Want Terraform plan output posted as PR comments? Use the Azure Pipelines extension API.</p>
-<h3>Add a Script Task to Status Check Pipeline</h3>
+<h3 id="add-a-script-task-to-status-check-pipeline">Add a Script Task to Status Check Pipeline</h3>
 <p>Edit your <strong>Terraform Status Check</strong> pipeline.</p>
 <p>After the <code>Terraform Plan</code> task, add a <strong>PowerShell</strong> task:</p>
 <p><strong>Settings:</strong><br />
@@ -452,15 +498,15 @@ git<span class="w"> </span>push
 - Check: <strong>Allow scripts to access the OAuth token</strong> (in agent job settings)</p>
 <p><strong>What this does:</strong> Posts the Terraform plan output directly as a PR comment.</p>
 <p><strong>Warning:</strong> This exposes plan output in PR comments. If your state includes sensitive data, skip this step.</p>
-<h2>Workflow Walkthrough (Full Cycle)</h2>
+<h2 id="workflow-walkthrough-full-cycle">Workflow Walkthrough (Full Cycle)</h2>
 <p>Here's what the complete workflow looks like with branch policies enforced.</p>
-<h3>Day 1: Create Feature Branch</h3>
+<h3 id="day-1-create-feature-branch">Day 1: Create Feature Branch</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
 git<span class="w"> </span>pull
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/add-storage-account
 </code></pre></div>
 
-<h3>Day 2: Write Terraform Code</h3>
+<h3 id="day-2-write-terraform-code">Day 2: Write Terraform Code</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># storage.tf</span>
 <span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;storage&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-storage-001&quot;</span>
@@ -491,7 +537,7 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add storage account for demo&quot;</span>
 </code></pre></div>
 
-<h3>Day 3: Test Locally (Optional)</h3>
+<h3 id="day-3-test-locally-optional">Day 3: Test Locally (Optional)</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>terraform
 terraform<span class="w"> </span>init
 terraform<span class="w"> </span>plan
@@ -501,7 +547,7 @@ terraform<span class="w"> </span>plan
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/add-storage-account
 </code></pre></div>
 
-<h3>Day 4: Create Pull Request</h3>
+<h3 id="day-4-create-pull-request">Day 4: Create Pull Request</h3>
 <ol>
 <li>Go to <strong>Repos &gt; Pull requests</strong></li>
 <li>Azure DevOps automatically shows: "Create a pull request for feature/add-storage-account"</li>
@@ -521,7 +567,7 @@ terraform<span class="w"> </span>plan
    ```<br />
 6. <strong>Reviewers:</strong> Add your teammate (or yourself if solo)<br />
 7. Click <strong>Create</strong></p>
-<h3>Day 5: Automated Validation Runs</h3>
+<h3 id="day-5-automated-validation-runs">Day 5: Automated Validation Runs</h3>
 <p>Within seconds:<br />
 - ⏳ <strong>Terraform Validation</strong> - Running</p>
 <p>After ~30-60 seconds:<br />
@@ -547,13 +593,13 @@ terraform<span class="w"> </span>plan
 <span class="nx">Plan</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">add</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">change</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">destroy</span><span class="p">.</span>
 </code></pre></div>
 
-<h3>Day 6: Human Review</h3>
+<h3 id="day-6-human-review">Day 6: Human Review</h3>
 <p>Your teammate (or you) reviews:<br />
 1. <strong>Files</strong> tab - Review code changes<br />
 2. <strong>Checks</strong> tab - Review plan output<br />
 3. <strong>Commits</strong> tab - Verify clean commit messages</p>
 <p>Looks good. Click <strong>Approve</strong> (top right).</p>
-<h3>Day 7: Merge to Main</h3>
+<h3 id="day-7-merge-to-main">Day 7: Merge to Main</h3>
 <ol>
 <li>Click <strong>Complete</strong> (now enabled because status checks passed and review approved)</li>
 <li><strong>Merge type:</strong> Squash commit (only option, enforced by policy)</li>
@@ -561,7 +607,7 @@ terraform<span class="w"> </span>plan
 <li>Check: <strong>Delete feature/add-storage-account after merge</strong> (automatically checked)</li>
 <li>Click <strong>Complete merge</strong></li>
 </ol>
-<h3>Day 8: Automated Deployment</h3>
+<h3 id="day-8-automated-deployment">Day 8: Automated Deployment</h3>
 <p>Immediately after merge:<br />
 1. <strong>Build pipeline</strong> (<code>Terraform Plan</code>) triggers<br />
    - Runs validate, plan, archives artifact<br />
@@ -574,15 +620,15 @@ terraform<span class="w"> </span>plan
    - Runs terraform apply with the artifact<br />
    - Creates resource group + storage account<br />
    - Sends success notification</p>
-<h3>Day 9: Verify in Azure</h3>
+<h3 id="day-9-verify-in-azure">Day 9: Verify in Azure</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">Get-AzResourceGroup</span> <span class="n">-Name</span> <span class="s2">&quot;rsg-storage-001&quot;</span>
 <span class="nb">Get-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rsg-storage-001&quot;</span>
 </code></pre></div>
 
 <p>Both exist. Success!</p>
-<h2>Advanced: Multiple Reviewers for Critical Changes</h2>
+<h2 id="advanced-multiple-reviewers-for-critical-changes">Advanced: Multiple Reviewers for Critical Changes</h2>
 <p>For high-risk changes (networking, security, production), require multiple approvers.</p>
-<h3>Create a Code Owners File</h3>
+<h3 id="create-a-code-owners-file">Create a Code Owners File</h3>
 <p>Create <code>/.azuredevops/CODEOWNERS</code> in your repo:</p>
 <div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="k">Default</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">everything</span>
 <span class="o">*</span><span class="w"> </span><span class="nv">@your</span><span class="o">-</span><span class="n">username</span>
@@ -603,7 +649,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 git<span class="w"> </span>push
 </code></pre></div>
 
-<h3>Update Branch Policy</h3>
+<h3 id="update-branch-policy">Update Branch Policy</h3>
 <ol>
 <li>Go to <strong>Repos &gt; Branches &gt; main &gt; Branch policies</strong></li>
 <li><strong>Automatically include code reviewers:</strong></li>
@@ -614,9 +660,9 @@ git<span class="w"> </span>push
 - PRs that change networking code automatically add the network team as required reviewers<br />
 - PRs that touch production require BOTH infrastructure and security team approval<br />
 - Can't merge until all code owners approve</p>
-<h2>Handling Urgent Changes</h2>
+<h2 id="handling-urgent-changes">Handling Urgent Changes</h2>
 <p>What if you need to bypass policies for an emergency hotfix?</p>
-<h3>Option 1: Use Policy Override (Admin Only)</h3>
+<h3 id="option-1-use-policy-override-admin-only">Option 1: Use Policy Override (Admin Only)</h3>
 <p>Azure DevOps admins can override branch policies.</p>
 <ol>
 <li>Create PR as normal</li>
@@ -627,7 +673,7 @@ git<span class="w"> </span>push
 <li>Complete merge</li>
 </ol>
 <p><strong>Audit:</strong> The override is logged. Use sparingly and document why.</p>
-<h3>Option 2: Create an Emergency Bypass Branch</h3>
+<h3 id="option-2-create-an-emergency-bypass-branch">Option 2: Create an Emergency Bypass Branch</h3>
 <p>For planned maintenance windows or emergency processes:</p>
 <ol>
 <li>Create a branch policy exception for <code>hotfix/*</code> branches</li>
@@ -640,8 +686,8 @@ git<span class="w"> </span>push
 4. Click <strong>Add exception</strong><br />
 5. Branch name pattern: <code>refs/heads/hotfix/*</code><br />
 6. Allowed overrides: Check <strong>Require minimum reviewers (1 instead of standard 2)</strong></p>
-<h2>Common Issues &amp; Fixes</h2>
-<h3>Issue: Can't push to main after setting policies</h3>
+<h2 id="common-issues-fixes">Common Issues &amp; Fixes</h2>
+<h3 id="issue-can-t-push-to-main-after-setting-policies">Issue: Can't push to main after setting policies</h3>
 <p><strong>Cause:</strong> Branch policies block direct pushes to <code>main</code>.</p>
 <p><strong>Fix:</strong> This is intentional. Always work in feature branches:</p>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/my-change
@@ -650,20 +696,20 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <span class="c1"># create PR</span>
 </code></pre></div>
 
-<h3>Issue: Status check runs forever (never completes)</h3>
+<h3 id="issue-status-check-runs-forever-never-completes">Issue: Status check runs forever (never completes)</h3>
 <p><strong>Cause:</strong> Build validation policy has a stuck pipeline.</p>
 <p><strong>Fix:</strong><br />
 1. Go to <strong>Pipelines &gt; Pipelines</strong><br />
 2. Find the stuck <code>Terraform Status Check</code> run<br />
 3. Click <strong>Cancel</strong><br />
 4. Go back to the PR - it should retry</p>
-<h3>Issue: "Squash commit" option is grayed out</h3>
+<h3 id="issue-squash-commit-option-is-grayed-out">Issue: "Squash commit" option is grayed out</h3>
 <p><strong>Cause:</strong> Branch policy requires squash merge, but the option is disabled.</p>
 <p><strong>Fix:</strong><br />
 1. Go to <strong>Project Settings &gt; Repositories &gt; your repo</strong><br />
 2. Click <strong>Policies</strong> tab<br />
 3. Check: <strong>Squash merge</strong> is allowed</p>
-<h3>Issue: PR shows "No changes" after pushing commits</h3>
+<h3 id="issue-pr-shows-no-changes-after-pushing-commits">Issue: PR shows "No changes" after pushing commits</h3>
 <p><strong>Cause:</strong> The commits were force-pushed or rebased incorrectly.</p>
 <p><strong>Fix:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Reset your branch to match main</span>
@@ -676,7 +722,7 @@ git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> <
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>your-feature-branch<span class="w"> </span>--force
 </code></pre></div>
 
-<h3>Issue: Status check fails with "Unable to access Key Vault"</h3>
+<h3 id="issue-status-check-fails-with-unable-to-access-key-vault">Issue: Status check fails with "Unable to access Key Vault"</h3>
 <p><strong>Cause:</strong> Service principal doesn't have permissions on Key Vault.</p>
 <p><strong>Fix:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
@@ -685,7 +731,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-ObjectId</span> <span class="nv">$spObjectId</span> <span class="n">-PermissionsToSecrets</span> <span class="n">Get</span><span class="p">,</span><span class="n">List</span>
 </code></pre></div>
 
-<h2>Branch Policies Checklist</h2>
+<h2 id="branch-policies-checklist">Branch Policies Checklist</h2>
 <p>Copy this checklist for new repos:</p>
 <ul>
 <li>[ ] <strong>Require pull requests</strong> (minimum 1 reviewer)</li>
@@ -697,7 +743,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li>[ ] <strong>Automatically include reviewers</strong> (for critical paths)</li>
 <li>[ ] <strong>Code owners file</strong> (for team-based approval)</li>
 </ul>
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ol>
 <li><strong>Branch policies enforce GitOps workflow</strong> - No bypassing the process</li>
 <li><strong>Status checks run automatically</strong> - Fast feedback on code quality</li>

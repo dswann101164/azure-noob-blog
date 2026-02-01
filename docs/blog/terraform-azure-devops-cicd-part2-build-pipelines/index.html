@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Build the two pipelines that validate Terraform code on pull requests and create deployment artifacts on merge. GUI-based, no YAML, full control.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-devops-part2.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Terraform + Azure DevOps CI/CD: Part 2 - Build Pipelines (Status Check &amp; Plan)",
   "description": "Build the two pipelines that validate Terraform code on pull requests and create deployment artifacts on merge. GUI-based, no YAML, full control.",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, Terraform, devops, CICD, IaC, Azure DevOps",
   "articleSection": "azure",
-  "wordCount": "2378",
+  "wordCount": "2419",
   "timeRequired": "PT12M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,6 +206,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/terraform-azure-devops-cicd-part2-build-pipelines/"
+}
+</script>
+
+
+
 
 
 
@@ -242,7 +288,7 @@
 1. <strong>Terraform Status Check</strong> - Runs on PR creation (validate + plan, no artifact)<br />
 2. <strong>Terraform Plan</strong> - Runs on merge to main (plan + archive artifact)</p>
 <p>Both use <strong>classic GUI pipelines</strong> (not YAML) for easier troubleshooting and visual control.</p>
-<h2>Why Two Build Pipelines?</h2>
+<h2 id="why-two-build-pipelines">Why Two Build Pipelines?</h2>
 <p><strong>Status Check Pipeline:</strong><br />
 - <strong>Triggers:</strong> Pull request created or updated<br />
 - <strong>Purpose:</strong> Fast feedback - is the code syntactically correct? What will it do?<br />
@@ -254,9 +300,9 @@
 - <strong>Output:</strong> <code>.tfplan</code> file archived as build artifact<br />
 - <strong>Approval:</strong> None (artifact doesn't deploy anything yet)</p>
 <p><strong>Why separate?</strong> Status checks need to be fast (&lt; 1 minute). Creating artifacts takes longer and isn't needed for every PR update. Separation keeps feedback loops tight.</p>
-<h2>Pipeline 1: Terraform Status Check</h2>
+<h2 id="pipeline-1-terraform-status-check">Pipeline 1: Terraform Status Check</h2>
 <p>This pipeline runs <strong>every time</strong> someone creates or updates a pull request. It validates syntax and shows what Terraform will do.</p>
-<h3>Create the Pipeline</h3>
+<h3 id="create-the-pipeline">Create the Pipeline</h3>
 <ol>
 <li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
 <li>Click <strong>New pipeline</strong></li>
@@ -264,22 +310,22 @@
 <li>Select your repo and branch: <code>main</code></li>
 <li>Choose template: <strong>Empty job</strong></li>
 </ol>
-<h3>Configure Pipeline Settings</h3>
+<h3 id="configure-pipeline-settings">Configure Pipeline Settings</h3>
 <p><strong>Pipeline name:</strong> <code>Terraform Status Check (Validate + Plan)</code></p>
 <p><strong>Agent pool:</strong><br />
 - Pool: <strong>Azure Pipelines</strong><br />
 - Agent Specification: <strong>ubuntu-latest</strong> (or <code>ubuntu-22.04</code>)</p>
 <p><strong>Why Ubuntu?</strong> Faster than Windows agents, Terraform works the same on Linux, no licensing concerns.</p>
-<h3>Add Tasks</h3>
+<h3 id="add-tasks">Add Tasks</h3>
 <p>Click <strong>Agent job 1</strong> and rename to: <code>Terraform Status Check</code></p>
 <p>Now add tasks (click the <strong>+</strong> button):</p>
-<h4>Task 1: Use Terraform (Installer)</h4>
+<h4 id="task-1-use-terraform-installer">Task 1: Use Terraform (Installer)</h4>
 <p>Search for "Terraform" and add the <strong>Terraform installer</strong> task.</p>
 <p><strong>Settings:</strong><br />
 - <strong>Display name:</strong> <code>Install Terraform 1.5.7</code><br />
 - <strong>Version:</strong> <code>1.5.7</code> (or whatever version you're standardizing on)</p>
 <p><strong>Why specify version?</strong> Hosted agents pre-install Terraform, but the version changes. Explicitly installing ensures consistency.</p>
-<h4>Task 2: Download Key Vault Secrets</h4>
+<h4 id="task-2-download-key-vault-secrets">Task 2: Download Key Vault Secrets</h4>
 <p>We need the storage account access key before running <code>terraform init</code>.</p>
 <p>Search for "Azure Key Vault" and add the task.</p>
 <p><strong>Settings:</strong><br />
@@ -289,7 +335,7 @@
 - <strong>Secrets filter:</strong> <code>*</code> (downloads all secrets you have access to)</p>
 <p><strong>What this does:</strong> Pulls all secrets from Key Vault and makes them available as environment variables in subsequent tasks.</p>
 <p><strong>Example:</strong> Secret <code>sttfstate1234-key1</code> becomes <code>$(sttfstate1234-key1)</code> in pipeline variables.</p>
-<h4>Task 3: Terraform Init (Command Line)</h4>
+<h4 id="task-3-terraform-init-command-line">Task 3: Terraform Init (Command Line)</h4>
 <p>We're NOT using the marketplace Terraform tasks. Why? Full control over flags and environment variables.</p>
 <p>Search for "Command Line" and add the task.</p>
 <p><strong>Settings:</strong><br />
@@ -307,7 +353,7 @@
 - Connects to remote backend and downloads existing state</p>
 <p><strong>Why <code>-backend-config</code>?</strong> The <code>backend.tf</code> file doesn't include the access key (we never commit that). This flag passes it securely at runtime.</p>
 <p><strong>Replace <code>sttfstate1234-key1</code></strong> with YOUR storage account secret name from Key Vault.</p>
-<h4>Task 4: Terraform Validate</h4>
+<h4 id="task-4-terraform-validate">Task 4: Terraform Validate</h4>
 <p>Clone the previous command line task (right-click &gt; Clone).</p>
 <p><strong>Settings:</strong><br />
 - <strong>Display name:</strong> <code>Terraform Validate</code><br />
@@ -317,7 +363,7 @@
 
 <p><strong>Advanced &gt; Working Directory:</strong> <code>$(System.DefaultWorkingDirectory)/terraform</code></p>
 <p><strong>What this does:</strong> Checks Terraform syntax and configuration validity. Fails the pipeline if there are errors.</p>
-<h4>Task 5: Terraform Plan</h4>
+<h4 id="task-5-terraform-plan">Task 5: Terraform Plan</h4>
 <p>Clone the command line task again.</p>
 <p><strong>Settings:</strong><br />
 - <strong>Display name:</strong> <code>Terraform Plan</code><br />
@@ -347,20 +393,20 @@
 3. Name: <code>subscription-id</code><br />
 4. Value: Your subscription GUID<br />
 5. Keep secret: <strong>Unchecked</strong></p>
-<h3>Link Variable Group</h3>
+<h3 id="link-variable-group">Link Variable Group</h3>
 <p>Click the <strong>Variables</strong> tab, then <strong>Variable groups</strong>.</p>
 <p>Click <strong>Link variable group</strong> and select: <code>terraform-keyvault-secrets</code></p>
 <p>This gives the pipeline access to all Key Vault secrets.</p>
-<h3>Configure Trigger</h3>
+<h3 id="configure-trigger">Configure Trigger</h3>
 <p><strong>Important:</strong> We do NOT want this pipeline to run on every commit. It should ONLY run via branch policies (on pull requests).</p>
 <p>Click <strong>Triggers</strong> tab:<br />
 - <strong>Uncheck:</strong> Enable continuous integration</p>
 <p><strong>Why disable CI?</strong> We'll trigger this pipeline via branch policies later. If you leave CI enabled, it runs on every commit to <code>main</code>, which we don't want.</p>
-<h3>Save the Pipeline</h3>
+<h3 id="save-the-pipeline">Save the Pipeline</h3>
 <p>Click <strong>Save</strong> (not Save &amp; Queue). Name it: <code>Terraform Status Check</code></p>
-<h2>Pipeline 2: Terraform Plan</h2>
+<h2 id="pipeline-2-terraform-plan">Pipeline 2: Terraform Plan</h2>
 <p>This pipeline runs when code is <strong>merged to main</strong>. It creates a deployment artifact (the <code>.tfplan</code> file).</p>
-<h3>Clone the Status Check Pipeline</h3>
+<h3 id="clone-the-status-check-pipeline">Clone the Status Check Pipeline</h3>
 <p>Instead of creating from scratch, clone what we just built:</p>
 <ol>
 <li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
@@ -369,9 +415,9 @@
 <li>Click <strong>Clone</strong></li>
 <li>Rename to: <code>Terraform Plan (Create Artifact)</code></li>
 </ol>
-<h3>Modify Tasks</h3>
+<h3 id="modify-tasks">Modify Tasks</h3>
 <p>The first 4 tasks are identical (Install Terraform, Download Secrets, Init, Validate). Leave them alone.</p>
-<h4>Change Task 5: Terraform Plan (Save Output)</h4>
+<h4 id="change-task-5-terraform-plan-save-output">Change Task 5: Terraform Plan (Save Output)</h4>
 <p>Edit the <strong>Terraform Plan</strong> task and update the script:</p>
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>plan<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-input<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
@@ -384,7 +430,7 @@
 
 <p><strong>What changed?</strong> Added <code>-out=tfplan</code> which saves the plan to a binary file.</p>
 <p><strong>Why?</strong> This file contains the exact changes Terraform will make. We'll deploy THIS file (not re-run the plan later).</p>
-<h4>Add Task 6: Archive Files</h4>
+<h4 id="add-task-6-archive-files">Add Task 6: Archive Files</h4>
 <p>We need to package the <code>.tfplan</code> file (and all Terraform files) into a single archive.</p>
 <p>Search for "Archive files" and add the task.</p>
 <p><strong>Settings:</strong><br />
@@ -399,7 +445,7 @@
 - Saves it to the artifact staging directory<br />
 - Names it with the build ID (e.g., <code>123-tfplan.tar.gz</code>)</p>
 <p><strong>Why archive the whole folder?</strong> The <code>.tfplan</code> file references other Terraform files. We need everything together for <code>terraform apply</code> to work.</p>
-<h4>Add Task 7: Publish Pipeline Artifact</h4>
+<h4 id="add-task-7-publish-pipeline-artifact">Add Task 7: Publish Pipeline Artifact</h4>
 <p>Now publish the archive so the release pipeline can download it.</p>
 <p>Search for "Publish Pipeline Artifact" and add the task.</p>
 <p><strong>Settings:</strong><br />
@@ -412,7 +458,7 @@
 - Publishes it as a pipeline artifact<br />
 - Names it with the build ID for tracking<br />
 - Makes it available to release pipelines</p>
-<h3>Configure Trigger</h3>
+<h3 id="configure-trigger_1">Configure Trigger</h3>
 <p>Unlike the status check pipeline, this one SHOULD run on commits to <code>main</code>.</p>
 <p>Click <strong>Triggers</strong> tab:<br />
 - <strong>Check:</strong> Enable continuous integration<br />
@@ -421,15 +467,15 @@
 - <strong>Path filters (optional):</strong><br />
   - <strong>Include:</strong> <code>terraform/*</code> (only trigger if Terraform code changes)</p>
 <p><strong>Why path filter?</strong> If someone updates the README or other files outside <code>/terraform</code>, there's no point running this pipeline.</p>
-<h3>Save the Pipeline</h3>
+<h3 id="save-the-pipeline_1">Save the Pipeline</h3>
 <p>Click <strong>Save</strong>.</p>
-<h2>Test the Status Check Pipeline</h2>
+<h2 id="test-the-status-check-pipeline">Test the Status Check Pipeline</h2>
 <p>Before we set up pull requests, let's manually test the status check pipeline.</p>
-<h3>Create a Test Branch</h3>
+<h3 id="create-a-test-branch">Create a Test Branch</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>test-status-check
 </code></pre></div>
 
-<h3>Add a Simple Terraform File</h3>
+<h3 id="add-a-simple-terraform-file">Add a Simple Terraform File</h3>
 <p>Create <code>terraform/test.tf</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;test&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-pipeline-test-001&quot;</span>
@@ -437,13 +483,13 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Commit and Push</h3>
+<h3 id="commit-and-push">Commit and Push</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>terraform/test.tf
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Test status check pipeline&quot;</span>
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>test-status-check
 </code></pre></div>
 
-<h3>Manually Run the Pipeline</h3>
+<h3 id="manually-run-the-pipeline">Manually Run the Pipeline</h3>
 <p>Since we disabled CI, manually queue it:</p>
 <ol>
 <li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
@@ -452,7 +498,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li>Select branch: <code>test-status-check</code></li>
 <li>Click <strong>Run</strong></li>
 </ol>
-<h3>Watch the Pipeline</h3>
+<h3 id="watch-the-pipeline">Watch the Pipeline</h3>
 <p>Click into the running pipeline and watch each task:</p>
 <ol>
 <li><strong>Install Terraform</strong> - Downloads Terraform 1.5.7</li>
@@ -466,16 +512,16 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 - <strong>Key Vault access denied</strong> - Service principal doesn't have Get/List permissions<br />
 - <strong>Backend initialization failed</strong> - Storage account key is wrong or Key Vault secret name doesn't match<br />
 - <strong>Provider authentication failed</strong> - Service principal credentials are incorrect</p>
-<h2>Test the Plan Pipeline</h2>
+<h2 id="test-the-plan-pipeline">Test the Plan Pipeline</h2>
 <p>Now test the pipeline that creates artifacts.</p>
-<h3>Merge to Main</h3>
+<h3 id="merge-to-main">Merge to Main</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
 git<span class="w"> </span>merge<span class="w"> </span>test-status-check
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
 </code></pre></div>
 
 <p>This triggers the <strong>Terraform Plan</strong> pipeline automatically (because we enabled CI on <code>main</code>).</p>
-<h3>Watch the Pipeline</h3>
+<h3 id="watch-the-pipeline_1">Watch the Pipeline</h3>
 <ol>
 <li>Go to <strong>Pipelines &gt; Pipelines</strong></li>
 <li>The <strong>Terraform Plan</strong> pipeline should be running</li>
@@ -485,7 +531,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 1. Install, Download, Init, Validate, Plan (same as before)<br />
 2. <strong>Archive Terraform Plan</strong> - Creates <code>123-tfplan.tar.gz</code><br />
 3. <strong>Publish Terraform Artifact</strong> - Uploads artifact</p>
-<h3>Verify the Artifact</h3>
+<h3 id="verify-the-artifact">Verify the Artifact</h3>
 <p>After the pipeline completes:</p>
 <ol>
 <li>Click <strong>1 published</strong> (near the top of the pipeline run)</li>
@@ -495,11 +541,11 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li>You should see all files from <code>/terraform</code> folder, including <code>tfplan</code></li>
 </ol>
 <p><strong>Success?</strong> Your plan pipeline is creating artifacts correctly.</p>
-<h2>Common Issues &amp; Fixes</h2>
-<h3>Issue: "Backend initialization failed: storage account not found"</h3>
+<h2 id="common-issues-fixes">Common Issues &amp; Fixes</h2>
+<h3 id="issue-backend-initialization-failed-storage-account-not-found">Issue: "Backend initialization failed: storage account not found"</h3>
 <p><strong>Cause:</strong> Storage account name in <code>backend.tf</code> doesn't match your actual storage account.</p>
 <p><strong>Fix:</strong> Update <code>backend.tf</code> with the correct name.</p>
-<h3>Issue: "Key Vault access denied"</h3>
+<h3 id="issue-key-vault-access-denied">Issue: "Key Vault access denied"</h3>
 <p><strong>Cause:</strong> Service principal doesn't have permissions on Key Vault.</p>
 <p><strong>Fix:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
@@ -508,29 +554,29 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="n">-VaultName</span> <span class="nv">$keyVaultName</span> <span class="n">-ObjectId</span> <span class="nv">$spObjectId</span> <span class="n">-PermissionsToSecrets</span> <span class="n">Get</span><span class="p">,</span><span class="n">List</span>
 </code></pre></div>
 
-<h3>Issue: "Secret not found in variable group"</h3>
+<h3 id="issue-secret-not-found-in-variable-group">Issue: "Secret not found in variable group"</h3>
 <p><strong>Cause:</strong> The secret name in your pipeline script doesn't match the Key Vault secret name.</p>
 <p><strong>Fix:</strong> Check spelling. Secret names are case-sensitive in Linux agents.</p>
 <p><strong>Example:</strong> If Key Vault has <code>sp-terraform-devops-client-id</code>, your script must use exactly that:</p>
 <div class="codehilite"><pre><span></span><code>-var<span class="o">=</span><span class="s2">&quot;spn_client_id=</span><span class="k">$(</span>sp-terraform-devops-client-id<span class="k">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Issue: "Terraform plan shows unwanted changes"</h3>
+<h3 id="issue-terraform-plan-shows-unwanted-changes">Issue: "Terraform plan shows unwanted changes"</h3>
 <p><strong>Cause:</strong> Someone manually changed infrastructure in the portal (or another pipeline).</p>
 <p><strong>Fix:</strong> Either:<br />
 1. Revert the manual change in the portal<br />
 2. Update your Terraform code to match current state<br />
 3. Run <code>terraform refresh</code> and commit the updated state (advanced)</p>
-<h3>Issue: "Archive task failed: no files found"</h3>
+<h3 id="issue-archive-task-failed-no-files-found">Issue: "Archive task failed: no files found"</h3>
 <p><strong>Cause:</strong> The <code>tfplan</code> file wasn't created because <code>terraform plan</code> failed.</p>
 <p><strong>Fix:</strong> Check the Terraform Plan task logs. Fix any errors there first.</p>
-<h3>Issue: Pipeline runs but plan shows no changes</h3>
+<h3 id="issue-pipeline-runs-but-plan-shows-no-changes">Issue: Pipeline runs but plan shows no changes</h3>
 <p><strong>Cause:</strong> Your test resource already exists in Azure (from a previous run).</p>
 <p><strong>Fix:</strong> Either:<br />
 1. Delete the resource group manually<br />
 2. Change the resource name in your Terraform code<br />
 3. This is actually fine - it proves state management is working!</p>
-<h2>Variable Reference Table</h2>
+<h2 id="variable-reference-table">Variable Reference Table</h2>
 <p>Here's every variable you need to configure (copy this for reference):</p>
 <table>
 <thead>
@@ -575,7 +621,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </tbody>
 </table>
 <p><strong>Replace these with YOUR values</strong> from Part 1.</p>
-<h2>What We Built</h2>
+<h2 id="what-we-built">What We Built</h2>
 <p>You now have two working build pipelines:</p>
 <p><strong>Terraform Status Check:</strong><br />
 - Triggers: Manual (via branch policy later)<br />
@@ -593,7 +639,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 - Release pipeline (actual deployment)<br />
 - Approval gates</p>
 <p>That's all coming in Parts 3 and 4.</p>
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <ol>
 <li><strong>Status check pipelines run fast</strong> - No artifact creation = faster feedback</li>
 <li><strong>Plan pipelines save artifacts</strong> - The <code>.tfplan</code> file preserves intent</li>

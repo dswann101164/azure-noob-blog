@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Most Azure optimization advice is surface-level. Reserved instances aren’t FinOps. Here’s what meaningful cost reduction really takes.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-cost-optimization-facade.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The Azure Advisor Facade: Why Real Optimization Works Differently (2025)",
   "description": "Most Azure optimization advice is surface-level. Reserved instances aren’t FinOps. Here’s what meaningful cost reduction really takes.",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "Azure, FinOps, Cost Optimization, Advisor, Governance",
   "articleSection": "Azure",
-  "wordCount": "935",
+  "wordCount": "949",
   "timeRequired": "PT5M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-cost-optimization-facade/"
+}
+</script>
+
+
+
 
 
 
@@ -235,7 +281,7 @@
     <p>This guide is part of our <a href="/hub/finops/">Azure FinOps hub</a> covering cost management, chargeback models, and financial operations at enterprise scale.<br />
 <strong>Your CFO just forwarded you another email</strong>: <em>"Azure Advisor says we can save $47,000/month. Why haven't we acted on this?"</em></p>
 <p>You know the truth. Those recommendations are <strong>garbage</strong>.</p>
-<h2>The Azure Advisor Lie</h2>
+<h2 id="the-azure-advisor-lie">The Azure Advisor Lie</h2>
 <p>Microsoft's cost optimization tool promises savings. What it actually delivers:</p>
 <ul>
 <li><strong>"Right-size this VM"</strong> → Recommends downsizing your production SQL server during month-end close</li>
@@ -244,34 +290,34 @@
 </ul>
 <p>Azure Advisor doesn't understand your business. It sees <strong>cloud resources</strong>—not the applications, SLAs, and political realities behind them.</p>
 <p>And here's the real kicker: <strong>Microsoft doesn't care if you action these recommendations.</strong> They're not measured on your cost savings. They're measured on Azure consumption growth.</p>
-<h2>Why Cost Optimization Fails (The Real Reasons)</h2>
-<h3>1. <strong>No Context, No Value</strong></h3>
+<h2 id="why-cost-optimization-fails-the-real-reasons">Why Cost Optimization Fails (The Real Reasons)</h2>
+<h3 id="1-no-context-no-value">1. <strong>No Context, No Value</strong></h3>
 <p>Azure Advisor has zero visibility into:<br />
 - Your maintenance windows<br />
 - Application dependencies<br />
 - Business criticality<br />
 - That upcoming migration everyone knows about</p>
 <p>Result? Recommendations that look good in PowerPoint but break production when implemented.</p>
-<h3>2. <strong>Metrics That Don't Matter</strong></h3>
+<h3 id="2-metrics-that-don-t-matter">2. <strong>Metrics That Don't Matter</strong></h3>
 <ul>
 <li>CPU utilization over 7 days? Meaningless for batch workloads</li>
 <li>"Idle" VMs? That's your DR environment, genius</li>
 <li>Storage not accessed in 90 days? Meet compliance retention</li>
 </ul>
-<h3>3. <strong>The Accountability Gap</strong></h3>
+<h3 id="3-the-accountability-gap">3. <strong>The Accountability Gap</strong></h3>
 <p>Who gets blamed when "right-sizing" kills performance?<br />
 <strong>You do.</strong>  </p>
 <p>Who gets credit when you save money?<br />
 <strong>Finance does.</strong></p>
 <p>Who faces zero consequences for bad recommendations?<br />
 <strong>Azure Advisor.</strong></p>
-<h2>What Actually Works (No BS)</h2>
+<h2 id="what-actually-works-no-bs">What Actually Works (No BS)</h2>
 <p>Here's the harsh reality from someone who's actually reduced Azure spend:</p>
-<h3>Start With Apps, Not Resources</h3>
+<h3 id="start-with-apps-not-resources">Start With Apps, Not Resources</h3>
 <p>Don't ask <em>"Can we downsize this VM?"</em><br />
 Ask <em>"Does this application still deliver business value?"</em></p>
 <p>The biggest savings come from <strong>killing zombie applications</strong>—not optimizing them.</p>
-<h3>Tag Everything (No, Really)</h3>
+<h3 id="tag-everything-no-really">Tag Everything (No, Really)</h3>
 <p>Without tags, you're flying blind:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Environment</span><span class="o">:</span><span class="w"> </span><span class="n">Production</span>
 <span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="n">Finance</span><span class="w">  </span>
@@ -281,7 +327,7 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 </code></pre></div>
 
 <p>Tags enable the one thing Azure Advisor can't: <strong>Human judgment.</strong></p>
-<h3>Build Your Own Optimization Logic</h3>
+<h3 id="build-your-own-optimization-logic">Build Your Own Optimization Logic</h3>
 <p>Azure Advisor is one-size-fits-all. You need <strong>business-context-aware</strong> logic:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -292,14 +338,14 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 </code></pre></div>
 
 <p>This finds oversized VMs in <strong>your context</strong>—not Microsoft's guesses.</p>
-<h3>Focus on the Big Three</h3>
+<h3 id="focus-on-the-big-three">Focus on the Big Three</h3>
 <ol>
 <li><strong>Zombie resources</strong> (running but unused)</li>
 <li><strong>Orphaned disks</strong> (the real ones, not DR)</li>
 <li><strong>Dev/test overprovisioning</strong> (nobody needs a Standard_D16 for testing)</li>
 </ol>
 <p>Skip the rest. Seriously.</p>
-<h2>The Uncomfortable Truth</h2>
+<h2 id="the-uncomfortable-truth">The Uncomfortable Truth</h2>
 <p><strong>Real cost optimization requires saying "no."</strong></p>
 <ul>
 <li>No to that legacy app nobody uses</li>
@@ -307,7 +353,7 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 <li>No to over-architecting for scale you'll never hit</li>
 </ul>
 <p>Azure Advisor can't say no. It can only recommend incremental tweaks while your actual waste is <strong>architectural</strong>.</p>
-<h2>What to Do Tomorrow</h2>
+<h2 id="what-to-do-tomorrow">What to Do Tomorrow</h2>
 <ol>
 <li>
 <p><strong>Stop treating Advisor recommendations as gospel</strong><br />
@@ -332,7 +378,7 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 <p><strong>Reality Check</strong>: Want to see what meaningful cost reduction looks like? Check out my <a href="#">Complete Guide to Azure Cost Optimization</a> where I walk through the actual process—tags, KQL queries, accountability models, and the conversations with Finance that actually work.</p>
 <p>No fluff. Just the blueprint I've used to cut real Azure spend without breaking production.</p>
 <hr />
-<h3>🔍 Find REAL Oversized VMs</h3>
+<h3 id="find-real-oversized-vms">🔍 Find REAL Oversized VMs</h3>
 <p>Advisor guesses. This query proves it based on 30-day P95 CPU peaking under 5%.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find REAL Oversized VMs (P95 CPU &lt; 5% for 30 days)</span>
 <span class="n">Perf</span>
@@ -343,7 +389,7 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 </code></pre></div>
 
 <hr />
-<h3>🛑 Don't Let Advisor Decide</h3>
+<h3 id="don-t-let-advisor-decide">🛑 Don't Let Advisor Decide</h3>
 <p>Advisor is an algorithm, not a manager.<br />
 <strong><a href="https://davidnoob.gumroad.com/l/ifojm?ref=cost-batch-facade">Download the Azure RACI Matrix</a></strong> to put a human in charge of validation and execution.</p>
 <div class="downloads" style="text-align: center; margin-top: 2rem;">

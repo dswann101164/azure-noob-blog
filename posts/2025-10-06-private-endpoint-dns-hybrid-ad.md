@@ -6,6 +6,7 @@ tags: ["azure", "private-dns", "dns-resolver", "private-endpoints", "hybrid-clou
 keywords: ["azure private dns resolver", "azure private dns", "hybrid dns azure", "private endpoint dns"]
 cover: "static/images/hero/private-endpoint-dns.png"
 hub: governance
+faq_schema: true
 related_posts:
   - azure-resource-tags-guide
   - azure-tag-governance-policy

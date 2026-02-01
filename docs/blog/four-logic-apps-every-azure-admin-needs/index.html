@@ -53,6 +53,30 @@
   <meta name="twitter:description" content="Stop wasting 10+ hours per week on manual Azure operations. These 4 production-tested Logic Apps automate unused resource cleanup ($4K/month savings),...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/logic-apps-automation.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -103,7 +127,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)",
   "description": "Stop wasting 10+ hours per week on manual Azure operations. These 4 production-tested Logic Apps automate unused resource cleanup ($4K/month savings),...",
   "image": {
@@ -118,6 +142,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -140,10 +168,12 @@
   },
   "keywords": "Azure, Logic Apps, Automation, Operations, Cost Management, Governance, FinOps",
   "articleSection": "Azure",
-  "wordCount": "4097",
-  "timeRequired": "PT20M",
+  "wordCount": "4128",
+  "timeRequired": "PT21M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -180,6 +210,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/four-logic-apps-every-azure-admin-needs/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -198,7 +244,7 @@
   <header class="post-header">
     <h1>4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)</h1>
     <p class="muted">
-      2025-10-29 · ~20 min read
+      2025-10-29 · ~21 min read
       
         · Updated 2025-12-18
       
@@ -242,7 +288,7 @@
 
   
   <div class="post-body">
-    <h2>How to Save 10+ Hours Per Week on Azure Operations</h2>
+    <h2 id="how-to-save-10-hours-per-week-on-azure-operations">How to Save 10+ Hours Per Week on Azure Operations</h2>
 <p>Azure admins managing enterprise environments spend 10-15 hours per week on repetitive operational tasks: checking for orphaned disks, monitoring certificate expiration, enforcing tag compliance, and verifying backup success. These tasks are critical but mindless—perfect candidates for automation.</p>
 <p>This guide provides 4 production-tested Logic Apps that eliminate these manual operations entirely. Deployed across 44 Azure subscriptions managing 31,000+ resources, these automation workflows deliver measurable time savings and cost recovery:</p>
 <p><strong>Unused Resource Cleanup</strong> - Identifies orphaned disks, old snapshots, and unattached NICs. Recovered $4,200/month in wasted spend. Time saved: 3 hours/week.</p>
@@ -262,7 +308,7 @@
 <li><strong>Backup Verification Report</strong> - Backups fail silently until you need them</li>
 </ol>
 <p>These run in production managing 31,000+ resources across 44 subscriptions.</p>
-<h2>Why These 4</h2>
+<h2 id="why-these-4">Why These 4</h2>
 <p>Here's what actually breaks in production:</p>
 <p><strong>Cost Waste</strong><br />
 - Disks detached from deleted VMs (still billing)<br />
@@ -285,7 +331,7 @@
 - Nobody checks until restore needed<br />
 - Result: No backup for 3 months</p>
 <p>Let's fix them.</p>
-<h2>Logic App #1: Unused Resource Cleanup</h2>
+<h2 id="logic-app-1-unused-resource-cleanup">Logic App #1: Unused Resource Cleanup</h2>
 <p><strong>What It Does:</strong><br />
 - Scans all subscriptions weekly<br />
 - Identifies orphaned disks, old snapshots, unattached NICs<br />
@@ -295,7 +341,7 @@
 When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6 months ago.</p>
 <p>Result: Hundreds of orphaned resources billing silently.</p>
 <p>At 31,000 resources, this recovered <strong>$4,200/month</strong> in wasted spend.</p>
-<h3>The Resource Graph Queries</h3>
+<h3 id="the-resource-graph-queries">The Resource Graph Queries</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Orphaned Disks</span>
 <span class="n">Resources</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span><span class="w"> </span>
@@ -332,7 +378,7 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 <span class="w">          </span><span class="n">privateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span>
 </code></pre></div>
 
-<h3>Deployment Steps</h3>
+<h3 id="deployment-steps">Deployment Steps</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create Logic App</span>
 <span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;rg-automation&quot;</span>
 <span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-unused-resource-cleanup&quot;</span>
@@ -359,7 +405,7 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
   <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Logic App Flow</h3>
+<h3 id="logic-app-flow">Logic App Flow</h3>
 <ol>
 <li><strong>Trigger:</strong> Recurrence - Weekly (Monday 8 AM)</li>
 <li><strong>HTTP:</strong> Query Resource Graph for orphaned disks</li>
@@ -369,7 +415,7 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 <li><strong>Compose:</strong> Generate HTML report</li>
 <li><strong>Send Email:</strong> Weekly digest to admins</li>
 </ol>
-<h3>Expected Output</h3>
+<h3 id="expected-output">Expected Output</h3>
 <p>Every Monday at 8 AM:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Weekly</span><span class="w"> </span><span class="n">Unused</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Report</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$4</span><span class="o">,</span><span class="mi">187</span>
 
@@ -391,7 +437,7 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 
 <p><strong>Value:</strong> 3 hours/week saved, $4,000+/month recovered</p>
 <hr />
-<h2>Logic App #2: Certificate Expiration Monitor</h2>
+<h2 id="logic-app-2-certificate-expiration-monitor">Logic App #2: Certificate Expiration Monitor</h2>
 <p><strong>What It Does:</strong><br />
 - Scans App Service + Key Vault certificates daily<br />
 - Alerts 30/15/7 days before expiration<br />
@@ -401,7 +447,7 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 Certificate expiration is the #1 cause of preventable outages.</p>
 <p>Services break at 2 AM. Nobody knows why. Certificate expired 4 hours ago.</p>
 <p>This prevents that entire class of incident.</p>
-<h3>The Certificate Query</h3>
+<h3 id="the-certificate-query">The Certificate Query</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// App Service Certificates</span>
 <span class="n">Resources</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.web/certificates&#39;</span><span class="w"> </span>
@@ -418,7 +464,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="n">asc</span>
 </code></pre></div>
 
-<h3>Deployment</h3>
+<h3 id="deployment">Deployment</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-certificate-monitor&quot;</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
@@ -448,7 +494,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
   <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Teams Webhook Setup</h3>
+<h3 id="teams-webhook-setup">Teams Webhook Setup</h3>
 <ol>
 <li>Go to Teams channel â†’ Connectors</li>
 <li>Add "Incoming Webhook"  </li>
@@ -456,7 +502,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 <li>Copy webhook URL</li>
 <li>Use in Logic App HTTP action</li>
 </ol>
-<h3>Logic App Flow</h3>
+<h3 id="logic-app-flow_1">Logic App Flow</h3>
 <ol>
 <li><strong>Trigger:</strong> Recurrence - Daily at 6 AM</li>
 <li><strong>HTTP:</strong> Query App Service certificates</li>
@@ -465,7 +511,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 <li><strong>Compose:</strong> Teams Adaptive Card</li>
 <li><strong>HTTP:</strong> Post to Teams webhook</li>
 </ol>
-<h3>Expected Output</h3>
+<h3 id="expected-output_1">Expected Output</h3>
 <p>Daily Teams notification:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">ðŸ</span><span class="err">”´</span><span class="w"> </span><span class="n">CRITICAL</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">expiring</span><span class="w"> </span><span class="k">within</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span>
 
@@ -484,7 +530,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 
 <p><strong>Value:</strong> Every cert-related outage prevented, 2-4 hours/incident saved</p>
 <hr />
-<h2>Logic App #3: Tag Compliance Enforcement</h2>
+<h2 id="logic-app-3-tag-compliance-enforcement">Logic App #3: Tag Compliance Enforcement</h2>
 <p><strong>What It Does:</strong><br />
 - Scans all resources daily for required tags<br />
 - Groups non-compliant by owner<br />
@@ -495,7 +541,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 Without tag enforcement, FinOps dies.</p>
 <p>Cost allocation fails. Chargeback fails. Backup policies fail.</p>
 <p>At 31,000 resources, manual cleanup is impossible.</p>
-<h3>The Tag Query</h3>
+<h3 id="the-tag-query">The Tag Query</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environmentTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Environment&#39;</span><span class="p">]),</span>
 <span class="w">         </span><span class="n">costCenterTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;CostCenter&#39;</span><span class="p">]),</span>
@@ -510,7 +556,7 @@ Without tag enforcement, FinOps dies.</p>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="n">asc</span>
 </code></pre></div>
 
-<h3>Deployment</h3>
+<h3 id="deployment_1">Deployment</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-tag-compliance&quot;</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
@@ -540,7 +586,7 @@ Without tag enforcement, FinOps dies.</p>
   <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Logic App Flow</h3>
+<h3 id="logic-app-flow_2">Logic App Flow</h3>
 <ol>
 <li><strong>Trigger:</strong> Recurrence - Daily at 7 AM</li>
 <li><strong>HTTP:</strong> Query all resources for missing tags</li>
@@ -552,7 +598,7 @@ Without tag enforcement, FinOps dies.</p>
 <li><strong>Compose:</strong> Admin summary</li>
 <li><strong>Send:</strong> Summary to admins</li>
 </ol>
-<h3>Expected Output</h3>
+<h3 id="expected-output_2">Expected Output</h3>
 <p><strong>To Resource Owners:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nl">Subject</span><span class="p">:</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="n">Required</span><span class="o">:</span><span class="w"> </span><span class="n">Tag</span><span class="w"> </span><span class="n">Compliance</span>
 
@@ -572,7 +618,7 @@ Without tag enforcement, FinOps dies.</p>
 
 <p><strong>Value:</strong> 10+ hours/week saved, FinOps reporting actually works</p>
 <hr />
-<h2>Logic App #4: Backup Verification Report</h2>
+<h2 id="logic-app-4-backup-verification-report">Logic App #4: Backup Verification Report</h2>
 <p><strong>What It Does:</strong><br />
 - Queries all Recovery Services Vaults daily<br />
 - Identifies backup job failures in last 24 hours<br />
@@ -582,7 +628,7 @@ Without tag enforcement, FinOps dies.</p>
 Backups fail silently.</p>
 <p>You discover failures when you need to restore. Too late.</p>
 <p>This surfaces failures within 24 hours.</p>
-<h3>Deployment</h3>
+<h3 id="deployment_2">Deployment</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-rsv-backup-report&quot;</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
@@ -611,7 +657,7 @@ Backups fail silently.</p>
   <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-<h3>Logic App Flow</h3>
+<h3 id="logic-app-flow_3">Logic App Flow</h3>
 <ol>
 <li><strong>Trigger:</strong> Recurrence - Daily at 9 AM</li>
 <li><strong>HTTP:</strong> Query Resource Graph for all RSVs</li>
@@ -625,7 +671,7 @@ Backups fail silently.</p>
 <li><strong>If all successful:</strong></li>
 <li>Send confirmation email</li>
 </ol>
-<h3>Expected Output</h3>
+<h3 id="expected-output_3">Expected Output</h3>
 <p><strong>When failures occur:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="err">ðŸš¨</span><span class="w"> </span><span class="n">ALERT</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">Backup</span><span class="w"> </span><span class="n">Failures</span><span class="w"> </span><span class="o">(</span><span class="n">Last</span><span class="w"> </span><span class="mi">24</span><span class="n">h</span><span class="o">)</span>
 
@@ -656,29 +702,29 @@ Backups fail silently.</p>
 
 <p><strong>Value:</strong> 4+ hours per restore crisis avoided, compliance verified</p>
 <hr />
-<h2>Deployment Strategy</h2>
+<h2 id="deployment-strategy">Deployment Strategy</h2>
 <p>Don't deploy all 4 at once. Prioritize by pain:</p>
-<h3>Week 1: Backup Verification</h3>
+<h3 id="week-1-backup-verification">Week 1: Backup Verification</h3>
 <p>Highest risk - deploy first<br />
 - Test with existing vaults<br />
 - Validate email delivery<br />
 - Run for 1 week</p>
-<h3>Week 2: Certificate Monitor</h3>
+<h3 id="week-2-certificate-monitor">Week 2: Certificate Monitor</h3>
 <p>Outage prevention<br />
 - Set up Teams webhook<br />
 - Test with expiring cert<br />
 - Run for 1 week</p>
-<h3>Week 3: Unused Resource Cleanup</h3>
+<h3 id="week-3-unused-resource-cleanup">Week 3: Unused Resource Cleanup</h3>
 <p>Cost savings<br />
 - Review first report<br />
 - Identify safe deletions<br />
 - Calculate savings</p>
-<h3>Week 4: Tag Compliance</h3>
+<h3 id="week-4-tag-compliance">Week 4: Tag Compliance</h3>
 <p>Organizational buy-in<br />
 - Socialize with owners<br />
 - Information-only mode<br />
 - Enable enforcement after 2 weeks</p>
-<h2>Cost Analysis</h2>
+<h2 id="cost-analysis">Cost Analysis</h2>
 <p><strong>Logic App Costs (Consumption):</strong><br />
 - ~$0.012 per Logic App/month<br />
 - All 4: <strong>~$0.05/month</strong></p>
@@ -693,7 +739,7 @@ Backups fail silently.</p>
 - Tags: FinOps enablement<br />
 - Backups: Compliance verified</p>
 <p><strong>ROI: Infinite</strong></p>
-<h2>Common Issues</h2>
+<h2 id="common-issues">Common Issues</h2>
 <p><strong>Issue 1: Permission Errors</strong></p>
 <div class="codehilite"><pre><span></span><code>HTTP 403 Forbidden
 </code></pre></div>
@@ -729,7 +775,7 @@ Backups fail silently.</p>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;YOUR-SUB-ID&#39;</span>
 </code></pre></div>
 
-<h2>Bottom Line</h2>
+<h2 id="bottom-line">Bottom Line</h2>
 <p>Stop clicking buttons. Build these 4 Logic Apps.</p>
 <ol>
 <li><strong>Unused Resource Cleanup</strong> - Recover thousands/month</li>
@@ -740,7 +786,7 @@ Backups fail silently.</p>
 <p>Running in production managing 31,000+ resources.</p>
 <p>They work.</p>
 <hr />
-<h2>Related Resources</h2>
+<h2 id="related-resources">Related Resources</h2>
 <p><strong>Cost Management &amp; FinOps:</strong><br />
 - <a href="/blog/azure-finops-complete-guide">Azure FinOps Complete Guide</a> - Enterprise FinOps framework for cost visibility and optimization<br />
 - <a href="/blog/azure-cost-optimization-what-actually-works">Azure Cost Optimization: What Actually Works</a> - Real tactics beyond Azure Advisor recommendations<br />

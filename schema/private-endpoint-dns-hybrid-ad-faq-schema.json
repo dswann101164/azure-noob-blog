@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you resolve Azure private endpoint DNS in hybrid environments without Azure Private DNS Resolver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Duplicate the privatelink DNS zones in both Azure Private DNS and on-premises Active Directory DNS. Create matching A records in both locations. Azure VMs resolve through Azure DNS while on-premises machines resolve through AD DNS. No conditional forwarders or Azure Private Resolver needed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the duplicated DNS zone approach scale for private endpoints?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This approach has been used successfully with over 1,000 private endpoints across multiple subscriptions covering storage accounts, App Services, Key Vaults, and Data Factory instances. Each record takes about 5 minutes to add via change ticket as part of the normal deployment process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should you use Azure Private DNS Resolver instead of duplicated zones?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Azure Private DNS Resolver when private endpoints are created constantly by developers in self-service mode, you need real-time automation with no manual steps, you have no on-premises AD infrastructure, or you manage hundreds of subscriptions with autonomous teams. The duplicated zone approach works better for enterprises with mature AD DNS, controlled deployments, and separate teams."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you keep DNS records in sync between Azure and on-premises?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tie DNS record management to deployment tickets. Private endpoint creation includes a DNS record addition step, and deletion includes a removal step. Run a weekly PowerShell sync check comparing Azure private endpoints against AD DNS records, and remediate discrepancies during change windows."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the handoff process between Azure and AD teams for private endpoint DNS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Azure infrastructure team creates the private endpoint, documents the FQDN, private IP, target resource, and DNS zone, then hands off to the AD team via ticket. The AD team adds the A record to the matching on-premises privatelink zone. Each side owns their own DNS infrastructure independently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you inventory all Azure private endpoints for DNS management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Azure Resource Graph to query all private endpoints across subscriptions, extracting the private endpoint name, private IP, FQDN, target resource, and connection state. Export the results to CSV and provide to the AD team for DNS record management."
+      }
+    }
+  ]
+}

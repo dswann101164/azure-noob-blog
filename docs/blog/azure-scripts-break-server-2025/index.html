@@ -47,6 +47,30 @@
   <meta name="twitter:description" content="Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here&#39;s the gap...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/powershell-version-gap.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -97,7 +121,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Why Your Azure Scripts Break on Fresh Server 2025 (And Why Microsoft Won&#39;t Tell You)",
   "description": "Your admin workstation still has ISE installed. Server 2025 still ships with PowerShell 5.1. Modern Azure automation needs PowerShell 7. Here&#39;s the gap...",
   "image": {
@@ -112,6 +136,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -134,10 +162,12 @@
   },
   "keywords": "azure, powershell, automation, windows-server",
   "articleSection": "azure",
-  "wordCount": "2958",
+  "wordCount": "2979",
   "timeRequired": "PT15M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -172,6 +202,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-scripts-break-server-2025/"
+}
+</script>
+
+
+
 
 
 
@@ -228,14 +274,14 @@
 
   
   <div class="post-body">
-    <h2>The Problem Nobody Warns You About</h2>
+    <h2 id="the-problem-nobody-warns-you-about">The Problem Nobody Warns You About</h2>
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
 <p>Working from my Citrix VDI session last week. Opened PowerShell ISE (right there in the Start menu, familiar, convenient). Tried to run an Azure Resource Graph query to export tags from 44 subscriptions. Failed with cryptic errors about <code>-Skip</code> parameter validation.</p>
 <p>My admin workstation: PowerShell 5.1 + ISE installed by default.</p>
 <p>Azure servers I manage: Windows Server 2025, also PowerShell 5.1 by default.</p>
 <p>Modern Azure automation: Requires PowerShell 7 for many features.</p>
 <p><strong>The disconnect:</strong> Microsoft deprecated ISE in 2020 but keeps shipping it. Server 2025 defaults to PowerShell 5.1 from 2016. Nothing forces the upgrade. Scripts silently break with confusing errors.</p>
-<h2>The Azure Admin Workstation Reality</h2>
+<h2 id="the-azure-admin-workstation-reality">The Azure Admin Workstation Reality</h2>
 <p>You're not writing PowerShell on Azure servers. You're writing it from your workstation:<br />
 - Citrix VDI session<br />
 - Azure Virtual Desktop<br />
@@ -249,8 +295,8 @@
 - PowerShell 7 on your workstation (to write and test scripts)<br />
 - VSCode instead of ISE (Microsoft's recommended editor since 2020)<br />
 - Understanding of what runs on Azure servers vs your workstation</p>
-<h2>What Breaks: Real Code Examples</h2>
-<h3>Example 1: Azure Resource Graph Pagination</h3>
+<h2 id="what-breaks-real-code-examples">What Breaks: Real Code Examples</h2>
+<h3 id="example-1-azure-resource-graph-pagination">Example 1: Azure Resource Graph Pagination</h3>
 <p>This script needs to query 44 Azure subscriptions for tag data:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Run from your admin workstation</span>
 <span class="nv">$subscriptionIds</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzSubscription</span><span class="p">).</span><span class="n">Id</span>
@@ -273,7 +319,7 @@ The 0 argument is less than the minimum allowed range of 1.
 
 <p><strong>PowerShell 7 on your workstation:</strong> Works perfectly.</p>
 <p><strong>Why it matters:</strong> You're querying Azure from your workstation. If your workstation has PowerShell 5.1, your automation breaks before it ever touches Azure servers.</p>
-<h3>Example 2: Parallel Processing for Multi-Subscription Queries</h3>
+<h3 id="example-2-parallel-processing-for-multi-subscription-queries">Example 2: Parallel Processing for Multi-Subscription Queries</h3>
 <p>Querying 44 subscriptions serially takes forever:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># PowerShell 7 - runs on your workstation</span>
 <span class="nv">$subscriptions</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="n">-Parallel</span> <span class="p">{</span>
@@ -289,7 +335,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - PowerShell 5.1 serial: 2+ minutes for 44 subscriptions<br />
 - PowerShell 7 parallel: 28 seconds</p>
 <p><strong>Where this runs:</strong> On your admin workstation making Azure API calls. Server PowerShell version doesn't matter for this.</p>
-<h3>Example 3: Ternary Operators for Cleaner Logic</h3>
+<h3 id="example-3-ternary-operators-for-cleaner-logic">Example 3: Ternary Operators for Cleaner Logic</h3>
 <p>Building Azure cost allocation reports:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># PowerShell 7 - clean syntax</span>
 <span class="nv">$costCenter</span> <span class="p">=</span> <span class="nv">$tags</span><span class="p">[</span><span class="s2">&quot;Cost Center&quot;</span><span class="p">]</span> <span class="p">?</span> <span class="nv">$tags</span><span class="p">[</span><span class="s2">&quot;Cost Center&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="s2">&quot;Unallocated&quot;</span>
@@ -301,7 +347,7 @@ The 0 argument is less than the minimum allowed range of 1.
 </code></pre></div>
 
 <p><strong>Fix:</strong> Use verbose if/else blocks. But your scripts get longer and harder to read.</p>
-<h3>Example 4: Null Coalescing for Tag Defaults</h3>
+<h3 id="example-4-null-coalescing-for-tag-defaults">Example 4: Null Coalescing for Tag Defaults</h3>
 <p>Handling missing Azure resource tags:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># PowerShell 7 - concise</span>
 <span class="nv">$owner</span> <span class="p">=</span> <span class="nv">$tags</span><span class="p">.</span><span class="n">Owner</span> <span class="p">??</span> <span class="nv">$tags</span><span class="p">.</span><span class="n">ContactEmail</span> <span class="p">??</span> <span class="s2">&quot;Unknown&quot;</span>
@@ -309,7 +355,7 @@ The 0 argument is less than the minimum allowed range of 1.
 </code></pre></div>
 
 <p><strong>PowerShell 5.1:</strong> No <code>??</code> operator, needs manual null checking.</p>
-<h2>The ISE Trap</h2>
+<h2 id="the-ise-trap">The ISE Trap</h2>
 <p>PowerShell ISE is pre-installed on your Windows workstation. It's right there in the Start menu. You've been using it for years. It works for basic scripts.</p>
 <p><strong>What ISE doesn't tell you:</strong><br />
 - Last feature update: 2016<br />
@@ -317,7 +363,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - Microsoft officially recommends VSCode since 2020<br />
 - Deprecated but not removed (still ships with Windows 11 and Server 2025)</p>
 <p><strong>The problem:</strong> ISE seems to work fine until you hit modern Azure cmdlet requirements. Then you're debugging cryptic errors instead of writing automation.</p>
-<h2>When Server PowerShell Version Matters vs When It Doesn't</h2>
+<h2 id="when-server-powershell-version-matters-vs-when-it-doesn-t">When Server PowerShell Version Matters vs When It Doesn't</h2>
 <p><strong>Your workstation PowerShell version matters when:</strong><br />
 - Writing and testing scripts locally<br />
 - Running Azure Resource Graph queries<br />
@@ -335,7 +381,7 @@ The 0 argument is less than the minimum allowed range of 1.
 <li>Azure servers: Don't matter for VM creation (Azure API doesn't care)</li>
 <li>Azure servers: Matter if you deploy scripts TO them after creation</li>
 </ul>
-<h2>Your Admin Workstation Setup</h2>
+<h2 id="your-admin-workstation-setup">Your Admin Workstation Setup</h2>
 <p><strong>Check your current PowerShell version:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Run this in any PowerShell window</span>
 <span class="nv">$PSVersionTable</span><span class="p">.</span><span class="n">PSVersion</span>
@@ -380,7 +426,7 @@ The 0 argument is less than the minimum allowed range of 1.
 <span class="p">&amp;</span> <span class="s2">&quot;$env:USERPROFILE\PowerShell7\pwsh.exe&quot;</span>
 </code></pre></div>
 
-<h2>Moving from ISE to VSCode</h2>
+<h2 id="moving-from-ise-to-vscode">Moving from ISE to VSCode</h2>
 <p><strong>The reality check:</strong> ISE can only run PowerShell 5.1. Even if you install PowerShell 7, ISE won't use it.</p>
 <p>VSCode runs both versions and lets you switch between them.</p>
 <p><strong>Installing VSCode on your workstation:</strong></p>
@@ -405,7 +451,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - <strong>F8 in both tools:</strong> Run selected code<br />
 - <strong>VSCode advantage:</strong> Integrated terminal, works with PowerShell 7, IntelliSense, Git integration<br />
 - <strong>ISE limitation:</strong> Can't use PowerShell 7, deprecated, no new features</p>
-<h2>Workflow Changes</h2>
+<h2 id="workflow-changes">Workflow Changes</h2>
 <p><strong>Before (ISE + PowerShell 5.1 on your workstation):</strong><br />
 1. Open ISE from Start menu<br />
 2. Write script to query Azure Resource Graph<br />
@@ -421,7 +467,7 @@ The 0 argument is less than the minimum allowed range of 1.
 5. Query completes in 28 seconds<br />
 6. No parameter validation errors</p>
 <p><strong>Key improvement:</strong> Test code incrementally with F8 instead of running full scripts and debugging failures.</p>
-<h2>Compatibility: Running Old Scripts</h2>
+<h2 id="compatibility-running-old-scripts">Compatibility: Running Old Scripts</h2>
 <p>You don't have to rewrite everything immediately. VSCode can run both PowerShell versions.</p>
 <p><strong>Switch versions in VSCode:</strong><br />
 1. Click PowerShell version indicator (bottom-right)<br />
@@ -431,7 +477,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - Testing existing scripts before migration<br />
 - Running legacy scripts that depend on 5.1-specific behavior<br />
 - Gradual migration without breaking production automation</p>
-<h2>When You Need PowerShell 7 on Azure Servers</h2>
+<h2 id="when-you-need-powershell-7-on-azure-servers">When You Need PowerShell 7 on Azure Servers</h2>
 <p>Most of your Azure automation runs from your workstation (calling Azure APIs). But some scenarios require PowerShell on the servers themselves:</p>
 <p><strong>Azure Automation runbooks:</strong><br />
 - Run scripts inside Azure Automation accounts<br />
@@ -445,7 +491,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - Deploy scripts that run during VM provisioning<br />
 - Uses VM's default PowerShell (5.1 on Server 2025)</p>
 <p><strong>Solution:</strong> Include PowerShell 7 installation in your VM deployment automation if scripts require it.</p>
-<h2>Real-World Scenario: Tag Cleanup Automation</h2>
+<h2 id="real-world-scenario-tag-cleanup-automation">Real-World Scenario: Tag Cleanup Automation</h2>
 <p><strong>Problem:</strong> Need to audit and fix Azure resource tags across 44 subscriptions.</p>
 <p><strong>Your workstation script (needs PowerShell 7):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># This runs on YOUR workstation, not Azure servers</span>
@@ -471,7 +517,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - This script calls Azure management APIs from your workstation<br />
 - Azure servers aren't involved in this query<br />
 - Tag updates happen via API, not by logging into servers</p>
-<h2>Corporate Environments and Tool Approvals</h2>
+<h2 id="corporate-environments-and-tool-approvals">Corporate Environments and Tool Approvals</h2>
 <p><strong>The common blocker:</strong> "IT won't let me install VSCode or PowerShell 7."</p>
 <p><strong>Arguments for IT:</strong></p>
 <ol>
@@ -508,7 +554,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - Install PowerShell 7, keep using ISE for now (limited benefit but better than nothing)<br />
 - Use Azure Cloud Shell for PowerShell 7 without installing anything<br />
 - Request VSCode + PowerShell 7 in next workstation image refresh</p>
-<h2>Beyond PowerShell: Azure Extensions for VSCode</h2>
+<h2 id="beyond-powershell-azure-extensions-for-vscode">Beyond PowerShell: Azure Extensions for VSCode</h2>
 <p>VSCode isn't just for PowerShell. Install these extensions to manage Azure resources directly from your editor:</p>
 <p><strong>Essential Azure extensions:</strong></p>
 <ol>
@@ -536,7 +582,7 @@ The 0 argument is less than the minimum allowed range of 1.
 4. Deploy Azure Function to process the data<br />
 5. All from one tool instead of switching between portal, ISE, and Visual Studio</p>
 <p><strong>ISE limitation:</strong> Can only write PowerShell scripts. Can't interact with Azure resources, can't deploy Functions, no integrated Azure management.</p>
-<h2>Check Your Current Module Versions</h2>
+<h2 id="check-your-current-module-versions">Check Your Current Module Versions</h2>
 <p>Before migrating scripts, see what you have installed:</p>
 <p><strong>List all Az modules:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># See all installed Az modules</span>
@@ -585,7 +631,7 @@ The 0 argument is less than the minimum allowed range of 1.
 </code></pre></div>
 
 <p><strong>PowerShell 5.1 limitation:</strong> May not be able to update to latest module versions even if they exist. PowerShell 7 removes this constraint.</p>
-<h2>Migration Strategy</h2>
+<h2 id="migration-strategy">Migration Strategy</h2>
 <p><strong>Phase 1: Assessment (1 week)</strong><br />
 - Inventory your existing PowerShell scripts<br />
 - Test them in PowerShell 7 (use VSCode or Cloud Shell)<br />
@@ -603,7 +649,7 @@ The 0 argument is less than the minimum allowed range of 1.
 - Write all new scripts in PowerShell 7<br />
 - Use VSCode for all PowerShell work<br />
 - Document PowerShell 7 as team standard</p>
-<h2>Why Microsoft Won't Force This</h2>
+<h2 id="why-microsoft-won-t-force-this">Why Microsoft Won't Force This</h2>
 <p><strong>Breaking changes matter.</strong> If Microsoft:<br />
 - Replaced PowerShell 5.1 with 7 as Windows default<br />
 - Removed ISE from Windows<br />
@@ -611,7 +657,7 @@ The 0 argument is less than the minimum allowed range of 1.
 <p>Result: Thousands of corporate PowerShell scripts would break instantly. Help desks would be overwhelmed.</p>
 <p><strong>Their strategy:</strong> Ship both versions, let admins migrate on their timeline.</p>
 <p><strong>The gap:</strong> No clear forcing function. ISE works "well enough" until it doesn't. Then you're debugging instead of automating.</p>
-<h2>Bottom Line</h2>
+<h2 id="bottom-line">Bottom Line</h2>
 <p>Your Windows admin workstation ships with PowerShell 5.1 and ISE. Modern Azure automation increasingly requires PowerShell 7. This creates a compatibility gap Microsoft won't force you to solve.</p>
 <p><strong>If you manage Azure from a workstation, you need:</strong><br />
 - PowerShell 7 installed on that workstation<br />

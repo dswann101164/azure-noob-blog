@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="The Azure Periodic Table is beautiful but not programmatically useful. So I scraped 200+ services into a PowerShell dictionary. Now my inventory tool shows...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/service-inventory-tool.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "I Scraped the Azure Periodic Table to Build a Service Dictionary (And You Can Use It)",
   "description": "The Azure Periodic Table is beautiful but not programmatically useful. So I scraped 200+ services into a PowerShell dictionary. Now my inventory tool shows...",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "azure, powershell, automation, tools, Web Scraping",
   "articleSection": "azure",
-  "wordCount": "2719",
+  "wordCount": "2742",
   "timeRequired": "PT14M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-periodic-table-service-dictionary/"
+}
+</script>
+
+
+
 
 
 
@@ -251,7 +297,7 @@ networkinterfaces   8234
 - Icons</p>
 <p>But it's a website. I needed it <strong>programmatically</strong>.</p>
 <p>So I scraped it.</p>
-<h2>What the Scraped Data Looks Like</h2>
+<h2 id="what-the-scraped-data-looks-like">What the Scraped Data Looks Like</h2>
 <p>Here's what I extracted from the Azure Periodic Table - the "Excel spreadsheet" with all the metadata:</p>
 <table>
 <thead>
@@ -394,7 +440,7 @@ networkinterfaces   8234
 - ✅ Categories (where it fits)<br />
 - ✅ Cost tiers (relative expense)</p>
 <p>All from a simple PowerShell hashtable.</p>
-<h2>The Problem: Great Reference, Not Operational</h2>
+<h2 id="the-problem-great-reference-not-operational">The Problem: Great Reference, Not Operational</h2>
 <p>The Azure Periodic Table is <strong>gorgeous</strong>.</p>
 <p>It catalogs all 397 Azure services with:<br />
 - One-line descriptions<br />
@@ -414,7 +460,7 @@ networkinterfaces   8234
 - ❌ Automation</p>
 <p>I wanted both. Reference data + operational data.</p>
 <p>So I scraped the site and built a reusable service dictionary.</p>
-<h2>What I Scraped</h2>
+<h2 id="what-i-scraped">What I Scraped</h2>
 <p>From https://www.azureperiodictable.com/, I extracted:</p>
 <p><strong>200+ Azure services</strong> with metadata:<br />
 - Service name (e.g., "Virtual Machine")<br />
@@ -430,7 +476,7 @@ networkinterfaces   8234
 </code></pre></div>
 
 <p>Then parsed the HTML to extract structured data for each service.</p>
-<h2>The Service Dictionary</h2>
+<h2 id="the-service-dictionary">The Service Dictionary</h2>
 <p>I converted the scraped data into a <strong>PowerShell hashtable</strong> for easy programmatic access:</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">$AzureServiceDictionary</span> <span class="p">=</span> <span class="p">@{</span>
     <span class="s1">&#39;virtualmachines&#39;</span> <span class="p">=</span> <span class="p">@{</span>
@@ -492,9 +538,9 @@ networkinterfaces   8234
 <span class="n">Cost</span><span class="o">:</span><span class="w"> </span><span class="n">High</span>
 </code></pre></div>
 
-<h2>Enhanced Inventory Tool</h2>
+<h2 id="enhanced-inventory-tool">Enhanced Inventory Tool</h2>
 <p>I updated the <a href="/blog/azure-service-inventory-tool">original inventory tool</a> to use the dictionary.</p>
-<h3>Before (Original Tool):</h3>
+<h3 id="before-original-tool">Before (Original Tool):</h3>
 <div class="codehilite"><pre><span></span><code>ServiceType         Count   Provider
 virtualmachines     156     Microsoft.Compute
 storageaccounts     423     Microsoft.Storage
@@ -502,7 +548,7 @@ networkinterfaces   8234    Microsoft.Network
 </code></pre></div>
 
 <p>Useful, but requires manual lookup to understand what each service is.</p>
-<h3>After (Enhanced with Dictionary):</h3>
+<h3 id="after-enhanced-with-dictionary">After (Enhanced with Dictionary):</h3>
 <div class="codehilite"><pre><span></span><code>DisplayName          Category    Description                              Count  Prefix    CostTier
 Virtual Machine      Compute     On-demand, high-scale infrastructure     156    vmw-/vml- High
 Storage Account      Storage     Secure, scalable cloud storage           423    st-       Medium
@@ -516,7 +562,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 - What it COSTS (tier)<br />
 - Where it FITS (category)</p>
 <p>All without manual lookup.</p>
-<h2>The Enhanced Tool</h2>
+<h2 id="the-enhanced-tool">The Enhanced Tool</h2>
 <p>Here's how the updated inventory script uses the dictionary:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Import service dictionary</span>
 <span class="p">.</span> <span class="s2">&quot;$PSScriptRoot\Azure-Service-Dictionary.ps1&quot;</span>
@@ -549,7 +595,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 2. Look up each service type<br />
 3. Add enriched columns (Description, NamingPrefix, CostTier)<br />
 4. Flag services on the Periodic Table vs custom/preview</p>
-<h2>What You Get</h2>
+<h2 id="what-you-get">What You Get</h2>
 <p>Running the enhanced tool against my 44 subscriptions:</p>
 <div class="codehilite"><pre><span></span><code><span class="err">📊</span><span class="w"> </span><span class="nx">INVENTORY</span><span class="w"> </span><span class="nx">SUMMARY</span>
 <span class="err">═══════════════════════════════════════════════════</span>
@@ -621,8 +667,8 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 </tbody>
 </table>
 <p>Open in Excel. Filter. Sort. Pivot. <strong>Now operational.</strong></p>
-<h2>Practical Use Cases</h2>
-<h3>Use Case 1: Naming Convention Validation</h3>
+<h2 id="practical-use-cases">Practical Use Cases</h2>
+<h3 id="use-case-1-naming-convention-validation">Use Case 1: Naming Convention Validation</h3>
 <p>Check if resources follow your naming standards:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get expected prefix</span>
 <span class="nv">$resourceType</span> <span class="p">=</span> <span class="s1">&#39;storageaccounts&#39;</span>
@@ -643,7 +689,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Use Case 2: Cost Optimization</h3>
+<h3 id="use-case-2-cost-optimization">Use Case 2: Cost Optimization</h3>
 <p>Focus on high-cost services first:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all high-cost services</span>
 <span class="nv">$highCostServices</span> <span class="p">=</span> <span class="nv">$AzureServiceDictionary</span><span class="p">.</span><span class="n">GetEnumerator</span><span class="p">()</span> <span class="p">|</span> 
@@ -655,7 +701,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Use Case 3: Documentation Generation</h3>
+<h3 id="use-case-3-documentation-generation">Use Case 3: Documentation Generation</h3>
 <p>Auto-generate service catalog:</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">$markdown</span> <span class="p">=</span> <span class="s2">&quot;# Our Azure Service Catalog</span><span class="se">`n`n</span><span class="s2">&quot;</span>
 
@@ -670,14 +716,14 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Use Case 4: New Admin Onboarding</h3>
+<h3 id="use-case-4-new-admin-onboarding">Use Case 4: New Admin Onboarding</h3>
 <p>Give new Azure admins the enriched inventory:</p>
 <p>"Here are the 38 services we use (out of 397). Each has a description. Start with the Top 10 - they're 92% of our resources."</p>
 <p><strong>Much better than:</strong><br />
 - Reading 397 service pages<br />
 - Guessing what "privateendpoints" means<br />
 - Learning naming from inconsistent examples</p>
-<h2>Services NOT on the Periodic Table</h2>
+<h2 id="services-not-on-the-periodic-table">Services NOT on the Periodic Table</h2>
 <p>The tool flags services not in the dictionary:</p>
 <div class="codehilite"><pre><span></span><code>⚠️  SERVICES NOT ON PERIODIC TABLE:
    - customresourceproviders (4 resources)
@@ -690,7 +736,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 - Legacy services (deprecated)<br />
 - Partner services (third-party)</p>
 <p>Good to know what's "off the map".</p>
-<h2>The Complete Dictionary</h2>
+<h2 id="the-complete-dictionary">The Complete Dictionary</h2>
 <p>The full dictionary includes <strong>200+ Azure services</strong> across:</p>
 <p><strong>Management:</strong> Management Groups, Subscriptions, Resource Groups, Policies</p>
 <p><strong>Networking:</strong> VNets, Subnets, NSGs, Load Balancers, Firewalls, Front Door</p>
@@ -708,8 +754,8 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 - Naming prefix<br />
 - Cost tier<br />
 - Provider namespace</p>
-<h2>How to Use It</h2>
-<h3>Download from GitHub</h3>
+<h2 id="how-to-use-it">How to Use It</h2>
+<h3 id="download-from-github">Download from GitHub</h3>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-username/azure-noob-blog.git
 <span class="nb">cd</span><span class="w"> </span>azure-noob-blog/tools
 </code></pre></div>
@@ -718,7 +764,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 - <code>Azure-Service-Dictionary.ps1</code> - Complete service metadata<br />
 - <code>Get-AzureServiceInventory-Enhanced.ps1</code> - Enhanced tool<br />
 - <code>README.md</code> - Documentation</p>
-<h3>Run the Enhanced Tool</h3>
+<h3 id="run-the-enhanced-tool">Run the Enhanced Tool</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">Connect-AzAccount</span>
 
 <span class="c"># Run against all subscriptions</span>
@@ -728,7 +774,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="n">-Enhanced</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-SubscriptionId</span> <span class="s2">&quot;your-sub-id&quot;</span>
 </code></pre></div>
 
-<h3>Use in Your Scripts</h3>
+<h3 id="use-in-your-scripts">Use in Your Scripts</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Import the dictionary</span>
 <span class="p">.</span> <span class="s2">&quot;$PSScriptRoot\Azure-Service-Dictionary.ps1&quot;</span>
 
@@ -737,7 +783,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <span class="nb">Write-Host</span> <span class="s2">&quot;Key Vaults: </span><span class="p">$(</span><span class="nv">$service</span><span class="p">.</span><span class="n">Prefix</span><span class="p">)</span><span class="s2">*&quot;</span>
 </code></pre></div>
 
-<h2>Why This Matters</h2>
+<h2 id="why-this-matters">Why This Matters</h2>
 <p>The Azure Periodic Table is <strong>beautiful</strong>.</p>
 <p>But beauty isn't operational.</p>
 <p><strong>As a reference:</strong> Great for learning and lookup</p>
@@ -750,7 +796,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 - What it <strong>COSTS</strong> (tiers)<br />
 - Where it <strong>FITS</strong> (categories)</p>
 <p><strong>That's operational.</strong></p>
-<h2>The Real Insight</h2>
+<h2 id="the-real-insight">The Real Insight</h2>
 <p>Microsoft says there are <strong>397 Azure services</strong>.</p>
 <p>After running this on 44 subscriptions:</p>
 <p><strong>I use 38 services</strong> (9.6% of Azure)</p>
@@ -759,7 +805,7 @@ Network Interface    Networking  Interconnection between VM and VNet      8234  
 <p>The Periodic Table makes Azure look overwhelming.</p>
 <p><strong>This tool makes it manageable.</strong></p>
 <hr />
-<h2>Download the Tools</h2>
+<h2 id="download-the-tools">Download the Tools</h2>
 <p><strong>GitHub:</strong> <a href="https://github.com/your-username/azure-noob-blog/tree/main/tools">azure-noob-blog/tools</a></p>
 <p><strong>Blog Posts:</strong><br />
 - <a href="/blog/azure-service-inventory-tool">Part 1: Azure Service Inventory Tool</a><br />

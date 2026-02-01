@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Every guide says &#39;configure diagnostic settings.&#39; Nobody shows you which button to click. Here&#39;s the step-by-step tutorial that actually works, written for...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-soc2-activity-log.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The Missing SOC 2 Guide: Azure Activity Log Setup (Grill Assembly Manual Edition)",
   "description": "Every guide says &#39;configure diagnostic settings.&#39; Nobody shows you which button to click. Here&#39;s the step-by-step tutorial that actually works, written for...",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "azure, SOC2, Compliance, Monitoring, Activity Logs",
   "articleSection": "azure",
-  "wordCount": "5155",
+  "wordCount": "5203",
   "timeRequired": "PT26M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -176,9 +206,90 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/soc2-activity-log-step-by-step/"
+}
+</script>
 
 
 
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you configure Azure Activity Logs for SOC 2 compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create a Log Analytics Workspace with 365-day retention, create a Storage Account for 7-year archive, then configure diagnostic settings to export Activity Logs to both destinations. Select all 8 log categories (Administrative, Security, ServiceHealth, Alert, Recommendation, Policy, Autoscale, ResourceHealth) and save the diagnostic setting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does Azure keep Activity Logs by default?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure keeps Activity Logs for only 90 days by default. SOC 2 requires 12+ months of retention. You must configure diagnostic settings to export logs to a Log Analytics Workspace with 365-day retention and a Storage Account for 7-year archive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does Azure Activity Log retention cost for SOC 2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For small environments with 1-3 subscriptions, expect $4-15 per month. Medium environments with 10-20 subscriptions cost $60-170 per month. Enterprise environments with 40+ subscriptions cost $730-950 per month. Compare this to a failed SOC 2 audit finding which can cost $50,000-$500,000 in remediation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Azure Activity Log categories should I enable for SOC 2?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enable all 8 categories: Administrative (who created, deleted, or modified resources), Security (security alerts and violations), ServiceHealth (Azure outages), Alert (monitoring alerts), Recommendation (Azure Advisor), Policy (governance failures), Autoscale (capacity changes), and ResourceHealth (resource status changes). SOC 2 auditors ask random questions spanning all categories."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you verify Azure Activity Logs are actually being exported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wait 15-30 minutes after configuration, then run the KQL query 'AzureActivity | take 10' in your Log Analytics Workspace. You should see 10 rows with columns like TimeGenerated, Caller, and OperationName. If no results appear, check that all 8 categories are enabled, the correct workspace is selected, and try generating activity by creating a test resource group."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What SOC 2 controls does Azure Activity Log retention satisfy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Activity Log retention satisfies SOC 2 CC6.1 (Logical Access Controls) by proving who accessed what, and SOC 2 CC6.7 (System Monitoring) by providing 12+ months of monitoring data. This covers ARM resources like VMs, storage accounts, and networks. Azure AD audit logs for identity events require separate configuration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Azure Activity Log export cover Azure AD sign-in logs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Activity Logs cover ARM resource operations like VM creation, storage account changes, and network modifications. Azure AD logs covering user sign-ins, app registrations, admin consent grants, role assignments, and password resets are a completely separate system requiring separate diagnostic settings configuration."
+      }
+    }
+  ]
+}
+</script>
 
 
 <article class="post">
@@ -238,7 +349,7 @@
 <p>Cool. <strong>Which button do I click?</strong></p>
 <p>Nobody tells you. It's like buying a grill from Home Depot and the instructions say "assemble the grill" with no pictures, no step numbers, no "insert bolt D into hole E."</p>
 <p>Here's the grill assembly manual version. Follow these steps, and in 30 minutes you'll have SOC 2-compliant Activity Log retention. No guessing. No "figure it out yourself." Just click what I tell you to click.</p>
-<h2>What You're Actually Setting Up</h2>
+<h2 id="what-you-re-actually-setting-up">What You're Actually Setting Up</h2>
 <p><strong>The problem:</strong> Azure keeps Activity Logs for 90 days. SOC 2 requires 12+ months. When your auditor asks "who deleted this storage account in March?" six months later, you have nothing.</p>
 <p><strong>The solution:</strong> Export Activity Logs to two places:<br />
 1. <strong>Log Analytics Workspace</strong> - Query logs for 12+ months using KQL<br />
@@ -251,9 +362,9 @@
 <p><strong>Cost:</strong> $7-15/month for small environments, $60-170/month for medium, $730-950/month for enterprise</p>
 <p>Let's do this.</p>
 <hr />
-<h2>Part 1: Create Log Analytics Workspace (10 minutes)</h2>
+<h2 id="part-1-create-log-analytics-workspace-10-minutes">Part 1: Create Log Analytics Workspace (10 minutes)</h2>
 <p>This is where you'll run KQL queries to answer audit questions like "who did what when?"</p>
-<h3>Step 1: Open Azure Portal and Search</h3>
+<h3 id="step-1-open-azure-portal-and-search">Step 1: Open Azure Portal and Search</h3>
 <ol>
 <li>Go to <strong>portal.azure.com</strong> in your browser</li>
 <li>Sign in with your Azure account</li>
@@ -265,14 +376,14 @@
 <p><strong>You should see:</strong> A page titled "Log Analytics workspaces" with a list of existing workspaces (might be empty if this is your first one)</p>
 <p><strong>If you see an error:</strong> Check if you're signed in to the correct subscription. Click your profile icon (top right) to verify.</p>
 <hr />
-<h3>Step 2: Create New Workspace</h3>
+<h3 id="step-2-create-new-workspace">Step 2: Create New Workspace</h3>
 <ol>
 <li>Look at the top-left of the page</li>
 <li>Click the <strong>"+ Create"</strong> button (blue button with a plus sign)</li>
 </ol>
 <p><strong>You should see:</strong> A new page opens titled "Create Log Analytics workspace" with tabs at the top: Basics, Tags, Review + create</p>
 <hr />
-<h3>Step 3: Fill in the Basics Tab</h3>
+<h3 id="step-3-fill-in-the-basics-tab">Step 3: Fill in the Basics Tab</h3>
 <p>You're on the <strong>"Basics"</strong> tab. Fill in these fields:</p>
 <p><strong>Subscription:</strong><br />
 - Click the dropdown<br />
@@ -301,7 +412,7 @@
 - Leave as <strong>"Pay-as-you-go"</strong> (this is correct, don't change it)</p>
 <p><strong>You should see:</strong> All fields filled in, no red error messages</p>
 <hr />
-<h3>Step 4: Set Retention Period</h3>
+<h3 id="step-4-set-retention-period">Step 4: Set Retention Period</h3>
 <p>This is critical for SOC 2 compliance.</p>
 <ol>
 <li>Click the <strong>"Pricing tier"</strong> tab at the top (next to "Basics")</li>
@@ -312,7 +423,7 @@
 <p><strong>Why 365 days?</strong> SOC 2 requires minimum 12 months. This is the cheapest option that meets compliance. Going higher (730 days = 2 years) costs more but gives you safety margin.</p>
 <p><strong>You should see:</strong> "365" displayed clearly</p>
 <hr />
-<h3>Step 5: Skip Tags, Create the Workspace</h3>
+<h3 id="step-5-skip-tags-create-the-workspace">Step 5: Skip Tags, Create the Workspace</h3>
 <ol>
 <li>Click <strong>"Review + create"</strong> button at the bottom left (skip the Tags tab - you can add tags later)</li>
 <li><strong>Wait 5 seconds</strong> - Azure validates your settings</li>
@@ -325,7 +436,7 @@
 </ol>
 <p><strong>You should see:</strong> Green checkmark saying "Your deployment is complete"</p>
 <hr />
-<h3>Step 6: Verify It Worked</h3>
+<h3 id="step-6-verify-it-worked">Step 6: Verify It Worked</h3>
 <ol>
 <li>Click the <strong>"Go to resource"</strong> button (it appears after deployment completes)</li>
 <li>You're now looking at your workspace dashboard</li>
@@ -340,9 +451,9 @@
 - Subscription: <strong><em>_</em></strong><strong><em>_</em></strong>___ (should match what you picked earlier)</p>
 <p><strong>Checkpoint:</strong> You now have a Log Analytics Workspace. This is where Activity Logs will be stored for 365 days and where you'll run queries. ✓</p>
 <hr />
-<h2>Part 2: Create Storage Account (10 minutes)</h2>
+<h2 id="part-2-create-storage-account-10-minutes">Part 2: Create Storage Account (10 minutes)</h2>
 <p>This is your cheap long-term archive for 7-year retention. Costs pennies compared to Log Analytics.</p>
-<h3>Step 7: Search for Storage Accounts</h3>
+<h3 id="step-7-search-for-storage-accounts">Step 7: Search for Storage Accounts</h3>
 <ol>
 <li>Click the <strong>search bar</strong> at the very top of the page</li>
 <li>Type: <code>storage accounts</code></li>
@@ -350,14 +461,14 @@
 </ol>
 <p><strong>You should see:</strong> "Storage accounts" page with a list of storage accounts (might be empty)</p>
 <hr />
-<h3>Step 8: Create New Storage Account</h3>
+<h3 id="step-8-create-new-storage-account">Step 8: Create New Storage Account</h3>
 <ol>
 <li>Look at the top-left</li>
 <li>Click <strong>"+ Create"</strong> button (blue button with plus sign)</li>
 </ol>
 <p><strong>You should see:</strong> "Create a storage account" form with multiple tabs</p>
 <hr />
-<h3>Step 9: Fill in Basics</h3>
+<h3 id="step-9-fill-in-basics">Step 9: Fill in Basics</h3>
 <p>You're on the "Basics" tab. Fill these in:</p>
 <p><strong>Subscription:</strong><br />
 - Select the <strong>same subscription</strong> you used in Part 1</p>
@@ -381,7 +492,7 @@
 - Why? Cheapest option ($0.02/GB/month). You don't need geo-redundancy for archived logs.</p>
 <p><strong>You should see:</strong> All fields filled, no red errors</p>
 <hr />
-<h3>Step 10: Create the Storage Account</h3>
+<h3 id="step-10-create-the-storage-account">Step 10: Create the Storage Account</h3>
 <ol>
 <li>Click <strong>"Review"</strong> button at the bottom left (skip Advanced, Networking, Data protection, Encryption, Tags tabs)</li>
 <li>Wait 5 seconds for validation</li>
@@ -400,9 +511,9 @@
 - Location: (should match workspace region)</p>
 <p><strong>Checkpoint:</strong> You now have a Storage Account for 7-year log archive. ✓</p>
 <hr />
-<h2>Part 3: Export Activity Logs (10 minutes)</h2>
+<h2 id="part-3-export-activity-logs-10-minutes">Part 3: Export Activity Logs (10 minutes)</h2>
 <p>Now you connect the dots: tell Azure to send Activity Logs to both places you just created.</p>
-<h3>Step 11: Open Activity Log Settings</h3>
+<h3 id="step-11-open-activity-log-settings">Step 11: Open Activity Log Settings</h3>
 <ol>
 <li>Click the <strong>search bar</strong> at the very top of the page</li>
 <li>Type: <code>activity log</code></li>
@@ -419,19 +530,19 @@
 - Empty page saying "No diagnostic settings defined yet" (this is fine - you're setting it up now)<br />
 - OR existing settings in a table (like "AzureKeyVault" - ignore these, you're adding a new one)</p>
 <hr />
-<h3>Step 12: Create New Diagnostic Setting</h3>
+<h3 id="step-12-create-new-diagnostic-setting">Step 12: Create New Diagnostic Setting</h3>
 <ol>
 <li>Look at the top of the page</li>
 <li>Click <strong>"+ Add diagnostic setting"</strong> button (blue button near the top)</li>
 </ol>
 <p><strong>You should see:</strong> A form opens on the right side with lots of checkboxes, dropdowns, and options</p>
 <hr />
-<h3>Step 13: Name Your Setting</h3>
+<h3 id="step-13-name-your-setting">Step 13: Name Your Setting</h3>
 <p>Look at the very top of the form. You'll see <strong>"Diagnostic setting name"</strong> field.</p>
 <p>Type exactly: <code>soc2-activity-logs</code></p>
 <p><strong>Why this name?</strong> When your auditor asks "show me your Activity Log exports," you can instantly point to "soc2-activity-logs" in the list. Makes your life easier during audits.</p>
 <hr />
-<h3>Step 14: Select ALL Log Categories</h3>
+<h3 id="step-14-select-all-log-categories">Step 14: Select ALL Log Categories</h3>
 <p>This is critical. Don't skip any boxes.</p>
 <p>Scroll down to the <strong>"Logs"</strong> section. You'll see a list of categories with checkboxes.</p>
 <p><strong>Check EVERY SINGLE BOX (all 8):</strong></p>
@@ -462,7 +573,7 @@
 <p>If you only check some boxes, you'll miss data you need later during the audit.</p>
 <p><strong>Double-check:</strong> All 8 boxes should have checkmarks. Scroll through the list to verify.</p>
 <hr />
-<h3>Step 15: Configure Log Analytics Destination</h3>
+<h3 id="step-15-configure-log-analytics-destination">Step 15: Configure Log Analytics Destination</h3>
 <p>Scroll down to the <strong>"Destination details"</strong> section.</p>
 <p><strong>First destination: Log Analytics (for queries)</strong></p>
 <ol>
@@ -479,7 +590,7 @@
 - <strong>If you don't see it:</strong> Something went wrong in Part 1. Go back to Step 6, verify the workspace exists.</p>
 <p><strong>You should see:</strong> Both dropdowns filled in, no red errors</p>
 <hr />
-<h3>Step 16: Configure Storage Account Destination</h3>
+<h3 id="step-16-configure-storage-account-destination">Step 16: Configure Storage Account Destination</h3>
 <p>Still in the <strong>"Destination details"</strong> section, right below where you just were.</p>
 <p><strong>Second destination: Storage Account (for 7-year archive)</strong></p>
 <ol>
@@ -503,7 +614,7 @@
 - ☑ Send to Log Analytics workspace (with workspace selected)<br />
 - ☑ Archive to a storage account (with storage account selected and 2555 days)</p>
 <hr />
-<h3>Step 17: Save It</h3>
+<h3 id="step-17-save-it">Step 17: Save It</h3>
 <ol>
 <li><strong>Look at the very top</strong> of the form (might need to scroll up)</li>
 <li>Find the <strong>"Save"</strong> button (top-left area, near the X button)</li>
@@ -523,9 +634,9 @@
 <p><strong>Checkpoint:</strong> Activity Logs are now being exported to both Log Analytics (365 days) and Storage (7 years). ✓</p>
 <hr />
 <hr />
-<h2>CRITICAL: Verify Your Configuration (Before Testing Queries)</h2>
+<h2 id="critical-verify-your-configuration-before-testing-queries">CRITICAL: Verify Your Configuration (Before Testing Queries)</h2>
 <p><strong>The problem your screenshot revealed:</strong> The diagnostic settings list view shows a setting exists, but doesn't prove what categories are enabled.</p>
-<h3>Step 2a: Verify Categories Are Actually Enabled</h3>
+<h3 id="step-2a-verify-categories-are-actually-enabled">Step 2a: Verify Categories Are Actually Enabled</h3>
 <p><strong>Don't trust the list view.</strong> You need to click "Edit setting" to see the actual configuration.</p>
 <p><strong>Portal verification (DO THIS NOW):</strong></p>
 <ol>
@@ -577,7 +688,7 @@
 - Click "Save"<br />
 - Wait 15 minutes<br />
 - Recheck</p>
-<h3>PowerShell Verification (Proves Configuration)</h3>
+<h3 id="powershell-verification-proves-configuration">PowerShell Verification (Proves Configuration)</h3>
 <p>This exports exactly what's configured - run this and save the output:</p>
 <p><strong>For Activity Logs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get subscription diagnostic settings</span>
@@ -638,14 +749,14 @@
 4. Where logs are going</p>
 <p><strong>Save these monthly</strong> - Creates audit trail showing continuous compliance.</p>
 <hr />
-<h2>Part 4: Verify It's Working (Critical - Don't Skip)</h2>
+<h2 id="part-4-verify-it-s-working-critical-don-t-skip">Part 4: Verify It's Working (Critical - Don't Skip)</h2>
 <p>This is how you know it actually worked. I've seen people skip this step and discover 6 months later during an audit that logs weren't being exported.</p>
-<h3>Step 18: Wait 15 Minutes (Seriously)</h3>
+<h3 id="step-18-wait-15-minutes-seriously">Step 18: Wait 15 Minutes (Seriously)</h3>
 <p>Set a timer. Go grab coffee. Check your email. Walk around the block.</p>
 <p>Azure needs 15-30 minutes to start sending Activity Log data to Log Analytics. First sync is always slow.</p>
 <p><strong>Do not skip the wait.</strong> If you check immediately, you'll see no results and panic unnecessarily.</p>
 <hr />
-<h3>Step 19: Open Log Analytics Query Editor</h3>
+<h3 id="step-19-open-log-analytics-query-editor">Step 19: Open Log Analytics Query Editor</h3>
 <p>After your 15-minute coffee break:</p>
 <ol>
 <li>Click the <strong>search bar</strong> at the top of the portal</li>
@@ -669,7 +780,7 @@
 - A blue "Run" button above the box<br />
 - A list of tables on the left (you might see "AzureActivity" in the list)</p>
 <hr />
-<h3>Step 20: Run Your First Test Query</h3>
+<h3 id="step-20-run-your-first-test-query">Step 20: Run Your First Test Query</h3>
 <p>This query checks if Activity Logs are arriving.</p>
 <ol>
 <li><strong>Click in the query window</strong> (the white text box)</li>
@@ -721,7 +832,7 @@
 <li>Step 17: Verify you saw the green "Successfully saved" message</li>
 </ol>
 <hr />
-<h3>Step 21: Check Retention (Proves Logs Are Staying)</h3>
+<h3 id="step-21-check-retention-proves-logs-are-staying">Step 21: Check Retention (Proves Logs Are Staying)</h3>
 <p>This query shows how many days of logs you have.</p>
 <p>In the query window, <strong>delete the previous query</strong> and type this:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
@@ -748,7 +859,7 @@
 <p><strong>When DaysCovered hits 365, you're officially SOC 2 compliant for Activity Log retention.</strong> ✓</p>
 <p>Save this query somewhere (OneNote, wiki, Confluence) so you can run it quarterly.</p>
 <hr />
-<h3>Step 22: Test a Real Audit Query</h3>
+<h3 id="step-22-test-a-real-audit-query">Step 22: Test a Real Audit Query</h3>
 <p>Let's make sure you can actually answer audit questions.</p>
 <p>Try this query that finds resource deletions (common audit question):</p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
@@ -767,9 +878,9 @@
 <p><strong>If you see results:</strong> Great! You can now answer the audit question "Show me all resource deletions in Q3 2025."</p>
 <p><strong>Save this query</strong> - You'll use it during audits.</p>
 <hr />
-<h2>What You Can Do Now</h2>
+<h2 id="what-you-can-do-now">What You Can Do Now</h2>
 <p>You just set up SOC 2-compliant Activity Log retention. Here's what this enables:</p>
-<h3>Audit Question 1: "Who created storage account 'proddata001' on September 15, 2025?"</h3>
+<h3 id="audit-question-1-who-created-storage-account-proddata001-on-september-15-2025">Audit Question 1: "Who created storage account 'proddata001' on September 15, 2025?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="err">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">16</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceId</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;proddata001&quot;</span>
@@ -780,7 +891,7 @@
 
 <p><strong>Answer:</strong> The Caller column shows who did it. TimeGenerated shows exactly when.</p>
 <hr />
-<h3>Audit Question 2: "Show me all resource deletions in the last 90 days"</h3>
+<h3 id="audit-question-2-show-me-all-resource-deletions-in-the-last-90-days">Audit Question 2: "Show me all resource deletions in the last 90 days"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
@@ -791,7 +902,7 @@
 
 <p><strong>Answer:</strong> Every row is a deletion. Export to Excel for the auditor.</p>
 <hr />
-<h3>Audit Question 3: "What changes did john.doe@company.com make last month?"</h3>
+<h3 id="audit-question-3-what-changes-did-john-doe-company-com-make-last-month">Audit Question 3: "What changes did john.doe@company.com make last month?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;john.doe@company.com&quot;</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
@@ -801,7 +912,7 @@
 
 <p><strong>Answer:</strong> Complete audit trail of everything this user did.</p>
 <hr />
-<h3>Audit Question 4: "Were there any policy violations in Q2 2025?"</h3>
+<h3 id="audit-question-4-were-there-any-policy-violations-in-q2-2025">Audit Question 4: "Were there any policy violations in Q2 2025?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">04</span><span class="p">-</span><span class="mi">01</span><span class="p">)</span><span class="w"> </span><span class="err">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">06</span><span class="p">-</span><span class="mi">30</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">CategoryValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Policy&quot;</span>
@@ -812,9 +923,9 @@
 
 <p><strong>Answer:</strong> Every policy failure, who triggered it, when.</p>
 <hr />
-<h2>Cost Breakdown</h2>
+<h2 id="cost-breakdown">Cost Breakdown</h2>
 <p><strong>What this setup actually costs:</strong></p>
-<h3>Small Environment (1-3 subscriptions)</h3>
+<h3 id="small-environment-1-3-subscriptions">Small Environment (1-3 subscriptions)</h3>
 <ul>
 <li><strong>Log Analytics:</strong> ~$2-10/month</li>
 <li>First 5GB/month is free</li>
@@ -825,7 +936,7 @@
 <li>7 years of logs ≈ 200-500GB total = $2-5/month</li>
 <li><strong>Total: $4-15/month</strong></li>
 </ul>
-<h3>Medium Environment (10-20 subscriptions)</h3>
+<h3 id="medium-environment-10-20-subscriptions">Medium Environment (10-20 subscriptions)</h3>
 <ul>
 <li><strong>Log Analytics:</strong> ~$50-150/month</li>
 <li>20-50GB/month ingested</li>
@@ -833,7 +944,7 @@
 <li>1-2TB archived</li>
 <li><strong>Total: $60-170/month</strong></li>
 </ul>
-<h3>Enterprise (40+ subscriptions, like mine)</h3>
+<h3 id="enterprise-40-subscriptions-like-mine">Enterprise (40+ subscriptions, like mine)</h3>
 <ul>
 <li><strong>Log Analytics:</strong> ~$700-900/month</li>
 <li>250-300GB/month ingested</li>
@@ -848,20 +959,20 @@
 - This solution: $48-11,400/year</p>
 <p>No-brainer.</p>
 <hr />
-<h2>Common Mistakes to Avoid</h2>
-<h3>Mistake 1: Only Checking "Administrative" in Step 14</h3>
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+<h3 id="mistake-1-only-checking-administrative-in-step-14">Mistake 1: Only Checking "Administrative" in Step 14</h3>
 <p><strong>Why it's wrong:</strong> You'll miss Security logs, Policy violations, and other categories auditors ask for.</p>
 <p><strong>Fix:</strong> Check all 8 boxes. Every single one matters.</p>
 <hr />
-<h3>Mistake 2: Skipping Part 4 (Verification)</h3>
+<h3 id="mistake-2-skipping-part-4-verification">Mistake 2: Skipping Part 4 (Verification)</h3>
 <p><strong>Why it's wrong:</strong> You won't know if it's working until the audit, when it's too late to fix.</p>
 <p><strong>Fix:</strong> Actually run the test queries. Verify you see results. Check again in 7 days, 30 days, 90 days.</p>
 <hr />
-<h3>Mistake 3: Setting Retention to 30 or 90 Days</h3>
+<h3 id="mistake-3-setting-retention-to-30-or-90-days">Mistake 3: Setting Retention to 30 or 90 Days</h3>
 <p><strong>Why it's wrong:</strong> SOC 2 requires 12+ months minimum. Setting 90 days means you fail compliance.</p>
 <p><strong>Fix:</strong> Set Log Analytics retention to 365 days (Step 4). Set Storage retention to 2,555 days (Step 16).</p>
 <hr />
-<h3>Mistake 4: Not Documenting What You Did</h3>
+<h3 id="mistake-4-not-documenting-what-you-did">Mistake 4: Not Documenting What You Did</h3>
 <p><strong>Why it's wrong:</strong> When your coworker asks "where are our Activity Logs?" in 6 months, nobody remembers.</p>
 <p><strong>Fix:</strong> Create a one-page doc:<br />
 - Workspace name: soc2-audit-logs<br />
@@ -872,11 +983,11 @@
 - Purpose: SOC 2 CC6.1, CC6.7 compliance</p>
 <p>Save it in SharePoint, Confluence, or your internal wiki.</p>
 <hr />
-<h3>Mistake 5: Thinking This Covers Azure AD</h3>
+<h3 id="mistake-5-thinking-this-covers-azure-ad">Mistake 5: Thinking This Covers Azure AD</h3>
 <p><strong>Why it's wrong:</strong> This guide covers Activity Logs (ARM resources like VMs, storage, networks). Azure AD logs (users, app registrations, sign-ins) are a completely separate system.</p>
 <p><strong>Fix:</strong> You still need to configure Azure AD diagnostic settings separately. That's a different guide (coming next week).</p>
 <hr />
-<h2>What's Next</h2>
+<h2 id="what-s-next">What's Next</h2>
 <p>You just set up <strong>Activity Logs</strong> (ARM resources - VMs, storage accounts, networks).</p>
 <p><strong>You're 50% done with SOC 2 logging compliance.</strong></p>
 <p>The other 50% is <strong>Azure AD Audit Logs</strong> (identity layer):<br />
@@ -890,7 +1001,7 @@
 - <strong>SOC 2 CC6.1</strong> (Logical Access Controls) - You can prove who accessed what<br />
 - <strong>SOC 2 CC6.7</strong> (System Monitoring) - You have 12+ months of monitoring data</p>
 <hr />
-<h2>Quick Reference Card</h2>
+<h2 id="quick-reference-card">Quick Reference Card</h2>
 <p>Copy this, print it, stick it on your desk:</p>
 <p><strong>Activity Log Setup - Quick Facts</strong></p>
 <ul>
@@ -904,7 +1015,7 @@
 <li><strong>Compliant with:</strong> SOC 2 CC6.1, CC6.7</li>
 </ul>
 <hr />
-<h2>The Real Takeaway</h2>
+<h2 id="the-real-takeaway">The Real Takeaway</h2>
 <p>This is the guide nobody wrote. Every SOC 2 Azure article says "configure diagnostic settings." None show you how.</p>
 <p>Now you know. Every button, every dropdown, every checkbox, every KQL query you need.</p>
 <p>Next time your auditor asks "show me who deleted this resource in March," you'll have an answer in 30 seconds instead of panic-calling your Azure admin.</p>

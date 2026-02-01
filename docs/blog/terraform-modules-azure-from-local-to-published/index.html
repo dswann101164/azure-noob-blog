@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Stop copy-pasting Terraform code across repos. Build reusable modules, version them properly, and publish to Azure DevOps Artifacts or Terraform Registry.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/terraform-modules-azure.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Terraform Modules for Azure: From Local to Published (4 Steps That Actually Work)",
   "description": "Stop copy-pasting Terraform code across repos. Build reusable modules, version them properly, and publish to Azure DevOps Artifacts or Terraform Registry.",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "Terraform, IaC, Azure DevOps, Modules, Best Practices",
   "articleSection": "Terraform",
-  "wordCount": "3791",
+  "wordCount": "3815",
   "timeRequired": "PT19M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Terraform"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/terraform-modules-azure-from-local-to-published/"
+}
+</script>
+
+
+
 
 
 
@@ -238,7 +284,7 @@
 <p>Or you build a Terraform module. Fix it once. Everyone gets the update.</p>
 <p>Here's how to build modules that teams actually use instead of routing around.</p>
 <hr />
-<h2>Why Use Terraform Modules?</h2>
+<h2 id="why-use-terraform-modules">Why Use Terraform Modules?</h2>
 <p><strong>Modules solve three problems:</strong></p>
 <ol>
 <li><strong>Reduce repetition</strong> — Write resource configuration once, use it everywhere</li>
@@ -253,9 +299,9 @@
 </ul>
 <p><strong>Real example:</strong> We built a module for Azure Storage Accounts with encryption, private endpoints, and compliance settings. 14 teams use it. When NIST 800-53 requirements changed, we updated the module once. All 14 teams got compliance by running <code>terraform init -upgrade</code>.</p>
 <hr />
-<h2>Step 1: Use Existing Modules First (Don't Build Yet)</h2>
+<h2 id="step-1-use-existing-modules-first-don-t-build-yet">Step 1: Use Existing Modules First (Don't Build Yet)</h2>
 <p><strong>Before you write any code, check if someone already built it:</strong></p>
-<h3>Community Modules</h3>
+<h3 id="community-modules">Community Modules</h3>
 <p><strong>HashiCorp Verified Modules:</strong><br />
 - Browse: https://registry.terraform.io/browse/modules?provider=azurerm<br />
 - Quality guarantee: HashiCorp reviews these<br />
@@ -297,9 +343,9 @@ terraform<span class="w"> </span>providers
 <li>Enterprise standards differ from community patterns (naming, tagging, RBAC)</li>
 </ul>
 <hr />
-<h2>Step 2: Build a Local Module (Test Before Publishing)</h2>
+<h2 id="step-2-build-a-local-module-test-before-publishing">Step 2: Build a Local Module (Test Before Publishing)</h2>
 <p><strong>Modules are just Terraform code in a subdirectory.</strong></p>
-<h3>Module Structure</h3>
+<h3 id="module-structure">Module Structure</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">terraform</span><span class="o">-</span><span class="n">modules</span><span class="o">/</span>
 <span class="err">├──</span><span class="w"> </span><span class="n">modules</span><span class="o">/</span>
 <span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">azure</span><span class="o">-</span><span class="n">storage</span><span class="o">-</span><span class="n">private</span><span class="o">/</span>
@@ -314,7 +360,7 @@ terraform<span class="w"> </span>providers
 <span class="w">        </span><span class="err">└──</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span><span class="w"> </span><span class="c1"># Example values</span>
 </code></pre></div>
 
-<h3>Example: Azure Storage Account Module</h3>
+<h3 id="example-azure-storage-account-module">Example: Azure Storage Account Module</h3>
 <p><strong>modules/azure-storage-private/variables.tf</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;resource_group_name&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Resource group for storage account&quot;</span>
@@ -421,7 +467,7 @@ terraform<span class="w"> </span>providers
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Using the Local Module</h3>
+<h3 id="using-the-local-module">Using the Local Module</h3>
 <p><strong>examples/complete/main.tf</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
@@ -489,9 +535,9 @@ terraform<span class="w"> </span>destroy
 </code></pre></div>
 
 <hr />
-<h2>Step 3: Version Your Module (Semantic Versioning)</h2>
+<h2 id="step-3-version-your-module-semantic-versioning">Step 3: Version Your Module (Semantic Versioning)</h2>
 <p><strong>Modules without versions create deployment chaos.</strong></p>
-<h3>Why Versioning Matters</h3>
+<h3 id="why-versioning-matters">Why Versioning Matters</h3>
 <p><strong>Without versions:</strong><br />
 - Team A: "The storage module broke our deployment"<br />
 - Team B: "We updated it last week to fix security issues"<br />
@@ -500,7 +546,7 @@ terraform<span class="w"> </span>destroy
 - Team A: Uses <code>version = "1.2.3"</code> (stable)<br />
 - Team B: Tests <code>version = "1.3.0"</code> (latest)<br />
 - Team A: Upgrades when ready, not when broken</p>
-<h3>Semantic Versioning Rules</h3>
+<h3 id="semantic-versioning-rules">Semantic Versioning Rules</h3>
 <p><strong>Format: <code>MAJOR.MINOR.PATCH</code> (e.g., <code>2.1.4</code>)</strong></p>
 <ul>
 <li><strong>MAJOR</strong> (2.0.0) — Breaking changes (rename variables, remove outputs, change defaults)</li>
@@ -520,7 +566,7 @@ terraform<span class="w"> </span>destroy
 <span class="c1"># Version: 1.2.3 → 1.2.4</span>
 </code></pre></div>
 
-<h3>Tagging Releases in Git</h3>
+<h3 id="tagging-releases-in-git">Tagging Releases in Git</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># After testing module changes</span>
 git<span class="w"> </span>add<span class="w"> </span>modules/azure-storage-private/
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add lifecycle management support&quot;</span>
@@ -554,9 +600,9 @@ git<span class="w"> </span>tag<span class="w"> </span>-l
 </code></pre></div>
 
 <hr />
-<h2>Step 4: Publish to Azure DevOps Artifacts or Terraform Registry</h2>
+<h2 id="step-4-publish-to-azure-devops-artifacts-or-terraform-registry">Step 4: Publish to Azure DevOps Artifacts or Terraform Registry</h2>
 <p><strong>Local modules work for single teams. Published modules work for enterprises.</strong></p>
-<h3>Option A: Azure DevOps Artifacts (Private Modules)</h3>
+<h3 id="option-a-azure-devops-artifacts-private-modules">Option A: Azure DevOps Artifacts (Private Modules)</h3>
 <p><strong>Best for:</strong><br />
 - Enterprise internal modules<br />
 - Compliance-restricted code<br />
@@ -611,7 +657,7 @@ az<span class="w"> </span>artifacts<span class="w"> </span>universal<span class=
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Option B: Terraform Registry (Public Modules)</h3>
+<h3 id="option-b-terraform-registry-public-modules">Option B: Terraform Registry (Public Modules)</h3>
 <p><strong>Best for:</strong><br />
 - Open source modules<br />
 - Community contributions<br />
@@ -680,8 +726,8 @@ az<span class="w"> </span>artifacts<span class="w"> </span>universal<span class=
 <li>✅ Working examples/ directory</li>
 </ul>
 <hr />
-<h2>What Breaks at Enterprise Scale</h2>
-<h3>Problem 1: Module Sprawl</h3>
+<h2 id="what-breaks-at-enterprise-scale">What Breaks at Enterprise Scale</h2>
+<h3 id="problem-1-module-sprawl">Problem 1: Module Sprawl</h3>
 <p><strong>Symptom:</strong> 47 different storage account modules across repos.</p>
 <p><strong>Cause:</strong> Each team builds their own because discovery is hard.</p>
 <p><strong>Fix:</strong></p>
@@ -702,7 +748,7 @@ az<span class="w"> </span>artifacts<span class="w"> </span>universal<span class=
 <span class="k">-</span><span class="w"> </span><span class="gs">**Owner:**</span> Platform Team
 </code></pre></div>
 
-<h3>Problem 2: Breaking Changes Without Warning</h3>
+<h3 id="problem-2-breaking-changes-without-warning">Problem 2: Breaking Changes Without Warning</h3>
 <p><strong>Symptom:</strong> <code>terraform apply</code> fails in production after module update.</p>
 <p><strong>Cause:</strong> Didn't use version constraints.</p>
 <p><strong>Fix:</strong></p>
@@ -718,7 +764,7 @@ az<span class="w"> </span>artifacts<span class="w"> </span>universal<span class=
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Problem 3: Modules Don't Get Updated</h3>
+<h3 id="problem-3-modules-don-t-get-updated">Problem 3: Modules Don't Get Updated</h3>
 <p><strong>Symptom:</strong> Module has security patch, but teams still use v1.0.0.</p>
 <p><strong>Cause:</strong> No automated dependency scanning.</p>
 <p><strong>Fix:</strong></p>
@@ -744,7 +790,7 @@ grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;sou
 <span class="c1"># (no version)       # Team C ← Problem!</span>
 </code></pre></div>
 
-<h3>Problem 4: Module Testing Doesn't Exist</h3>
+<h3 id="problem-4-module-testing-doesn-t-exist">Problem 4: Module Testing Doesn't Exist</h3>
 <p><strong>Symptom:</strong> Module works in dev, fails in prod.</p>
 <p><strong>Cause:</strong> Never tested with production-like config (multiple subnets, existing resources, etc.)</p>
 <p><strong>Fix:</strong></p>
@@ -780,7 +826,7 @@ az<span class="w"> </span>policy<span class="w"> </span>state<span class="w"> </
 </code></pre></div>
 
 <hr />
-<h2>Production Checklist</h2>
+<h2 id="production-checklist">Production Checklist</h2>
 <p>Before publishing a module to your team:</p>
 <ul>
 <li>✅ <strong>Tested in isolation</strong> (examples/complete works)</li>
@@ -792,7 +838,7 @@ az<span class="w"> </span>policy<span class="w"> </span>state<span class="w"> </
 <li>✅ <strong>Cataloged</strong> (team knows it exists and how to use it)</li>
 </ul>
 <hr />
-<h2>What to Do Next</h2>
+<h2 id="what-to-do-next">What to Do Next</h2>
 <p><strong>If you're new to modules:</strong></p>
 <ol>
 <li>Pick one resource type you deploy repeatedly (Storage, VMs, App Services)</li>
@@ -816,7 +862,7 @@ az<span class="w"> </span>policy<span class="w"> </span>state<span class="w"> </
 <li>Test: Add Terratest or Azure Policy validation</li>
 </ol>
 <hr />
-<h2>Common Questions</h2>
+<h2 id="common-questions">Common Questions</h2>
 <p><strong>Q: Should every Terraform resource be in a module?</strong></p>
 <p>No. Modules add abstraction. Use them when:<br />
 - You deploy the same pattern 3+ times<br />
@@ -849,7 +895,7 @@ az<span class="w"> </span>policy<span class="w"> </span>state<span class="w"> </
 
 <p>Increment minor version (1.2.x → 1.3.0).</p>
 <hr />
-<h2>Tools That Help</h2>
+<h2 id="tools-that-help">Tools That Help</h2>
 <p><strong>Module Development:</strong><br />
 - <strong>Terraform Docs:</strong> Auto-generate README from variables/outputs<br />
 - <strong>TFLint:</strong> Catch errors before running apply<br />
@@ -863,7 +909,7 @@ az<span class="w"> </span>policy<span class="w"> </span>state<span class="w"> </
 - <strong>Terraform Registry:</strong> Public module hosting<br />
 - <strong>GitHub Actions:</strong> Automate testing and publishing</p>
 <hr />
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p><strong>Terraform modules are force multipliers.</strong></p>
 <p>Build one storage account module. 20 teams use it. Fix one security issue. All 20 teams get the fix.</p>
 <p>Don't build modules too early (wait until you have repetition).</p>

@@ -51,6 +51,30 @@
   <meta name="twitter:description" content="Every Linux command you&#39;ll need as an Azure administratorâ€”organized by scenario, with Windows equivalents, and real Azure examples. Bookmark this. You&#39;ll...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/linux-cheat-sheet-azure.svg">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -101,7 +125,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "The Complete Linux Cheat Sheet for Azure Admins",
   "description": "Every Linux command you&#39;ll need as an Azure administratorâ€”organized by scenario, with Windows equivalents, and real Azure examples. Bookmark this. You&#39;ll...",
   "image": {
@@ -116,6 +140,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -138,10 +166,12 @@
   },
   "keywords": "azure, Linux, Cloud Shell, AKS, Ubuntu, Reference",
   "articleSection": "azure",
-  "wordCount": "6257",
-  "timeRequired": "PT31M",
+  "wordCount": "6333",
+  "timeRequired": "PT32M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -178,6 +208,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/linux-cheat-sheet-azure-admins/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -196,7 +242,7 @@
   <header class="post-header">
     <h1>The Complete Linux Cheat Sheet for Azure Admins</h1>
     <p class="muted">
-      2025-11-03 · ~31 min read
+      2025-11-03 · ~32 min read
       
     </p>
     
@@ -241,7 +287,7 @@
 <p>It's organized by <strong>what you're actually doing</strong> (not alphabetically by command). Windows command equivalents included. Azure-specific examples throughout.</p>
 <p><strong>Bookmark this page.</strong> You'll come back to it constantly.</p>
 <hr />
-<h2>Table of Contents</h2>
+<h2 id="table-of-contents">Table of Contents</h2>
 <ol>
 <li><a href="#navigation--file-basics">Navigation &amp; File Basics</a></li>
 <li><a href="#reading--searching-files">Reading &amp; Searching Files</a></li>
@@ -258,8 +304,8 @@
 <li><a href="#troubleshooting-patterns">Troubleshooting Patterns</a></li>
 </ol>
 <hr />
-<h2>Navigation &amp; File Basics</h2>
-<h3>Where Am I? (pwd)</h3>
+<h2 id="navigation-file-basics">Navigation &amp; File Basics</h2>
+<h3 id="where-am-i-pwd">Where Am I? (pwd)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Print working directory</span>
 <span class="nb">pwd</span>
 <span class="c1"># Output: /home/azureuser</span>
@@ -267,7 +313,7 @@
 <span class="c1"># Windows equivalent: cd (with no arguments)</span>
 </code></pre></div>
 
-<h3>List Files (ls)</h3>
+<h3 id="list-files-ls">List Files (ls)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Basic listing</span>
 ls
 
@@ -304,7 +350,7 @@ drwx------<span class="w">  </span><span class="m">2</span><span class="w"> </sp
 -rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>azureuser<span class="w"> </span>azureuser<span class="w"> </span><span class="m">2</span>.0K<span class="w"> </span>Nov<span class="w">  </span><span class="m">3</span><span class="w"> </span><span class="m">10</span>:30<span class="w"> </span>deploy.sh
 </code></pre></div>
 
-<h3>Change Directory (cd)</h3>
+<h3 id="change-directory-cd">Change Directory (cd)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Go to specific directory</span>
 <span class="nb">cd</span><span class="w"> </span>/var/log
 
@@ -332,7 +378,7 @@ drwx------<span class="w">  </span><span class="m">2</span><span class="w"> </sp
 <span class="nb">cd</span><span class="w"> </span>/usr/local/bin<span class="w">              </span><span class="c1"># Custom scripts</span>
 </code></pre></div>
 
-<h3>Create/Remove Directories (mkdir/rmdir/rm)</h3>
+<h3 id="create-remove-directories-mkdir-rmdir-rm">Create/Remove Directories (mkdir/rmdir/rm)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Create directory</span>
 mkdir<span class="w"> </span>mydir
 
@@ -354,7 +400,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>mydir
 <span class="c1"># Windows equivalent: md, mkdir, rmdir, rd /s</span>
 </code></pre></div>
 
-<h3>Copy/Move/Delete Files (cp/mv/rm)</h3>
+<h3 id="copy-move-delete-files-cp-mv-rm">Copy/Move/Delete Files (cp/mv/rm)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Copy file</span>
 cp<span class="w"> </span>source.txt<span class="w"> </span>destination.txt
 
@@ -388,8 +434,8 @@ sudo<span class="w"> </span>mv<span class="w"> </span>/var/log/webapp/app.log<sp
 </code></pre></div>
 
 <hr />
-<h2>Reading &amp; Searching Files</h2>
-<h3>Display File Contents (cat/less/head/tail)</h3>
+<h2 id="reading-searching-files">Reading &amp; Searching Files</h2>
+<h3 id="display-file-contents-cat-less-head-tail">Display File Contents (cat/less/head/tail)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Display entire file</span>
 cat<span class="w"> </span>filename.txt
 
@@ -435,7 +481,7 @@ tail<span class="w"> </span>-f<span class="w"> </span>/var/log/nginx/*.log
 sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>azure
 </code></pre></div>
 
-<h3>Search Text (grep)</h3>
+<h3 id="search-text-grep">Search Text (grep)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Search for pattern in file</span>
 grep<span class="w"> </span><span class="s2">&quot;search_term&quot;</span><span class="w"> </span>filename.txt
 
@@ -485,7 +531,7 @@ grep<span class="w"> </span>-ri<span class="w"> </span><span class="s2">&quot;co
 grep<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span>app.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;DEBUG&quot;</span>
 </code></pre></div>
 
-<h3>Find Files (find)</h3>
+<h3 id="find-files-find">Find Files (find)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Find files by name</span>
 find<span class="w"> </span>/path<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;filename.txt&quot;</span>
 
@@ -528,8 +574,8 @@ sudo<span class="w"> </span>find<span class="w"> </span>/var/log/webapp<span cla
 </code></pre></div>
 
 <hr />
-<h2>File Permissions &amp; Ownership</h2>
-<h3>Understanding Permissions</h3>
+<h2 id="file-permissions-ownership">File Permissions &amp; Ownership</h2>
+<h3 id="understanding-permissions">Understanding Permissions</h3>
 <div class="codehilite"><pre><span></span><code>-rwxr-xr-x  1 azureuser azureuser 2048 Nov  3 10:30 script.sh
  â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â”‚         â”‚    â”‚
  â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚â”‚  â”‚ â”‚         â”‚         â”‚    â””â”€ Filename
@@ -548,7 +594,7 @@ sudo<span class="w"> </span>find<span class="w"> </span>/var/log/webapp<span cla
  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€ Owner: read
 </code></pre></div>
 
-<h3>Change Permissions (chmod)</h3>
+<h3 id="change-permissions-chmod">Change Permissions (chmod)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add execute permission to owner</span>
 chmod<span class="w"> </span>+x<span class="w"> </span>script.sh
 
@@ -589,7 +635,7 @@ sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</sp
 chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/myapp
 </code></pre></div>
 
-<h3>Change Ownership (chown)</h3>
+<h3 id="change-ownership-chown">Change Ownership (chown)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Change owner</span>
 sudo<span class="w"> </span>chown<span class="w"> </span>newowner<span class="w"> </span>file.txt
 
@@ -617,8 +663,8 @@ sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </sp
 </code></pre></div>
 
 <hr />
-<h2>Process Management</h2>
-<h3>List Processes (ps)</h3>
+<h2 id="process-management">Process Management</h2>
+<h3 id="list-processes-ps">List Processes (ps)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show processes for current user</span>
 ps
 
@@ -651,7 +697,7 @@ ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><sp
 ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;myapp&quot;</span>
 </code></pre></div>
 
-<h3>Kill Processes (kill/killall/pkill)</h3>
+<h3 id="kill-processes-kill-killall-pkill">Kill Processes (kill/killall/pkill)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Kill process by PID (graceful)</span>
 <span class="nb">kill</span><span class="w"> </span><span class="m">1234</span>
 
@@ -693,7 +739,7 @@ sudo<span class="w"> </span>pkill<span class="w"> </span>python
 sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-HUP<span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>/var/run/nginx.pid<span class="k">)</span>
 </code></pre></div>
 
-<h3>Monitor Processes (top/htop)</h3>
+<h3 id="monitor-processes-top-htop">Monitor Processes (top/htop)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Interactive process viewer</span>
 top
 
@@ -719,8 +765,8 @@ htop
 </code></pre></div>
 
 <hr />
-<h2>Service Management</h2>
-<h3>systemctl (Modern Service Management)</h3>
+<h2 id="service-management">Service Management</h2>
+<h3 id="systemctl-modern-service-management">systemctl (Modern Service Management)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Start service</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nginx
 
@@ -774,7 +820,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class=
 systemctl<span class="w"> </span>is-active<span class="w"> </span>docker
 </code></pre></div>
 
-<h3>View Service Logs (journalctl)</h3>
+<h3 id="view-service-logs-journalctl">View Service Logs (journalctl)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># View all logs for service</span>
 journalctl<span class="w"> </span>-u<span class="w"> </span>nginx
 
@@ -808,8 +854,8 @@ sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w">
 </code></pre></div>
 
 <hr />
-<h2>Disk &amp; Storage</h2>
-<h3>Check Disk Space (df)</h3>
+<h2 id="disk-storage">Disk &amp; Storage</h2>
+<h3 id="check-disk-space-df">Check Disk Space (df)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show disk usage (human-readable)</span>
 df<span class="w"> </span>-h
 
@@ -834,7 +880,7 @@ Filesystem<span class="w">      </span>Size<span class="w">  </span>Used<span cl
 <span class="c1"># OS disk at 93% - need to free space!</span>
 </code></pre></div>
 
-<h3>Check Directory Size (du)</h3>
+<h3 id="check-directory-size-du">Check Directory Size (du)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Size of current directory</span>
 du<span class="w"> </span>-sh<span class="w"> </span>.
 
@@ -874,7 +920,7 @@ sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span
 1G<span class="w">     </span>/var/lib
 </code></pre></div>
 
-<h3>Clean Up Disk Space</h3>
+<h3 id="clean-up-disk-space">Clean Up Disk Space</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Remove old log files</span>
 sudo<span class="w"> </span>find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
 
@@ -895,7 +941,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>autoremove<span class="w"
 <span class="c1"># Windows equivalent: Disk Cleanup, cleanmgr</span>
 </code></pre></div>
 
-<h3>Mount Azure Disks</h3>
+<h3 id="mount-azure-disks">Mount Azure Disks</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># List all disks</span>
 lsblk
 
@@ -920,8 +966,8 @@ sudo<span class="w"> </span>mount<span class="w"> </span>-a
 </code></pre></div>
 
 <hr />
-<h2>Networking</h2>
-<h3>Check Network Interfaces (ip)</h3>
+<h2 id="networking">Networking</h2>
+<h3 id="check-network-interfaces-ip">Check Network Interfaces (ip)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show all network interfaces</span>
 ip<span class="w"> </span>addr
 
@@ -934,7 +980,7 @@ ip<span class="w"> </span>route
 <span class="c1"># Windows equivalent: ipconfig, Get-NetIPAddress</span>
 </code></pre></div>
 
-<h3>Test Connectivity (ping/curl/telnet)</h3>
+<h3 id="test-connectivity-ping-curl-telnet">Test Connectivity (ping/curl/telnet)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Ping host</span>
 ping<span class="w"> </span>google.com
 
@@ -970,7 +1016,7 @@ nslookup<span class="w"> </span>myvm.eastus.cloudapp.azure.com
 curl<span class="w"> </span>-I<span class="w"> </span>https://mystorageaccount.blob.core.windows.net
 </code></pre></div>
 
-<h3>Check Open Ports (netstat/ss)</h3>
+<h3 id="check-open-ports-netstat-ss">Check Open Ports (netstat/ss)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show all listening ports</span>
 sudo<span class="w"> </span>netstat<span class="w"> </span>-tuln
 
@@ -998,8 +1044,8 @@ sudo<span class="w"> </span>ss<span class="w"> </span>-tuln
 </code></pre></div>
 
 <hr />
-<h2>User &amp; Group Management</h2>
-<h3>User Management</h3>
+<h2 id="user-group-management">User &amp; Group Management</h2>
+<h3 id="user-management">User Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add new user</span>
 sudo<span class="w"> </span>adduser<span class="w"> </span>username
 
@@ -1021,7 +1067,7 @@ sudo<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> <
 <span class="c1"># Windows equivalent: net user, New-LocalUser</span>
 </code></pre></div>
 
-<h3>Group Management</h3>
+<h3 id="group-management">Group Management</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add user to group</span>
 sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>groupname<span class="w"> </span>username
 
@@ -1049,8 +1095,8 @@ sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> <
 </code></pre></div>
 
 <hr />
-<h2>Package Management</h2>
-<h3>Ubuntu/Debian (apt)</h3>
+<h2 id="package-management">Package Management</h2>
+<h3 id="ubuntu-debian-apt">Ubuntu/Debian (apt)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Update package lists</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 
@@ -1081,7 +1127,7 @@ apt<span class="w"> </span>show<span class="w"> </span>nginx
 <span class="c1"># Windows equivalent: chocolatey, winget</span>
 </code></pre></div>
 
-<h3>CentOS/RHEL (yum/dnf)</h3>
+<h3 id="centos-rhel-yum-dnf">CentOS/RHEL (yum/dnf)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Update package lists</span>
 sudo<span class="w"> </span>yum<span class="w"> </span>update
 
@@ -1117,8 +1163,8 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">en
 </code></pre></div>
 
 <hr />
-<h2>Text Editing</h2>
-<h3>nano (Beginner-Friendly)</h3>
+<h2 id="text-editing">Text Editing</h2>
+<h3 id="nano-beginner-friendly">nano (Beginner-Friendly)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Edit file</span>
 nano<span class="w"> </span>filename.txt
 
@@ -1133,7 +1179,7 @@ sudo<span class="w"> </span>nano<span class="w"> </span>/etc/nginx/nginx.conf
 <span class="c1"># Ctrl+U - Paste line</span>
 </code></pre></div>
 
-<h3>vi/vim (Advanced)</h3>
+<h3 id="vi-vim-advanced">vi/vim (Advanced)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Edit file</span>
 vi<span class="w"> </span>filename.txt
 
@@ -1161,8 +1207,8 @@ nano<span class="w"> </span>deploy.sh
 </code></pre></div>
 
 <hr />
-<h2>System Information</h2>
-<h3>Operating System Info</h3>
+<h2 id="system-information">System Information</h2>
+<h3 id="operating-system-info">Operating System Info</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show OS information</span>
 cat<span class="w"> </span>/etc/os-release
 
@@ -1178,7 +1224,7 @@ hostname
 <span class="c1"># Windows equivalent: Get-ComputerInfo, systeminfo</span>
 </code></pre></div>
 
-<h3>Hardware Info</h3>
+<h3 id="hardware-info">Hardware Info</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show CPU information</span>
 lscpu
 
@@ -1194,7 +1240,7 @@ lspci
 <span class="c1"># Windows equivalent: Get-WmiObject, wmic</span>
 </code></pre></div>
 
-<h3>Uptime &amp; Load</h3>
+<h3 id="uptime-load">Uptime &amp; Load</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Show uptime and load average</span>
 uptime
 
@@ -1225,8 +1271,8 @@ uptime
 </code></pre></div>
 
 <hr />
-<h2>Azure-Specific Commands</h2>
-<h3>Azure CLI (az)</h3>
+<h2 id="azure-specific-commands">Azure-Specific Commands</h2>
+<h3 id="azure-cli-az">Azure CLI (az)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Login to Azure (opens browser)</span>
 az<span class="w"> </span>login
 
@@ -1253,7 +1299,7 @@ az<span class="w"> </span>vm<span class="w"> </span>run-command<span class="w"> 
 <span class="w">  </span>--scripts<span class="w"> </span><span class="s2">&quot;systemctl status nginx&quot;</span>
 </code></pre></div>
 
-<h3>Cloud-Init (Azure VM Initialization)</h3>
+<h3 id="cloud-init-azure-vm-initialization">Cloud-Init (Azure VM Initialization)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check cloud-init status</span>
 cloud-init<span class="w"> </span>status
 
@@ -1265,7 +1311,7 @@ sudo<span class="w"> </span>cloud-init<span class="w"> </span>clean
 sudo<span class="w"> </span>cloud-init<span class="w"> </span>init
 </code></pre></div>
 
-<h3>Azure VM Extensions</h3>
+<h3 id="azure-vm-extensions">Azure VM Extensions</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># List installed extensions</span>
 ls<span class="w"> </span>-la<span class="w"> </span>/var/lib/waagent/
 
@@ -1277,8 +1323,8 @@ sudo<span class="w"> </span>cat<span class="w"> </span>/var/log/azure/*
 </code></pre></div>
 
 <hr />
-<h2>Troubleshooting Patterns</h2>
-<h3>Pattern 1: Service Won't Start</h3>
+<h2 id="troubleshooting-patterns">Troubleshooting Patterns</h2>
+<h3 id="pattern-1-service-won-t-start">Pattern 1: Service Won't Start</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: Check service status</span>
 systemctl<span class="w"> </span>status<span class="w"> </span>nginx
 
@@ -1295,7 +1341,7 @@ nginx<span class="w"> </span>-t
 sudo<span class="w"> </span>nginx
 </code></pre></div>
 
-<h3>Pattern 2: Permission Denied</h3>
+<h3 id="pattern-2-permission-denied">Pattern 2: Permission Denied</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: Check current permissions</span>
 ls<span class="w"> </span>-la<span class="w"> </span>/path/to/file
 
@@ -1309,7 +1355,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>script.sh
 sudo<span class="w"> </span>chown<span class="w"> </span>azureuser:azureuser<span class="w"> </span>file.txt
 </code></pre></div>
 
-<h3>Pattern 3: Disk Full</h3>
+<h3 id="pattern-3-disk-full">Pattern 3: Disk Full</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: Check disk usage</span>
 df<span class="w"> </span>-h
 
@@ -1324,7 +1370,7 @@ sudo<span class="w"> </span>find<span class="w"> </span>/var/log<span class="w">
 sudo<span class="w"> </span>apt<span class="w"> </span>autoremove
 </code></pre></div>
 
-<h3>Pattern 4: Process Using All CPU</h3>
+<h3 id="pattern-4-process-using-all-cpu">Pattern 4: Process Using All CPU</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: Find the process</span>
 ps<span class="w"> </span>aux<span class="w"> </span>--sort<span class="o">=</span>-%cpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
 
@@ -1338,7 +1384,7 @@ sudo<span class="w"> </span>strace<span class="w"> </span>-p<span class="w"> </s
 sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>&lt;PID&gt;
 </code></pre></div>
 
-<h3>Pattern 5: Can't Connect to Service</h3>
+<h3 id="pattern-5-can-t-connect-to-service">Pattern 5: Can't Connect to Service</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: Check if service is running</span>
 systemctl<span class="w"> </span>status<span class="w"> </span>nginx
 
@@ -1356,7 +1402,7 @@ az<span class="w"> </span>network<span class="w"> </span>nsg<span class="w"> </s
 </code></pre></div>
 
 <hr />
-<h2>Windows â†’ Linux Command Translation</h2>
+<h2 id="windows-â-linux-command-translation">Windows â†’ Linux Command Translation</h2>
 <table>
 <thead>
 <tr>
@@ -1469,8 +1515,8 @@ az<span class="w"> </span>network<span class="w"> </span>nsg<span class="w"> </s
 </tbody>
 </table>
 <hr />
-<h2>Quick Reference: Most Common Commands</h2>
-<h3>Daily Use (you'll use these constantly)</h3>
+<h2 id="quick-reference-most-common-commands">Quick Reference: Most Common Commands</h2>
+<h3 id="daily-use-you-ll-use-these-constantly">Daily Use (you'll use these constantly)</h3>
 <div class="codehilite"><pre><span></span><code>ls<span class="w"> </span>-la<span class="w">              </span><span class="c1"># List files</span>
 <span class="nb">cd</span><span class="w"> </span>/path<span class="w">            </span><span class="c1"># Change directory</span>
 <span class="nb">pwd</span><span class="w">                 </span><span class="c1"># Where am I?</span>
@@ -1483,7 +1529,7 @@ df<span class="w"> </span>-h<span class="w">               </span><span class="c
 ps<span class="w"> </span>aux<span class="w">              </span><span class="c1"># List processes</span>
 </code></pre></div>
 
-<h3>Weekly Use (troubleshooting, maintenance)</h3>
+<h3 id="weekly-use-troubleshooting-maintenance">Weekly Use (troubleshooting, maintenance)</h3>
 <div class="codehilite"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>script.sh<span class="w">          </span><span class="c1"># Fix permissions</span>
 sudo<span class="w"> </span>chown<span class="w"> </span>user:group<span class="w"> </span>file<span class="w">  </span><span class="c1"># Fix ownership</span>
 <span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>PID<span class="w">                 </span><span class="c1"># Kill process</span>
@@ -1494,7 +1540,7 @@ journalctl<span class="w"> </span>-u<span class="w"> </span>service<span class="
 apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w">   </span><span class="c1"># Update system</span>
 </code></pre></div>
 
-<h3>Monthly Use (system administration)</h3>
+<h3 id="monthly-use-system-administration">Monthly Use (system administration)</h3>
 <div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>adduser<span class="w"> </span>username<span class="w">               </span><span class="c1"># Create user</span>
 sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>sudo<span class="w"> </span>username<span class="w">      </span><span class="c1"># Grant admin</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>autoremove<span class="w">                 </span><span class="c1"># Clean packages</span>
@@ -1506,8 +1552,8 @@ uname<span class="w"> </span>-a<span class="w">                            </spa
 </code></pre></div>
 
 <hr />
-<h2>Keyboard Shortcuts (Essential)</h2>
-<h3>Terminal Navigation</h3>
+<h2 id="keyboard-shortcuts-essential">Keyboard Shortcuts (Essential)</h2>
+<h3 id="terminal-navigation">Terminal Navigation</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">Ctrl</span><span class="o">+</span><span class="nv">C</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="nv">Cancel</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="nv">command</span>
 <span class="nv">Ctrl</span><span class="o">+</span><span class="nv">D</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="nv">terminal</span>
 <span class="nv">Ctrl</span><span class="o">+</span><span class="nv">L</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="nv">Clear</span><span class="w"> </span><span class="nv">screen</span>
@@ -1520,7 +1566,7 @@ uname<span class="w"> </span>-a<span class="w">                            </spa
 â†‘<span class="o">/</span>â†“<span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="nv">Previous</span><span class="o">/</span><span class="k">next</span><span class="w"> </span><span class="nv">command</span>
 </code></pre></div>
 
-<h3>Text Editing (nano)</h3>
+<h3 id="text-editing-nano">Text Editing (nano)</h3>
 <div class="codehilite"><pre><span></span><code><span class="nv">Ctrl</span><span class="o">+</span><span class="nv">O</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="nv">Save</span>
 <span class="nv">Ctrl</span><span class="o">+</span><span class="nv">X</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="k">Exit</span>
 <span class="nv">Ctrl</span><span class="o">+</span><span class="nv">W</span><span class="w">          </span><span class="o">-</span><span class="w"> </span><span class="nv">Search</span>
@@ -1529,8 +1575,8 @@ uname<span class="w"> </span>-a<span class="w">                            </spa
 </code></pre></div>
 
 <hr />
-<h2>Common Mistakes to Avoid</h2>
-<h3>1. Running Commands as Root When You Shouldn't</h3>
+<h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>
+<h3 id="1-running-commands-as-root-when-you-shouldn-t">1. Running Commands as Root When You Shouldn't</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># âŒ Bad: Creates files owned by root</span>
 sudo<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt
 
@@ -1538,7 +1584,7 @@ sudo<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt
 </code></pre></div>
 
-<h3>2. Using <code>rm -rf</code> Without Double-Checking</h3>
+<h3 id="2-using-rm-rf-without-double-checking">2. Using <code>rm -rf</code> Without Double-Checking</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># âŒ VERY BAD: Deletes everything</span>
 sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/
 
@@ -1547,7 +1593,7 @@ ls<span class="w"> </span>-la<span class="w"> </span>/path/to/delete/
 sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/path/to/delete/
 </code></pre></div>
 
-<h3>3. Forgetting <code>-i</code> with Dangerous Commands</h3>
+<h3 id="3-forgetting-i-with-dangerous-commands">3. Forgetting <code>-i</code> with Dangerous Commands</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># âŒ Bad: No confirmation</span>
 rm<span class="w"> </span>important_file.txt
 
@@ -1555,7 +1601,7 @@ rm<span class="w"> </span>important_file.txt
 rm<span class="w"> </span>-i<span class="w"> </span>important_file.txt
 </code></pre></div>
 
-<h3>4. Not Using <code>sudo</code> When Needed</h3>
+<h3 id="4-not-using-sudo-when-needed">4. Not Using <code>sudo</code> When Needed</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># âŒ Bad: Permission denied</span>
 systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
 
@@ -1563,7 +1609,7 @@ systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
 </code></pre></div>
 
-<h3>5. Case Sensitivity</h3>
+<h3 id="5-case-sensitivity">5. Case Sensitivity</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Linux is case-sensitive!</span>
 <span class="nb">cd</span><span class="w"> </span>/Home/azureuser<span class="w">   </span><span class="c1"># âŒ Fails</span>
 <span class="nb">cd</span><span class="w"> </span>/home/azureuser<span class="w">   </span><span class="c1"># âœ… Works</span>
@@ -1573,8 +1619,8 @@ grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;err
 </code></pre></div>
 
 <hr />
-<h2>Practice Exercises (Use Azure Cloud Shell)</h2>
-<h3>Exercise 1: Navigation</h3>
+<h2 id="practice-exercises-use-azure-cloud-shell">Practice Exercises (Use Azure Cloud Shell)</h2>
+<h3 id="exercise-1-navigation">Exercise 1: Navigation</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">pwd</span>
 ls<span class="w"> </span>-la
 <span class="nb">cd</span><span class="w"> </span>/usr
@@ -1585,7 +1631,7 @@ ls
 <span class="nb">pwd</span>
 </code></pre></div>
 
-<h3>Exercise 2: File Operations</h3>
+<h3 id="exercise-2-file-operations">Exercise 2: File Operations</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello Azure&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>test.txt
 cat<span class="w"> </span>test.txt
 cp<span class="w"> </span>test.txt<span class="w"> </span>test2.txt
@@ -1595,20 +1641,20 @@ rm<span class="w"> </span>renamed.txt
 ls<span class="w"> </span>-la
 </code></pre></div>
 
-<h3>Exercise 3: Search and Filter</h3>
+<h3 id="exercise-3-search-and-filter">Exercise 3: Search and Filter</h3>
 <div class="codehilite"><pre><span></span><code>cat<span class="w"> </span>/etc/os-release
 grep<span class="w"> </span><span class="s2">&quot;NAME&quot;</span><span class="w"> </span>/etc/os-release
 cat<span class="w"> </span>/etc/os-release<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;version&quot;</span>
 </code></pre></div>
 
-<h3>Exercise 4: Process Management</h3>
+<h3 id="exercise-4-process-management">Exercise 4: Process Management</h3>
 <div class="codehilite"><pre><span></span><code>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
 ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>bash
 top
 <span class="c1"># Press q to quit</span>
 </code></pre></div>
 
-<h3>Exercise 5: Permissions</h3>
+<h3 id="exercise-5-permissions">Exercise 5: Permissions</h3>
 <div class="codehilite"><pre><span></span><code>touch<span class="w"> </span>myfile.txt
 ls<span class="w"> </span>-l<span class="w"> </span>myfile.txt
 chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>myfile.txt
@@ -1618,7 +1664,7 @@ ls<span class="w"> </span>-l<span class="w"> </span>myfile.txt
 </code></pre></div>
 
 <hr />
-<h2>Next Steps</h2>
+<h2 id="next-steps">Next Steps</h2>
 <p><strong>Bookmark this page.</strong> You'll reference it constantly.</p>
 <p><strong>Practice in Azure Cloud Shell</strong> (it's free, no VM needed):<br />
 1. Go to <a href="https://portal.azure.com">portal.azure.com</a><br />
@@ -1630,7 +1676,7 @@ ls<span class="w"> </span>-l<span class="w"> </span>myfile.txt
 - Official Linux documentation: <a href="https://linux.die.net/">linux.die.net</a><br />
 - Azure Linux VMs: <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/">docs.microsoft.com/azure/virtual-machines/linux</a></p>
 <hr />
-<h2>Final Thought</h2>
+<h2 id="final-thought">Final Thought</h2>
 <p><strong>You don't need to memorize all this.</strong> Nobody does.</p>
 <p>You need to:<br />
 1. Understand what's possible<br />

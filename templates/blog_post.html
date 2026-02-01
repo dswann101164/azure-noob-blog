@@ -4,11 +4,11 @@
 
 {% block content %}
 
-{# JSON-LD Structured Data for SEO - ENHANCED #}
+{# JSON-LD Structured Data for SEO - TechArticle for GEO/AEO #}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "{{ post.title }}",
   "description": "{{ meta_description }}",
   "image": {
@@ -23,6 +23,10 @@
     "url": "{{ SITE_URL }}/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -49,6 +53,8 @@
   "timeRequired": "PT{{ reading_min }}M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "{{ post.proficiency_level or 'Intermediate' }}",
+  {% if post.dependencies %}"dependencies": "{{ post.dependencies }}",{% endif %}
   "about": {
     "@type": "Thing",
     "name": "{{ post.tags[0] if post.tags else 'Microsoft Azure' }}"
@@ -83,6 +89,37 @@
   ]
 }
 </script>
+
+{# Speakable Schema - For voice assistants and AI audio extraction #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "{{ canonical_url }}"
+}
+</script>
+
+{# HowTo Schema - For tutorial/walkthrough posts #}
+{% if post.is_howto %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "{{ post.title }}",
+  "description": "{{ meta_description }}",
+  "totalTime": "PT{{ reading_min }}M",
+  "image": "{{ og_image }}",
+  "author": {
+    "@type": "Person",
+    "name": "David Swann"
+  }
+}
+</script>
+{% endif %}
 
 {# FAQ Schema - If post has common questions (optional) #}
 {% if post.faq %}

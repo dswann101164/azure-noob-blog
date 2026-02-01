@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you set up Terraform CI/CD in Azure DevOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set up prerequisites including Azure Storage for remote state, Key Vault for secrets, and a Service Principal. Create two build pipelines: a status check pipeline for pull requests and a plan pipeline for deployment artifacts. Add a release pipeline with pre-deployment approval gates, configure branch policies to enforce PR workflow, then implement multi-environment separation for dev, test, and production."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to run Terraform CI/CD in Azure DevOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Approximately $6 per month. Azure DevOps is free for up to 5 users, Azure Pipelines free tier includes 1,800 minutes per month, the storage account for state costs less than $5 per month, Key Vault costs less than $1 per month, and the service principal is free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use GUI pipelines instead of YAML for Terraform in Azure DevOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GUI classic pipelines offer visual debugging to see task order at a glance, easier troubleshooting without YAML syntax errors, better accessibility for non-developers, full feature parity with YAML, and native approval gate support in release pipelines. YAML is better for version controlling pipeline definitions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to implement enterprise Terraform CI/CD in Azure DevOps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Full implementation takes 2-3 weeks: prerequisites and architecture setup in 4-6 hours, build pipelines in 3-4 hours, release pipeline in 2-3 hours, branch policies in 1-2 hours, and multi-environment setup in 5-7 hours. Ongoing maintenance is approximately 2 hours per month for secret rotation, provider upgrades, and drift investigation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes a Terraform pipeline production-ready for Azure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Production readiness requires no secrets in Git with everything in Key Vault, service principal with least-privilege permissions, approval gates preventing unauthorized deployments, state file backups with versioning, state locking to prevent concurrent modifications, plan artifacts ensuring what is approved is what deploys, and drift detection to catch manual portal changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use Terraform CI/CD in Azure DevOps as a solo developer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You approve your own pull requests and releases. The value is in the audit trail, automated validation, and preventing accidental terraform destroy commands. The workflow still provides SOC 2 compliant audit trails and deployment governance even for single-person teams."
+      }
+    }
+  ]
+}

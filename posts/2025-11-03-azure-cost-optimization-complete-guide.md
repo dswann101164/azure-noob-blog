@@ -12,6 +12,7 @@ tags:
 cover: /static/images/hero/azure-cost-optimization-guide.png
 slug: azure-cost-optimization-complete-guide
 hub: finops
+faq_schema: true
 related_posts:
   - azure-finops-complete-guide
   - azure-resource-tags-guide

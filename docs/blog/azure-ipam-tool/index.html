@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="An Azure IPAM workbook and process for tracking IP address usage across subscriptions, VNets, and environments without losing your mind.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-ipam.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks",
   "description": "An Azure IPAM workbook and process for tracking IP address usage across subscriptions, VNets, and environments without losing your mind.",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Azure, IP Management, IPAM, Monitoring, Multi-Subscription, Networking, Tools, Workbooks",
   "articleSection": "Azure",
-  "wordCount": "2476",
-  "timeRequired": "PT12M",
+  "wordCount": "2505",
+  "timeRequired": "PT13M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -182,6 +212,22 @@
 </script>
 
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-ipam-tool/"
+}
+</script>
+
+
+
+
+
 
 
 
@@ -200,7 +246,7 @@
   <header class="post-header">
     <h1>Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription Networks</h1>
     <p class="muted">
-      2025-10-06 · ~12 min read
+      2025-10-06 · ~13 min read
       
     </p>
     
@@ -245,7 +291,7 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/automation/">Azure Automation hub</a> covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.</p>
-<h2>The Problem Leadership Doesn't Understand</h2>
+<h2 id="the-problem-leadership-doesn-t-understand">The Problem Leadership Doesn't Understand</h2>
 <p>Enterprise mergers consolidate multiple Azure subscriptions, AD domains, and hundreds of applications into one environment. Leadership wants a migration plan. Questions that need answers:</p>
 <ul>
 <li>Which subnet contains 10.5.2.45?</li>
@@ -255,7 +301,7 @@
 </ul>
 <p><strong>Azure's answer:</strong> Click through 44 subscriptions one at a time in the portal.</p>
 <p>That's not a plan. That's career suicide.</p>
-<h2>What Azure Gives You (And Why It's Not Enough)</h2>
+<h2 id="what-azure-gives-you-and-why-it-s-not-enough">What Azure Gives You (And Why It's Not Enough)</h2>
 <p>Azure has IP management. Sort of.</p>
 <p><strong>Azure Portal:</strong><br />
 - Shows one subscription at a time<br />
@@ -279,7 +325,7 @@
 - Capacity alerts before subnets fill up<br />
 - Free (no budget approvals during a merger)</p>
 <p>If you can't build it, you can't manage it. So I built it.</p>
-<h2>The Solution: Azure IPAM Tool</h2>
+<h2 id="the-solution-azure-ipam-tool">The Solution: Azure IPAM Tool</h2>
 <p>Flask-based IPAM tool that scans all Azure subscriptions you have access to and gives you real-time IP visibility.</p>
 <p><strong>Core capabilities:</strong><br />
 - Multi-subscription IP tracking<br />
@@ -294,8 +340,8 @@
 - D3.js (network topology visualization)<br />
 - Browser localStorage (reservation tracking)</p>
 <p><strong>GitHub repo:</strong> <a href="https://github.com/dswann101164/azure-ipam">https://github.com/dswann101164/azure-ipam</a></p>
-<h2>How It Works</h2>
-<h3>1. Multi-Subscription Discovery</h3>
+<h2 id="how-it-works">How It Works</h2>
+<h3 id="1-multi-subscription-discovery">1. Multi-Subscription Discovery</h3>
 <p>Azure SDK automatically finds all subscriptions your app registration has access to:</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">azure.identity</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">azure.mgmt.subscription</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubscriptionClient</span>
@@ -311,7 +357,7 @@
     <span class="p">})</span>
 </code></pre></div>
 
-<h3>2. VNet and Subnet Enumeration</h3>
+<h3 id="2-vnet-and-subnet-enumeration">2. VNet and Subnet Enumeration</h3>
 <p>For each subscription, scan all VNets and subnets:</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">azure.mgmt.network</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetworkManagementClient</span>
 
@@ -348,7 +394,7 @@
     <span class="k">return</span> <span class="n">vnets</span>
 </code></pre></div>
 
-<h3>3. IP Address Search</h3>
+<h3 id="3-ip-address-search">3. IP Address Search</h3>
 <p>Search across all subscriptions to find which subnet contains a specific IP:</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">ipaddress</span>
 
@@ -372,7 +418,7 @@
     <span class="k">return</span> <span class="n">results</span>
 </code></pre></div>
 
-<h3>4. Capacity Alerts</h3>
+<h3 id="4-capacity-alerts">4. Capacity Alerts</h3>
 <p>Automatically flag subnets approaching capacity:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_capacity_alerts</span><span class="p">(</span><span class="n">all_vnets</span><span class="p">):</span>
     <span class="n">critical</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># &gt;90% utilization</span>
@@ -391,7 +437,7 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;critical&#39;</span><span class="p">:</span> <span class="n">critical</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">:</span> <span class="n">warning</span><span class="p">}</span>
 </code></pre></div>
 
-<h3>5. Reservation System</h3>
+<h3 id="5-reservation-system">5. Reservation System</h3>
 <p>Track IP ranges reserved for future use (stored in browser localStorage for simplicity):</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Reserve an IP range</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">reserveIP</span><span class="p">(</span><span class="nx">cidr</span><span class="p">,</span><span class="w"> </span><span class="nx">purpose</span><span class="p">,</span><span class="w"> </span><span class="nx">owner</span><span class="p">,</span><span class="w"> </span><span class="nx">expiration</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -423,8 +469,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h2>Real-World Usage: Bank Merger Scenario</h2>
-<h3>Before: The IP Conflict Discovery Problem</h3>
+<h2 id="real-world-usage-bank-merger-scenario">Real-World Usage: Bank Merger Scenario</h2>
+<h3 id="before-the-ip-conflict-discovery-problem">Before: The IP Conflict Discovery Problem</h3>
 <p><strong>Scenario:</strong> Need to migrate acquired company's finance application to primary Azure environment.</p>
 <p><strong>Questions that couldn't be answered:</strong><br />
 - Does the acquired company's 10.50.0.0/16 network overlap with existing infrastructure?<br />
@@ -439,7 +485,7 @@
 <p><strong>Time required:</strong> 6-8 hours<br />
 <strong>Accuracy:</strong> Maybe 80% (always missed something)<br />
 <strong>Confidence level:</strong> Low</p>
-<h3>After: The IPAM Tool in Action</h3>
+<h3 id="after-the-ipam-tool-in-action">After: The IPAM Tool in Action</h3>
 <p><strong>Same scenario with IPAM tool:</strong></p>
 <ol>
 <li><strong>Dashboard shows immediate conflicts:</strong></li>
@@ -466,7 +512,7 @@
 <p><strong>Time required:</strong> 15 minutes<br />
 <strong>Accuracy:</strong> 100% (real-time Azure data)<br />
 <strong>Confidence level:</strong> High</p>
-<h3>Capacity Planning for Leadership</h3>
+<h3 id="capacity-planning-for-leadership">Capacity Planning for Leadership</h3>
 <p><strong>Monthly review meeting:</strong><br />
 - Export subnet utilization report<br />
 - Show topology visualization of network hierarchy<br />
@@ -475,26 +521,26 @@
 <p><strong>Before:</strong> "We'll probably need more IPs soon."<br />
 <strong>After:</strong> "These 5 specific subnets will hit 90% capacity by March based on current growth."</p>
 <p>Leadership loves data. IPAM tool gives you data.</p>
-<h2>Screenshots</h2>
-<h3>Authentication</h3>
+<h2 id="screenshots">Screenshots</h2>
+<h3 id="authentication">Authentication</h3>
 <p><img alt="Azure AD Login" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/01-login.png" /><br />
 <em>Enterprise SSO with Azure AD - request required permissions on first login</em></p>
-<h3>Dashboard Overview</h3>
+<h3 id="dashboard-overview">Dashboard Overview</h3>
 <p><img alt="IP Address Dashboard" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/02-dashboard.png" /><br />
 <em>Real-time IP scope utilization across all subscriptions</em></p>
-<h3>IP Address Search</h3>
+<h3 id="ip-address-search">IP Address Search</h3>
 <p><img alt="IP Search" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/03-ip-search.png" /><br />
 <em>Find available IPs across VNets with subnet filtering</em></p>
-<h3>Network Browser</h3>
+<h3 id="network-browser">Network Browser</h3>
 <p><img alt="Network Browser" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/04-network-browser.png" /><br />
 <em>Navigate subscription hierarchy to find specific VNets and subnets</em></p>
-<h3>IP Reservations</h3>
+<h3 id="ip-reservations">IP Reservations</h3>
 <p><img alt="Reservation Management" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/05-reservations.png" /><br />
 <em>Reserve IPs for future use with three reservation types: NIC, Private Endpoint, or General</em></p>
-<h3>Topology View</h3>
+<h3 id="topology-view">Topology View</h3>
 <p><img alt="Multi-Subscription Topology" src="https://raw.githubusercontent.com/dswann101164/azure-ipam/main/screenshots/06-topology.png" /><br />
 <em>Visual network topology showing relationships across subscriptions</em></p>
-<h2>Installation and Setup</h2>
+<h2 id="installation-and-setup">Installation and Setup</h2>
 <p><strong>Prerequisites:</strong><br />
 - Python 3.8+<br />
 - Azure AD App Registration with:<br />
@@ -523,7 +569,7 @@ python<span class="w"> </span>app.py
 </code></pre></div>
 
 <p>Full installation guide with Azure AD setup: <a href="https://github.com/dswann101164/azure-ipam">GitHub README</a></p>
-<h2>Known Limitations (And Why They Don't Matter Yet)</h2>
+<h2 id="known-limitations-and-why-they-don-t-matter-yet">Known Limitations (And Why They Don't Matter Yet)</h2>
 <p><strong>Reservation storage uses browser localStorage:</strong><br />
 - Per-browser, not shared across team<br />
 - For production with multiple users, implement database storage<br />
@@ -541,8 +587,8 @@ python<span class="w"> </span>app.py
 - Data is fetched on page load<br />
 - For rapidly changing environments, implement auto-refresh<br />
 - <strong>Why it's fine:</strong> IP changes aren't that frequent in production</p>
-<h2>Technical Lessons Learned</h2>
-<h3>Lesson 1: Azure Reserves 5 IPs Per Subnet</h3>
+<h2 id="technical-lessons-learned">Technical Lessons Learned</h2>
+<h3 id="lesson-1-azure-reserves-5-ips-per-subnet">Lesson 1: Azure Reserves 5 IPs Per Subnet</h3>
 <p>Every Azure subnet reserves:<br />
 - First 3 IPs (network, gateway, Azure DNS)<br />
 - Last 2 IPs (broadcast, future use)</p>
@@ -551,13 +597,13 @@ python<span class="w"> </span>app.py
 - Azure reserves 5<br />
 - Actual usable IPs = 251</p>
 <p>Always subtract reserved IPs in your utilization math. Don't trust raw IP counts.</p>
-<h3>Lesson 2: Private Endpoints Break Traditional IPAM</h3>
+<h3 id="lesson-2-private-endpoints-break-traditional-ipam">Lesson 2: Private Endpoints Break Traditional IPAM</h3>
 <p>Private endpoints consume IPs from your subnet, but:<br />
 - You don't specify which IP they use<br />
 - Azure picks an available IP automatically<br />
 - Can't reserve IPs for future private endpoints</p>
 <p><strong>Workaround:</strong> Allocate entire subnets for private endpoints, track at subnet level.</p>
-<h3>Lesson 3: Concurrent API Calls Speed Everything Up</h3>
+<h3 id="lesson-3-concurrent-api-calls-speed-everything-up">Lesson 3: Concurrent API Calls Speed Everything Up</h3>
 <p>Scanning many subscriptions serially can take minutes.<br />
 Scanning with Python's <code>concurrent.futures</code> brings it down significantly.</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
@@ -569,7 +615,7 @@ Scanning with Python's <code>concurrent.futures</code> brings it down significan
 </code></pre></div>
 
 <p>Use threading for I/O-bound operations like API calls.</p>
-<h3>Lesson 4: Browser LocalStorage is Good Enough (For Now)</h3>
+<h3 id="lesson-4-browser-localstorage-is-good-enough-for-now">Lesson 4: Browser LocalStorage is Good Enough (For Now)</h3>
 <p>Don't over-engineer early. LocalStorage works for:<br />
 - Single-user scenarios<br />
 - Rapid prototyping<br />
@@ -579,7 +625,7 @@ Scanning with Python's <code>concurrent.futures</code> brings it down significan
 - Audit trail required<br />
 - Compliance needs persist data server-side</p>
 <p>Start simple. Add complexity only when proven necessary.</p>
-<h2>What's Next</h2>
+<h2 id="what-s-next">What's Next</h2>
 <p><strong>Immediate improvements:</strong><br />
 - Export to CSV for capacity planning spreadsheets<br />
 - Email alerts when subnets hit 90% capacity<br />
@@ -594,7 +640,7 @@ Scanning with Python's <code>concurrent.futures</code> brings it down significan
 - NSG rule overlap detection<br />
 - Route table conflict identification<br />
 - Cost analysis per subnet (FinOps integration)</p>
-<h2>Bottom Line</h2>
+<h2 id="bottom-line">Bottom Line</h2>
 <p>Azure subscription consolidations expose a hard truth: <strong>native tools assume you're managing one subscription at a time.</strong></p>
 <p>When you're consolidating multiple subscriptions during an enterprise merger, you need:<br />
 - Cross-subscription visibility<br />

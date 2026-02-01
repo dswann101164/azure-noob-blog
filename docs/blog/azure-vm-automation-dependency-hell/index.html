@@ -49,6 +49,30 @@
   <meta name="twitter:description" content="Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-automation-debugging.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -99,7 +123,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Why Your Automation Fails on Fresh Azure VMs (And How I Fixed It)",
   "description": "Three hours debugging certificate errors on fresh marketplace VMs. The culprit? Microsoft&#39;s own infrastructure serving outdated dependencies.",
   "image": {
@@ -114,6 +138,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -136,10 +164,12 @@
   },
   "keywords": "azure, powershell, automation, devops, troubleshooting",
   "articleSection": "azure",
-  "wordCount": "574",
+  "wordCount": "580",
   "timeRequired": "PT3M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "azure"
@@ -174,6 +204,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-vm-automation-dependency-hell/"
+}
+</script>
+
+
+
 
 
 
@@ -235,13 +281,13 @@
     <p>I built a PowerShell script to automate Azure admin workstation setup. Tested on my VM - worked perfectly. Deployed a fresh Windows 11 Enterprise N from Azure marketplace to document the process - total failure. Every package install failed with cryptic certificate errors.</p>
 <p>This guide is part of our <a href="/hub/ai/">AI-Assisted Azure Operations hub</a> exploring how AI tools transform cloud administration and productivity workflows.</p>
 <p>Three hours later, I discovered why Microsoft's package manager doesn't work on Microsoft's marketplace images.</p>
-<h2>The Certificate Validation Error</h2>
+<h2 id="the-certificate-validation-error">The Certificate Validation Error</h2>
 <p>Fresh Windows 11 Enterprise N VMs fail every winget package install:</p>
 <div class="codehilite"><pre><span></span><code><span class="mh">0x8a15005e</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">did</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">match</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">values</span><span class="o">.</span>
 </code></pre></div>
 
 <p>PowerShell 7? Failed. VS Code? Failed. Git, Python, Azure CLI - all failed.</p>
-<h2>The Debugging Rabbit Hole</h2>
+<h2 id="the-debugging-rabbit-hole">The Debugging Rabbit Hole</h2>
 <p><strong>First attempt: Run Windows Update</strong></p>
 <p>Maybe the VM just needs updates? I wrote a script using PSWindowsUpdate module, waited 90 minutes for patches and reboot.</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">Get-AppxPackage</span> <span class="n">-Name</span> <span class="s2">&quot;Microsoft.VCLibs.140.00.UWPDesktop&quot;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Version</span>
@@ -266,14 +312,14 @@
 <li>Windows Update doesn't include these frameworks</li>
 </ul>
 <p>Stuck in a loop with no Microsoft-provided solution.</p>
-<h2>The Working Solution: Chocolatey</h2>
+<h2 id="the-working-solution-chocolatey">The Working Solution: Chocolatey</h2>
 <p>Chocolatey doesn't depend on AppX frameworks. It just works.</p>
 <p>Rewrote the script using Chocolatey instead of winget. Tested on a fresh marketplace VM:</p>
 <div class="codehilite"><pre><span></span><code><span class="mf">14</span><span class="o">/</span><span class="mf">14</span><span class="w"> </span><span class="n">packages</span><span class="w"> </span><span class="n">installed</span><span class="w"> </span><span class="n">successfully</span>
 <span class="mf">0</span><span class="w"> </span><span class="n">failures</span>
 </code></pre></div>
 
-<h2>Deployment Timeline</h2>
+<h2 id="deployment-timeline">Deployment Timeline</h2>
 <p>From Azure Portal to fully configured workstation: <strong>30-60 minutes</strong></p>
 <ul>
 <li>Deploy Windows 11 VM: 5-10 min</li>
@@ -286,7 +332,7 @@
 - Azure tools: Azure CLI, Storage Explorer, Terraform, Bicep<br />
 - Utilities: Windows Terminal, Docker Desktop, Postman, 7-Zip, Notepad++</p>
 <p>Plus desktop shortcuts for the key applications.</p>
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 <p>One command on any fresh Azure VM:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Download and run</span>
 <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">&quot;https://raw.githubusercontent.com/dswann101164/azure-admin-workstation-setup/main/Setup-AzureAdminWorkstation-Chocolatey.ps1&quot;</span> <span class="n">-OutFile</span> <span class="s2">&quot;Setup.ps1&quot;</span>
@@ -295,7 +341,7 @@
 </code></pre></div>
 
 <p>Source code and documentation: <a href="https://github.com/dswann101164/azure-admin-workstation-setup">github.com/dswann101164/azure-admin-workstation-setup</a></p>
-<h2>Key Takeaways</h2>
+<h2 id="key-takeaways">Key Takeaways</h2>
 <p><strong>Test on actual fresh VMs.</strong> Your dev machine that's been running for weeks has accumulated updates that fresh marketplace images don't have.</p>
 <p><strong>Marketplace images are outdated.</strong> Windows 11 Enterprise N ships with 9-month-old package managers and frameworks.</p>
 <p><strong>Microsoft's infrastructure has gaps.</strong> Their download URLs serve versions too old for their own software requirements.</p>

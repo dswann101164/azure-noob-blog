@@ -200,7 +200,10 @@ def load_posts():
                 'slug': slug,
                 'content': post.content,
                 'filename': md_file.name,
-                'faq_schema': meta.get('faq_schema', False)  # Add FAQ schema flag
+                'faq_schema': meta.get('faq_schema', False),  # Add FAQ schema flag
+                'proficiency_level': meta.get('proficiency_level', 'Intermediate'),
+                'dependencies': meta.get('dependencies', ''),
+                'is_howto': meta.get('is_howto', False),
             }
 
             posts.append(post_data)
@@ -341,8 +344,15 @@ def blog_post(slug):
             CodeHiliteExtension(linenums=False, css_class='codehilite'),
             FencedCodeExtension(),
             'tables',
-            'nl2br'
-        ]
+            'nl2br',
+            'toc',
+        ],
+        extension_configs={
+            'toc': {
+                'permalink': False,
+                'slugify': lambda value, separator: re.sub(r'[^\w]+', separator, value.lower()).strip(separator),
+            }
+        }
     )
 
     cover_url = post['cover'] if post['cover'] else None
@@ -832,6 +842,28 @@ Allow: /
 
 # Don't index API endpoint
 Disallow: /search.json
+
+# AI crawlers - explicitly allowed for GEO/AEO visibility
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 Sitemap: https://azure-noob.com/sitemap.xml"""
 

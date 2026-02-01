@@ -55,6 +55,30 @@
   <meta name="twitter:description" content="How to design Azure dashboards for a Cloud NOC team that actually answer questions instead of dumping metrics on a big screen.">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-dashboards-cloud-noc.png">
 
+  <!-- Organization Schema for GEO/AEO entity recognition -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azure Noob",
+    "url": "https://azure-noob.com",
+    "logo": "https://azure-noob.com/static/images/logo.png",
+    "description": "Practical Azure cloud tutorials and guides from managing 31,000+ resources across 44 subscriptions in regulated enterprise environments.",
+    "founder": {
+      "@type": "Person",
+      "name": "David Swann",
+      "jobTitle": "Azure Architect",
+      "sameAs": [
+        "https://github.com/dswann101164",
+        "https://www.linkedin.com/in/intikiswann/"
+      ]
+    },
+    "sameAs": [
+      "https://github.com/dswann101164"
+    ]
+  }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="/static/styles.css">
 
@@ -105,7 +129,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": "TechArticle",
   "headline": "Azure Dashboards Are Your Cloud NOC (And Nobody Told You)",
   "description": "How to design Azure dashboards for a Cloud NOC team that actually answer questions instead of dumping metrics on a big screen.",
   "image": {
@@ -120,6 +144,10 @@
     "url": "https://azure-noob.com/about/",
     "description": "Azure Architect specializing in enterprise cloud infrastructure",
     "jobTitle": "Azure Architect",
+    "sameAs": [
+      "https://github.com/dswann101164",
+      "https://www.linkedin.com/in/intikiswann/"
+    ],
     "worksFor": {
       "@type": "Organization",
       "name": "Synovus"
@@ -142,10 +170,12 @@
   },
   "keywords": "Azure, Azure Monitor, Cloud NOC, Dashboards, Governance, Monitoring, Operations, Workbooks",
   "articleSection": "Azure",
-  "wordCount": "3067",
+  "wordCount": "3090",
   "timeRequired": "PT15M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
+  "proficiencyLevel": "Intermediate",
+  
   "about": {
     "@type": "Thing",
     "name": "Azure"
@@ -180,6 +210,22 @@
   ]
 }
 </script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".summary", ".post-header h1", ".post-body h2", ".post-body p:first-of-type"]
+  },
+  "url": "https://azure-noob.com/blog/azure-dashboards-cloud-noc/"
+}
+</script>
+
+
+
 
 
 
@@ -245,7 +291,7 @@
   
   <div class="post-body">
     <p>This guide is part of our <a href="/hub/governance/">Azure Governance hub</a> covering policy enforcement, compliance frameworks, and enterprise controls.</p>
-<h2>The Problem Nobody Explains</h2>
+<h2 id="the-problem-nobody-explains">The Problem Nobody Explains</h2>
 <p>You land in a new Azure admin role. You inherit an environment. Your boss asks you three simple questions:</p>
 <ul>
 <li>"What's running?"</li>
@@ -256,7 +302,7 @@
 <p>Somebody tells you "use Azure Workbooks" or "build a dashboard." You Google it. You find Microsoft docs. You see KQL queries and JSON syntax and parameter configuration screens.</p>
 <p>But nobody told you <strong>why</strong> you're doing this. What problem does a workbook solve? What's a dashboard for? Why does this tool exist?</p>
 <p>You're being told to use the quadratic formula without understanding what it means to solve for X.</p>
-<h2>The Algebra Problem</h2>
+<h2 id="the-algebra-problem">The Algebra Problem</h2>
 <p>Remember learning algebra? You're told "solve for X" but nobody explains WHY you're doing it.</p>
 <p>The teacher says: "Use the quadratic formula."<br />
 You ask: "But what am I solving?"<br />
@@ -277,7 +323,7 @@ The docs: "Here's the KQL syntax."</p>
 - "How many are Windows vs Linux?" → One click<br />
 - "Which ones have high CPU?" → One click</p>
 <p><strong>You're not learning a new concept. You're learning to stop repeating yourself.</strong></p>
-<h2>What Leadership Actually Understands: The NOC</h2>
+<h2 id="what-leadership-actually-understands-the-noc">What Leadership Actually Understands: The NOC</h2>
 <p>Here's where it clicks.</p>
 <p>Your leadership already understands this concept. They just don't know it applies to Azure.</p>
 <p><strong>They understand Network Operations Centers (NOCs):</strong></p>
@@ -321,7 +367,7 @@ The docs: "Here's the KQL syntax."</p>
 </table>
 <p><strong>Azure dashboards and workbooks ARE a NOC for cloud infrastructure.</strong> That's the entire concept.</p>
 <p>If you understand NOC, you understand dashboards.</p>
-<h2>Your Cloud NOC: What It Actually Is</h2>
+<h2 id="your-cloud-noc-what-it-actually-is">Your Cloud NOC: What It Actually Is</h2>
 <p>Now that you understand the NOC concept, here's how Azure implements it:</p>
 <p><strong>Azure Workbooks = Your NOC Screen</strong><br />
 - Interactive dashboards that display infrastructure health<br />
@@ -343,11 +389,11 @@ The docs: "Here's the KQL syntax."</p>
 - <strong>Admins want workbooks</strong> (deep investigation)</p>
 <p>You'll probably use both.</p>
 <hr />
-<h2>The Foundation Nobody Teaches: Two Data Sources</h2>
+<h2 id="the-foundation-nobody-teaches-two-data-sources">The Foundation Nobody Teaches: Two Data Sources</h2>
 <p>Here's where new admins get confused: <strong>What data goes where?</strong></p>
 <p>You build a workbook. You see options for "Logs" and "Azure Resource Graph." You don't know which one to use. So you guess. And you waste hours querying the wrong data source.</p>
 <p><strong>Nobody explains the difference:</strong></p>
-<h3>Resource Graph = Inventory (What Exists RIGHT NOW)</h3>
+<h3 id="resource-graph-inventory-what-exists-right-now">Resource Graph = Inventory (What Exists RIGHT NOW)</h3>
 <ul>
 <li>Current state of every resource</li>
 <li>Properties, tags, locations, configurations</li>
@@ -357,7 +403,7 @@ The docs: "Here's the KQL syntax."</p>
 <li>Updates in near real-time (within minutes)</li>
 </ul>
 <p><strong>Think of it as:</strong> Your asset inventory database.</p>
-<h3>Log Analytics = History (What HAPPENED Over Time)</h3>
+<h3 id="log-analytics-history-what-happened-over-time">Log Analytics = History (What HAPPENED Over Time)</h3>
 <ul>
 <li>Performance metrics, events, logs</li>
 <li>Trends, patterns, anomalies</li>
@@ -367,12 +413,12 @@ The docs: "Here's the KQL syntax."</p>
 <li>Requires logs to be collected and shipped first</li>
 </ul>
 <p><strong>Think of it as:</strong> Your security camera footage and performance recorder.</p>
-<h3>The Trap Most Admins Fall Into</h3>
+<h3 id="the-trap-most-admins-fall-into">The Trap Most Admins Fall Into</h3>
 <p>They try to use Log Analytics for inventory questions: "How many VMs do we have?"</p>
 <p><strong>This fails</strong> because Log Analytics only knows about resources that are SENDING LOGS. If a VM isn't configured to send logs, it doesn't exist in Log Analytics.</p>
 <p>Or they try to use Resource Graph for performance history: "Show me CPU over 30 days."</p>
 <p><strong>This fails</strong> because Resource Graph only knows the CURRENT state. It doesn't store historical performance data.</p>
-<h3>When To Use Which</h3>
+<h3 id="when-to-use-which">When To Use Which</h3>
 <table>
 <thead>
 <tr>
@@ -414,7 +460,7 @@ The docs: "Here's the KQL syntax."</p>
 </tr>
 </tbody>
 </table>
-<h3>The Power Move: Combine Them</h3>
+<h3 id="the-power-move-combine-them">The Power Move: Combine Them</h3>
 <p>Your best workbooks use BOTH:</p>
 <ol>
 <li><strong>Resource Graph</strong> gives you the complete inventory</li>
@@ -422,7 +468,7 @@ The docs: "Here's the KQL syntax."</p>
 </ol>
 <p>Example: "Show me all VMs (Resource Graph) and highlight which ones have high CPU in the last hour (Log Analytics)."</p>
 <p>That's your cloud NOC. Complete visibility.</p>
-<h2>The 44 Subscription Problem</h2>
+<h2 id="the-44-subscription-problem">The 44 Subscription Problem</h2>
 <p>In my production environment, I manage 44 Azure subscriptions for a regional bank. We're merging with another bank in Q1 2026, so that number's about to grow.</p>
 <p><strong>Without a cloud NOC, here's what answering basic questions looks like:</strong></p>
 <p>Leadership: "How many VMs are unpatched?"<br />
@@ -430,7 +476,7 @@ Me: <em>Opens portal, clicks first subscription, filters VMs, checks patch statu
 <p>Leadership: "How many Windows Server 2012 VMs do we still have?"<br />
 Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 <p><strong>This doesn't scale. You can't manually check 44 subscriptions.</strong></p>
-<h3>What You Need: Cross-Subscription Visibility</h3>
+<h3 id="what-you-need-cross-subscription-visibility">What You Need: Cross-Subscription Visibility</h3>
 <p>Resource Graph solves this with ONE query across ALL subscriptions:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
@@ -439,7 +485,7 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 
 <p>Result: 712 VMs total, 445 Windows, 267 Linux.</p>
 <p>One query. 30 seconds. Every subscription.</p>
-<h3>The Three Questions Leadership Actually Cares About</h3>
+<h3 id="the-three-questions-leadership-actually-cares-about">The Three Questions Leadership Actually Cares About</h3>
 <p>When I built our cloud NOC, I focused on three things:</p>
 <p><strong>1. Control: "Do we even know what's running?"</strong><br />
 - VM inventory across all subscriptions<br />
@@ -453,12 +499,12 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 - Largest resources by cost<br />
 - Stopped-but-not-deallocated VMs (still charging)<br />
 - Resources in wrong regions (higher cost)</p>
-<h3>How To Build This Without Dying</h3>
+<h3 id="how-to-build-this-without-dying">How To Build This Without Dying</h3>
 <p>You don't build 44 dashboards. You build ONE workbook with subscription parameters.</p>
 <p>The user picks a subscription from a dropdown, and the entire workbook filters to show only that subscription's data. Or they select "All Subscriptions" and see everything.</p>
 <p><strong>This is the cloud NOC approach.</strong></p>
 <p>One screen. All subscriptions. Real-time data. Leadership gets answers in 30 seconds instead of waiting 3 days for you to click through portals.</p>
-<h2>How To Explain This To Leadership</h2>
+<h2 id="how-to-explain-this-to-leadership">How To Explain This To Leadership</h2>
 <p>Here's your 5-minute pitch. I've used this exact script with my executive team.</p>
 <p><strong>Don't say this:</strong><br />
 "We need to implement Azure Monitor Workbooks with Resource Graph and Log Analytics integration for cross-subscription visibility and KQL-based alerting."</p>
@@ -473,7 +519,7 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 <p>It updates automatically. You'll have answers in 30 seconds instead of waiting days.</p>
 <p><strong>Plus, we get alerts</strong> - just like the NOC. If VM count drops unexpectedly, if untagged resources exceed our threshold, if critical systems go offline - the system alerts us proactively instead of waiting for someone to notice.</p>
 <p>Same NOC concept you already understand. Just moved to the cloud."</p>
-<h3>What They'll Ask</h3>
+<h3 id="what-they-ll-ask">What They'll Ask</h3>
 <p><strong>"How long to build it?"</strong><br />
 "Initial version with basic inventory and health checks: 2 weeks. Then we iterate based on what questions you need answered."</p>
 <p><strong>"What does it cost?"</strong><br />
@@ -482,7 +528,7 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 "Yes. Dashboards work on mobile. Workbooks work in any browser."</p>
 <p><strong>"What about alerts?"</strong><br />
 "We set thresholds - like 'notify me if VM count changes by more than 10%' or 'alert if any critical system shows unhealthy.' Same as your traditional NOC alarm system."</p>
-<h3>The Visual They Need</h3>
+<h3 id="the-visual-they-need">The Visual They Need</h3>
 <p>Show them this:</p>
 <p><strong>Before (Now):</strong><br />
 - 44 separate subscriptions<br />
@@ -495,7 +541,7 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 - 30 seconds to answer questions<br />
 - Proactive (alerts before users notice)</p>
 <p>They'll approve it on the spot.</p>
-<h2>What You Build First</h2>
+<h2 id="what-you-build-first">What You Build First</h2>
 <p>Start simple. Don't try to build everything at once.</p>
 <p><strong>Week 1: Basic Inventory Workbook</strong></p>
 <p>One workbook. Three queries. Resource Graph only.</p>
@@ -529,12 +575,12 @@ Me: <em>Starts clicking through 44 subscriptions again...</em></p>
 
 <p>These VMs are stopped but NOT deallocated - still charging you.</p>
 <p><strong>That's it. Three queries. Your first cloud NOC.</strong></p>
-<h3>Week 2: Add Parameters</h3>
+<h3 id="week-2-add-parameters">Week 2: Add Parameters</h3>
 <p>Add a subscription dropdown so users can filter to one subscription or view all.</p>
 <p>Add a resource group filter.</p>
 <p>Add a location filter.</p>
 <p>Now your workbook is interactive.</p>
-<h3>Week 3: Add Alerts</h3>
+<h3 id="week-3-add-alerts">Week 3: Add Alerts</h3>
 <p>Set up Resource Graph alerts for:</p>
 <p><strong>Alert 1: VM Count Change</strong><br />
 Trigger when VM count changes by more than 10% (catches accidental deletions or unexpected deployments)</p>
@@ -570,7 +616,7 @@ Trigger when any VM gets a public IP (potential security risk)</p>
 
 <p>Alert condition: Any results returned (new public IP detected)</p>
 <p>These three alerts catch 80% of common issues.</p>
-<h3>Week 4: Add Log Analytics</h3>
+<h3 id="week-4-add-log-analytics">Week 4: Add Log Analytics</h3>
 <p>Now add performance data for VMs that are sending logs:</p>
 <p><strong>VM Performance Over Time</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Perf</span>
@@ -595,14 +641,14 @@ Trigger when any VM gets a public IP (potential security risk)</p>
 </code></pre></div>
 
 <p>This shows you VMs that exist but aren't sending data - your blind spots.</p>
-<h3>What Success Looks Like</h3>
+<h3 id="what-success-looks-like">What Success Looks Like</h3>
 <p>After 4 weeks:<br />
 - Leadership can open one workbook and answer their own questions<br />
 - You get alerted to problems before users notice<br />
 - You're not manually clicking through 44 subscriptions<br />
 - You've built a cloud NOC</p>
 <p>Then you iterate based on what questions keep coming up.</p>
-<h2>The Bottom Line</h2>
+<h2 id="the-bottom-line">The Bottom Line</h2>
 <p>Azure dashboards and workbooks aren't mysterious tools. They're your cloud NOC.</p>
 <p><strong>The foundation:</strong><br />
 - <strong>Resource Graph</strong> = Inventory (what exists right now)<br />
