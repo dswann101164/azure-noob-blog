@@ -23,8 +23,11 @@ app.config["FREEZER_STATIC_IGNORE"] = []
 
 freezer = Freezer(app)
 
-def log(msg):
-    print(msg.encode('ascii', 'replace').decode('ascii'), flush=True)
+def log(msg): 
+    try:
+        print(msg, flush=True)
+    except UnicodeEncodeError:
+        print(msg.encode('ascii', errors='replace').decode('ascii'), flush=True)
 
 def prepare_dest():
     # Clean output dir and prep essentials
@@ -253,9 +256,45 @@ def generate_tag_redirects():
             f.write(redirect_template.format(canonical_url=canonical_url))
         
         redirects_created += 1
-        log(f"  Created redirect: /tags/{display_name}/ → /tags/{tag_slug}/")
+        log(f"  Created redirect: /tags/{display_name}/ -> /tags/{tag_slug}/")
     
-    log(f"✓ Generated {redirects_created} tag redirect shims")
+    # --- Phase 2: title-case shims for slugs missing a display-name shim ---
+    # Many posts store tags already in slug form (e.g. "management-groups").
+    # Google indexed the Title Case + spaces version from link text or
+    # historical crawls.  The loop above only creates shims for tags whose
+    # raw frontmatter string differs from the slug, so those Title Case
+    # variants never got a shim.  Generate them here.
+    all_slugs = set()
+    for post in posts:
+        for tag in post.get('tags', []):
+            all_slugs.add(slugify_tag(tag))
+    
+    for tag_slug in sorted(all_slugs):
+        # "azure-hybrid-benefit" → "Azure Hybrid Benefit"
+        pretty_name = tag_slug.replace('-', ' ').title()
+        
+        # If pretty name equals the slug (single-word lowercase-only edge case), skip
+        if pretty_name == tag_slug:
+            continue
+        
+        # If a shim directory was already created in phase 1, skip
+        shim_dir = os.path.join(DEST, "tags", pretty_name)
+        if os.path.exists(os.path.join(shim_dir, "index.html")):
+            log(f"  Skipping (already exists): /tags/{pretty_name}/")
+            continue
+        
+        # Create the redirect shim
+        canonical_url = f"{BASE_URL}/tags/{tag_slug}/"
+        os.makedirs(shim_dir, exist_ok=True)
+        
+        redirect_file = os.path.join(shim_dir, "index.html")
+        with open(redirect_file, "w", encoding="utf-8") as f:
+            f.write(redirect_template.format(canonical_url=canonical_url))
+        
+        redirects_created += 1
+        log(f"  Created redirect: /tags/{pretty_name}/ -> /tags/{tag_slug}/")
+    
+    log(f"✓ Generated {redirects_created} tag redirect shims (phase 1 + phase 2)")
     return redirects_created
 
 def update_robots_txt():
