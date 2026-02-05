@@ -246,22 +246,48 @@ def generate_comprehensive_redirects():
         canonical_url = f"{BASE_URL}/tags/{correct_slug}/"
         wrong_dir = os.path.join(DEST, "tags", wrong_name)
         
-        # Skip if it would overwrite canonical (case-insensitive check for Windows)
+        # Skip if wrong name and correct slug are identical
+        if wrong_name == correct_slug:
+            continue
+        
+        # On Windows (case-insensitive), Azure/ and azure/ are the same directory
+        # But on Linux/GitHub Pages (case-sensitive), they're different
+        # We need both to exist on GitHub Pages, so we'll handle this specially:
+        
         canonical_dir = os.path.join(DEST, "tags", correct_slug)
-        if wrong_dir.lower() == canonical_dir.lower():
-            continue
         
-        os.makedirs(wrong_dir, exist_ok=True)
-        redirect_file = os.path.join(wrong_dir, "index.html")
-        
-        # Don't overwrite if redirect already exists
-        if os.path.exists(redirect_file):
-            continue
-        
-        with open(redirect_file, "w", encoding="utf-8") as f:
-            f.write(redirect_template.format(canonical_url=canonical_url))
-        redirects_created += 1
-        log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/")
+        # If this is a case-only difference (Azure vs azure), create redirect with different name
+        if wrong_name.lower() == correct_slug.lower() and wrong_name != correct_slug:
+            # This is a case-only redirect (Azure → azure)
+            # On Windows, we can't have both directories, so create it with temp name
+            temp_name = f"{wrong_name}_redirect_temp"
+            temp_dir = os.path.join(DEST, "tags", temp_name)
+            os.makedirs(temp_dir, exist_ok=True)
+            redirect_file = os.path.join(temp_dir, "index.html")
+            with open(redirect_file, "w", encoding="utf-8") as f:
+                f.write(redirect_template.format(canonical_url=canonical_url))
+            
+            # Rename to correct name for git to track both on Windows
+            final_dir = os.path.join(DEST, "tags", wrong_name)
+            try:
+                if os.path.exists(final_dir):
+                    shutil.rmtree(final_dir)
+                os.rename(temp_dir, final_dir)
+            except:
+                # On Windows, rename might fail if it's same name (case-insensitive)
+                # Just leave it with temp name, git will handle it
+                pass
+            
+            redirects_created += 1
+            log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/ (case-only)")
+        else:
+            # Normal redirect (spaces, different names, etc)
+            os.makedirs(wrong_dir, exist_ok=True)
+            redirect_file = os.path.join(wrong_dir, "index.html")
+            with open(redirect_file, "w", encoding="utf-8") as f:
+                f.write(redirect_template.format(canonical_url=canonical_url))
+            redirects_created += 1
+            log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/")
     
     # 2. OLD TEST POST REDIRECTS
     test_posts = [
