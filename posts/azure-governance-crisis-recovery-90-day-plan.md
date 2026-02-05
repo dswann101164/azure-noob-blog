@@ -2,7 +2,7 @@
 title: "Azure Governance Crisis Mode: The 90-Day Recovery Framework"
 date: 2025-12-30
 summary: "Your Azure environment is ungoverned: 12,000 untagged resources, $800K/month bill with no owner map, 47 subscriptions in chaos. You have 90 days and limited political capital. Here's the enterprise-tested triage sequence that prevents you from getting fired while building long-term governance."
-tags: ["Azure", "Governance", "Crisis Management", "FinOps", "Cost Management", "Enterprise", "Recovery"]
+tags: ["azure", "governance", "crisis-management", "finops", "cost-management", "enterprise", "recovery"]
 cover: "/static/images/hero/azure-governance-napkin.png"
 hub: governance
 related_posts:

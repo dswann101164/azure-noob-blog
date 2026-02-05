@@ -2,7 +2,7 @@
 title: "Companies Don't Want Azure Admins Anymore. They Want People Who Can Make AI Work. (And Almost Nobody Is Teaching This)"
 date: 2025-11-17
 summary: "I searched 'Azure Administrator skills 2025' and found hundreds of articles. Not one mentioned AI capability. Meanwhile, ChatGPT just wrote better PowerShell than half my team in 30 seconds. The gap between what's being taught and what companies need is massive."
-tags: ["azure", "Career", "AI", "Future of Work"]
+tags: ["azure", "career", "ai", "future-of-work"]
 cover: "/static/images/hero/ai-replacing-azure-admins.png"
 hub: ai
 related_posts:

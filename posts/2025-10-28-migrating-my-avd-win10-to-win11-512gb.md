@@ -2,7 +2,7 @@
 title: "I Migrated My Own Azure Virtual Desktop to Windows 11 with 512GB Disk Space"
 date: 2025-10-28
 summary: "How I migrated from a cramped 127GB Windows 10 AVD to a spacious 512GB Windows 11 environment - including the gotchas nobody tells you about disk partitions, authentication, and user assignments."
-tags: ["azure", "AVD", "Windows 11", "operations"]
+tags: ["azure", "avd", "windows-11", "operations"]
 cover: "/static/images/hero/avd-win11-migration.png"
 hub: automation
 related_posts:

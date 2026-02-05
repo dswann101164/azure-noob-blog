@@ -2,7 +2,7 @@
 title: "Azure Portal vs CLI vs PowerShell vs Bicep vs Terraform: Which One Should a Noob Learn First?"
 date: 2025-12-05
 summary: "Every Azure tutorial tells you what these tools do. Nobody honestly tells you which one to learn first and why. Here's the truth: start with Portal, move to CLI, then pick Bicep or Terraform. Ignore the evangelists."
-tags: ["azure", "Career", "tools", "Learning"]
+tags: ["azure", "career", "tools", "learning"]
 cover: "/static/images/hero/azure-tool-selection-noobs.png"
 hub: governance
 related_posts:

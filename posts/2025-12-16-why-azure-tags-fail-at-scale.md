@@ -2,7 +2,7 @@
 title: "Why Azure Tags Fail at Scale (And How to Fix It in 2025)"
 date: 2025-12-16
 summary: "Tags work beautifully at 100 resources. At 10,000 resources, they're a source of organizational fiction. Here's why tag-based governance always collapses—not because people are careless, but because tags require human perfection that doesn't exist at enterprise scale."
-tags: ["Azure", "Tags", "Governance", "FinOps", "Enterprise", "Resource Management"]
+tags: ["azure", "tags", "governance", "finops", "enterprise", "resource-management"]
 cover: "/static/images/hero/azure-tags-fail-scale.png"
 hub: governance
 related_posts:

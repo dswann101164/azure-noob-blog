@@ -3,7 +3,7 @@ title: "4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide
 date: 2025-10-29
 modified: 2025-12-18
 summary: "Stop wasting 10+ hours per week on manual Azure operations. These 4 production-tested Logic Apps automate unused resource cleanup ($4K/month savings), certificate monitoring (zero outages), tag enforcement (FinOps compliance), and backup verification. Complete deployment scripts and ROI calculator included."
-tags: ["Azure", "Logic Apps", "Automation", "Operations", "Cost Management", "Governance", "FinOps"]
+tags: ["azure", "logic-apps", "automation", "operations", "cost-management", "governance", "finops"]
 cover: "/static/images/hero/logic-apps-automation.svg"
 hub: automation
 related_posts:

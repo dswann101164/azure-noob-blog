@@ -2,7 +2,7 @@
 title: "Terraform Modules for Azure: From Local to Published (4 Steps That Actually Work)"
 date: 2025-12-21
 summary: "Stop copy-pasting Terraform code across repos. Build reusable modules, version them properly, and publish to Azure DevOps Artifacts or Terraform Registry."
-tags: ["Terraform", "IaC", "Azure DevOps", "Modules", "Best Practices"]
+tags: ["terraform", "iac", "azure-devops", "modules", "best-practices"]
 cover: "/static/images/hero/terraform-modules-azure.png"
 hub: terraform
 related_posts:

@@ -3,7 +3,7 @@ title: "Azure Command Finder - Interactive Troubleshooting Tool"
 date: 2025-12-09
 modified: 2025-12-18
 summary: "Get instant copy-paste commands for Azure admin problems. Interactive tool covers RDP issues, domain join, Group Policy, cost spikes, VM startup failures, and Linux AD integration with step-by-step workflows."
-tags: ["Azure", "Troubleshooting", "Commands", "Tools", "PowerShell", "Azure CLI", "RDP", "Active Directory", "Linux"]
+tags: ["azure", "troubleshooting", "commands", "tools", "powershell", "azure-cli", "rdp", "active-directory", "linux"]
 cover: "/static/images/hero/azure-admin-starter-kit.png"
 hub: ai
 related_posts:

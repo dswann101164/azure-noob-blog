@@ -2,7 +2,7 @@
 title: "The AI Admin: Stop Being a Human API Wrapper"
 date: 2025-11-18
 summary: "Traditional Azure administration is becoming AI-assisted automation. Here's how to position yourself as an AI Admin instead of a human ticket processor - whether you're managing 40,000 resources or bootstrapping your first deployment."
-tags: ["azure", "AI", "Career", "automation", "Terraform"]
+tags: ["azure", "ai", "career", "automation", "terraform"]
 cover: "/static/images/hero/ai-admin.png"
 hub: ai
 related_posts:

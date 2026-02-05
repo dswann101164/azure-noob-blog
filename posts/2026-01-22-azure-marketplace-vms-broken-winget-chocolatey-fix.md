@@ -2,7 +2,7 @@
 title: "Azure Marketplace VMs Ship with Broken winget - Use Chocolatey Instead"
 date: 2026-01-22
 summary: "Fresh Windows 11 Enterprise N VMs from Azure Marketplace have broken winget dependencies. Here's the Chocolatey automation that actually works."
-tags: ["Automation", "PowerShell", "Azure VMs", "DevOps"]
+tags: ["automation", "powershell", "azure-vms", "devops"]
 cover: "/static/images/hero/azure-marketplace-vms-broken-winget-chocolatey-fix.png"
 hub: automation
 ---

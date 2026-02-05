@@ -2,7 +2,7 @@
 title: "Why Your Azure Migration ROI Calculation Is Wrong Before You Start"
 date: 2025-10-14
 summary: "Finance compares Azure VM costs to server costs and declares cloud expensive. They're missing the entire point: no VAR meetings, no hardware refresh, provision in minutes instead of months. The value isn't in the spreadsheet."
-tags: ["azure", "migration", "ROI", "FinOps", "Procurement", "Leadership"]
+tags: ["azure", "migration", "roi", "finops", "procurement", "leadership"]
 cover: "static/images/hero/azure-roi-wrong.svg"
 hub: governance
 related_posts:

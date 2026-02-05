@@ -2,7 +2,7 @@
 title: "The Napkin Test: Why 90% of Azure Governance Fails at the Executive Level"
 date: 2025-12-16
 summary: "Azure Policy enforces rules. Landing Zones provide structure. Tags enable reporting. But if you can't explain your Azure bill on a napkin, none of it matters. Here's why governance fails—and what defensibility actually requires."
-tags: ["Azure", "Governance", "FinOps", "Enterprise Architecture", "Cost Management", "Azure Policy", "Executive Reporting"]
+tags: ["azure", "governance", "finops", "enterprise-architecture", "cost-management", "azure-policy", "executive-reporting"]
 cover: "/static/images/hero/azure-governance-napkin.png"
 hub: governance
 related_posts:

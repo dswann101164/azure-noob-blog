@@ -2,7 +2,7 @@
 title: "Terraform + Azure DevOps CI/CD: Part 1 - Prerequisites & Architecture"
 date: 2025-11-03
 summary: "Enterprise-grade Infrastructure as Code with pull request approvals, Key Vault secrets, and zero manual portal changes. This is the exact setup I use in production - GUI pipelines, not YAML."
-tags: ["azure", "Terraform", "devops", "CICD", "IaC", "Azure DevOps"]
+tags: ["azure", "terraform", "devops", "cicd", "iac", "azure-devops"]
 cover: "static/images/hero/terraform-devops-part1.png"
 hub: governance
 related_posts:

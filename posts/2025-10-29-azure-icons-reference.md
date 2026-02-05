@@ -2,7 +2,7 @@
 title: "Azure Icons Reference: 284 Official Architecture Icons"
 date: 2025-10-29
 summary: "Complete Azure icons reference with download links. Official Microsoft Azure architecture icons for Visio, PowerPoint, and diagrams. Searchable reference for all 284 Azure service icons."
-tags: ["azure", "Icons", "Architecture", "Diagrams", "Reference"]
+tags: ["azure", "icons", "architecture", "diagrams", "reference"]
 keywords: ["azure icons", "microsoft azure icons", "azure architecture icons"]
 cover: "/static/images/hero/azure-icons-reference.png"
 hub: automation

@@ -2,7 +2,7 @@
 title: "The Enterprise Azure Governance & FinOps Strategy Hub (2025)"
 date: 2025-12-29
 summary: "The comprehensive guide to Azure governance and cost management. A structured roadmap through 15 essential articles covering strategy, execution, enforcement, and crisis recovery for enterprise environments."
-tags: ["Azure", "Governance", "FinOps", "Cost Management", "Strategy", "Hub"]
+tags: ["azure", "governance", "finops", "cost-management", "strategy", "hub"]
 hub: "governance"
 layout: "Post"
 ---

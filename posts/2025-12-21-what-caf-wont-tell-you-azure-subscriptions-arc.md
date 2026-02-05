@@ -2,7 +2,7 @@
 title: "What the CAF Won't Tell You About Azure Subscriptions (And Why Azure Arc Makes It Worse)"
 date: 2025-12-21
 summary: "Microsoft's Cloud Adoption Framework teaches subscriptions as a scale unit. In regulated enterprises, subscriptions are security boundaries. That's not an advanced topic—it's the foundation. Azure Arc amplifies this problem by extending broken subscription models to on-prem infrastructure."
-tags: ["Azure", "Governance", "Azure Arc", "CAF", "Subscriptions", "Architecture"]
+tags: ["azure", "governance", "azure-arc", "caf", "subscriptions", "architecture"]
 cover: "/static/images/hero/azure-subscriptions-caf-reality.png"
 hub: governance
 related_posts:

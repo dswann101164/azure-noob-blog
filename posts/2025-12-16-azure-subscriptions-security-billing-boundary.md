@@ -2,7 +2,7 @@
 title: "Why Azure Subscriptions Are Both a Security Boundary and a Billing One (And Why That Breaks Everything)"
 date: 2025-12-16
 summary: "Microsoft documents subscriptions as security boundaries. Finance treats them as cost centers. Nobody tells you they're both—and that this dual nature is why your Azure governance keeps failing. Here's the architectural decision that determines whether your costs will ever be defensible."
-tags: ["Azure", "Governance", "FinOps", "Enterprise Architecture", "Subscriptions", "Cost Management"]
+tags: ["azure", "governance", "finops", "enterprise-architecture", "subscriptions", "cost-management"]
 cover: "/static/images/hero/azure-subscriptions-boundaries.png"
 hub: governance
 related_posts:

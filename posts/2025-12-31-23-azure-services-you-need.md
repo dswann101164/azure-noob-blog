@@ -2,7 +2,7 @@
 title: "The 23 Azure Services You Actually Need to Know (Out of 200+)"
 date: 2025-12-31
 summary: "Azure lists 200+ services. You only need to deeply understand 23 of them. These services appear in every enterprise environment from 20 VMs to 30,000 resources. Master these first—ignore the other 180 until you actually need them."
-tags: ["Azure", "Architecture", "Foundational"]
+tags: ["azure", "architecture", "foundational"]
 cover: "static/images/hero/azure-services-map.png"
 ---
 

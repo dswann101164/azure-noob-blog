@@ -2,7 +2,7 @@
 title: "Closing the Loop: Why KQL Finds Waste but RACI Deletes It"
 date: 2025-12-30
 summary: "The Authority Gap explained. Why finding a zombie resource is easy, but getting the political power to kill it requires a RACI."
-tags: ["Azure", "Governance", "RACI", "FinOps", "Leadership"]
+tags: ["azure", "governance", "raci", "finops", "leadership"]
 hub: "governance"
 layout: "Post"
 ---

@@ -2,7 +2,7 @@
 title: "Azure Policy Reality Check: Why Your Guardrails Fail After 30 Days"
 date: 2025-12-20
 summary: "Azure Policy is powerful on paper, but in enterprise environments the guardrails collapse almost immediately. Here's why your policies stop working and what it takes to build a policy framework that survives production."
-tags: ["Azure", "Cloud Governance", "Azure Policy", "Enterprise Architecture", "DevOps"]
+tags: ["azure", "cloud-governance", "azure-policy", "enterprise-architecture", "devops"]
 cover: "/static/images/hero/azure-policy-guardrails-fail.png"
 hub: ai
 related_posts:

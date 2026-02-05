@@ -2,7 +2,7 @@
 title: "The Lie Azure Cost Management Tells Enterprises in 2025"
 date: 2025-12-16
 summary: "Azure Cost Management works beautifully—if you have perfect subscriptions or perfect tags. At enterprise scale, you have neither. Here's why Microsoft's cost tooling assumes a reality that doesn't exist, and what actually works when you're managing 40+ subscriptions with legacy chaos, M&A artifacts, and shared services everywhere."
-tags: ["Azure", "Cost Management", "FinOps", "Enterprise", "Cost Optimization", "Governance"]
+tags: ["azure", "cost-management", "finops", "enterprise", "cost-optimization", "governance"]
 cover: "/static/images/hero/azure-cost-management-lie.png"
 hub: governance
 related_posts:

@@ -2,7 +2,7 @@
 title: "Azure Policy Doesn't Fix Bad Architecture (Microsoft Pretends It Does)"
 date: 2025-12-15
 summary: "Azure Policy enforces rules at scale - but it can't tell you if your subscriptions make sense, if your tags are lies, or why your $2M Azure bill is indefensible. Policy is a guardrail, not a steering wheel."
-tags: ["Azure", "Azure Policy", "Governance", "Architecture", "FinOps", "Enterprise Reality", "Executive Reporting"]
+tags: ["azure", "azure-policy", "governance", "architecture", "finops", "enterprise-reality", "executive-reporting"]
 cover: "/static/images/hero/azure-policy-guardrails-fail.png"
 hub: governance
 related_posts:

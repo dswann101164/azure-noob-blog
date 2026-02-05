@@ -2,7 +2,7 @@
 title: "10 Linux Commands That Will Save Your Azure Career"
 date: 2025-11-03
 summary: "You've been avoiding Linux. But Azure Cloud Shell runs Linux. Your VMs run Linux. AKS runs Linux. Here are the 10 commands you actually need to knowâ€”and why Windows admins who ignore this are limiting their careers."
-tags: ["azure", "Linux", "Cloud Shell", "AKS", "Career"]
+tags: ["azure", "linux", "cloud-shell", "aks", "career"]
 cover: "/static/images/hero/linux-commands-azure-career.svg"
 hub: automation
 related_posts:

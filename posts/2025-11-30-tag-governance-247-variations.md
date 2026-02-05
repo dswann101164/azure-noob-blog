@@ -3,7 +3,7 @@ title: 'Azure Tagging Best Practices 2025: The $2.3M Hidden Cost of Tag Variatio
 date: 2025-11-30
 modified: 2025-12-06
 summary: "One tag key. 247 different spellings. $2.3M in cost allocation failures. Real lessons from enterprise Azure tag governance: why Azure Policy isn't enough and the automation that finally stopped tag chaos across 31,000 resources."
-tags: ["azure", "azure-policy", "FinOps", "governance", "operations", "Standards", "Tagging", "Cost Management", "Azure Tags"]
+tags: ["azure", "azure-policy", "finops", "governance", "operations", "standards", "tagging", "cost-management", "azure-tags"]
 cover: "/static/images/hero/tag-governance-247-variations.png"
 hub: "finops"
 related_posts:

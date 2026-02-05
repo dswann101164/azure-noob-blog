@@ -3,7 +3,7 @@ title: "Why 70% of Azure Migrations Fail: The Hidden Cost of Ownership Confusion
 date: 2025-11-12
 modified: 2025-12-29
 summary: "Most migrations stall at 80% because of the 'Not My Job' syndrome. Discover the hidden costs of undefined ownership and why you need a RACI matrix before you move a single VM."
-tags: ["azure", "Azure Migrate", "Cloud Migration", "Migration Checklist", "Azure Migration", "Cloud Migration Strategy", "Migration Planning", "Azure Assessment", "Migration Strategy", "Enterprise Migration"]
+tags: ["azure", "azure-migrate", "cloud-migration", "migration-checklist", "azure-migration", "cloud-migration-strategy", "migration-planning", "azure-assessment", "migration-strategy", "enterprise-migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"
 faq_schema: true

@@ -2,7 +2,7 @@
 title: "The Complete Linux Cheat Sheet for Azure Admins"
 date: 2025-11-03
 summary: "Every Linux command you'll need as an Azure administratorâ€”organized by scenario, with Windows equivalents, and real Azure examples. Bookmark this. You'll reference it constantly."
-tags: ["azure", "Linux", "Cloud Shell", "AKS", "Ubuntu", "Reference"]
+tags: ["azure", "linux", "cloud-shell", "aks", "ubuntu", "reference"]
 cover: "/static/images/hero/linux-cheat-sheet-azure.svg"
 hub: automation
 related_posts:

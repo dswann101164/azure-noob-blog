@@ -2,7 +2,7 @@
 title: "PowerShell 7 Migration Guide (Complete Checklist + Time Savings Calculator)"
 date: 2025-11-03
 summary: "PowerShell 7 migration reduces Azure admin workload by 70% through parallel processing. Complete enterprise migration checklist, VS Code setup guide, compatibility testing framework, and ROI calculator. Includes 30-day migration plan and real-world time savings from managing 50+ Azure subscriptions."
-tags: ["azure", "powershell", "automation", "VS Code", "ISE"]
+tags: ["azure", "powershell", "automation", "vs-code", "ise"]
 cover: "/static/images/hero/powershell-7-enterprise-migration.svg"
 hub: automation
 related_posts:

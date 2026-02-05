@@ -2,7 +2,7 @@
 title: "Azure Arc at Enterprise Scale: The Problems Microsoft Doesn't Document"
 date: 2025-12-19
 summary: "Azure Arc demos show 5-10 servers connecting perfectly. Enterprise deployments with hundreds of on-premises and VMware servers look different. Here's what actually breaks at scale - ghost registrations, network complexity, vCenter integration, and the operational reality Microsoft's documentation doesn't prepare you for."
-tags: ["Azure", "Azure Arc", "Enterprise", "VMware", "Hybrid", "Operations", "Governance", "Troubleshooting"]
+tags: ["azure", "azure-arc", "enterprise", "vmware", "hybrid", "operations", "governance", "troubleshooting"]
 cover: "/static/images/hero/arc-enterprise-scale.png"
 hub: governance
 related_posts:

@@ -3,7 +3,7 @@ title: "Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not
 date: 2025-11-24
 modified: 2025-12-12
 summary: "Complete Terraform code for Azure AI Foundry RAG: secure, repeatable, version-controlled deployment. Includes private endpoints, managed identity, monitoring, cost controls, and search integration. What YouTube tutorials skip for enterprise production."
-tags: ["azure", "Terraform", "Infrastructure as Code", "Azure AI Foundry", "RAG", "devops"]
+tags: ["azure", "terraform", "infrastructure-as-code", "azure-ai-foundry", "rag", "devops"]
 cover: "/static/images/hero/azure-ai-foundry-terraform.png"
 hub: ai
 related_posts:

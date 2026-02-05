@@ -2,7 +2,7 @@
 title: "☁️ Enterprise Migration Reality - Complete Azure Migration Guide"
 date: 2025-12-10
 summary: "Complete enterprise Azure migration hub - Pre-migration planning, licensing compliance, ROI reality checks, and lessons learned from real-world migrations at scale."
-tags: ["Azure", "Cloud Migration", "Enterprise", "Hub", "Migration Strategy", "Licensing", "FinOps"]
+tags: ["azure", "cloud-migration", "enterprise", "hub", "migration-strategy", "licensing", "finops"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: governance
 related_posts:
