@@ -1,8 +1,9 @@
 ---
-title: "The Lie Azure Cost Management Tells Enterprises in 2025"
+title: "Azure FinOps Reality: Why Cost Management Reports Don't Match Chargeback Needs"
 date: 2025-12-16
-summary: "Azure Cost Management works beautifully—if you have perfect subscriptions or perfect tags. At enterprise scale, you have neither. Here's why Microsoft's cost tooling assumes a reality that doesn't exist, and what actually works when you're managing 40+ subscriptions with legacy chaos, M&A artifacts, and shared services everywhere."
-tags: ["azure", "cost-management", "finops", "enterprise", "cost-optimization", "governance"]
+modified: 2026-02-05
+summary: "Azure Cost Management assumes clean subscriptions or perfect tags. At enterprise scale (40+ subscriptions), shared services like ExpressRoute ($8,400/month), Log Analytics, and Azure Firewall create permanent allocation gaps that break chargeback models. Includes showback vs chargeback framework and alternative allocation approaches for regulated environments."
+tags: ["azure", "cost-management", "finops", "enterprise", "cost-optimization", "governance", "chargeback", "showback", "azure-finops", "finops-tools"]
 cover: "/static/images/hero/azure-cost-management-lie.png"
 hub: governance
 related_posts:

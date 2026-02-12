@@ -22,7 +22,7 @@ related_posts:
 ---
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
-> **Update (October 27, 2025):** Ready to fix your Activity Log retention? I've published a complete step-by-step implementation guide: **[SOC 2 Audit Prep: Activity Log Retention Setup (Step-by-Step)](/blog/2025-10-27-soc2-activity-log-step-by-step/)**. Every click, every command, every verification - the grill assembly manual version.
+> **Update (October 27, 2025):** Ready to fix your Activity Log retention? I've published a complete step-by-step implementation guide: **[SOC 2 Audit Prep: Activity Log Retention Setup (Step-by-Step)](/blog/soc2-activity-log-step-by-step/)**. Every click, every command, every verification - the grill assembly manual version.
 
 ## The Question That Starts the Panic
 

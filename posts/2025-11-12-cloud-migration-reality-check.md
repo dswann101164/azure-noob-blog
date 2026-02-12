@@ -1,8 +1,8 @@
 ---
-title: "Why 70% of Azure Migrations Fail: The Hidden Cost of Ownership Confusion"
+title: "Azure Migration Checklist: 55 Questions Before You Move Workloads"
 date: 2025-11-12
-modified: 2025-12-29
-summary: "Most migrations stall at 80% because of the 'Not My Job' syndrome. Discover the hidden costs of undefined ownership and why you need a RACI matrix before you move a single VM."
+modified: 2026-02-05
+summary: "Azure migration assessment framework with 55 critical questions covering ownership, licensing, compliance, and vendor contracts. Includes Excel checklist to prevent $50K-$200K disasters before moving a single VM. Tested on 100+ enterprise applications."
 tags: ["azure", "azure-migrate", "cloud-migration", "migration-checklist", "azure-migration", "cloud-migration-strategy", "migration-planning", "azure-assessment", "migration-strategy", "enterprise-migration"]
 cover: "/static/images/hero/cloud-migration-spreadsheet.png"
 hub: "migration"

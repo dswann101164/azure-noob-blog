@@ -981,9 +981,9 @@ Let me summarize this entire post in one table.
 - Test: Have AI analyze your Azure exports
 
 **If you want practical Azure dashboards:**
-- Check out: [CCO Dashboard modernization guide](/blog/azure-dashboard-rebranding-tool)
-- Download: [Azure Rationalization Toolkit](/blog/azure-rationalization-toolkit)
-- Read: [Tag Governance implementation](/blog/tag-governance-247-variations)
+- Check out: [CCO Dashboard modernization guide](/blog/azure-dashboard-rebranding-tool/)
+- Download: [Azure Rationalization Toolkit](/blog/software-rationalization-step-zero-devops/)
+- Read: [Tag Governance implementation](/blog/tag-governance-247-variations/)
 
 ---
 

@@ -231,4 +231,4 @@ You're just slow, inconsistent, and undocumented.
 
 *Want to see this in action? Check out the [Azure IPAM Tool](https://github.com/dswann5/azure-ipam) - 1,000+ private endpoints managed in code, not spreadsheets.*
 
-*Working on a 44-subscription consolidation? You NEED code. Read about [IP Address Management for Cloud Mergers](/blog/azure-ipam-tool).*
+*Working on a 44-subscription consolidation? You NEED code. Read about [IP Address Management for Cloud Mergers](/blog/azure-ipam-tool/).*

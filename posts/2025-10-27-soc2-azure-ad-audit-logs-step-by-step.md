@@ -15,7 +15,7 @@ related_posts:
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
-This is Part 2 of fixing the Azure audit gap. **[Part 1 covered Activity Logs](/blog/2025-10-27-soc2-activity-log-step-by-step/)** (ARM resources like VMs and storage accounts). This post covers **Azure AD Audit Logs** (identity layer: app registrations, consent grants, sign-ins, role assignments).
+This is Part 2 of fixing the Azure audit gap. **[Part 1 covered Activity Logs](/blog/soc2-activity-log-step-by-step/)** (ARM resources like VMs and storage accounts). This post covers **Azure AD Audit Logs** (identity layer: app registrations, consent grants, sign-ins, role assignments).
 
 Same format: every click, every command, every field. Grill assembly manual level detail.
 

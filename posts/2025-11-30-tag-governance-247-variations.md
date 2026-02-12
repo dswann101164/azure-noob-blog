@@ -1031,7 +1031,7 @@ But even perfect tags don't guarantee defensibility—if you can't explain your 
 
 **Download it here:** [Tag Governance Starter Kit](#) (Coming soon)
 
-Or read more about [Azure Resource Tagging Best Practices](/blog/azure-resource-tags-guide) for the technical deep-dive.
+Or read more about [Azure Resource Tagging Best Practices](/blog/azure-resource-tags-guide/) for the technical deep-dive.
 
 ---
 

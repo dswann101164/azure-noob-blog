@@ -10,7 +10,7 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-Last week I published an [Azure Service Inventory Tool](/blog/azure-service-inventory-tool).
+Last week I published an [Azure Service Inventory Tool](/blog/azure-service-inventory-tool/).
 
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
@@ -192,7 +192,7 @@ Cost: High
 
 ## Enhanced Inventory Tool
 
-I updated the [original inventory tool](/blog/azure-service-inventory-tool) to use the dictionary.
+I updated the [original inventory tool](/blog/azure-service-inventory-tool/) to use the dictionary.
 
 ### Before (Original Tool):
 
@@ -506,8 +506,8 @@ The Periodic Table makes Azure look overwhelming.
 **GitHub:** [azure-noob-blog/tools](https://github.com/your-username/azure-noob-blog/tree/main/tools)
 
 **Blog Posts:**
-- [Part 1: Azure Service Inventory Tool](/blog/azure-service-inventory-tool)
-- [Part 2: Scraping the Periodic Table](/blog/azure-periodic-table-service-dictionary)
+- [Part 1: Azure Service Inventory Tool](/blog/azure-service-inventory-tool/)
+- [Part 2: Scraping the Periodic Table](/blog/azure-periodic-table-service-dictionary/)
 
 **Requirements:**
 - PowerShell 5.1+ or Core 7+

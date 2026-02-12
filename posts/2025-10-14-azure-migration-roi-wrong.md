@@ -1,8 +1,9 @@
 ---
-title: "Why Your Azure Migration ROI Calculation Is Wrong Before You Start"
+title: "Azure Migration ROI: TCO Beyond Server Costs (Procurement, Agility, Hardware Refresh)"
 date: 2025-10-14
-summary: "Finance compares Azure VM costs to server costs and declares cloud expensive. They're missing the entire point: no VAR meetings, no hardware refresh, provision in minutes instead of months. The value isn't in the spreadsheet."
-tags: ["azure", "migration", "roi", "finops", "procurement", "leadership"]
+modified: 2026-02-05
+summary: "Azure migration ROI calculations miss procurement cycles (6 months → same day), hardware refresh elimination (every 5 years → never), VAR meeting overhead ($22K per cycle), and admin time savings (15-20 hours/month per admin on hardware babysitting). Finance compares VM costs while missing the entire operational transformation. Includes TCO framework covering procurement, agility, and hardware lifecycle costs."
+tags: ["azure", "migration", "roi", "finops", "procurement", "leadership", "tco", "total-cost-ownership"]
 cover: "static/images/hero/azure-roi-wrong.svg"
 hub: governance
 related_posts:

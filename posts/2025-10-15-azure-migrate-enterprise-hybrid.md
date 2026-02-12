@@ -416,6 +416,6 @@ Have you hit this problem? How did your organization handle Azure Migrate in mul
 ---
 
 **Related Posts:**
-- [Why Most Azure Migrations Fail](/blog/why-most-azure-migrations-fail)
-- [Azure Migration ROI Is The Wrong Question](/blog/azure-migration-roi-wrong)
-- [Your CMDB Is Wrong: How Cloud Migration Fixes It](/blog/azure-cmdb-wrong-cloud-fixes-it)
+- [Why Most Azure Migrations Fail](/blog/why-most-azure-migrations-fail/)
+- [Azure Migration ROI Is The Wrong Question](/blog/azure-migration-roi-wrong/)
+- [Your CMDB Is Wrong: How Cloud Migration Fixes It](/blog/azure-cmdb-wrong-cloud-fixes-it/)

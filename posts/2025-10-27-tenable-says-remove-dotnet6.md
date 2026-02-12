@@ -361,7 +361,7 @@ $inventory | Export-Csv "vm-application-inventory.csv" -NoTypeInformation
 
 **Problem:** Your tags are probably wrong, incomplete, or missing.
 
-See: [Azure Resource Tags Are Wrong and Nobody Cares](/blog/2025-09-xx-azure-tags-are-wrong)
+See: [Azure Resource Tags Are Wrong and Nobody Cares](/blog/why-azure-tags-fail-at-scale/)
 
 ### 3. Have the Hard Conversation
 
@@ -606,9 +606,9 @@ Show them this post.
 - [Application Inventory Template](https://github.com/azure-noob/templates/app-inventory)
 
 **Related Posts:**
-- [IT Roles & Responsibilities Matrix](/blog/2025-09-xx-it-roles-raci)
-- [Azure Resource Tags Are Wrong and Nobody Cares](/blog/2025-09-xx-azure-tags)
-- [Your CMDB Is Wrong (And Cloud Migration Will Prove It)](/blog/2025-10-xx-cmdb-is-wrong)
+- [IT Roles & Responsibilities Matrix](/blog/it-roles-responsibilities-matrix/)
+- [Azure Resource Tags Are Wrong and Nobody Cares](/blog/azure-resource-tags-guide/)
+- [Your CMDB Is Wrong (And Cloud Migration Will Prove It)](/blog/azure-cmdb-wrong-cloud-fixes-it/)
 
 ---
 

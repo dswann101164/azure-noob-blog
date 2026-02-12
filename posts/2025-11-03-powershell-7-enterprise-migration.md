@@ -701,9 +701,9 @@ Here's a realistic timeline for enterprise Azure admin teams:
 
 **My Related Posts:**
 - [Why Your Azure Scripts Break on Fresh Server 2025](https://azure-noob.com/blog/azure-scripts-break-server-2025/) (tactical troubleshooting guide)
-- [Azure Command Finder - Interactive Troubleshooting Tool](/blog/azure-command-finder) (instant copy-paste commands for common Azure admin problems)
-- [4 Logic Apps That Save Azure Admins 10 Hours/Week](/blog/four-logic-apps-every-azure-admin-needs) (automate operational tasks with PowerShell workflows)
-- [Why Most Azure Migrations Fail](/blog/why-most-azure-migrations-fail) (migration planning and automation strategies)
+- [Azure Command Finder - Interactive Troubleshooting Tool](/blog/azure-command-finder/) (instant copy-paste commands for common Azure admin problems)
+- [4 Logic Apps That Save Azure Admins 10 Hours/Week](/blog/four-logic-apps-every-azure-admin-needs/) (automate operational tasks with PowerShell workflows)
+- [Why Most Azure Migrations Fail](/blog/why-most-azure-migrations-fail/) (migration planning and automation strategies)
 - [Azure Admin Workstation Setup Script](https://github.com/dswann101164/azure-admin-workstation-setup) (automated installation)
 
 **Community Resources:**

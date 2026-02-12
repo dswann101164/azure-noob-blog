@@ -330,9 +330,9 @@ And if you're facing the same renewal decision, maybe this data helps you decide
 **Update (March 2026):** I'll revisit this post after earning AI-102 to document what actually happened. Did this strategy work? Was it worth it? You'll get the honest answer.
 
 **Related Posts:**
-- [30 Days of Copilot Data: What I Actually Use AI For](/blog/2025-10-17-azure-ai-30-day-test)
-- [KQL Cheat Sheet: The Azure Resource Graph Queries I Actually Use](/blog/2025-01-15-kql-cheat-sheet-complete)
-- [Why Most Azure Migrations Fail: The Institutional Knowledge Problem](/blog/2025-09-24-why-most-azure-migrations-fail)
+- [30 Days of Copilot Data: What I Actually Use AI For](/blog/azure-ai-30-day-test/)
+- [KQL Cheat Sheet: The Azure Resource Graph Queries I Actually Use](/blog/kql-cheat-sheet-complete/)
+- [Why Most Azure Migrations Fail: The Institutional Knowledge Problem](/blog/why-most-azure-migrations-fail/)
 
 ---
 

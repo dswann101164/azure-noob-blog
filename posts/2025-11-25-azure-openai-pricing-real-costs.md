@@ -1,14 +1,15 @@
 ---
-title: "Azure OpenAI Pricing 2026: Complete Model Cost Guide + Hidden Fee Breakdown"
+title: "Azure OpenAI Pricing Calculator 2026: GPT-4o Costs & Hidden Fees"
 date: 2026-01-02
-modified: 2026-01-03
-summary: "Azure OpenAI 2026 pricing: GPT-4o $0.005/1K tokens, PTU from $2,448/mo. Includes the hidden fine-tuning costs adding $1,836/mo most teams miss + free pricing calculator."
+modified: 2026-02-05
+summary: "Azure OpenAI pricing calculator with real costs: GPT-4o is $0.005/1K input tokens ($0.015 output), but fine-tuning hosting adds $1,836/month per model most teams miss. Includes 2026 rate card and break-even calculator for PTU vs pay-as-you-go."
 tags:
 - Azure
 - FinOps
 - AI
 - OpenAI
 - Cost Management
+- Pricing Calculator
 cover: /static/images/hero/azure-openai-costs.png
 slug: azure-openai-pricing-real-costs
 hub: finops

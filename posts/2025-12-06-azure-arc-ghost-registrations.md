@@ -1,8 +1,8 @@
 ---
-title: 'Azure Arc Ghost Registrations: Why 64% of My Arc Inventory Doesn''t Exist'
+title: 'Azure Arc Ghost Registrations: Detection and Cleanup at Enterprise Scale'
 date: 2025-12-06
-summary: How Azure Arc ghost registrations happen, why they wreck governance reporting,
-  and how to detect and clean them up at scale.
+modified: 2026-02-05
+summary: Azure Arc ghost registrations occur when VMs are deleted from VMware without Arc cleanup. At 64% ghost rate (300 of 467 Arc VMs non-existent), inventory becomes unusable for governance and ESU compliance. Includes RVTools reconciliation method, PowerShell cleanup scripts, and Arc Resource Bridge deployment guide for automatic lifecycle sync with vCenter.
 tags:
 - Azure
 - Azure Arc
@@ -13,6 +13,7 @@ tags:
 - Power BI
 - Reconciliation
 - VMware
+- PowerShell
 cover: /static/images/hero/azure-arc-ghost-registrations.png
 faq_schema: true
 

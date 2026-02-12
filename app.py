@@ -147,6 +147,38 @@ def extract_slug_from_filename(filename):
     date_prefix_pattern = r'^\d{4}-\d{2}-\d{2}-'
     return re.sub(date_prefix_pattern, '', name)
 
+def fix_internal_links(html_content):
+    """
+    Post-process rendered HTML to fix internal link issues:
+    1. Ensure trailing slashes on internal /blog/, /tags/, /hub/ links
+    2. Strip date prefixes from any /blog/YYYY-MM-DD-slug links
+    """
+    import re as _re
+    
+    def fix_link(match):
+        prefix = match.group(1)  # 'href="'
+        path = match.group(2)    # the URL path
+        suffix = match.group(3)  # '"' closing quote
+        
+        # Strip date prefix from blog links: /blog/2025-01-15-slug -> /blog/slug
+        path = _re.sub(r'^(/blog/)(\d{4}-\d{2}-\d{2}-)', r'\1', path)
+        
+        # Add trailing slash if missing (skip anchors and file extensions)
+        if not path.endswith('/') and '#' not in path and not _re.search(r'\.[a-zA-Z0-9]+$', path):
+            path += '/'
+        
+        return f'{prefix}{path}{suffix}'
+    
+    # Match href attributes pointing to internal paths
+    html_content = _re.sub(
+        r'(href=")(/(?:blog|tags|hub|hubs|about|search|start-here|products)/[^"]*)(")',
+        fix_link,
+        html_content
+    )
+    
+    return html_content
+
+
 def load_posts():
     """Load all posts from the posts directory."""
     posts_dir = Path('posts')
@@ -288,6 +320,8 @@ def slugify_tag(tag):
         'Azure' -> 'azure'
     """
     return tag.lower().replace(' ', '-').replace(',', '').strip()
+
+
 def load_faq_schema(slug):
     """
     Load FAQ schema JSON for a post if it exists.
@@ -354,6 +388,9 @@ def blog_post(slug):
             }
         }
     )
+
+    # Fix internal links (trailing slashes + date prefix removal)
+    content = fix_internal_links(content)
 
     cover_url = post['cover'] if post['cover'] else None
 
