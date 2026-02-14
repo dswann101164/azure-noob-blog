@@ -1,135 +1,320 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
     <title>Page Not Found - Azure Noob</title>
+    <link rel="icon" href="/static/images/logo.png">
     <style>
+        :root {
+            --azure-blue: #0078d4;
+            --azure-dark: #003d6b;
+            --text-dark: #1a202c;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --bg-light: #f7fafc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            max-width: 800px;
-            margin: 100px auto;
-            padding: 20px;
+            color: var(--text-dark);
+            background: #fff;
+            line-height: 1.6;
+        }
+        a { color: var(--azure-blue); text-decoration: none; }
+        a:hover { color: var(--azure-dark); text-decoration: underline; }
+
+        /* Header - matches site */
+        .site-header {
+            background: var(--text-dark);
+            color: white;
+            padding: 1rem 0;
+        }
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .brand { font-weight: 700; font-size: 1.1rem; }
+        .brand a { color: white; }
+        .nav a {
+            color: rgba(255,255,255,0.85);
+            margin-left: 1.25rem;
+            font-size: 0.95rem;
+        }
+        .nav a:hover { color: white; text-decoration: none; }
+
+        /* 404 Content */
+        .error-section {
             text-align: center;
-            background: #0a0e27;
-            color: #e0e0e0;
+            padding: 4rem 1.5rem 2rem;
+            max-width: 700px;
+            margin: 0 auto;
         }
-        h1 {
-            font-size: 72px;
-            margin: 0;
-            color: #00d4ff;
+        .error-code {
+            font-size: 6rem;
+            font-weight: 800;
+            color: var(--azure-blue);
+            line-height: 1;
+            margin-bottom: 0.5rem;
         }
-        p {
-            font-size: 18px;
-            margin: 20px 0;
+        .error-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
-        a {
-            color: #00d4ff;
+        .error-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Redirect notice */
+        .redirect-notice {
+            display: none;
+            background: #ebf8ff;
+            border: 1px solid #90cdf4;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--azure-dark);
+            font-weight: 600;
+        }
+
+        /* Hub cards */
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 800px;
+            margin: 2rem auto 3rem;
+            padding: 0 1.5rem;
+        }
+        .hub-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .hub-card:hover {
+            border-color: var(--azure-blue);
+            transform: translateY(-2px);
+        }
+        .hub-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hub-card .name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dark);
+            display: block;
+        }
+
+        /* Search box */
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box input:focus { border-color: var(--azure-blue); }
+
+        /* Quick links */
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .quick-links a {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: var(--azure-blue);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .quick-links a:hover {
+            background: var(--azure-dark);
             text-decoration: none;
         }
-        a:hover {
-            text-decoration: underline;
-        }
-        #redirect-message {
-            background: #1a1f3a;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 30px 0;
-            display: none;
+
+        /* Footer */
+        .site-footer {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
-    <h1>404</h1>
-    <p>Page not found</p>
-    <div id="redirect-message">
-        <p>Redirecting to the correct page...</p>
-    </div>
-    <p><a href="/">Return to Azure Noob home</a></p>
 
+    <!-- Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <div class="nav-row">
+                <div class="brand"><a href="/">☁️ Azure Noob</a></div>
+                <nav class="nav">
+                    <a href="/">Home</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/hubs/">Hubs</a>
+                    <a href="/tools/">Tools</a>
+                    <a href="/search/">Search</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Error Content -->
+    <div class="error-section">
+        <div class="error-code">404</div>
+        <h1 class="error-title">This page doesn't exist</h1>
+        <p class="error-desc">
+            The URL may have changed or the page was removed. Try searching or browse the hubs below.
+        </p>
+        <div class="redirect-notice" id="redirect-notice">
+            Redirecting you to the right page...
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search Azure Noob..." autofocus
+               onkeydown="if(event.key==='Enter') window.location.href='/search/?q='+encodeURIComponent(this.value)">
+    </div>
+
+    <!-- Quick Links -->
+    <div class="quick-links">
+        <a href="/">Home</a>
+        <a href="/blog/">All Posts</a>
+        <a href="/tools/">Tools</a>
+        <a href="/products/">Downloads</a>
+    </div>
+
+    <!-- Content Hubs -->
+    <div class="hub-grid">
+        <a class="hub-card" href="/hub/finops/">
+            <div class="icon">💰</div>
+            <span class="name">FinOps</span>
+        </a>
+        <a class="hub-card" href="/hub/governance/">
+            <div class="icon">🎯</div>
+            <span class="name">Governance</span>
+        </a>
+        <a class="hub-card" href="/hub/kql/">
+            <div class="icon">🔍</div>
+            <span class="name">KQL</span>
+        </a>
+        <a class="hub-card" href="/hub/monitoring/">
+            <div class="icon">📊</div>
+            <span class="name">Monitoring</span>
+        </a>
+        <a class="hub-card" href="/hub/migration/">
+            <div class="icon">☁️</div>
+            <span class="name">Migration</span>
+        </a>
+        <a class="hub-card" href="/hub/arc/">
+            <div class="icon">🌉</div>
+            <span class="name">Azure Arc</span>
+        </a>
+        <a class="hub-card" href="/hub/automation/">
+            <div class="icon">⚡</div>
+            <span class="name">Automation</span>
+        </a>
+        <a class="hub-card" href="/hub/ai/">
+            <div class="icon">🤖</div>
+            <span class="name">AI / OpenAI</span>
+        </a>
+        <a class="hub-card" href="/hub/security/">
+            <div class="icon">🔒</div>
+            <span class="name">Security</span>
+        </a>
+        <a class="hub-card" href="/hub/terraform/">
+            <div class="icon">🏗️</div>
+            <span class="name">Terraform</span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <p>&copy; 2026 Azure Noob — Don't be a Noob</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="/feed.xml">RSS Feed</a> · <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Smart redirect logic -->
     <script>
-        // Smart redirect for old URLs: date-prefixed blog URLs, tag URLs with spaces/capitals
-        (function() {
-            const path = window.location.pathname;
-            
-            // Check if this is root /index.html
-            if (path === '/index.html') {
-                document.getElementById('redirect-message').style.display = 'block';
-                setTimeout(function() {
-                    window.location.href = '/';
-                }, 500);
-                return;
+    (function() {
+        var path = window.location.pathname;
+        var notice = document.getElementById('redirect-notice');
+        var newPath = null;
+
+        // /index.html → /
+        if (path === '/index.html') {
+            newPath = '/';
+        }
+
+        // Date-prefixed blog URLs: /blog/2025-01-15-slug/ → /blog/slug/
+        if (!newPath && path.indexOf('/blog/') !== -1) {
+            var m = path.match(/\/blog\/(\d{4}-\d{2}-\d{2}-)(.+)/);
+            if (m) {
+                var slug = m[2].replace(/\/index\.html$/, '');
+                newPath = '/blog/' + slug + (slug.endsWith('/') ? '' : '/');
             }
-            
-            // CRITICAL FIX: Redirect date-prefixed blog URLs to clean URLs
-            // Example: /blog/2025-01-15-kql-cheat-sheet-complete/ → /blog/kql-cheat-sheet-complete/
-            if (path.includes('/blog/')) {
-                // Match pattern: /blog/YYYY-MM-DD-slug or /blog/YYYY-MM-DD-slug/
-                const dateMatch = path.match(/\/blog\/(\d{4}-\d{2}-\d{2}-)(.+)/);
-                if (dateMatch) {
-                    const cleanSlug = dateMatch[2];
-                    const newPath = '/blog/' + cleanSlug + (cleanSlug.endsWith('/') ? '' : '/');
-                    document.getElementById('redirect-message').style.display = 'block';
-                    document.getElementById('redirect-message').innerHTML = 
-                        '<p>Redirecting to the current URL format...</p>';
-                    setTimeout(function() {
-                        window.location.href = newPath;
-                    }, 500);
-                    return;
+        }
+
+        // Tag URLs with spaces/caps: /tags/Azure%20Arc/ → /tags/azure-arc/
+        if (!newPath && path.indexOf('/tags/') !== -1) {
+            var tm = path.match(/\/tags\/(.+?)\/?$/);
+            if (tm) {
+                var orig = decodeURIComponent(tm[1]);
+                var slugified = orig.toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                if (orig !== slugified) {
+                    newPath = '/tags/' + slugified + '/';
                 }
             }
-            
-            // Check if this is a tag URL
-            if (path.includes('/tags/')) {
-                let newPath = path;
-                let needsRedirect = false;
-                
-                // Remove /index.html suffix if present
-                if (newPath.endsWith('/index.html')) {
-                    newPath = newPath.replace('/index.html', '/');
-                    needsRedirect = true;
-                }
-                
-                // Extract the tag portion after /tags/
-                const tagMatch = newPath.match(/\/tags\/(.+?)\/?$/);
-                if (tagMatch) {
-                    const originalTag = decodeURIComponent(tagMatch[1]);
-                    
-                    // Slugify: lowercase, spaces to hyphens, remove special chars
-                    const slugifiedTag = originalTag
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')           // spaces to hyphens
-                        .replace(/[^a-z0-9-]/g, '-')    // special chars to hyphens
-                        .replace(/-+/g, '-')            // multiple hyphens to single
-                        .replace(/^-+|-+$/g, '');       // trim hyphens
-                    
-                    // Check if slugification changed anything
-                    if (originalTag !== slugifiedTag) {
-                        newPath = `/tags/${slugifiedTag}/`;
-                        needsRedirect = true;
-                    }
-                }
-                
-                // Perform redirect if needed
-                if (needsRedirect) {
-                    document.getElementById('redirect-message').style.display = 'block';
-                    setTimeout(function() {
-                        window.location.href = newPath;
-                    }, 500);
-                    return;
-                }
-            }
-            
-            // Check if this is a blog post URL with /index.html
-            if (path.includes('/blog/') && path.endsWith('/index.html')) {
-                const newPath = path.replace('/index.html', '/');
-                document.getElementById('redirect-message').style.display = 'block';
-                setTimeout(function() {
-                    window.location.href = newPath;
-                }, 500);
-                return;
-            }
-        })();
+        }
+
+        // /blog/.../index.html → /blog/.../
+        if (!newPath && path.indexOf('/blog/') !== -1 && path.endsWith('/index.html')) {
+            newPath = path.replace('/index.html', '/');
+        }
+
+        if (newPath) {
+            notice.style.display = 'block';
+            setTimeout(function() { window.location.href = newPath; }, 400);
+        }
+    })();
     </script>
+
 </body>
 </html>

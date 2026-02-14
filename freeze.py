@@ -69,6 +69,10 @@ def products():
     yield {}
 
 @freezer.register_generator
+def tools():
+    yield {}
+
+@freezer.register_generator
 def search():
     yield {}
 
@@ -110,9 +114,7 @@ def hub_page():
 def feed():
     yield {}
 
-@freezer.register_generator
-def rss_feed():
-    yield {}
+# rss_feed is now a 301 redirect to feed.xml - handled by generate_comprehensive_redirects()
 
 @freezer.register_generator
 def sitemap_xml():
@@ -134,6 +136,7 @@ def write_sitemap():
         {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base}/start-here/", "changefreq": "monthly", "priority": "0.7"},
         {"loc": f"{base}/products/", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base}/tools/", "changefreq": "monthly", "priority": "0.8"},
         {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
     ]
 
@@ -344,6 +347,14 @@ def generate_comprehensive_redirects():
         redirects_created += 1
         log(f"  SPECIAL: /{old_path}/ → /{new_path}/")
     
+    # 5. RSS REDIRECT - rss.xml → feed.xml
+    rss_redirect_content = redirect_template.format(canonical_url=f"{BASE_URL}/feed.xml")
+    rss_redirect_file = os.path.join(DEST, "rss.xml")
+    with open(rss_redirect_file, "w", encoding="utf-8") as f:
+        f.write(rss_redirect_content)
+    redirects_created += 1
+    log(f"  RSS: /rss.xml → /feed.xml")
+
     log(f"✓ Generated {redirects_created} redirect shims")
     return redirects_created
 

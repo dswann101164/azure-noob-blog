@@ -580,6 +580,13 @@ def products():
                          page_title='Digital Products for Azure Admins | Azure Noob',
                          meta_description='Production-tested Azure tools and guides. KQL Query Library, Admin Reference Library, and more from managing 30,000+ resources.')
 
+@app.route('/tools/')
+def tools():
+    return render_template('tools.html',
+                         canonical_url=get_canonical_url(),
+                         page_title='Azure Admin Tools - Free Open Source Tools | Azure Noob',
+                         meta_description='Free production-tested Azure tools: IPAM solution, VM inventory, Arc ghost detector, Monitor Workbooks, KQL queries. Built from managing 31,000+ resources.')
+
 @app.route('/hubs/')
 def hubs_index():
     """List all content hubs."""
@@ -912,35 +919,8 @@ Sitemap: https://azure-noob.com/sitemap.xml"""
 
 @app.route('/rss.xml')
 def rss_feed():
-    """Generate RSS feed (legacy location)."""
-    posts = load_posts()[:10]  # Latest 10 posts
-
-    # Generate RSS XML directly
-    rss_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    rss_content += '<rss version="2.0">\n'
-    rss_content += '  <channel>\n'
-    rss_content += f'    <title>{app.config["SITE_NAME"]}</title>\n'
-    rss_content += f'    <description>{app.config["SITE_TAGLINE"]}</description>\n'
-    rss_content += f'    <link>{url_for("index", _external=True)}</link>\n'
-    rss_content += '    <language>en-us</language>\n'
-
-    for post in posts:
-        rss_content += '    <item>\n'
-        rss_content += f'      <title>{post["title"]}</title>\n'
-        rss_content += f'      <description>{post["summary"]}</description>\n'
-        rss_content += f'      <link>{url_for("blog_post", slug=post["slug"], _external=True)}</link>\n'
-        rss_content += f'      <pubDate>{post["date"].strftime("%a, %d %b %Y %H:%M:%S +0000")}</pubDate>\n'
-        rss_content += f'      <guid>{url_for("blog_post", slug=post["slug"], _external=True)}</guid>\n'
-        rss_content += '    </item>\n'
-
-    rss_content += '  </channel>\n'
-    rss_content += '</rss>'
-
-    response = app.response_class(
-        rss_content,
-        mimetype='application/rss+xml'
-    )
-    return response
+    """Redirect legacy RSS location to canonical feed.xml."""
+    return redirect(url_for('feed'), code=301)
 
 @app.route('/feed.xml')
 def feed():
@@ -962,8 +942,8 @@ def feed():
     {% for post in posts %}
     <item>
         <title>{{ post.title }}</title>
-        <link>{{ site_url }}/blog/{{ post.slug }}</link>
-        <guid>{{ site_url }}/blog/{{ post.slug }}</guid>
+        <link>{{ site_url }}/blog/{{ post.slug }}/</link>
+        <guid>{{ site_url }}/blog/{{ post.slug }}/</guid>
         <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S +0000') }}</pubDate>
         <description><![CDATA[{{ post.summary }}]]></description>
     </item>
@@ -1022,6 +1002,7 @@ def inject_navigation():
             {'name': 'Home', 'url': url_for('index')},
             {'name': 'Blog', 'url': url_for('blog_index')},
             {'name': 'Content Hubs', 'url': url_for('hubs_index')},
+            {'name': 'Tools', 'url': url_for('tools')},
             {'name': 'Start Here', 'url': url_for('start_here')},
             {'name': 'Tags', 'url': url_for('tags_index')},
             {'name': 'About', 'url': url_for('about')},
