@@ -304,7 +304,7 @@ You have it now. Use it.
 
 ---
 
-**Want more operational reality checks?** Subscribe below for Azure content that addresses the problems Microsoft's documentation ignores.
+**Want more operational reality checks?** Browse the [Content Hubs](/hubs/) for Azure content that addresses the problems Microsoft's documentation ignores.
 
 ### 🛑 The "Pre-Flight Checklist" You Are Missing
 

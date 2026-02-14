@@ -334,4 +334,4 @@ Start there. Everything else is commentary.
 
 ---
 
-*Want more real-world Azure operations content? Subscribe below for practical Azure guidance without the consultant fluff.*
+*Want more real-world Azure operations content? Browse the [Content Hubs](/hubs/) for practical Azure guidance without the consultant fluff.*

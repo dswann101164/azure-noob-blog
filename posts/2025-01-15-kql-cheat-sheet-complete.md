@@ -1,8 +1,8 @@
 ---
-title: 'KQL Cheat Sheet for Azure Migration Discovery: 48 Production-Tested Queries'
+title: 'KQL Cheat Sheet 2026: 48 Copy-Paste Azure Resource Graph Queries'
 date: 2025-01-15
-modified: 2025-12-28
-summary: 'Complete KQL reference for Azure Resource Graph: 15 free fundamental queries + migration discovery section. Auto-fill 25 of 55 migration questions with KQL. Tested on 31,000+ resources across 44 subscriptions.'
+modified: 2026-02-14
+summary: 'Copy-paste KQL queries for Azure Resource Graph. VM inventory, untagged resources, disk audits, and network mapping. Tested on 31,000+ resources across 44 subscriptions.'
 tags:
 - Azure
 - Cheat Sheet
@@ -315,24 +315,17 @@ You now know how to:
     Ready for <strong>production-level migration discovery</strong>?
   </p>
   <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-    Join <strong>500+ Azure Architects</strong> and get the <strong>47-Query Enterprise Library</strong> in a searchable PDF + my weekly operations brief.
+    Get the <strong>47-Query Enterprise Library</strong> in a searchable PDF. No email required.
   </p>
   
-  <form action="https://app.kit.com/forms/8896829/subscriptions" method="post" style="max-width: 450px; margin: 0 auto; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
-    <input type="email" 
-           name="email_address" 
-           placeholder="your@email.com" 
-           required 
-           style="flex: 1; min-width: 250px; padding: 1rem; border: none; border-radius: 6px; font-size: 1rem; color: #333;">
-    <button type="submit" 
-            style="padding: 1rem 2rem; background: white; color: #0078d4; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 1rem;">
-      Get Enterprise Library
-    </button>
-  </form>
+  <a href="/static/downloads/KQL-Query-Library.pdf" download
+     style="display: inline-block; padding: 1rem 2.5rem; background: white; color: #0078d4; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+    Download Enterprise KQL Library (PDF)
+  </a>
   
   <p style="margin: 1.5rem 0 0; font-size: 0.9rem; opacity: 0.95;">
     ✔️ 47 production-tested queries • ✔️ Migration discovery workflows • ✔️ Advanced joins & aggregations<br>
-    <span style="font-size: 0.85rem; opacity: 0.9;">Instant PDF delivery • No spam • Unsubscribe anytime</span>
+    <span style="font-size: 0.85rem; opacity: 0.9;">Instant PDF download • No email required</span>
   </p>
 </div>
 

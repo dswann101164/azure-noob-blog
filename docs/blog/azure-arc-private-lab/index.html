@@ -9,8 +9,8 @@
   
 
   <!-- Primary SEO -->
-  <title>Building an Azure Arc Lab with Private Link (No Public IPs) | Azure Noob</title>
-  <meta name="description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <title>Azure Arc Private Link Lab: Zero Public IP Setup (Terraform) | Azure Noob</title>
+  <meta name="description" content="Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft&#39;s quickstart skips. Deploy in 15...">
   
   <link rel="canonical" href="https://azure-noob.com/blog/azure-arc-private-lab/" />
 
@@ -18,15 +18,15 @@
   <link rel="icon" href="/static/images/logo.png">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Building an Azure Arc Lab with Private Link (No Public IPs)">
-  <meta property="og:description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <meta property="og:title" content="Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)">
+  <meta property="og:description" content="Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft&#39;s quickstart skips. Deploy in 15...">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://azure-noob.com/blog/azure-arc-private-lab/">
   <meta property="og:image" content="https://azure-noob.com/static/images/hero/azure-arc-private-lab.png">
 
   
     <meta property="article:published_time" content="2025-11-26T00:00:00+00:00">
-    <meta property="article:modified_time" content="2025-11-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-02-14T00:00:00+00:00">
     <meta property="article:author" content="David Swann">
     
       
@@ -55,8 +55,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Building an Azure Arc Lab with Private Link (No Public IPs)">
-  <meta name="twitter:description" content="A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.">
+  <meta name="twitter:title" content="Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)">
+  <meta name="twitter:description" content="Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft&#39;s quickstart skips. Deploy in 15...">
   <meta name="twitter:image" content="https://azure-noob.com/static/images/hero/azure-arc-private-lab.png">
 
   <!-- Organization Schema for GEO/AEO entity recognition -->
@@ -87,7 +87,7 @@
   <link rel="stylesheet" href="/static/styles.css">
 
   <!-- RSS Feed -->
-  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Azure Noob RSS Feed" href="https://azure-noob.com/feed.xml">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNHGEB0BNZ"></script>
@@ -114,6 +114,7 @@
         <a href="/">Home</a>
         <a href="/blog/">Blog</a>
         <a href="/hubs/">Content Hubs</a>
+        <a href="/tools/">Tools</a>
         <a href="/start-here/">Start Here</a>
         <a href="/about/">About</a>
         <a href="/tags/">Tags</a>
@@ -132,8 +133,8 @@
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Building an Azure Arc Lab with Private Link (No Public IPs)",
-  "description": "A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.",
+  "headline": "Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)",
+  "description": "Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft&#39;s quickstart skips. Deploy in 15...",
   "image": {
     "@type": "ImageObject",
     "url": "https://azure-noob.com/static/images/hero/azure-arc-private-lab.png",
@@ -165,7 +166,7 @@
     }
   },
   "datePublished": "2025-11-26T00:00:00+00:00",
-  "dateModified": "2025-11-26T00:00:00+00:00",
+  "dateModified": "2026-02-14T00:00:00+00:00",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://azure-noob.com/blog/azure-arc-private-lab/"
@@ -206,7 +207,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "Building an Azure Arc Lab with Private Link (No Public IPs)",
+      "name": "Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)",
       "item": "https://azure-noob.com/blog/azure-arc-private-lab/"
     }
   ]
@@ -241,14 +242,16 @@
   
     
     <div class="hero">
-      <img src="/static/images/hero/azure-arc-private-lab.png" alt="Building an Azure Arc Lab with Private Link (No Public IPs)" loading="eager">
+      <img src="/static/images/hero/azure-arc-private-lab.png" alt="Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)" loading="eager">
     </div>
   
 
   <header class="post-header">
-    <h1>Building an Azure Arc Lab with Private Link (No Public IPs)</h1>
+    <h1>Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)</h1>
     <p class="muted">
       2025-11-26 · ~9 min read
+      
+        · Updated 2026-02-14
       
     </p>
     
@@ -279,7 +282,7 @@
     
     
     
-      <p class="summary">A private Azure Arc lab design that lets you learn governance patterns, vCenter onboarding, and policy testing without touching production.</p>
+      <p class="summary">Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft&#39;s quickstart skips. Deploy in 15 minutes.</p>
     
   </header>
 
@@ -615,7 +618,7 @@ az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </s
     
       <a href="/blog/azure-openai-pricing-real-costs/">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
-        <strong>Azure OpenAI Pricing Calculator 2026: GPT-4o Costs &amp; Hidden Fees</strong>
+        <strong>Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost</strong>
       </a>
     
     
@@ -635,7 +638,7 @@ az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </s
     <div class="wrap">
       <p>&copy; 2026 Azure Noob — Don&#39;t be a Noob</p>
       <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-        <a href="/rss.xml" title="Subscribe via RSS">RSS Feed</a> · 
+        <a href="/feed.xml" title="Subscribe via RSS">RSS Feed</a> · 
         <a href="https://github.com/dswann101164" target="_blank" rel="noopener">GitHub</a>
       </p>
       <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.7; font-style: italic;">

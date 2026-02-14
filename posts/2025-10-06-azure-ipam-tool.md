@@ -1,9 +1,8 @@
 ---
-title: Azure IPAM Solution | IP Address Management for Enterprise Multi-Subscription
-  Networks
+title: "Azure IPAM Tool: Free Multi-Subscription IP Address Manager"
 date: 2025-10-06
-summary: An Azure IPAM workbook and process for tracking IP address usage across subscriptions,
-  VNets, and environments without losing your mind.
+modified: 2026-02-14
+summary: "Free Azure IPAM tool for tracking IP usage across subscriptions and VNets. Cross-subscription search, capacity alerts, and reservation system. No InfoBlox needed."
 tags:
 - Azure
 - IP Management

@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing Calculator 2026: GPT-4o Costs & Hidden Fees"
+title: "Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost"
 date: 2026-01-02
-modified: 2026-02-05
-summary: "Azure OpenAI pricing calculator with real costs: GPT-4o is $0.005/1K input tokens ($0.015 output), but fine-tuning hosting adds $1,836/month per model most teams miss. Includes 2026 rate card and break-even calculator for PTU vs pay-as-you-go."
+modified: 2026-02-14
+summary: "Microsoft's pricing calculator says $4/month. Production reality: $1,906. Full 2026 GPT-4o rate card, hidden fine-tuning fees, and PTU break-even analysis."
 tags:
 - Azure
 - FinOps
@@ -137,13 +137,8 @@ function calculateCosts() {
 <div style="background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-left: 4px solid #0078d4; padding: 2rem; margin: 2rem 0; border-radius: 8px;">
   <h3 style="margin: 0 0 0.5rem 0; color: #0078d4; font-size: 1.5rem;">🎯 FREE: Azure OpenAI Break-Even Calculator (Lite)</h3>
   <p style="margin: 0 0 1rem 0;">Get the Excel file that shows you exactly when to switch to PTU.</p>
-  
-  <form action="https://app.convertkit.com/forms/8932139/subscriptions" method="post" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-    <input type="hidden" name="id" value="8932139" />
-    <input type="email" name="email_address" placeholder="Enter your email" required style="flex: 1; min-width: 250px; padding: 0.875rem; border: 2px solid #ddd; border-radius: 6px;">
-    <button type="submit" style="padding: 0.875rem 2rem; background: #0078d4; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">Send Me The Calculator →</button>
-  </form>
-  <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">Used by 200+ enterprise architects. No spam, unsubscribe anytime.</p>
+  <a href="/static/downloads/Azure-Integration-Assessment-Framework.xlsx" download style="display: inline-block; padding: 0.875rem 2rem; background: #0078d4; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Download Break-Even Calculator →</a>
+  <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">No email required. Instant download.</p>
 </div>
 
 ---

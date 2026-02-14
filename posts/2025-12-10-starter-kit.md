@@ -204,7 +204,7 @@ I publish 2-3 posts per week covering:
 - Operations challenges Microsoft doesn't document
 - Real-world Azure architecture decisions
 
-**Subscribe to get practical Azure insights:**
+Browse the [Content Hubs](/hubs/) for practical Azure insights by topic.
 
 ---
 

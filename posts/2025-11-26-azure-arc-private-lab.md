@@ -1,8 +1,8 @@
 ---
-title: Building an Azure Arc Lab with Private Link (No Public IPs)
+title: "Azure Arc Private Link Lab: Zero Public IP Setup (Terraform)"
 date: 2025-11-26
-summary: A private Azure Arc lab design that lets you learn governance patterns, vCenter
-  onboarding, and policy testing without touching production.
+modified: 2026-02-14
+summary: "Complete Azure Arc lab with Private Link — zero public IPs. Terraform code, DNS zones, and the networking gotchas Microsoft's quickstart skips. Deploy in 15 minutes."
 tags:
 - Arc
 - Azure

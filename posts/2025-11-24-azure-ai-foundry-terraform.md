@@ -1,8 +1,8 @@
 ---
-title: "Azure AI Foundry + Terraform: Production RAG Infrastructure as Code (Not Portal Clickops)"
+title: "Azure AI Foundry Terraform: Production RAG Module (Full Code)"
 date: 2025-11-24
-modified: 2025-12-12
-summary: "Complete Terraform code for Azure AI Foundry RAG: secure, repeatable, version-controlled deployment. Includes private endpoints, managed identity, monitoring, cost controls, and search integration. What YouTube tutorials skip for enterprise production."
+modified: 2026-02-14
+summary: "Complete Terraform module for Azure AI Foundry RAG. Private endpoints, managed identity, cost controls, and AI Search. The enterprise setup YouTube tutorials skip."
 tags: ["azure", "terraform", "infrastructure-as-code", "azure-ai-foundry", "rag", "devops"]
 cover: "/static/images/hero/azure-ai-foundry-terraform.png"
 hub: ai

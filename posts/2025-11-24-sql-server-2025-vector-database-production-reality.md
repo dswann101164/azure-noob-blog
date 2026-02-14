@@ -1,7 +1,8 @@
 ---
-title: "SQL Server 2025 Vectors: $500/Month → $3K Reality"
+title: "SQL Server 2025 Vector Database: Why Your $500/Month Server Becomes $3,000"
 date: 2025-11-24
-summary: "Microsoft integrated vector databases into SQL Server 2025. The docs show you how to enable it. They don't show you what happens when you store 10 million vectors, run 100K queries per day, or why your $500/month SQL Server becomes $3,000/month."
+modified: 2026-02-14
+summary: "SQL Server 2025 native vector support sounds free. At 10M vectors and 100K daily queries, your $500/month instance hits $3,000. Real performance benchmarks and cost scaling Microsoft doesn't document."
 tags: ["azure", "sql-server", "vector-database", "ai", "finops"]
 cover: "/static/images/hero/sql-server-2025-vector-reality.png"
 hub: ai
