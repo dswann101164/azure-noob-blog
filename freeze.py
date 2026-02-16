@@ -184,11 +184,13 @@ def write_sitemap():
 def generate_comprehensive_redirects():
     """
     Generate HTML redirects for ALL wrong URL patterns to fix 404s.
+    DYNAMICALLY generates redirects from actual post tags instead of hardcoded list.
     This creates redirects for:
     1. Tags with spaces (DNS Resolver → dns-resolver)
     2. Tags with mixed case (Azure → azure)
-    3. Old test posts (hello-world, my-second-post)
-    4. Blog posts with date prefixes
+    3. Tags with spaces AND no hyphens (resource graph → resource-graph)
+    4. Old test posts (hello-world, my-second-post)
+    5. Blog posts with date prefixes
     """
     redirect_template = """<!DOCTYPE html>
 <html lang="en">
@@ -207,43 +209,45 @@ def generate_comprehensive_redirects():
     
     redirects_created = 0
     
-    # 1. TAG REDIRECTS - From Google Search Console 404 report
-    tag_redirects = {
-        # Spaces
-        "Azure Arc": "azure-arc",
-        "DNS Resolver": "dns-resolver",
-        "Tag Strategy": "tag-strategy",
-        "Activity Logs": "activity-logs",
-        "Management Groups": "management-groups",
+    # 1. DYNAMIC TAG REDIRECTS - Extract ALL tag variants from posts
+    posts = load_posts()
+    all_raw_tags = set()
+    for post in posts:
+        for tag in post.get('tags', []):
+            all_raw_tags.add(tag)
+    
+    # For each raw tag, if it differs from its slugified version, create a redirect
+    tag_redirects = {}
+    for raw_tag in all_raw_tags:
+        slug = slugify_tag(raw_tag)
+        if raw_tag != slug:
+            tag_redirects[raw_tag] = slug
+        # Also add lowercase-with-spaces variant (Google may crawl either)
+        lower_variant = raw_tag.lower()
+        if lower_variant != slug and lower_variant != raw_tag:
+            tag_redirects[lower_variant] = slug
+    
+    # Add known GSC 404 variants that may not be in current front matter
+    # (tags from deleted/renamed posts that Google still crawls)
+    extra_gsc_variants = {
+        "Hub": "hub",
+        "Dashboards": "dashboards",
+        "Opinion": "opinion",
+        "SCCM": "sccm",
         "Mistakes": "mistakes",
-        "Future of Work": "future-of-work",
-        "Azure Policy": "azure-policy",
-        "Log Analytics": "log-analytics",
-        "Azure DevOps": "azure-devops",
-        "Hybrid Cloud": "hybrid-cloud",
-        "WSUS": "wsus",
-        "Private DNS": "private-dns",
-        "Cloud Adoption Framework": "cloud-adoption-framework",
-        "Cloud Strategy": "cloud-strategy",
-        "Cost Management": "cost-management",
+        "App Service": "app-service",
+        "CCO Dashboard": "cco-dashboard",
+        "Cloud": "cloud",
+        "Landing Zones": "landing-zones",
+        "Machine Learning": "machine-learning",
         "GPT-4": "gpt-4",
-        "Web Scraping": "web-scraping",
-        "Resource Tags": "resource-tags",
-        # Mixed case
-        "Azure": "azure",
-        "KQL": "kql",
-        "Pricing": "pricing",
-        "DNS": "dns",
-        "azure governance": "azure-governance",
-        # Common variations
-        "commands": "commands",
-        "update manager": "update-manager",
-        "technical debt": "technical-debt",
-        "update management": "update-management",
-        "resource graph": "resource-graph",
-        "vm inventory": "vm-inventory",
-        "application discovery": "application-discovery",
+        "Azure Tags": "azure-tags",
     }
+    for k, v in extra_gsc_variants.items():
+        if k not in tag_redirects:
+            tag_redirects[k] = v
+    
+    log(f"  Found {len(tag_redirects)} tag variants needing redirects")
     
     for wrong_name, correct_slug in tag_redirects.items():
         canonical_url = f"{BASE_URL}/tags/{correct_slug}/"
@@ -253,44 +257,20 @@ def generate_comprehensive_redirects():
         if wrong_name == correct_slug:
             continue
         
-        # On Windows (case-insensitive), Azure/ and azure/ are the same directory
-        # But on Linux/GitHub Pages (case-sensitive), they're different
-        # We need both to exist on GitHub Pages, so we'll handle this specially:
-        
-        canonical_dir = os.path.join(DEST, "tags", correct_slug)
-        
-        # If this is a case-only difference (Azure vs azure), create redirect with different name
+        # Case-only differences can't be handled on Windows filesystem
+        # (Azure/ and azure/ are the same dir on NTFS)
+        # Skip these - they'll work on Linux/GitHub Pages via the canonical page
         if wrong_name.lower() == correct_slug.lower() and wrong_name != correct_slug:
-            # This is a case-only redirect (Azure → azure)
-            # On Windows, we can't have both directories, so create it with temp name
-            temp_name = f"{wrong_name}_redirect_temp"
-            temp_dir = os.path.join(DEST, "tags", temp_name)
-            os.makedirs(temp_dir, exist_ok=True)
-            redirect_file = os.path.join(temp_dir, "index.html")
-            with open(redirect_file, "w", encoding="utf-8") as f:
-                f.write(redirect_template.format(canonical_url=canonical_url))
-            
-            # Rename to correct name for git to track both on Windows
-            final_dir = os.path.join(DEST, "tags", wrong_name)
-            try:
-                if os.path.exists(final_dir):
-                    shutil.rmtree(final_dir)
-                os.rename(temp_dir, final_dir)
-            except:
-                # On Windows, rename might fail if it's same name (case-insensitive)
-                # Just leave it with temp name, git will handle it
-                pass
-            
-            redirects_created += 1
-            log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/ (case-only)")
-        else:
-            # Normal redirect (spaces, different names, etc)
-            os.makedirs(wrong_dir, exist_ok=True)
-            redirect_file = os.path.join(wrong_dir, "index.html")
-            with open(redirect_file, "w", encoding="utf-8") as f:
-                f.write(redirect_template.format(canonical_url=canonical_url))
-            redirects_created += 1
-            log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/")
+            log(f"  TAG (skip case-only on Windows): /tags/{wrong_name}/ → /tags/{correct_slug}/")
+            continue
+        
+        # Normal redirect (spaces, different names, etc)
+        os.makedirs(wrong_dir, exist_ok=True)
+        redirect_file = os.path.join(wrong_dir, "index.html")
+        with open(redirect_file, "w", encoding="utf-8") as f:
+            f.write(redirect_template.format(canonical_url=canonical_url))
+        redirects_created += 1
+        log(f"  TAG: /tags/{wrong_name}/ → /tags/{correct_slug}/")
     
     # 2. OLD TEST POST REDIRECTS
     test_posts = [
@@ -332,7 +312,8 @@ def generate_comprehensive_redirects():
     
     # 4. SPECIAL REDIRECTS FOR HIGH-VALUE PAGES
     special_redirects = [
-        ("blog/azure-hybrid-benefit-licensing-mistake", "blog/azure-hybrid-benefit-50k"),
+        ("blog/azure-hybrid-benefit-licensing-mistake", "blog/azure-hybrid-benefit-complete"),
+        ("blog/azure-hybrid-benefit-50k", "blog/azure-hybrid-benefit-complete"),
         ("blog/azure-governance-crisis-recovery-90-days", "blog/azure-governance-crisis-recovery-90-day-plan"),
     ]
     
