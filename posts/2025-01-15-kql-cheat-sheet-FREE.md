@@ -3,13 +3,7 @@ title: 'KQL Cheat Sheet: Getting Started with Azure Resource Graph'
 date: 2025-01-15
 modified: 2025-12-24
 summary: 'Essential KQL reference for Azure admins: 15 fundamental queries for VM inventory, resource discovery, and basic troubleshooting. Start learning Azure Resource Graph queries today.'
-tags:
-- Azure
-- Cheat Sheet
-- KQL
-- Log Analytics
-- Query Language
-- Resource Graph
+tags: ["azure", "cheat-sheet", "kql", "log-analytics", "query-language", "resource-graph"]
 cover: /static/images/hero/kql-cheat-sheet.png
 hub: governance
 related_posts:
@@ -17,7 +11,6 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-
 # KQL Cheat Sheet: Getting Started with Azure Resource Graph
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

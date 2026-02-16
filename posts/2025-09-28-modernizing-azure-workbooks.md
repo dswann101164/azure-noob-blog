@@ -3,14 +3,7 @@ title: 'Azure Monitoring Dashboard: Modernize Workbooks (50→200+ Services)'
 date: 2025-09-28
 modified: 2025-12-20
 summary: 'Production Azure monitoring dashboard examples using Workbooks. Enhance from 50 to 200+ services with global filters, KQL queries, and portal integration. Free workbook JSON templates included.'
-tags:
-- Azure
-- Community
-- Dashboards
-- KQL
-- Monitoring
-- Open Source
-- Workbooks
+tags: ["azure", "community", "dashboards", "kql", "monitoring", "open-source", "workbooks"]
 cover: static/images/hero/azure-workbook-enhancement.png
 hub: governance
 related_posts:

@@ -2,15 +2,7 @@
 title: "Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)"
 date: 2025-12-17
 summary: "Microsoft's Azure Quick Review (AZQR) consolidates Advisor, Defender for Cloud, Policy, and Cost Management into one dashboard - but only runs locally. Here's how to host it in Azure App Service for 24/7 team access, scheduled scans, and historical tracking. Complete with Dockerfile, deployment scripts, and Entra ID authentication. Part 3 of the Azure Operations Platform series."
-tags:
-  - Azure
-  - Operations
-  - Governance
-  - App Service
-  - Docker
-  - AZQR
-  - Automation
-  - Compliance
+tags: ["azure", "operations", "governance", "app-service", "docker", "azqr", "automation", "compliance"]
 cover: /static/images/hero/azqr-persistent-dashboard.png
 hub: governance
 series: azure-operations-platform
@@ -20,7 +12,6 @@ related_posts:
   - logic-app-certificate-monitor
   - azure-update-manager-reality-check
 ---
-
 # Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)
 
 ## Short Answer

@@ -2,14 +2,7 @@
 title: "Azure Migrate's 18-Month Data Deletion: The Enterprise Migration Timer Microsoft Calls 'Expected Behavior'"
 date: 2025-12-16
 summary: "Azure Migrate appliances have an 18-month hard limit before mandatory re-registration that deletes all discovery data. Microsoft documents this as 'expected behavior' in the FAQ but provides no alerts, no data preservation, and no migration path. The certificate expires at 12 months with one 6-month extension available, then forces complete appliance reconfiguration with total data loss at month 18."
-tags:
-  - Azure
-  - Migration
-  - Azure Migrate
-  - Enterprise Reality
-  - Governance
-  - Compliance
-  - Certificate Management
+tags: ["azure", "migration", "azure-migrate", "enterprise-reality", "governance", "compliance", "certificate-management"]
 cover: /static/images/hero/azure-migrate-18-month-timer.png
 hub: migration
 related_posts:
@@ -19,7 +12,6 @@ related_posts:
   - azure-hybrid-benefit-complete
   - azure-cost-optimization-what-actually-works
 ---
-
 # Azure Migrate's 18-Month Data Deletion: The Enterprise Migration Timer Microsoft Calls 'Expected Behavior'
 
 ## Short Answer

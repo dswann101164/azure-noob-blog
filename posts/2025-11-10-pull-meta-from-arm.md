@@ -3,16 +3,7 @@ title: "Azure Resource Graph: Pull ARM Metadata at Scale (Production KQL Pattern
 date: 2025-11-10
 modified: 2026-01-04
 summary: "Production-tested KQL patterns for extracting Azure Resource Manager metadata at scale. Feed CMDBs, governance dashboards, and compliance reports across 40+ subscriptions. 6 months of real usage patterns."
-tags:
-- ARM
-- Automation
-- Azure
-- CMDB
-- FinOps
-- Governance
-- KQL
-- Operations
-- Resource Graph
+tags: ["arm", "automation", "azure", "cmdb", "finops", "governance", "kql", "operations", "resource-graph"]
 cover: /static/images/hero/pull-meta-from-arm.svg
 
 related_posts:
@@ -21,7 +12,6 @@ related_posts:
   - if-you-cant-code-your-architecture
 
 ---
-
 This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Meeting Where I Promised Magic
 

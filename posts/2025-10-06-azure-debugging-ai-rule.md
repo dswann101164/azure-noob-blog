@@ -3,15 +3,7 @@ title: 'The New Azure Debugging Rule: When AI Says ''I Don''t Know'''
 date: 2025-10-06
 summary: Using KQL to debug AI-driven alerts, complex rules, and noisy signals in
   Azure Monitor so your dashboards stop lying to you.
-tags:
-- AI
-- Azure
-- Azure Monitor
-- Debugging
-- KQL
-- Monitoring
-- Operations
-- Support
+tags: ["ai", "azure", "azure-monitor", "debugging", "kql", "monitoring", "operations", "support"]
 cover: static/images/hero/azure-debugging-ai.png
 
 related_posts:
@@ -20,7 +12,6 @@ related_posts:
   - three-ai-roles
 
 ---
-
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 I used to spend 3 hours debugging Azure issues before opening a support ticket. That was before AI.
 

@@ -3,13 +3,7 @@ title: 'KQL Across 5 Azure Systems: The Query Compatibility Guide'
 date: 2025-10-24
 summary: Patterns for writing KQL that works across multiple systems and tables—ARG,
   Log Analytics, and workbooks—without losing your mind.
-tags:
-- Architecture
-- Azure
-- Dashboards
-- KQL
-- Log Analytics
-- Resource Graph
+tags: ["architecture", "azure", "dashboards", "kql", "log-analytics", "resource-graph"]
 cover: /static/images/hero/kql-systems-maze.png
 
 related_posts:
@@ -18,7 +12,6 @@ related_posts:
   - kql-query-library-git
 
 ---
-
 This guide is part of our [KQL Mastery hub](/hub/kql/) covering query patterns, optimization techniques, and real-world Azure Resource Graph examples.
 You learned KQL from Microsoft Learn. You wrote your first queries in Log Analytics. They worked. You kept writing more.
 

@@ -2,13 +2,7 @@
 title: "Azure Tag Governance 2025: Policies That Actually Enforce"
 date: 2025-10-31
 summary: "How to turn Azure tags from 'nice to have' into enforceable governance using Azure Policy, deny/modify effects, and remediation so teams can’t slip around your standards."
-tags:
-- Azure
-- Azure Policy
-- Compliance
-- FinOps
-- Governance
-- Tags
+tags: ["azure", "azure-policy", "compliance", "finops", "governance", "tags"]
 cover: /static/images/hero/azure-tag-governance.png
 slug: azure-tag-governance-policy
 faq_schema: true
@@ -20,7 +14,6 @@ related_posts:
   - azure-finops-complete-guide
 
 ---
-
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 If you're managing more than a handful of Azure subscriptions, you've already discovered that tag chaos is real. Finance wants chargeback tags. Security wants owner tags. Compliance wants environment tags. And nobody wants to manually tag 10,000 resources.
 

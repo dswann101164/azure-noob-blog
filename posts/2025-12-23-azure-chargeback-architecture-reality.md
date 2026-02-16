@@ -3,12 +3,7 @@ title: "Azure Chargeback Architecture: The Two Models That Actually Work"
 date: 2025-12-23
 modified: 2025-12-23
 summary: "Azure chargeback requires architecture-first design: subscription-per-application (clean isolation) or subscription-per-department (tag discipline required). Tags alone won't fix bad architecture. True chargeback happens in your ERP, not Azure Cost Management."
-tags:
-  - Azure
-  - FinOps
-  - Cost Management
-  - Governance
-  - Architecture
+tags: ["azure", "finops", "cost-management", "governance", "architecture"]
 cover: /static/images/hero/azure-chargeback-tags-model.png
 slug: azure-chargeback-architecture-reality
 hub: finops
@@ -17,7 +12,6 @@ related_posts:
   - azure-costs-apps-not-subscriptions
   - azure-chargeback-tags-model
 ---
-
 ## What's the foundation for Azure chargeback that actually works?
 
 **Short Answer:** Azure chargeback requires either subscription-per-application (clean cost isolation) or subscription-per-department (strict tag discipline required). Tags alone won't fix bad subscription architecture. True chargeback happens in your ERP system, not Azure Cost Management—Azure only provides cost visibility and allocation rules, not internal invoicing or money movement between departments.

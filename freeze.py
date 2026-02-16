@@ -132,25 +132,19 @@ def write_sitemap():
         {"loc": f"{base}/", "changefreq": "weekly", "priority": "1.0"},
         {"loc": f"{base}/blog/", "changefreq": "weekly", "priority": "0.9"},
         {"loc": f"{base}/hubs/", "changefreq": "weekly", "priority": "0.9"},
-        {"loc": f"{base}/tags/", "changefreq": "monthly", "priority": "0.8"},
         {"loc": f"{base}/about/", "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base}/start-here/", "changefreq": "monthly", "priority": "0.7"},
         {"loc": f"{base}/products/", "changefreq": "weekly", "priority": "0.9"},
         {"loc": f"{base}/tools/", "changefreq": "monthly", "priority": "0.8"},
-        {"loc": f"{base}/search/", "changefreq": "monthly", "priority": "0.3"},
     ]
 
     posts = load_posts()
     tags = build_tags()
     hubs = get_all_hubs()
 
-    # Tags - only canonical slugified versions
-    seen_tags = set()
-    for t in tags.keys():
-        tag_slug = slugify_tag(t)
-        if tag_slug not in seen_tags:
-            seen_tags.add(tag_slug)
-            urls.append({"loc": f"{base}/tags/{tag_slug}/", "changefreq": "monthly", "priority": "0.6"})
+    # TAG PAGES INTENTIONALLY EXCLUDED FROM SITEMAP
+    # Tag pages are noindex'd thin content causing 671 "not indexed" errors in GSC.
+    # Only blog posts and hub pages belong in the sitemap.
     
     # Hubs
     for hub_slug in hubs.keys():
@@ -343,6 +337,9 @@ def update_robots_txt():
     """Update robots.txt"""
     robots_content = """User-agent: *
 Allow: /
+
+# Don't crawl thin tag pages (noindex'd, removed from sitemap)
+Disallow: /tags/
 
 # Don't index API endpoint
 Disallow: /search.json

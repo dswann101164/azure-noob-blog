@@ -3,13 +3,7 @@ title: 'Azure Tagging Best Practices 2025: The Guide to Hidden Costs & Governanc
 date: 2025-09-23
 modified: 2025-11-29
 summary: 'Azure tagging best practices for 2025 - Enterprise guide to tag governance, cost allocation, Azure Policy enforcement, and preventing the 247 variations problem at scale.'
-tags:
-- Automation
-- Azure
-- FinOps
-- Governance
-- Policy
-- Tags
+tags: ["automation", "azure", "finops", "governance", "policy", "tags"]
 cover: /static/images/hero/azure-tags-guide.png
 slug: azure-resource-tags-guide
 

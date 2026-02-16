@@ -2,13 +2,7 @@
 title: "Azure Chargeback Tags 2025: The 6 Tags That Actually Work"
 date: 2025-10-16
 summary: "A chargeback/showback model built on tags that finance, app owners, and cloud teams can all live with—without 47 competing cost spreadsheets."
-tags:
-- Azure
-- Chargeback
-- FinOps
-- Governance
-- Showback
-- Tags
+tags: ["azure", "chargeback", "finops", "governance", "showback", "tags"]
 cover: /static/images/hero/azure-chargeback-model.png
 slug: azure-chargeback-tags-model
 
@@ -20,7 +14,6 @@ related_posts:
   - azure-finops-complete-guide
 
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 ## The story (from the trenches)
 

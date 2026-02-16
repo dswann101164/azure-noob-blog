@@ -3,13 +3,7 @@ title: 'KQL Cheat Sheet 2026: 48 Copy-Paste Azure Resource Graph Queries'
 date: 2025-01-15
 modified: 2026-02-14
 summary: 'Copy-paste KQL queries for Azure Resource Graph. VM inventory, untagged resources, disk audits, and network mapping. Tested on 31,000+ resources across 44 subscriptions.'
-tags:
-- Azure
-- Cheat Sheet
-- KQL
-- Log Analytics
-- Query Language
-- Resource Graph
+tags: ["azure", "cheat-sheet", "kql", "log-analytics", "query-language", "resource-graph"]
 cover: /static/images/hero/kql-cheat-sheet.png
 hub: governance
 faq_schema: true
@@ -18,7 +12,6 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-
 # KQL Cheat Sheet: Getting Started with Azure Resource Graph
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.

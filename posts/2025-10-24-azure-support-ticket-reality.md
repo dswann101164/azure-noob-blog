@@ -4,13 +4,7 @@ title: 'What Happens When You Open an Azure Support Ticket: Inside the Enterpris
 date: 2025-10-24
 summary: 'A governance and process look at Azure support tickets: SLAs, ownership,
   escalation, and why leaving it to ''open a ticket with Microsoft'' is not a strategy.'
-tags:
-- Azure
-- Enterprise
-- Governance
-- Operations
-- Process
-- Support
+tags: ["azure", "enterprise", "governance", "operations", "process", "support"]
 cover: static/images/hero/azure-support-ticket.svg
 hub: governance
 related_posts:
@@ -18,7 +12,6 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 Stop debugging after 3 hours. Open a support ticket. You're paying for Premier/Unified Support - use it.
 

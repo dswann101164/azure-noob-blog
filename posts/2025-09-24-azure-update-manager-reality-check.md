@@ -3,18 +3,7 @@ title: 'Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported'
 date: 2025-09-24
 summary: 'What Azure Update Manager really looks like in an enterprise: agent confusion,
   SCCM overlap, and how to make patching governance work.'
-tags:
-- Azure
-- Azure Governance
-- Azure Update Manager
-- Governance
-- KQL
-- Monitoring
-- Operations
-- Patching
-- Update Management
-- Update Manager
-- VM Management
+tags: ["azure", "azure-governance", "azure-update-manager", "governance", "kql", "monitoring", "operations", "patching", "update-management", "update-manager", "vm-management"]
 cover: static/images/hero/azure-update-manager.png
 hub: governance
 related_posts:
@@ -23,7 +12,6 @@ related_posts:
   - azure-policy-reality-check
 cover: "/static/images/hero/azure-update-manager-reality-check.png"
 ---
-
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 # Azure Update Manager Reality Check: Why 77% of Your VMs Are Unsupported
 

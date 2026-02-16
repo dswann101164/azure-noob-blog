@@ -4,15 +4,7 @@ title: 'The Azure Audit Gap Nobody Talks About: Why Your 90-Day Logs Won''t Surv
 date: 2025-10-26
 summary: The hidden audit gap between what Azure logs, what auditors expect, and what
   your governance model actually covers—plus concrete steps to close it.
-tags:
-- Audit
-- Auditing
-- Azure
-- Compliance
-- Governance
-- KQL
-- Logging
-- Security
+tags: ["audit", "auditing", "azure", "compliance", "governance", "kql", "logging", "security"]
 cover: /static/images/hero/azure-audit-gap.png
 hub: governance
 related_posts:
@@ -20,7 +12,6 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 > **Update (October 27, 2025):** Ready to fix your Activity Log retention? I've published a complete step-by-step implementation guide: **[SOC 2 Audit Prep: Activity Log Retention Setup (Step-by-Step)](/blog/soc2-activity-log-step-by-step/)**. Every click, every command, every verification - the grill assembly manual version.
 

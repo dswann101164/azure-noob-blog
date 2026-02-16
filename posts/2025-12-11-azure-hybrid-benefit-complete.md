@@ -3,14 +3,7 @@ title: "Azure Hybrid Benefit Audit Guide: Avoid the $50K Licensing Mistake (2025
 date: 2025-12-10
 modified: 2025-12-10
 summary: "Azure Hybrid Benefit saves money when used correctly - but misuse triggers $50K+ compliance penalties. This is the complete operational guide for Azure administrators: pre-migration validation, audit timelines, documentation requirements, and the 8-question checklist that prevents licensing disasters."
-tags:
-  - Azure
-  - FinOps
-  - Licensing
-  - Governance
-  - Cloud Migration
-  - Compliance
-  - Azure Hybrid Benefit
+tags: ["azure", "finops", "licensing", "governance", "cloud-migration", "compliance", "azure-hybrid-benefit"]
 cover: /static/images/hero/azure-hybrid-benefit-50k.png
 faq_schema: true
 

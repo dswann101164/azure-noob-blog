@@ -3,15 +3,7 @@ title: The Truth About Chris Bowman's Azure Cost Dashboard
 date: 2025-10-02
 summary: Reverse-engineering and modernizing the legendary Chris Bowman Azure dashboard
   model for real-world enterprise environments.
-tags:
-- Architecture
-- Azure
-- Cost Management
-- Dashboards
-- Executive
-- FinOps
-- Monitoring
-- Power BI
+tags: ["architecture", "azure", "cost-management", "dashboards", "executive", "finops", "monitoring", "power-bi"]
 cover: static/images/hero/chris-bowman-dashboard.png
 
 related_posts:
@@ -21,7 +13,6 @@ related_posts:
 
 cover: "/static/images/hero/chris-bowman-dashboard.png"
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 ## The Problem Everyone Hits
 

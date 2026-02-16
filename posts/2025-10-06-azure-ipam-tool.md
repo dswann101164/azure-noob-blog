@@ -3,15 +3,7 @@ title: "Azure IPAM Tool: Free Multi-Subscription IP Address Manager"
 date: 2025-10-06
 modified: 2026-02-14
 summary: "Free Azure IPAM tool for tracking IP usage across subscriptions and VNets. Cross-subscription search, capacity alerts, and reservation system. No InfoBlox needed."
-tags:
-- Azure
-- IP Management
-- IPAM
-- Monitoring
-- Multi-Subscription
-- Networking
-- Tools
-- Workbooks
+tags: ["azure", "ip-management", "ipam", "monitoring", "multi-subscription", "networking", "tools", "workbooks"]
 cover: /static/images/hero/azure-ipam.png
 
 related_posts:
@@ -20,7 +12,6 @@ related_posts:
   - private-endpoint-dns-hybrid-ad
 
 ---
-
 This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Problem Leadership Doesn't Understand
 

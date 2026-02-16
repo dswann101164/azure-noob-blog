@@ -3,12 +3,7 @@ title: Why Your Azure Cost Reports Fail Business Reality (2025)
 date: 2025-09-24
 summary: Azure Cost Management often conflicts with how businesses track spend. Here's
   why your cost reports never align and how to fix it at scale.
-tags:
-- Azure
-- FinOps
-- Cost Management
-- Governance
-- Reporting
+tags: ["azure", "finops", "cost-management", "governance", "reporting"]
 cover: /static/images/hero/azure-finops-business-reality.png
 slug: azure-cost-reports-business-reality
 
@@ -20,7 +15,6 @@ related_posts:
   - chris-bowman-dashboard
 
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 # Why Your Azure Cost Reports Don't Match Your Business Reality
 

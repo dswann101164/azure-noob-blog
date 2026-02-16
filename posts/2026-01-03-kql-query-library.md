@@ -3,12 +3,7 @@ title: "KQL Query Library: 150+ Production-Ready Azure Resource Graph Queries"
 date: 2026-01-03
 modified: 2026-01-03
 summary: "Complete KQL query library with 150+ production-tested queries for Azure Resource Graph, Log Analytics, and Sentinel. Copy-paste ready, enterprise-scale tested on 31,000+ resources."
-tags:
-- KQL
-- Azure
-- Resource Graph
-- Queries
-- Monitoring
+tags: ["kql", "azure", "resource-graph", "queries", "monitoring"]
 cover: /static/images/products/kql-cover.png
 slug: kql-query-library
 hub: kql
@@ -17,7 +12,6 @@ related_posts:
   - azure-vm-inventory-kql
 faq_schema: true
 ---
-
 <div style="background: #f8f9fa; padding: 2rem; border-left: 4px solid #0078d4; margin: 2rem 0; border-radius: 4px;">
   <h2 style="margin-top: 0; color: #0078d4;">⚡ Quick Answer: What is KQL?</h2>
   <p style="font-size: 1.1rem; margin-bottom: 1rem;">

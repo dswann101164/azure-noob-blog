@@ -3,12 +3,7 @@ title: "Azure FinOps Complete Guide 2026: Tag Governance, Cost Allocation & Char
 date: 2026-01-03
 modified: 2026-01-03
 summary: "Complete Azure FinOps implementation guide for enterprises: tag governance frameworks, departmental chargeback models, and cost allocation strategies. Includes ready-to-deploy templates and PowerShell automation."
-tags:
-- Azure
-- FinOps
-- Cost Management
-- Governance
-- Chargeback
+tags: ["azure", "finops", "cost-management", "governance", "chargeback"]
 cover: /static/images/hero/azure-finops-guide.png
 slug: azure-finops-complete-guide
 hub: finops
@@ -17,7 +12,6 @@ related_posts:
   - azure-openai-pricing-real-costs
 faq_schema: true
 ---
-
 <div style="background: #f8f9fa; padding: 2rem; border-left: 4px solid #0078d4; margin: 2rem 0; border-radius: 4px;">
   <h2 style="margin-top: 0; color: #0078d4;">⚡ Quick Answer: What is Azure FinOps?</h2>
   <p style="font-size: 1.1rem; margin-bottom: 1rem;">

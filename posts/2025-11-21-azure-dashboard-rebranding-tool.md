@@ -4,16 +4,7 @@ title: How I Rebranded Microsoft's Azure Resource Inventory Dashboard (Without C
 date: 2025-11-21
 summary: A dark-mode rebranding tool for Azure dashboards and Excel exports so your
   reports look as modern as your cloud environment.
-tags:
-- ARI
-- Automation
-- Azure
-- Branding
-- Dashboards
-- Excel
-- Monitoring
-- PowerShell
-- Tools
+tags: ["ari", "automation", "azure", "branding", "dashboards", "excel", "monitoring", "powershell", "tools"]
 cover: /static/images/hero/azure-dashboard-rebrand.png
 
 related_posts:
@@ -22,7 +13,6 @@ related_posts:
   - azure-dashboards-cloud-noc
 
 ---
-
 This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 ## The Problem: Great Tool, Wrong Branding
 

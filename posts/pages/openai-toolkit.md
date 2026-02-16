@@ -2,16 +2,11 @@
 title: "Azure OpenAI ROI & Cost Optimization Toolkit"
 date: 2026-01-01
 summary: "Professional Excel-based ROI calculator, TCO models, and cost optimization strategies for Azure OpenAI deployments. Tested on 30,000+ enterprise resources."
-tags:
-- Azure
-- OpenAI
-- FinOps
-- Products
+tags: ["azure", "openai", "finops", "products"]
 cover: /static/images/hero/azure-openai-costs.png
 slug: openai-toolkit
 noindex: false
 ---
-
 # Azure OpenAI ROI & Cost Optimization Toolkit
 
 ## Stop Guessing at Azure OpenAI Costs

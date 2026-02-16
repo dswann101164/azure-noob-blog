@@ -4,15 +4,7 @@ title: 'MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What''s 
 date: 2025-11-30
 summary: 'A practical comparison of MCP vs Power BI AI: what actually reads data,
   what actually builds visuals, and how Azure admins should think about both.'
-tags:
-- AI
-- Azure
-- Copilot
-- Dashboards
-- Enterprise Reality
-- MCP
-- Monitoring
-- Power BI
+tags: ["ai", "azure", "copilot", "dashboards", "enterprise-reality", "mcp", "monitoring", "power-bi"]
 cover: /static/images/hero/mcp-powerbi-ai-reality.png
 hub: ai
 related_posts:
@@ -20,7 +12,6 @@ related_posts:
   - the-ai-admin
   - three-ai-roles
 ---
-
 This guide is part of our [AI-Assisted Azure Operations hub](/hub/ai/) exploring how AI tools transform cloud administration and productivity workflows.
 # MCP vs Power BI AI: What Actually Creates Your Dashboards? (And What's Just Marketing)
 

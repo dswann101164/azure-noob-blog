@@ -3,12 +3,7 @@ title: 'Azure Cost Optimization 2025: The Complete Framework'
 date: 2025-11-03
 summary: A real-world guide to optimizing Azure costs using rightsizing, automation,
   cleanup, governance, tags, and financial accountability.
-tags:
-- Azure
-- FinOps
-- Cost Optimization
-- Automation
-- Governance
+tags: ["azure", "finops", "cost-optimization", "automation", "governance"]
 cover: /static/images/hero/azure-cost-optimization-guide.png
 slug: azure-cost-optimization-complete-guide
 hub: finops
@@ -20,7 +15,6 @@ related_posts:
   - cloud-migration-reality-check
   - azure-chargeback-tags-model
 ---
-
 This isn't another "turn off unused VMs" guide.
 
 This is the **complete framework** I've used to reduce Azure spend by 30-40% across multiple enterprisesâ€”without breaking production, without political fallout, and with Finance actually thanking me.

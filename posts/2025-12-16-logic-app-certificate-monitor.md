@@ -2,14 +2,7 @@
 title: "The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)"
 date: 2025-12-16
 summary: "Production Logic App that monitors app registration certificates and secrets via Microsoft Graph API. Handles pagination for 100+ apps, extracts owner information, sends HTML email alerts. Built for security compliance, caught Azure Migrate appliances expiring before production migration. Complete walkthrough with working code."
-tags:
-  - Azure
-  - Automation
-  - Logic Apps
-  - Governance
-  - Security
-  - Microsoft Graph
-  - Entra ID
+tags: ["azure", "automation", "logic-apps", "governance", "security", "microsoft-graph", "entra-id"]
 cover: /static/images/hero/logic-app-certificate-monitor.png
 hub: automation
 related_posts:
@@ -18,7 +11,6 @@ related_posts:
   - four-logic-apps-every-azure-admin-needs
   - azure-debugging-ai-rule
 ---
-
 # The Logic App That Monitors Every Expiring Certificate in Azure (And Accidentally Saved Our Migration)
 
 ## Short Answer

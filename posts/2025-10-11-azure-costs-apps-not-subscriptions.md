@@ -3,12 +3,7 @@ title: "Azure Subscriptions vs. Apps: The 2025 Cost Model Guide"
 date: 2025-10-11
 summary: Azure bills at the subscription level—but the business thinks in terms of
   applications. Here's how to realign cost models for reality.
-tags:
-- Azure
-- FinOps
-- Cost Allocation
-- Application Mapping
-- Governance
+tags: ["azure", "finops", "cost-allocation", "application-mapping", "governance"]
 cover: /static/images/hero/azure-finops-apps-vs-subscriptions.png
 slug: azure-costs-apps-not-subscriptions
 
@@ -19,7 +14,6 @@ related_posts:
   - azure-finops-complete-guide
 
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 **You start with the billing stupidly. Understanding how many apps you have helps get you to where you want to be.**
 

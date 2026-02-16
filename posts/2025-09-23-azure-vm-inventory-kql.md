@@ -3,15 +3,7 @@ title: "Azure VM Inventory with KQL: Track VMs Across 40+ Subscriptions (Free Wo
 date: 2025-09-23
 modified: 2026-01-04
 summary: "Free Azure VM inventory workbook with production-tested KQL queries. Track 200+ VM types across 40+ subscriptions, identify Update Manager vs Intune systems, and generate compliance reports. Instant download workbook included."
-tags:
-- Azure
-- Intune
-- Inventory
-- KQL
-- Resource Graph
-- Update Management
-- VM Inventory
-- VM Management
+tags: ["azure", "intune", "inventory", "kql", "resource-graph", "update-management", "vm-inventory", "vm-management"]
 cover: "/static/images/hero/azure-vm-inventory-kql.png"
 hub: governance
 related_posts:

@@ -2,12 +2,7 @@
 title: "The Azure Advisor Facade: Why Real Optimization Works Differently (2025)"
 date: 2025-11-03
 summary: "Most Azure optimization advice is surface-level. Reserved instances aren’t FinOps. Here’s what meaningful cost reduction really takes."
-tags:
-- Azure
-- FinOps
-- Cost Optimization
-- Advisor
-- Governance
+tags: ["azure", "finops", "cost-optimization", "advisor", "governance"]
 cover: /static/images/hero/azure-cost-optimization-facade.png
 slug: azure-cost-optimization-facade
 
@@ -19,7 +14,6 @@ related_posts:
   - chris-bowman-dashboard
 
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 **Your CFO just forwarded you another email**: *"Azure Advisor says we can save $47,000/month. Why haven't we acted on this?"*
 

@@ -3,18 +3,12 @@ title: "Azure Cost Reporting for the Boardroom: 2025 Executive Guide & Hidden Co
 date: 2025-09-14
 summary: Executives don’t care about vCores or storage accounts. Learn how to translate
   Azure costs into a business narrative leaders actually understand.
-tags:
-- Azure
-- FinOps
-- Reporting
-- Executive
-- Cost Management
+tags: ["azure", "finops", "reporting", "executive", "cost-management"]
 slug: azure-cost-reporting-boardroom
 cover: /static/images/hero/azure-cost-boardroom.png
 
 
 ---
-
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and financial operations at enterprise scale.
 # Azure Cost Reporting for the Boardroom: Turning Receipts Into Stories
 

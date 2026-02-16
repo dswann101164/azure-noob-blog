@@ -2,15 +2,7 @@
 title: "Operational Intelligence: Using Azure Tags for Instant Answers (2025)"
 date: 2025-12-17
 summary: "Azure tags evolved from preventing Azure Update Manager disasters to becoming our operational intelligence layer. The Type tag excludes appliances from automated patching while enabling instant answers to executive questions about on-prem footprint, vendor inventory, and migration progress. Policy enforcement in Deny mode, tag-based filtering workflows, and KQL queries that answer 'how many machines on-prem?' in 30 seconds instead of manual 3-day inventory projects."
-tags:
-  - Azure
-  - Governance
-  - Azure Update Manager
-  - Tags
-  - Operations
-  - Automation
-  - KQL
-  - Policy
+tags: ["azure", "governance", "azure-update-manager", "tags", "operations", "automation", "kql", "policy"]
 cover: /static/images/hero/azure-tags-operational-intelligence.png
 hub: governance
 related_posts:
@@ -18,7 +10,6 @@ related_posts:
   - logic-app-certificate-monitor
   - azure-tag-governance-policy
 ---
-
 # Azure Tags for Operational Intelligence: How We Answer Executive Questions in 30 Seconds Instead of 3 Days
 
 ## Short Answer

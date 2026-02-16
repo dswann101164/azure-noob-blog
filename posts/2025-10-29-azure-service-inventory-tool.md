@@ -3,15 +3,7 @@ title: 'Azure Service Inventory Tool: Which of the 397 Services Do You Actually 
 date: 2025-10-29
 summary: 'A practical service inventory pattern for Azure: map resources to real business
   services, owners, and environments so governance and audits stop being guesswork.'
-tags:
-- Azure
-- CMDB
-- Governance
-- Inventory
-- Operations
-- PowerShell
-- Resource Graph
-- Tools
+tags: ["azure", "cmdb", "governance", "inventory", "operations", "powershell", "resource-graph", "tools"]
 cover: /static/images/hero/service-inventory-tool.svg
 
 related_posts:
@@ -21,7 +13,6 @@ related_posts:
   - azure-cost-optimization-what-actually-works
 
 ---
-
 This guide is part of our [Azure Automation hub](/hub/automation/) covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.
 Microsoft says there are **397 Azure services**.
 

@@ -486,7 +486,8 @@ def tags_index():
                          tag_posts=tag_posts,
                          canonical_url=get_canonical_url(),
                          page_title='Tags - Azure Noob',
-                         meta_description='Browse Azure tutorials by tag.')
+                         meta_description='Browse Azure tutorials by tag.',
+                         noindex=True)  # SEO: tag index is navigation, not content
 
 @app.route('/tags/<tag>/')
 def tag_posts(tag):
@@ -528,14 +529,16 @@ def tag_posts(tag):
                          posts=tagged_posts,
                          canonical_url=canonical_url,
                          page_title=f'{original_tag} - Azure Noob',
-                         meta_description=meta_description)
+                         meta_description=meta_description,
+                         noindex=True)  # SEO: prevent thin tag pages from polluting index
 
 @app.route('/search/')
 def search():
     return render_template('search.html',
                          canonical_url=get_canonical_url(),
                          page_title='Search - Azure Noob',
-                         meta_description='Search Azure Noob tutorials and guides.')
+                         meta_description='Search Azure Noob tutorials and guides.',
+                         noindex=True)  # SEO: search page is utility, not content
 
 @app.route('/search.json')
 def search_json():
@@ -831,7 +834,6 @@ def sitemap_xml():
         {'url': url_for('index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d'), 'priority': '1.0'},
         {'url': url_for('blog_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d'), 'priority': '0.9'},
         {'url': url_for('hubs_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
-        {'url': url_for('tags_index', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('start_here', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
         {'url': url_for('about', _external=True), 'lastmod': datetime.now().strftime('%Y-%m-%d')},
     ]
@@ -850,13 +852,10 @@ def sitemap_xml():
             'lastmod': post['date'].strftime('%Y-%m-%d')
         })
 
-    # Add tag pages
-    tags = get_all_tags()
-    for tag in tags:
-        pages.append({
-            'url': url_for('tag_posts', tag=tag, _external=True),
-            'lastmod': datetime.now().strftime('%Y-%m-%d')
-        })
+    # TAG PAGES INTENTIONALLY EXCLUDED FROM SITEMAP
+    # Tag pages are noindex'd - they're thin content (just post lists)
+    # that was causing 671 "not indexed" errors in Google Search Console.
+    # Blog posts and hub pages contain the real content.
 
     # Generate XML directly
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -883,6 +882,9 @@ def robots():
     """Generate robots.txt file."""
     robots_content = """User-agent: *
 Allow: /
+
+# Don't crawl thin tag pages (noindex'd, removed from sitemap)
+Disallow: /tags/
 
 # Don't index API endpoint
 Disallow: /search.json

@@ -4,14 +4,7 @@ title: 'Stop Losing Your KQL Queries: The Git-Based Query Library Nobody Told Yo
 date: 2025-10-28
 summary: 'How to treat your KQL queries like code: organize them in Git, reuse patterns,
   and build a shared query library for your Azure team.'
-tags:
-- Automation
-- Azure
-- Git
-- KQL
-- Operations
-- Productivity
-- Resource Graph
+tags: ["automation", "azure", "git", "kql", "operations", "productivity", "resource-graph"]
 cover: /static/images/hero/kql-query-library.svg
 hub: governance
 related_posts:
@@ -19,7 +12,6 @@ related_posts:
   - azure-tag-governance-policy
   - azure-policy-reality-check
 ---
-
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 Last week, our security team asked: "Show me all resource deletions from August."
 
