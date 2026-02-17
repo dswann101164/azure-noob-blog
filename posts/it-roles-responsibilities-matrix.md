@@ -26,7 +26,7 @@ Every Azure environment past 10 subscriptions has the same unspoken crisis: nobo
 
 Not at the policy level. Policies exist. Frameworks exist. Somebody created a Confluence page 18 months ago that maps roles to responsibilities in broad strokes. The CTO signed off on it.
 
-The crisis lives at the operational level. Specific, daily, unglamorous tasks that determine whether your Azure environment is governed or just documented. I run Azure infrastructure across 44 subscriptions in a regulated banking environment with 21 Active Directory domains. The ownership question surfaces in some form every week — during audits, during incident reviews, during cost allocation disputes with Finance.
+The crisis lives at the operational level. Specific, daily, unglamorous tasks that determine whether your Azure environment is governed or just documented. I run Azure infrastructure across 44 subscriptions in a regulated banking environment with 21 Active Directory domains. The ownership question surfaces every week — during audits, incident reviews, and cost allocation disputes with Finance.
 
 - Who renews the ExpressRoute circuit when the contract term ends?
 - Who reviews Azure Advisor cost recommendations weekly — and who has the authority to act on them?
@@ -40,7 +40,7 @@ This is the ownership gap. No amount of Azure Policy definitions will fix it bec
 
 ### What this gap costs in practice
 
-The ownership gap does not announce itself. It accumulates silently until something forces visibility:
+It does not announce itself. It accumulates silently until something forces visibility:
 
 - **Audit findings.** A SOC 2 or regulatory audit asks "who is responsible for reviewing privileged access assignments quarterly?" and nobody can point to a name. The finding goes on the remediation tracker. Remediation takes 3 months because the first task is figuring out who should own it.
 - **Cost overruns.** Orphaned resources, oversized VMs, and untagged spend accumulate because cost optimization is "everyone's job" — which means it is nobody's job. The average enterprise Azure environment carries 15-25% waste that persists because no individual has the explicit accountability to eliminate it.
@@ -139,7 +139,7 @@ Critical tasks that need explicit owners:
 
 Ownership scope: Budgets, cost alerts, chargeback reporting, tag governance, reservation purchasing, savings plan management, orphaned resource remediation, and cost anomaly investigation.
 
-This domain has the widest accountability vacuum in most organizations because "cost management" is treated as a reporting function rather than an operational function. Someone generates reports. Nobody is accountable for acting on them.
+This domain has the widest ownership gap in most organizations because "cost management" is treated as a reporting function rather than an operational function. Someone generates reports. Nobody is accountable for acting on them.
 
 Critical tasks that need explicit owners:
 
@@ -239,7 +239,7 @@ If you are building an Azure RACI matrix from scratch, here is the framework tha
 
 **Start with tasks, not roles.** List every operational task that requires a human decision in your Azure environment. Do not start with your org chart. Start with the work. You will discover tasks that nobody currently owns. That discovery is the entire point.
 
-**One accountable person per task.** Not one team. One person by role title. If you cannot assign a single Accountable owner, the task is either too broad (split it) or your organization hasn't decided who owns that domain (which is a leadership conversation, not a spreadsheet exercise).
+**One accountable person per task.** Not one team. One person by role title. If you cannot assign a single Accountable owner, the task is either too broad (split it) or your organization has not decided who owns that domain — a leadership conversation, not a spreadsheet exercise.
 
 **Include cadence.** Every task needs a frequency: daily, weekly, monthly, quarterly, event-driven. A RACI row that says "Review cost anomalies" without specifying "monthly" is a task that will never happen consistently.
 
@@ -257,7 +257,7 @@ Audit responses accelerate. When an auditor asks "who reviews privileged access 
 
 Escalation paths become predictable. An on-call engineer encountering a networking issue at 2 AM does not need to guess which Slack channel to post in. The matrix defines who owns hub networking versus spoke networking, and the escalation follows the ownership — not the org chart, not whoever happens to be online.
 
-Cost waste decreases because orphaned resource remediation has an explicit owner with a defined review cadence. The difference between "someone should clean this up" and "Platform Engineer reviews orphaned resources monthly, Cloud Architect approves deletions" is typically 15-20% of avoidable Azure spend.
+Cost waste decreases because orphaned resource remediation has an explicit owner with a defined review cadence. "Someone should clean this up" becomes "Platform Engineer reviews orphaned resources monthly, Cloud Architect approves deletions" — and the orphaned spend actually gets eliminated.
 
 Tag governance becomes enforceable because one person owns the audit cycle and one person owns the remediation workflow. Without that separation, tag compliance reports get generated but never actioned.
 
@@ -267,11 +267,11 @@ Cross-team disputes resolve faster because the matrix pre-answers the ownership 
 
 Building this from scratch is a significant time investment. An enterprise Azure environment with 10-50 subscriptions across all eight domains generates 50-80 distinct operational tasks that need explicit RACI assignments. Cataloging those tasks, getting cross-functional agreement on ownership, and documenting the result takes weeks.
 
-I built my version iterating over three weeks across 44 subscriptions and 31,000+ resources in regulated banking. The framework that held up — the one that survived SOC 2 evidence requests and production incident reviews without needing ad hoc corrections — is documented in the [Azure Cloud Operations RACI Matrix](/tools/). The framework has since been adopted by other Azure teams operating between 10 and 50 subscriptions in similar governance-constrained environments.
+I built my version iterating over three weeks across 44 subscriptions and 31,000+ resources in regulated banking. The framework that held up — the one that survived SOC 2 evidence requests and production incident reviews without needing ad hoc corrections — is documented in the [Azure Cloud Operations RACI Matrix](/tools/). It has since been adopted by other Azure teams operating between 10 and 50 subscriptions as a baseline to customize against their own organizational structure.
 
-It covers 58 tasks across all eight domains above, with role mappings based on how enterprise Azure teams actually divide operational work. Gap detection is built in: tasks with no owner flag red, conflicting dual ownership flags yellow.
+It covers 58 tasks across all eight domains above, with role mappings based on how mid-to-large Azure teams actually divide operational work. Gap detection is built in: tasks with no owner flag red, tasks with conflicting dual ownership flag yellow.
 
-The domain structure and task examples in this article give you the complete architectural blueprint to build your own. The [documented baseline is available here](https://davidnoob.gumroad.com/l/ifojm) if you want a structured starting point rather than a blank spreadsheet.
+The domain structure and task examples in this article give you the complete architectural blueprint to build your own. If you want the documented baseline rather than starting from scratch, [the matrix is here](https://davidnoob.gumroad.com/l/ifojm).
 
 If you are currently formalizing Azure operational ownership across multiple subscriptions, this matrix will shorten that process significantly.
 
