@@ -297,40 +297,45 @@ It covers 58 tasks across all eight domains above, with role mappings based on h
 
 ---
 
-## Why This Structure Survives Audit
+## Why This Matrix Survives Audit Scrutiny
 
-An Azure RACI matrix is not just an operational convenience document. In regulated environments, it becomes audit evidence.
+In regulated environments, a RACI matrix is not just an operational clarity tool. It becomes audit evidence.
 
-Auditors do not ask whether you have Azure Policy assigned. They ask:
+Auditors do not ask whether Azure Policy exists.
+
+They ask:
 
 - Who reviews privileged access quarterly?
 - Who approves Azure Policy exemptions?
-- Who owns cost anomaly investigations?
-- Who is accountable for monitoring alert response?
+- Who investigates cost anomalies?
+- Who is accountable for monitoring alerts?
+- Who signs off on orphaned resource deletion?
 
 If the answer is "the cloud team," that is a finding.
 
-If the answer is a named role, with a defined cadence, and documented accountability — the control passes.
+If the answer is a defined role, with documented cadence and accountability, the control passes.
 
-This matrix is structured at the task level, not the department level, specifically so it can align with:
+This matrix is structured at the task level specifically so it can align with:
 
-- SOC 2 access review controls
-- Change Advisory Board (CAB) governance
-- Financial oversight and chargeback review
+- SOC 2 access control reviews
+- CAB governance workflows
+- Financial oversight and chargeback processes
 - Security review cadences
 - Internal audit evidence requests
 
 It is designed to be defensible.
 
-Not theoretical.
-Not high-level.
-Operational.
+Operationally defensible.
+
+Financially defensible.
+
+Audit defensible.
 
 ---
 
-The domain structure and task examples in this article give you the complete architectural blueprint to build your own. If you want a documented baseline that is already structured for audit defensibility — with named role assignments, defined cadences, and gap detection built in — rather than starting from scratch, [the matrix is here](https://davidnoob.gumroad.com/l/ifojm).
+The domain structure and task examples in this article give you the complete architectural blueprint to build your own. If you want a documented baseline that is already structured for audit defensibility — task-level ownership, named role assignments, defined cadences, and gap detection built in — rather than building from scratch, [the matrix is here](https://davidnoob.gumroad.com/l/ifojm).
 
-If you are currently formalizing Azure operational ownership across multiple subscriptions — or preparing for a SOC 2, regulatory, or internal audit — this matrix will shorten that process significantly.
+For teams preparing for SOC 2, regulatory review, or internal audit, the task-level structure means you are not assembling evidence after the fact. Ownership is documented before the auditor asks. Cross-team disputes over accountability are resolved before they become escalations. And the gap detection built into the workbook surfaces unowned tasks before they become findings.
 
 ---
 
