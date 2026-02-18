@@ -20,6 +20,24 @@ This guide is part of our [Azure Governance hub](/hub/governance/) covering poli
 
 ---
 
+## Who This Is For
+
+This article — and the matrix it documents — is built for enterprise Azure teams operating at scale. If any of the following describe your situation, you are in the right place.
+
+**IT Directors managing 10+ subscriptions** who need documented ownership before the next audit cycle, board review, or organizational change surfaces the question of who is actually accountable for what.
+
+**Azure Architects tired of ownership confusion** — the recurring Slack threads, the cross-team escalations at midnight, the incident reviews where accountability is unclear even in retrospect.
+
+**Platform teams preparing for audit** who need task-level documentation that maps to SOC 2 access control reviews, CAB governance workflows, and internal audit evidence requests — not a high-level responsibility matrix that satisfies nobody.
+
+**Security leaders responsible for RBAC, PIM, and Defender** who know that identity governance failures are not technical problems — they are ownership problems where nobody had an explicit cadence to review, rotate, or remediate.
+
+**Finance and FinOps teams frustrated by tag chaos** who generate chargeback reports that get rejected because cost center attribution is inconsistent, and have no clear path to enforcement because nobody owns the remediation workflow.
+
+If you are a solo admin managing a single subscription, this may be more structure than your environment currently needs. This framework is designed for environments where operational complexity has outgrown informal coordination.
+
+---
+
 ## Preview: What the Azure RACI Matrix Looks Like
 
 ![Azure RACI Matrix — Operations Assignments tab showing 58 tasks with pre-assigned enterprise roles](/static/images/hero/raci-matrix-preview-1.png)
@@ -27,6 +45,24 @@ This guide is part of our [Azure Governance hub](/hub/governance/) covering poli
 ![Azure RACI Matrix — conditional formatting showing ownership gap detection (red = no owner, yellow = conflict, green = assigned)](/static/images/hero/raci-matrix-preview-2.png)
 
 The matrix is structured as an Excel workbook with 58 operational tasks grouped across 8 Azure domains. Each task has a pre-assigned enterprise role — Security Engineer, Azure Admin, Cloud Security Architect, or Executive — reflecting how mid-to-large Azure teams actually divide operational work. Conditional formatting flags ownership gaps in red and conflicting dual assignments in yellow, so accountability problems are visible before an auditor sees them. The domain grouping keeps Identity, Networking, Security, Cost Management, and the other four domains separated so each team can work from their own section without touching unrelated rows.
+
+---
+
+### What You Actually Get
+
+Before the first product mention in this article, it is worth being explicit about the deliverable format and scope — because "RACI matrix" means different things to different teams.
+
+The [Azure Cloud Operations RACI Matrix](https://davidnoob.gumroad.com/l/ifojm) is a single Excel workbook (.xlsx) containing:
+
+- **58 structured Azure operational tasks** — not high-level capability areas, but specific, assignable tasks with defined cadences
+- **Organized across 8 operational domains** — Identity & Access, Networking, Security & Compliance, Cost Management, Compute, Data & Storage, Monitoring, and Governance
+- **Pre-assigned RACI roles** — Responsible, Accountable, Consulted, and Informed populated for each task using real enterprise role titles (Security Engineer, Azure Admin, Cloud Security Architect, Executive)
+- **Built-in gap detection** — conditional formatting that flags tasks with no owner (red), conflicting dual accountability (yellow), and clean assignments (green)
+- **Enterprise-ready Excel format** — no proprietary tooling, no SaaS dependency, no login required
+- **Fully customizable** — every role title, task description, and assignment is editable to match your organizational structure
+- **Versioned at v1.0** — updated quarterly as Azure operational patterns evolve
+
+This is not a framework document. It is a populated, ready-to-customize workbook.
 
 ---
 
@@ -333,9 +369,15 @@ Audit defensible.
 
 ---
 
-The domain structure and task examples in this article give you the complete architectural blueprint to build your own. If you want a documented baseline that is already structured for audit defensibility — task-level ownership, named role assignments, defined cadences, and gap detection built in — rather than building from scratch, [the matrix is here](https://davidnoob.gumroad.com/l/ifojm).
+The domain structure and task examples in this article give you the complete architectural blueprint to build your own from scratch. That process takes most teams two to four weeks when done properly — cataloging tasks, getting cross-functional agreement on ownership, and documenting the result in a format that survives the first real audit request.
 
-For teams preparing for SOC 2, regulatory review, or internal audit, the task-level structure means you are not assembling evidence after the fact. Ownership is documented before the auditor asks. Cross-team disputes over accountability are resolved before they become escalations. And the gap detection built into the workbook surfaces unowned tasks before they become findings.
+The [Azure Cloud Operations RACI Matrix](https://davidnoob.gumroad.com/l/ifojm) is a $49 starting framework — not a finished org chart. It covers 58 tasks across all eight domains, pre-assigned to enterprise role titles based on how mid-to-large Azure teams actually divide operational work. The value is not that it matches your organization exactly. The value is that it eliminates the blank-page problem and gives your team a documented baseline to argue against, modify, and own.
+
+For teams preparing for SOC 2, regulatory review, or internal audit: the task-level structure means you are not assembling evidence after the fact. Ownership is documented before the auditor asks. The gap detection built into the workbook surfaces unowned tasks before they become findings. And the pre-assigned role mappings give your team a concrete starting point for the ownership conversation — which is the conversation most enterprises defer until an incident or an audit forces it.
+
+---
+
+Azure Policy enforces rules. Azure Monitor finds problems. But neither determines whether anything actually gets fixed. That is an ownership question — and in most enterprise Azure environments, it is the one question that has no written answer. A governance program without task-level accountability is documentation, not governance. The difference between the two shows up in the first audit that asks for evidence.
 
 ---
 
