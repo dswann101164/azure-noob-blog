@@ -1,0 +1,119 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="azureBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0078d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00bcf2;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Network segments (representing multiple domains) -->
+  <g opacity="0.3">
+    <rect x="50" y="150" width="280" height="180" rx="8" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+    <rect x="380" y="150" width="280" height="180" rx="8" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+    <rect x="710" y="150" width="280" height="180" rx="8" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+    
+    <text x="190" y="180" fill="#64748b" font-size="16" font-family="Arial, sans-serif" text-anchor="middle">Domain A</text>
+    <text x="520" y="180" fill="#64748b" font-size="16" font-family="Arial, sans-serif" text-anchor="middle">Domain B</text>
+    <text x="850" y="180" fill="#64748b" font-size="16" font-family="Arial, sans-serif" text-anchor="middle">Domain C</text>
+  </g>
+  
+  <!-- VMs in each domain -->
+  <g>
+    <!-- Domain A VMs -->
+    <rect x="80" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="150" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="220" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    
+    <!-- Domain B VMs -->
+    <rect x="410" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="480" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="550" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    
+    <!-- Domain C VMs -->
+    <rect x="740" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="810" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+    <rect x="880" y="210" width="50" height="50" rx="4" fill="#1e40af" opacity="0.6"/>
+  </g>
+  
+  <!-- Firewalls between domains -->
+  <g>
+    <line x1="340" y1="160" x2="340" y2="320" stroke="#ef4444" stroke-width="3" opacity="0.8"/>
+    <line x1="670" y1="160" x2="670" y2="320" stroke="#ef4444" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Firewall icons -->
+    <circle cx="340" cy="240" r="20" fill="#7f1d1d" opacity="0.8"/>
+    <path d="M 335 230 L 340 240 L 335 250 M 345 230 L 340 240 L 345 250" stroke="#ef4444" stroke-width="2" fill="none"/>
+    
+    <circle cx="670" cy="240" r="20" fill="#7f1d1d" opacity="0.8"/>
+    <path d="M 665 230 L 670 240 L 665 250 M 675 230 L 670 240 L 675 250" stroke="#ef4444" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Azure Migrate Appliance -->
+  <g>
+    <rect x="1020" y="200" width="140" height="100" rx="8" fill="url(#azureBlue)" opacity="0.9"/>
+    <text x="1090" y="240" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif" text-anchor="middle">Azure Migrate</text>
+    <text x="1090" y="260" fill="white" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Appliance</text>
+    <text x="1090" y="280" fill="#e0f2fe" font-size="10" font-family="Arial, sans-serif" text-anchor="middle">"Agentless"</text>
+  </g>
+  
+  <!-- Failed connection attempts (X marks) -->
+  <g opacity="0.8">
+    <!-- From appliance trying to reach across firewalls -->
+    <line x1="1020" y1="250" x2="105" y2="235" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+    <line x1="1020" y1="250" x2="435" y2="235" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+    <line x1="1020" y1="250" x2="765" y2="235" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+    
+    <!-- X marks showing failed attempts -->
+    <g transform="translate(560, 215)">
+      <line x1="-8" y1="-8" x2="8" y2="8" stroke="#ef4444" stroke-width="3"/>
+      <line x1="8" y1="-8" x2="-8" y2="8" stroke="#ef4444" stroke-width="3"/>
+    </g>
+    
+    <g transform="translate(780, 215)">
+      <line x1="-8" y1="-8" x2="8" y2="8" stroke="#ef4444" stroke-width="3"/>
+      <line x1="8" y1="-8" x2="-8" y2="8" stroke="#ef4444" stroke-width="3"/>
+    </g>
+  </g>
+  
+  <!-- Credential attempts visualization -->
+  <g transform="translate(1020, 380)">
+    <text x="0" y="0" fill="#94a3b8" font-size="11" font-family="monospace">Trying credentials...</text>
+    <text x="0" y="20" fill="#ef4444" font-size="10" font-family="monospace">❌ Domain A: Failed</text>
+    <text x="0" y="35" fill="#ef4444" font-size="10" font-family="monospace">❌ Domain B: Failed</text>
+    <text x="0" y="50" fill="#10b981" font-size="10" font-family="monospace">✓ Domain C: Success</text>
+  </g>
+  
+  <!-- Main title -->
+  <g>
+    <text x="50" y="70" fill="white" font-size="48" font-weight="bold" font-family="Arial, sans-serif">Azure Migrate vs.</text>
+    <text x="50" y="120" fill="white" font-size="48" font-weight="bold" font-family="Arial, sans-serif">Enterprise Architecture</text>
+  </g>
+  
+  <!-- Subtitle -->
+  <text x="50" y="500" fill="#94a3b8" font-size="20" font-family="Arial, sans-serif">Why "agentless" discovery fails in multi-domain hybrid environments</text>
+  
+  <!-- Warning badge -->
+  <g transform="translate(50, 540)">
+    <rect width="180" height="35" rx="4" fill="#7f1d1d" opacity="0.8"/>
+    <text x="90" y="23" fill="#fca5a5" font-size="14" font-weight="bold" font-family="Arial, sans-serif" text-anchor="middle">ARCHITECTURAL MISMATCH</text>
+  </g>
+  
+  <!-- Site branding -->
+  <text x="1150" y="610" fill="#64748b" font-size="16" font-family="Arial, sans-serif" text-anchor="end">azure-noob.com</text>
+</svg>
