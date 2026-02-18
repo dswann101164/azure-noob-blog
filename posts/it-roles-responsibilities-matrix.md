@@ -40,9 +40,9 @@ This framework is not designed for solo admins managing two or three subscriptio
 
 ## Preview
 
-![Azure RACI Matrix Preview — Overview](/static/images/products/raci-preview-overview.png)
+![Azure RACI Matrix Preview — Overview](/static/images/hero/raci-matrix-preview-1.png)
 
-![Azure RACI Matrix Preview — RACI rows with conditional formatting](/static/images/products/raci-preview-rows.png)
+![Azure RACI Matrix Preview — RACI rows with conditional formatting](/static/images/hero/raci-matrix-preview-2.png)
 
 The matrix is structured as an Excel workbook with 58 operational tasks grouped across 8 Azure domains. Each task has a pre-assigned enterprise role — Security Engineer, Azure Admin, Cloud Security Architect, or Executive — reflecting how mid-to-large Azure teams actually divide operational work. Conditional formatting flags ownership gaps in red and conflicting dual assignments in yellow, so accountability problems are visible before an auditor sees them.
 
