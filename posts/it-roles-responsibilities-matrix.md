@@ -20,6 +20,30 @@ This guide is part of our [Azure Governance hub](/hub/governance/) covering poli
 
 ---
 
+## Preview: What the Azure RACI Matrix Looks Like
+
+![Azure RACI Matrix — Operations Assignments tab showing 58 tasks with pre-assigned enterprise roles](/static/images/hero/raci-matrix-preview-1.png)
+
+![Azure RACI Matrix — conditional formatting showing ownership gap detection (red = no owner, yellow = conflict, green = assigned)](/static/images/hero/raci-matrix-preview-2.png)
+
+The matrix is structured as an Excel workbook with 58 operational tasks grouped across 8 Azure domains. Each task has a pre-assigned enterprise role — Security Engineer, Azure Admin, Cloud Security Architect, or Executive — reflecting how mid-to-large Azure teams actually divide operational work. Conditional formatting flags ownership gaps in red and conflicting dual assignments in yellow, so accountability problems are visible before an auditor sees them. The domain grouping keeps Identity, Networking, Security, Cost Management, and the other four domains separated so each team can work from their own section without touching unrelated rows.
+
+---
+
+### Start With a Proven Baseline
+
+The Azure Cloud Operations RACI Matrix includes:
+
+- 58 pre-defined Azure operational tasks
+- Pre-assigned enterprise role mappings
+- Built-in ownership gap detection (red = no owner, yellow = conflict, green = clean)
+- Structured across 8 operational domains
+- Delivered as a customizable Excel workbook (.xlsx)
+
+[Download the Azure Cloud Operations RACI Matrix — $49](https://davidnoob.gumroad.com/l/ifojm)
+
+---
+
 ## The Real Enterprise Azure Ownership Problem
 
 Every Azure environment past 10 subscriptions has the same unspoken crisis: nobody knows who is responsible for what.
