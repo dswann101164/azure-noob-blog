@@ -42,8 +42,12 @@ def handle_trailing_slashes_and_redirects():
     final_path = original_path
     needs_redirect = False
     
-    # 1. Force HTTPS
-    if final_scheme == 'http':
+    # Local dev server has no TLS; skip scheme/host canonicalization there
+    LOCAL_HOSTS = ('127.0.0.1', 'localhost')
+    is_local = original_host.split(':')[0] in LOCAL_HOSTS
+
+    # 1. Force HTTPS (skip for local dev)
+    if final_scheme == 'http' and not is_local:
         final_scheme = 'https'
         needs_redirect = True
     
