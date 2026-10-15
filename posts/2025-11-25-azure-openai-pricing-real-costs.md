@@ -242,7 +242,7 @@ Most organizations discover zombie fine-tuned models 3-6 months after deployment
 <p style="font-size: 1.2rem; font-weight: bold; color: #28a745; margin: 0 0 1rem 0;">✅ What the ENTERPRISE toolkit prevents:</p>
 <ul style="font-size: 1.05rem; line-height: 1.8; margin: 0; font-weight: 600;">
   <li><strong>The $7,344/month zombie model disaster</strong> (4 idle fine-tuned models found in 3 minutes)</li>
-  <li><strong>The 47,000% cost blowup</strong> (Output-to-input ratio detection)</li>
+  <li><strong>The 12,780% cost blowup</strong> (Output-to-input ratio detection)</li>
   <li><strong>The $180K/year PTU mistake</strong> (Commitment calculator: 1-year vs 3-year ROI)</li>
   <li><strong>The CFO rejection</strong> (Board-ready TCO models + Executive summary template)</li>
   <li><strong>The 15-hour Excel nightmare</strong> (Pre-built scenarios for 20 common use cases)</li>
