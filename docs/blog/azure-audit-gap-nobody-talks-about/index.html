@@ -169,7 +169,7 @@
   },
   "keywords": "audit, auditing, azure, compliance, governance, kql, logging, security",
   "articleSection": "audit",
-  "wordCount": "9019",
+  "wordCount": "9013",
   "timeRequired": "PT45M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -772,11 +772,11 @@ Fast-growing SaaS startup, 3 subscriptions, preparing for first SOC 2 audit to w
 <p>You need to export logs from their 30/90-day defaults to long-term storage.</p>
 <h4 id="export-activity-logs-to-log-analytics">Export Activity Logs to Log Analytics</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Create or identify your Log Analytics Workspace</span>
-<span class="nv">$workspaceName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;audit-logs-workspace&quot;</span>
-<span class="nv">$resourceGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;governance-rg&quot;</span>
-<span class="nv">$location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus&quot;</span>
+<span class="nv">$workspaceName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"audit-logs-workspace"</span>
+<span class="nv">$resourceGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"governance-rg"</span>
+<span class="nv">$location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"eastus"</span>
 
-<span class="c1"># Create workspace if it doesn&#39;t exist</span>
+<span class="c1"># Create workspace if it doesn't exist</span>
 az<span class="w"> </span>monitor<span class="w"> </span>log-analytics<span class="w"> </span>workspace<span class="w"> </span>create<span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$resourceGroup</span><span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--workspace-name<span class="w"> </span><span class="nv">$workspaceName</span><span class="w"> </span><span class="sb">`</span>
@@ -793,43 +793,43 @@ az<span class="w"> </span>monitor<span class="w"> </span>log-analytics<span clas
 <span class="w">  </span>--query<span class="w"> </span>id<span class="w"> </span>-o<span class="w"> </span>tsv<span class="o">)</span>
 
 az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<span class="w"> </span>create<span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;export-activity-logs&quot;</span><span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--resource<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">&quot;</span><span class="w"> </span><span class="sb">`</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">"export-activity-logs"</span><span class="w"> </span><span class="sb">`</span>
+<span class="w">  </span>--resource<span class="w"> </span><span class="s2">"/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">"</span><span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--workspace<span class="w"> </span><span class="nv">$workspaceId</span><span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--logs<span class="w"> </span><span class="s1">&#39;[</span>
+<span class="w">  </span>--logs<span class="w"> </span><span class="s1">'[</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Administrative&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Administrative",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Security&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Security",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;ServiceHealth&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "ServiceHealth",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Alert&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Alert",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Recommendation&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Recommendation",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Policy&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Policy",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Autoscale&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "Autoscale",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    },</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;ResourceHealth&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true</span>
+<span class="s1">      "category": "ResourceHealth",</span>
+<span class="s1">      "enabled": true</span>
 <span class="s1">    }</span>
-<span class="s1">  ]&#39;</span>
+<span class="s1">  ]'</span>
 </code></pre></div>
 
 <h4 id="export-azure-ad-audit-logs">Export Azure AD Audit Logs</h4>
@@ -851,23 +851,23 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <span class="nb">Connect-AzureAD</span>
 
 <span class="c"># Get the Log Analytics Workspace resource ID</span>
-<span class="nv">$workspaceResourceId</span> <span class="p">=</span> <span class="s2">&quot;/subscriptions/$subscriptionId/resourceGroups/$resourceGroup/providers/Microsoft.OperationalInsights/workspaces/$workspaceName&quot;</span>
+<span class="nv">$workspaceResourceId</span> <span class="p">=</span> <span class="s2">"/subscriptions/$subscriptionId/resourceGroups/$resourceGroup/providers/Microsoft.OperationalInsights/workspaces/$workspaceName"</span>
 
 <span class="c"># Configure diagnostic settings for Azure AD</span>
 <span class="c"># Note: This requires Microsoft.Graph PowerShell module</span>
 <span class="nb">Install-Module</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">Graph</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
-<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">&quot;AuditLog.Read.All&quot;</span><span class="p">,</span> <span class="s2">&quot;Directory.Read.All&quot;</span>
+<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">"AuditLog.Read.All"</span><span class="p">,</span> <span class="s2">"Directory.Read.All"</span>
 
 <span class="c"># Create diagnostic setting</span>
 <span class="nv">$params</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="n">Name</span> <span class="p">=</span> <span class="s2">&quot;export-azuread-logs&quot;</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="s2">"export-azuread-logs"</span>
     <span class="n">WorkspaceId</span> <span class="p">=</span> <span class="nv">$workspaceResourceId</span>
     <span class="n">Logs</span> <span class="p">=</span> <span class="p">@(</span>
-        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">&quot;AuditLogs&quot;</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
-        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">&quot;SignInLogs&quot;</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
-        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">&quot;NonInteractiveUserSignInLogs&quot;</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
-        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">&quot;ServicePrincipalSignInLogs&quot;</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
-        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">&quot;ManagedIdentitySignInLogs&quot;</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">"AuditLogs"</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">"SignInLogs"</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">"NonInteractiveUserSignInLogs"</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">"ServicePrincipalSignInLogs"</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
+        <span class="p">@{</span> <span class="n">Category</span> <span class="p">=</span> <span class="s2">"ManagedIdentitySignInLogs"</span><span class="p">;</span> <span class="n">Enabled</span> <span class="p">=</span> <span class="nv">$true</span> <span class="p">}</span>
     <span class="p">)</span>
 <span class="p">}</span>
 
@@ -878,7 +878,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="export-to-storage-account-for-long-term-archive">Export to Storage Account for Long-Term Archive</h4>
 <p>Log Analytics is great for querying (30-730 days), but expensive for 7-year retention. Use Storage Accounts for cheap archive.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Create storage account for audit archive</span>
-<span class="nv">$storageAccountName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;auditarchive</span><span class="k">$(</span>Get-Random<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">$storageAccountName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"auditarchive</span><span class="k">$(</span>Get-Random<span class="k">)</span><span class="s2">"</span>
 az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>create<span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--name<span class="w"> </span><span class="nv">$storageAccountName</span><span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$resourceGroup</span><span class="w"> </span><span class="sb">`</span>
@@ -895,19 +895,19 @@ az<span class="w"> </span>storage<span class="w"> </span>account<span class="w">
 
 <span class="c1"># Update diagnostic settings to include storage</span>
 az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<span class="w"> </span>create<span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;export-activity-logs-storage&quot;</span><span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--resource<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">&quot;</span><span class="w"> </span><span class="sb">`</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">"export-activity-logs-storage"</span><span class="w"> </span><span class="sb">`</span>
+<span class="w">  </span>--resource<span class="w"> </span><span class="s2">"/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">"</span><span class="w"> </span><span class="sb">`</span>
 <span class="w">  </span>--storage-account<span class="w"> </span><span class="nv">$storageId</span><span class="w"> </span><span class="sb">`</span>
-<span class="w">  </span>--logs<span class="w"> </span><span class="s1">&#39;[</span>
+<span class="w">  </span>--logs<span class="w"> </span><span class="s1">'[</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;category&quot;: &quot;Administrative&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true,</span>
-<span class="s1">      &quot;retentionPolicy&quot;: {</span>
-<span class="s1">        &quot;enabled&quot;: true,</span>
-<span class="s1">        &quot;days&quot;: 2555</span>
+<span class="s1">      "category": "Administrative",</span>
+<span class="s1">      "enabled": true,</span>
+<span class="s1">      "retentionPolicy": {</span>
+<span class="s1">        "enabled": true,</span>
+<span class="s1">        "days": 2555</span>
 <span class="s1">      }</span>
 <span class="s1">    }</span>
-<span class="s1">  ]&#39;</span>
+<span class="s1">  ]'</span>
 </code></pre></div>
 
 <p><strong>Cost breakdown:</strong><br />
@@ -919,11 +919,11 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-1-who-created-this-resource">Query 1: Who Created This Resource?</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find who created a specific resource by name</span>
 <span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MICROSOFT.RESOURCES/DEPLOYMENTS/WRITE&quot;</span><span class="w"> </span>
-<span class="w">    </span><span class="k">or</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;CREATE&quot;</span>
-<span class="w">    </span><span class="k">or</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WRITE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceId</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;your-resource-name&quot;</span><span class="w">  </span><span class="c">// Replace with actual resource name</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"MICROSOFT.RESOURCES/DEPLOYMENTS/WRITE"</span><span class="w"> </span>
+<span class="w">    </span><span class="k">or</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"CREATE"</span>
+<span class="w">    </span><span class="k">or</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"WRITE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceId</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"your-resource-name"</span><span class="w">  </span><span class="c">// Replace with actual resource name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Caller</span><span class="p">,</span><span class="w">  </span><span class="c">// Who did it</span>
@@ -938,7 +938,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-2-all-actions-by-a-specific-user">Query 2: All Actions by a Specific User</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find everything a user did (useful for offboarding investigations)</span>
 <span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;john.doe@company.com&quot;</span><span class="w">  </span><span class="c">// Replace with actual user</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"john.doe@company.com"</span><span class="w">  </span><span class="c">// Replace with actual user</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span><span class="w">  </span><span class="c">// Adjust time range as needed</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
@@ -952,8 +952,8 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-3-resource-deletions">Query 3: Resource Deletions</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track all resource deletions (critical for audit trails)</span>
 <span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
@@ -967,12 +967,12 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-4-who-granted-admin-consent-to-an-app">Query 4: Who Granted Admin Consent to an App?</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track admin consent grants (Azure AD Audit Logs)</span>
 <span class="n">AuditLogs</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Consent to application&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Consent to application"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">ConsentedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">Permissions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">modifiedProperties</span><span class="p">)</span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">ConsentedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Permissions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">modifiedProperties</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ConsentedBy</span><span class="p">,</span>
@@ -985,12 +985,12 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-5-app-registration-creation-and-ownership">Query 5: App Registration Creation and Ownership</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track app registration creation (Azure AD Audit Logs)</span>
 <span class="n">AuditLogs</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add application&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Add application"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">CreatedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">AppId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CreatedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AppId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">id</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">CreatedBy</span><span class="p">,</span>
@@ -1003,7 +1003,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-6-service-principal-sign-in-activity">Query 6: Service Principal Sign-In Activity</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Check if an app registration is actually being used</span>
 <span class="n">AADServicePrincipalSignInLogs</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AppId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;your-app-id-guid&quot;</span><span class="w">  </span><span class="c">// Replace with actual App ID</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AppId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"your-app-id-guid"</span><span class="w">  </span><span class="c">// Replace with actual App ID</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">SignInCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
@@ -1021,10 +1021,10 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <h4 id="query-7-storage-account-access-data-plane">Query 7: Storage Account Access (Data Plane)</h4>
 <div class="codehilite"><pre><span></span><code><span class="c">// Track who accessed storage account data (requires diagnostic settings on storage)</span>
 <span class="n">StorageBlobLogs</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AccountName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;yourstorageaccount&quot;</span><span class="w">  </span><span class="c">// Replace with actual storage account</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AccountName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"yourstorageaccount"</span><span class="w">  </span><span class="c">// Replace with actual storage account</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">StatusCode</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">200</span><span class="w">  </span><span class="c">// Successful operations</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CallerIdentity</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">Identity</span><span class="p">)</span><span class="err">.</span><span class="n">claims</span><span class="err">.</span><span class="n">upn</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CallerIdentity</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">Identity</span><span class="p">).</span><span class="n">claims</span><span class="p">.</span><span class="n">upn</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">AccessCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">LastAccess</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span>
@@ -1123,8 +1123,8 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <p><strong>Query 1: Last 30 Days of Resource Deletions</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationNameValue</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -1132,8 +1132,8 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <p><strong>Query 2: Changes by High-Privilege Users</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;admin1@company.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;admin2@company.com&quot;</span><span class="p">)</span><span class="w">  </span><span class="c">// Replace with actual admins</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">"admin1@company.com"</span><span class="p">,</span><span class="w"> </span><span class="s">"admin2@company.com"</span><span class="p">)</span><span class="w">  </span><span class="c">// Replace with actual admins</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">ChangeCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">OperationNameValue</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ChangeCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -1141,17 +1141,17 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <p><strong>Query 3: Admin Consent Grants (Last 90 Days)</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Consent to application&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">AppName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Consent to application"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"success"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">displayName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">userPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">AppName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <p><strong>Query 4: Failed Sign-Ins (Potential Brute Force)</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">SigninLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="w">  </span><span class="c">// 0 = success</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResultType</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">"0"</span><span class="w">  </span><span class="c">// 0 = success</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">FailCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">UserPrincipalName</span><span class="p">,</span><span class="w"> </span><span class="n">IPAddress</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">FailCount</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">5</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">FailCount</span><span class="w"> </span><span class="n">desc</span>
@@ -1183,7 +1183,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <span class="k">-</span><span class="w"> </span><span class="gs">**Retention:**</span> 2,555 days (7 years)
 <span class="k">-</span><span class="w"> </span><span class="gs">**Access:**</span> Compliance team only (RBAC locked down)
 
-<span class="gu">## What&#39;s Collected</span>
+<span class="gu">## What's Collected</span>
 
 <span class="gu">### Activity Logs (ARM Resources)</span>
 <span class="k">-</span><span class="w"> </span>All subscriptions configured with diagnostic settings
@@ -1200,7 +1200,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 
 <span class="gu">### Portal Access</span>
 <span class="k">1.</span> Navigate to: Log Analytics Workspace &gt; Logs
-<span class="k">2.</span> Select &quot;audit-logs-workspace&quot;
+<span class="k">2.</span> Select "audit-logs-workspace"
 <span class="k">3.</span> Use pre-built queries from: [Link to internal wiki/SharePoint]
 
 <span class="gu">### Common Queries</span>
@@ -1286,15 +1286,15 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
         <span class="n">AppId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
         <span class="n">ObjectId</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">ObjectId</span>
         <span class="n">CreatedDateTime</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">CreatedDateTime</span>
-        <span class="n">Owners</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$owners</span><span class="p">.</span><span class="n">UserPrincipalName</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span><span class="p">)</span>
+        <span class="n">Owners</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$owners</span><span class="p">.</span><span class="n">UserPrincipalName</span> <span class="n">-join</span> <span class="s2">"; "</span><span class="p">)</span>
         <span class="n">SignInAudience</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">SignInAudience</span>
         <span class="n">PublisherDomain</span> <span class="p">=</span> <span class="nv">$app</span><span class="p">.</span><span class="n">PublisherDomain</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="nv">$report</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;app-registrations-inventory.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+<span class="nv">$report</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">"app-registrations-inventory.csv"</span> <span class="n">-NoTypeInformation</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Exported </span><span class="p">$(</span><span class="nv">$report</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> app registrations to CSV&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Exported </span><span class="p">$(</span><span class="nv">$report</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> app registrations to CSV"</span>
 </code></pre></div>
 
 <p>Run this monthly. Compare to last month's export. Flag new apps without owners.</p>
@@ -1651,7 +1651,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">OldestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
 <span class="w">    </span><span class="n">NewestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
-<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
+<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">OldestLog</span><span class="p">,</span><span class="w"> </span><span class="n">NewestLog</span><span class="p">,</span><span class="w"> </span><span class="n">DaysCovered</span>
 </code></pre></div>
 
@@ -1660,7 +1660,7 @@ az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<spa
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">OldestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
 <span class="w">    </span><span class="n">NewestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
-<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
+<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">OldestLog</span><span class="p">,</span><span class="w"> </span><span class="n">NewestLog</span><span class="p">,</span><span class="w"> </span><span class="n">DaysCovered</span>
 </code></pre></div>
 
@@ -1683,9 +1683,9 @@ az<span class="w"> </span>monitor<span class="w"> </span>log-analytics<span clas
 <span class="nv">subscriptionId</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>account<span class="w"> </span>show<span class="w"> </span>--query<span class="w"> </span>id<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
 az<span class="w"> </span>monitor<span class="w"> </span>diagnostic-settings<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span>emergency-export<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--resource<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource<span class="w"> </span><span class="s2">"/subscriptions/</span><span class="nv">$subscriptionId</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--workspace<span class="w"> </span><span class="nv">$workspaceId</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--logs<span class="w"> </span><span class="s1">&#39;[{&quot;category&quot;:&quot;Administrative&quot;,&quot;enabled&quot;:true}]&#39;</span>
+<span class="w">  </span>--logs<span class="w"> </span><span class="s1">'[{"category":"Administrative","enabled":true}]'</span>
 </code></pre></div>
 
 <p><strong>Important:</strong> This only captures NEW logs going forward. You can't recover old logs that already expired.</p>

@@ -377,7 +377,7 @@
 <p>This is how I assess environments—fast.</p>
 <p><strong>Subscription inventory:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">resourcecontainers</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'microsoft.resources/subscriptions'</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
 </code></pre></div>
 
@@ -386,7 +386,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">resourcecontainers</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'microsoft.resources/subscriptions'</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
 <span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>

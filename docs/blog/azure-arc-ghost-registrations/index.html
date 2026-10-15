@@ -710,8 +710,8 @@ Azure Arc (Always Current)
 <p><strong>Reconcile:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Compare old Arc (manual) vs new Arc (bridge)</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">RegistrationType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Source&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Manual&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bridge&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">RegistrationType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Source"</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Manual"</span><span class="p">,</span><span class="w"> </span><span class="s">"Manual"</span><span class="p">,</span><span class="w"> </span><span class="s">"Bridge"</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">RegistrationType</span>
 </code></pre></div>
 
@@ -723,12 +723,12 @@ Azure Arc (Always Current)
 <p><strong>Identify Ghosts:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get all manual Arc registrations</span>
 <span class="nv">$manualArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> 
-    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Source&quot;</span><span class="p">]</span> <span class="o">-eq</span> <span class="s2">&quot;Manual&quot;</span> 
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">"Source"</span><span class="p">]</span> <span class="o">-eq</span> <span class="s2">"Manual"</span> 
 <span class="p">}</span>
 
 <span class="c"># Get all Bridge registrations</span>
 <span class="nv">$bridgeArc</span> <span class="p">=</span> <span class="nb">Get-AzConnectedMachine</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
-    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Source&quot;</span><span class="p">]</span> <span class="o">-ne</span> <span class="s2">&quot;Manual&quot;</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">"Source"</span><span class="p">]</span> <span class="o">-ne</span> <span class="s2">"Manual"</span>
 <span class="p">}</span>
 
 <span class="c"># Find ghosts (in manual Arc but not in Bridge)</span>
@@ -737,16 +737,16 @@ Azure Arc (Always Current)
     <span class="o">-not</span> <span class="p">(</span><span class="nv">$bridgeArc</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-eq</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span> <span class="p">})</span>
 <span class="p">}</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Ghost count: </span><span class="p">$(</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Ghost count: </span><span class="p">$(</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <p><strong>Delete Ghosts:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Backup ghost list</span>
-<span class="nv">$ghosts</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;arc-ghosts-backup.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+<span class="nv">$ghosts</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">"arc-ghosts-backup.csv"</span> <span class="n">-NoTypeInformation</span>
 
 <span class="c"># Delete ghosts</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$ghost</span> <span class="k">in</span> <span class="nv">$ghosts</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Deleting ghost: </span><span class="p">$(</span><span class="nv">$ghost</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Deleting ghost: </span><span class="p">$(</span><span class="nv">$ghost</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span>
     <span class="nb">Remove-AzConnectedMachine</span> <span class="p">`</span>
         <span class="n">-ResourceGroupName</span> <span class="nv">$ghost</span><span class="p">.</span><span class="n">ResourceGroupName</span> <span class="p">`</span>
         <span class="n">-Name</span> <span class="nv">$ghost</span><span class="p">.</span><span class="n">Name</span> <span class="p">`</span>
@@ -959,9 +959,9 @@ Azure Arc (Always Current)
 <span class="c"># Export to CSV</span>
 <span class="nv">$arcVMs</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">ResourceGroupName</span><span class="p">,</span> <span class="n">Location</span><span class="p">,</span> <span class="n">Status</span><span class="p">,</span> 
     <span class="n">LastStatusChange</span><span class="p">,</span> <span class="n">AgentVersion</span><span class="p">,</span> <span class="n">OSType</span> <span class="p">|</span> 
-    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;arc-inventory.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">"arc-inventory.csv"</span> <span class="n">-NoTypeInformation</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Arc VMs: </span><span class="p">$(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Arc VMs: </span><span class="p">$(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <h3 id="step-2-export-vmware-inventory">Step 2: Export VMware Inventory</h3>
@@ -972,8 +972,8 @@ Azure Arc (Always Current)
 4. Combine all vCenter exports</p>
 <h3 id="step-3-reconcile">Step 3: Reconcile</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Load both inventories</span>
-<span class="nv">$arcVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;arc-inventory.csv&quot;</span>
-<span class="nv">$vmwareVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">&quot;rvtools-export.csv&quot;</span>
+<span class="nv">$arcVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">"arc-inventory.csv"</span>
+<span class="nv">$vmwareVMs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="s2">"rvtools-export.csv"</span>
 
 <span class="c"># Find ghosts (in Arc but not in VMware)</span>
 <span class="nv">$ghosts</span> <span class="p">=</span> <span class="nv">$arcVMs</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
@@ -990,11 +990,11 @@ Azure Arc (Always Current)
 <span class="c"># Calculate coverage</span>
 <span class="nv">$coverage</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span> <span class="p">-</span> <span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span> <span class="p">/</span> <span class="nv">$vmwareVMs</span><span class="p">.</span><span class="n">Count</span> <span class="p">*</span> <span class="n">100</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Total VMware VMs: </span><span class="p">$(</span><span class="nv">$vmwareVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Total Arc VMs: </span><span class="p">$(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Ghosts: </span><span class="p">$(</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> (</span><span class="p">$((</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span> <span class="p">/</span> <span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span> <span class="p">*</span> <span class="n">100</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">))</span><span class="s2">%)&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Missing: </span><span class="p">$(</span><span class="nv">$missing</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Coverage: </span><span class="p">$(</span><span class="nv">$coverage</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">))</span><span class="s2">%&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Total VMware VMs: </span><span class="p">$(</span><span class="nv">$vmwareVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Total Arc VMs: </span><span class="p">$(</span><span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Ghosts: </span><span class="p">$(</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> (</span><span class="p">$((</span><span class="nv">$ghosts</span><span class="p">.</span><span class="n">Count</span> <span class="p">/</span> <span class="nv">$arcVMs</span><span class="p">.</span><span class="n">Count</span> <span class="p">*</span> <span class="n">100</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s1">'0.0'</span><span class="p">))</span><span class="s2">%)"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Missing: </span><span class="p">$(</span><span class="nv">$missing</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Coverage: </span><span class="p">$(</span><span class="nv">$coverage</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s1">'0.0'</span><span class="p">))</span><span class="s2">%"</span>
 </code></pre></div>
 
 <h3 id="step-4-visualize-optional">Step 4: Visualize (Optional)</h3>

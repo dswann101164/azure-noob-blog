@@ -422,12 +422,12 @@ You earn them <strong>after discovery</strong>, not before.</p>
 
 <h3 id="enforce-with-azure-policy">Enforce with Azure Policy</h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;AppID&#39;]&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['AppID']"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -534,7 +534,7 @@ You earn them <strong>after discovery</strong>, not before.</p>
 <h3 id="phase-0-discover-week-1">Phase 0: Discover (Week 1)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Azure Resource Graph: Find untagged orphans</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;AppID&#39;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'AppID'</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -546,8 +546,8 @@ You earn them <strong>after discovery</strong>, not before.</p>
 </ul>
 <h3 id="phase-2-aggregate-by-appid-week-3">Phase 2: Aggregate by <code>AppID</code> (Week 3)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Cost Management: Roll up by AppID</span>
-<span class="k">where</span><span class="w"> </span><span class="n">Tags</span><span class="err">.</span><span class="n">AppID</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">PreTaxCost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Tags</span><span class="err">.</span><span class="n">AppID</span><span class="p">,</span><span class="w"> </span><span class="n">Tags</span><span class="err">.</span><span class="n">Environment</span>
+<span class="k">where</span><span class="w"> </span><span class="n">Tags</span><span class="p">.</span><span class="n">AppID</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">""</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">PreTaxCost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Tags</span><span class="p">.</span><span class="n">AppID</span><span class="p">,</span><span class="w"> </span><span class="n">Tags</span><span class="p">.</span><span class="n">Environment</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
@@ -588,7 +588,7 @@ You earn them <strong>after discovery</strong>, not before.</p>
 </table>
 <h3 id="phase-4-execute-automated">Phase 4: Execute (Automated)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Retire an application across all subscriptions</span>
-<span class="nv">$appId</span> <span class="p">=</span> <span class="s2">&quot;ERP-001&quot;</span>
+<span class="nv">$appId</span> <span class="p">=</span> <span class="s2">"ERP-001"</span>
 
 <span class="c"># Find all resources</span>
 <span class="nv">$resources</span> <span class="p">=</span> <span class="n">az</span> <span class="n">resource</span> <span class="n">list</span> <span class="p">-</span><span class="n">-tag</span> <span class="n">AppID</span><span class="p">=</span><span class="nv">$appId</span> <span class="p">-</span><span class="n">-query</span> <span class="p">[].</span><span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span>

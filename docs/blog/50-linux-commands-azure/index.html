@@ -336,14 +336,14 @@ sudo<span class="w"> </span>cat<span class="w"> </span>/var/lib/waagent/Microsof
 <h3 id="azure-instance-metadata-service-imds">Azure Instance Metadata Service (IMDS)</h3>
 <p>Query VM metadata and managed identity tokens:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Get VM metadata</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Metadata:true&quot;</span><span class="w"> </span><span class="s2">&quot;http://169.254.169.254/metadata/instance?api-version=2021-02-01&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Metadata:true"</span><span class="w"> </span><span class="s2">"http://169.254.169.254/metadata/instance?api-version=2021-02-01"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
 
 <span class="c1"># Get managed identity token</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Metadata:true&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&amp;resource=https://management.azure.com/&quot;</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Metadata:true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&amp;resource=https://management.azure.com/"</span>
 
 <span class="c1"># Check if VM has managed identity</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Metadata:true&quot;</span><span class="w"> </span><span class="s2">&quot;http://169.254.169.254/metadata/instance/compute/identity?api-version=2021-02-01&quot;</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Metadata:true"</span><span class="w"> </span><span class="s2">"http://169.254.169.254/metadata/instance/compute/identity?api-version=2021-02-01"</span>
 </code></pre></div>
 
 <h3 id="cloud-init-troubleshooting">cloud-init Troubleshooting</h3>
@@ -387,7 +387,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="
 
 <span class="c1"># View service logs</span>
 sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>sshd
-sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>walinuxagent<span class="w"> </span>--since<span class="w"> </span><span class="s2">&quot;1 hour ago&quot;</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>walinuxagent<span class="w"> </span>--since<span class="w"> </span><span class="s2">"1 hour ago"</span>
 
 <span class="c1"># Follow logs in real-time</span>
 sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>sshd<span class="w"> </span>-f
@@ -534,17 +534,17 @@ tail<span class="w"> </span>-50<span class="w"> </span>/var/log/syslog
 
 <h3 id="searching">Searching</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Find files</span>
-find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
+find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.log"</span>
 find<span class="w"> </span>/home<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>-7<span class="w">  </span><span class="c1"># Modified in last 7 days</span>
-find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;waagent.log&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span><span class="s2">"waagent.log"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
 
 <span class="c1"># Search text in files</span>
-grep<span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>/var/log/syslog
-grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;Failed&quot;</span><span class="w"> </span>/var/log/
-grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;authentication failure&quot;</span><span class="w"> </span>/var/log/auth.log
+grep<span class="w"> </span><span class="s2">"error"</span><span class="w"> </span>/var/log/syslog
+grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">"Failed"</span><span class="w"> </span>/var/log/
+grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"authentication failure"</span><span class="w"> </span>/var/log/auth.log
 
 <span class="c1"># Search with context</span>
-grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span>-B<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>logfile.txt
+grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span>-B<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span>logfile.txt
 </code></pre></div>
 
 <h3 id="file-management">File Management</h3>
@@ -620,12 +620,12 @@ mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>gre
 <h3 id="make-mount-permanent">Make Mount Permanent</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Get UUID</span>
 sudo<span class="w"> </span>blkid<span class="w"> </span>/dev/sdc1
-<span class="c1"># Output: /dev/sdc1: UUID=&quot;abc123...&quot; TYPE=&quot;ext4&quot;</span>
+<span class="c1"># Output: /dev/sdc1: UUID="abc123..." TYPE="ext4"</span>
 
 <span class="c1"># Add to fstab</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=abc123-def456 /datadisk ext4 defaults,nofail 0 0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"UUID=abc123-def456 /datadisk ext4 defaults,nofail 0 0"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/fstab
 
-<span class="c1"># Test fstab (doesn&#39;t actually mount)</span>
+<span class="c1"># Test fstab (doesn't actually mount)</span>
 sudo<span class="w"> </span>findmnt<span class="w"> </span>--verify
 
 <span class="c1"># Test mount all</span>
@@ -673,11 +673,11 @@ w
 sudo<span class="w"> </span>-l
 
 <span class="c1"># View failed authentication attempts</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Failed password&quot;</span><span class="w"> </span>/var/log/auth.log
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;authentication failure&quot;</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"Failed password"</span><span class="w"> </span>/var/log/auth.log
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"authentication failure"</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
 
 <span class="c1"># Check for suspicious activity</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;session opened&quot;</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;azureuser&quot;</span>
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"session opened"</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">"azureuser"</span>
 </code></pre></div>
 
 <hr />
@@ -688,7 +688,7 @@ curl<span class="w"> </span>-sL<span class="w"> </span>https://aka.ms/InstallAzu
 
 <span class="c1"># RHEL/CentOS</span>
 sudo<span class="w"> </span>rpm<span class="w"> </span>--import<span class="w"> </span>https://packages.microsoft.com/keys/microsoft.asc
-sudo<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo -e &quot;[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/azure-cli.repo&#39;</span>
+sudo<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" &gt; /etc/yum.repos.d/azure-cli.repo'</span>
 sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>azure-cli
 </code></pre></div>
 
@@ -704,7 +704,7 @@ az<span class="w"> </span>account<span class="w"> </span>show
 az<span class="w"> </span>account<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
 
 <span class="c1"># Switch subscription</span>
-az<span class="w"> </span>account<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--subscription<span class="w"> </span><span class="s2">&quot;Production&quot;</span>
+az<span class="w"> </span>account<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--subscription<span class="w"> </span><span class="s2">"Production"</span>
 
 <span class="c1"># List VMs</span>
 az<span class="w"> </span>vm<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
@@ -827,7 +827,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>realmd<span class="w"> </span>sssd<span class="w"> </span>sssd-tools<span class="w"> </span>libnss-sss<span class="w"> </span>libpam-sss<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>adcli<span class="w"> </span>samba-common-bin<span class="w"> </span>packagekit<span class="w"> </span>krb5-user
 
-<span class="c1"># During install, you&#39;ll be prompted for Kerberos realm (DOMAIN.COM in uppercase)</span>
+<span class="c1"># During install, you'll be prompted for Kerberos realm (DOMAIN.COM in uppercase)</span>
 </code></pre></div>
 
 <h3 id="installation-rhel-centos">Installation (RHEL/CentOS)</h3>
@@ -847,8 +847,8 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w
 cat<span class="w"> </span>/etc/resolv.conf
 
 <span class="c1"># Configure DNS (temporary - for testing)</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;nameserver 10.0.0.4&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/resolv.conf
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;search CONTOSO.COM&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/resolv.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"nameserver 10.0.0.4"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/resolv.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"search CONTOSO.COM"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/resolv.conf
 
 <span class="c1"># Make permanent (Ubuntu/Debian with netplan)</span>
 sudo<span class="w"> </span>nano<span class="w"> </span>/etc/netplan/50-cloud-init.yaml
@@ -861,9 +861,9 @@ sudo<span class="w"> </span>nano<span class="w"> </span>/etc/netplan/50-cloud-in
 sudo<span class="w"> </span>netplan<span class="w"> </span>apply
 
 <span class="c1"># Make permanent (RHEL/CentOS)</span>
-sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">&quot;System eth0&quot;</span><span class="w"> </span>ipv4.dns<span class="w"> </span><span class="s2">&quot;10.0.0.4 10.0.0.5&quot;</span>
-sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">&quot;System eth0&quot;</span><span class="w"> </span>ipv4.dns-search<span class="w"> </span><span class="s2">&quot;CONTOSO.COM&quot;</span>
-sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span><span class="s2">&quot;System eth0&quot;</span>
+sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">"System eth0"</span><span class="w"> </span>ipv4.dns<span class="w"> </span><span class="s2">"10.0.0.4 10.0.0.5"</span>
+sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>mod<span class="w"> </span><span class="s2">"System eth0"</span><span class="w"> </span>ipv4.dns-search<span class="w"> </span><span class="s2">"CONTOSO.COM"</span>
+sudo<span class="w"> </span>nmcli<span class="w"> </span>con<span class="w"> </span>up<span class="w"> </span><span class="s2">"System eth0"</span>
 
 <span class="c1"># Verify DNS resolution</span>
 nslookup<span class="w"> </span>DC01.CONTOSO.COM
@@ -887,7 +887,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">en
 sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>chronyd
 
 <span class="c1"># Add DC as time source</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;server DC01.CONTOSO.COM iburst&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/chrony.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"server DC01.CONTOSO.COM iburst"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/chrony.conf
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>chronyd
 
 <span class="c1"># Verify sync</span>
@@ -922,10 +922,10 @@ nc<span class="w"> </span>-zv<span class="w"> </span>DC01.CONTOSO.COM<span class
 sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>CONTOSO.COM
 
 <span class="c1"># Or specify password on command line (scripting)</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;P@ssw0rd&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>CONTOSO.COM<span class="w"> </span>--stdin
+<span class="nb">echo</span><span class="w"> </span><span class="s1">'P@ssw0rd'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>CONTOSO.COM<span class="w"> </span>--stdin
 
 <span class="c1"># Join with specific OU (optional)</span>
-sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>--computer-ou<span class="o">=</span><span class="s2">&quot;OU=Servers,OU=Azure,DC=CONTOSO,DC=COM&quot;</span><span class="w"> </span>CONTOSO.COM
+sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>administrator<span class="w"> </span>--computer-ou<span class="o">=</span><span class="s2">"OU=Servers,OU=Azure,DC=CONTOSO,DC=COM"</span><span class="w"> </span>CONTOSO.COM
 
 <span class="c1"># Verify join</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>list
@@ -993,7 +993,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="
 sudo<span class="w"> </span>pam-auth-update<span class="w"> </span>--enable<span class="w"> </span>mkhomedir
 
 <span class="c1"># Or manually add to PAM configuration</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;session required pam_mkhomedir.so skel=/etc/skel/ umask=0077&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"session required pam_mkhomedir.so skel=/etc/skel/ umask=0077"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/pam.d/common-session
 
 <span class="c1"># For RHEL/CentOS</span>
@@ -1002,10 +1002,10 @@ sudo<span class="w"> </span>authconfig<span class="w"> </span>--enablemkhomedir<
 
 <h4 id="step-7-configure-sudo-access">Step 7: Configure Sudo Access</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add domain admins to sudoers</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%domain\ admins ALL=(ALL:ALL) ALL&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/domain_admins
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"%domain\ admins ALL=(ALL:ALL) ALL"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/domain_admins
 
 <span class="c1"># Or specific group</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%azure-admins ALL=(ALL:ALL) ALL&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/azure_admins
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"%azure-admins ALL=(ALL:ALL) ALL"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/azure_admins
 
 <span class="c1"># Set correct permissions</span>
 sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">0440</span><span class="w"> </span>/etc/sudoers.d/domain_admins
@@ -1041,8 +1041,8 @@ getent<span class="w"> </span>passwd<span class="w"> </span>john<span class="w">
 <span class="c1"># john:*:1450401106:1450400513:John Smith:/home/john:/bin/bash</span>
 
 <span class="c1"># Test group lookup</span>
-getent<span class="w"> </span>group<span class="w"> </span><span class="s2">&quot;domain admins&quot;</span>
-getent<span class="w"> </span>group<span class="w"> </span><span class="s2">&quot;domain users&quot;</span>
+getent<span class="w"> </span>group<span class="w"> </span><span class="s2">"domain admins"</span>
+getent<span class="w"> </span>group<span class="w"> </span><span class="s2">"domain users"</span>
 
 <span class="c1"># Check user details</span>
 id<span class="w"> </span>john@CONTOSO.COM
@@ -1090,7 +1090,7 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="
 sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span class="w"> </span>CONTOSO.COM
 
 <span class="c1"># Check online/offline status</span>
-sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span class="w"> </span>CONTOSO.COM<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Online status&quot;</span>
+sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span class="w"> </span>CONTOSO.COM<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Online status"</span>
 </code></pre></div>
 
 <h4 id="view-logs">View Logs</h4>
@@ -1130,7 +1130,7 @@ nc<span class="w"> </span>-zv<span class="w"> </span>DC01.CONTOSO.COM<span class
 nc<span class="w"> </span>-zv<span class="w"> </span>DC01.CONTOSO.COM<span class="w"> </span><span class="m">636</span><span class="w">   </span><span class="c1"># LDAPS</span>
 
 <span class="c1"># Test LDAP directly</span>
-ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://DC01.CONTOSO.COM<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;DC=CONTOSO,DC=COM&quot;</span>
+ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://DC01.CONTOSO.COM<span class="w"> </span>-b<span class="w"> </span><span class="s2">"DC=CONTOSO,DC=COM"</span>
 </code></pre></div>
 
 <h4 id="debug-kerberos">Debug Kerberos</h4>
@@ -1148,16 +1148,16 @@ nslookup<span class="w"> </span>-type<span class="o">=</span>SRV<span class="w">
 
 <h4 id="check-user-authentication-attempts">Check User Authentication Attempts</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># View all authentication attempts</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;authentication&quot;</span><span class="w"> </span>/var/log/auth.log
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"authentication"</span><span class="w"> </span>/var/log/auth.log
 
 <span class="c1"># View failed attempts</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;authentication failure&quot;</span><span class="w"> </span>/var/log/auth.log
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"authentication failure"</span><span class="w"> </span>/var/log/auth.log
 
 <span class="c1"># View successful logins</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;session opened&quot;</span><span class="w"> </span>/var/log/auth.log
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"session opened"</span><span class="w"> </span>/var/log/auth.log
 
 <span class="c1"># Check SSSD authentication</span>
-sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;pam_sss&quot;</span><span class="w"> </span>/var/log/auth.log
+sudo<span class="w"> </span>grep<span class="w"> </span><span class="s2">"pam_sss"</span><span class="w"> </span>/var/log/auth.log
 </code></pre></div>
 
 <h3 id="common-errors-solutions">Common Errors &amp; Solutions</h3>
@@ -1172,7 +1172,7 @@ nslookup<span class="w"> </span>DC01.CONTOSO.COM
 nslookup<span class="w"> </span>_ldap._tcp.dc._msdcs.CONTOSO.COM
 
 <span class="c1"># Fix DNS</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;nameserver 10.0.0.4&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/resolv.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"nameserver 10.0.0.4"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/resolv.conf
 </code></pre></div>
 
 <h4 id="error-realm-couldn-t-join-realm-insufficient-permissions">Error: "realm: Couldn't join realm: Insufficient permissions"</h4>
@@ -1204,7 +1204,7 @@ sudo<span class="w"> </span>grep<span class="w"> </span>PasswordAuthentication<s
 sudo<span class="w"> </span>grep<span class="w"> </span>PasswordAuthentication<span class="w"> </span>/etc/ssh/sshd_config.d/*.conf
 
 <span class="c1"># Enable password auth</span>
-sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/PasswordAuthentication no/PasswordAuthentication yes/&#39;</span><span class="w"> </span>/etc/ssh/sshd_config
+sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s/PasswordAuthentication no/PasswordAuthentication yes/'</span><span class="w"> </span>/etc/ssh/sshd_config
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
 </code></pre></div>
 
@@ -1223,7 +1223,7 @@ sudo<span class="w"> </span>ntpdate<span class="w"> </span>DC01.CONTOSO.COM
 timedatectl<span class="w"> </span>status
 
 <span class="c1"># Configure permanent sync</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;server DC01.CONTOSO.COM iburst&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/chrony.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"server DC01.CONTOSO.COM iburst"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/chrony.conf
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>chronyd
 </code></pre></div>
 
@@ -1265,50 +1265,50 @@ sudo<span class="w"> </span>rm<span class="w"> </span>/etc/sssd/sssd.conf
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="c1"># domain-join.sh - Automated domain join for Azure VMs</span>
 
-<span class="nv">DOMAIN</span><span class="o">=</span><span class="s2">&quot;CONTOSO.COM&quot;</span>
-<span class="nv">DC_IP</span><span class="o">=</span><span class="s2">&quot;10.0.0.4&quot;</span>
-<span class="nv">ADMIN_USER</span><span class="o">=</span><span class="s2">&quot;administrator&quot;</span>
+<span class="nv">DOMAIN</span><span class="o">=</span><span class="s2">"CONTOSO.COM"</span>
+<span class="nv">DC_IP</span><span class="o">=</span><span class="s2">"10.0.0.4"</span>
+<span class="nv">ADMIN_USER</span><span class="o">=</span><span class="s2">"administrator"</span>
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Installing packages ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Installing packages ==="</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>realmd<span class="w"> </span>sssd<span class="w"> </span>sssd-tools<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>libnss-sss<span class="w"> </span>libpam-sss<span class="w"> </span>adcli<span class="w"> </span>samba-common-bin<span class="w"> </span>krb5-user
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Configuring DNS ===&quot;</span>
-sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/nameserver .*/nameserver </span><span class="nv">$DC_IP</span><span class="s2">/&quot;</span><span class="w"> </span>/etc/resolv.conf
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;search </span><span class="nv">$DOMAIN</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/resolv.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Configuring DNS ==="</span>
+sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">"s/nameserver .*/nameserver </span><span class="nv">$DC_IP</span><span class="s2">/"</span><span class="w"> </span>/etc/resolv.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"search </span><span class="nv">$DOMAIN</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/resolv.conf
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Syncing time ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Syncing time ==="</span>
 sudo<span class="w"> </span>timedatectl<span class="w"> </span>set-ntp<span class="w"> </span><span class="nb">true</span>
 sleep<span class="w"> </span><span class="m">2</span>
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Discovering domain ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Discovering domain ==="</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>discover<span class="w"> </span><span class="nv">$DOMAIN</span>
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Joining domain ===&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Enter password for </span><span class="nv">$ADMIN_USER</span><span class="s2">@</span><span class="nv">$DOMAIN</span><span class="s2">:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Joining domain ==="</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Enter password for </span><span class="nv">$ADMIN_USER</span><span class="s2">@</span><span class="nv">$DOMAIN</span><span class="s2">:"</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span><span class="nv">$ADMIN_USER</span><span class="w"> </span><span class="nv">$DOMAIN</span>
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Configuring SSSD ===&quot;</span>
-sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/use_fully_qualified_names = True/use_fully_qualified_names = False/g&#39;</span><span class="w"> </span>/etc/sssd/sssd.conf
-sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/\[domain/a fallback_homedir = /home/%u&#39;</span><span class="w"> </span>/etc/sssd/sssd.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Configuring SSSD ==="</span>
+sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s/use_fully_qualified_names = True/use_fully_qualified_names = False/g'</span><span class="w"> </span>/etc/sssd/sssd.conf
+sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'/\[domain/a fallback_homedir = /home/%u'</span><span class="w"> </span>/etc/sssd/sssd.conf
 sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/sssd/sssd.conf
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Enabling home directory creation ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Enabling home directory creation ==="</span>
 sudo<span class="w"> </span>pam-auth-update<span class="w"> </span>--enable<span class="w"> </span>mkhomedir
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Configuring sudo ===&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%domain\ admins ALL=(ALL:ALL) ALL&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/domain_admins
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Configuring sudo ==="</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"%domain\ admins ALL=(ALL:ALL) ALL"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/domain_admins
 sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">0440</span><span class="w"> </span>/etc/sudoers.d/domain_admins
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Restarting services ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Restarting services ==="</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sssd
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Verifying join ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== Verifying join ==="</span>
 sudo<span class="w"> </span>realm<span class="w"> </span>list
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Test with: getent passwd username@</span><span class="nv">$DOMAIN</span><span class="s2">&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SSH test: ssh username@</span><span class="nv">$DOMAIN</span><span class="s2">@</span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Test with: getent passwd username@</span><span class="nv">$DOMAIN</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"SSH test: ssh username@</span><span class="nv">$DOMAIN</span><span class="s2">@</span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <hr />
@@ -1523,24 +1523,24 @@ chronyc<span class="w"> </span>sources
 
 <h3 id="quick-health-check-script">Quick Health Check Script</h3>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== System Health Check ===&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Uptime &amp; Load:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"=== System Health Check ==="</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Uptime &amp; Load:"</span>
 uptime
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Memory:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Memory:"</span>
 free<span class="w"> </span>-h
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Disk:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Disk:"</span>
 df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>tmpfs
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Azure Agent:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Azure Agent:"</span>
 systemctl<span class="w"> </span>status<span class="w"> </span>walinuxagent<span class="w"> </span>--no-pager<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-3
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Network:&quot;</span>
-ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;inet |^[0-9]:&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Recent Errors:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Network:"</span>
+ip<span class="w"> </span>addr<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"inet |^[0-9]:"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Recent Errors:"</span>
 sudo<span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>error<span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-5
 </code></pre></div>
 

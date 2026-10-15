@@ -165,7 +165,7 @@
   },
   "keywords": "azure, cheat-sheet, kql, log-analytics, query-language, resource-graph",
   "articleSection": "azure",
-  "wordCount": "1753",
+  "wordCount": "1752",
   "timeRequired": "PT9M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -301,7 +301,7 @@
 <p><strong>Basic Query Structure:</strong> Start with a table name, pipe (<code>|</code>) to operators like <code>where</code>, <code>join</code>, or <code>project</code>.</p>
 <p><strong>Example:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
@@ -309,7 +309,7 @@
 <h2 id="your-first-3-queries">Your First 3 Queries</h2>
 <h3 id="1-list-all-your-vms">1. List All Your VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
@@ -317,8 +317,8 @@
 <hr />
 <h3 id="2-find-vms-in-a-specific-resource-group">2. Find VMs in a Specific Resource Group</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w">  </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production-RG&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceGroup</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Production-RG"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
@@ -326,7 +326,7 @@
 <hr />
 <h3 id="3-count-vms-by-location">3. Count VMs by Location</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
@@ -339,8 +339,8 @@
 - <code>ResourceContainers</code> = subscriptions and resource groups</p>
 <h3 id="where-your-filter">Where = Your Filter</h3>
 <p>Like Excel filters - narrows down your data:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;eastus&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"eastus"</span>
 </code></pre></div>
 
 <p><strong>Always filter early for better performance.</strong></p>
@@ -353,28 +353,28 @@
 <h3 id="summarize-aggregations">Summarize = Aggregations</h3>
 <p>Count, sum, or group your data:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeGB</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h2 id="15-essential-queries">15 Essential Queries</h2>
 <h3 id="query-1-list-all-vms">Query 1: List All VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-2-list-all-storage-accounts">Query 2: List All Storage Accounts</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.storage/storageaccounts"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-3-find-resources-by-tag">Query 3: Find Resources by Tag</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"Environment"</span><span class="p">]</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Production"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
@@ -388,14 +388,14 @@
 <hr />
 <h3 id="query-5-list-all-network-interfaces">Query 5: List All Network Interfaces</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/networkinterfaces&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/networkinterfaces"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-6-find-untagged-resources">Query 6: Find Untagged Resources</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.storage/storageaccounts&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">"microsoft.compute/virtualmachines"</span><span class="p">,</span><span class="w"> </span><span class="s">"microsoft.storage/storageaccounts"</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">bag_keys</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="mi">0</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
@@ -403,7 +403,7 @@
 <hr />
 <h3 id="query-7-list-all-managed-disks">Query 7: List All Managed Disks</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/disks"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
@@ -417,24 +417,24 @@
 <hr />
 <h3 id="query-9-find-vms-with-specific-os">Query 9: Find VMs with Specific OS</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">storageProfile</span><span class="p">.</span><span class="n">osDisk</span><span class="p">.</span><span class="n">osType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OSType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Linux"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">OSType</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-10-list-public-ip-addresses">Query 10: List Public IP Addresses</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/publicipaddresses&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/publicipaddresses"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-11-find-large-disks-100gb">Query 11: Find Large Disks (&gt;100GB)</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/disks&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/disks"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeGB</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">100</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">DiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
@@ -442,14 +442,14 @@
 <hr />
 <h3 id="query-12-list-all-resource-groups">Query 12: List All Resource Groups</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">ResourceContainers</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.resources/resourcegroups&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.resources/resourcegroups"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-13-count-vms-by-resource-group">Query 13: Count VMs by Resource Group</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -457,15 +457,15 @@
 <hr />
 <h3 id="query-14-find-resources-in-specific-subscription">Query 14: Find Resources in Specific Subscription</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;your-subscription-id-here&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"your-subscription-id-here"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
 </code></pre></div>
 
 <hr />
 <h3 id="query-15-get-vm-with-network-details">Query 15: Get VM with Network Details</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">networkProfile</span><span class="err">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">networkProfile</span><span class="p">.</span><span class="n">networkInterfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">id</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">NetworkInterfaceId</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 

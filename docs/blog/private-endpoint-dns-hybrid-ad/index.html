@@ -165,7 +165,7 @@
   },
   "keywords": "azure, private-dns, dns-resolver, private-endpoints, hybrid-cloud, networking",
   "articleSection": "azure",
-  "wordCount": "2089",
+  "wordCount": "2083",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -415,7 +415,7 @@
 <p><strong>How many private endpoints does this pattern scale to?</strong></p>
 <p>We checked using Resource Graph:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/privateendpoints"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">PrivateEndpointCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">PrivateEndpointCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -453,17 +453,17 @@
 <h2 id="the-resource-graph-query">The Resource Graph Query</h2>
 <p>Here's the complete query to inventory all your private endpoints:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/privateendpoints"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
 <span class="w">    </span><span class="n">PrivateEndpointName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ResourceGroup</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">,</span>
 <span class="w">    </span><span class="n">SubscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
-<span class="w">    </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">ipAddresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-<span class="w">    </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">fqdn</span><span class="p">,</span>
-<span class="w">    </span><span class="n">TargetResource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span>
-<span class="w">    </span><span class="n">ConnectionState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnectionState</span><span class="err">.</span><span class="n">status</span><span class="p">,</span>
-<span class="w">    </span><span class="n">Subnet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">subnet</span><span class="err">.</span><span class="n">id</span>
+<span class="w">    </span><span class="n">PrivateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">ipAddresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fqdn</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TargetResource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ConnectionState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceConnectionState</span><span class="p">.</span><span class="n">status</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Subnet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">subnet</span><span class="p">.</span><span class="n">id</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">PrivateEndpointName</span><span class="p">,</span>
 <span class="w">    </span><span class="n">SubscriptionName</span><span class="p">,</span>
@@ -487,34 +487,34 @@
 <p><strong>Azure team creates private endpoint:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Private endpoint for storage account</span>
 <span class="nv">$pe</span> <span class="p">=</span> <span class="nb">New-AzPrivateEndpoint</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;pe-storage-prod&quot;</span> <span class="p">`</span>
-    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-networking&quot;</span> <span class="p">`</span>
-    <span class="n">-Location</span> <span class="s2">&quot;eastus&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"pe-storage-prod"</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">"rg-networking"</span> <span class="p">`</span>
+    <span class="n">-Location</span> <span class="s2">"eastus"</span> <span class="p">`</span>
     <span class="n">-Subnet</span> <span class="nv">$subnet</span> <span class="p">`</span>
     <span class="n">-PrivateLinkServiceConnection</span> <span class="nv">$connection</span> <span class="p">`</span>
     <span class="n">-PrivateDnsZone</span> <span class="nv">$azurePrivateDnsZone</span>
 
 <span class="c"># Document what was created</span>
 <span class="nv">$documentation</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="n">FQDN</span> <span class="p">=</span> <span class="s2">&quot;storage123.privatelink.blob.core.windows.net&quot;</span>
+    <span class="n">FQDN</span> <span class="p">=</span> <span class="s2">"storage123.privatelink.blob.core.windows.net"</span>
     <span class="n">PrivateIP</span> <span class="p">=</span> <span class="nv">$pe</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">IpAddresses</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
-    <span class="n">TargetResource</span> <span class="p">=</span> <span class="s2">&quot;storage123 (storageAccounts)&quot;</span>
-    <span class="n">Zone</span> <span class="p">=</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span>
+    <span class="n">TargetResource</span> <span class="p">=</span> <span class="s2">"storage123 (storageAccounts)"</span>
+    <span class="n">Zone</span> <span class="p">=</span> <span class="s2">"privatelink.blob.core.windows.net"</span>
     <span class="n">CreatedDate</span> <span class="p">=</span> <span class="nb">Get-Date</span>
     <span class="n">CreatedBy</span> <span class="p">=</span> <span class="nv">$env:USERNAME</span>
 <span class="p">}</span>
 
 <span class="c"># Export for AD team</span>
-<span class="nv">$documentation</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;privateendpoint-handoff.csv&quot;</span> <span class="n">-Append</span>
+<span class="nv">$documentation</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">"privateendpoint-handoff.csv"</span> <span class="n">-Append</span>
 </code></pre></div>
 
 <p><strong>AD team adds record to on-prem DNS:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Add A record to on-prem AD DNS</span>
 <span class="nb">Add-DnsServerResourceRecordA</span> <span class="p">`</span>
-    <span class="n">-ZoneName</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;storage123&quot;</span> <span class="p">`</span>
-    <span class="n">-IPv4Address</span> <span class="s2">&quot;10.5.2.45&quot;</span> <span class="p">`</span>
-    <span class="n">-ComputerName</span> <span class="s2">&quot;dc01.contoso.com&quot;</span>
+    <span class="n">-ZoneName</span> <span class="s2">"privatelink.blob.core.windows.net"</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"storage123"</span> <span class="p">`</span>
+    <span class="n">-IPv4Address</span> <span class="s2">"10.5.2.45"</span> <span class="p">`</span>
+    <span class="n">-ComputerName</span> <span class="s2">"dc01.contoso.com"</span>
 </code></pre></div>
 
 <p>Done. Azure resolves through Azure Private DNS. On-prem resolves through AD DNS. No forwarders needed.</p>
@@ -533,10 +533,10 @@
 <p><strong>Automation option:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Weekly sync check (read-only)</span>
 <span class="nv">$azureEndpoints</span> <span class="p">=</span> <span class="nb">Get-AzPrivateEndpoint</span> <span class="n">-ResourceGroupName</span> <span class="p">*</span> <span class="p">|</span> 
-    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;FQDN&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">Fqdn</span><span class="p">}},</span> 
-                  <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;IP&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">IpAddresses</span><span class="p">}}</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">'FQDN'</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">Fqdn</span><span class="p">}},</span> 
+                  <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">'IP'</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">CustomDnsConfigs</span><span class="p">.</span><span class="n">IpAddresses</span><span class="p">}}</span>
 
-<span class="nv">$adRecords</span> <span class="p">=</span> <span class="nb">Get-DnsServerResourceRecord</span> <span class="n">-ZoneName</span> <span class="s2">&quot;privatelink.blob.core.windows.net&quot;</span> <span class="n">-ComputerName</span> <span class="s2">&quot;dc01&quot;</span>
+<span class="nv">$adRecords</span> <span class="p">=</span> <span class="nb">Get-DnsServerResourceRecord</span> <span class="n">-ZoneName</span> <span class="s2">"privatelink.blob.core.windows.net"</span> <span class="n">-ComputerName</span> <span class="s2">"dc01"</span>
 
 <span class="c"># Compare and report drift</span>
 <span class="nb">Compare-Object</span> <span class="nv">$azureEndpoints</span> <span class="nv">$adRecords</span> <span class="n">-Property</span> <span class="n">FQDN</span><span class="p">,</span> <span class="n">IP</span>
@@ -569,24 +569,24 @@
 <h2 id="resource-graph-queries">Resource Graph Queries</h2>
 <p><strong>Count private endpoints by subscription:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/privateendpoints"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <p><strong>Find private endpoints by resource type:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">TargetType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/privateendpoints"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">TargetType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceConnections</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">properties</span><span class="p">.</span><span class="n">privateLinkServiceId</span><span class="p">,</span><span class="w"> </span><span class="s">'/'</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TargetType</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <p><strong>List all privatelink DNS zones needed:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.network/privateendpoints&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">fqdn</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="n">indexof</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.network/privateendpoints"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">FQDN</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">customDnsConfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fqdn</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">substring</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="n">indexof</span><span class="p">(</span><span class="n">FQDN</span><span class="p">,</span><span class="w"> </span><span class="s">'.'</span><span class="p">)</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">EndpointCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Zone</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">EndpointCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>

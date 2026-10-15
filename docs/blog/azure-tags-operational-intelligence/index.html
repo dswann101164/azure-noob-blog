@@ -169,7 +169,7 @@
   },
   "keywords": "azure, governance, azure-update-manager, tags, operations, automation, kql, policy",
   "articleSection": "azure",
-  "wordCount": "4870",
+  "wordCount": "4791",
   "timeRequired": "PT24M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -350,20 +350,20 @@
 <p><strong>We implemented one critical tag: Type</strong></p>
 <p><strong>Azure Policy enforcement: Deny mode</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"allOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;type&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;equals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Microsoft.Compute/virtualMachines&quot;</span>
+<span class="w">        </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"equals"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Microsoft.Compute/virtualMachines"</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Type&#39;]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">        </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Type']"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -376,12 +376,12 @@
 <hr />
 <h2 id="the-type-tag-values-patching-designation">The Type tag values (patching designation)</h2>
 <p><strong>When creating a VM, you must choose:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="n">Servers</span><span class="w"> </span><span class="n">patched</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">Manager</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Desktop</span><span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="n">Desktops</span><span class="w"> </span><span class="o">(</span><span class="n">AUM</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Intune</span><span class="o">)</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span><span class="w">           </span><span class="o">-</span><span class="w"> </span><span class="n">Never</span><span class="w"> </span><span class="n">patch</span><span class="w"> </span><span class="o">(</span><span class="n">vendor</span><span class="w"> </span><span class="n">managed</span><span class="o">)</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">WSUS</span><span class="w">                </span><span class="o">-</span><span class="w"> </span><span class="n">Still</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">prem</span><span class="w"> </span><span class="n">WSUS</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">migration</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Manual</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="n">Manual</span><span class="w"> </span><span class="n">patching</span><span class="w"> </span><span class="n">only</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Exclude</span><span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="n">Do</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">modify</span><span class="w"> </span><span class="o">(</span><span class="n">compliance</span><span class="w"> </span><span class="n">hold</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Type</span>:<span class="w"> </span><span class="nv">Server</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="nv">Servers</span><span class="w"> </span><span class="nv">patched</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">Azure</span><span class="w"> </span><span class="nv">Update</span><span class="w"> </span><span class="nv">Manager</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">Desktop</span><span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="nv">Desktops</span><span class="w"> </span><span class="ss">(</span><span class="nv">AUM</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">Intune</span><span class="ss">)</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">Appliance</span><span class="w">           </span><span class="o">-</span><span class="w"> </span><span class="nv">Never</span><span class="w"> </span><span class="nv">patch</span><span class="w"> </span><span class="ss">(</span><span class="nv">vendor</span><span class="w"> </span><span class="nv">managed</span><span class="ss">)</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">WSUS</span><span class="w">                </span><span class="o">-</span><span class="w"> </span><span class="nv">Still</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">on</span><span class="o">-</span><span class="nv">prem</span><span class="w"> </span><span class="nv">WSUS</span><span class="w"> </span><span class="nv">during</span><span class="w"> </span><span class="nv">migration</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">Manual</span><span class="w">              </span><span class="o">-</span><span class="w"> </span><span class="nv">Manual</span><span class="w"> </span><span class="nv">patching</span><span class="w"> </span><span class="nv">only</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">Exclude</span><span class="w">             </span><span class="o">-</span><span class="w"> </span><span class="k">Do</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">modify</span><span class="w"> </span><span class="ss">(</span><span class="nv">compliance</span><span class="w"> </span><span class="nv">hold</span><span class="ss">)</span>
 </code></pre></div>
 
 <p><strong>This single tag answers:</strong> "Should Azure Update Manager touch this VM?"</p>
@@ -411,11 +411,11 @@
 - Hope naming conventions were followed<br />
 - 3 days of manual inventory work</p>
 <p><strong>Current state (Type tag only):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">VM</span><span class="o">:</span><span class="w"> </span><span class="n">PaloAlto</span><span class="o">-</span><span class="n">FW</span><span class="o">-</span><span class="mi">01</span>
-<span class="n">Tags</span><span class="o">:</span>
-<span class="w">  </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
-<span class="w">  </span><span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
-<span class="w">  </span><span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="n">IT</span><span class="o">-</span><span class="n">Security</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">VM</span><span class="p">:</span><span class="w"> </span><span class="n">PaloAlto</span><span class="o">-</span><span class="n">FW</span><span class="o">-</span><span class="mi">01</span>
+<span class="nl">Tags</span><span class="p">:</span>
+<span class="w">  </span><span class="nl">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Appliance</span>
+<span class="w">  </span><span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="nv">@company</span><span class="p">.</span><span class="n">com</span>
+<span class="w">  </span><span class="nl">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="n">IT</span><span class="o">-</span><span class="n">Security</span>
 </code></pre></div>
 
 <p><strong>What we can answer:</strong><br />
@@ -425,19 +425,19 @@
 - ❌ Can't count appliances for license renewals</p>
 <hr />
 <p><strong>Better state (what we should implement):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">VM</span><span class="o">:</span><span class="w"> </span><span class="n">PaloAlto</span><span class="o">-</span><span class="n">FW</span><span class="o">-</span><span class="mi">01</span>
-<span class="n">Tags</span><span class="o">:</span>
-<span class="w">  </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
-<span class="w">  </span><span class="n">Appliance</span><span class="o">:</span><span class="w"> </span><span class="n">PaloAltoFirewall</span>
-<span class="w">  </span><span class="n">Vendor</span><span class="o">:</span><span class="w"> </span><span class="n">PaloAlto</span>
-<span class="w">  </span><span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
-<span class="w">  </span><span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="n">IT</span><span class="o">-</span><span class="n">Security</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">VM</span><span class="p">:</span><span class="w"> </span><span class="n">PaloAlto</span><span class="o">-</span><span class="n">FW</span><span class="o">-</span><span class="mi">01</span>
+<span class="nl">Tags</span><span class="p">:</span>
+<span class="w">  </span><span class="nl">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Appliance</span>
+<span class="w">  </span><span class="nl">Appliance</span><span class="p">:</span><span class="w"> </span><span class="n">PaloAltoFirewall</span>
+<span class="w">  </span><span class="nl">Vendor</span><span class="p">:</span><span class="w"> </span><span class="n">PaloAlto</span>
+<span class="w">  </span><span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="nv">@company</span><span class="p">.</span><span class="n">com</span>
+<span class="w">  </span><span class="nl">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="n">IT</span><span class="o">-</span><span class="n">Security</span>
 </code></pre></div>
 
 <p><strong>Query (30 seconds):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Vendor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;PaloAlto&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Appliance"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Vendor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"PaloAlto"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Subscription</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">Location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">count_</span>
 </code></pre></div>
@@ -465,8 +465,8 @@
 - 2-3 days of work</p>
 <p><strong>After tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span>
 </code></pre></div>
 
@@ -481,8 +481,8 @@
 - 3-5 days of coordination</p>
 <p><strong>After tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Vendor</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Appliance"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Vendor</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
@@ -504,9 +504,9 @@ Datadog         2     (Monitoring)
 - 1-2 days of analysis</p>
 <p><strong>After tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;WSUS&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">"WSUS"</span><span class="p">,</span><span class="w"> </span><span class="s">"Server"</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span>
 </code></pre></div>
 
 <p><strong>Answer (30 seconds):</strong></p>
@@ -527,11 +527,11 @@ Migration: 74% complete
 - 2-3 days</p>
 <p><strong>After tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
-<span class="w">    </span><span class="n">Azure</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;No&quot;</span><span class="p">),</span><span class="w"> </span>
-<span class="w">    </span><span class="n">Hybrid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">Unknown</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="p">))</span>
+<span class="w">    </span><span class="n">Azure</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"No"</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Hybrid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Unknown</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="n">Hybrid</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="n">Unknown</span>
 </code></pre></div>
 
@@ -554,13 +554,13 @@ Hybrid footprint: 40%
 - 1 week of analysis</p>
 <p><strong>After tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">inner</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ResourceContainers</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.resources/subscriptions&quot;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.resources/subscriptions"</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
 <span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">CostCenter</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">costCenter</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -614,8 +614,8 @@ Hybrid footprint: 40%
 <h2 id="tag-validation-and-audit-queries">Tag validation and audit queries</h2>
 <h3 id="vms-without-type-tag-policy-violation"><strong>VMs without Type tag (policy violation)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span>
 </code></pre></div>
 
@@ -623,10 +623,10 @@ Hybrid footprint: 40%
 <hr />
 <h3 id="appliances-inventory-vendor-responsibility"><strong>Appliances inventory (vendor responsibility)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">applianceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Appliance</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">applianceType</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Appliance"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">applianceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">coalesce</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Appliance</span><span class="p">,</span><span class="w"> </span><span class="s">"Unknown"</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">applianceType</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Owner</span>
 <span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">applianceType</span>
 </code></pre></div>
 
@@ -634,10 +634,10 @@ Hybrid footprint: 40%
 <hr />
 <h3 id="azure-vms-still-on-wsus-migration-tracking"><strong>Azure VMs still on WSUS (migration tracking)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;east&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;central&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;WSUS&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Location</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"east"</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"central"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"WSUS"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Location</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
@@ -645,9 +645,9 @@ Hybrid footprint: 40%
 <hr />
 <h3 id="vms-eligible-for-azure-update-manager"><strong>VMs eligible for Azure Update Manager</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Server"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Environment</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
@@ -655,8 +655,8 @@ Hybrid footprint: 40%
 <hr />
 <h3 id="on-prem-vs-azure-only-distribution"><strong>On-prem vs Azure-only distribution</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionDisplayName</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionDisplayName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">subscriptionDisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">tags_OnPrem</span>
 </code></pre></div>
 
@@ -664,8 +664,8 @@ Hybrid footprint: 40%
 <hr />
 <h3 id="cost-by-application-cross-subscription"><strong>Cost by application (cross-subscription)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Application</span><span class="p">,</span><span class="w"> </span><span class="n">cc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">CostCenter</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="n">cc</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnotempty</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
@@ -680,8 +680,8 @@ Hybrid footprint: 40%
 - Servers: Require maintenance windows (change control)</p>
 <p><strong>Usage:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Server</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Server"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Server</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 <span class="c">// These need maintenance windows</span>
 </code></pre></div>
@@ -694,8 +694,8 @@ Hybrid footprint: 40%
 - Useful for disaster recovery planning</p>
 <p><strong>Usage:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;DataCenter-East&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Location</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"DataCenter-East"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
 <span class="c">// On-prem resources in specific data center</span>
 </code></pre></div>
@@ -708,9 +708,9 @@ Hybrid footprint: 40%
 - Cost allocation for connectivity</p>
 <p><strong>Usage:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Location</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Server"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Location</span>
 <span class="c">// Hybrid servers still connected to on-prem</span>
 </code></pre></div>
 
@@ -722,8 +722,8 @@ Hybrid footprint: 40%
 - Different backup retention policies</p>
 <p><strong>Usage:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Production"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Server"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">location</span>
 <span class="c">// Production servers requiring change windows</span>
 </code></pre></div>
@@ -751,21 +751,21 @@ Hybrid footprint: 40%
 <h3 id="what-we-d-improve-not-yet-implemented"><strong>What we'd improve (not yet implemented):</strong></h3>
 <p>📋 <strong>Add Appliance subtag for inventory</strong></p>
 <p><strong>Current:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
-<span class="o">(</span><span class="n">no</span><span class="w"> </span><span class="n">additional</span><span class="w"> </span><span class="n">detail</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Type: Appliance
+(no additional detail)
 </code></pre></div>
 
 <p><strong>Better:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
-<span class="n">Appliance</span><span class="o">:</span><span class="w"> </span><span class="n">AzureMigrate</span>
-<span class="n">Vendor</span><span class="o">:</span><span class="w"> </span><span class="n">Microsoft</span>
+<div class="codehilite"><pre><span></span><code>Type: Appliance
+Appliance: AzureMigrate
+Vendor: Microsoft
 </code></pre></div>
 
 <p><strong>Why:</strong> Can query appliances by type, track vendor responsibilities</p>
 <p><strong>Query we wish we could run:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Vendor</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Appliance</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Appliance"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Vendor</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Appliance</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
@@ -773,17 +773,17 @@ Hybrid footprint: 40%
 <p>📋 <strong>Add Vendor tag for accountability</strong></p>
 <p><strong>Current:</strong> No clear owner for appliance updates</p>
 <p><strong>Better:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span>
-<span class="n">Vendor</span><span class="o">:</span><span class="w"> </span><span class="n">PaloAlto</span>
-<span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Type</span><span class="p">:</span><span class="w"> </span><span class="n">Appliance</span>
+<span class="nl">Vendor</span><span class="p">:</span><span class="w"> </span><span class="n">PaloAlto</span>
+<span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="n">SecurityTeam</span><span class="nv">@company</span><span class="p">.</span><span class="n">com</span>
 </code></pre></div>
 
 <p><strong>Why:</strong> Know who's responsible for patching what</p>
 <p><strong>Query we wish we could run:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Appliance&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Vendor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;PaloAlto&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Appliance"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Vendor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"PaloAlto"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Owner</span>
 <span class="c">// All Palo Alto appliances and their owners</span>
 </code></pre></div>
 
@@ -861,35 +861,35 @@ Hybrid footprint: 40%
 <h2 id="how-to-implement-this-in-your-environment">How to implement this in your environment</h2>
 <h3 id="step-1-define-your-type-tag-values"><strong>Step 1: Define your Type tag values</strong></h3>
 <p><strong>Minimum viable schema:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span><span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">Manager</span><span class="w"> </span><span class="n">patches</span><span class="w"> </span><span class="k">this</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Appliance</span><span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="n">Never</span><span class="w"> </span><span class="n">patch</span><span class="w"> </span><span class="o">(</span><span class="n">vendor</span><span class="w"> </span><span class="n">managed</span><span class="o">)</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Manual</span><span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="n">Manual</span><span class="w"> </span><span class="n">patching</span><span class="w"> </span><span class="n">only</span>
+<div class="codehilite"><pre><span></span><code>Type: Server      - Azure Update Manager patches this
+Type: Appliance   - Never patch (vendor managed)
+Type: Manual      - Manual patching only
 </code></pre></div>
 
 <p><strong>Expand as needed:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Desktop</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Intune</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">AUM</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">desktops</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">WSUS</span><span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="n">Still</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">prem</span><span class="w"> </span><span class="n">WSUS</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Exclude</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="n">Compliance</span><span class="w"> </span><span class="n">hold</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">modify</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Type</span>:<span class="w"> </span><span class="nv">Desktop</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="nv">Intune</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">AUM</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">desktops</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">WSUS</span><span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="nv">Still</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">on</span><span class="o">-</span><span class="nv">prem</span><span class="w"> </span><span class="nv">WSUS</span>
+<span class="nv">Type</span>:<span class="w"> </span><span class="nv">Exclude</span><span class="w">     </span><span class="o">-</span><span class="w"> </span><span class="nv">Compliance</span><span class="w"> </span><span class="nv">hold</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">modify</span>
 </code></pre></div>
 
 <hr />
 <h3 id="step-2-create-azure-policy-deny-mode"><strong>Step 2: Create Azure Policy (Deny mode)</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;policyRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"policyRule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"allOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;type&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;equals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Microsoft.Compute/virtualMachines&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"equals"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Microsoft.Compute/virtualMachines"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Type&#39;]&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Type']"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">    </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -901,16 +901,16 @@ Hybrid footprint: 40%
 <h3 id="step-3-tag-existing-vms"><strong>Step 3: Tag existing VMs</strong></h3>
 <p><strong>Query existing VMs without Type tag:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span>
 </code></pre></div>
 
 <p><strong>Tag in bulk via PowerShell:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Example: Tag all VMs in a resource group</span>
-<span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;Production-Servers&quot;</span>
+<span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"Production-Servers"</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$vm</span> <span class="k">in</span> <span class="nv">$vms</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Update-AzTag</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span> <span class="n">-Tag</span> <span class="p">@{</span><span class="n">Type</span><span class="p">=</span><span class="s2">&quot;Server&quot;</span><span class="p">}</span> <span class="n">-Operation</span> <span class="n">Merge</span>
+    <span class="nb">Update-AzTag</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span> <span class="n">-Tag</span> <span class="p">@{</span><span class="n">Type</span><span class="p">=</span><span class="s2">"Server"</span><span class="p">}</span> <span class="n">-Operation</span> <span class="n">Merge</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -932,20 +932,20 @@ Hybrid footprint: 40%
 <p><strong>Save these queries in Azure Resource Graph:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Dashboard: VM distribution by patching type</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">count_</span><span class="w"> </span><span class="n">desc</span>
 
 <span class="c">// Dashboard: Hybrid footprint</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span>
 
 <span class="c">// Dashboard: Migration progress (WSUS → AUM)</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;WSUS&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Server&quot;</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Type</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">"WSUS"</span><span class="p">,</span><span class="w"> </span><span class="s">"Server"</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Type</span>
 </code></pre></div>
 
 <hr />

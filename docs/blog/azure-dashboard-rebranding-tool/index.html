@@ -341,7 +341,7 @@
 <h2 id="what-the-script-actually-does">What The Script Actually Does</h2>
 <h3 id="1-finds-your-latest-ari-report-automatically">1. Finds Your Latest ARI Report Automatically</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Auto-locate the most recent ARI file</span>
-<span class="nv">$ariFiles</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="nv">$AriDir</span> <span class="n">-Filter</span> <span class="s2">&quot;AzureResourceInventory*.xlsx&quot;</span> <span class="p">|</span>
+<span class="nv">$ariFiles</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="nv">$AriDir</span> <span class="n">-Filter</span> <span class="s2">"AzureResourceInventory*.xlsx"</span> <span class="p">|</span>
     <span class="nb">Sort-Object</span> <span class="n">LastWriteTime</span> <span class="n">-Descending</span>
 
 <span class="nv">$InputFile</span> <span class="p">=</span> <span class="nv">$ariFiles</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">FullName</span>
@@ -404,13 +404,13 @@
 
 <span class="p">[</span><span class="k">CmdletBinding</span><span class="p">()]</span>
 <span class="k">param</span><span class="p">(</span>
-    <span class="no">[string]</span><span class="nv">$AriDir</span> <span class="p">=</span> <span class="s2">&quot;C:\AzureResourceInventory&quot;</span><span class="p">,</span>
-    <span class="no">[string]</span><span class="nv">$LogoFileName</span> <span class="p">=</span> <span class="s2">&quot;logo.png&quot;</span>
+    <span class="no">[string]</span><span class="nv">$AriDir</span> <span class="p">=</span> <span class="s2">"C:\AzureResourceInventory"</span><span class="p">,</span>
+    <span class="no">[string]</span><span class="nv">$LogoFileName</span> <span class="p">=</span> <span class="s2">"logo.png"</span>
 <span class="p">)</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Azure Admin Dashboard - Dark Mode Rebrander&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"Azure Admin Dashboard - Dark Mode Rebrander"</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 
-<span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="s1">&#39;Stop&#39;</span>
+<span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="s1">'Stop'</span>
 <span class="nv">$ScriptDir</span> <span class="p">=</span> <span class="nb">Split-Path</span> <span class="n">-Parent</span> <span class="nv">$MyInvocation</span><span class="p">.</span><span class="n">MyCommand</span><span class="p">.</span><span class="n">Path</span>
 <span class="nv">$LogoFile</span>  <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$ScriptDir</span> <span class="nv">$LogoFileName</span>
 
@@ -437,30 +437,30 @@
 
 <span class="c"># Validate prerequisites</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="nv">$LogoFile</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;ERROR: Logo not found: $LogoFile&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"ERROR: Logo not found: $LogoFile"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
     <span class="k">return</span>
 <span class="p">}</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="nv">$AriDir</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;ERROR: ARI directory not found: $AriDir&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"ERROR: ARI directory not found: $AriDir"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
     <span class="k">return</span>
 <span class="p">}</span>
 
 <span class="c"># Find most recent ARI file</span>
-<span class="nv">$ariFiles</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="nv">$AriDir</span> <span class="n">-Filter</span> <span class="s2">&quot;AzureResourceInventory*.xlsx&quot;</span> <span class="p">|</span>
-    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="o">-not</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="s2">&quot;Converted&quot;</span><span class="p">)</span> <span class="p">}</span> <span class="p">|</span>
+<span class="nv">$ariFiles</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="nv">$AriDir</span> <span class="n">-Filter</span> <span class="s2">"AzureResourceInventory*.xlsx"</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="o">-not</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="s2">"Converted"</span><span class="p">)</span> <span class="p">}</span> <span class="p">|</span>
     <span class="nb">Sort-Object</span> <span class="n">LastWriteTime</span> <span class="n">-Descending</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="nv">$ariFiles</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;ERROR: No ARI files found in $AriDir&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"ERROR: No ARI files found in $AriDir"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
     <span class="k">return</span>
 <span class="p">}</span>
 
 <span class="nv">$InputFile</span> <span class="p">=</span> <span class="nv">$ariFiles</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">FullName</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Found ARI file: </span><span class="p">$(</span><span class="nv">$ariFiles</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">"Found ARI file: </span><span class="p">$(</span><span class="nv">$ariFiles</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 
 <span class="c"># Create Excel COM object</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Opening Excel...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">"Opening Excel..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
 <span class="nv">$excel</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">Excel</span><span class="p">.</span><span class="n">Application</span>
 <span class="nv">$excel</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$false</span>
 <span class="nv">$excel</span><span class="p">.</span><span class="n">DisplayAlerts</span> <span class="p">=</span> <span class="nv">$false</span>
@@ -468,9 +468,9 @@
 <span class="k">try</span> <span class="p">{</span>
     <span class="c"># Open the workbook</span>
     <span class="nv">$wb</span> <span class="p">=</span> <span class="nv">$excel</span><span class="p">.</span><span class="n">Workbooks</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="nv">$InputFile</span><span class="p">)</span>
-    <span class="nv">$ws</span> <span class="p">=</span> <span class="nv">$wb</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="s2">&quot;Overview&quot;</span><span class="p">)</span>
+    <span class="nv">$ws</span> <span class="p">=</span> <span class="nv">$wb</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="s2">"Overview"</span><span class="p">)</span>
 
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Applying dark theme...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Applying dark theme..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
 
     <span class="c"># Apply dark theme to worksheet</span>
     <span class="nv">$ws</span><span class="p">.</span><span class="n">Tab</span><span class="p">.</span><span class="n">Color</span> <span class="p">=</span> <span class="nv">$Theme</span><span class="p">.</span><span class="n">Background</span>
@@ -488,18 +488,18 @@
         <span class="nv">$tbl</span><span class="p">.</span><span class="n">DataBodyRange</span><span class="p">.</span><span class="n">Interior</span><span class="p">.</span><span class="n">Color</span> <span class="p">=</span> <span class="nv">$Theme</span><span class="p">.</span><span class="n">Background</span>
         <span class="nv">$tbl</span><span class="p">.</span><span class="n">DataBodyRange</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Color</span> <span class="p">=</span> <span class="nv">$Theme</span><span class="p">.</span><span class="n">TextSecondary</span>
     <span class="p">}</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;  Styled $tableCount tables&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">"  Styled $tableCount tables"</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
 
     <span class="c"># Rebrand ARI header card</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Rebranding header...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Rebranding header..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
 
     <span class="nv">$ariShape</span> <span class="p">=</span> <span class="nv">$null</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$shp</span> <span class="k">in</span> <span class="nv">$ws</span><span class="p">.</span><span class="n">Shapes</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="nv">$shp</span><span class="p">.</span><span class="nb">Type </span><span class="o">-eq</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>  <span class="c"># Rectangle</span>
-            <span class="nv">$textContent</span> <span class="p">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="nv">$textContent</span> <span class="p">=</span> <span class="s2">""</span>
             <span class="k">try</span> <span class="p">{</span> <span class="nv">$textContent</span> <span class="p">=</span> <span class="nv">$shp</span><span class="p">.</span><span class="n">TextFrame2</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Text</span> <span class="p">}</span> <span class="k">catch</span> <span class="p">{}</span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="nv">$textContent</span> <span class="o">-match</span> <span class="s2">&quot;Azure Resource Inventory&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$textContent</span> <span class="o">-match</span> <span class="s2">"Azure Resource Inventory"</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nv">$ariShape</span> <span class="p">=</span> <span class="nv">$shp</span>
                 <span class="k">break</span>
             <span class="p">}</span>
@@ -514,20 +514,20 @@
 
         <span class="c"># Remove Microsoft GitHub URL and rebrand</span>
         <span class="nv">$text</span> <span class="p">=</span> <span class="nv">$ariShape</span><span class="p">.</span><span class="n">TextFrame2</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Text</span>
-        <span class="nv">$lines</span> <span class="p">=</span> <span class="nv">$text</span> <span class="n">-split</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">&quot;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> 
-            <span class="nv">$_</span> <span class="o">-notmatch</span> <span class="s2">&quot;github\.com&quot;</span> 
+        <span class="nv">$lines</span> <span class="p">=</span> <span class="nv">$text</span> <span class="n">-split</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">"</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> 
+            <span class="nv">$_</span> <span class="o">-notmatch</span> <span class="s2">"github\.com"</span> 
         <span class="p">}</span>
 
         <span class="c"># Add your branding</span>
-        <span class="nv">$newText</span> <span class="p">=</span> <span class="nv">$lines</span> <span class="n">-join</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">&quot;</span>
-        <span class="nv">$newText</span> <span class="p">+=</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Powered by azure-noob.com&quot;</span>
+        <span class="nv">$newText</span> <span class="p">=</span> <span class="nv">$lines</span> <span class="n">-join</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">"</span>
+        <span class="nv">$newText</span> <span class="p">+=</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">Powered by azure-noob.com"</span>
         <span class="nv">$ariShape</span><span class="p">.</span><span class="n">TextFrame2</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="nv">$newText</span>
 
         <span class="c"># Add your logo</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;  Adding logo...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+        <span class="nb">Write-Host</span> <span class="s2">"  Adding logo..."</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
 
         <span class="c"># Create temporary resized logo (80x80 pixels)</span>
-        <span class="nv">$tempLogo</span> <span class="p">=</span> <span class="no">[System.IO.Path]</span><span class="p">::</span><span class="n">GetTempFileName</span><span class="p">()</span> <span class="p">+</span> <span class="s2">&quot;.png&quot;</span>
+        <span class="nv">$tempLogo</span> <span class="p">=</span> <span class="no">[System.IO.Path]</span><span class="p">::</span><span class="n">GetTempFileName</span><span class="p">()</span> <span class="p">+</span> <span class="s2">".png"</span>
         <span class="nv">$img</span> <span class="p">=</span> <span class="no">[System.Drawing.Image]</span><span class="p">::</span><span class="n">FromFile</span><span class="p">(</span><span class="nv">$LogoFile</span><span class="p">)</span>
         <span class="nv">$resized</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Drawing</span><span class="p">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">80</span><span class="p">,</span> <span class="n">80</span><span class="p">)</span>
         <span class="nv">$graphics</span> <span class="p">=</span> <span class="no">[System.Drawing.Graphics]</span><span class="p">::</span><span class="n">FromImage</span><span class="p">(</span><span class="nv">$resized</span><span class="p">)</span>
@@ -551,11 +551,11 @@
             <span class="n">80</span>
         <span class="p">)</span>
 
-        <span class="nb">Write-Host</span> <span class="s2">&quot;  Logo added successfully&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+        <span class="nb">Write-Host</span> <span class="s2">"  Logo added successfully"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
     <span class="p">}</span>
 
     <span class="c"># Apply dark theme to all charts</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Styling charts...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Styling charts..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="nv">$chartCount</span> <span class="p">=</span> <span class="n">0</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$chartObj</span> <span class="k">in</span> <span class="nv">$ws</span><span class="p">.</span><span class="n">ChartObjects</span><span class="p">)</span> <span class="p">{</span>
         <span class="nv">$chartCount</span><span class="p">++</span>
@@ -578,20 +578,20 @@
             <span class="nv">$seriesIndex</span><span class="p">++</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;  Styled $chartCount charts&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">"  Styled $chartCount charts"</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
 
     <span class="c"># Save with timestamp</span>
-    <span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd_HHmmss&quot;</span>
-    <span class="nv">$OutputFile</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$ScriptDir</span> <span class="s2">&quot;ARI_FullDark_$timestamp.xlsx&quot;</span>
+    <span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">"yyyy-MM-dd_HHmmss"</span>
+    <span class="nv">$OutputFile</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$ScriptDir</span> <span class="s2">"ARI_FullDark_$timestamp.xlsx"</span>
 
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Saving branded dashboard...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Saving branded dashboard..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="nv">$wb</span><span class="p">.</span><span class="n">SaveAs</span><span class="p">(</span><span class="nv">$OutputFile</span><span class="p">)</span>
     <span class="nv">$wb</span><span class="p">.</span><span class="n">Close</span><span class="p">(</span><span class="nv">$false</span><span class="p">)</span>
 
-    <span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;SUCCESS! Dashboard created:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;  $OutputFile&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">""</span>
+    <span class="nb">Write-Host</span> <span class="s2">"SUCCESS! Dashboard created:"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">"  $OutputFile"</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Write-Host</span> <span class="s2">""</span>
 
     <span class="c"># Cleanup temp logo</span>
     <span class="k">if</span> <span class="p">(</span><span class="nv">$tempLogo</span> <span class="o">-and</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="nv">$tempLogo</span><span class="p">))</span> <span class="p">{</span>
@@ -599,7 +599,7 @@
     <span class="p">}</span>
 <span class="p">}</span>
 <span class="k">catch</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;ERROR: $_&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"ERROR: $_"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
     <span class="nb">Write-Host</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ScriptStackTrace</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
 <span class="p">}</span>
 <span class="k">finally</span> <span class="p">{</span>

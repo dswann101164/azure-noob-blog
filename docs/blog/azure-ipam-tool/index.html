@@ -353,8 +353,8 @@
 <span class="n">subscriptions</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">subscription_client</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
     <span class="n">subscriptions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">subscription_id</span><span class="p">,</span>
-        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">display_name</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">subscription_id</span><span class="p">,</span>
+        <span class="s1">'name'</span><span class="p">:</span> <span class="n">sub</span><span class="o">.</span><span class="n">display_name</span>
     <span class="p">})</span>
 </code></pre></div>
 
@@ -370,7 +370,7 @@
         <span class="n">subnets</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">subnet</span> <span class="ow">in</span> <span class="n">vnet</span><span class="o">.</span><span class="n">subnets</span><span class="p">:</span>
             <span class="c1"># Calculate actual available IPs (Azure reserves 5 per subnet)</span>
-            <span class="n">total_ips</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">subnet</span><span class="o">.</span><span class="n">address_prefix</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">total_ips</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">subnet</span><span class="o">.</span><span class="n">address_prefix</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">reserved_ips</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Azure reserves first 3 + last 2</span>
             <span class="n">available_ips</span> <span class="o">=</span> <span class="n">total_ips</span> <span class="o">-</span> <span class="n">reserved_ips</span>
 
@@ -378,18 +378,18 @@
             <span class="n">used_ips</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subnet</span><span class="o">.</span><span class="n">ip_configurations</span><span class="p">)</span> <span class="k">if</span> <span class="n">subnet</span><span class="o">.</span><span class="n">ip_configurations</span> <span class="k">else</span> <span class="mi">0</span>
 
             <span class="n">subnets</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">subnet</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="s1">&#39;address_prefix&#39;</span><span class="p">:</span> <span class="n">subnet</span><span class="o">.</span><span class="n">address_prefix</span><span class="p">,</span>
-                <span class="s1">&#39;total_ips&#39;</span><span class="p">:</span> <span class="n">total_ips</span><span class="p">,</span>
-                <span class="s1">&#39;used_ips&#39;</span><span class="p">:</span> <span class="n">used_ips</span><span class="p">,</span>
-                <span class="s1">&#39;available_ips&#39;</span><span class="p">:</span> <span class="n">available_ips</span> <span class="o">-</span> <span class="n">used_ips</span><span class="p">,</span>
-                <span class="s1">&#39;utilization&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">used_ips</span> <span class="o">/</span> <span class="n">available_ips</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+                <span class="s1">'name'</span><span class="p">:</span> <span class="n">subnet</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s1">'address_prefix'</span><span class="p">:</span> <span class="n">subnet</span><span class="o">.</span><span class="n">address_prefix</span><span class="p">,</span>
+                <span class="s1">'total_ips'</span><span class="p">:</span> <span class="n">total_ips</span><span class="p">,</span>
+                <span class="s1">'used_ips'</span><span class="p">:</span> <span class="n">used_ips</span><span class="p">,</span>
+                <span class="s1">'available_ips'</span><span class="p">:</span> <span class="n">available_ips</span> <span class="o">-</span> <span class="n">used_ips</span><span class="p">,</span>
+                <span class="s1">'utilization'</span><span class="p">:</span> <span class="p">(</span><span class="n">used_ips</span> <span class="o">/</span> <span class="n">available_ips</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
             <span class="p">})</span>
 
         <span class="n">vnets</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">vnet</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s1">&#39;address_space&#39;</span><span class="p">:</span> <span class="n">vnet</span><span class="o">.</span><span class="n">address_space</span><span class="o">.</span><span class="n">address_prefixes</span><span class="p">,</span>
-            <span class="s1">&#39;subnets&#39;</span><span class="p">:</span> <span class="n">subnets</span>
+            <span class="s1">'name'</span><span class="p">:</span> <span class="n">vnet</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">'address_space'</span><span class="p">:</span> <span class="n">vnet</span><span class="o">.</span><span class="n">address_space</span><span class="o">.</span><span class="n">address_prefixes</span><span class="p">,</span>
+            <span class="s1">'subnets'</span><span class="p">:</span> <span class="n">subnets</span>
         <span class="p">})</span>
 
     <span class="k">return</span> <span class="n">vnets</span>
@@ -404,16 +404,16 @@
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">subscription</span> <span class="ow">in</span> <span class="n">all_vnets</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">vnet</span> <span class="ow">in</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">&#39;vnets&#39;</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">subnet</span> <span class="ow">in</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">&#39;subnets&#39;</span><span class="p">]:</span>
-                <span class="n">network</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="n">subnet</span><span class="p">[</span><span class="s1">&#39;address_prefix&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">vnet</span> <span class="ow">in</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">'vnets'</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">subnet</span> <span class="ow">in</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">'subnets'</span><span class="p">]:</span>
+                <span class="n">network</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="n">subnet</span><span class="p">[</span><span class="s1">'address_prefix'</span><span class="p">])</span>
                 <span class="k">if</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">network</span><span class="p">:</span>
                     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s1">&#39;subscription&#39;</span><span class="p">:</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;vnet&#39;</span><span class="p">:</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;subnet&#39;</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;cidr&#39;</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">&#39;address_prefix&#39;</span><span class="p">],</span>
-                        <span class="s1">&#39;utilization&#39;</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">&#39;utilization&#39;</span><span class="p">]</span>
+                        <span class="s1">'subscription'</span><span class="p">:</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span>
+                        <span class="s1">'vnet'</span><span class="p">:</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span>
+                        <span class="s1">'subnet'</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span>
+                        <span class="s1">'cidr'</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">'address_prefix'</span><span class="p">],</span>
+                        <span class="s1">'utilization'</span><span class="p">:</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">'utilization'</span><span class="p">]</span>
                     <span class="p">})</span>
 
     <span class="k">return</span> <span class="n">results</span>
@@ -426,23 +426,23 @@
     <span class="n">warning</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># 75-90% utilization</span>
 
     <span class="k">for</span> <span class="n">subscription</span> <span class="ow">in</span> <span class="n">all_vnets</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">vnet</span> <span class="ow">in</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">&#39;vnets&#39;</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">subnet</span> <span class="ow">in</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">&#39;subnets&#39;</span><span class="p">]:</span>
-                <span class="n">utilization</span> <span class="o">=</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">&#39;utilization&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">vnet</span> <span class="ow">in</span> <span class="n">subscription</span><span class="p">[</span><span class="s1">'vnets'</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">subnet</span> <span class="ow">in</span> <span class="n">vnet</span><span class="p">[</span><span class="s1">'subnets'</span><span class="p">]:</span>
+                <span class="n">utilization</span> <span class="o">=</span> <span class="n">subnet</span><span class="p">[</span><span class="s1">'utilization'</span><span class="p">]</span>
 
                 <span class="k">if</span> <span class="n">utilization</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">:</span>
                     <span class="n">critical</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subnet</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">utilization</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">:</span>
                     <span class="n">warning</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subnet</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;critical&#39;</span><span class="p">:</span> <span class="n">critical</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">:</span> <span class="n">warning</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">'critical'</span><span class="p">:</span> <span class="n">critical</span><span class="p">,</span> <span class="s1">'warning'</span><span class="p">:</span> <span class="n">warning</span><span class="p">}</span>
 </code></pre></div>
 
 <h3 id="5-reservation-system">5. Reservation System</h3>
 <p>Track IP ranges reserved for future use (stored in browser localStorage for simplicity):</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Reserve an IP range</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">reserveIP</span><span class="p">(</span><span class="nx">cidr</span><span class="p">,</span><span class="w"> </span><span class="nx">purpose</span><span class="p">,</span><span class="w"> </span><span class="nx">owner</span><span class="p">,</span><span class="w"> </span><span class="nx">expiration</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">reservations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;ipReservations&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;[]&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">reservations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'ipReservations'</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'[]'</span><span class="p">);</span>
 
 <span class="w">    </span><span class="nx">reservations</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
 <span class="w">        </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">(),</span>
@@ -453,12 +453,12 @@
 <span class="w">        </span><span class="nx">created</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">().</span><span class="nx">toISOString</span><span class="p">()</span>
 <span class="w">    </span><span class="p">});</span>
 
-<span class="w">    </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;ipReservations&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">reservations</span><span class="p">));</span>
+<span class="w">    </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'ipReservations'</span><span class="p">,</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">reservations</span><span class="p">));</span>
 <span class="p">}</span>
 
 <span class="c1">// Check if IP overlaps with existing reservations</span>
 <span class="kd">function</span><span class="w"> </span><span class="nx">checkReservation</span><span class="p">(</span><span class="nx">cidr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">reservations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;ipReservations&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;[]&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">reservations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'ipReservations'</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'[]'</span><span class="p">);</span>
 
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">reservation</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">reservations</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">cidrsOverlap</span><span class="p">(</span><span class="nx">cidr</span><span class="p">,</span><span class="w"> </span><span class="nx">reservation</span><span class="p">.</span><span class="nx">cidr</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>

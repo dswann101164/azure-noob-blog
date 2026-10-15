@@ -336,14 +336,14 @@
 <h3 id="what-actually-works-resource-inventory-with-business-context">What Actually Works: Resource Inventory with Business Context</h3>
 <p><strong>Step 1: Build the inventory KQL query</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/virtualmachines&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/virtualmachines'</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="p">,</span>
-<span class="w">    </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">osType</span><span class="p">,</span>
-<span class="w">    </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">code</span>
+<span class="w">    </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">hardwareProfile</span><span class="p">.</span><span class="n">vmSize</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">storageProfile</span><span class="p">.</span><span class="n">osDisk</span><span class="p">.</span><span class="n">osType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">extended</span><span class="p">.</span><span class="n">instanceView</span><span class="p">.</span><span class="n">powerState</span><span class="p">.</span><span class="n">code</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ResourceContainers</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;microsoft.resources/subscriptions&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'microsoft.resources/subscriptions'</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span>
 <span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">subscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
@@ -357,10 +357,10 @@
 <span class="w">    </span><span class="n">tags</span><span class="p">,</span>
 <span class="w">    </span><span class="n">id</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">),</span>
-<span class="w">    </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">),</span>
-<span class="w">    </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span><span class="p">),</span>
-<span class="w">    </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Application</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Application</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Owner</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">CostCenter</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Environment</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>This query shows:</strong><br />
@@ -415,34 +415,34 @@
 <p><strong>Step 2: Implement tag governance</strong></p>
 <p>Use Azure Policy to require tags on new resources:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Indexed&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;policyRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Indexed"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"policyRule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"allOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;type&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;equals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Microsoft.Compute/virtualMachines&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"type"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"equals"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Microsoft.Compute/virtualMachines"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="nt">"anyOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;CostCenter&#39;]&quot;</span><span class="p">,</span>
-<span class="w">              </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">              </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['CostCenter']"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Owner&#39;]&quot;</span><span class="p">,</span>
-<span class="w">              </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">              </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Owner']"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Application&#39;]&quot;</span><span class="p">,</span>
-<span class="w">              </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">              </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Application']"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">    </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -454,8 +454,8 @@
 <p>Azure Cost Management exports cost data. Connect Power BI to it:</p>
 <div class="codehilite"><pre><span></span><code>CostByApplication = 
 <span class="nf">CALCULATE</span><span class="p">(</span>
-<span class="w">    </span><span class="nf">SUM</span><span class="p">(</span><span class="na">&#39;CostData&#39;[Cost]</span><span class="p">),</span>
-<span class="w">    </span><span class="nf">ALLEXCEPT</span><span class="p">(</span><span class="na">&#39;CostData&#39;</span><span class="p">,</span><span class="w"> </span><span class="na">&#39;CostData&#39;[Application]</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">SUM</span><span class="p">(</span><span class="na">'CostData'[Cost]</span><span class="p">),</span>
+<span class="w">    </span><span class="nf">ALLEXCEPT</span><span class="p">(</span><span class="na">'CostData'</span><span class="p">,</span><span class="w"> </span><span class="na">'CostData'[Application]</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -495,8 +495,8 @@
 <p><strong>PowerShell automation:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Tag VMs with shutdown schedule</span>
 <span class="nb">Update-AzTag</span> <span class="n">-ResourceId</span> <span class="nv">$vmId</span> <span class="n">-Tag</span> <span class="p">@{</span>
-    <span class="s2">&quot;AutoShutdown&quot;</span> <span class="p">=</span> <span class="s2">&quot;Weeknights-7PM&quot;</span>
-    <span class="s2">&quot;AutoStart&quot;</span> <span class="p">=</span> <span class="s2">&quot;Weekdays-7AM&quot;</span>
+    <span class="s2">"AutoShutdown"</span> <span class="p">=</span> <span class="s2">"Weeknights-7PM"</span>
+    <span class="s2">"AutoStart"</span> <span class="p">=</span> <span class="s2">"Weekdays-7AM"</span>
 <span class="p">}</span> <span class="n">-Operation</span> <span class="n">Merge</span>
 
 <span class="c"># Azure Automation runbook checks tags hourly, starts/stops VMs</span>
@@ -507,20 +507,20 @@
 <p>Old blobs cost money. Delete them automatically.</p>
 <p><strong>Lifecycle policy:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;rules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;delete-old-logs&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lifecycle&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;blobTypes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blockBlob&quot;</span><span class="p">],</span>
-<span class="w">          </span><span class="nt">&quot;prefixMatch&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;logs/&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete-old-logs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lifecycle"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"definition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"filters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"blobTypes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"blockBlob"</span><span class="p">],</span>
+<span class="w">          </span><span class="nt">"prefixMatch"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"logs/"</span><span class="p">]</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;baseBlob&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;delete&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">&quot;daysAfterModificationGreaterThan&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"baseBlob"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"delete"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"daysAfterModificationGreaterThan"</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -535,10 +535,10 @@
 <p>Unattached disks, unused NICs, old snapshotsâ€”nobody notices them until the bill arrives.</p>
 <p><strong>KQL query to find orphaned disks:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">sku</span><span class="err">.</span><span class="n">name</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/disks'</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'Unattached'</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeGB</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">sku</span><span class="p">.</span><span class="n">name</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="n">id</span>
 </code></pre></div>
 
@@ -692,9 +692,9 @@
 <p>Don't wait for Advisor. Run this query to find orphaned disks costing you money right now.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find Orphaned Managed Disks (Not attached to any VM)</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="err">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/disks'</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'Unattached'</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeGB</span>
 <span class="p">|</span><span class="w"> </span><span class="k">sort</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 

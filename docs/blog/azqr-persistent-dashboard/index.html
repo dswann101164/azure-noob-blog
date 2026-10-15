@@ -169,8 +169,8 @@
   },
   "keywords": "azure, operations, governance, app-service, docker, azqr, automation, compliance",
   "articleSection": "azure",
-  "wordCount": "6881",
-  "timeRequired": "PT34M",
+  "wordCount": "6593",
+  "timeRequired": "PT33M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -245,7 +245,7 @@
   <header class="post-header">
     <h1>Building a Persistent Azure Operations Dashboard (AZQR + App Service + Storage)</h1>
     <p class="muted">
-      2025-12-17 · ~34 min read
+      2025-12-17 · ~33 min read
       
     </p>
     
@@ -522,38 +522,38 @@ azqr<span class="w"> </span>show<span class="w"> </span>--file<span class="w"> <
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Configuration</span>
-<span class="nv">REPORT_DIR</span><span class="o">=</span><span class="s2">&quot;/reports&quot;</span>
+<span class="nv">REPORT_DIR</span><span class="o">=</span><span class="s2">"/reports"</span>
 <span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y-%m-%d-%H%M<span class="k">)</span>
-<span class="nv">LATEST_REPORT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-latest.xlsx&quot;</span>
-<span class="nv">DATED_REPORT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-</span><span class="nv">$DATE</span><span class="s2">.xlsx&quot;</span>
-<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">&quot;/logs/scan-</span><span class="nv">$DATE</span><span class="s2">.log&quot;</span>
+<span class="nv">LATEST_REPORT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-latest.xlsx"</span>
+<span class="nv">DATED_REPORT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REPORT_DIR</span><span class="s2">/azqr-</span><span class="nv">$DATE</span><span class="s2">.xlsx"</span>
+<span class="nv">LOG_FILE</span><span class="o">=</span><span class="s2">"/logs/scan-</span><span class="nv">$DATE</span><span class="s2">.log"</span>
 
 <span class="c1"># Log start</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Starting AZQR scan&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Starting AZQR scan"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span>
 
 <span class="c1"># Authenticate with Azure (using managed identity)</span>
-az<span class="w"> </span>login<span class="w"> </span>--identity<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+az<span class="w"> </span>login<span class="w"> </span>--identity<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
 
 <span class="c1"># Run AZQR scan</span>
-azqr<span class="w"> </span>scan<span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+azqr<span class="w"> </span>scan<span class="w"> </span>--output<span class="w"> </span><span class="s2">"</span><span class="nv">$DATED_REPORT</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
 
 <span class="c1"># Check if scan succeeded</span>
 <span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan completed successfully&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan completed successfully"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span>
 
 <span class="w">    </span><span class="c1"># Copy to latest (for dashboard)</span>
-<span class="w">    </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LATEST_REPORT</span><span class="s2">&quot;</span>
+<span class="w">    </span>cp<span class="w"> </span><span class="s2">"</span><span class="nv">$DATED_REPORT</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LATEST_REPORT</span><span class="s2">"</span>
 
 <span class="w">    </span><span class="c1"># Clean up old reports (keep last 30 days)</span>
-<span class="w">    </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;azqr-*.xlsx&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+<span class="w">    </span>find<span class="w"> </span><span class="s2">"</span><span class="nv">$REPORT_DIR</span><span class="s2">"</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">"azqr-*.xlsx"</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
 
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Report updated: </span><span class="nv">$LATEST_REPORT</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Report updated: </span><span class="nv">$LATEST_REPORT</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span>
 <span class="k">else</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan failed with error code </span><span class="nv">$?</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan failed with error code </span><span class="nv">$?</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span>
 <span class="k">fi</span>
 
 <span class="c1"># Log completion</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan process completed&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LOG_FILE</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan process completed"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOG_FILE</span><span class="s2">"</span>
 </code></pre></div>
 
 <hr />
@@ -571,12 +571,12 @@ azqr<span class="w"> </span>scan<span class="w"> </span>--output<span class="w">
 <h2 id="deploying-to-azure-app-service">Deploying to Azure App Service</h2>
 <h3 id="step-1-create-azure-resources"><strong>Step 1: Create Azure resources</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Variables</span>
-<span class="nv">RESOURCE_GROUP</span><span class="o">=</span><span class="s2">&quot;rg-operations&quot;</span>
-<span class="nv">LOCATION</span><span class="o">=</span><span class="s2">&quot;eastus&quot;</span>
-<span class="nv">STORAGE_ACCOUNT</span><span class="o">=</span><span class="s2">&quot;stazqrreports&quot;</span>
-<span class="nv">APP_SERVICE_PLAN</span><span class="o">=</span><span class="s2">&quot;asp-operations&quot;</span>
-<span class="nv">APP_SERVICE_NAME</span><span class="o">=</span><span class="s2">&quot;azqr-dashboard&quot;</span>
-<span class="nv">CONTAINER_REGISTRY</span><span class="o">=</span><span class="s2">&quot;acrazqr&quot;</span>
+<span class="nv">RESOURCE_GROUP</span><span class="o">=</span><span class="s2">"rg-operations"</span>
+<span class="nv">LOCATION</span><span class="o">=</span><span class="s2">"eastus"</span>
+<span class="nv">STORAGE_ACCOUNT</span><span class="o">=</span><span class="s2">"stazqrreports"</span>
+<span class="nv">APP_SERVICE_PLAN</span><span class="o">=</span><span class="s2">"asp-operations"</span>
+<span class="nv">APP_SERVICE_NAME</span><span class="o">=</span><span class="s2">"azqr-dashboard"</span>
+<span class="nv">CONTAINER_REGISTRY</span><span class="o">=</span><span class="s2">"acrazqr"</span>
 
 <span class="c1"># Create resource group</span>
 az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
@@ -652,8 +652,8 @@ az<span class="w"> </span>webapp<span class="w"> </span>identity<span class="w">
 
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$SUBSCRIPTION_ID</span><span class="s2">&quot;</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Reader"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">"/subscriptions/</span><span class="nv">$SUBSCRIPTION_ID</span><span class="s2">"</span>
 </code></pre></div>
 
 <p><strong>Why managed identity matters:</strong><br />
@@ -667,7 +667,7 @@ az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w">
 <span class="nv">STORAGE_KEY</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>keys<span class="w"> </span>list<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;[0].value&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"[0].value"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
 
 <span class="c1"># Mount storage to App Service</span>
@@ -692,7 +692,7 @@ az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> <
 <span class="w">  </span>--docker-custom-image-name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io/azqr-dashboard:latest<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--docker-registry-server-url<span class="w"> </span>https://<span class="nv">$CONTAINER_REGISTRY</span>.azurecr.io<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--docker-registry-server-user<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--docker-registry-server-password<span class="w"> </span><span class="k">$(</span>az<span class="w"> </span>acr<span class="w"> </span>credential<span class="w"> </span>show<span class="w"> </span>--name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;passwords[0].value&quot;</span><span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+<span class="w">  </span>--docker-registry-server-password<span class="w"> </span><span class="k">$(</span>az<span class="w"> </span>acr<span class="w"> </span>credential<span class="w"> </span>show<span class="w"> </span>--name<span class="w"> </span><span class="nv">$CONTAINER_REGISTRY</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">"passwords[0].value"</span><span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
 
 <span class="c1"># Enable container logging</span>
 az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
@@ -704,7 +704,7 @@ az<span class="w"> </span>webapp<span class="w"> </span>log<span class="w"> </sp
 az<span class="w"> </span>webapp<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--health-check-path<span class="w"> </span><span class="s2">&quot;/&quot;</span>
+<span class="w">  </span>--health-check-path<span class="w"> </span><span class="s2">"/"</span>
 </code></pre></div>
 
 <hr />
@@ -728,7 +728,7 @@ az<span class="w"> </span>webapp<span class="w"> </span>auth<span class="w"> </s
 <span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--enabled<span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--action<span class="w"> </span>LoginWithAzureActiveDirectory<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--aad-allowed-token-audiences<span class="w"> </span><span class="s2">&quot;https://</span><span class="nv">$APP_SERVICE_NAME</span><span class="s2">.azurewebsites.net&quot;</span>
+<span class="w">  </span>--aad-allowed-token-audiences<span class="w"> </span><span class="s2">"https://</span><span class="nv">$APP_SERVICE_NAME</span><span class="s2">.azurewebsites.net"</span>
 
 <span class="c1"># Get the authentication settings</span>
 az<span class="w"> </span>webapp<span class="w"> </span>auth<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
@@ -753,7 +753,7 @@ az<span class="w"> </span>webapp<span class="w"> </span>auth<span class="w"> </s
 <span class="nv">APP_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>webapp<span class="w"> </span>show<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span><span class="nv">$APP_SERVICE_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;identity.principalId&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"identity.principalId"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output<span class="w"> </span>tsv<span class="k">)</span>
 
 <span class="c1"># Assign users or groups</span>
@@ -783,12 +783,12 @@ az<span class="w"> </span>ad<span class="w"> </span>app<span class="w"> </span>p
 <h3 id="option-b-logic-app-webhook-enterprise"><strong>Option B: Logic App webhook (enterprise)</strong></h3>
 <p><strong>Create webhook endpoint in App Service:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Add webhook endpoint to scan script</span>
-cat<span class="w"> </span>&gt;<span class="w"> </span>webhook.sh<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>webhook.sh<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
 <span class="s">#!/bin/bash</span>
 
 <span class="s"># Simple HTTP server to receive webhook</span>
 <span class="s">while true; do</span>
-<span class="s">    echo &quot;Waiting for webhook trigger...&quot;</span>
+<span class="s">    echo "Waiting for webhook trigger..."</span>
 <span class="s">    nc -l -p 8081 -e /app/scan.sh</span>
 <span class="s">done</span>
 <span class="s">EOF</span>
@@ -799,53 +799,53 @@ chmod<span class="w"> </span>+x<span class="w"> </span>webhook.sh
 <hr />
 <p><strong>Logic App workflow:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;Trigger_AZQR_Scan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://azqr-dashboard.azurewebsites.net/webhook&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;authentication&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ManagedServiceIdentity&quot;</span>
+<span class="w">  </span><span class="nt">"definition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"Trigger_AZQR_Scan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Http"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://azqr-dashboard.azurewebsites.net/webhook"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"authentication"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ManagedServiceIdentity"</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;Wait_for_Completion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wait&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Minute&quot;</span>
+<span class="w">      </span><span class="nt">"Wait_for_Completion"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wait"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Minute"</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;runAfter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;Trigger_AZQR_Scan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Succeeded&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="nt">"runAfter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"Trigger_AZQR_Scan"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Succeeded"</span><span class="p">]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;Send_Teams_Notification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@parameters(&#39;TeamsWebhookUrl&#39;)&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AZQR scan completed. View dashboard: https://azqr-dashboard.azurewebsites.net&quot;</span>
+<span class="w">      </span><span class="nt">"Send_Teams_Notification"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Http"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@parameters('TeamsWebhookUrl')"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AZQR scan completed. View dashboard: https://azqr-dashboard.azurewebsites.net"</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;runAfter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;Wait_for_Completion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Succeeded&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="nt">"runAfter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"Wait_for_Completion"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Succeeded"</span><span class="p">]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;triggers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;Recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Recurrence&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;schedule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;hours&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;6&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="nt">"triggers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"Recurrence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Recurrence"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"recurrence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"frequency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Day"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"schedule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"hours"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"6"</span><span class="p">]</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
@@ -931,32 +931,32 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <h3 id="retention-policy"><strong>Retention policy:</strong></h3>
 <p><strong>Automated cleanup in scan script:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Keep last 30 days</span>
-find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPORT_DIR</span><span class="s2">&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;azqr-*.xlsx&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+find<span class="w"> </span><span class="s2">"</span><span class="nv">$REPORT_DIR</span><span class="s2">"</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">"azqr-*.xlsx"</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
 </code></pre></div>
 
 <p><strong>Or configure blob lifecycle management:</strong></p>
 <div class="codehilite"><pre><span></span><code>az<span class="w"> </span>storage<span class="w"> </span>account<span class="w"> </span>management-policy<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--account-name<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--policy<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;rules&quot;: [{</span>
-<span class="s1">      &quot;name&quot;: &quot;DeleteOldReports&quot;,</span>
-<span class="s1">      &quot;enabled&quot;: true,</span>
-<span class="s1">      &quot;type&quot;: &quot;Lifecycle&quot;,</span>
-<span class="s1">      &quot;definition&quot;: {</span>
-<span class="s1">        &quot;filters&quot;: {</span>
-<span class="s1">          &quot;blobTypes&quot;: [&quot;blockBlob&quot;],</span>
-<span class="s1">          &quot;prefixMatch&quot;: [&quot;reports/azqr-&quot;]</span>
+<span class="w">  </span>--policy<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "rules": [{</span>
+<span class="s1">      "name": "DeleteOldReports",</span>
+<span class="s1">      "enabled": true,</span>
+<span class="s1">      "type": "Lifecycle",</span>
+<span class="s1">      "definition": {</span>
+<span class="s1">        "filters": {</span>
+<span class="s1">          "blobTypes": ["blockBlob"],</span>
+<span class="s1">          "prefixMatch": ["reports/azqr-"]</span>
 <span class="s1">        },</span>
-<span class="s1">        &quot;actions&quot;: {</span>
-<span class="s1">          &quot;baseBlob&quot;: {</span>
-<span class="s1">            &quot;delete&quot;: {</span>
-<span class="s1">              &quot;daysAfterModificationGreaterThan&quot;: 365</span>
+<span class="s1">        "actions": {</span>
+<span class="s1">          "baseBlob": {</span>
+<span class="s1">            "delete": {</span>
+<span class="s1">              "daysAfterModificationGreaterThan": 365</span>
 <span class="s1">            }</span>
 <span class="s1">          }</span>
 <span class="s1">        }</span>
 <span class="s1">      }</span>
 <span class="s1">    }]</span>
-<span class="s1">  }&#39;</span>
+<span class="s1">  }'</span>
 </code></pre></div>
 
 <p><strong>Result:</strong> Keep 1 year of reports, automatic cleanup</p>
@@ -1002,7 +1002,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <p><strong>Example:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// How many on-prem machines?</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span>
 <span class="c">// Result: 847 machines (30 seconds)</span>
 </code></pre></div>
@@ -1052,66 +1052,66 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <h2 id="what-azqr-finds-real-examples">What AZQR finds (real examples)</h2>
 <h3 id="security-findings-from-our-environment"><strong>Security findings from our environment:</strong></h3>
 <p><strong>App Services without proper scaling:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">instance</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mi">2</span>
-<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">Medium</span>
-<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Scalability</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Services</span>
-<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">auto</span><span class="o">-</span><span class="n">scaling</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="n">instances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<div class="codehilite"><pre><span></span><code>Recommendation: Set minimum instance count to 2
+Severity: Medium
+Impact: Scalability
+Resources Affected: 3 App Services
+Remediation: Configure auto-scaling with min instances = 2
 </code></pre></div>
 
 <p><strong>Storage accounts with shared key access:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Disable</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">access</span>
-<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">High</span>
-<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Security</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Accounts</span>
-<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Enforce</span><span class="w"> </span><span class="n">Entra</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="n">authentication</span><span class="w"> </span><span class="n">only</span>
+<div class="codehilite"><pre><span></span><code>Recommendation: Disable shared key access
+Severity: High
+Impact: Security
+Resources Affected: 12 Storage Accounts
+Remediation: Enforce Entra ID authentication only
 </code></pre></div>
 
 <p><strong>Network Watchers missing tags:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">tags</span>
-<span class="n">Severity</span><span class="o">:</span><span class="w"> </span><span class="n">Low</span>
-<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Governance</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="n">Watchers</span>
-<span class="n">Remediation</span><span class="o">:</span><span class="w"> </span><span class="n">Tag</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Type</span><span class="o">,</span><span class="w"> </span><span class="n">CostCenter</span><span class="o">,</span><span class="w"> </span><span class="n">Owner</span>
+<div class="codehilite"><pre><span></span><code>Recommendation: Apply required tags
+Severity: Low
+Impact: Governance
+Resources Affected: 2 Network Watchers
+Remediation: Tag with Type, CostCenter, Owner
 </code></pre></div>
 
 <hr />
 <h3 id="cost-findings"><strong>Cost findings:</strong></h3>
 <p><strong>Underutilized VMs:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Right</span><span class="o">-</span><span class="n">size</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">D4s_v3</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">D2s_v3</span>
-<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$150</span><span class="o">/</span><span class="n">month</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">VM</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">VMs</span>
-<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Resize</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">maintenance</span><span class="w"> </span><span class="n">window</span>
+<div class="codehilite"><pre><span></span><code>Recommendation: Right-size VM from D4s_v3 to D2s_v3
+Potential Savings: $150/month per VM
+Resources Affected: 5 VMs
+Action: Resize during maintenance window
 </code></pre></div>
 
 <p><strong>Unattached disks:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">unattached</span><span class="w"> </span><span class="n">managed</span><span class="w"> </span><span class="n">disks</span>
-<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$45</span><span class="o">/</span><span class="n">month</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">disks</span>
-<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">longer</span><span class="w"> </span><span class="n">needed</span><span class="o">,</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="n">delete</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Recommendation</span>:<span class="w"> </span><span class="nv">Delete</span><span class="w"> </span><span class="nv">unattached</span><span class="w"> </span><span class="nv">managed</span><span class="w"> </span><span class="nv">disks</span>
+<span class="nv">Potential</span><span class="w"> </span><span class="nv">Savings</span>:<span class="w"> </span><span class="mh">$45</span><span class="o">/</span><span class="nv">month</span>
+<span class="nv">Resources</span><span class="w"> </span><span class="nv">Affected</span>:<span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="nv">disks</span>
+<span class="nv">Action</span>:<span class="w"> </span><span class="nv">Verify</span><span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">longer</span><span class="w"> </span><span class="nv">needed</span>,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nv">delete</span>
 </code></pre></div>
 
 <p><strong>Old snapshots:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">snapshots</span><span class="w"> </span><span class="n">older</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span><span class="n">days</span>
-<span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$80</span><span class="o">/</span><span class="n">month</span>
-<span class="n">Resources</span><span class="w"> </span><span class="n">Affected</span><span class="o">:</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="n">snapshots</span>
-<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">retention</span><span class="w"> </span><span class="n">policy</span><span class="o">,</span><span class="w"> </span><span class="n">delete</span><span class="w"> </span><span class="n">old</span><span class="w"> </span><span class="n">snapshots</span>
+<div class="codehilite"><pre><span></span><code>Recommendation: Delete snapshots older than 90 days
+Potential Savings: $80/month
+Resources Affected: 23 snapshots
+Action: Review retention policy, delete old snapshots
 </code></pre></div>
 
 <hr />
 <h3 id="well-architected-framework-gaps"><strong>Well-Architected Framework gaps:</strong></h3>
 <p><strong>Front Door missing diagnostics:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Pillar</span><span class="o">:</span><span class="w"> </span><span class="n">Operational</span><span class="w"> </span><span class="n">Excellence</span>
-<span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Enable</span><span class="w"> </span><span class="n">diagnostic</span><span class="w"> </span><span class="n">settings</span>
-<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">Low</span>
-<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="n">Analytics</span><span class="w"> </span><span class="n">workspace</span>
+<div class="codehilite"><pre><span></span><code>Pillar: Operational Excellence
+Recommendation: Enable diagnostic settings
+Impact: Low
+Action: Configure Log Analytics workspace
 </code></pre></div>
 
 <p><strong>Front Door availability not configured:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Pillar</span><span class="o">:</span><span class="w"> </span><span class="n">Reliability</span>
-<span class="n">Recommendation</span><span class="o">:</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">proper</span><span class="w"> </span><span class="n">availability</span><span class="w"> </span><span class="n">settings</span>
-<span class="n">Impact</span><span class="o">:</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="o">(</span><span class="n">SLA</span><span class="w"> </span><span class="n">risk</span><span class="o">)</span>
-<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">Front</span><span class="w"> </span><span class="n">Door</span><span class="w"> </span><span class="n">configuration</span>
+<div class="codehilite"><pre><span></span><code>Pillar: Reliability
+Recommendation: Configure proper availability settings
+Impact: High (SLA risk)
+Action: Review Front Door configuration
 </code></pre></div>
 
 <hr />
@@ -1133,9 +1133,9 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <p><strong>Solution:</strong> KQL queries in <a href="/blog/azure-tags-operational-intelligence/">tag intelligence post</a></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// VMs in Azure still tagged OnPrem=Yes (drift)</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;azure&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"azure"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">OnPrem</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Yes"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
@@ -1229,7 +1229,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <h3 id="health-checks"><strong>Health checks:</strong></h3>
 <p><strong>Daily automated checks:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Check if dashboard is responding</span>
-curl<span class="w"> </span>-f<span class="w"> </span>https://azqr-dashboard.azurewebsites.net<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Dashboard down!&quot;</span>
+curl<span class="w"> </span>-f<span class="w"> </span>https://azqr-dashboard.azurewebsites.net<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Dashboard down!"</span>
 
 <span class="c1"># Check if latest report exists</span>
 az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </span>exists<span class="w"> </span><span class="se">\</span>
@@ -1325,13 +1325,13 @@ az<span class="w"> </span>webapp<span class="w"> </span>deployment<span class="w
 <span class="c1"># Grant Reader on multiple subscriptions</span>
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/subscription-id-1&quot;</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Reader"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">"/subscriptions/subscription-id-1"</span>
 
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Reader&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/subscription-id-2&quot;</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Reader"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">"/subscriptions/subscription-id-2"</span>
 
 <span class="c1"># AZQR will automatically scan all accessible subscriptions</span>
 </code></pre></div>
@@ -1359,7 +1359,7 @@ az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w">
 </code></pre></div>
 
 <p><strong>Update scan script to use config:</strong></p>
-<div class="codehilite"><pre><span></span><code>azqr<span class="w"> </span>scan<span class="w"> </span>--filters<span class="w"> </span>/app/azqr-config.yaml<span class="w"> </span>--output<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$DATED_REPORT</span><span class="s2">&quot;</span>
+<div class="codehilite"><pre><span></span><code>azqr<span class="w"> </span>scan<span class="w"> </span>--filters<span class="w"> </span>/app/azqr-config.yaml<span class="w"> </span>--output<span class="w"> </span><span class="s2">"</span><span class="nv">$DATED_REPORT</span><span class="s2">"</span>
 </code></pre></div>
 
 <hr />

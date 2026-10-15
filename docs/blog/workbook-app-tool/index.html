@@ -317,23 +317,23 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <p><strong>Workbook files are JSON with a predictable structure.</strong></p>
 <p>When you export a workbook from Azure Portal:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;json&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;## Azure Inventory Workbook\n### Change Log&quot;</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"json"</span><span class="p">:</span><span class="w"> </span><span class="s2">"## Azure Inventory Workbook\n### Change Log"</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type == &#39;microsoft.compute/virtualmachines&#39;...&quot;</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Resources | where type == 'microsoft.compute/virtualmachines'..."</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
@@ -352,21 +352,21 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <p>I built a Streamlit app that turns workbook JSON into a navigable interface.</p>
 <h3 id="the-core-parser">The Core Parser</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_items</span><span class="p">(</span><span class="n">workbook</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract all items from workbook JSON with type, name, and content.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extract all items from workbook JSON with type, name, and content."""</span>
     <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">raw_items</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;items&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">raw_items</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"graph"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_items</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw_items</span><span class="p">):</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span>
-            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"title"</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"index"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"raw"</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
 
     <span class="c1"># Handle ARM template format (value array)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">),</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">workbook</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]:</span>
-            <span class="n">props</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="n">items2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;serializedData&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;items&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workbook</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">workbook</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]:</span>
+            <span class="n">props</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"properties"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">items2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"serializedData"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">items2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">items2</span><span class="p">)</span>
@@ -374,9 +374,9 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
                     <span class="n">items2</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items2</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items2</span><span class="p">):</span>
-                    <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
-                    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
-                    <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span>
+                    <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"index"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"raw"</span><span class="p">:</span> <span class="n">it</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">items</span>
 </code></pre></div>
@@ -388,33 +388,33 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <h3 id="extracting-kql-queries">Extracting KQL Queries</h3>
 <p>KQL queries hide in different places depending on the workbook version:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_kql</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract KQL query from item, handling multiple schema formats.&quot;&quot;&quot;</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="w">    </span><span class="sd">"""Extract KQL query from item, handling multiple schema formats."""</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"raw"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,</span> <span class="p">{})</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># Direct query string</span>
-        <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"query"</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]</span>
 
         <span class="c1"># Nested query object</span>
-        <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"query"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="s2">"query"</span><span class="p">]</span>
 
         <span class="c1"># Versioned query format</span>
-        <span class="k">if</span> <span class="s2">&quot;versionedQuery&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;versionedQuery&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"versionedQuery"</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"versionedQuery"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">"versionedQuery"</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">"versionedQuery"</span><span class="p">][</span><span class="s2">"query"</span><span class="p">]</span>
 
         <span class="c1"># JSON-wrapped query</span>
-        <span class="k">if</span> <span class="s2">&quot;json&quot;</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">][</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"json"</span> <span class="ow">in</span> <span class="n">c</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">"json"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">"json"</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="s2">"json"</span><span class="p">][</span><span class="s2">"query"</span><span class="p">]</span>
 
     <span class="c1"># Queries array (some workbooks)</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;queries&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"queries"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">q</span><span class="p">:</span>
         <span class="n">first</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">first</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">first</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">first</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
@@ -422,36 +422,36 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <p><strong>The challenge:</strong> Microsoft changed the workbook schema over time. This parser handles all common formats.</p>
 <h3 id="the-bug-i-had-to-fix">The Bug I Had to Fix</h3>
 <p>Initial version crashed on Billy York's workbook:</p>
-<div class="codehilite"><pre><span></span><code>AttributeError: &#39;int&#39; object has no attribute &#39;lower&#39;
+<div class="codehilite"><pre><span></span><code>AttributeError: 'int' object has no attribute 'lower'
 </code></pre></div>
 
 <p><strong>The problem:</strong> I assumed <code>type</code> was always a string like <code>"query"</code>. Billy York's workbook uses <strong>numeric type codes</strong> like <code>3</code> for queries, <code>9</code> for parameters.</p>
 <p><strong>The fix:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Item type mappings (numeric → readable)</span>
 <span class="n">WORKBOOK_ITEM_TYPES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;query&quot;</span><span class="p">,</span>
-    <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;parameters&quot;</span><span class="p">,</span>
-    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;links&quot;</span><span class="p">,</span>
-    <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;group&quot;</span><span class="p">,</span>
-    <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;metrics&quot;</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">"query"</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s2">"parameters"</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">"links"</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="s2">"group"</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="s2">"metrics"</span>
 <span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_type</span><span class="p">(</span><span class="n">raw_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert workbook type (int or string) to normalized lowercase string.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert workbook type (int or string) to normalized lowercase string."""</span>
     <span class="k">if</span> <span class="n">raw_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+        <span class="k">return</span> <span class="s2">"unknown"</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">raw_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw_type</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_type_display</span><span class="p">(</span><span class="n">raw_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get human-readable type name for display.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get human-readable type name for display."""</span>
     <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize_type</span><span class="p">(</span><span class="n">raw_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">WORKBOOK_ITEM_TYPES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_type</span><span class="p">,</span><span class="w"> </span><span class="sa">f</span><span class="s1">'type</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">raw_type</span><span class="si">}</span><span class="s2">)"</span>
     <span class="k">return</span> <span class="n">normalized</span>
 </code></pre></div>
 
@@ -459,41 +459,41 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <h3 id="the-streamlit-interface">The Streamlit Interface</h3>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
 
-<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">page_title</span><span class="o">=</span><span class="s2">&quot;Azure Workbook → App&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
-<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;📒 Azure Monitor Workbook → App&quot;</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">page_title</span><span class="o">=</span><span class="s2">"Azure Workbook → App"</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"wide"</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"📒 Azure Monitor Workbook → App"</span><span class="p">)</span>
 
 <span class="c1"># File upload</span>
-<span class="n">uploaded</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Upload an Azure Monitor Workbook JSON&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">])</span>
+<span class="n">uploaded</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">"Upload an Azure Monitor Workbook JSON"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="p">[</span><span class="s2">"json"</span><span class="p">])</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">uploaded</span><span class="p">:</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Upload a workbook export (JSON).&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Upload a workbook export (JSON)."</span><span class="p">)</span>
     <span class="n">st</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
 <span class="c1"># Parse workbook</span>
 <span class="n">workbook</span> <span class="o">=</span> <span class="n">load_workbook_json</span><span class="p">(</span><span class="n">uploaded</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
 <span class="n">items</span> <span class="o">=</span> <span class="n">flatten_items</span><span class="p">(</span><span class="n">workbook</span><span class="p">)</span>
 
-<span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parsed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2"> item(s) from the workbook.&quot;</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2"> item(s) from the workbook."</span><span class="p">)</span>
 
 <span class="c1"># Sidebar navigation</span>
 <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">:</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;### Items&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">"### Items"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">format_item</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;(unnamed)&#39;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'type'</span><span class="p">))</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">'(unnamed)'</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
 
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;Jump to item&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))),</span> <span class="n">format_func</span><span class="o">=</span><span class="n">format_item</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">"Jump to item"</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">))),</span> <span class="n">format_func</span><span class="o">=</span><span class="n">format_item</span><span class="p">)</span>
 
 <span class="c1"># Display current item</span>
 <span class="n">current</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-<span class="n">itype</span> <span class="o">=</span> <span class="n">normalize_type</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+<span class="n">itype</span> <span class="o">=</span> <span class="n">normalize_type</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'type'</span><span class="p">))</span>
 
-<span class="k">if</span> <span class="s2">&quot;query&quot;</span> <span class="ow">in</span> <span class="n">itype</span> <span class="ow">or</span> <span class="n">itype</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="s2">"query"</span> <span class="ow">in</span> <span class="n">itype</span> <span class="ow">or</span> <span class="n">itype</span> <span class="o">==</span> <span class="s2">"3"</span><span class="p">:</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
-        <span class="n">st</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;kusto&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s2">"kusto"</span><span class="p">)</span>
         <span class="c1"># Optional: Execute query if workspace ID provided</span>
         <span class="k">if</span> <span class="n">run_queries</span> <span class="ow">and</span> <span class="n">workspace_id</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">try_run_kql</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
@@ -512,50 +512,50 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">k</span><span class="p">:</span>
-        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
+        <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'type'</span><span class="p">))</span>
         <span class="n">kql_rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">it</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> 
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">type_display</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;(unnamed)&quot;</span><span class="p">,</span> 
-            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">k</span>
+            <span class="s2">"index"</span><span class="p">:</span> <span class="n">it</span><span class="p">[</span><span class="s2">"index"</span><span class="p">],</span> 
+            <span class="s2">"type"</span><span class="p">:</span> <span class="n">type_display</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"(unnamed)"</span><span class="p">,</span> 
+            <span class="s2">"query"</span><span class="p">:</span> <span class="n">k</span>
         <span class="p">})</span>
 
 <span class="n">kql_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kql_rows</span><span class="p">)</span>
 
 <span class="c1"># CSV export</span>
 <span class="n">st</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
-    <span class="s2">&quot;📥 Download all KQL to CSV&quot;</span><span class="p">,</span> 
-    <span class="n">kql_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> 
-    <span class="s2">&quot;workbook_kql.csv&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;text/csv&quot;</span>
+    <span class="s2">"📥 Download all KQL to CSV"</span><span class="p">,</span> 
+    <span class="n">kql_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span> 
+    <span class="s2">"workbook_kql.csv"</span><span class="p">,</span> 
+    <span class="s2">"text/csv"</span>
 <span class="p">)</span>
 
 <span class="c1"># Markdown export</span>
 <span class="n">md</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
-<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# Workbook: </span><span class="si">{</span><span class="n">uploaded</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Items:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**KQL Queries:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kql_rows</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"# Workbook: </span><span class="si">{</span><span class="n">uploaded</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**Items:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**KQL Queries:** </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kql_rows</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-    <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">))</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;(unnamed)&#39;</span>
-    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;## Item </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">type_display</span> <span class="o">=</span> <span class="n">get_type_display</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'type'</span><span class="p">))</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">'(unnamed)'</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"## Item </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_display</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">txt</span> <span class="o">=</span> <span class="n">extract_text</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">extract_kql</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">txt</span><span class="p">:</span>
-        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
-        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;```kusto</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">```</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"```kusto</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">```</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;---</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"---</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="n">st</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
-    <span class="s2">&quot;📥 Download as Markdown&quot;</span><span class="p">,</span> 
-    <span class="n">md</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> 
-    <span class="s2">&quot;workbook_export.md&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;text/markdown&quot;</span>
+    <span class="s2">"📥 Download as Markdown"</span><span class="p">,</span> 
+    <span class="n">md</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span> 
+    <span class="s2">"workbook_export.md"</span><span class="p">,</span> 
+    <span class="s2">"text/markdown"</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -590,27 +590,27 @@ Billy York's Azure Inventory Workbook is comprehensive: 110 items tracking 200+ 
 <span class="gu">## Item 9: query (3) — Azure Compute Summary</span>
 
 ```kusto
-Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
+Resources | where type == "microsoft.compute/virtualmachines"
 | extend vmState = tostring(properties.extended.instanceView.powerState.displayStatus)
-| extend vmState = iif(isempty(vmState), &quot;VM State Unknown&quot;, (vmState))
+| extend vmState = iif(isempty(vmState), "VM State Unknown", (vmState))
 | summarize count() by vmState
 </code></pre></div>
 
 <hr />
 <h2 id="item-15-query-3-azure-compute-overview">Item 15: query (3) — Azure Compute Overview</h2>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmID</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osDiskId</span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">storageProfile</span><span class="err">.</span><span class="n">osDisk</span><span class="err">.</span><span class="n">managedDisk</span><span class="err">.</span><span class="n">id</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">osDiskId</span><span class="p">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">storageProfile</span><span class="p">.</span><span class="n">osDisk</span><span class="p">.</span><span class="n">managedDisk</span><span class="p">.</span><span class="n">id</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="p">(</span><span class="n">resources</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/disks'</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">'Unattached'</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">timeCreated</span><span class="p">,</span><span class="w"> </span><span class="n">OS</span><span class="p">,</span><span class="w"> </span><span class="n">osSku</span><span class="p">,</span><span class="w"> </span><span class="n">osDiskSizeGB</span><span class="p">,</span><span class="w"> </span><span class="n">osDiskId</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">osDiskId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">leftouter</span><span class="p">(</span><span class="n">resources</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/availabilitysets&#39;</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">VirtualMachine</span><span class="p">=</span><span class="n">properties</span><span class="err">.</span><span class="n">virtualMachines</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/availabilitysets'</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">VirtualMachine</span><span class="p">=</span><span class="n">properties</span><span class="p">.</span><span class="n">virtualMachines</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">AvailabilitySetID</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">vmID</span><span class="p">,</span><span class="w"> </span><span class="n">FaultDomainCount</span><span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">vmID</span>
-<span class="err">...</span>
+<span class="p">...</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code><span class="o">**</span><span class="n">CSV</span><span class="w"> </span><span class="k">export</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="mi">41</span><span class="w"> </span><span class="n">queries</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">text</span><span class="o">.</span>
@@ -621,7 +621,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 
 <span class="c1">## What This Enabled</span>
 
-<span class="c1">### Enhanced Billy York&#39;s Workbook</span>
+<span class="c1">### Enhanced Billy York's Workbook</span>
 
 <span class="n">Original</span><span class="w"> </span><span class="n">workbook</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">types</span><span class="w">  </span>
 <span class="n">Enhanced</span><span class="w"> </span><span class="n">version</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="o">+</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">types</span><span class="w">  </span>
@@ -658,7 +658,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 
 <span class="err">```</span><span class="n">python</span>
 <span class="n">def</span><span class="w"> </span><span class="n">try_run_kql</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">:</span><span class="w"> </span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute KQL query against Log Analytics workspace.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Execute KQL query against Log Analytics workspace."""</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">AZURE_AVAILABLE</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">workspace_id</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">query</span><span class="p">:</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">None</span>
 
@@ -675,7 +675,7 @@ Resources | where type == &quot;microsoft.compute/virtualmachines&quot;
 <span class="w">        </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">list</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">t</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 <span class="w">    </span><span class="n">except</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">e</span><span class="p">:</span>
-<span class="w">        </span><span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;KQL execution failed: {e}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">st</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">f</span><span class="s2">"KQL execution failed: {e}"</span><span class="p">)</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">None</span>
 </code></pre></div>
 

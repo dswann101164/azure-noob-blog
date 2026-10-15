@@ -1,8 +1,8 @@
 ---
-title: "Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost"
+title: "Azure OpenAI Pricing 2026: $10 Estimate vs $1,288 Real Cost"
 date: 2026-01-02
-modified: 2026-02-14
-summary: "Microsoft's pricing calculator says $4/month. Production reality: $1,906. Full 2026 GPT-4o rate card, hidden fine-tuning fees, and PTU break-even analysis."
+modified: 2026-10-15
+summary: "Microsoft's pricing calculator says $10/month. Production reality: $1,288. Full 2026 GPT-6 / GPT-5.x rate card (per 1M tokens), hidden fine-tuning fees, and PTU break-even analysis."
 tags: ["azure", "finops", "ai", "openai", "cost-management", "pricing-calculator"]
 cover: /static/images/hero/azure-openai-costs.png
 slug: azure-openai-pricing-real-costs
@@ -15,11 +15,12 @@ faq_schema: true
 <div style="background: #f8f9fa; padding: 2rem; border-left: 4px solid #0078d4; margin: 2rem 0; border-radius: 4px;">
   <h2 style="margin-top: 0; color: #0078d4;">⚡ Quick Answer: Azure OpenAI Pricing 2026</h2>
   <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-    <strong>GPT-4o:</strong> $0.005 per 1K input tokens, $0.015 per 1K output tokens<br>
-    <strong>GPT-4o mini:</strong> $0.00015 per 1K input tokens, $0.0006 per 1K output tokens<br>
-    <strong>PTU (Provisioned Throughput):</strong> Starting at $2,448/month
+    <strong>GPT-6 Sol:</strong> $2.00 per 1M input tokens, $10.00 per 1M output tokens<br>
+    <strong>GPT-6 Luna:</strong> $0.10 per 1M input tokens, $0.50 per 1M output tokens<br>
+    <strong>GPT-6 Astra:</strong> $10.00 per 1M input tokens, $50.00 per 1M output tokens<br>
+    <strong>PTU (Provisioned Throughput):</strong> $260 per PTU/month reserved (Global, 15-PTU minimum = $3,900/month), or $1 per PTU/hour pay-as-you-go
   </p>
-  <p style="margin-bottom: 0;"><strong>Hidden Costs:</strong> Fine-tuning hosting adds $1,836-2,160/month per model. Infrastructure overhead adds $35-50/month. A $4 calculator estimate becomes $1,906 in production.</p>
+  <p style="margin-bottom: 0;"><strong>Hidden Costs:</strong> Fine-tuning hosting adds $1.70/hour (~$1,241/month) per deployed model. Infrastructure overhead adds $35-50/month. A $10 calculator estimate becomes $1,288 in production.</p>
 </div>
 
 <div style="text-align: center; margin: 2.5rem 0; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px;">
@@ -37,12 +38,76 @@ faq_schema: true
 
 ## Azure OpenAI Pricing 2026: Complete Price Reference
 
-| Model | Input (per 1K tokens) | Output (per 1K tokens) | Best For |
-|-------|----------------------|------------------------|----------|
-| **GPT-4o** | $0.005 | $0.015 | General production use |
-| **GPT-4o mini** | $0.00015 | $0.0006 | High-volume simple tasks |
-| **GPT-4 Turbo** | $0.01 | $0.02 | Complex reasoning |
-| **PTU (Provisioned)** | $2,448/mo (min) | N/A | Reserved performance |
+*Prices from the Azure Retail Prices API, Global Standard, short context (≤272K input tokens), checked 2026-10-15. Data Zone and Regional deployments run about 10% higher. "—" means Microsoft publishes no separate meter.*
+
+### GPT-6 family
+
+| Model | Input (per 1M tokens) | Cached input (per 1M) | Output (per 1M tokens) | Best For |
+|-------|----------------------|-----------------------|------------------------|----------|
+| **GPT-6 Astra** | $10.00 | $1.00 | $50.00 | Frontier reasoning, enterprise workloads |
+| **GPT-6.1 Sol** | $2.00 | $0.10 | $10.00 | General production use |
+| **GPT-6 Sol** | $2.00 | $0.20 | $10.00 | General production use |
+| **GPT-6 Luna** | $0.10 | $0.01 | $0.50 | High-volume simple tasks |
+
+GPT-6 models also bill **cache writes** (Astra $12.50, Sol $2.50, Luna $0.125 per 1M tokens). Long-context requests (>272K input tokens) cost more: Astra $20 / $75, Sol $4 / $15, Luna $0.20 / $0.75.
+
+### GPT-5 families
+
+| Model | Input (per 1M tokens) | Cached input (per 1M) | Output (per 1M tokens) | Best For |
+|-------|----------------------|-----------------------|------------------------|----------|
+| **GPT-Chat latest** | $5.00 | $0.50 | $30.00 | Chat experiences |
+| **GPT-5.6 Sol** | $4.00 | $0.40 | $20.00 | Complex reasoning |
+| **GPT-5.6 Terra** | $2.00 | $0.20 | $12.00 | General production use |
+| **GPT-5.6 Luna** | $0.20 | $0.02 | $1.20 | High-volume simple tasks |
+| **GPT-5.5** | $5.00 | $0.50 | $30.00 | Complex reasoning |
+| **GPT-5.4** | $2.50 | $0.25 | $15.00 | General production use |
+| **GPT-5.4 Pro** | $30.00 | — | $180.00 | Hardest problems |
+| **GPT-5.4 mini** | $0.75 | $0.075 | $4.50 | Cost-sensitive production |
+| **GPT-5.4 nano** | $0.20 | $0.02 | $1.25 | Classification, extraction |
+| **GPT-5.3 Chat / Codex** | $1.75 | $0.175 | $14.00 | Chat, coding |
+| **GPT-5.2** | $1.75 | $0.175 | $14.00 | General production use |
+| **GPT-5.2 Pro** | $21.00 | — | $168.00 | Hardest problems |
+| **GPT-5.1** (incl. Codex, Codex-Max) | $1.25 | $0.125 | $10.00 | General production use, coding |
+| **GPT-5.1 Codex-mini** | $0.25 | $0.025 | $2.00 | Lightweight coding |
+| **GPT-5** | $1.25 | $0.125 | $10.00 | General production use |
+| **GPT-5 mini** | $0.25 | $0.025 | $2.00 | Cost-sensitive production |
+| **GPT-5 nano** | $0.05 | $0.005 | $0.40 | Classification, extraction |
+
+### o-series (reasoning)
+
+| Model | Input (per 1M tokens) | Cached input (per 1M) | Output (per 1M tokens) |
+|-------|----------------------|-----------------------|------------------------|
+| **o3-pro** | $20.00 | — | $80.00 |
+| **o3-deep-research** | $10.00 | $2.50 | $40.00 |
+| **o3** | $2.00 | $0.50 | $8.00 |
+| **o4-mini** | $1.10 | $0.275 | $4.40 |
+| **o3-mini** | $1.10 | $0.55 | $4.40 |
+| **o1-pro** | $150.00 | — | $600.00 |
+| **o1** | $15.00 | $7.50 | $60.00 |
+| **o1-mini** | $1.10 | $0.55 | $4.40 |
+
+### Legacy models
+
+| Model | Input (per 1M tokens) | Cached input (per 1M) | Output (per 1M tokens) |
+|-------|----------------------|-----------------------|------------------------|
+| **GPT-4.1** | $2.00 | $0.50 | $8.00 |
+| **GPT-4.1 mini** | $0.40 | $0.10 | $1.60 |
+| **GPT-4.1 nano** | $0.10 | $0.025 | $0.40 |
+| **GPT-4o** (2024-11-20) | $2.50 | $1.25 | $10.00 |
+| **GPT-4o** (2024-05-13) | $5.00 | — | $15.00 |
+| **GPT-4o mini** | $0.15 | $0.075 | $0.60 |
+| **GPT-4 Turbo** | $10.00 | — | $30.00 |
+
+### Provisioned throughput, fine-tuning, and batch
+
+| Item | Price |
+|------|-------|
+| **PTU, monthly reservation** | $260/PTU (Global), $286/PTU (Data Zone, Regional) |
+| **PTU, 1-year reservation** | $2,652/PTU (Global), $2,916/PTU (Data Zone, Regional) |
+| **PTU, hourly** | $1.00/PTU (Global), $1.10/PTU (Data Zone), $2.00/PTU (Regional) |
+| **PTU minimum** | 15 PTU (Global, Data Zone), 50 PTU (Regional) |
+| **Fine-tuned model hosting** | $1.70/hour per deployment (~$1,241/month) |
+| **Batch** | 50% off Global Standard |
 
 ---
 
@@ -62,9 +127,12 @@ faq_schema: true
   <div style="margin-bottom: 15px;">
     <label style="display: block; font-weight: bold; margin-bottom: 5px;">Model:</label>
     <select id="modelType" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-      <option value="gpt35">GPT-3.5 Turbo</option>
-      <option value="gpt4o">GPT-4o</option>
-      <option value="gpt4turbo" selected>GPT-4 Turbo</option>
+      <option value="gpt6astra">GPT-6 Astra</option>
+      <option value="gpt6sol" selected>GPT-6 Sol</option>
+      <option value="gpt56terra">GPT-5.6 Terra</option>
+      <option value="gpt56luna">GPT-5.6 Luna</option>
+      <option value="gpt41">GPT-4.1 (fine-tunable)</option>
+      <option value="gpt4o">GPT-4o (legacy)</option>
     </select>
   </div>
   <div style="margin-bottom: 15px;">
@@ -97,14 +165,18 @@ function calculateCosts() {
   const fineTuned = getVal('fineTunedModels');
   const model = document.getElementById('modelType').value;
 
+  // USD per 1M tokens, Global Standard (Azure Retail Prices API, 2026-10-15)
   const pricing = {
-    gpt35: { in: 0.002, out: 0.002 },
-    gpt4o: { in: 0.005, out: 0.015 },
-    gpt4turbo: { in: 0.01, out: 0.02 }
+    gpt6astra:  { in: 10.00, out: 50.00 },
+    gpt6sol:    { in: 2.00,  out: 10.00 },
+    gpt56terra: { in: 2.00,  out: 12.00 },
+    gpt56luna:  { in: 0.20,  out: 1.20 },
+    gpt41:      { in: 2.00,  out: 8.00 },
+    gpt4o:      { in: 2.50,  out: 10.00 }
   };
 
-  const tokenCost = (requests * ((100/1000 * pricing[model].in) + (300/1000 * pricing[model].out)));
-  const hostingCost = fineTuned * 1836;
+  const tokenCost = requests * ((100 * pricing[model].in) + (300 * pricing[model].out)) / 1e6;
+  const hostingCost = fineTuned * 1241; // $1.70/hr x 730 hrs
   const infra = 35;
   const retryTax = tokenCost * 0.15;
   const total = tokenCost + hostingCost + infra + retryTax;
@@ -138,18 +210,18 @@ function calculateCosts() {
 
 ## What breaks between calculator and production
 
-**Calculator shows:** 1M input tokens + 1M output tokens with GPT-3.5 = $4/month
+**Calculator shows:** 1M input tokens + 1M output tokens with GPT-4.1 = $10/month
 
 **Production reality adds:**
-- Fine-tuned model hosting: $1,836/month (even if unused)
+- Fine-tuned model hosting: $1,241/month (even if unused)
 - Infrastructure overhead: $35/month (Cognitive Services, Key Vault, monitoring)
-- Output token premium: 2× input token cost
+- Output token premium: 4-6× input token cost
 - Retry/error overhead: 10-15% additional usage
-- **Actual total: $1,906/month**
+- **Actual total: $1,288/month**
 
-**The $1,836/month trap is the most expensive mistake in Azure OpenAI.**
+**The $1,241/month trap is the most expensive mistake in Azure OpenAI.**
 
-Most organizations discover zombie fine-tuned models 3-6 months after deployment. By then, they've burned $5,508-$11,016 on models that never answered a single query.
+Most organizations discover zombie fine-tuned models 3-6 months after deployment. By then, they've burned $3,723-$7,446 on models that never answered a single query.
 
 ---
 
@@ -198,6 +270,6 @@ Most organizations discover zombie fine-tuned models 3-6 months after deployment
 ---
 
 ### The PTU (Provisioned Throughput) Break-Even
-Provisioned Throughput starts at **$2,448/month**. Based on 2026 pricing, if your pay-as-you-go token costs exceed **$1,800/month**, you are essentially losing money by not committing to a PTU reservation. 
+Provisioned Throughput starts at **$3,900/month** (15 PTU minimum, Global, monthly reservation; $3,315/month on a 1-year term). If your pay-as-you-go token spend is consistently above **~$3,900/month** at steady utilization, price out a reservation. 
 
 The Enterprise ROI Toolkit includes a complete PTU commitment calculator that shows 1-year vs 3-year ROI scenarios across 20 common workload patterns.

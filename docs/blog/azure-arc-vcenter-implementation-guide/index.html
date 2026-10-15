@@ -414,7 +414,7 @@ My boss asked me and my colleague to train the team on Azure Arc this morning. W
   <span class="p">-</span><span class="n">-location</span> <span class="n">eastus</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-fqdn</span> <span class="n">vcenter</span><span class="p">.</span><span class="n">company</span><span class="p">.</span><span class="n">local</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-username</span> <span class="n">administrator</span><span class="nv">@vsphere</span><span class="p">.</span><span class="n">local</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-password</span> <span class="s2">&quot;YourPassword&quot;</span>
+  <span class="p">-</span><span class="n">-password</span> <span class="s2">"YourPassword"</span>
 
 <span class="c"># 6. Enable guest management on 5 test VMs from Azure Portal</span>
 <span class="c"># (Click VM -&gt; Enable guest management -&gt; Apply)</span>
@@ -478,7 +478,7 @@ My boss asked me and my colleague to train the team on Azure Arc this morning. W
 <p><strong>Software to install on jump box:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Install Azure CLI</span>
 <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">https</span><span class="p">://</span><span class="n">aka</span><span class="p">.</span><span class="n">ms</span><span class="p">/</span><span class="n">installazurecliwindows</span> <span class="n">-OutFile</span> <span class="p">.\</span><span class="n">AzureCLI</span><span class="p">.</span><span class="n">msi</span>
-<span class="nb">Start-Process</span> <span class="n">msiexec</span><span class="p">.</span><span class="n">exe</span> <span class="n">-Wait</span> <span class="n">-ArgumentList</span> <span class="s1">&#39;/I AzureCLI.msi /quiet&#39;</span>
+<span class="nb">Start-Process</span> <span class="n">msiexec</span><span class="p">.</span><span class="n">exe</span> <span class="n">-Wait</span> <span class="n">-ArgumentList</span> <span class="s1">'/I AzureCLI.msi /quiet'</span>
 
 <span class="c"># Install PowerShell 7</span>
 <span class="n">winget</span> <span class="n">install</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span>
@@ -618,42 +618,42 @@ Your vCenter appears as a resource in Azure. All VMs from that vCenter are now v
 <p><strong>Critical insight:</strong> The Resource Bridge makes VMs discoverable. The Arc agent makes them manageable.</p>
 <p><strong>How to deploy at scale:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Script to deploy Arc agents to VMs from vcenter-01</span>
-<span class="nv">$ServicePrincipalId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-ID&quot;</span>
-<span class="nv">$ServicePrincipalSecret</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-SECRET&quot;</span> <span class="p">|</span> <span class="nb">ConvertTo-SecureString</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
-<span class="nv">$TenantId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-TENANT-ID&quot;</span>
-<span class="nv">$SubscriptionId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SUBSCRIPTION-ID&quot;</span>
-<span class="nv">$ResourceGroup</span> <span class="p">=</span> <span class="s2">&quot;arc-vcenter-01-rg&quot;</span>
-<span class="nv">$Location</span> <span class="p">=</span> <span class="s2">&quot;eastus&quot;</span>
+<span class="nv">$ServicePrincipalId</span> <span class="p">=</span> <span class="s2">"YOUR-SP-ID"</span>
+<span class="nv">$ServicePrincipalSecret</span> <span class="p">=</span> <span class="s2">"YOUR-SP-SECRET"</span> <span class="p">|</span> <span class="nb">ConvertTo-SecureString</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+<span class="nv">$TenantId</span> <span class="p">=</span> <span class="s2">"YOUR-TENANT-ID"</span>
+<span class="nv">$SubscriptionId</span> <span class="p">=</span> <span class="s2">"YOUR-SUBSCRIPTION-ID"</span>
+<span class="nv">$ResourceGroup</span> <span class="p">=</span> <span class="s2">"arc-vcenter-01-rg"</span>
+<span class="nv">$Location</span> <span class="p">=</span> <span class="s2">"eastus"</span>
 
 <span class="c"># Tags to apply during onboarding - THIS IS CRITICAL</span>
 <span class="nv">$Tags</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s2">&quot;vcenter-source&quot;</span> <span class="p">=</span> <span class="s2">&quot;vcenter-01&quot;</span>
-    <span class="s2">&quot;environment&quot;</span> <span class="p">=</span> <span class="s2">&quot;production&quot;</span>
-    <span class="s2">&quot;migration-wave&quot;</span> <span class="p">=</span> <span class="s2">&quot;wave-2&quot;</span>
-    <span class="s2">&quot;cost-center&quot;</span> <span class="p">=</span> <span class="s2">&quot;IT-INFRASTRUCTURE&quot;</span>
+    <span class="s2">"vcenter-source"</span> <span class="p">=</span> <span class="s2">"vcenter-01"</span>
+    <span class="s2">"environment"</span> <span class="p">=</span> <span class="s2">"production"</span>
+    <span class="s2">"migration-wave"</span> <span class="p">=</span> <span class="s2">"wave-2"</span>
+    <span class="s2">"cost-center"</span> <span class="p">=</span> <span class="s2">"IT-INFRASTRUCTURE"</span>
 <span class="p">}</span>
 
 <span class="c"># Deploy to target VMs</span>
-<span class="nv">$VMs</span> <span class="p">=</span> <span class="nb">Get-VM</span> <span class="n">-Location</span> <span class="n">vcenter</span><span class="p">-</span><span class="n">01</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">PowerState</span> <span class="o">-eq</span> <span class="s2">&quot;PoweredOn&quot;</span><span class="p">}</span>
+<span class="nv">$VMs</span> <span class="p">=</span> <span class="nb">Get-VM</span> <span class="n">-Location</span> <span class="n">vcenter</span><span class="p">-</span><span class="n">01</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">PowerState</span> <span class="o">-eq</span> <span class="s2">"PoweredOn"</span><span class="p">}</span>
 
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$VM</span> <span class="k">in</span> <span class="nv">$VMs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Invoke-VMScript</span> <span class="n">-VM</span> <span class="nv">$VM</span> <span class="n">-ScriptText</span> <span class="sh">@&quot;</span>
+    <span class="nb">Invoke-VMScript</span> <span class="n">-VM</span> <span class="nv">$VM</span> <span class="n">-ScriptText</span> <span class="sh">@"</span>
 <span class="sh">        # Download Arc agent</span>
-<span class="sh">        Invoke-WebRequest -Uri &#39;https://aka.ms/AzureConnectedMachineAgent&#39; -OutFile AzureConnectedMachineAgent.msi</span>
+<span class="sh">        Invoke-WebRequest -Uri 'https://aka.ms/AzureConnectedMachineAgent' -OutFile AzureConnectedMachineAgent.msi</span>
 
 <span class="sh">        # Install agent</span>
 <span class="sh">        msiexec /i AzureConnectedMachineAgent.msi /quiet /norestart</span>
 
 <span class="sh">        # Connect to Azure with tags</span>
-<span class="sh">        &amp; &quot;$env:ProgramFiles\AzureConnectedMachineAgent\azcmagent.exe&quot; connect `</span>
+<span class="sh">        &amp; "$env:ProgramFiles\AzureConnectedMachineAgent\azcmagent.exe" connect `</span>
 <span class="sh">          --service-principal-id $ServicePrincipalId `</span>
 <span class="sh">          --service-principal-secret $ServicePrincipalSecret `</span>
 <span class="sh">          --tenant-id $TenantId `</span>
 <span class="sh">          --subscription-id $SubscriptionId `</span>
 <span class="sh">          --resource-group $ResourceGroup `</span>
 <span class="sh">          --location $Location `</span>
-<span class="sh">          --tags &quot;vcenter-source=vcenter-01,environment=production,migration-wave=wave-2,cost-center=IT-INFRASTRUCTURE&quot;</span>
-<span class="sh">&quot;@</span>
+<span class="sh">          --tags "vcenter-source=vcenter-01,environment=production,migration-wave=wave-2,cost-center=IT-INFRASTRUCTURE"</span>
+<span class="sh">"@</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -672,29 +672,29 @@ Your vCenter appears as a resource in Azure. All VMs from that vCenter are now v
 - What's the migration priority?</p>
 <h3 id="required-tag-schema">Required Tag Schema</h3>
 <p>Apply these tags <strong>during Arc agent deployment</strong>, not after:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">vcenter-source</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vcenter-01&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;vcenter-02&quot; | &quot;vcenter-03&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">vcenter-source</span><span class="p">:</span><span class="w"> </span><span class="s">"vcenter-01"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "vcenter-02" | "vcenter-03"</span>
 <span class="w">  </span><span class="no"># Which vCenter instance is this VM from?</span>
 <span class="w">  </span><span class="no"># Critical for migration wave planning</span>
 
-<span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;development&quot; | &quot;test&quot; | &quot;dr-failover&quot;</span>
+<span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">"production"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "development" | "test" | "dr-failover"</span>
 <span class="w">  </span><span class="no"># Determines migration priority and support criticality</span>
 
-<span class="nt">cost-center</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FINANCE-001&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;IT-INFRASTRUCTURE&quot; | &quot;SALES-EAST&quot;</span>
+<span class="nt">cost-center</span><span class="p">:</span><span class="w"> </span><span class="s">"FINANCE-001"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "IT-INFRASTRUCTURE" | "SALES-EAST"</span>
 <span class="w">  </span><span class="no"># Required for chargeback and budget allocation</span>
 
-<span class="nt">app-owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;john.smith@company.com&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;finance-team@company.com&quot;</span>
+<span class="nt">app-owner</span><span class="p">:</span><span class="w"> </span><span class="s">"john.smith@company.com"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "finance-team@company.com"</span>
 <span class="w">  </span><span class="no"># Who to contact about this workload</span>
 
-<span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;erp-system&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;crm-prod&quot; | &quot;internal-portal&quot;</span>
+<span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="s">"erp-system"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "crm-prod" | "internal-portal"</span>
 <span class="w">  </span><span class="no"># What business function does this support</span>
 
-<span class="nt">migration-wave</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wave-1&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;wave-2&quot; | &quot;wave-3&quot; | &quot;not-planned&quot;</span>
+<span class="nt">migration-wave</span><span class="p">:</span><span class="w"> </span><span class="s">"wave-1"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "wave-2" | "wave-3" | "not-planned"</span>
 <span class="w">  </span><span class="no"># Deployment sequence for Azure migration</span>
 
-<span class="nt">azure-ready</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;no&quot; | &quot;needs-assessment&quot;</span>
+<span class="nt">azure-ready</span><span class="p">:</span><span class="w"> </span><span class="s">"yes"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "no" | "needs-assessment"</span>
 <span class="w">  </span><span class="no"># Can this VM migrate to Azure as-is?</span>
 
-<span class="nt">compliance-scope</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sox&quot;</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> &quot;pci&quot; | &quot;hipaa&quot; | &quot;none&quot;</span>
+<span class="nt">compliance-scope</span><span class="p">:</span><span class="w"> </span><span class="s">"sox"</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="err"> "pci" | "hipaa" | "none"</span>
 <span class="w">  </span><span class="no"># Regulatory requirements affecting architecture</span>
 </code></pre></div>
 
@@ -900,8 +900,8 @@ Your vCenter appears as a resource in Azure. All VMs from that vCenter are now v
 **TLS 1.2 not enabled (Windows Server 2012):**
 ```powershell
 <span class="gh">#</span> Enable TLS 1.2 before Arc agent installation
-Set-ItemProperty -Path &#39;HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319&#39; -Name &#39;SchemeUseStrongCrypto&#39; -Value 1 -Type DWord
-Set-ItemProperty -Path &#39;HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319&#39; -Name &#39;SchemeUseStrongCrypto&#39; -Value 1 -Type DWord
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319' -Name 'SchemeUseStrongCrypto' -Value 1 -Type DWord
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319' -Name 'SchemeUseStrongCrypto' -Value 1 -Type DWord
 Restart-Computer -Force
 </code></pre></div>
 
@@ -986,8 +986,8 @@ Verify service principal has these permissions:<br />
 <p>Once you have Arc deployed with proper tags, these Resource Graph queries give you the visibility you need.</p>
 <h3 id="query-1-vm-count-by-vcenter-source">Query 1: VM Count by vCenter Source</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">vcenter_source</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">vcenter_source</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">vcenterSource</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -1002,11 +1002,11 @@ vcenter-03        150
 <p>Now you know exactly how many VMs you have in each vCenter, visible in Azure.</p>
 <h3 id="query-2-migration-wave-planning">Query 2: Migration Wave Planning</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">vcenter_source</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;migration-wave&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">azureReady</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;azure-ready&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;not-planned&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">vcenter_source</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"migration-wave"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">azureReady</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"azure-ready"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">migrationWave</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">"not-planned"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">migrationWave</span><span class="p">,</span><span class="w"> </span><span class="n">azureReady</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">migrationWave</span>
 </code></pre></div>
@@ -1023,9 +1023,9 @@ wave-3           yes             200
 <p>Now you can plan migration sprints. Wave 1 has 45 VMs ready to migrate immediately, but 12 need assessment first.</p>
 <h3 id="query-3-cost-allocation-by-department">Query 3: Cost Allocation by Department</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;cost-center&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">vcenter_source</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"cost-center"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">vcenter_source</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">costCenter</span><span class="p">,</span><span class="w"> </span><span class="n">vcenterSource</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">costCenter</span>
 </code></pre></div>
@@ -1042,10 +1042,10 @@ SALES-EAST         vcenter-01         45
 <p>Now Finance can allocate Arc management costs back to departments. Finance runs 105 VMs (80 prod + 25 dev), IT Infrastructure runs 270 VMs.</p>
 <h3 id="query-4-find-untagged-vms-data-quality-check">Query 4: Find Untagged VMs (Data Quality Check)</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">vcenter_source</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;cost-center&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">appOwner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;app-owner&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">vcenter_source</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"cost-center"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">appOwner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"app-owner"</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">vcenterSource</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">costCenter</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">appOwner</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">vcenterSource</span><span class="p">,</span><span class="w"> </span><span class="n">costCenter</span><span class="p">,</span><span class="w"> </span><span class="n">appOwner</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span>
@@ -1054,10 +1054,10 @@ SALES-EAST         vcenter-01         45
 <p>This finds VMs missing required tags. Run this weekly and fix tag gaps before Finance asks for reports.</p>
 <h3 id="query-5-production-vms-by-compliance-scope">Query 5: Production VMs by Compliance Scope</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">environment</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">complianceScope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;compliance-scope&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;production&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">environment</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">complianceScope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"compliance-scope"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"production"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">complianceScope</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -1073,9 +1073,9 @@ none                195
 <p>Security can now audit regulatory scope. 180 VMs are SOX-regulated and require specific Azure Policy configurations.</p>
 <h3 id="query-6-arc-agent-health-status">Query 6: Arc Agent Health Status</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">vcenter_source</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">status</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">vcenter_source</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">status</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">VMCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">vcenterSource</span><span class="p">,</span><span class="w"> </span><span class="n">agentStatus</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">vcenterSource</span><span class="p">,</span><span class="w"> </span><span class="n">agentStatus</span>
 </code></pre></div>
@@ -1097,7 +1097,7 @@ vcenter-02        Disconnected    2
 <p>Budget 4-8 weeks to fix this mess.</p>
 <h3 id="step-2-export-current-inventory">Step 2: Export Current Inventory</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Export all Arc machines to CSV</span>
-<span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="s2">&quot;resources | where type == &#39;microsoft.hybridcompute/machines&#39; | project name, resourceGroup, location, properties.osName&quot;</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span> <span class="p">&gt;</span> <span class="n">arc-inventory</span><span class="p">.</span><span class="n">csv</span>
+<span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="s2">"resources | where type == 'microsoft.hybridcompute/machines' | project name, resourceGroup, location, properties.osName"</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span> <span class="p">&gt;</span> <span class="n">arc-inventory</span><span class="p">.</span><span class="n">csv</span>
 </code></pre></div>
 
 <p>Now you have a spreadsheet with all Arc-enabled VMs.</p>
@@ -1114,17 +1114,17 @@ vcenter-02        Disconnected    2
 - Accept that some VMs will remain "unknown" until someone complains</p>
 <h3 id="step-4-apply-tags-programmatically">Step 4: Apply Tags Programmatically</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Read CSV with tag data</span>
-<span class="nv">$VMTagData</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;arc-inventory-with-tags.csv&quot;</span>
+<span class="nv">$VMTagData</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="s2">"arc-inventory-with-tags.csv"</span>
 
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$VM</span> <span class="k">in</span> <span class="nv">$VMTagData</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$ResourceId</span> <span class="p">=</span> <span class="s2">&quot;/subscriptions/$SubscriptionId/resourceGroups/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">resourceGroup</span><span class="p">)</span><span class="s2">/providers/Microsoft.HybridCompute/machines/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nv">$ResourceId</span> <span class="p">=</span> <span class="s2">"/subscriptions/$SubscriptionId/resourceGroups/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">resourceGroup</span><span class="p">)</span><span class="s2">/providers/Microsoft.HybridCompute/machines/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">"</span>
 
     <span class="nv">$Tags</span> <span class="p">=</span> <span class="p">@{</span>
-        <span class="s2">&quot;vcenter-source&quot;</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span>
-        <span class="s2">&quot;cost-center&quot;</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span>
-        <span class="s2">&quot;app-owner&quot;</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span>
-        <span class="s2">&quot;environment&quot;</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span>
-        <span class="s2">&quot;migration-wave&quot;</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span>
+        <span class="s2">"vcenter-source"</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span>
+        <span class="s2">"cost-center"</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span>
+        <span class="s2">"app-owner"</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span>
+        <span class="s2">"environment"</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span>
+        <span class="s2">"migration-wave"</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span>
     <span class="p">}</span>
 
     <span class="c"># Apply tags</span>
@@ -1135,10 +1135,10 @@ vcenter-02        Disconnected    2
 <h3 id="step-5-reorganize-resource-groups-optional">Step 5: Reorganize Resource Groups (Optional)</h3>
 <p>If everything is in one resource group and you want to split by vCenter:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Move vcenter-01 VMs to dedicated resource group</span>
-<span class="nv">$Vcenter01VMs</span> <span class="p">=</span> <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="s2">&quot;resources | where type == &#39;microsoft.hybridcompute/machines&#39; and tags.vcenter_source == &#39;vcenter-01&#39;&quot;</span> <span class="p">-</span><span class="n">-output</span> <span class="n">json</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+<span class="nv">$Vcenter01VMs</span> <span class="p">=</span> <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="s2">"resources | where type == 'microsoft.hybridcompute/machines' and tags.vcenter_source == 'vcenter-01'"</span> <span class="p">-</span><span class="n">-output</span> <span class="n">json</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
 
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$VM</span> <span class="k">in</span> <span class="nv">$Vcenter01VMs</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">az</span> <span class="n">resource</span> <span class="nb">move </span><span class="p">-</span><span class="n">-ids</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">id</span> <span class="p">-</span><span class="n">-destination-group</span> <span class="s2">&quot;arc-vcenter-01-rg&quot;</span>
+    <span class="n">az</span> <span class="n">resource</span> <span class="nb">move </span><span class="p">-</span><span class="n">-ids</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">id</span> <span class="p">-</span><span class="n">-destination-group</span> <span class="s2">"arc-vcenter-01-rg"</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -1146,22 +1146,22 @@ vcenter-02        Disconnected    2
 <h3 id="step-6-prevent-future-tag-drift">Step 6: Prevent Future Tag Drift</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Azure Policy to require tags on new Arc machines</span>
 <span class="p">{</span>
-  <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="s2">&quot;Indexed&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;policyRule&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;if&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">&quot;allOf&quot;</span><span class="p">:</span> <span class="p">[</span>
+  <span class="s2">"mode"</span><span class="p">:</span> <span class="s2">"Indexed"</span><span class="p">,</span>
+  <span class="s2">"policyRule"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"if"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"allOf"</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-          <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;equals&quot;</span><span class="p">:</span> <span class="s2">&quot;Microsoft.HybridCompute/machines&quot;</span>
+          <span class="s2">"field"</span><span class="p">:</span> <span class="s2">"type"</span><span class="p">,</span>
+          <span class="s2">"equals"</span><span class="p">:</span> <span class="s2">"Microsoft.HybridCompute/machines"</span>
         <span class="p">},</span>
         <span class="p">{</span>
-          <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;tags[&#39;vcenter-source&#39;]&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;exists&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+          <span class="s2">"field"</span><span class="p">:</span> <span class="s2">"tags['vcenter-source']"</span><span class="p">,</span>
+          <span class="s2">"exists"</span><span class="p">:</span> <span class="s2">"false"</span>
         <span class="p">}</span>
       <span class="p">]</span>
     <span class="p">},</span>
-    <span class="s2">&quot;then&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">&quot;effect&quot;</span><span class="p">:</span> <span class="s2">&quot;deny&quot;</span>
+    <span class="s2">"then"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"effect"</span><span class="p">:</span> <span class="s2">"deny"</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -1202,9 +1202,9 @@ vcenter-02        Disconnected    2
 <p><strong>Why it fails:</strong> Agents disconnect due to network issues, certificate expiration, Azure API throttling, TLS configuration changes. Silent failures = VMs stop getting patches.</p>
 <p><strong>The fix:</strong> Set up Azure Monitor alerts for disconnected agents:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">status</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;Connected&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">status</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">agentStatus</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">"Connected"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">agentStatus</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
 </code></pre></div>
 
@@ -1264,15 +1264,15 @@ vcenter-02        Disconnected    2
 <h3 id="essential-powershell-functions">Essential PowerShell Functions</h3>
 <p><strong>Check Arc Agent Status Across All VMs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span> <span class="nb">Get-ArcAgentHealth</span> <span class="p">{</span>
-    <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="sh">@&quot;</span>
+    <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="sh">@"</span>
 <span class="sh">        resources</span>
-<span class="sh">        | where type == &#39;microsoft.hybridcompute/machines&#39;</span>
+<span class="sh">        | where type == 'microsoft.hybridcompute/machines'</span>
 <span class="sh">        | extend agentStatus = properties.status</span>
 <span class="sh">        | extend lastHeartbeat = properties.lastStatusChange</span>
 <span class="sh">        | extend vcenterSource = tags.vcenter_source</span>
 <span class="sh">        | project name, agentStatus, lastHeartbeat, vcenterSource, resourceGroup</span>
 <span class="sh">        | order by agentStatus desc, name asc</span>
-<span class="sh">&quot;@</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span>
+<span class="sh">"@</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -1289,17 +1289,17 @@ vcenter-02        Disconnected    2
     <span class="nv">$VMData</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="nv">$CsvPath</span>
 
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$VM</span> <span class="k">in</span> <span class="nv">$VMData</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$ResourceId</span> <span class="p">=</span> <span class="s2">&quot;/subscriptions/$SubscriptionId/resourceGroups/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">resourceGroup</span><span class="p">)</span><span class="s2">/providers/Microsoft.HybridCompute/machines/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">&quot;</span>
+        <span class="nv">$ResourceId</span> <span class="p">=</span> <span class="s2">"/subscriptions/$SubscriptionId/resourceGroups/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">resourceGroup</span><span class="p">)</span><span class="s2">/providers/Microsoft.HybridCompute/machines/</span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">"</span>
 
         <span class="nv">$Tags</span> <span class="p">=</span> <span class="p">@{}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">&quot;vcenter-source&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span> <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">&quot;cost-center&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span> <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">&quot;app-owner&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span> <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span> <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">&quot;migration-wave&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">"vcenter-source"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">vcenter_source</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">"cost-center"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">cost_center</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">"app-owner"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">app_owner</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">"environment"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">environment</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$Tags</span><span class="p">[</span><span class="s2">"migration-wave"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$VM</span><span class="p">.</span><span class="n">migration_wave</span> <span class="p">}</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="nv">$Tags</span><span class="p">.</span><span class="n">Count</span> <span class="o">-gt</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nb">Write-Host</span> <span class="s2">&quot;Tagging </span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">...&quot;</span>
+            <span class="nb">Write-Host</span> <span class="s2">"Tagging </span><span class="p">$(</span><span class="nv">$VM</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2">..."</span>
             <span class="n">az</span> <span class="n">tag</span> <span class="n">create</span> <span class="p">-</span><span class="n">-resource-id</span> <span class="nv">$ResourceId</span> <span class="p">-</span><span class="n">-tags</span> <span class="nv">$Tags</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -1308,16 +1308,16 @@ vcenter-02        Disconnected    2
 
 <p><strong>Find VMs Missing Required Tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="k">function</span> <span class="nb">Get-UntaggedArcVMs</span> <span class="p">{</span>
-    <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="sh">@&quot;</span>
+    <span class="n">az</span> <span class="n">graph</span> <span class="n">query</span> <span class="n">-q</span> <span class="sh">@"</span>
 <span class="sh">        resources</span>
-<span class="sh">        | where type == &#39;microsoft.hybridcompute/machines&#39;</span>
+<span class="sh">        | where type == 'microsoft.hybridcompute/machines'</span>
 <span class="sh">        | extend vcenterSource = tags.vcenter_source</span>
-<span class="sh">        | extend costCenter = tags[&#39;cost-center&#39;]</span>
-<span class="sh">        | extend appOwner = tags[&#39;app-owner&#39;]</span>
+<span class="sh">        | extend costCenter = tags['cost-center']</span>
+<span class="sh">        | extend appOwner = tags['app-owner']</span>
 <span class="sh">        | where isnull(vcenterSource) or isnull(costCenter) or isnull(appOwner)</span>
 <span class="sh">        | project name, vcenterSource, costCenter, appOwner, resourceGroup</span>
 <span class="sh">        | order by name asc</span>
-<span class="sh">&quot;@</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span>
+<span class="sh">"@</span> <span class="p">-</span><span class="n">-output</span> <span class="n">table</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -1325,16 +1325,16 @@ vcenter-02        Disconnected    2
 <p><strong>Monthly Arc Costs by vCenter:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Run in Azure Cost Management</span>
 <span class="n">AzureConsumption</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;vcenter-source&quot;</span><span class="p">]</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">MonthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Cost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">vcenterSource</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;yyyy-MM&#39;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vcenterSource</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"vcenter-source"</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">MonthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Cost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">vcenterSource</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="s">'yyyy-MM'</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Date</span><span class="w"> </span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="n">MonthlyCost</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
 <p><strong>Arc Licensing Costs by Department:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureConsumption</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;cost-center&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">costCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"cost-center"</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnotempty</span><span class="p">(</span><span class="n">costCenter</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Cost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">costCenter</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="n">desc</span>

@@ -387,7 +387,7 @@
 <p><strong>Subscription:</strong><br />
 - Click the dropdown<br />
 - Select your subscription (if you only have one, it's already selected)<br />
-- <strong>Write this down on paper:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>___ (you'll need it in Part 3)</p>
+- <strong>Write this down on paper:</strong> _________________ (you'll need it in Part 3)</p>
 <p><strong>Resource Group:</strong><br />
 - Click the dropdown<br />
 - Do you see a resource group for governance/compliance stuff? Use that.<br />
@@ -396,17 +396,17 @@
   - A popup appears<br />
   - Type exactly: <code>soc2-compliance-rg</code><br />
   - Click <strong>"OK"</strong><br />
-- <strong>Write this down:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+- <strong>Write this down:</strong> _________________</p>
 <p><strong>Name:</strong><br />
 - Type: <code>soc2-audit-logs</code><br />
 - <strong>If Azure says "Name not available"</strong> (red error):<br />
   - Add random numbers: <code>soc2-audit-logs-847</code><br />
   - Keep trying different numbers until you get a green checkmark<br />
-- <strong>Write this name down:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>___ (critical - you need this in Part 3)</p>
+- <strong>Write this name down:</strong> _________________ (critical - you need this in Part 3)</p>
 <p><strong>Region:</strong><br />
 - Click the dropdown<br />
 - Pick any region (I use "East US" but it doesn't really matter)<br />
-- <strong>Write this down:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+- <strong>Write this down:</strong> _________________</p>
 <p><strong>Pricing tier:</strong><br />
 - Leave as <strong>"Pay-as-you-go"</strong> (this is correct, don't change it)</p>
 <p><strong>You should see:</strong> All fields filled in, no red error messages</p>
@@ -445,9 +445,9 @@
 - Green "Succeeded" status<br />
 - Information like Resource group, Subscription ID, Location</p>
 <p><strong>Write down these three things:</strong><br />
-- Workspace name: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em><br />
-- Resource group: s</em></strong><strong><em>_</em></strong><strong><em>_</em></strong> (should be soc2-compliance-rg)<br />
-- Subscription: <strong><em>_</em></strong><strong><em>_</em></strong>___ (should match what you picked earlier)</p>
+- Workspace name: _________________<br />
+- Resource group: s_________________ (should be soc2-compliance-rg)<br />
+- Subscription: _________________ (should match what you picked earlier)</p>
 <p><strong>Checkpoint:</strong> You now have a Log Analytics Workspace. This is where Activity Logs will be stored for 365 days and where you'll run queries. ✓</p>
 <hr />
 <h2 id="part-2-create-storage-account-10-minutes">Part 2: Create Storage Account (10 minutes)</h2>
@@ -479,7 +479,7 @@
 - Example: <code>soc2archive20251027</code><br />
 - <strong>Rules:</strong> Must be lowercase, 3-24 characters, numbers and letters only, no spaces, no dashes, no underscores<br />
 - <strong>If "Name not available":</strong> Try <code>soc2logs20251027</code> or add your initials<br />
-- <strong>Write this name down:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+- <strong>Write this name down:</strong> _________________</p>
 <p><strong>Region:</strong><br />
 - Select <strong>the same region</strong> you used for the workspace in Part 1 (probably "East US")</p>
 <p><strong>Performance:</strong><br />
@@ -505,7 +505,7 @@
 </ol>
 <p><strong>You should see:</strong> Storage account overview page with your storage account name at the top</p>
 <p><strong>Write down:</strong><br />
-- Storage account name: <strong><em>_</em></strong><strong><em>_</em></strong>___ (like soc2archive20251027)<br />
+- Storage account name: _________________ (like soc2archive20251027)<br />
 - Resource group: soc2-compliance-rg<br />
 - Location: (should match workspace region)</p>
 <p><strong>Checkpoint:</strong> You now have a Storage Account for 7-year log archive. ✓</p>
@@ -692,37 +692,37 @@
 <p><strong>For Activity Logs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get subscription diagnostic settings</span>
 <span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Subscription</span><span class="p">.</span><span class="n">Id</span>
-<span class="nv">$diagnosticSettings</span> <span class="p">=</span> <span class="nb">Get-AzDiagnosticSetting</span> <span class="n">-ResourceId</span> <span class="s2">&quot;/subscriptions/$subscriptionId&quot;</span>
+<span class="nv">$diagnosticSettings</span> <span class="p">=</span> <span class="nb">Get-AzDiagnosticSetting</span> <span class="n">-ResourceId</span> <span class="s2">"/subscriptions/$subscriptionId"</span>
 
-<span class="c"># Show what&#39;s actually configured</span>
+<span class="c"># Show what's actually configured</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$setting</span> <span class="k">in</span> <span class="nv">$diagnosticSettings</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">=== Diagnostic Setting: </span><span class="p">$(</span><span class="nv">$setting</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">=== Diagnostic Setting: </span><span class="p">$(</span><span class="nv">$setting</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> ==="</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 
-    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Enabled Categories:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">Enabled Categories:"</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$log</span> <span class="k">in</span> <span class="nv">$setting</span><span class="p">.</span><span class="n">Logs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;✓&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;✗&quot;</span> <span class="p">}</span>
-        <span class="nv">$color</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;Green&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;Red&quot;</span> <span class="p">}</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;  $status </span><span class="p">$(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Category</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="nv">$color</span>
+        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"✓"</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">"✗"</span> <span class="p">}</span>
+        <span class="nv">$color</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Green"</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">"Red"</span> <span class="p">}</span>
+        <span class="nb">Write-Host</span> <span class="s2">"  $status </span><span class="p">$(</span><span class="nv">$log</span><span class="p">.</span><span class="n">Category</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="nv">$color</span>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="nv">$setting</span><span class="p">.</span><span class="n">WorkspaceId</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Sending to Log Analytics&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+        <span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">✓ Sending to Log Analytics"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>For Azure AD:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check Azure AD diagnostic settings</span>
-<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">&quot;AuditLog.Read.All&quot;</span>
-<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">&quot;https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings&quot;</span>
+<span class="nb">Connect-MgGraph</span> <span class="n">-Scopes</span> <span class="s2">"AuditLog.Read.All"</span>
+<span class="nv">$uri</span> <span class="p">=</span> <span class="s2">"https://graph.microsoft.com/beta/auditLogs/directoryAudits/diagnosticSettings"</span>
 <span class="nv">$settings</span> <span class="p">=</span> <span class="nb">Invoke-MgGraphRequest</span> <span class="n">-Method</span> <span class="n">GET</span> <span class="n">-Uri</span> <span class="nv">$uri</span>
 
 <span class="c"># Show configured categories</span>
 <span class="nv">$settings</span><span class="p">.</span><span class="n">value</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">=== </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2"> ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">=== </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="s2"> ==="</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
     <span class="nv">$_</span><span class="p">.</span><span class="n">logs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;✓&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;✗&quot;</span> <span class="p">}</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;  $status </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">category</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="p">$(</span><span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;Green&quot;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">&quot;Red&quot;</span> <span class="p">})</span>
+        <span class="nv">$status</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"✓"</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">"✗"</span> <span class="p">}</span>
+        <span class="nb">Write-Host</span> <span class="s2">"  $status </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">category</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="p">$(</span><span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">enabled</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Green"</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s2">"Red"</span> <span class="p">})</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -734,11 +734,11 @@
 - If any show ✗ (red X), go back and fix the configuration</p>
 <p><strong>Export for compliance documentation:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create timestamped proof</span>
-<span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd-HHmm&quot;</span>
+<span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">"yyyy-MM-dd-HHmm"</span>
 <span class="nv">$diagnosticSettings</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span> <span class="p">|</span> 
-    <span class="nb">Out-File</span> <span class="s2">&quot;diagnostic-settings-proof-$timestamp.json&quot;</span>
+    <span class="nb">Out-File</span> <span class="s2">"diagnostic-settings-proof-$timestamp.json"</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Configuration proof saved: diagnostic-settings-proof-$timestamp.json&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">Configuration proof saved: diagnostic-settings-proof-$timestamp.json"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 </code></pre></div>
 
 <p><strong>This file proves:</strong><br />
@@ -838,7 +838,7 @@
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">OldestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
 <span class="w">    </span><span class="n">NewestLog</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span>
-<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
+<span class="w">    </span><span class="n">DaysCovered</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">))</span>
 </code></pre></div>
 
 <p>Press <strong>Shift + Enter</strong> to run it.</p>
@@ -863,8 +863,8 @@
 <p>Try this query that finds resource deletions (common audit question):</p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">7</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">OperationName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -881,10 +881,10 @@
 <p>You just set up SOC 2-compliant Activity Log retention. Here's what this enables:</p>
 <h3 id="audit-question-1-who-created-storage-account-proddata001-on-september-15-2025">Audit Question 1: "Who created storage account 'proddata001' on September 15, 2025?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="err">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">16</span><span class="p">))</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceId</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;proddata001&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;CREATE&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;WRITE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">09</span><span class="p">-</span><span class="mi">16</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceId</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"proddata001"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"CREATE"</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"WRITE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">OperationName</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span>
 </code></pre></div>
 
@@ -893,8 +893,8 @@
 <h3 id="audit-question-2-show-me-all-resource-deletions-in-the-last-90-days">Audit Question 2: "Show me all resource deletions in the last 90 days"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -903,7 +903,7 @@
 <hr />
 <h3 id="audit-question-3-what-changes-did-john-doe-company-com-make-last-month">Audit Question 3: "What changes did john.doe@company.com make last month?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;john.doe@company.com&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Caller</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"john.doe@company.com"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="n">OperationName</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityStatusValue</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
@@ -913,9 +913,9 @@
 <hr />
 <h3 id="audit-question-4-were-there-any-policy-violations-in-q2-2025">Audit Question 4: "Were there any policy violations in Q2 2025?"</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">04</span><span class="p">-</span><span class="mi">01</span><span class="p">)</span><span class="w"> </span><span class="err">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">06</span><span class="p">-</span><span class="mi">30</span><span class="p">))</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">CategoryValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Policy&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Failure&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="p">(</span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">04</span><span class="p">-</span><span class="mi">01</span><span class="p">)</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="k">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">-</span><span class="mi">06</span><span class="p">-</span><span class="mi">30</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">CategoryValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Policy"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Failure"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="n">Caller</span><span class="p">,</span><span class="w"> </span><span class="n">OperationName</span><span class="p">,</span><span class="w"> </span><span class="n">Properties</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>

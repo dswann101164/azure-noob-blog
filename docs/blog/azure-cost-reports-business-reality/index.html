@@ -361,9 +361,9 @@
 <hr />
 <h3 id="find-the-unowned-unknowns">🔍 Find the Unowned "Unknowns"</h3>
 <p>Reports fail when ownership is unclear. Run this query to find exactly how much "Unknown" waste you have.</p>
-<div class="codehilite"><pre><span></span><code><span class="c">// Find costs where Owner tag is missing or generic &quot;Unknown&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="c">// Find costs where Owner tag is missing or generic "Unknown"</span>
 <span class="n">Usage</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&quot;Owner&quot;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">Tags</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">"Owner"</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">Tags</span><span class="w"> </span><span class="k">has</span><span class="w"> </span><span class="s">"Unknown"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalWaste</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Cost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">SubscriptionName</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TotalWaste</span><span class="w"> </span><span class="n">desc</span>
 <span class="p">|</span><span class="w"> </span><span class="k">render</span><span class="w"> </span><span class="n">piechart</span>

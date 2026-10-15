@@ -319,7 +319,7 @@
 <li>Reports roll up spend by those tags.  </li>
 <li>The board sees a story that actually matches the business.</li>
 </ul>
-<p><em>(We’ll dive deeper into this in our next post: </em><em>The Hidden Cost of Bad Azure Tags</em><em>.)</em></p>
+<p><em>(We’ll dive deeper into this in our next post: <strong>The Hidden Cost of Bad Azure Tags</strong>.)</em></p>
 <hr />
 <h2 id="getting-started">Getting Started</h2>
 <p>Here’s how to take the first step toward board-level visibility:</p>
@@ -338,8 +338,8 @@
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DailyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Cost</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">),</span><span class="w"> </span><span class="n">SubscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">serialize</span><span class="w"> </span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">SevenDayAvg</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">row_window_session</span><span class="p">(</span><span class="n">DailyCost</span><span class="p">,</span><span class="w"> </span><span class="p">-</span><span class="mi">7</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="p">-</span><span class="mi">1</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Anomaly</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">DailyCost</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mf">1.5</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="n">SevenDayAvg</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Spike&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Normal&quot;</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Anomaly</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Spike&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Anomaly</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iff</span><span class="p">(</span><span class="n">DailyCost</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mf">1.5</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="n">SevenDayAvg</span><span class="p">,</span><span class="w"> </span><span class="s">"Spike"</span><span class="p">,</span><span class="w"> </span><span class="s">"Normal"</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Anomaly</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Spike"</span>
 </code></pre></div>
 
 <hr />

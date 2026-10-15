@@ -365,27 +365,27 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <h3 id="key-changes-to-policy-logic">Key Changes to Policy Logic</h3>
 <p><strong>Change 1: Replace the condition</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Old (built-in)</span>
-<span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[parameters(&#39;tagName&#39;)]&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;notEquals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[parameters(&#39;tagValue&#39;)]&quot;</span>
+<span class="nt">"condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags[parameters('tagName')]"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"notEquals"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[parameters('tagValue')]"</span>
 <span class="p">}</span>
 
 <span class="c1">// New (custom)</span>
-<span class="nt">&quot;condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[parameters(&#39;tagName&#39;)]&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="nt">"condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags[parameters('tagName')]"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p>This change ensures the policy only looks for a missing tag name - it doesn't care about the value.</p>
 <p><strong>Change 2: Add default empty value</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&quot;tagValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;displayName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tag Value&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Value of the tag&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">"tagValue"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"displayName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tag Value"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Value of the tag"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1">// &lt;-- Add this</span>
+<span class="w">  </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">  </span><span class="c1">// &lt;-- Add this</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -418,21 +418,21 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <h3 id="create-initiative-parameters">Create Initiative Parameters</h3>
 <p>Create one parameter for each tag name:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;tagName1&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;displayName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tag Name 1&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;First required tag name&quot;</span>
+<span class="w">  </span><span class="nt">"tagName1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"displayName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tag Name 1"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"First required tag name"</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Application&quot;</span>
+<span class="w">    </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Application"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;tagName2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Environment&quot;</span>
+<span class="w">  </span><span class="nt">"tagName2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Environment"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;tagName3&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CostCenter&quot;</span>
+<span class="w">  </span><span class="nt">"tagName3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CostCenter"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -463,10 +463,10 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <p>Policy compliance stats update automatically in the background, but you can manually trigger a fresh scan:</p>
 <p><strong>Using Azure Cloud Shell:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Trigger policy scan for a specific subscription</span>
-<span class="nb">Start-AzPolicyComplianceScan</span> <span class="n">-SubscriptionId</span> <span class="s2">&quot;YOUR-SUB-ID&quot;</span>
+<span class="nb">Start-AzPolicyComplianceScan</span> <span class="n">-SubscriptionId</span> <span class="s2">"YOUR-SUB-ID"</span>
 
 <span class="c"># Trigger for multiple subscriptions</span>
-<span class="nv">$subs</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;sub-id-1&quot;</span><span class="p">,</span> <span class="s2">&quot;sub-id-2&quot;</span><span class="p">)</span>
+<span class="nv">$subs</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">"sub-id-1"</span><span class="p">,</span> <span class="s2">"sub-id-2"</span><span class="p">)</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$sub</span> <span class="k">in</span> <span class="nv">$subs</span><span class="p">)</span> <span class="p">{</span>
     <span class="nb">Start-AzPolicyComplianceScan</span> <span class="n">-SubscriptionId</span> <span class="nv">$sub</span>
 <span class="p">}</span>
@@ -566,7 +566,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">FinOpsToolkit</span>
 
 <span class="c"># Deploy Governance Workbook</span>
-<span class="nb">New-FinOpsWorkbook</span> <span class="n">-Name</span> <span class="s2">&quot;governance-workbook&quot;</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;finops-hub-rg&quot;</span>
+<span class="nb">New-FinOpsWorkbook</span> <span class="n">-Name</span> <span class="s2">"governance-workbook"</span> <span class="n">-ResourceGroupName</span> <span class="s2">"finops-hub-rg"</span>
 </code></pre></div>
 
 <p>The Governance Workbook integrates with your Policy compliance data and Cost Management to show the business impact of proper tagging. This is way more effective than staring at Policy compliance stats.</p>
@@ -603,7 +603,7 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <span class="c"># Break it down by subscription</span>
 <span class="nv">$subs</span> <span class="p">=</span> <span class="nb">Get-AzSubscription</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$sub</span> <span class="k">in</span> <span class="nv">$subs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Start-AzPolicyRemediation</span> <span class="n">-PolicyAssignmentId</span> <span class="nv">$policyId</span> <span class="n">-Scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="nv">$sub</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Start-AzPolicyRemediation</span> <span class="n">-PolicyAssignmentId</span> <span class="nv">$policyId</span> <span class="n">-Scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="nv">$sub</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">"</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -639,14 +639,14 @@ If you're managing more than a handful of Azure subscriptions, you've already di
 <hr />
 <h3 id="auto-deny-the-unknowns">🔍 Auto-Deny the "Unknowns"</h3>
 <p>Don't just audit. Block bad financial data at the door with this policy snippet.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1">// Deny deployment if Department tag causes &quot;Unknown&quot; financial route</span>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Deny deployment if Department tag causes "Unknown" financial route</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Department&#39;]&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;equals&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Unknown&quot;</span>
+<span class="w">  </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Department']"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"equals"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>

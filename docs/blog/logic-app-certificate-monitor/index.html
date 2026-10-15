@@ -167,7 +167,7 @@
   },
   "keywords": "azure, automation, logic-apps, governance, security, microsoft-graph, entra-id",
   "articleSection": "azure",
-  "wordCount": "5581",
+  "wordCount": "5500",
   "timeRequired": "PT28M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -379,17 +379,17 @@
 </table>
 <p><strong>PowerShell to create the service principal:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create app registration</span>
-<span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">&quot;CertificateMonitor-LogicApp&quot;</span>
+<span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">"CertificateMonitor-LogicApp"</span>
 
 <span class="c"># Create service principal</span>
 <span class="nv">$sp</span> <span class="p">=</span> <span class="nb">New-AzADServicePrincipal</span> <span class="n">-ApplicationId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
 
-<span class="c"># Create client secret (save this - you can&#39;t retrieve it later)</span>
+<span class="c"># Create client secret (save this - you can't retrieve it later)</span>
 <span class="nv">$secret</span> <span class="p">=</span> <span class="nb">New-AzADAppCredential</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">Id</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Application ID: </span><span class="p">$(</span><span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span><span class="p">)</span><span class="s2">&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Tenant ID: </span><span class="p">$((</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">&quot;</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;Client Secret: </span><span class="p">$(</span><span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Application ID: </span><span class="p">$(</span><span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Tenant ID: </span><span class="p">$((</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">Write-Host</span> <span class="s2">"Client Secret: </span><span class="p">$(</span><span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <p><strong>Grant admin consent via Azure Portal:</strong></p>
@@ -415,16 +415,16 @@
 <span class="nv">$tenantId</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-AzContext</span><span class="p">).</span><span class="n">Tenant</span><span class="p">.</span><span class="n">Id</span>
 
 <span class="c"># Store the three required values</span>
-<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;tenant-id&quot;</span> <span class="p">`</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault-name"</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"tenant-id"</span> <span class="p">`</span>
     <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$tenantId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 
-<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;client-id&quot;</span> <span class="p">`</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault-name"</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"client-id"</span> <span class="p">`</span>
     <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 
-<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault-name&quot;</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;client-secret&quot;</span> <span class="p">`</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault-name"</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"client-secret"</span> <span class="p">`</span>
     <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 </code></pre></div>
 
@@ -435,15 +435,15 @@
 <p><strong>Here's what the Logic App does at runtime:</strong></p>
 <h3 id="action-1-3-retrieve-credentials-from-key-vault"><strong>Action 1-3: Retrieve credentials from Key Vault</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Tenant_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ServiceProvider&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;secretName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tenant-id&quot;</span>
+<span class="w">    </span><span class="nt">"Tenant_ID"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ServiceProvider"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"secretName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tenant-id"</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;serviceProviderConfiguration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;connectionName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;keyVault&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;operationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;getSecret&quot;</span>
+<span class="w">            </span><span class="nt">"serviceProviderConfiguration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"connectionName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keyVault"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"operationId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"getSecret"</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -458,15 +458,15 @@
 <hr />
 <h3 id="action-4-request-oauth-token-from-microsoft-identity-platform"><strong>Action 4: Request OAuth token from Microsoft identity platform</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Get_Token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://login.microsoftonline.com/@{body(&#39;Tenant_ID&#39;)?[&#39;value&#39;]}/oauth2/v2.0/token&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;Content-Type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;application/x-www-form-urlencoded&quot;</span>
+<span class="w">    </span><span class="nt">"Get_Token"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Http"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://login.microsoftonline.com/@{body('Tenant_ID')?['value']}/oauth2/v2.0/token"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"Content-Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/x-www-form-urlencoded"</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client_id=@{body(&#39;Client_ID&#39;)?[&#39;value&#39;]}&amp;scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&amp;client_secret=@{body(&#39;Client_Secret&#39;)?[&#39;value&#39;]}&amp;grant_type=client_credentials&quot;</span>
+<span class="w">            </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"client_id=@{body('Client_ID')?['value']}&amp;scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&amp;client_secret=@{body('Client_Secret')?['value']}&amp;grant_type=client_credentials"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -479,24 +479,24 @@
 - Returns bearer token valid for 1 hour</p>
 <p><strong>Response:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJub...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bearer&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3599</span>
+<span class="w">    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJub..."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3599</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <hr />
 <h3 id="action-5-parse-the-token-response"><strong>Action 5: Parse the token response</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Parse_Token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParseJson&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@body(&#39;Get_Token&#39;)&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="nt">"Parse_Token"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ParseJson"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@body('Get_Token')"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
@@ -530,23 +530,23 @@
 <p><strong>Logic App solution: Until loop with dynamic nextLink</strong></p>
 <h3 id="initialize-variables"><strong>Initialize variables:</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Init_All_Apps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InitializeVariable&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allApps&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Array&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="nt">"Init_All_Apps"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"InitializeVariable"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">                </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"allApps"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Array"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
 <span class="w">            </span><span class="p">}]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;Init_Next_Link&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InitializeVariable&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nextLink&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://graph.microsoft.com/v1.0/applications?$select=displayName,appId,passwordCredentials,keyCredentials&amp;$expand=owners($select=displayName,userPrincipalName,mail)&amp;$top=100&quot;</span>
+<span class="w">    </span><span class="nt">"Init_Next_Link"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"InitializeVariable"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">                </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nextLink"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://graph.microsoft.com/v1.0/applications?$select=displayName,appId,passwordCredentials,keyCredentials&amp;$expand=owners($select=displayName,userPrincipalName,mail)&amp;$top=100"</span>
 <span class="w">            </span><span class="p">}]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -556,42 +556,42 @@
 <hr />
 <h3 id="until-loop-keep-calling-until-no-nextlink"><strong>Until loop: Keep calling until no nextLink</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Get_All_Apps_Loop&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Until&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@equals(variables(&#39;nextLink&#39;), &#39;&#39;)&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;timeout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PT1H&quot;</span>
+<span class="w">    </span><span class="nt">"Get_All_Apps_Loop"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Until"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"expression"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@equals(variables('nextLink'), '')"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PT1H"</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;Get_Apps_Page&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Http&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;nextLink&#39;)&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nt">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;Bearer &#39;, body(&#39;Parse_Token&#39;)?[&#39;access_token&#39;])&quot;</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"Get_Apps_Page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Http"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@variables('nextLink')"</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@concat('Bearer ', body('Parse_Token')?['access_token'])"</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;Parse_Apps_Page&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParseJson&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@body(&#39;Get_Apps_Page&#39;)&quot;</span>
+<span class="w">            </span><span class="nt">"Parse_Apps_Page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ParseJson"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@body('Get_Apps_Page')"</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;Merge_Arrays&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SetVariable&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allApps&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@union(variables(&#39;allApps&#39;), body(&#39;Parse_Apps_Page&#39;)?[&#39;value&#39;])&quot;</span>
+<span class="w">            </span><span class="nt">"Merge_Arrays"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SetVariable"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"allApps"</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@union(variables('allApps'), body('Parse_Apps_Page')?['value'])"</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;Update_Next_Link&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SetVariable&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nextLink&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(contains(string(body(&#39;Get_Apps_Page&#39;)), &#39;@odata.nextLink&#39;), body(&#39;Get_Apps_Page&#39;)[&#39;@odata.nextLink&#39;], &#39;&#39;)}&quot;</span>
+<span class="w">            </span><span class="nt">"Update_Next_Link"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SetVariable"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nextLink"</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@{if(contains(string(body('Get_Apps_Page')), '@odata.nextLink'), body('Get_Apps_Page')['@odata.nextLink'], '')}"</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -634,23 +634,23 @@
 <p><strong>Now we have all apps. Time to check which credentials are expiring.</strong></p>
 <h3 id="process-each-app"><strong>Process each app:</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Process_Each_App&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;allApps&#39;)&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;Check_Has_Credentials&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;or&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="nt">"Process_Each_App"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foreach"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"foreach"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@variables('allApps')"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"Check_Has_Credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"If"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"expression"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"or"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@length(item()?[&#39;passwordCredentials&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="nt">"greater"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@length(item()?['passwordCredentials'])"</span><span class="p">,</span>
 <span class="w">                                </span><span class="mi">0</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">},</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@length(item()?[&#39;keyCredentials&#39;])&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="nt">"greater"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@length(item()?['keyCredentials'])"</span><span class="p">,</span>
 <span class="w">                                </span><span class="mi">0</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">}</span>
@@ -670,24 +670,24 @@
 <hr />
 <h3 id="check-password-secret-expiration"><strong>Check password (secret) expiration:</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Check_Password_Expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@item()?[&#39;passwordCredentials&#39;]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;Check_If_Expiring_Soon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;and&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="nt">"Check_Password_Expiry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foreach"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"foreach"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@item()?['passwordCredentials']"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"Check_If_Expiring_Soon"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"If"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"expression"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"and"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;less&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(addDays(utcNow(), 30))&quot;</span>
+<span class="w">                            </span><span class="nt">"less"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@ticks(item()['endDateTime'])"</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">"@ticks(addDays(utcNow(), 30))"</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">},</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(utcNow())&quot;</span>
+<span class="w">                            </span><span class="nt">"greater"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@ticks(item()['endDateTime'])"</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">"@ticks(utcNow())"</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">}</span>
 <span class="w">                    </span><span class="p">]</span>
@@ -713,24 +713,24 @@
 <hr />
 <h3 id="check-certificate-expiration-same-logic"><strong>Check certificate expiration (same logic):</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Check_Certificate_Expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foreach&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;foreach&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@item()?[&#39;keyCredentials&#39;]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;Check_Cert_Expiring_Soon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;If&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;and&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="nt">"Check_Certificate_Expiry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foreach"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"foreach"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@item()?['keyCredentials']"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"Check_Cert_Expiring_Soon"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"If"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"expression"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"and"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;less&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(addDays(utcNow(), 30))&quot;</span>
+<span class="w">                            </span><span class="nt">"less"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@ticks(item()['endDateTime'])"</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">"@ticks(addDays(utcNow(), 30))"</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">},</span>
 <span class="w">                        </span><span class="p">{</span>
-<span class="w">                            </span><span class="nt">&quot;greater&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(item()[&#39;endDateTime&#39;])&quot;</span><span class="p">,</span>
-<span class="w">                                </span><span class="s2">&quot;@ticks(utcNow())&quot;</span>
+<span class="w">                            </span><span class="nt">"greater"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                                </span><span class="s2">"@ticks(item()['endDateTime'])"</span><span class="p">,</span>
+<span class="w">                                </span><span class="s2">"@ticks(utcNow())"</span>
 <span class="w">                            </span><span class="p">]</span>
 <span class="w">                        </span><span class="p">}</span>
 <span class="w">                    </span><span class="p">]</span>
@@ -747,11 +747,11 @@
 <h2 id="step-6-building-the-html-email-report">Step 6: Building the HTML email report</h2>
 <p><strong>When a credential is expiring, add it to the HTML table:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Add_To_Table&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AppendToStringVariable&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;htmlTable&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;&lt;tr&gt;&lt;td&gt;&#39;, items(&#39;Process_Each_App&#39;)?[&#39;displayName&#39;], &#39;&lt;/td&gt;&lt;td&gt;&#39;, items(&#39;Process_Each_App&#39;)?[&#39;appId&#39;], &#39;&lt;/td&gt;&lt;td&gt;Secret&lt;/td&gt;&lt;td&gt;&#39;, formatDateTime(item()[&#39;endDateTime&#39;], &#39;yyyy-MM-dd&#39;), &#39;&lt;/td&gt;&lt;td&gt;&#39;, if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;displayName&#39;], &#39;No Owner&#39;), &#39;&lt;/td&gt;&lt;td&gt;&#39;, if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), coalesce(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;mail&#39;], items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;userPrincipalName&#39;]), &#39;&#39;), &#39;&lt;/td&gt;&lt;/tr&gt;&#39;)&quot;</span>
+<span class="w">    </span><span class="nt">"Add_To_Table"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AppendToStringVariable"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"htmlTable"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@concat('&lt;tr&gt;&lt;td&gt;', items('Process_Each_App')?['displayName'], '&lt;/td&gt;&lt;td&gt;', items('Process_Each_App')?['appId'], '&lt;/td&gt;&lt;td&gt;Secret&lt;/td&gt;&lt;td&gt;', formatDateTime(item()['endDateTime'], 'yyyy-MM-dd'), '&lt;/td&gt;&lt;td&gt;', if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner'), '&lt;/td&gt;&lt;td&gt;', if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), ''), '&lt;/td&gt;&lt;/tr&gt;')"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -789,9 +789,9 @@
 </tbody>
 </table>
 <p><strong>The owner logic:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
-<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;displayName&#39;</span><span class="p">],</span><span class="w"> </span>
-<span class="w">    </span><span class="s1">&#39;No Owner&#39;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">'Process_Each_App'</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">'owners'</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">'Process_Each_App'</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">'owners'</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">'displayName'</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="s1">'No Owner'</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Translation:</strong><br />
@@ -806,13 +806,13 @@
 <hr />
 <h3 id="collect-unique-owner-emails"><strong>Collect unique owner emails:</strong></h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Add_Owner_To_Array&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AppendToArrayVariable&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ownersArray&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;ownerName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;displayName&#39;], &#39;No Owner&#39;)}&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;ownerEmail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(greater(length(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;]), 0), coalesce(items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;mail&#39;], items(&#39;Process_Each_App&#39;)?[&#39;owners&#39;][0]?[&#39;userPrincipalName&#39;]), &#39;&#39;)}&quot;</span>
+<span class="w">    </span><span class="nt">"Add_Owner_To_Array"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AppendToArrayVariable"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ownersArray"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"ownerName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@{if(greater(length(items('Process_Each_App')?['owners']), 0), items('Process_Each_App')?['owners'][0]?['displayName'], 'No Owner')}"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"ownerEmail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@{if(greater(length(items('Process_Each_App')?['owners']), 0), coalesce(items('Process_Each_App')?['owners'][0]?['mail'], items('Process_Each_App')?['owners'][0]?['userPrincipalName']), '')}"</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -828,24 +828,24 @@
 <h2 id="step-7-send-the-email-with-statistics">Step 7: Send the email with statistics</h2>
 <p><strong>Final email action:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Send_Email&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ApiConnection&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;connection&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;referenceName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;office365&quot;</span>
+<span class="w">    </span><span class="nt">"Send_Email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApiConnection"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"connection"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"referenceName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"office365"</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;post&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;To&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@{if(equals(variables(&#39;ownersEmailString&#39;), &#39;&#39;), &#39;your-team@company.com&#39;, concat(&#39;your-team@company.com;&#39;, variables(&#39;ownersEmailString&#39;)))}&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;From&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-team@company.com&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;Subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;App Registration Expiration Report&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;Body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@concat(&#39;&lt;html&gt;&lt;head&gt;&lt;style&gt;table{border-collapse:collapse;width:100%;margin-bottom:20px;}th,td{border:1px solid #ccc;padding:8px;text-align:left;}th{background-color:#f0f0f0;font-weight:bold;}h2{color:#d9534f;}.stats{background-color:#f9f9f9;padding:15px;margin:15px 0;border-radius:5px;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h2&gt;App Registrations Expiring Within 30 Days&lt;/h2&gt;&lt;div class=\&quot;stats\&quot;&gt;&lt;p&gt;&lt;strong&gt;Total Apps Processed:&lt;/strong&gt; &#39;, variables(&#39;processedCount&#39;), &#39;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Total Apps with Secrets/Certificates:&lt;/strong&gt; &#39;, variables(&#39;totalApps&#39;), &#39;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Secrets/Certificates Expiring in Next 30 Days:&lt;/strong&gt; &#39;, variables(&#39;expiringCount&#39;), &#39;&lt;/p&gt;&lt;/div&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;App Name&lt;/th&gt;&lt;th&gt;App ID&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Expiration Date&lt;/th&gt;&lt;th&gt;Owner Name&lt;/th&gt;&lt;th&gt;Owner Email&lt;/th&gt;&lt;/tr&gt;&#39;, if(equals(variables(&#39;htmlTable&#39;), &#39;&#39;), &#39;&lt;tr&gt;&lt;td colspan=\&quot;6\&quot;&gt;No apps expiring in the next 30 days&lt;/td&gt;&lt;/tr&gt;&#39;, variables(&#39;htmlTable&#39;)), &#39;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&#39;)&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;Importance&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;High&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="nt">&quot;IsHtml&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"post"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"To"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@{if(equals(variables('ownersEmailString'), ''), 'your-team@company.com', concat('your-team@company.com;', variables('ownersEmailString')))}"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"From"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-team@company.com"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"Subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"App Registration Expiration Report"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"Body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@concat('&lt;html&gt;&lt;head&gt;&lt;style&gt;table{border-collapse:collapse;width:100%;margin-bottom:20px;}th,td{border:1px solid #ccc;padding:8px;text-align:left;}th{background-color:#f0f0f0;font-weight:bold;}h2{color:#d9534f;}.stats{background-color:#f9f9f9;padding:15px;margin:15px 0;border-radius:5px;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h2&gt;App Registrations Expiring Within 30 Days&lt;/h2&gt;&lt;div class=\"stats\"&gt;&lt;p&gt;&lt;strong&gt;Total Apps Processed:&lt;/strong&gt; ', variables('processedCount'), '&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Total Apps with Secrets/Certificates:&lt;/strong&gt; ', variables('totalApps'), '&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Secrets/Certificates Expiring in Next 30 Days:&lt;/strong&gt; ', variables('expiringCount'), '&lt;/p&gt;&lt;/div&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;App Name&lt;/th&gt;&lt;th&gt;App ID&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Expiration Date&lt;/th&gt;&lt;th&gt;Owner Name&lt;/th&gt;&lt;th&gt;Owner Email&lt;/th&gt;&lt;/tr&gt;', if(equals(variables('htmlTable'), ''), '&lt;tr&gt;&lt;td colspan=\"6\"&gt;No apps expiring in the next 30 days&lt;/td&gt;&lt;/tr&gt;', variables('htmlTable')), '&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;')"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"Importance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"High"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"IsHtml"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/v2/Mail&quot;</span>
+<span class="w">            </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v2/Mail"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -877,12 +877,12 @@
 - No production incidents</p>
 <p><strong>Month 3:</strong> Azure Migrate discovery</p>
 <p><strong>The alert that changed everything:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">App</span><span class="w"> </span><span class="n">Registration</span><span class="w"> </span><span class="n">Expiration</span><span class="w"> </span><span class="n">Report</span>
+<div class="codehilite"><pre><span></span><code>Subject: App Registration Expiration Report
 
-<span class="n">Applications</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">expiring</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span><span class="o">:</span>
-<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC1</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span><span class="o">)</span>
-<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC2</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span><span class="o">)</span>
-<span class="o">-</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DR</span><span class="o">-</span><span class="n">Appliance</span><span class="w"> </span><span class="o">(</span><span class="n">Certificate</span><span class="w"> </span><span class="n">expires</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">18</span><span class="o">)</span>
+Applications with certificates expiring within 30 days:
+- AzureMigrate-DC1-Appliance (Certificate expires 2026-01-15)
+- AzureMigrate-DC2-Appliance (Certificate expires 2026-01-15)
+- AzureMigrate-DR-Appliance (Certificate expires 2026-01-18)
 </code></pre></div>
 
 <p><strong>Our reaction:</strong> "What are Azure Migrate appliances?"</p>
@@ -920,7 +920,7 @@
 <h2 id="deployment-instructions-step-by-step">Deployment instructions (step-by-step)</h2>
 <h3 id="1-create-the-service-principal-covered-in-step-1"><strong>1. Create the service principal (covered in Step 1)</strong></h3>
 <p>PowerShell from earlier:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">&quot;CertificateMonitor-LogicApp&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$app</span> <span class="p">=</span> <span class="nb">New-AzADApplication</span> <span class="n">-DisplayName</span> <span class="s2">"CertificateMonitor-LogicApp"</span>
 <span class="nv">$sp</span> <span class="p">=</span> <span class="nb">New-AzADServicePrincipal</span> <span class="n">-ApplicationId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span>
 <span class="nv">$secret</span> <span class="p">=</span> <span class="nb">New-AzADAppCredential</span> <span class="n">-ObjectId</span> <span class="nv">$app</span><span class="p">.</span><span class="n">Id</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
 </code></pre></div>
@@ -930,9 +930,9 @@
 - <code>User.Read.All</code></p>
 <hr />
 <h3 id="2-store-credentials-in-key-vault-covered-in-step-2"><strong>2. Store credentials in Key Vault (covered in Step 2)</strong></h3>
-<div class="codehilite"><pre><span></span><code><span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;tenant-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$tenantId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
-<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;client-id&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
-<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">&quot;your-keyvault&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;client-secret&quot;</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault"</span> <span class="n">-Name</span> <span class="s2">"tenant-id"</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$tenantId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault"</span> <span class="n">-Name</span> <span class="s2">"client-id"</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$app</span><span class="p">.</span><span class="n">AppId</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="nb">Set-AzKeyVaultSecret</span> <span class="n">-VaultName</span> <span class="s2">"your-keyvault"</span> <span class="n">-Name</span> <span class="s2">"client-secret"</span> <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$secret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 </code></pre></div>
 
 <hr />
@@ -978,7 +978,7 @@
 </ol>
 <hr />
 <h3 id="6-update-email-recipients"><strong>6. Update email recipients</strong></h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">&quot;To&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-team@company.com;additional@company.com&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">"To"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-team@company.com;additional@company.com"</span>
 </code></pre></div>
 
 <p>The Logic App automatically adds owners with expiring credentials to the recipient list.</p>
@@ -1014,13 +1014,13 @@
 <p>Default: Daily at 6 AM Eastern</p>
 <p>Update the <strong>Recurrence</strong> trigger:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;timeZone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Eastern Standard Time&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;schedule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;hours&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
-<span class="w">            </span><span class="nt">&quot;minutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">    </span><span class="nt">"recurrence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"frequency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Day"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"timeZone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eastern Standard Time"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"schedule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"hours"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1034,22 +1034,22 @@
 <h3 id="add-teams-notifications-instead-of-email"><strong>Add Teams notifications instead of email</strong></h3>
 <p>Replace the <strong>Send_Email</strong> action with <strong>Post message in a chat or channel</strong>:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Post_Message&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ApiConnection&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;connection&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;referenceName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;teams&quot;</span>
+<span class="w">    </span><span class="nt">"Post_Message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApiConnection"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"connection"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"referenceName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teams"</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;post&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;recipient&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nt">&quot;channelId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-channel-id&quot;</span>
+<span class="w">            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"post"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">"channelId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-channel-id"</span>
 <span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nt">&quot;messageBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;html content here&gt;&quot;</span>
+<span class="w">                </span><span class="nt">"messageBody"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;html content here&gt;"</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/v1.0/teams/conversation/message/post&quot;</span>
+<span class="w">            </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1.0/teams/conversation/message/post"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1060,11 +1060,11 @@
 <p>To only check apps matching a pattern (e.g., "Production-*"):</p>
 <p>Add filter before <strong>Process_Each_App</strong>:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;Filter_Apps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Query&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@variables(&#39;allApps&#39;)&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;where&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@startsWith(item()[&#39;displayName&#39;], &#39;Production-&#39;)&quot;</span>
+<span class="w">    </span><span class="nt">"Filter_Apps"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Query"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"inputs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@variables('allApps')"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"where"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@startsWith(item()['displayName'], 'Production-')"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1099,7 +1099,7 @@
 <hr />
 <h3 id="3-html-email-needs-inline-css"><strong>3. HTML email needs inline CSS</strong></h3>
 <p><strong>Attempted:</strong> Link to external stylesheet</p>
-<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://example.com/styles.css&quot;</span><span class="p">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://example.com/styles.css"</span><span class="p">&gt;</span>
 </code></pre></div>
 
 <p><strong>Result:</strong> Outlook strips external CSS, email looks broken</p>
@@ -1116,9 +1116,9 @@
 <p><strong>Reality:</strong> 20-30% of app registrations have zero assigned owners</p>
 <p><strong>Problem:</strong> Logic App crashes if you assume owners exist</p>
 <p><strong>Solution:</strong> Defensive checks everywhere</p>
-<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
-<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">&#39;Process_Each_App&#39;</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;owners&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">&#39;displayName&#39;</span><span class="p">],</span><span class="w"> </span>
-<span class="w">    </span><span class="s1">&#39;No Owner&#39;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="nx">greater</span><span class="p">(</span><span class="nx">length</span><span class="p">(</span><span class="nx">items</span><span class="p">(</span><span class="s1">'Process_Each_App'</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">'owners'</span><span class="p">]),</span><span class="w"> </span><span class="mf">0</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="nx">items</span><span class="p">(</span><span class="s1">'Process_Each_App'</span><span class="p">)</span><span class="o">?</span><span class="p">[</span><span class="s1">'owners'</span><span class="p">][</span><span class="mf">0</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="s1">'displayName'</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="s1">'No Owner'</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Bonus:</strong> "No Owner" entries highlight cleanup opportunities</p>
@@ -1151,7 +1151,7 @@
 <h3 id="2-azure-reservation-expiration"><strong>2. Azure reservation expiration</strong></h3>
 <p><strong>Query Azure Resource Graph:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">ReservationRecommendations</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">datetime_add</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">datetime_add</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">reservationId</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">expiryDate</span><span class="p">,</span><span class="w"> </span><span class="n">costSavings</span>
 </code></pre></div>
 
@@ -1163,7 +1163,7 @@
 <h3 id="3-managed-identity-credential-rotation"><strong>3. Managed identity credential rotation</strong></h3>
 <p><strong>Check managed identities:</strong></p>
 <div class="codehilite"><pre><span></span><code>GET https://graph.microsoft.com/v1.0/servicePrincipals
-  ?$filter=servicePrincipalType eq &#39;ManagedIdentity&#39;
+  ?$filter=servicePrincipalType eq 'ManagedIdentity'
   &amp;$select=appId,displayName,passwordCredentials
 </code></pre></div>
 

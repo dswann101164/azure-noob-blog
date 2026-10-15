@@ -165,8 +165,8 @@
   },
   "keywords": "azure, terraform, devops, cicd, iac, troubleshooting",
   "articleSection": "azure",
-  "wordCount": "4899",
-  "timeRequired": "PT24M",
+  "wordCount": "4636",
+  "timeRequired": "PT23M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -241,7 +241,7 @@
   <header class="post-header">
     <h1>Terraform + Azure DevOps CI/CD: Part 6 - Troubleshooting &amp; Common Production Issues</h1>
     <p class="muted">
-      2025-11-08 · ~24 min read
+      2025-11-08 · ~23 min read
       
     </p>
     
@@ -322,7 +322,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;metadata.lock_id&quot;</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"metadata.lock_id"</span>
 </code></pre></div>
 
 <h3 id="is-there-drift">Is There Drift?</h3>
@@ -336,15 +336,15 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <h2 id="authentication-issues">Authentication Issues</h2>
 <h3 id="error-failed-to-get-credentials-from-key-vault">Error: "Failed to get credentials from Key Vault"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">retrieve</span><span class="w"> </span><span class="n">secret</span><span class="w"> </span><span class="s1">&#39;sttfstate1234-key1&#39;</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">vault</span><span class="w"> </span><span class="s1">&#39;kv-tfstate-1234&#39;</span>
-<span class="n">Status</span><span class="w"> </span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="mi">403</span>
-<span class="n">Error</span><span class="w"> </span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="n">Forbidden</span>
+<div class="codehilite"><pre><span></span><code>Error: Failed to retrieve secret 'sttfstate1234-key1' from vault 'kv-tfstate-1234'
+Status Code: 403
+Error Code: Forbidden
 </code></pre></div>
 
 <p><strong>Cause:</strong> Service principal doesn't have Get/List permissions on Key Vault.</p>
 <p><strong>Solution:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span>
-<span class="nv">$spObjectId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SERVICE-PRINCIPAL-OBJECT-ID&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$keyVaultName</span> <span class="p">=</span> <span class="s2">"kv-tfstate-1234"</span>
+<span class="nv">$spObjectId</span> <span class="p">=</span> <span class="s2">"YOUR-SERVICE-PRINCIPAL-OBJECT-ID"</span>
 
 <span class="c"># Grant Get and List on secrets</span>
 <span class="nb">Set-AzKeyVaultAccessPolicy</span> <span class="p">`</span>
@@ -359,22 +359,22 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <p><strong>Prevention:</strong> Create a script that validates service principal permissions before pipeline runs.</p>
 <h3 id="error-the-service-principal-does-not-have-permission-to-perform-action">Error: "The service principal does not have permission to perform action"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">authorization</span><span class="o">.</span><span class="na">RoleAssignmentsClient</span><span class="err">#</span><span class="n">Create</span><span class="o">:</span><span class="w"> </span><span class="n">Failure</span><span class="w"> </span><span class="n">responding</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">request</span>
-<span class="n">StatusCode</span><span class="o">=</span><span class="mi">403</span>
-<span class="n">Code</span><span class="o">=</span><span class="s2">&quot;AuthorizationFailed&quot;</span>
-<span class="n">Message</span><span class="o">=</span><span class="s2">&quot;The client &#39;abc-123&#39; does not have authorization to perform action &#39;Microsoft.Authorization/roleAssignments/write&#39;&quot;</span>
+<div class="codehilite"><pre><span></span><code>Error: authorization.RoleAssignmentsClient#Create: Failure responding to request
+StatusCode=403
+Code="AuthorizationFailed"
+Message="The client 'abc-123' does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write'"
 </code></pre></div>
 
 <p><strong>Cause:</strong> Service principal has Contributor but needs User Access Administrator for role assignments.</p>
 <p><strong>Solution:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nv">$spId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SP-OBJECT-ID&quot;</span>
-<span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SUBSCRIPTION-ID&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$spId</span> <span class="p">=</span> <span class="s2">"YOUR-SP-OBJECT-ID"</span>
+<span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="s2">"YOUR-SUBSCRIPTION-ID"</span>
 
 <span class="c"># Add User Access Administrator role</span>
 <span class="nb">New-AzRoleAssignment</span> <span class="p">`</span>
   <span class="n">-ObjectId</span> <span class="nv">$spId</span> <span class="p">`</span>
-  <span class="n">-RoleDefinitionName</span> <span class="s2">&quot;User Access Administrator&quot;</span> <span class="p">`</span>
-  <span class="n">-Scope</span> <span class="s2">&quot;/subscriptions/$subscriptionId&quot;</span>
+  <span class="n">-RoleDefinitionName</span> <span class="s2">"User Access Administrator"</span> <span class="p">`</span>
+  <span class="n">-Scope</span> <span class="s2">"/subscriptions/$subscriptionId"</span>
 
 <span class="c"># Verify</span>
 <span class="nb">Get-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="nv">$spId</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">RoleDefinitionName</span><span class="p">,</span> <span class="n">Scope</span>
@@ -383,31 +383,31 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <p><strong>Alternative:</strong> If your security team restricts User Access Administrator, create a custom role with only the specific permissions Terraform needs.</p>
 <h3 id="error-service-principal-password-expired">Error: "Service Principal password expired"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">AADSTS7000222</span><span class="o">:</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">secret</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">expired</span><span class="o">.</span>
+<div class="codehilite"><pre><span></span><code>Error: AADSTS7000222: The provided client secret keys are expired.
 </code></pre></div>
 
 <p><strong>Cause:</strong> Service principal secret has expired (default: 1-2 years).</p>
 <p><strong>Solution:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nv">$appId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-APP-ID&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$appId</span> <span class="p">=</span> <span class="s2">"YOUR-APP-ID"</span>
 
 <span class="c"># Create new secret (expires in 1 year)</span>
 <span class="nv">$newSecret</span> <span class="p">=</span> <span class="nb">New-AzADAppCredential</span> <span class="p">`</span>
   <span class="n">-ApplicationId</span> <span class="nv">$appId</span> <span class="p">`</span>
   <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;New Secret: </span><span class="p">$(</span><span class="nv">$newSecret</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"New Secret: </span><span class="p">$(</span><span class="nv">$newSecret</span><span class="p">.</span><span class="n">SecretText</span><span class="p">)</span><span class="s2">"</span>
 
 <span class="c"># Update Key Vault with new secret</span>
 <span class="nb">Set-AzKeyVaultSecret</span> <span class="p">`</span>
-  <span class="n">-VaultName</span> <span class="s2">&quot;kv-tfstate-1234&quot;</span> <span class="p">`</span>
-  <span class="n">-Name</span> <span class="s2">&quot;sp-terraform-devops-client-secret&quot;</span> <span class="p">`</span>
+  <span class="n">-VaultName</span> <span class="s2">"kv-tfstate-1234"</span> <span class="p">`</span>
+  <span class="n">-Name</span> <span class="s2">"sp-terraform-devops-client-secret"</span> <span class="p">`</span>
   <span class="n">-SecretValue</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="nv">$newSecret</span><span class="p">.</span><span class="n">SecretText</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 
 <span class="c"># Test authentication</span>
 <span class="n">az</span> <span class="n">login</span> <span class="p">-</span><span class="n">-service-principal</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-username</span> <span class="nv">$appId</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-password</span> <span class="nv">$newSecret</span><span class="p">.</span><span class="n">SecretText</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-tenant</span> <span class="s2">&quot;YOUR-TENANT-ID&quot;</span>
+  <span class="p">-</span><span class="n">-tenant</span> <span class="s2">"YOUR-TENANT-ID"</span>
 
 <span class="c"># Remove old secret (after verifying new one works)</span>
 <span class="nb">Remove-AzADAppCredential</span> <span class="n">-ApplicationId</span> <span class="nv">$appId</span> <span class="n">-KeyId</span> <span class="n">OLD-KEY-ID</span>
@@ -418,8 +418,8 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 2. Automate secret rotation with Azure Automation</p>
 <h3 id="error-oauth-token-has-expired">Error: "OAuth token has expired"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">refresh</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">token</span>
-<span class="n">Error</span><span class="w"> </span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="n">invalid_grant</span>
+<div class="codehilite"><pre><span></span><code>Error: Failed to refresh access token
+Error Code: invalid_grant
 </code></pre></div>
 
 <p><strong>Cause:</strong> Pipeline running longer than token lifetime (typically 1 hour), or clock skew.</p>
@@ -437,13 +437,13 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-detailed-exitcode
 <h2 id="state-file-issues">State File Issues</h2>
 <h3 id="error-error-locking-state-another-operation-in-progress">Error: "Error locking state: another operation in progress"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">acquiring</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="n">lock</span>
-<span class="n">Lock</span><span class="w"> </span><span class="n">Info</span><span class="o">:</span>
-<span class="w">  </span><span class="n">ID</span><span class="o">:</span><span class="w">        </span><span class="n">abc</span><span class="o">-</span><span class="mi">123</span><span class="o">-</span><span class="n">def</span>
-<span class="w">  </span><span class="n">Path</span><span class="o">:</span><span class="w">      </span><span class="n">prod</span><span class="o">/</span><span class="n">terraform</span><span class="o">.</span><span class="na">tfstate</span>
-<span class="w">  </span><span class="n">Operation</span><span class="o">:</span><span class="w"> </span><span class="n">OperationTypeApply</span>
-<span class="w">  </span><span class="n">Who</span><span class="o">:</span><span class="w">       </span><span class="n">john</span><span class="o">.</span><span class="na">doe</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
-<span class="w">  </span><span class="n">Created</span><span class="o">:</span><span class="w">   </span><span class="mi">2025</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="w"> </span><span class="mi">14</span><span class="o">:</span><span class="mi">23</span><span class="o">:</span><span class="mf">45.123</span><span class="w"> </span><span class="n">UTC</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Error</span><span class="p">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">acquiring</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="n">lock</span>
+<span class="n">Lock</span><span class="w"> </span><span class="nl">Info</span><span class="p">:</span>
+<span class="w">  </span><span class="nl">ID</span><span class="p">:</span><span class="w">        </span><span class="n">abc</span><span class="o">-</span><span class="mi">123</span><span class="o">-</span><span class="n">def</span>
+<span class="w">  </span><span class="k">Path</span><span class="err">:</span><span class="w">      </span><span class="n">prod</span><span class="o">/</span><span class="n">terraform</span><span class="p">.</span><span class="n">tfstate</span>
+<span class="w">  </span><span class="k">Operation</span><span class="err">:</span><span class="w"> </span><span class="n">OperationTypeApply</span>
+<span class="w">  </span><span class="nl">Who</span><span class="p">:</span><span class="w">       </span><span class="n">john</span><span class="p">.</span><span class="n">doe</span><span class="nv">@company</span><span class="p">.</span><span class="n">com</span>
+<span class="w">  </span><span class="nl">Created</span><span class="p">:</span><span class="w">   </span><span class="mi">2025</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">08</span><span class="w"> </span><span class="mi">14</span><span class="err">:</span><span class="mi">23</span><span class="err">:</span><span class="mf">45.123</span><span class="w"> </span><span class="n">UTC</span>
 </code></pre></div>
 
 <p><strong>Cause:</strong> Previous pipeline run crashed or was canceled without releasing the lock.</p>
@@ -454,7 +454,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;metadata.lock_id&quot;</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"metadata.lock_id"</span>
 </code></pre></div>
 
 <p>If the lock is more than 1 hour old and no pipeline is running, it's stale.</p>
@@ -469,11 +469,11 @@ terraform<span class="w"> </span>force-unlock<span class="w"> </span>abc-123-def
 <p><strong>Prevention:</strong> <br />
 - Add a cleanup task to pipelines that always runs (even on failure):</p>
 <div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bash@3</span>
-<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Force</span><span class="nv"> </span><span class="s">unlock</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">failure&#39;</span>
+<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">'Force</span><span class="nv"> </span><span class="s">unlock</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">failure'</span>
 <span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">failed()</span>
 <span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">script</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">terraform force-unlock -force $(terraform show -json | jq -r &#39;.values.lock_id&#39;)</span>
+<span class="w">      </span><span class="no">terraform force-unlock -force $(terraform show -json | jq -r '.values.lock_id')</span>
 </code></pre></div>
 
 <h3 id="error-state-file-corrupted">Error: "State file corrupted"</h3>
@@ -482,7 +482,7 @@ terraform<span class="w"> </span>force-unlock<span class="w"> </span>abc-123-def
 </code></pre></div>
 
 <p>or</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">parse</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="n">file</span><span class="o">:</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="n">JSON</span>
+<div class="codehilite"><pre><span></span><code>Error: Failed to parse state file: invalid JSON
 </code></pre></div>
 
 <p><strong>Cause:</strong> State file corruption (rare but catastrophic).</p>
@@ -496,7 +496,7 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--prefix<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--include<span class="w"> </span>v<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;[].{Name:name, VersionId:versionId, LastModified:properties.lastModified}&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"[].{Name:name, VersionId:versionId, LastModified:properties.lastModified}"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--output<span class="w"> </span>table
 
 <span class="c1"># Download a previous version</span>
@@ -541,8 +541,8 @@ terraform<span class="w"> </span>show<span class="w"> </span>terraform-restored.
     --file "backup-$(date +%Y%m%d-%H%M%S).tfstate"</code></p>
 <h3 id="error-backend-configuration-changed">Error: "Backend configuration changed"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Backend</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">changed</span>
-<span class="n">A</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">backend</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">been</span><span class="w"> </span><span class="n">detected</span><span class="o">,</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">migrating</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">state</span><span class="o">.</span>
+<div class="codehilite"><pre><span></span><code>Error: Backend configuration changed
+A change in the backend configuration has been detected, which may require migrating existing state.
 </code></pre></div>
 
 <p><strong>Cause:</strong> You updated <code>backend.tf</code> (changed storage account, container, or key).</p>
@@ -570,8 +570,8 @@ az<span class="w"> </span>storage<span class="w"> </span>blob<span class="w"> </
 <h2 id="resource-drift-issues">Resource Drift Issues</h2>
 <h3 id="error-resource-already-exists">Error: "Resource already exists"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="s2">&quot;/subscriptions/.../resourceGroups/rsg-prod-001&quot;</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">exists</span>
-<span class="n">To</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">managed</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">Terraform</span><span class="o">,</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="n">needs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">imported</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">State</span><span class="o">.</span>
+<div class="codehilite"><pre><span></span><code>Error: A resource with the ID "/subscriptions/.../resourceGroups/rsg-prod-001" already exists
+To be managed via Terraform, this resource needs to be imported into the State.
 </code></pre></div>
 
 <p><strong>Cause:</strong> Someone created the resource manually in the portal, and now Terraform wants to create it.</p>
@@ -589,15 +589,15 @@ terraform<span class="w"> </span>plan
 
 <p><strong>Option 2: Rename Terraform resource to avoid conflict</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Before</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-prod-001&quot;</span><span class="c1">  # Conflicts with existing</span>
-<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_resource_group"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"rsg-prod-001"</span><span class="c1">  # Conflicts with existing</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"northeurope"</span>
 <span class="p">}</span>
 
 <span class="c1"># After</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsg-prod-002&quot;</span><span class="c1">  # Different name</span>
-<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;northeurope&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_resource_group"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"rsg-prod-002"</span><span class="c1">  # Different name</span>
+<span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"northeurope"</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -610,8 +610,8 @@ terraform<span class="w"> </span>plan
 - Deny creation if tag is missing</p>
 <h3 id="error-inconsistent-state-after-apply">Error: "Inconsistent state after apply"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Provider</span><span class="w"> </span><span class="n">produced</span><span class="w"> </span><span class="n">inconsistent</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">apply</span>
-<span class="n">When</span><span class="w"> </span><span class="n">applying</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">azurerm_virtual_machine</span><span class="o">.</span><span class="na">main</span><span class="o">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">provider</span><span class="w"> </span><span class="n">produced</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">unexpected</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">value</span><span class="o">.</span>
+<div class="codehilite"><pre><span></span><code>Error: Provider produced inconsistent result after apply
+When applying changes to azurerm_virtual_machine.main, the provider produced an unexpected new value.
 </code></pre></div>
 
 <p><strong>Cause:</strong> Azure provider bug, race condition, or resource deleted mid-apply.</p>
@@ -634,7 +634,7 @@ terraform<span class="w"> </span>taint<span class="w"> </span>azurerm_virtual_ma
 </code></pre></div>
 
 <p><strong>If that doesn't work:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Remove from state (doesn&#39;t delete from Azure)</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Remove from state (doesn't delete from Azure)</span>
 terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w"> </span>azurerm_virtual_machine.main
 
 <span class="c1"># Re-import</span>
@@ -648,9 +648,9 @@ terraform<span class="w"> </span>apply
 <p><strong>Symptoms:</strong><br />
 Daily drift detection pipeline reports changes.</p>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="o">~</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="s">&quot;azurerm_network_security_group&quot;</span><span class="w"> </span><span class="s">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="o">~</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="s">"azurerm_network_security_group"</span><span class="w"> </span><span class="s">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="o">~</span><span class="w"> </span><span class="n">security_rule</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="o">~</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Allow RDP&quot;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Allow RDP from VPN&quot;</span>
+<span class="w">          </span><span class="o">~</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Allow RDP"</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">"Allow RDP from VPN"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
@@ -658,9 +658,9 @@ Daily drift detection pipeline reports changes.</p>
 <p><strong>Cause:</strong> Someone edited the NSG rule in the portal.</p>
 <p><strong>Solution:</strong></p>
 <p><strong>Option 1: Accept the manual change (update Terraform code)</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_network_security_group_rule&quot;</span><span class="w"> </span><span class="nv">&quot;rdp&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Allow-RDP&quot;</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Allow RDP from VPN&quot;</span><span class="c1">  # Match portal change</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_network_security_group_rule"</span><span class="w"> </span><span class="nv">"rdp"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s2">"Allow-RDP"</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Allow RDP from VPN"</span><span class="c1">  # Match portal change</span>
 <span class="c1">  # ... rest of config</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -685,7 +685,7 @@ Daily drift detection pipeline reports changes.</p>
 <span class="w">  </span>--account-name<span class="w"> </span>sttfstate1234<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--container-name<span class="w"> </span>terraform-state<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--name<span class="w"> </span>prod/terraform.tfstate<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;properties.contentLength&quot;</span>
+<span class="w">  </span>--query<span class="w"> </span><span class="s2">"properties.contentLength"</span>
 </code></pre></div>
 
 <p>If &gt; 10 MB, state is too large.</p>
@@ -699,32 +699,32 @@ Daily drift detection pipeline reports changes.</p>
 
 <p>Each has its own backend config:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;core-infrastructure/terraform.tfstate&quot;</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"core-infrastructure/terraform.tfstate"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h4 id="2-provider-rate-limiting">2. Provider rate limiting</h4>
 <p><strong>Check pipeline logs for:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">creation</span><span class="o">:</span><span class="w"> </span><span class="n">Code</span><span class="o">=</span><span class="s2">&quot;TooManyRequests&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Error</span>:<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">creation</span>:<span class="w"> </span><span class="nv">Code</span><span class="o">=</span><span class="s2">"TooManyRequests"</span>
 </code></pre></div>
 
 <p><strong>Solution:</strong><br />
 Add delays between resource creation:</p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;time_sleep&quot;</span><span class="w"> </span><span class="nv">&quot;wait_30_seconds&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"time_sleep"</span><span class="w"> </span><span class="nv">"wait_30_seconds"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">depends_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">azurerm_resource_group.main</span><span class="p">]</span>
-<span class="w">  </span><span class="na">create_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;30s&quot;</span>
+<span class="w">  </span><span class="na">create_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"30s"</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_account&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_storage_account"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">depends_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">time_sleep.wait_30_seconds</span><span class="p">]</span>
 <span class="c1">  # ... config</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>Better solution:</strong> Use the provider's built-in retry logic:</p>
-<div class="codehilite"><pre><span></span><code><span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">provider</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
 
 <span class="c1">  # Automatically retry on throttling</span>
@@ -733,9 +733,9 @@ Add delays between resource creation:</p>
 
 <span class="c1">  # Increase timeout for slow operations</span>
 <span class="w">  </span><span class="nb">timeouts</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">create</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;60m&quot;</span>
-<span class="w">    </span><span class="na">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;60m&quot;</span>
-<span class="w">    </span><span class="na">delete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;60m&quot;</span>
+<span class="w">    </span><span class="na">create</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"60m"</span>
+<span class="w">    </span><span class="na">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"60m"</span>
+<span class="w">    </span><span class="na">delete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"60m"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -743,26 +743,26 @@ Add delays between resource creation:</p>
 <h4 id="3-inefficient-dependencies">3. Inefficient dependencies</h4>
 <p><strong>Check for unnecessary depends_on:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># BAD: Forces sequential creation</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;vnet1&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vnet-1&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_virtual_network"</span><span class="w"> </span><span class="nv">"vnet1"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vnet-1"</span>
 <span class="c1">  # ...</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;vnet2&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_virtual_network"</span><span class="w"> </span><span class="nv">"vnet2"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">depends_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">azurerm_virtual_network.vnet1</span><span class="p">]</span><span class="c1">  # Unnecessary!</span>
-<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vnet-2&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vnet-2"</span>
 <span class="c1">  # ...</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>GOOD: Allows parallel creation</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;vnet1&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vnet-1&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_virtual_network"</span><span class="w"> </span><span class="nv">"vnet1"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vnet-1"</span>
 <span class="c1">  # ...</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;vnet2&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vnet-2&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_virtual_network"</span><span class="w"> </span><span class="nv">"vnet2"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vnet-2"</span>
 <span class="c1">  # ... (no depends_on)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -772,19 +772,19 @@ Add delays between resource creation:</p>
 <h3 id="error-provider-version-mismatch">Error: "Provider version mismatch"</h3>
 <p><strong>Symptoms:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">Could</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">plugin</span>
-<span class="n">Plugin</span><span class="w"> </span><span class="n">reinitialization</span><span class="w"> </span><span class="n">required</span><span class="o">.</span><span class="w"> </span><span class="n">Please</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="s2">&quot;terraform init&quot;</span><span class="o">.</span>
+<span class="n">Plugin</span><span class="w"> </span><span class="n">reinitialization</span><span class="w"> </span><span class="n">required</span><span class="o">.</span><span class="w"> </span><span class="n">Please</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="s2">"terraform init"</span><span class="o">.</span>
 </code></pre></div>
 
 <p><strong>Cause:</strong> Terraform or provider version changed between plan and apply.</p>
 <p><strong>Solution:</strong></p>
 <p><strong>Short-term:</strong> Pin exact versions (you should already have this from Part 5):</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 1.5.7&quot;</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"= 1.5.7"</span>
 
 <span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azurerm&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 3.80.0&quot;</span><span class="c1">  # Exact version</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/azurerm"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"= 3.80.0"</span><span class="c1">  # Exact version</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -800,15 +800,15 @@ Add delays between resource creation:</p>
 7. If stable, promote to prod</p>
 <h3 id="error-feature-flag-not-supported-in-provider-version">Error: "Feature flag not supported in provider version"</h3>
 <p><strong>Symptoms:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">Unsupported</span><span class="w"> </span><span class="n">argument</span>
-<span class="n">An</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">named</span><span class="w"> </span><span class="s2">&quot;public_network_access_enabled&quot;</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">here</span><span class="o">.</span>
+<div class="codehilite"><pre><span></span><code>Error: Unsupported argument
+An argument named "public_network_access_enabled" is not expected here.
 </code></pre></div>
 
 <p><strong>Cause:</strong> Using a new feature that doesn't exist in your pinned provider version.</p>
 <p><strong>Solution:</strong></p>
 <p>Check the provider changelog:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Find when the feature was added</span>
-curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/hashicorp/terraform-provider-azurerm/releases<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.[] | select(.tag_name == &quot;v3.80.0&quot;)&#39;</span>
+curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/repos/hashicorp/terraform-provider-azurerm/releases<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.[] | select(.tag_name == "v3.80.0")'</span>
 </code></pre></div>
 
 <p>If the feature was added in v3.85.0 but you're on v3.80.0:</p>
@@ -816,7 +816,7 @@ curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/rep
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;= 3.85.0&quot;</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"= 3.85.0"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -827,7 +827,7 @@ curl<span class="w"> </span>-s<span class="w"> </span>https://api.github.com/rep
 <span class="na">public_network_access_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 
 <span class="c1"># Use a separate resource or workaround</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_account_network_rules&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_storage_account_network_rules"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="c1">  # ...</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -847,7 +847,7 @@ terraform<span class="w"> </span>plan
 
 <p><strong>In Azure DevOps pipeline:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bash@3</span>
-<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Terraform</span><span class="nv"> </span><span class="s">Plan</span><span class="nv"> </span><span class="s">(Debug</span><span class="nv"> </span><span class="s">Mode)&#39;</span>
+<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">'Terraform</span><span class="nv"> </span><span class="s">Plan</span><span class="nv"> </span><span class="s">(Debug</span><span class="nv"> </span><span class="s">Mode)'</span>
 <span class="w">  </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">TF_LOG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
 <span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
@@ -856,11 +856,11 @@ terraform<span class="w"> </span>plan
 <span class="w">      </span><span class="no">cat plan-output.txt</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PublishBuildArtifacts@1</span>
-<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Publish</span><span class="nv"> </span><span class="s">Debug</span><span class="nv"> </span><span class="s">Logs&#39;</span>
+<span class="w">  </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">'Publish</span><span class="nv"> </span><span class="s">Debug</span><span class="nv"> </span><span class="s">Logs'</span>
 <span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span>
 <span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">pathToPublish</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;$(System.DefaultWorkingDirectory)/terraform&#39;</span>
-<span class="w">    </span><span class="nt">artifactName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;terraform-debug-logs&#39;</span>
+<span class="w">    </span><span class="nt">pathToPublish</span><span class="p">:</span><span class="w"> </span><span class="s">'$(System.DefaultWorkingDirectory)/terraform'</span>
+<span class="w">    </span><span class="nt">artifactName</span><span class="p">:</span><span class="w"> </span><span class="s">'terraform-debug-logs'</span>
 </code></pre></div>
 
 <h3 id="use-terraform-graph-for-dependency-visualization">Use Terraform Graph for Dependency Visualization</h3>
@@ -879,11 +879,11 @@ terraform<span class="w"> </span>plan
 <h3 id="test-locally-before-pipeline">Test Locally Before Pipeline</h3>
 <p><strong>Mirror pipeline environment locally:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Set environment variables like the pipeline does</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_SUBSCRIPTION_ID</span><span class="o">=</span><span class="s2">&quot;YOUR-SUB-ID&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_CLIENT_ID</span><span class="o">=</span><span class="s2">&quot;YOUR-CLIENT-ID&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_CLIENT_SECRET</span><span class="o">=</span><span class="s2">&quot;YOUR-SECRET&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_TENANT_ID</span><span class="o">=</span><span class="s2">&quot;YOUR-TENANT-ID&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;YOUR-STORAGE-KEY&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_SUBSCRIPTION_ID</span><span class="o">=</span><span class="s2">"YOUR-SUB-ID"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_CLIENT_ID</span><span class="o">=</span><span class="s2">"YOUR-CLIENT-ID"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_CLIENT_SECRET</span><span class="o">=</span><span class="s2">"YOUR-SECRET"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_TENANT_ID</span><span class="o">=</span><span class="s2">"YOUR-TENANT-ID"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ARM_ACCESS_KEY</span><span class="o">=</span><span class="s2">"YOUR-STORAGE-KEY"</span>
 
 <span class="c1"># Run Terraform commands</span>
 terraform<span class="w"> </span>init
@@ -899,14 +899,14 @@ terraform<span class="w"> </span>plan
 <p>For complex drift scenarios, query Azure directly:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find resources NOT managed by Terraform</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">ManagedBy</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">&quot;Terraform&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">ManagedBy</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="s">"Terraform"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">asc</span>
 </code></pre></div>
 
 <p><strong>Or via CLI:</strong></p>
-<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Resources | where tags.ManagedBy != &#39;Terraform&#39; | project name, resourceGroup&quot;</span>
+<div class="codehilite"><pre><span></span><code>az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">"Resources | where tags.ManagedBy != 'Terraform' | project name, resourceGroup"</span>
 </code></pre></div>
 
 <h2 id="production-war-stories-real-issues-i-ve-faced">Production War Stories (Real Issues I've Faced)</h2>
@@ -1029,7 +1029,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 <div class="codehilite"><pre><span></span><code><span class="c1"># State management</span>
 terraform<span class="w"> </span>state<span class="w"> </span>list<span class="w">                    </span><span class="c1"># List all resources in state</span>
 terraform<span class="w"> </span>state<span class="w"> </span>show<span class="w"> </span>ADDRESS<span class="w">            </span><span class="c1"># Show specific resource</span>
-terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w"> </span>ADDRESS<span class="w">              </span><span class="c1"># Remove from state (doesn&#39;t delete Azure resource)</span>
+terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w"> </span>ADDRESS<span class="w">              </span><span class="c1"># Remove from state (doesn't delete Azure resource)</span>
 terraform<span class="w"> </span>state<span class="w"> </span>mv<span class="w"> </span>OLD<span class="w"> </span>NEW<span class="w">              </span><span class="c1"># Rename resource in state</span>
 
 <span class="c1"># Debugging</span>
@@ -1045,7 +1045,7 @@ terraform<span class="w"> </span>version<span class="w">                       <
 <span class="c1"># Dangerous (production use with caution)</span>
 terraform<span class="w"> </span>taint<span class="w"> </span>ADDRESS<span class="w">                 </span><span class="c1"># Mark for recreation</span>
 terraform<span class="w"> </span>untaint<span class="w"> </span>ADDRESS<span class="w">               </span><span class="c1"># Remove taint</span>
-terraform<span class="w"> </span>destroy<span class="w">                       </span><span class="c1"># Delete all resources (DON&#39;T USE IN PROD)</span>
+terraform<span class="w"> </span>destroy<span class="w">                       </span><span class="c1"># Delete all resources (DON'T USE IN PROD)</span>
 </code></pre></div>
 
 <hr />

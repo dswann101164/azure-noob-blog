@@ -165,7 +165,7 @@
   },
   "keywords": "azure, terraform, infrastructure-as-code, azure-ai-foundry, rag, devops",
   "articleSection": "azure",
-  "wordCount": "9065",
+  "wordCount": "9042",
   "timeRequired": "PT45M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -299,27 +299,27 @@
 <p>Here's the production-ready Terraform configuration for Azure AI Foundry RAG that includes security, monitoring, cost management, and everything the tutorials skip.</p>
 <h2 id="why-terraform-for-azure-ai-foundry">Why Terraform for Azure AI Foundry?</h2>
 <p><strong>The Portal approach (tutorials):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Need</span><span class="w"> </span><span class="n">RAG</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="n">environment</span>
-<span class="n">Solution</span><span class="o">:</span><span class="w"> </span><span class="n">Click</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">minutes</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Dev</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">works</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Problem</span>:<span class="w"> </span><span class="nv">Need</span><span class="w"> </span><span class="nv">RAG</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="nv">environment</span>
+<span class="nv">Solution</span>:<span class="w"> </span><span class="nv">Click</span><span class="w"> </span><span class="nv">through</span><span class="w"> </span><span class="nv">Portal</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="nv">minutes</span>
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Dev</span><span class="w"> </span><span class="nv">environment</span><span class="w"> </span><span class="nv">works</span>
 
-<span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Need</span><span class="w"> </span><span class="n">RAG</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">prod</span><span class="w"> </span><span class="n">environment</span><span class="w">  </span>
-<span class="n">Solution</span><span class="o">:</span><span class="w"> </span><span class="n">Click</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">again</span><span class="w"> </span><span class="o">(</span><span class="n">slightly</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">settings</span><span class="o">)</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Prod</span><span class="w"> </span><span class="s2">&quot;works&quot;</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">configured</span><span class="w"> </span><span class="n">differently</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">dev</span>
+<span class="nv">Problem</span>:<span class="w"> </span><span class="nv">Need</span><span class="w"> </span><span class="nv">RAG</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">prod</span><span class="w"> </span><span class="nv">environment</span><span class="w">  </span>
+<span class="nv">Solution</span>:<span class="w"> </span><span class="nv">Click</span><span class="w"> </span><span class="nv">through</span><span class="w"> </span><span class="nv">Portal</span><span class="w"> </span><span class="nv">again</span><span class="w"> </span><span class="ss">(</span><span class="nv">slightly</span><span class="w"> </span><span class="nv">different</span><span class="w"> </span><span class="nv">settings</span><span class="ss">)</span>
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Prod</span><span class="w"> </span><span class="s2">"works"</span><span class="w"> </span><span class="nv">but</span><span class="w"> </span><span class="nv">configured</span><span class="w"> </span><span class="nv">differently</span><span class="w"> </span><span class="nv">than</span><span class="w"> </span><span class="nv">dev</span>
 
-<span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Security</span><span class="w"> </span><span class="n">audit</span><span class="w"> </span><span class="n">says</span><span class="w"> </span><span class="s2">&quot;no API keys in prod&quot;</span>
-<span class="n">Solution</span><span class="o">:</span><span class="w"> </span><span class="n">Click</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">fixing</span><span class="w"> </span><span class="n">security</span><span class="w"> </span><span class="o">(</span><span class="n">miss</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">settings</span><span class="o">)</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Partial</span><span class="w"> </span><span class="n">fix</span><span class="o">,</span><span class="w"> </span><span class="n">documentation</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">date</span>
+<span class="nv">Problem</span>:<span class="w"> </span><span class="nv">Security</span><span class="w"> </span><span class="nv">audit</span><span class="w"> </span><span class="nv">says</span><span class="w"> </span><span class="s2">"no API keys in prod"</span>
+<span class="nv">Solution</span>:<span class="w"> </span><span class="nv">Click</span><span class="w"> </span><span class="nv">through</span><span class="w"> </span><span class="nv">Portal</span><span class="w"> </span><span class="nv">fixing</span><span class="w"> </span><span class="nv">security</span><span class="w"> </span><span class="ss">(</span><span class="nv">miss</span><span class="w"> </span><span class="nv">some</span><span class="w"> </span><span class="nv">settings</span><span class="ss">)</span>
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Partial</span><span class="w"> </span><span class="nv">fix</span>,<span class="w"> </span><span class="nv">documentation</span><span class="w"> </span><span class="nv">out</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">date</span>
 
-<span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Teammate</span><span class="w"> </span><span class="n">needs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">replicate</span><span class="w"> </span><span class="n">setup</span>
-<span class="n">Solution</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Uh, I think I clicked these buttons...&quot;</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Doesn</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">match</span><span class="w"> </span><span class="n">original</span><span class="o">,</span><span class="w"> </span><span class="n">troubleshooting</span><span class="w"> </span><span class="n">begins</span>
+<span class="nv">Problem</span>:<span class="w"> </span><span class="nv">Teammate</span><span class="w"> </span><span class="nv">needs</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">replicate</span><span class="w"> </span><span class="nv">setup</span>
+<span class="nv">Solution</span>:<span class="w"> </span><span class="s2">"Uh, I think I clicked these buttons..."</span>
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Doesn</span><span class="err">'t match original, troubleshooting begins</span>
 </code></pre></div>
 
 <p><strong>The Terraform approach:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Define infrastructure once</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;ai_foundry_rag&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/ai-foundry&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"ai_foundry_rag"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/ai-foundry"</span>
 
 <span class="w">  </span><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.environment</span><span class="c1">  # dev, staging, prod</span>
 <span class="c1">  # ... configuration ...</span>
@@ -423,25 +423,25 @@
 <h3 id="1-provider-and-backend-setup">1. Provider and Backend Setup</h3>
 <p><strong>providers.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.5.0&quot;</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;= 1.5.0"</span>
 
 <span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azurerm&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.80&quot;</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/azurerm"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~&gt; 3.80"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nb">azuread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azuread&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 2.45&quot;</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/azuread"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~&gt; 2.45"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nb">random</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/random&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.5&quot;</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/random"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~&gt; 3.5"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">provider</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">key_vault</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="na">purge_soft_delete_on_destroy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
@@ -454,16 +454,16 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azuread&quot;</span><span class="w"> </span><span class="p">{}</span>
+<span class="kr">provider</span><span class="w"> </span><span class="nv">"azuread"</span><span class="w"> </span><span class="p">{}</span>
 </code></pre></div>
 
 <p><strong>backend.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;terraform-state-rg&quot;</span>
-<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tfstate${var.environment}&quot;</span>
-<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tfstate&quot;</span>
-<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ai-foundry-rag.tfstate&quot;</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"terraform-state-rg"</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"tfstate${var.environment}"</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"tfstate"</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"ai-foundry-rag.tfstate"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -475,47 +475,47 @@
 - Backup and recovery</p>
 <h3 id="2-variables-definition">2. Variables Definition</h3>
 <p><strong>variables.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;environment&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment name (dev, staging, prod)&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"environment"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Environment name (dev, staging, prod)"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">  </span><span class="nb">validation</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">condition</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">contains</span><span class="p">([</span><span class="s2">&quot;dev&quot;, &quot;staging&quot;, &quot;prod&quot;</span><span class="p">],</span><span class="w"> </span><span class="nv">var.environment</span><span class="p">)</span>
-<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment must be dev, staging, or prod.&quot;</span>
+<span class="w">    </span><span class="na">condition</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">contains</span><span class="p">([</span><span class="s2">"dev", "staging", "prod"</span><span class="p">],</span><span class="w"> </span><span class="nv">var.environment</span><span class="p">)</span>
+<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Environment must be dev, staging, or prod."</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;location&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure region for resources&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"location"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure region for resources"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus2&quot;</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"eastus2"</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;project_name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Project name for resource naming&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"project_name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Project name for resource naming"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;airag&quot;</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"airag"</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;tags&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Tags to apply to all resources&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"tags"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tags to apply to all resources"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 <span class="w">  </span><span class="nb">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
-<span class="w">    </span><span class="na">Project</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;AI-Foundry-RAG&quot;</span>
-<span class="w">    </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IT-Innovation&quot;</span>
+<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"Terraform"</span>
+<span class="w">    </span><span class="na">Project</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"AI-Foundry-RAG"</span>
+<span class="w">    </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"IT-Innovation"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># Search service tier</span>
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;search_sku&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure AI Search SKU&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"search_sku"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure AI Search SKU"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;standard&quot;</span><span class="c1">  # standard, basic, standard2, standard3</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"standard"</span><span class="c1">  # standard, basic, standard2, standard3</span>
 <span class="p">}</span>
 
 <span class="c1"># OpenAI model deployments</span>
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;openai_deployments&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;OpenAI model deployments&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"openai_deployments"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"OpenAI model deployments"</span>
 <span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">object</span><span class="p">({</span>
 <span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
@@ -523,43 +523,43 @@
 <span class="w">    </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="kt">number</span>
 <span class="w">  </span><span class="p">}))</span>
 <span class="w">  </span><span class="nb">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="s2">&quot;gpt-4&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gpt-4&quot;</span>
-<span class="w">      </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0613&quot;</span>
-<span class="w">      </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">    </span><span class="s2">"gpt-4"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"gpt-4"</span>
+<span class="w">      </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0613"</span>
+<span class="w">      </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">      </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;text-embedding-ada-002&quot;</span>
-<span class="w">      </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2&quot;</span>
-<span class="w">      </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">    </span><span class="s2">"text-embedding-ada-002"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"text-embedding-ada-002"</span>
+<span class="w">      </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2"</span>
+<span class="w">      </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">      </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># Security settings</span>
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;enable_private_endpoints&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enable private endpoints for services&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"enable_private_endpoints"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enable private endpoints for services"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">false</span><span class="c1">  # Set to true for production</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;allowed_ip_ranges&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IP ranges allowed to access services (for firewall)&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"allowed_ip_ranges"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"IP ranges allowed to access services (for firewall)"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="c1">  # Empty = allow from Azure services only</span>
 <span class="p">}</span>
 
 <span class="c1"># Monitoring</span>
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;enable_diagnostic_logs&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enable diagnostic logging&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"enable_diagnostic_logs"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enable diagnostic logging"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;log_retention_days&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Number of days to retain logs&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"log_retention_days"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of days to retain logs"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">number</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">30</span>
 <span class="p">}</span>
@@ -568,38 +568,38 @@
 <h3 id="3-main-orchestration">3. Main Orchestration</h3>
 <p><strong>main.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Generate unique suffix for globally unique names</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;random_string&quot;</span><span class="w"> </span><span class="nv">&quot;suffix&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"random_string"</span><span class="w"> </span><span class="nv">"suffix"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">length</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>
 <span class="w">  </span><span class="na">special</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">upper</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="p">}</span>
 
 <span class="nb">locals</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name_prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.project_name}-${var.environment}&quot;</span>
+<span class="w">  </span><span class="na">name_prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.project_name}-${var.environment}"</span>
 <span class="w">  </span><span class="na">name_suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">random_string.suffix.result</span>
 
 <span class="w">  </span><span class="na">common_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span>
 <span class="w">    </span><span class="nv">var.tags</span><span class="p">,</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.environment</span>
-<span class="w">      </span><span class="na">DeployedBy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">      </span><span class="na">DeployedBy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Terraform"</span>
 <span class="w">      </span><span class="na">DeployDate</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="c1"># Resource Group</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-rg&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_resource_group"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-rg"</span>
 <span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
 <span class="p">}</span>
 
 <span class="c1"># Storage Account for documents</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;storage&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/storage&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"storage"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/storage"</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.project_name}${var.environment}${local.name_suffix}&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.project_name}${var.environment}${local.name_suffix}"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
@@ -609,10 +609,10 @@
 <span class="p">}</span>
 
 <span class="c1"># Azure AI Search</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;ai_search&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/ai-search&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"ai_search"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/ai-search"</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-search-${local.name_suffix}&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-search-${local.name_suffix}"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
 <span class="w">  </span><span class="na">sku</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="nv">var.search_sku</span>
@@ -624,10 +624,10 @@
 <span class="p">}</span>
 
 <span class="c1"># Azure OpenAI</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/openai&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"openai"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/openai"</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-openai-${local.name_suffix}&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-openai-${local.name_suffix}"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
@@ -638,10 +638,10 @@
 <span class="p">}</span>
 
 <span class="c1"># Key Vault for secrets</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;key_vault&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/key-vault&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"key_vault"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/key-vault"</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-kv-${local.name_suffix}&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-kv-${local.name_suffix}"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
@@ -650,24 +650,24 @@
 <span class="p">}</span>
 
 <span class="c1"># Store connection strings and keys in Key Vault</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_key_vault_secret&quot;</span><span class="w"> </span><span class="nv">&quot;storage_connection_string&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;storage-connection-string&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_key_vault_secret"</span><span class="w"> </span><span class="nv">"storage_connection_string"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"storage-connection-string"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">module.storage.primary_connection_string</span>
 <span class="w">  </span><span class="na">key_vault_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">module.key_vault.id</span>
 
 <span class="w">  </span><span class="na">depends_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.key_vault</span><span class="p">]</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_key_vault_secret&quot;</span><span class="w"> </span><span class="nv">&quot;search_admin_key&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;search-admin-key&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_key_vault_secret"</span><span class="w"> </span><span class="nv">"search_admin_key"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"search-admin-key"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">module.ai_search.primary_admin_key</span>
 <span class="w">  </span><span class="na">key_vault_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">module.key_vault.id</span>
 
 <span class="w">  </span><span class="na">depends_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.key_vault</span><span class="p">]</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_key_vault_secret&quot;</span><span class="w"> </span><span class="nv">&quot;openai_key&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;openai-key&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_key_vault_secret"</span><span class="w"> </span><span class="nv">"openai_key"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"openai-key"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">module.openai.primary_key</span>
 <span class="w">  </span><span class="na">key_vault_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">module.key_vault.id</span>
 
@@ -675,10 +675,10 @@
 <span class="p">}</span>
 
 <span class="c1"># Monitoring</span>
-<span class="kr">module</span><span class="w"> </span><span class="nv">&quot;monitoring&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./modules/monitoring&quot;</span>
+<span class="kr">module</span><span class="w"> </span><span class="nv">"monitoring"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"./modules/monitoring"</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-monitoring&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-monitoring"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">local.common_tags</span>
@@ -694,7 +694,7 @@
 
 <h2 id="module-implementation-azure-ai-search">Module Implementation: Azure AI Search</h2>
 <p><strong>modules/ai-search/main.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_search_service&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_search_service"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
@@ -702,32 +702,32 @@
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.tags</span>
 
 <span class="c1">  # Semantic search (required for RAG)</span>
-<span class="w">  </span><span class="na">semantic_search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_semantic_search</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">&quot;standard&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">null</span>
+<span class="w">  </span><span class="na">semantic_search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_semantic_search</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">"standard"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">null</span>
 
 <span class="c1">  # Security settings</span>
 <span class="w">  </span><span class="na">public_network_access_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="no">false</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="no">true</span>
 
 <span class="c1">  # Authentication</span>
-<span class="w">  </span><span class="na">authentication_failure_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http401WithBearerChallenge&quot;</span>
+<span class="w">  </span><span class="na">authentication_failure_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"http401WithBearerChallenge"</span>
 
 <span class="c1">  # Managed identity for accessing storage</span>
 <span class="w">  </span><span class="nb">identity</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SystemAssigned&quot;</span>
+<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemAssigned"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="c1">  # Replica count for HA (prod only)</span>
-<span class="w">  </span><span class="na">replica_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s2">&quot;standard&quot;</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="nv">var.replica_count</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">1</span>
+<span class="w">  </span><span class="na">replica_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s2">"standard"</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="nv">var.replica_count</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">1</span>
 <span class="w">  </span><span class="na">partition_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.partition_count</span>
 <span class="p">}</span>
 
 <span class="c1"># Network rules if not using private endpoint</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_search_service_network_rule_set&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_search_service_network_rule_set"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">1</span>
 
 <span class="w">  </span><span class="na">search_service_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.id</span>
 
 <span class="c1">  # IP rules</span>
-<span class="w">  </span><span class="err">dynamic</span><span class="w"> </span><span class="s2">&quot;ip_rule&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">dynamic</span><span class="w"> </span><span class="s2">"ip_rule"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">for_each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.allowed_ip_ranges</span>
 <span class="w">    </span><span class="nb">content</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">ip_rule.value</span>
@@ -735,22 +735,22 @@
 <span class="w">  </span><span class="p">}</span>
 
 <span class="c1">  # Allow Azure services</span>
-<span class="w">  </span><span class="na">bypass_data_plane_authentication</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;AzureServices&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="na">bypass_data_plane_authentication</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"AzureServices"</span><span class="p">]</span>
 <span class="p">}</span>
 
 <span class="c1"># Private endpoint (production)</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_private_endpoint&quot;</span><span class="w"> </span><span class="nv">&quot;search&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_private_endpoint"</span><span class="w"> </span><span class="nv">"search"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-pe&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-pe"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">subnet_id</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.subnet_id</span>
 
 <span class="w">  </span><span class="nb">private_service_connection</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-psc&quot;</span>
+<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-psc"</span>
 <span class="w">    </span><span class="na">private_connection_resource_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.id</span>
-<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;searchService&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"searchService"</span><span class="p">]</span>
 <span class="w">    </span><span class="na">is_manual_connection</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -758,153 +758,153 @@
 <span class="p">}</span>
 
 <span class="c1"># Diagnostic settings</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_diagnostic_setting&quot;</span><span class="w"> </span><span class="nv">&quot;search&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_diagnostic_setting"</span><span class="w"> </span><span class="nv">"search"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_diagnostic_logs</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-diagnostics&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-diagnostics"</span>
 <span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.id</span>
 <span class="w">  </span><span class="na">log_analytics_workspace_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.log_analytics_workspace_id</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;OperationLogs&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"OperationLogs"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">metric</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;AllMetrics&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"AllMetrics"</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>modules/ai-search/variables.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Name of the search service&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Name of the search service"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;resource_group_name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Resource group name&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"resource_group_name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Resource group name"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;location&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure region&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"location"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure region"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;sku&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Search service SKU&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"sku"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Search service SKU"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;standard&quot;</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"standard"</span>
 
 <span class="w">  </span><span class="nb">validation</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">condition</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">contains</span><span class="p">([</span><span class="s2">&quot;free&quot;, &quot;basic&quot;, &quot;standard&quot;, &quot;standard2&quot;, &quot;standard3&quot;, &quot;storage_optimized_l1&quot;, &quot;storage_optimized_l2&quot;</span><span class="p">],</span><span class="w"> </span><span class="nv">var.sku</span><span class="p">)</span>
-<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Invalid SKU. Choose from: free, basic, standard, standard2, standard3, storage_optimized_l1, storage_optimized_l2&quot;</span>
+<span class="w">    </span><span class="na">condition</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">contains</span><span class="p">([</span><span class="s2">"free", "basic", "standard", "standard2", "standard3", "storage_optimized_l1", "storage_optimized_l2"</span><span class="p">],</span><span class="w"> </span><span class="nv">var.sku</span><span class="p">)</span>
+<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Invalid SKU. Choose from: free, basic, standard, standard2, standard3, storage_optimized_l1, storage_optimized_l2"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;enable_semantic_search&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enable semantic search&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"enable_semantic_search"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enable semantic search"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;replica_count&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Number of replicas (HA)&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"replica_count"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of replicas (HA)"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">number</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;partition_count&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Number of partitions&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"partition_count"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Number of partitions"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">number</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;enable_private_endpoint&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enable private endpoint&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"enable_private_endpoint"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enable private endpoint"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;subnet_id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Subnet ID for private endpoint&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"subnet_id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Subnet ID for private endpoint"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="kt">null</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;allowed_ip_ranges&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Allowed IP ranges for firewall&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"allowed_ip_ranges"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Allowed IP ranges for firewall"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;enable_diagnostic_logs&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enable diagnostic logging&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"enable_diagnostic_logs"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enable diagnostic logging"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;log_analytics_workspace_id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Log Analytics workspace ID&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"log_analytics_workspace_id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log Analytics workspace ID"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="kt">null</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;tags&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Resource tags&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"tags"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Resource tags"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 <span class="w">  </span><span class="nb">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>modules/ai-search/outputs.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">&quot;id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Search service ID&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">"id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Search service ID"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.id</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Search service name&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Search service name"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.name</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;endpoint&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Search service endpoint&quot;</span>
-<span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://${azurerm_search_service.main.name}.search.windows.net&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"endpoint"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Search service endpoint"</span>
+<span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://${azurerm_search_service.main.name}.search.windows.net"</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;primary_admin_key&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Primary admin key&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"primary_admin_key"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Primary admin key"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.primary_key</span>
 <span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;query_keys&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Query keys&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"query_keys"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Query keys"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.query_keys</span>
 <span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;identity_principal_id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Managed identity principal ID&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"identity_principal_id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Managed identity principal ID"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.identity[0].principal_id</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h2 id="module-implementation-azure-openai">Module Implementation: Azure OpenAI</h2>
 <p><strong>modules/openai/main.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_cognitive_account&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_cognitive_account"</span><span class="w"> </span><span class="nv">"openai"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
-<span class="w">  </span><span class="na">kind</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;OpenAI&quot;</span>
-<span class="w">  </span><span class="na">sku_name</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;S0&quot;</span>
+<span class="w">  </span><span class="na">kind</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"OpenAI"</span>
+<span class="w">  </span><span class="na">sku_name</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="s2">"S0"</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.tags</span>
 
 <span class="c1">  # Managed identity</span>
 <span class="w">  </span><span class="nb">identity</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SystemAssigned&quot;</span>
+<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemAssigned"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="c1">  # Security</span>
@@ -913,9 +913,9 @@
 
 <span class="c1">  # Network ACLs</span>
 <span class="w">  </span><span class="nb">network_acls</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">default_action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">&quot;Deny&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span>
+<span class="w">    </span><span class="na">default_action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">"Deny"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Allow"</span>
 
-<span class="w">    </span><span class="err">dynamic</span><span class="w"> </span><span class="s2">&quot;ip_rules&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">dynamic</span><span class="w"> </span><span class="s2">"ip_rules"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="na">for_each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.allowed_ip_ranges</span>
 <span class="w">      </span><span class="nb">content</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="na">ip_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">ip_rules.value</span>
@@ -928,14 +928,14 @@
 <span class="p">}</span>
 
 <span class="c1"># Deploy models</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_cognitive_deployment&quot;</span><span class="w"> </span><span class="nv">&quot;models&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_cognitive_deployment"</span><span class="w"> </span><span class="nv">"models"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">for_each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.deployments</span>
 
 <span class="w">  </span><span class="na">name</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="nv">each.key</span>
 <span class="w">  </span><span class="na">cognitive_account_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_cognitive_account.openai.id</span>
 
 <span class="w">  </span><span class="nb">model</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">format</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;OpenAI&quot;</span>
+<span class="w">    </span><span class="na">format</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"OpenAI"</span>
 <span class="w">    </span><span class="na">name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nv">each.value.model_name</span>
 <span class="w">    </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">each.value.model_version</span>
 <span class="w">  </span><span class="p">}</span>
@@ -945,22 +945,22 @@
 <span class="w">    </span><span class="na">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">each.value.capacity</span>
 <span class="w">  </span><span class="p">}</span>
 
-<span class="w">  </span><span class="na">rai_policy_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Microsoft.Default&quot;</span>
+<span class="w">  </span><span class="na">rai_policy_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Microsoft.Default"</span>
 <span class="p">}</span>
 
 <span class="c1"># Private endpoint (production)</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_private_endpoint&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_private_endpoint"</span><span class="w"> </span><span class="nv">"openai"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-pe&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-pe"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">subnet_id</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.subnet_id</span>
 
 <span class="w">  </span><span class="nb">private_service_connection</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-psc&quot;</span>
+<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-psc"</span>
 <span class="w">    </span><span class="na">private_connection_resource_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_cognitive_account.openai.id</span>
-<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;account&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"account"</span><span class="p">]</span>
 <span class="w">    </span><span class="na">is_manual_connection</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -968,57 +968,57 @@
 <span class="p">}</span>
 
 <span class="c1"># Diagnostic settings</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_diagnostic_setting&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_diagnostic_setting"</span><span class="w"> </span><span class="nv">"openai"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_diagnostic_logs</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-diagnostics&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-diagnostics"</span>
 <span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_cognitive_account.openai.id</span>
 <span class="w">  </span><span class="na">log_analytics_workspace_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.log_analytics_workspace_id</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Audit&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Audit"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;RequestResponse&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RequestResponse"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">metric</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;AllMetrics&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"AllMetrics"</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># RBAC for AI Search to access OpenAI</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_role_assignment&quot;</span><span class="w"> </span><span class="nv">&quot;search_to_openai&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_role_assignment"</span><span class="w"> </span><span class="nv">"search_to_openai"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.search_principal_id</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="kt">null</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
 <span class="w">  </span><span class="na">scope</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_cognitive_account.openai.id</span>
-<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Cognitive Services OpenAI User&quot;</span>
+<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cognitive Services OpenAI User"</span>
 <span class="w">  </span><span class="na">principal_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">var.search_principal_id</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h2 id="module-implementation-storage-account">Module Implementation: Storage Account</h2>
 <p><strong>modules/storage/main.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_account&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_storage_account"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.name</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
-<span class="w">  </span><span class="na">account_tier</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="na">account_tier</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">  </span><span class="na">account_replication_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.replication_type</span>
-<span class="w">  </span><span class="na">account_kind</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;StorageV2&quot;</span>
+<span class="w">  </span><span class="na">account_kind</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s2">"StorageV2"</span>
 <span class="w">  </span><span class="na">tags</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.tags</span>
 
 <span class="c1">  # Security settings</span>
-<span class="w">  </span><span class="na">min_tls_version</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;TLS1_2&quot;</span>
+<span class="w">  </span><span class="na">min_tls_version</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">"TLS1_2"</span>
 <span class="w">  </span><span class="na">enable_https_traffic_only</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="na">allow_nested_items_to_be_public</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">shared_access_key_enabled</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="no">true</span><span class="c1">  # Needed for some tools, but use SAS tokens</span>
 
 <span class="c1">  # Managed identity</span>
 <span class="w">  </span><span class="nb">identity</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SystemAssigned&quot;</span>
+<span class="w">    </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemAssigned"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="c1">  # Blob properties</span>
@@ -1036,39 +1036,39 @@
 
 <span class="c1">  # Network rules</span>
 <span class="w">  </span><span class="nb">network_rules</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">default_action</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">&quot;Deny&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span>
-<span class="w">    </span><span class="na">bypass</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;AzureServices&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="na">default_action</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s2">"Deny"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Allow"</span>
+<span class="w">    </span><span class="na">bypass</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"AzureServices"</span><span class="p">]</span>
 <span class="w">    </span><span class="na">ip_rules</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.allowed_ip_ranges</span>
 <span class="w">    </span><span class="na">virtual_network_subnet_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># Containers for RAG documents</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_container&quot;</span><span class="w"> </span><span class="nv">&quot;documents&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;documents&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_storage_container"</span><span class="w"> </span><span class="nv">"documents"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"documents"</span>
 <span class="w">  </span><span class="na">storage_account_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_storage_account.main.name</span>
-<span class="w">  </span><span class="na">container_access_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;private&quot;</span>
+<span class="w">  </span><span class="na">container_access_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"private"</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_storage_container&quot;</span><span class="w"> </span><span class="nv">&quot;embeddings&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;embeddings&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_storage_container"</span><span class="w"> </span><span class="nv">"embeddings"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"embeddings"</span>
 <span class="w">  </span><span class="na">storage_account_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_storage_account.main.name</span>
-<span class="w">  </span><span class="na">container_access_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;private&quot;</span>
+<span class="w">  </span><span class="na">container_access_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"private"</span>
 <span class="p">}</span>
 
 <span class="c1"># Private endpoint (production)</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_private_endpoint&quot;</span><span class="w"> </span><span class="nv">&quot;blob&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_private_endpoint"</span><span class="w"> </span><span class="nv">"blob"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_private_endpoint</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-blob-pe&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-blob-pe"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">subnet_id</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.subnet_id</span>
 
 <span class="w">  </span><span class="nb">private_service_connection</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-blob-psc&quot;</span>
+<span class="w">    </span><span class="na">name</span><span class="w">                           </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-blob-psc"</span>
 <span class="w">    </span><span class="na">private_connection_resource_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_storage_account.main.id</span>
-<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blob&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="na">subresource_names</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"blob"</span><span class="p">]</span>
 <span class="w">    </span><span class="na">is_manual_connection</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -1076,60 +1076,60 @@
 <span class="p">}</span>
 
 <span class="c1"># Diagnostic settings</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_diagnostic_setting&quot;</span><span class="w"> </span><span class="nv">&quot;storage&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_diagnostic_setting"</span><span class="w"> </span><span class="nv">"storage"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.enable_diagnostic_logs</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${var.name}-diagnostics&quot;</span>
-<span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${azurerm_storage_account.main.id}/blobServices/default&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">"${var.name}-diagnostics"</span>
+<span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"${azurerm_storage_account.main.id}/blobServices/default"</span>
 <span class="w">  </span><span class="na">log_analytics_workspace_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.log_analytics_workspace_id</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;StorageRead&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"StorageRead"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;StorageWrite&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"StorageWrite"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;StorageDelete&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"StorageDelete"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">metric</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Transaction&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Transaction"</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># RBAC for AI Search to read blobs</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_role_assignment&quot;</span><span class="w"> </span><span class="nv">&quot;search_to_storage&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_role_assignment"</span><span class="w"> </span><span class="nv">"search_to_storage"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.search_principal_id</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="kt">null</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
 <span class="w">  </span><span class="na">scope</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_storage_account.main.id</span>
-<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Storage Blob Data Reader&quot;</span>
+<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Storage Blob Data Reader"</span>
 <span class="w">  </span><span class="na">principal_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">var.search_principal_id</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h2 id="environment-specific-configurations">Environment-Specific Configurations</h2>
 <p><strong>environments/dev.tfvars:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span>
-<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus2&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dev"</span>
+<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"eastus2"</span>
 
 <span class="c1"># Cheaper tiers for dev</span>
-<span class="na">search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;basic&quot;</span><span class="c1">  # $75/month vs $249/month</span>
+<span class="na">search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"basic"</span><span class="c1">  # $75/month vs $249/month</span>
 
 <span class="nb">openai_deployments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="s2">&quot;gpt-4&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gpt-4&quot;</span>
-<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0613&quot;</span>
-<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="s2">"gpt-4"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"gpt-4"</span>
+<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0613"</span>
+<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">    </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="c1">  # Lower capacity for dev</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;text-embedding-ada-002&quot;</span>
-<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2&quot;</span>
-<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="s2">"text-embedding-ada-002"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"text-embedding-ada-002"</span>
+<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2"</span>
+<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">    </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1141,29 +1141,29 @@
 <span class="na">log_retention_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span>
 
 <span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span>
-<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IT-Dev&quot;</span>
+<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dev"</span>
+<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"IT-Dev"</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>environments/prod.tfvars:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;prod&quot;</span>
-<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus2&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="na">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"prod"</span>
+<span class="na">location</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"eastus2"</span>
 
 <span class="c1"># Production tiers</span>
-<span class="na">search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;standard&quot;</span><span class="c1">  # $249/month, includes semantic search</span>
+<span class="na">search_sku</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"standard"</span><span class="c1">  # $249/month, includes semantic search</span>
 
 <span class="nb">openai_deployments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="s2">&quot;gpt-4&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gpt-4&quot;</span>
-<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0613&quot;</span>
-<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="s2">"gpt-4"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"gpt-4"</span>
+<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0613"</span>
+<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">    </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="c1">  # Higher capacity for prod</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;text-embedding-ada-002&quot;</span>
-<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2&quot;</span>
-<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span>
+<span class="w">  </span><span class="s2">"text-embedding-ada-002"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">model_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"text-embedding-ada-002"</span>
+<span class="w">    </span><span class="na">model_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2"</span>
+<span class="w">    </span><span class="na">scale_type</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"Standard"</span>
 <span class="w">    </span><span class="na">capacity</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">20</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1176,14 +1176,14 @@
 
 <span class="c1"># Restrict access to specific IPs</span>
 <span class="na">allowed_ip_ranges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="s2">&quot;203.0.113.0/24&quot;</span><span class="p">,</span><span class="c1">  # Corporate office</span>
-<span class="w">  </span><span class="s2">&quot;198.51.100.0/24&quot;</span><span class="c1">  # VPN endpoint</span>
+<span class="w">  </span><span class="s2">"203.0.113.0/24"</span><span class="p">,</span><span class="c1">  # Corporate office</span>
+<span class="w">  </span><span class="s2">"198.51.100.0/24"</span><span class="c1">  # VPN endpoint</span>
 <span class="p">]</span>
 
 <span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;prod&quot;</span>
-<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;IT-Prod&quot;</span>
-<span class="w">  </span><span class="na">Compliance</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SOC2&quot;</span>
+<span class="w">  </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"prod"</span>
+<span class="w">  </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"IT-Prod"</span>
+<span class="w">  </span><span class="na">Compliance</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"SOC2"</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -1214,7 +1214,7 @@ terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k
 
 <p><strong>3. Plan deployment:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Plan with dev variables</span>
-terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/dev.tfvars&quot;</span><span class="w"> </span>-out<span class="o">=</span>dev.tfplan
+terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/dev.tfvars"</span><span class="w"> </span>-out<span class="o">=</span>dev.tfplan
 
 <span class="c1"># Review the plan carefully</span>
 </code></pre></div>
@@ -1224,7 +1224,7 @@ terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span clas
 terraform<span class="w"> </span>apply<span class="w"> </span>dev.tfplan
 
 <span class="c1"># Or apply directly (will prompt for approval)</span>
-terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/dev.tfvars&quot;</span>
+terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/dev.tfvars"</span>
 </code></pre></div>
 
 <h3 id="deploying-to-production">Deploying to Production</h3>
@@ -1235,7 +1235,7 @@ terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k
 
 <p><strong>2. Plan and apply:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Plan</span>
-terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/prod.tfvars&quot;</span><span class="w"> </span>-out<span class="o">=</span>prod.tfplan
+terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/prod.tfvars"</span><span class="w"> </span>-out<span class="o">=</span>prod.tfplan
 
 <span class="c1"># Review thoroughly - this is prod!</span>
 
@@ -1257,19 +1257,19 @@ terraform<span class="w"> </span>validate
 
 <p><strong>2. Plan changes:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># See what will change</span>
-terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/dev.tfvars&quot;</span>
+terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/dev.tfvars"</span>
 </code></pre></div>
 
 <p><strong>3. Apply changes:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Apply to dev first</span>
 terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k">select</span><span class="w"> </span>dev
-terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/dev.tfvars&quot;</span>
+terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/dev.tfvars"</span>
 
 <span class="c1"># Test thoroughly in dev</span>
 
 <span class="c1"># Apply to prod</span>
 terraform<span class="w"> </span>workspace<span class="w"> </span><span class="k">select</span><span class="w"> </span>prod
-terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">&quot;environments/prod.tfvars&quot;</span>
+terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span><span class="s2">"environments/prod.tfvars"</span>
 </code></pre></div>
 
 <h2 id="cost-management-with-terraform">Cost Management with Terraform</h2>
@@ -1289,21 +1289,21 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 </code></pre></div>
 
 <p><strong>Budget alerts (Azure Monitor):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_consumption_budget_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-budget&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_consumption_budget_resource_group"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-budget"</span>
 <span class="w">  </span><span class="na">resource_group_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.id</span>
 
 <span class="w">  </span><span class="na">amount</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.monthly_budget</span>
-<span class="w">  </span><span class="na">time_grain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Monthly&quot;</span>
+<span class="w">  </span><span class="na">time_grain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Monthly"</span>
 
 <span class="w">  </span><span class="nb">time_period</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">formatdate</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-01&#39;T&#39;00:00:00Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">())</span>
+<span class="w">    </span><span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">formatdate</span><span class="p">(</span><span class="s2">"YYYY-MM-01'T'00:00:00Z"</span><span class="p">,</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">())</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">notification</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">    </span><span class="na">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span>
-<span class="w">    </span><span class="na">operator</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GreaterThan&quot;</span>
+<span class="w">    </span><span class="na">operator</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"GreaterThan"</span>
 
 <span class="w">    </span><span class="na">contact_emails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.budget_alert_emails</span>
 <span class="w">  </span><span class="p">}</span>
@@ -1311,7 +1311,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">  </span><span class="nb">notification</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">    </span><span class="na">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>
-<span class="w">    </span><span class="na">operator</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GreaterThan&quot;</span>
+<span class="w">    </span><span class="na">operator</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"GreaterThan"</span>
 
 <span class="w">    </span><span class="na">contact_emails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.budget_alert_emails</span>
 <span class="w">  </span><span class="p">}</span>
@@ -1320,10 +1320,10 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 
 <p><strong>Auto-shutdown for dev (save costs overnight):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Logic App to shut down dev resources at 6 PM</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_logic_app_workflow&quot;</span><span class="w"> </span><span class="nv">&quot;dev_shutdown&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_logic_app_workflow"</span><span class="w"> </span><span class="nv">"dev_shutdown"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s2">"dev"</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-shutdown&quot;</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-shutdown"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.location</span>
 
@@ -1335,16 +1335,16 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <h2 id="security-best-practices">Security Best Practices</h2>
 <h3 id="1-no-secrets-in-code">1. No Secrets in Code</h3>
 <p><strong>❌ Wrong:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_cognitive_account&quot;</span><span class="w"> </span><span class="nv">&quot;openai&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_cognitive_account"</span><span class="w"> </span><span class="nv">"openai"</span><span class="w"> </span><span class="p">{</span>
 <span class="c1">  # ...</span>
-<span class="w">  </span><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sk-1234567890abcdef&quot;</span><span class="c1">  # NEVER DO THIS</span>
+<span class="w">  </span><span class="na">api_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sk-1234567890abcdef"</span><span class="c1">  # NEVER DO THIS</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>✅ Right:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Store in Key Vault</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_key_vault_secret&quot;</span><span class="w"> </span><span class="nv">&quot;openai_key&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;openai-key&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_key_vault_secret"</span><span class="w"> </span><span class="nv">"openai_key"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"openai-key"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_cognitive_account.openai.primary_key</span>
 <span class="w">  </span><span class="na">key_vault_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_key_vault.main.id</span>
 <span class="p">}</span>
@@ -1356,13 +1356,13 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <h3 id="2-use-managed-identities">2. Use Managed Identities</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Enable managed identity on all services</span>
 <span class="nb">identity</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SystemAssigned&quot;</span>
+<span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemAssigned"</span>
 <span class="p">}</span>
 
 <span class="c1"># Grant RBAC permissions</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_role_assignment&quot;</span><span class="w"> </span><span class="nv">&quot;search_to_storage&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_role_assignment"</span><span class="w"> </span><span class="nv">"search_to_storage"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">scope</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_storage_account.main.id</span>
-<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Storage Blob Data Reader&quot;</span>
+<span class="w">  </span><span class="na">role_definition_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Storage Blob Data Reader"</span>
 <span class="w">  </span><span class="na">principal_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_search_service.main.identity[0].principal_id</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1372,7 +1372,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="na">public_network_access_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 
 <span class="c1"># Enable private endpoint</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_private_endpoint&quot;</span><span class="w"> </span><span class="nv">&quot;search&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_private_endpoint"</span><span class="w"> </span><span class="nv">"search"</span><span class="w"> </span><span class="p">{</span>
 <span class="c1">  # ... configuration ...</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1380,25 +1380,25 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <h3 id="4-network-restrictions">4. Network Restrictions</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Firewall rules</span>
 <span class="nb">network_rules</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">default_action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Deny&quot;</span>
-<span class="w">  </span><span class="na">bypass</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;AzureServices&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="na">default_action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Deny"</span>
+<span class="w">  </span><span class="na">bypass</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"AzureServices"</span><span class="p">]</span>
 <span class="w">  </span><span class="na">ip_rules</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.allowed_corporate_ips</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h2 id="monitoring-and-alerts">Monitoring and Alerts</h2>
 <p><strong>Create alerts for failures:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_metric_alert&quot;</span><span class="w"> </span><span class="nv">&quot;search_failures&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-search-failures&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_metric_alert"</span><span class="w"> </span><span class="nv">"search_failures"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-search-failures"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">scopes</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.ai_search.id</span><span class="p">]</span>
-<span class="w">  </span><span class="na">description</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Alert when search query failure rate exceeds 10%&quot;</span>
+<span class="w">  </span><span class="na">description</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"Alert when search query failure rate exceeds 10%"</span>
 
 <span class="w">  </span><span class="nb">criteria</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">metric_namespace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Microsoft.Search/searchServices&quot;</span>
-<span class="w">    </span><span class="na">metric_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;SearchQueriesPerSecond&quot;</span>
-<span class="w">    </span><span class="na">aggregation</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Total&quot;</span>
-<span class="w">    </span><span class="na">operator</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GreaterThan&quot;</span>
+<span class="w">    </span><span class="na">metric_namespace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Microsoft.Search/searchServices"</span>
+<span class="w">    </span><span class="na">metric_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"SearchQueriesPerSecond"</span>
+<span class="w">    </span><span class="na">aggregation</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"Total"</span>
+<span class="w">    </span><span class="na">operator</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"GreaterThan"</span>
 <span class="w">    </span><span class="na">threshold</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -1407,17 +1407,17 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_metric_alert&quot;</span><span class="w"> </span><span class="nv">&quot;openai_throttling&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;${local.name_prefix}-openai-throttling&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_metric_alert"</span><span class="w"> </span><span class="nv">"openai_throttling"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"${local.name_prefix}-openai-throttling"</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="w">  </span><span class="na">scopes</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.openai.id</span><span class="p">]</span>
-<span class="w">  </span><span class="na">description</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Alert on OpenAI API throttling&quot;</span>
+<span class="w">  </span><span class="na">description</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"Alert on OpenAI API throttling"</span>
 
 <span class="w">  </span><span class="nb">criteria</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">metric_namespace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Microsoft.CognitiveServices/accounts&quot;</span>
-<span class="w">    </span><span class="na">metric_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Throttle&quot;</span>
-<span class="w">    </span><span class="na">aggregation</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Total&quot;</span>
-<span class="w">    </span><span class="na">operator</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;GreaterThan&quot;</span>
+<span class="w">    </span><span class="na">metric_namespace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Microsoft.CognitiveServices/accounts"</span>
+<span class="w">    </span><span class="na">metric_name</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"Throttle"</span>
+<span class="w">    </span><span class="na">aggregation</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"Total"</span>
+<span class="w">    </span><span class="na">operator</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"GreaterThan"</span>
 <span class="w">    </span><span class="na">threshold</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
 <span class="w">  </span><span class="p">}</span>
 
@@ -1439,7 +1439,7 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform/**</span>
 
 <span class="nt">pool</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">vmImage</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ubuntu-latest&#39;</span>
+<span class="w">  </span><span class="nt">vmImage</span><span class="p">:</span><span class="w"> </span><span class="s">'ubuntu-latest'</span>
 
 <span class="nt">stages</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate</span>
@@ -1448,14 +1448,14 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">        </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TerraformInstaller@0</span>
 <span class="w">            </span><span class="nt">inputs</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">terraformVersion</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.5.7&#39;</span>
+<span class="w">              </span><span class="nt">terraformVersion</span><span class="p">:</span><span class="w"> </span><span class="s">'1.5.7'</span>
 
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">script</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">              </span><span class="no">cd terraform</span>
 <span class="w">              </span><span class="no">terraform init -backend=false</span>
 <span class="w">              </span><span class="no">terraform validate</span>
 <span class="w">              </span><span class="no">terraform fmt -check -recursive</span>
-<span class="w">            </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Validate</span><span class="nv"> </span><span class="s">Terraform&#39;</span>
+<span class="w">            </span><span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">'Validate</span><span class="nv"> </span><span class="s">Terraform'</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Plan_Dev</span>
 <span class="w">    </span><span class="nt">dependsOn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate</span>
@@ -1464,37 +1464,37 @@ terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span cla
 <span class="w">        </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TerraformTaskV4@4</span>
 <span class="w">            </span><span class="nt">inputs</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;azurerm&#39;</span>
-<span class="w">              </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;init&#39;</span>
-<span class="w">              </span><span class="nt">backendServiceArm</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;AzureRM-ServiceConnection&#39;</span>
-<span class="w">              </span><span class="nt">backendAzureRmResourceGroupName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;terraform-state-rg&#39;</span>
-<span class="w">              </span><span class="nt">backendAzureRmStorageAccountName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tfstatedev&#39;</span>
-<span class="w">              </span><span class="nt">backendAzureRmContainerName</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;tfstate&#39;</span>
-<span class="w">              </span><span class="nt">backendAzureRmKey</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ai-foundry-rag.tfstate&#39;</span>
+<span class="w">              </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">'azurerm'</span>
+<span class="w">              </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">'init'</span>
+<span class="w">              </span><span class="nt">backendServiceArm</span><span class="p">:</span><span class="w"> </span><span class="s">'AzureRM-ServiceConnection'</span>
+<span class="w">              </span><span class="nt">backendAzureRmResourceGroupName</span><span class="p">:</span><span class="w"> </span><span class="s">'terraform-state-rg'</span>
+<span class="w">              </span><span class="nt">backendAzureRmStorageAccountName</span><span class="p">:</span><span class="w"> </span><span class="s">'tfstatedev'</span>
+<span class="w">              </span><span class="nt">backendAzureRmContainerName</span><span class="p">:</span><span class="w"> </span><span class="s">'tfstate'</span>
+<span class="w">              </span><span class="nt">backendAzureRmKey</span><span class="p">:</span><span class="w"> </span><span class="s">'ai-foundry-rag.tfstate'</span>
 
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TerraformTaskV4@4</span>
 <span class="w">            </span><span class="nt">inputs</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;azurerm&#39;</span>
-<span class="w">              </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;plan&#39;</span>
-<span class="w">              </span><span class="nt">commandOptions</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;-var-file=&quot;environments/dev.tfvars&quot;</span><span class="nv"> </span><span class="s">-out=dev.tfplan&#39;</span>
-<span class="w">              </span><span class="nt">environmentServiceNameAzureRM</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;AzureRM-ServiceConnection&#39;</span>
+<span class="w">              </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">'azurerm'</span>
+<span class="w">              </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">'plan'</span>
+<span class="w">              </span><span class="nt">commandOptions</span><span class="p">:</span><span class="w"> </span><span class="s">'-var-file="environments/dev.tfvars"</span><span class="nv"> </span><span class="s">-out=dev.tfplan'</span>
+<span class="w">              </span><span class="nt">environmentServiceNameAzureRM</span><span class="p">:</span><span class="w"> </span><span class="s">'AzureRM-ServiceConnection'</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apply_Dev</span>
 <span class="w">    </span><span class="nt">dependsOn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Plan_Dev</span>
-<span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">and(succeeded(), eq(variables[&#39;Build.SourceBranch&#39;], &#39;refs/heads/main&#39;))</span>
+<span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))</span>
 <span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deployment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApplyDev</span>
-<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dev&#39;</span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">'dev'</span>
 <span class="w">        </span><span class="nt">strategy</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">runOnce</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">deploy</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TerraformTaskV4@4</span>
 <span class="w">                  </span><span class="nt">inputs</span><span class="p">:</span>
-<span class="w">                    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;azurerm&#39;</span>
-<span class="w">                    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;apply&#39;</span>
-<span class="w">                    </span><span class="nt">commandOptions</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;dev.tfplan&#39;</span>
-<span class="w">                    </span><span class="nt">environmentServiceNameAzureRM</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;AzureRM-ServiceConnection&#39;</span>
+<span class="w">                    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">'azurerm'</span>
+<span class="w">                    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">'apply'</span>
+<span class="w">                    </span><span class="nt">commandOptions</span><span class="p">:</span><span class="w"> </span><span class="s">'dev.tfplan'</span>
+<span class="w">                    </span><span class="nt">environmentServiceNameAzureRM</span><span class="p">:</span><span class="w"> </span><span class="s">'AzureRM-ServiceConnection'</span>
 
 <span class="w">  </span><span class="c1"># Repeat for staging and prod with approval gates</span>
 </code></pre></div>
@@ -1542,34 +1542,34 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
 
 <h2 id="outputs-for-application-use">Outputs for Application Use</h2>
 <p><strong>outputs.tf:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">&quot;search_endpoint&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure AI Search endpoint&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">"search_endpoint"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure AI Search endpoint"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">module.ai_search.endpoint</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;openai_endpoint&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure OpenAI endpoint&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"openai_endpoint"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure OpenAI endpoint"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">module.openai.endpoint</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;storage_account_name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Storage account name&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"storage_account_name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Storage account name"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">module.storage.name</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;key_vault_uri&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Key Vault URI for retrieving secrets&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"key_vault_uri"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Key Vault URI for retrieving secrets"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">module.key_vault.uri</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;resource_group_name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Resource group name&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"resource_group_name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Resource group name"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.main.name</span>
 <span class="p">}</span>
 
 <span class="c1"># Sensitive outputs</span>
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;connection_info&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Connection information for applications&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"connection_info"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Connection information for applications"</span>
 <span class="w">  </span><span class="nb">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">search_endpoint</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">module.ai_search.endpoint</span>
 <span class="w">    </span><span class="na">openai_endpoint</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">module.openai.endpoint</span>
@@ -1590,12 +1590,12 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
 <span class="n">credential</span> <span class="o">=</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span>
 
 <span class="c1"># Get Key Vault URI from Terraform output</span>
-<span class="n">kv_uri</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;KEY_VAULT_URI&#39;</span><span class="p">]</span>
+<span class="n">kv_uri</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'KEY_VAULT_URI'</span><span class="p">]</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">SecretClient</span><span class="p">(</span><span class="n">vault_url</span><span class="o">=</span><span class="n">kv_uri</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">credential</span><span class="p">)</span>
 
 <span class="c1"># Retrieve secrets</span>
-<span class="n">search_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">&quot;search-admin-key&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-<span class="n">openai_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">&quot;openai-key&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+<span class="n">search_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">"search-admin-key"</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+<span class="n">openai_key</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">"openai-key"</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
 </code></pre></div>
 
 <h2 id="what-we-accomplished">What We Accomplished</h2>
@@ -1713,7 +1713,7 @@ az<span class="w"> </span>storage<span class="w"> </span>container<span class="w
     
       <a href="/blog/azure-openai-pricing-real-costs/" style="text-align: right;">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Next →</span>
-        <strong>Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost</strong>
+        <strong>Azure OpenAI Pricing 2026: $10 Estimate vs $1,288 Real Cost</strong>
       </a>
     
   </nav>

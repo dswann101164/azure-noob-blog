@@ -161,7 +161,7 @@
   },
   "keywords": "azure, terraform, infrastructure-as-code, devops",
   "articleSection": "azure",
-  "wordCount": "1935",
+  "wordCount": "1919",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -356,16 +356,16 @@
 <h3 id="phase-1-create-a-service-principal-5-minutes">Phase 1: Create a Service Principal (5 minutes)</h3>
 <p>Terraform needs credentials to access Azure. Don't use your personal account. Use a Service Principal.</p>
 <div class="codehilite"><pre><span></span><code>az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>create-for-rbac<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;terraform-dev&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">"terraform-dev"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--role<span class="w"> </span>Contributor<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scopes<span class="w"> </span>/subscriptions/YOUR_SUBSCRIPTION_ID
 </code></pre></div>
 
 <p><strong>Save these values RIGHT NOW:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;appId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span><span class="p">,</span><span class="w">      </span><span class="c1">// This is your client_id</span>
-<span class="w">  </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1">// This is your client_secret  </span>
-<span class="w">  </span><span class="nt">&quot;tenant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span><span class="w">      </span><span class="c1">// This is your tenant_id</span>
+<span class="w">  </span><span class="nt">"appId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="p">,</span><span class="w">      </span><span class="c1">// This is your client_id</span>
+<span class="w">  </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="p">,</span><span class="w">   </span><span class="c1">// This is your client_secret  </span>
+<span class="w">  </span><span class="nt">"tenant"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="w">      </span><span class="c1">// This is your tenant_id</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -388,7 +388,7 @@ nano<span class="w"> </span>secrets.auto.tfvars<span class="w">  </span><span cl
 
 <p><strong>Make the storage account name unique:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># In terraform.tfvars</span>
-<span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstatedev001yourcompany&quot;</span><span class="c1">  # Change this</span>
+<span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sttfstatedev001yourcompany"</span><span class="c1">  # Change this</span>
 </code></pre></div>
 
 <p><strong>Deploy:</strong></p>
@@ -406,20 +406,20 @@ terraform<span class="w"> </span>apply
 <p>Now make your actual Terraform project use remote state.</p>
 <p><strong>Create <code>backend.tf</code> in your project:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rg-tfstate-dev&quot;</span>
-<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sttfstatedev001yourcompany&quot;</span>
-<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tfstate&quot;</span>
-<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-project/terraform.tfstate&quot;</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"rg-tfstate-dev"</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sttfstatedev001yourcompany"</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"tfstate"</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"my-project/terraform.tfstate"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>Create <code>secrets.auto.tfvars</code> (same SP credentials):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="na">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span>
-<span class="na">tenant_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span>
-<span class="na">client_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span>
-<span class="na">client_secret</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;xxx&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="na">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"xxx"</span>
+<span class="na">tenant_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"xxx"</span>
+<span class="na">client_id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"xxx"</span>
+<span class="na">client_secret</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"xxx"</span>
 </code></pre></div>
 
 <p><strong>Initialize remote state:</strong></p>
@@ -428,7 +428,7 @@ terraform<span class="w"> </span>apply
 
 <p><strong>Magic moment:</strong></p>
 <div class="codehilite"><pre><span></span><code>Initializing the backend...
-Successfully configured the backend &quot;azurerm&quot;!
+Successfully configured the backend "azurerm"!
 </code></pre></div>
 
 <p>You're done. Your state is now in Azure Storage.</p>
@@ -467,10 +467,10 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 
 <p><strong>In your backend.tf:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Dev</span>
-<span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;web-app/dev/terraform.tfstate&quot;</span>
+<span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"web-app/dev/terraform.tfstate"</span>
 
 <span class="c1"># Prod</span>
-<span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;web-app/prod/terraform.tfstate&quot;</span>
+<span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"web-app/prod/terraform.tfstate"</span>
 </code></pre></div>
 
 <p>Same storage account. Different paths. Done.</p>
@@ -489,16 +489,16 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 <h3 id="pattern-3-required-tags">Pattern 3: Required Tags</h3>
 <p>While you're setting this up, enforce proper tagging:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># In vars.tf</span>
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;tags&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"tags"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span>
 
 <span class="w">  </span><span class="nb">validation</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
-<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Environment&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">&amp;&amp;</span>
-<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Owner&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">&amp;&amp;</span>
-<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Cost-Center&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">"Environment"</span><span class="p">)</span><span class="w"> </span><span class="err">&amp;&amp;</span>
+<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">"Owner"</span><span class="p">)</span><span class="w"> </span><span class="err">&amp;&amp;</span>
+<span class="w">      </span><span class="nf">contains</span><span class="p">(</span><span class="nf">keys</span><span class="p">(</span><span class="nv">var.tags</span><span class="p">),</span><span class="w"> </span><span class="s2">"Cost-Center"</span><span class="p">)</span>
 <span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Must include: Environment, Owner, and Cost-Center tags.&quot;</span>
+<span class="w">    </span><span class="na">error_message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Must include: Environment, Owner, and Cost-Center tags."</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -528,14 +528,14 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 - âœ… Use least-privilege RBAC (Contributor, not Owner)</p>
 <h2 id="troubleshooting-what-will-actually-break">Troubleshooting (What Will Actually Break)</h2>
 <h3 id="problem-failed-to-get-existing-workspaces">Problem: "Failed to get existing workspaces"</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">storage</span><span class="o">:</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">returned</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="w"> </span><span class="n">StatusCode</span><span class="o">=</span><span class="mi">403</span>
+<div class="codehilite"><pre><span></span><code>Error: storage: service returned error: StatusCode=403
 </code></pre></div>
 
 <p><strong>What happened:</strong> Service Principal doesn't have "Storage Blob Data Contributor" role.</p>
 <p><strong>Fix:</strong></p>
 <div class="codehilite"><pre><span></span><code>az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span>YOUR_SP_OBJECT_ID<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Storage Blob Data Contributor&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Storage Blob Data Contributor"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scope<span class="w"> </span>/subscriptions/YOUR_SUB/resourceGroups/rg-tfstate-dev/providers/Microsoft.Storage/storageAccounts/YOUR_STORAGE
 </code></pre></div>
 

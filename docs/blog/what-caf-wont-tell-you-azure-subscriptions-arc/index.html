@@ -165,8 +165,8 @@
   },
   "keywords": "azure, governance, azure-arc, caf, subscriptions, architecture",
   "articleSection": "azure",
-  "wordCount": "3801",
-  "timeRequired": "PT19M",
+  "wordCount": "3464",
+  "timeRequired": "PT17M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -241,7 +241,7 @@
   <header class="post-header">
     <h1>What the CAF Won&#39;t Tell You About Azure Subscriptions (And Why Azure Arc Makes It Worse)</h1>
     <p class="muted">
-      2025-12-21 · ~19 min read
+      2025-12-21 · ~17 min read
       
     </p>
     
@@ -360,10 +360,10 @@
 - Engineering: "We can't verify. 27% of resources aren't tagged."<br />
 - Finance: "Fix your tagging and we'll run the report again next quarter."</p>
 <p><strong>Subscription-based chargeback:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Engineering</span><span class="o">-</span><span class="n">Production</span>
-<span class="n">Cost</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">month</span><span class="o">:</span><span class="w"> </span><span class="n">$147</span><span class="o">,</span><span class="mi">000</span>
-<span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">Engineering</span><span class="w"> </span><span class="n">department</span>
-<span class="n">Chargeback</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="o">%</span><span class="w"> </span><span class="n">accurate</span><span class="o">,</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">reconciliation</span><span class="w"> </span><span class="n">needed</span>
+<div class="codehilite"><pre><span></span><code>Subscription: Engineering-Production
+Cost this month: $147,000
+Owner: Engineering department
+Chargeback: 100% accurate, no reconciliation needed
 </code></pre></div>
 
 <p><strong>No tags required. No drift. No argument.</strong></p>
@@ -401,10 +401,10 @@ Waste as % of bill: 50% (impossible to ignore)</p>
 <h3 id="problem-1-subscription-choice-affects-governance-data">Problem 1: Subscription Choice Affects Governance Data</h3>
 <p><strong>Scenario:</strong> You have 850 VMware VMs in 3 datacenters.</p>
 <p><strong>Option A: One Shared Subscription</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">OnPrem</span><span class="o">-</span><span class="n">Infrastructure</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Group</span><span class="o">:</span><span class="w"> </span><span class="n">DC1</span><span class="o">-</span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="mi">300</span><span class="w"> </span><span class="n">VMs</span><span class="o">)</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Group</span><span class="o">:</span><span class="w"> </span><span class="n">DC2</span><span class="o">-</span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="mi">400</span><span class="w"> </span><span class="n">VMs</span><span class="o">)</span>
-<span class="err">└──</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Group</span><span class="o">:</span><span class="w"> </span><span class="n">DC3</span><span class="o">-</span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="mi">150</span><span class="w"> </span><span class="n">VMs</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subscription: OnPrem-Infrastructure
+├── Resource Group: DC1-VMs (300 VMs)
+├── Resource Group: DC2-VMs (400 VMs)
+└── Resource Group: DC3-VMs (150 VMs)
 </code></pre></div>
 
 <p><strong>Result:</strong><br />
@@ -413,14 +413,14 @@ Waste as % of bill: 50% (impossible to ignore)</p>
 - RBAC applies to all VMs (production + dev + test)<br />
 - Compliance reports show "OnPrem-Infrastructure" as single control domain</p>
 <p><strong>Option B: Isolated Subscriptions</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Production</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">PCI</span><span class="o">-</span><span class="n">DSS</span><span class="w"> </span><span class="n">scope</span><span class="o">)</span>
-<span class="err">└──</span><span class="w"> </span><span class="mi">120</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="n">payment</span><span class="w"> </span><span class="n">processing</span><span class="w"> </span><span class="n">servers</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subscription: Production-OnPrem (PCI-DSS scope)
+└── 120 VMs (payment processing servers)
 
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Development</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">non</span><span class="o">-</span><span class="n">production</span><span class="o">)</span>
-<span class="err">└──</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="n">test</span><span class="w"> </span><span class="n">environments</span><span class="o">)</span>
+Subscription: Development-OnPrem (non-production)
+└── 200 VMs (test environments)
 
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Legacy</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">migration</span><span class="w"> </span><span class="n">candidates</span><span class="o">)</span>
-<span class="err">└──</span><span class="w"> </span><span class="mi">530</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="o">(</span><span class="n">aging</span><span class="w"> </span><span class="n">infrastructure</span><span class="o">)</span>
+Subscription: Legacy-OnPrem (migration candidates)
+└── 530 VMs (aging infrastructure)
 </code></pre></div>
 
 <p><strong>Result:</strong><br />
@@ -543,17 +543,17 @@ Engineering: "Verified. Here's payment."</p>
 <p><strong>3. Multi-Tenant SaaS</strong></p>
 <p><strong>Scenario:</strong> You run a SaaS platform with 47 enterprise customers.</p>
 <p><strong>Shared subscription model:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">SaaS</span><span class="o">-</span><span class="n">Production</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">RG</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">A</span><span class="o">-</span><span class="n">Resources</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">RG</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">B</span><span class="o">-</span><span class="n">Resources</span>
-<span class="err">└──</span><span class="w"> </span><span class="n">RG</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">C</span><span class="o">-</span><span class="n">Resources</span><span class="w"> </span><span class="o">(...</span><span class="w"> </span><span class="mi">44</span><span class="w"> </span><span class="n">more</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subscription: SaaS-Production
+├── RG: Customer-A-Resources
+├── RG: Customer-B-Resources
+└── RG: Customer-C-Resources (... 44 more)
 </code></pre></div>
 
 <p><strong>Problem:</strong> One customer's security breach affects everyone in the subscription.</p>
 <p><strong>Isolated subscription model:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">A</span><span class="o">-</span><span class="n">Production</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">B</span><span class="o">-</span><span class="n">Production</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Customer</span><span class="o">-</span><span class="n">C</span><span class="o">-</span><span class="n">Production</span>
+<div class="codehilite"><pre><span></span><code>Subscription: Customer-A-Production
+Subscription: Customer-B-Production
+Subscription: Customer-C-Production
 </code></pre></div>
 
 <p><strong>Result:</strong> Breach containment. No blast radius across customers.</p>
@@ -629,19 +629,19 @@ Engineering: "Verified. Here's payment."</p>
 - EU (GDPR data residency required)<br />
 - APAC (air-gapped, no internet)</p>
 <p><strong>Shared subscription:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Global</span><span class="o">-</span><span class="n">OnPrem</span><span class="o">-</span><span class="n">Infrastructure</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">US</span><span class="o">-</span><span class="n">DC1</span><span class="o">-</span><span class="n">VMs</span>
-<span class="err">├──</span><span class="w"> </span><span class="n">EU</span><span class="o">-</span><span class="n">DC2</span><span class="o">-</span><span class="n">VMs</span>
-<span class="err">└──</span><span class="w"> </span><span class="n">APAC</span><span class="o">-</span><span class="n">DC3</span><span class="o">-</span><span class="n">VMs</span>
+<div class="codehilite"><pre><span></span><code>Subscription: Global-OnPrem-Infrastructure
+├── US-DC1-VMs
+├── EU-DC2-VMs
+└── APAC-DC3-VMs
 </code></pre></div>
 
 <p><strong>Problem:</strong> GDPR auditor asks "Where is EU data processed?"<br />
 <strong>Answer:</strong> "In a subscription that also contains US and APAC resources."<br />
 <strong>Auditor:</strong> "That's not data residency isolation."</p>
 <p><strong>Isolated subscriptions:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">US</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">PCI</span><span class="o">-</span><span class="n">DSS</span><span class="w"> </span><span class="n">scope</span><span class="o">)</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">EU</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">GDPR</span><span class="w"> </span><span class="n">scope</span><span class="o">)</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">APAC</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">air</span><span class="o">-</span><span class="n">gapped</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subscription: US-OnPrem (PCI-DSS scope)
+Subscription: EU-OnPrem (GDPR scope)
+Subscription: APAC-OnPrem (air-gapped)
 </code></pre></div>
 
 <p><strong>Scenario 2: Lifecycle Separation</strong></p>
@@ -651,9 +651,9 @@ Engineering: "Verified. Here's payment."</p>
 - Legacy VMs (decommission when replacement ready)</p>
 <p><strong>Shared subscription:</strong> All VMs look the same in Azure Resource Graph</p>
 <p><strong>Isolated subscriptions:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Production</span><span class="o">-</span><span class="n">OnPrem</span><span class="w"> </span><span class="o">(</span><span class="n">PCI</span><span class="o">-</span><span class="n">DSS</span><span class="o">,</span><span class="w"> </span><span class="n">governed</span><span class="o">)</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Migration</span><span class="o">-</span><span class="n">Staging</span><span class="w"> </span><span class="o">(</span><span class="n">temporary</span><span class="o">,</span><span class="w"> </span><span class="n">unmanaged</span><span class="o">)</span>
-<span class="n">Subscription</span><span class="o">:</span><span class="w"> </span><span class="n">Legacy</span><span class="o">-</span><span class="n">Deprecation</span><span class="w"> </span><span class="o">(</span><span class="n">compliance</span><span class="w"> </span><span class="n">exempt</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subscription: Production-OnPrem (PCI-DSS, governed)
+Subscription: Migration-Staging (temporary, unmanaged)
+Subscription: Legacy-Deprecation (compliance exempt)
 </code></pre></div>
 
 <p><strong>Azure Policy, compliance reports, and governance now align with operational reality.</strong></p>

@@ -717,12 +717,12 @@ Azure Arc Service Endpoints
 <p>Bulk-apply using PowerCLI:</p>
 </li>
 </ol>
-<div class="codehilite"><pre><span></span><code><span class="nv">$folder</span> <span class="p">=</span> <span class="nb">Get-Folder</span> <span class="n">-Name</span> <span class="s2">&quot;Prod-Finance&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$folder</span> <span class="p">=</span> <span class="nb">Get-Folder</span> <span class="n">-Name</span> <span class="s2">"Prod-Finance"</span>
 <span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-VM</span> <span class="n">-Location</span> <span class="nv">$folder</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$vm</span> <span class="k">in</span> <span class="nv">$vms</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">&quot;Prod&quot;</span>
-    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">&quot;Finance&quot;</span>
-    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">&quot;Wave-1&quot;</span>
+    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">"Prod"</span>
+    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">"Finance"</span>
+    <span class="nb">New-TagAssignment</span> <span class="n">-Entity</span> <span class="nv">$vm</span> <span class="n">-Tag</span> <span class="s2">"Wave-1"</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -743,8 +743,8 @@ Azure Arc Service Endpoints
 </li>
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">Application</span><span class="p">)</span>
 </code></pre></div>
 
 <p><em>Why this almost never works:</em><br />
@@ -769,9 +769,9 @@ Azure Arc Service Endpoints
 </li>
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="n">resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.hybridcompute/machines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Application</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.hybridcompute/machines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Application</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Unknown"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Owner</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Unknown"</span>
 </code></pre></div>
 
 <p><strong>This is the enterprise standard.</strong></p>

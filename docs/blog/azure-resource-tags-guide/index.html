@@ -165,7 +165,7 @@
   },
   "keywords": "automation, azure, finops, governance, policy, tags",
   "articleSection": "automation",
-  "wordCount": "1943",
+  "wordCount": "1913",
   "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -316,12 +316,12 @@
 <p><strong>One misspelled tag in production can take weeks to clean up</strong> because you have to identify every affected resource and update tags individually.</p>
 <h3 id="alphabetical-order-matters">Alphabetical Order Matters</h3>
 <p>Define your tag order and stick to it. When you're looking at hundreds of resources, consistent ordering prevents mistakes:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Application</span><span class="o">:</span><span class="w"> </span><span class="n">customer</span><span class="o">-</span><span class="n">portal</span>
-<span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="mi">12345</span><span class="w">  </span>
-<span class="n">Department</span><span class="o">:</span><span class="w"> </span><span class="n">engineering</span>
-<span class="n">Environment</span><span class="o">:</span><span class="w"> </span><span class="n">prod</span>
-<span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">john</span><span class="o">.</span><span class="na">smith</span>
-<span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Server</span>
+<div class="codehilite"><pre><span></span><code>Application: customer-portal
+CostCenter: 12345  
+Department: engineering
+Environment: prod
+Owner: john.smith
+Type: Server
 </code></pre></div>
 
 <p><strong>Enforce with Azure Policy:</strong> Manual compliance doesn't work. Use Azure Policy to enforce exact spelling, capitalization, and allowed values.</p>
@@ -347,10 +347,10 @@
 - <strong>Security policies:</strong> Each type needs different hardening approaches</p>
 <p>Your KQL queries become infinitely more useful when you can filter by Type:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Type&quot;</span><span class="p">])</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Server&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Type"</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Server"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Environment"</span><span class="p">])</span>
 </code></pre></div>
 
 <p><strong>Optional but valuable:</strong><br />
@@ -364,7 +364,7 @@
 <p><strong>This breaks cost allocation:</strong> Your new tagging strategy won't apply to existing resources until you manually update them.</p>
 <p><strong>Solution:</strong> Use Azure Resource Graph to find untagged resources and bulk-update them.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&quot;CostCenter&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">"CostCenter"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
 <span class="p">|</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">100</span>
 </code></pre></div>
@@ -379,53 +379,53 @@
 <p><strong>My rule:</strong> Reserve 3-4 tag slots for future requirements. Don't use all 15 on day one.</p>
 <h2 id="the-empty-tag-problem">The Empty Tag Problem</h2>
 <p>This query from my VM inventory shows the issue:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]),</span>
-<span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Owner&quot;</span><span class="p">])</span>
+<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"CostCenter"</span><span class="p">]),</span>
+<span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Owner"</span><span class="p">])</span>
 </code></pre></div>
 
 <p>If the tag doesn't exist, you get empty cells in your report. Finance sees blank cost centers and assumes it's a data problem.</p>
 <p><strong>Better approach:</strong> Provide defaults in your queries.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iif</span><span class="p">(</span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]),</span><span class="w"> </span><span class="s">&quot;Unassigned&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]))</span>
+<div class="codehilite"><pre><span></span><code><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iif</span><span class="p">(</span><span class="n">isempty</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"CostCenter"</span><span class="p">]),</span><span class="w"> </span><span class="s">"Unassigned"</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"CostCenter"</span><span class="p">]))</span>
 </code></pre></div>
 
 <h2 id="azure-policy-the-only-way-tag-governance-actually-works">Azure Policy: The Only Way Tag Governance Actually Works</h2>
 <p><strong>Manual tagging doesn't scale.</strong> Period. You need Azure Policy to enforce your standards, or you'll be chasing tag compliance forever.</p>
 <p><strong>Required tag policies that prevent deployment without proper tags:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;CostCenter&#39;]&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">  </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['CostCenter']"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>Allowed values policies that prevent typos and variations:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"allOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Environment&#39;]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">        </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Environment']"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Environment&#39;]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;notIn&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;prod&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dev&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Environment']"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"notIn"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"prod"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dev"</span><span class="p">,</span><span class="w"> </span><span class="s2">"test"</span><span class="p">]</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">  </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p><strong>Automatic value policies for Type tag:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1">// If VM size starts with &quot;Standard_D&quot;, auto-tag as Type: Server</span>
+<div class="codehilite"><pre><span></span><code><span class="c1">// If VM size starts with "Standard_D", auto-tag as Type: Server</span>
 <span class="c1">// If in VDI resource group, auto-tag as Type: Desktop</span>
-<span class="c1">// If resource name contains &quot;databricks&quot;, auto-tag as Type: Databricks</span>
+<span class="c1">// If resource name contains "databricks", auto-tag as Type: Databricks</span>
 </code></pre></div>
 
 <p><strong>Without Azure Policy:</strong> Someone will deploy resources with <code>Environemnt: Production</code> and break your reporting.</p>
@@ -456,14 +456,14 @@
 
 <p><strong>Cost center compliance check:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;CostCenter&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"CostCenter"</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">CostCenter</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">UntaggedResources</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 </code></pre></div>
 
 <p><strong>Tag standardization audit:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tags</span><span class="p">[</span><span class="s">"Environment"</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnotempty</span><span class="p">(</span><span class="n">Environment</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Environment</span>
 <span class="c">// Look for variations: prod, Prod, PROD, production</span>
@@ -486,7 +486,7 @@
 <p>Run this query to find every resource that is missing the "CostCenter" tag.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find resources missing the CostCenter tag</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&quot;CostCenter&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">"CostCenter"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="p">=</span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">render</span><span class="w"> </span><span class="n">barchart</span>
 </code></pre></div>

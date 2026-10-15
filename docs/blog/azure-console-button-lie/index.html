@@ -515,12 +515,12 @@ Microsoft categorizes Serial Console as a "troubleshooting tool" not a "daily op
 <h2 id="enable-serial-console-complete-setup">Enable Serial Console: Complete Setup</h2>
 <h3 id="step-1-enable-at-subscription-level-one-time">Step 1: Enable at Subscription Level (One Time)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Enable Serial Console feature for entire subscription</span>
-<span class="nb">Register-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">&quot;EnableSerialConsole&quot;</span> <span class="p">`</span>
-    <span class="n">-ProviderNamespace</span> <span class="s2">&quot;Microsoft.SerialConsole&quot;</span>
+<span class="nb">Register-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">"EnableSerialConsole"</span> <span class="p">`</span>
+    <span class="n">-ProviderNamespace</span> <span class="s2">"Microsoft.SerialConsole"</span>
 
 <span class="c"># Verify feature registration status</span>
-<span class="nb">Get-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">&quot;EnableSerialConsole&quot;</span> <span class="p">`</span>
-    <span class="n">-ProviderNamespace</span> <span class="s2">&quot;Microsoft.SerialConsole&quot;</span>
+<span class="nb">Get-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">"EnableSerialConsole"</span> <span class="p">`</span>
+    <span class="n">-ProviderNamespace</span> <span class="s2">"Microsoft.SerialConsole"</span>
 
 <span class="c"># Expected output:</span>
 <span class="c"># FeatureName        ProviderName              RegistrationState</span>
@@ -531,11 +531,11 @@ Microsoft categorizes Serial Console as a "troubleshooting tool" not a "daily op
 <p><strong>Note:</strong> Feature registration can take 5-15 minutes. You only do this once per subscription.</p>
 <h3 id="step-2-create-storage-account-for-boot-diagnostics-if-needed">Step 2: Create Storage Account for Boot Diagnostics (If Needed)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create storage account for boot diagnostics</span>
-<span class="nb">New-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-shared-001&quot;</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;saproddiag001&quot;</span> <span class="p">`</span>
-    <span class="n">-Location</span> <span class="s2">&quot;eastus&quot;</span> <span class="p">`</span>
-    <span class="n">-SkuName</span> <span class="s2">&quot;Standard_LRS&quot;</span> <span class="p">`</span>
-    <span class="n">-Kind</span> <span class="s2">&quot;StorageV2&quot;</span>
+<span class="nb">New-AzStorageAccount</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-shared-001"</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"saproddiag001"</span> <span class="p">`</span>
+    <span class="n">-Location</span> <span class="s2">"eastus"</span> <span class="p">`</span>
+    <span class="n">-SkuName</span> <span class="s2">"Standard_LRS"</span> <span class="p">`</span>
+    <span class="n">-Kind</span> <span class="s2">"StorageV2"</span>
 
 <span class="c"># Note: Storage account names must be globally unique and lowercase</span>
 </code></pre></div>
@@ -546,24 +546,24 @@ Microsoft categorizes Serial Console as a "troubleshooting tool" not a "daily op
 - Globally unique across all of Azure</p>
 <h3 id="step-3-enable-boot-diagnostics-on-vms">Step 3: Enable Boot Diagnostics on VMs</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Enable boot diagnostics on single VM</span>
-<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod-001&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;vm-app-001&quot;</span>
+<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod-001"</span> <span class="n">-Name</span> <span class="s2">"vm-app-001"</span>
 
 <span class="nb">Set-AzVMBootDiagnostic</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-Enable</span> <span class="p">`</span>
-    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-shared-001&quot;</span> <span class="p">`</span>
-    <span class="n">-StorageAccountName</span> <span class="s2">&quot;saproddiag001&quot;</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">"rg-shared-001"</span> <span class="p">`</span>
+    <span class="n">-StorageAccountName</span> <span class="s2">"saproddiag001"</span>
 
-<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod-001&quot;</span>
+<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod-001"</span>
 </code></pre></div>
 
 <h3 id="step-4-enable-at-scale-all-vms-in-subscription">Step 4: Enable at Scale (All VMs in Subscription)</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Enable boot diagnostics for all VMs in subscription</span>
-<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="s2">&quot;saproddiag001&quot;</span>
-<span class="nv">$storageRG</span> <span class="p">=</span> <span class="s2">&quot;rg-shared-001&quot;</span>
+<span class="nv">$storageAccount</span> <span class="p">=</span> <span class="s2">"saproddiag001"</span>
+<span class="nv">$storageRG</span> <span class="p">=</span> <span class="s2">"rg-shared-001"</span>
 
 <span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span>
 
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$vm</span> <span class="k">in</span> <span class="nv">$vms</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Enabling boot diagnostics on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">...&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Enabling boot diagnostics on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">..."</span>
 
     <span class="nv">$vmFull</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">ResourceGroupName</span> <span class="n">-Name</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span>
 
@@ -573,46 +573,46 @@ Microsoft categorizes Serial Console as a "troubleshooting tool" not a "daily op
 
     <span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$vmFull</span> <span class="n">-ResourceGroupName</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">ResourceGroupName</span>
 
-    <span class="nb">Write-Host</span> <span class="s2">&quot;✓ Completed: </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">"✓ Completed: </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h3 id="verification-check-serial-console-status">Verification: Check Serial Console Status</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check Serial Console feature status</span>
-<span class="nv">$feature</span> <span class="p">=</span> <span class="nb">Get-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">&quot;EnableSerialConsole&quot;</span> <span class="p">`</span>
-    <span class="n">-ProviderNamespace</span> <span class="s2">&quot;Microsoft.SerialConsole&quot;</span>
+<span class="nv">$feature</span> <span class="p">=</span> <span class="nb">Get-AzProviderFeature</span> <span class="n">-FeatureName</span> <span class="s2">"EnableSerialConsole"</span> <span class="p">`</span>
+    <span class="n">-ProviderNamespace</span> <span class="s2">"Microsoft.SerialConsole"</span>
 
-<span class="k">if</span> <span class="p">(</span><span class="nv">$feature</span><span class="p">.</span><span class="n">RegistrationState</span> <span class="o">-eq</span> <span class="s2">&quot;Registered&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;✓ Serial Console enabled at subscription level&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$feature</span><span class="p">.</span><span class="n">RegistrationState</span> <span class="o">-eq</span> <span class="s2">"Registered"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">"✓ Serial Console enabled at subscription level"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;✗ Serial Console not enabled. State: </span><span class="p">$(</span><span class="nv">$feature</span><span class="p">.</span><span class="n">RegistrationState</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"✗ Serial Console not enabled. State: </span><span class="p">$(</span><span class="nv">$feature</span><span class="p">.</span><span class="n">RegistrationState</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
 <span class="p">}</span>
 
 <span class="c"># Check boot diagnostics on specific VM</span>
-<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod-001&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;vm-app-001&quot;</span>
+<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod-001"</span> <span class="n">-Name</span> <span class="s2">"vm-app-001"</span>
 
 <span class="nv">$bootDiags</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">DiagnosticsProfile</span><span class="p">.</span><span class="n">BootDiagnostics</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="nv">$bootDiags</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;✓ Boot diagnostics enabled on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;  Storage URI: </span><span class="p">$(</span><span class="nv">$bootDiags</span><span class="p">.</span><span class="n">StorageUri</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">"✓ Boot diagnostics enabled on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">"  Storage URI: </span><span class="p">$(</span><span class="nv">$bootDiags</span><span class="p">.</span><span class="n">StorageUri</span><span class="p">)</span><span class="s2">"</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;✗ Boot diagnostics not enabled on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">"✗ Boot diagnostics not enabled on </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h3 id="kql-query-find-vms-without-boot-diagnostics">KQL Query: Find VMs Without Boot Diagnostics</h3>
 <p>Use this Azure Resource Graph query to identify VMs that don't have Serial Console access configured:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">bootDiagsEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diagnosticsProfile</span><span class="err">.</span><span class="n">bootDiagnostics</span><span class="err">.</span><span class="n">enabled</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">storageUri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diagnosticsProfile</span><span class="err">.</span><span class="n">bootDiagnostics</span><span class="err">.</span><span class="n">storageUri</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">bootDiagsEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diagnosticsProfile</span><span class="p">.</span><span class="n">bootDiagnostics</span><span class="p">.</span><span class="n">enabled</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">storageUri</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diagnosticsProfile</span><span class="p">.</span><span class="n">bootDiagnostics</span><span class="p">.</span><span class="n">storageUri</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">bootDiagsEnabled</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">bootDiagsEnabled</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">vmName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
 <span class="w">    </span><span class="n">resourceGroup</span><span class="p">,</span>
 <span class="w">    </span><span class="n">location</span><span class="p">,</span>
-<span class="w">    </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">powerState</span><span class="err">.</span><span class="n">displayStatus</span><span class="p">,</span>
+<span class="w">    </span><span class="n">powerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">extended</span><span class="p">.</span><span class="n">instanceView</span><span class="p">.</span><span class="n">powerState</span><span class="p">.</span><span class="n">displayStatus</span><span class="p">,</span>
 <span class="w">    </span><span class="n">bootDiagsEnabled</span><span class="p">,</span>
 <span class="w">    </span><span class="n">storageUri</span><span class="p">,</span>
 <span class="w">    </span><span class="n">subscriptionId</span>
@@ -646,8 +646,8 @@ SAC&gt; ?
 <span class="gh">#</span> Create a CMD channel
 SAC&gt; cmd
 
-<span class="gh">#</span> Output: &quot;The Command Prompt session was successfully launched.&quot;
-<span class="gh">#</span> Output: &quot;Channel: Cmd0001&quot;
+<span class="gh">#</span> Output: "The Command Prompt session was successfully launched."
+<span class="gh">#</span> Output: "Channel: Cmd0001"
 
 <span class="gh">#</span> Switch to CMD channel (use channel name from output)
 SAC&gt; ch -sn Cmd0001
@@ -695,8 +695,8 @@ SAC&gt; ch -sn Cmd0001
 <span class="n">sc</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">more</span>
 
 <span class="c1"># Restart specific service</span>
-<span class="n">sc</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="s2">&quot;ServiceName&quot;</span>
-<span class="n">sc</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="s2">&quot;ServiceName&quot;</span>
+<span class="n">sc</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="s2">"ServiceName"</span>
+<span class="n">sc</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="s2">"ServiceName"</span>
 
 <span class="c1"># Check boot configuration</span>
 <span class="n">bcdedit</span><span class="w"> </span><span class="o">/</span><span class="k">enum</span>
@@ -708,7 +708,7 @@ SAC&gt; ch -sn Cmd0001
 <span class="n">bcdedit</span><span class="w"> </span><span class="o">/</span><span class="n">deletevalue</span><span class="w"> </span><span class="p">{</span><span class="n">default</span><span class="p">}</span><span class="w"> </span><span class="n">safeboot</span>
 
 <span class="c1"># View recent event logs (last 10 errors)</span>
-<span class="n">wevtutil</span><span class="w"> </span><span class="n">qe</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="o">/</span><span class="n">c</span><span class="p">:</span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="n">rd</span><span class="p">:</span><span class="bp">true</span><span class="w"> </span><span class="o">/</span><span class="n">f</span><span class="p">:</span><span class="n">text</span><span class="w"> </span><span class="o">/</span><span class="n">q</span><span class="p">:</span><span class="s2">&quot;*[System[(Level=2)]]&quot;</span>
+<span class="n">wevtutil</span><span class="w"> </span><span class="n">qe</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="o">/</span><span class="n">c</span><span class="p">:</span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="n">rd</span><span class="p">:</span><span class="bp">true</span><span class="w"> </span><span class="o">/</span><span class="n">f</span><span class="p">:</span><span class="n">text</span><span class="w"> </span><span class="o">/</span><span class="n">q</span><span class="p">:</span><span class="s2">"*[System[(Level=2)]]"</span>
 
 <span class="c1"># Start PowerShell from CMD</span>
 <span class="n">powershell</span>
@@ -717,13 +717,13 @@ SAC&gt; ch -sn Cmd0001
 <h3 id="powershell-commands-in-sac">PowerShell Commands in SAC</h3>
 <p>After typing <code>powershell</code> in the CMD channel:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check RDP configuration</span>
-<span class="nb">Get-ItemProperty</span> <span class="n">-Path</span> <span class="s2">&quot;HKLM:\System\CurrentControlSet\Control\Terminal Server&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;fDenyTSConnections&quot;</span>
+<span class="nb">Get-ItemProperty</span> <span class="n">-Path</span> <span class="s2">"HKLM:\System\CurrentControlSet\Control\Terminal Server"</span> <span class="n">-Name</span> <span class="s2">"fDenyTSConnections"</span>
 
 <span class="c"># Enable RDP if disabled</span>
-<span class="nb">Set-ItemProperty</span> <span class="n">-Path</span> <span class="s2">&quot;HKLM:\System\CurrentControlSet\Control\Terminal Server&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;fDenyTSConnections&quot;</span> <span class="n">-Value</span> <span class="n">0</span>
+<span class="nb">Set-ItemProperty</span> <span class="n">-Path</span> <span class="s2">"HKLM:\System\CurrentControlSet\Control\Terminal Server"</span> <span class="n">-Name</span> <span class="s2">"fDenyTSConnections"</span> <span class="n">-Value</span> <span class="n">0</span>
 
 <span class="c"># Check Windows Firewall rules for RDP</span>
-<span class="nb">Get-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">&quot;Remote Desktop*&quot;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">Enabled</span>
+<span class="nb">Get-NetFirewallRule</span> <span class="n">-DisplayName</span> <span class="s2">"Remote Desktop*"</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">Enabled</span>
 
 <span class="c"># Check if Windows Update service is running</span>
 <span class="nb">Get-Service</span> <span class="n">-Name</span> <span class="n">wuauserv</span>
@@ -732,8 +732,8 @@ SAC&gt; ch -sn Cmd0001
 <span class="nb">Get-HotFix</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">InstalledOn</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span>
 
 <span class="c"># Check for pending reboots</span>
-<span class="nb">Test-Path</span> <span class="s2">&quot;HKLM:\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending&quot;</span>
-<span class="nb">Test-Path</span> <span class="s2">&quot;HKLM:\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot;</span>
+<span class="nb">Test-Path</span> <span class="s2">"HKLM:\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending"</span>
+<span class="nb">Test-Path</span> <span class="s2">"HKLM:\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired"</span>
 </code></pre></div>
 
 <h3 id="sac-limitations-and-workarounds">SAC Limitations and Workarounds</h3>
@@ -928,7 +928,7 @@ sudo<span class="w"> </span>cat<span class="w"> </span>/var/log/waagent.log<span
 <span class="n">netstat</span><span class="w"> </span><span class="o">-</span><span class="n">an</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">findstr</span><span class="w"> </span><span class="o">:</span><span class="mh">3389</span>
 
 <span class="p">#</span><span class="w"> </span><span class="n">Enable</span><span class="w"> </span><span class="n">RDP</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">registry</span>
-<span class="kt">reg</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="s">&quot;HKLM\System\CurrentControlSet\Control\Terminal Server&quot;</span><span class="w"> </span><span class="o">/</span><span class="n">v</span><span class="w"> </span><span class="n">fDenyTSConnections</span><span class="w"> </span><span class="o">/</span><span class="n">t</span><span class="w"> </span><span class="n">REG_DWORD</span><span class="w"> </span><span class="o">/</span><span class="n">d</span><span class="w"> </span><span class="mh">0</span><span class="w"> </span><span class="o">/</span><span class="n">f</span>
+<span class="kt">reg</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="s">"HKLM\System\CurrentControlSet\Control\Terminal Server"</span><span class="w"> </span><span class="o">/</span><span class="n">v</span><span class="w"> </span><span class="n">fDenyTSConnections</span><span class="w"> </span><span class="o">/</span><span class="n">t</span><span class="w"> </span><span class="n">REG_DWORD</span><span class="w"> </span><span class="o">/</span><span class="n">d</span><span class="w"> </span><span class="mh">0</span><span class="w"> </span><span class="o">/</span><span class="n">f</span>
 </code></pre></div>
 
 <p><strong>Solution via Serial Console (Linux):</strong></p>
@@ -958,8 +958,8 @@ sudo<span class="w"> </span>sshd<span class="w"> </span>-T<span class="w"> </spa
 <span class="nx">ipconfig</span><span class="w"> </span><span class="o">/</span><span class="nx">all</span>
 
 <span class="err">#</span><span class="w"> </span><span class="nx">Set</span><span class="w"> </span><span class="nx">network</span><span class="w"> </span><span class="nx">adapter</span><span class="w"> </span><span class="nx">back</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">DHCP</span>
-<span class="nx">netsh</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ip</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">address</span><span class="w"> </span><span class="s">&quot;Ethernet&quot;</span><span class="w"> </span><span class="nx">dhcp</span>
-<span class="nx">netsh</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ip</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">dnsservers</span><span class="w"> </span><span class="s">&quot;Ethernet&quot;</span><span class="w"> </span><span class="nx">dhcp</span>
+<span class="nx">netsh</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ip</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">address</span><span class="w"> </span><span class="s">"Ethernet"</span><span class="w"> </span><span class="nx">dhcp</span>
+<span class="nx">netsh</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ip</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">dnsservers</span><span class="w"> </span><span class="s">"Ethernet"</span><span class="w"> </span><span class="nx">dhcp</span>
 
 <span class="err">#</span><span class="w"> </span><span class="nx">Release</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">renew</span><span class="w"> </span><span class="nx">DHCP</span>
 <span class="nx">ipconfig</span><span class="w"> </span><span class="o">/</span><span class="nx">release</span>
@@ -1104,9 +1104,9 @@ waagent<span class="w"> </span>-version
 <p><strong>Cause:</strong> Boot diagnostics storage account has firewall enabled, blocking Azure Serial Console service</p>
 <p><strong>Solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Option 1: Switch to managed boot diagnostics (recommended)</span>
-<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;vm-app-001&quot;</span>
+<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span> <span class="n">-Name</span> <span class="s2">"vm-app-001"</span>
 <span class="nb">Set-AzVMBootDiagnostic</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-Enable</span>
-<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span>
+<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span>
 
 <span class="c"># Option 2: Add Serial Console service IPs to storage account firewall</span>
 <span class="c"># Navigate to storage account → Networking → Firewall</span>
@@ -1120,12 +1120,12 @@ waagent<span class="w"> </span>-version
 <p><strong>Error:</strong> "You do not have permission to access serial console"</p>
 <p><strong>Required role:</strong> Virtual Machine Contributor or higher</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Check current role assignments</span>
-<span class="nb">Get-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="p">&lt;</span><span class="n">your-user-object-id</span><span class="p">&gt;</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span>
+<span class="nb">Get-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="p">&lt;</span><span class="n">your-user-object-id</span><span class="p">&gt;</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span>
 
 <span class="c"># Grant access (by subscription owner)</span>
 <span class="nb">New-AzRoleAssignment</span> <span class="n">-ObjectId</span> <span class="p">&lt;</span><span class="n">user-object-id</span><span class="p">&gt;</span> <span class="p">`</span>
-    <span class="n">-RoleDefinitionName</span> <span class="s2">&quot;Virtual Machine Contributor&quot;</span> <span class="p">`</span>
-    <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span>
+    <span class="n">-RoleDefinitionName</span> <span class="s2">"Virtual Machine Contributor"</span> <span class="p">`</span>
+    <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span>
 </code></pre></div>
 
 <h2 id="when-serial-console-doesn-t-help">When Serial Console Doesn't Help</h2>
@@ -1140,17 +1140,17 @@ waagent<span class="w"> </span>-version
 - Boot loader corruption prevents even console access</p>
 <p><strong>Solution:</strong> Offline disk repair</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Attach OS disk to rescue VM</span>
-<span class="nv">$disk</span> <span class="p">=</span> <span class="nb">Get-AzDisk</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span> <span class="n">-DiskName</span> <span class="s2">&quot;vm-app-001_OsDisk&quot;</span>
+<span class="nv">$disk</span> <span class="p">=</span> <span class="nb">Get-AzDisk</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span> <span class="n">-DiskName</span> <span class="s2">"vm-app-001_OsDisk"</span>
 
-<span class="nv">$rescueVM</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;vm-rescue-001&quot;</span>
+<span class="nv">$rescueVM</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span> <span class="n">-Name</span> <span class="s2">"vm-rescue-001"</span>
 
 <span class="nb">Add-AzVMDataDisk</span> <span class="n">-VM</span> <span class="nv">$rescueVM</span> <span class="p">`</span>
-    <span class="n">-Name</span> <span class="s2">&quot;broken-os-disk&quot;</span> <span class="p">`</span>
+    <span class="n">-Name</span> <span class="s2">"broken-os-disk"</span> <span class="p">`</span>
     <span class="n">-ManagedDiskId</span> <span class="nv">$disk</span><span class="p">.</span><span class="n">Id</span> <span class="p">`</span>
     <span class="n">-Lun</span> <span class="n">1</span> <span class="p">`</span>
     <span class="n">-CreateOption</span> <span class="n">Attach</span>
 
-<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$rescueVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span>
+<span class="nb">Update-AzVM</span> <span class="n">-VM</span> <span class="nv">$rescueVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span>
 
 <span class="c"># Now RDP to rescue VM and repair disk as data disk</span>
 <span class="c"># Use chkdsk (Windows) or fsck (Linux)</span>
@@ -1166,10 +1166,10 @@ waagent<span class="w"> </span>-version
 - Can see boot messages but can't interact</p>
 <p><strong>Solution:</strong> Boot diagnostics screenshot + offline repair</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># View boot diagnostics screenshot</span>
-<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span> <span class="n">-Name</span> <span class="s2">&quot;vm-app-001&quot;</span>
+<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span> <span class="n">-Name</span> <span class="s2">"vm-app-001"</span>
 <span class="nv">$vm</span><span class="p">.</span><span class="n">DiagnosticsProfile</span><span class="p">.</span><span class="n">BootDiagnostics</span><span class="p">.</span><span class="n">ConsoleScreenshotBlobUri</span>
 
-<span class="c"># Screenshot shows error message but can&#39;t fix interactively</span>
+<span class="c"># Screenshot shows error message but can't fix interactively</span>
 <span class="c"># Must use offline disk repair or redeploy VM</span>
 </code></pre></div>
 
@@ -1183,7 +1183,7 @@ waagent<span class="w"> </span>-version
 - Better tools available (Azure Monitor, VM Insights)</p>
 <p><strong>Better solution:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Use Azure Monitor metrics</span>
-<span class="nb">Get-AzMetric</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span> <span class="n">-MetricName</span> <span class="s2">&quot;Percentage CPU&quot;</span> <span class="n">-TimeGrain</span> <span class="n">00</span><span class="p">:</span><span class="n">05</span><span class="p">:</span><span class="n">00</span>
+<span class="nb">Get-AzMetric</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span> <span class="n">-MetricName</span> <span class="s2">"Percentage CPU"</span> <span class="n">-TimeGrain</span> <span class="n">00</span><span class="p">:</span><span class="n">05</span><span class="p">:</span><span class="n">00</span>
 
 <span class="c"># Or install Azure Monitor Agent for detailed insights</span>
 <span class="c"># (NOW you install AMA - for monitoring, not console access)</span>
@@ -1285,12 +1285,12 @@ waagent<span class="w"> </span>-version
 <span class="err">║</span><span class="w">   </span><span class="n">systemctl</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">sshd</span><span class="w">   </span><span class="n">Check</span><span class="w"> </span><span class="n">SSH</span><span class="w">                           </span><span class="err">║</span>
 <span class="err">╠═══════════════════════════════════════════════════════════════╣</span>
 <span class="err">║</span><span class="w"> </span><span class="n">WHEN</span><span class="w"> </span><span class="n">TO</span><span class="w"> </span><span class="n">USE</span><span class="w">                                                   </span><span class="err">║</span>
-<span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">Can</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">RDP</span><span class="o">/</span><span class="n">SSH</span><span class="w"> </span><span class="p">(</span><span class="n">network</span><span class="w"> </span><span class="n">broken</span><span class="p">)</span><span class="w">                            </span><span class="err">║</span>
-<span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">won</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">boot</span><span class="w"> </span><span class="p">(</span><span class="n">see</span><span class="w"> </span><span class="n">boot</span><span class="w"> </span><span class="n">messages</span><span class="p">)</span><span class="w">                         </span><span class="err">║</span>
+<span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">Can</span><span class="err">'</span><span class="n">t</span><span class="w"> </span><span class="n">RDP</span><span class="o">/</span><span class="n">SSH</span><span class="w"> </span><span class="p">(</span><span class="n">network</span><span class="w"> </span><span class="n">broken</span><span class="p">)</span><span class="w">                            </span><span class="err">║</span>
+<span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">won</span><span class="err">'</span><span class="n">t</span><span class="w"> </span><span class="n">boot</span><span class="w"> </span><span class="p">(</span><span class="n">see</span><span class="w"> </span><span class="n">boot</span><span class="w"> </span><span class="n">messages</span><span class="p">)</span><span class="w">                         </span><span class="err">║</span>
 <span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">Locked</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="p">(</span><span class="n">reset</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">SAC</span><span class="p">)</span><span class="w">                   </span><span class="err">║</span>
 <span class="err">║</span><span class="w">   </span><span class="err">✓</span><span class="w"> </span><span class="n">Firewall</span><span class="w"> </span><span class="n">misconfiguration</span><span class="w"> </span><span class="p">(</span><span class="n">fix</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">inside</span><span class="p">)</span><span class="w">               </span><span class="err">║</span>
 <span class="err">╠═══════════════════════════════════════════════════════════════╣</span>
-<span class="err">║</span><span class="w"> </span><span class="n">WHEN</span><span class="w"> </span><span class="n">IT</span><span class="w"> </span><span class="n">DOESN</span><span class="err">&#39;</span><span class="n">T</span><span class="w"> </span><span class="n">HELP</span><span class="w">                                          </span><span class="err">║</span>
+<span class="err">║</span><span class="w"> </span><span class="n">WHEN</span><span class="w"> </span><span class="n">IT</span><span class="w"> </span><span class="n">DOESN</span><span class="err">'</span><span class="n">T</span><span class="w"> </span><span class="n">HELP</span><span class="w">                                          </span><span class="err">║</span>
 <span class="err">║</span><span class="w">   </span><span class="err">✗</span><span class="w"> </span><span class="n">Disk</span><span class="w"> </span><span class="n">corruption</span><span class="w"> </span><span class="p">(</span><span class="n">use</span><span class="w"> </span><span class="n">offline</span><span class="w"> </span><span class="n">repair</span><span class="p">)</span><span class="w">                      </span><span class="err">║</span>
 <span class="err">║</span><span class="w">   </span><span class="err">✗</span><span class="w"> </span><span class="n">Complete</span><span class="w"> </span><span class="n">boot</span><span class="w"> </span><span class="n">failure</span><span class="w"> </span><span class="p">(</span><span class="n">attach</span><span class="w"> </span><span class="n">disk</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">rescue</span><span class="w"> </span><span class="n">VM</span><span class="p">)</span><span class="w">          </span><span class="err">║</span>
 <span class="err">║</span><span class="w">   </span><span class="err">✗</span><span class="w"> </span><span class="n">Performance</span><span class="w"> </span><span class="n">issues</span><span class="w"> </span><span class="p">(</span><span class="n">use</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">Monitor</span><span class="p">)</span><span class="w">                    </span><span class="err">║</span>

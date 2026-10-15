@@ -169,8 +169,8 @@
   },
   "keywords": "ai, azure, azure-monitor, debugging, kql, monitoring, operations, support",
   "articleSection": "ai",
-  "wordCount": "2292",
-  "timeRequired": "PT11M",
+  "wordCount": "1971",
+  "timeRequired": "PT10M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -245,7 +245,7 @@
   <header class="post-header">
     <h1>The New Azure Debugging Rule: When AI Says &#39;I Don&#39;t Know&#39;</h1>
     <p class="muted">
-      2025-10-06 · ~11 min read
+      2025-10-06 · ~10 min read
       
     </p>
     
@@ -337,43 +337,43 @@ Open Microsoft Support Ticket
 <h2 id="what-ai-is-actually-good-at">What AI is Actually Good At</h2>
 <p>Before we talk about when AI fails, let's acknowledge what it's excellent at:</p>
 <p><strong>Code Generation:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c"># Ask: &quot;Write a PowerShell script to find all VMs without tags&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="c"># Ask: "Write a PowerShell script to find all VMs without tags"</span>
 <span class="c"># Get: Working code in 10 seconds</span>
 <span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">}</span> <span class="p">|</span> 
     <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">ResourceGroupName</span><span class="p">,</span> <span class="n">Location</span>
 </code></pre></div>
 
 <p><strong>KQL Query Building:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c">// Ask: &quot;Show me VMs that haven&#39;t been updated in 90 days&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="c">// Ask: "Show me VMs that haven't been updated in 90 days"</span>
 <span class="c">// Get: Production-ready query</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">lastUpdateTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">extended</span><span class="err">.</span><span class="n">instanceView</span><span class="err">.</span><span class="n">osProfile</span><span class="err">.</span><span class="n">windowsConfiguration</span><span class="err">.</span><span class="n">lastBootUpTime</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">lastUpdateTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">extended</span><span class="p">.</span><span class="n">instanceView</span><span class="p">.</span><span class="n">osProfile</span><span class="p">.</span><span class="n">windowsConfiguration</span><span class="p">.</span><span class="n">lastBootUpTime</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">lastUpdateTime</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">lastUpdateTime</span>
 </code></pre></div>
 
 <p><strong>Error Translation:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nl">Error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;The provided credentials have insufficient privileges&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Error</span><span class="p">:</span><span class="w"> </span><span class="ss">"The provided credentials have insufficient privileges"</span>
 
-<span class="n">AI</span><span class="w"> </span><span class="nl">Response</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;This is actually a role assignment issue. You need </span>
+<span class="n">AI</span><span class="w"> </span><span class="nl">Response</span><span class="p">:</span><span class="w"> </span><span class="ss">"This is actually a role assignment issue. You need </span>
 <span class="ss">Contributor access at the subscription level. Run:</span>
 <span class="ss">New-AzRoleAssignment -SignInName user@domain.com -RoleDefinitionName </span>
-<span class="ss">&#39;Contributor&#39; -Scope &#39;/subscriptions/xxxx&#39;&quot;</span>
+<span class="ss">'Contributor' -Scope '/subscriptions/xxxx'"</span>
 </code></pre></div>
 
 <p><strong>Syntax Conversion:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># &quot;Convert this Azure CLI command to PowerShell&quot;</span>
-<span class="c1"># From: az vm list --query &quot;[?powerState==&#39;VM running&#39;]&quot;</span>
-<span class="c1"># To: Get-AzVM -Status | Where-Object {$_.PowerState -eq &#39;VM running&#39;}</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># "Convert this Azure CLI command to PowerShell"</span>
+<span class="c1"># From: az vm list --query "[?powerState=='VM running']"</span>
+<span class="c1"># To: Get-AzVM -Status | Where-Object {$_.PowerState -eq 'VM running'}</span>
 </code></pre></div>
 
 <p>These are <strong>massive time savers</strong>. AI is incredible at these tasks.</p>
 <h2 id="where-ai-hits-the-wall-and-you-should-stop">Where AI Hits the Wall (And You Should Stop)</h2>
 <h3 id="1-private-endpoint-dns-configuration">1. Private Endpoint DNS Configuration</h3>
 <p><strong>The Problem:</strong></p>
-<div class="codehilite"><pre><span></span><code>Storage account with private endpoint can&#39;t be accessed from on-premises
-Error: &quot;Unable to resolve mystorageaccount.blob.core.windows.net&quot;
+<div class="codehilite"><pre><span></span><code>Storage account with private endpoint can't be accessed from on-premises
+Error: "Unable to resolve mystorageaccount.blob.core.windows.net"
 </code></pre></div>
 
 <p><strong>What AI Says:</strong><br />
@@ -384,7 +384,7 @@ Microsoft docs say one thing. Your hybrid environment with ExpressRoute, custom 
 <h3 id="2-cross-subscription-networking-issues">2. Cross-Subscription Networking Issues</h3>
 <p><strong>The Problem:</strong></p>
 <div class="codehilite"><pre><span></span><code>VNet peering between subscriptions works, but private endpoints 
-in subscription A can&#39;t reach resources in subscription B
+in subscription A can't reach resources in subscription B
 </code></pre></div>
 
 <p><strong>What AI Says:</strong><br />
@@ -441,15 +441,15 @@ Let's say you make $100,000/year. That's roughly <strong>$50/hour</strong>.</p>
 <p><strong>When AI starts hedging or asking for information it can't access</strong>, you're done. Open the ticket.</p>
 <h2 id="how-to-use-ai-effectively-for-azure-debugging">How to Use AI Effectively for Azure Debugging</h2>
 <p><strong>Good Use of AI:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Need</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">prevents</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">creation</span>
-<span class="n">AI</span><span class="w"> </span><span class="n">Request</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Write an Azure Policy that denies creation of public IPs&quot;</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Working</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">definition</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">seconds</span>
+<div class="codehilite"><pre><span></span><code>Problem: Need to write a policy that prevents public IP creation
+AI Request: "Write an Azure Policy that denies creation of public IPs"
+Result: Working policy definition in 30 seconds
 </code></pre></div>
 
 <p><strong>Bad Use of AI:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Problem</span><span class="o">:</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">endpoint</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">VMs</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">others</span>
-<span class="n">AI</span><span class="w"> </span><span class="n">Request</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Why doesn&#39;t my private endpoint work from all VMs?&quot;</span>
-<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">back</span><span class="o">-</span><span class="n">and</span><span class="o">-</span><span class="n">forth</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">generic</span><span class="w"> </span><span class="n">troubleshooting</span>
+<div class="codehilite"><pre><span></span><code>Problem: Private endpoint works from some VMs but not others
+AI Request: "Why doesn't my private endpoint work from all VMs?"
+Result: 45 minutes of back-and-forth with generic troubleshooting
 </code></pre></div>
 
 <p>The second scenario is a <strong>complexity problem</strong>. Too many variables, environmental-specific, requires telemetry AI doesn't have access to.</p>
@@ -471,32 +471,32 @@ Let's say you make $100,000/year. That's roughly <strong>$50/hour</strong>.</p>
 <p><strong>Key Point:</strong> You're not wasting Microsoft's time. You're using the support you pay for when you hit the limits of publicly available knowledge.</p>
 <h2 id="what-to-include-in-your-support-ticket">What to Include in Your Support Ticket</h2>
 <p>Since you've already worked with AI, your ticket should be gold:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">endpoint</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">resolution</span><span class="w"> </span><span class="n">failing</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">premises</span>
+<div class="codehilite"><pre><span></span><code>Subject: Private endpoint DNS resolution failing from on-premises
 
-<span class="n">Environment</span><span class="o">:</span>
-<span class="o">-</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">subscription</span><span class="o">:</span><span class="w"> </span><span class="n">xxxx</span>
-<span class="o">-</span><span class="w"> </span><span class="n">Region</span><span class="o">:</span><span class="w"> </span><span class="n">East</span><span class="w"> </span><span class="n">US</span>
-<span class="o">-</span><span class="w"> </span><span class="n">ExpressRoute</span><span class="w"> </span><span class="n">circuit</span><span class="o">:</span><span class="w"> </span><span class="n">xxxx</span>
+Environment:
+- Azure subscription: xxxx
+- Region: East US
+- ExpressRoute circuit: xxxx
 
-<span class="n">Problem</span><span class="o">:</span>
-<span class="n">Cannot</span><span class="w"> </span><span class="n">resolve</span><span class="w"> </span><span class="n">privatelink</span><span class="o">.</span><span class="na">blob</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">windows</span><span class="o">.</span><span class="na">net</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">on</span><span class="o">-</span><span class="n">premises</span><span class="w"> </span>
-<span class="n">network</span><span class="o">.</span><span class="w"> </span><span class="n">Resolution</span><span class="w"> </span><span class="n">works</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">Azure</span><span class="w"> </span><span class="n">VMs</span><span class="o">.</span>
+Problem:
+Cannot resolve privatelink.blob.core.windows.net from on-premises 
+network. Resolution works from Azure VMs.
 
-<span class="n">Already</span><span class="w"> </span><span class="n">Verified</span><span class="o">:</span>
-<span class="o">-</span><span class="w"> </span><span class="n">Private</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="n">correctly</span><span class="w"> </span><span class="n">configured</span>
-<span class="o">-</span><span class="w"> </span><span class="n">VNet</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">place</span>
-<span class="o">-</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">forwarder</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="n">configured</span><span class="w"> </span><span class="o">(</span><span class="n">per</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">assistance</span><span class="o">)</span>
-<span class="o">-</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">NSG</span><span class="w"> </span><span class="n">blocks</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="mi">53</span>
-<span class="o">-</span><span class="w"> </span><span class="n">ExpressRoute</span><span class="w"> </span><span class="n">peering</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">connected</span>
+Already Verified:
+- Private DNS zone correctly configured
+- VNet link in place
+- DNS forwarder rules configured (per AI assistance)
+- No NSG blocks on port 53
+- ExpressRoute peering is connected
 
-<span class="n">AI</span><span class="w"> </span><span class="n">Diagnostic</span><span class="o">:</span>
-<span class="n">Consulted</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Claude</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">suggested</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">which</span><span class="w"> </span>
-<span class="k">is</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">place</span><span class="o">.</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">indicated</span><span class="w"> </span><span class="k">this</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">require</span><span class="w"> </span><span class="n">backend</span><span class="w"> </span><span class="n">telemetry</span><span class="w"> </span>
-<span class="n">to</span><span class="w"> </span><span class="n">diagnose</span><span class="o">.</span>
+AI Diagnostic:
+Consulted with Claude - suggested standard DNS configuration which 
+is already in place. AI indicated this may require backend telemetry 
+to diagnose.
 
-<span class="n">Request</span><span class="o">:</span>
-<span class="n">Need</span><span class="w"> </span><span class="n">Microsoft</span><span class="w"> </span><span class="n">engineer</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">review</span><span class="w"> </span><span class="n">DNS</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">identify</span><span class="w"> </span><span class="n">where</span><span class="w"> </span>
-<span class="n">resolution</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">failing</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">hybrid</span><span class="w"> </span><span class="n">environment</span><span class="o">.</span>
+Request:
+Need Microsoft engineer to review DNS query path and identify where 
+resolution is failing in the hybrid environment.
 </code></pre></div>
 
 <p><strong>See what you did there?</strong> You've already done the Level 1 troubleshooting. You're handing Microsoft a well-documented problem that's ready for their Level 2/3 engineers.</p>

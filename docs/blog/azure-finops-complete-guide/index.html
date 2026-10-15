@@ -377,10 +377,10 @@ In regulated environments like banking, <strong>subscriptions are security bound
 <p><strong>The Solution:</strong><br />
 Use tags to create <strong>virtual cost centers</strong> across security-segregated subscriptions.</p>
 <p><strong>Required Tags (Minimum):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nl">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;CC-12345&quot;</span>
-<span class="nl">Department</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Engineering&quot;</span><span class="w"> </span>
-<span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;john.doe@company.com&quot;</span>
-<span class="nl">Environment</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Production&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="ss">"CC-12345"</span>
+<span class="nl">Department</span><span class="p">:</span><span class="w"> </span><span class="ss">"Engineering"</span><span class="w"> </span>
+<span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="ss">"john.doe@company.com"</span>
+<span class="nl">Environment</span><span class="p">:</span><span class="w"> </span><span class="ss">"Production"</span>
 </code></pre></div>
 
 <p><strong>Why These Four?</strong><br />
@@ -389,34 +389,34 @@ Use tags to create <strong>virtual cost centers</strong> across security-segrega
 - <strong>Owner</strong>: Someone to blame when costs spike<br />
 - <strong>Environment</strong>: Separate prod vs dev/test costs</p>
 <p><strong>Optional But Useful:</strong></p>
-<div class="codehilite"><pre><span></span><code>Project: &quot;CustomerPortalRewrite&quot;
-ApplicationName: &quot;CRMv2&quot;
-DataClassification: &quot;Confidential&quot;
-ExpirationDate: &quot;2026-06-30&quot;
+<div class="codehilite"><pre><span></span><code>Project: "CustomerPortalRewrite"
+ApplicationName: "CRMv2"
+DataClassification: "Confidential"
+ExpirationDate: "2026-06-30"
 </code></pre></div>
 
 <p><strong>Tag Enforcement with Azure Policy:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Indexed&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;policyRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;if&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Indexed"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"policyRule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"if"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"anyOf"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;CostCenter&#39;]&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['CostCenter']"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Department&#39;]&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Department']"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Owner&#39;]&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;exists&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Owner']"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;then&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">    </span><span class="nt">"then"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -433,12 +433,12 @@ Azure Cost Management shows you total spend. But your CFO wants to know:<br />
 <p><strong>Subscription-Level Allocation (Easy Mode):</strong></p>
 <p>If you're lucky enough to have department-aligned subscriptions:</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Get monthly cost by subscription</span>
-<span class="nv">$startDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddMonths</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;yyyy-MM-01&quot;</span><span class="p">)</span>
-<span class="nv">$endDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;yyyy-MM-dd&quot;</span><span class="p">)</span>
+<span class="nv">$startDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddMonths</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">"yyyy-MM-01"</span><span class="p">)</span>
+<span class="nv">$endDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">"yyyy-MM-dd"</span><span class="p">)</span>
 
 <span class="nb">Get-AzConsumptionUsageDetail</span> <span class="n">-StartDate</span> <span class="nv">$startDate</span> <span class="n">-EndDate</span> <span class="nv">$endDate</span> <span class="p">|</span>
   <span class="nb">Group-Object</span> <span class="n">SubscriptionName</span> <span class="p">|</span>
-  <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;Cost&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={(</span><span class="nv">$_</span><span class="p">.</span><span class="nb">Group </span><span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">PretaxCost</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">}}</span> <span class="p">|</span>
+  <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">'Cost'</span><span class="p">;</span><span class="n">E</span><span class="p">={(</span><span class="nv">$_</span><span class="p">.</span><span class="nb">Group </span><span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">PretaxCost</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">}}</span> <span class="p">|</span>
   <span class="nb">Sort-Object</span> <span class="n">Cost</span> <span class="n">-Descending</span>
 </code></pre></div>
 
@@ -447,7 +447,7 @@ Azure Cost Management shows you total spend. But your CFO wants to know:<br />
 <div class="codehilite"><pre><span></span><code><span class="c">// Cost by Department (last 30 days)</span>
 <span class="n">AzureConsumptionV3</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Department</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Department</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Department"</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnotempty</span><span class="p">(</span><span class="n">Department</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">CostInBillingCurrency</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Department</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TotalCost</span><span class="w"> </span><span class="n">desc</span>
@@ -530,8 +530,8 @@ Department Budgets (Chargeback):
 <h2 id="powershell-automation-scripts">PowerShell Automation Scripts</h2>
 <h3 id="bulk-tag-resources-by-subscription">Bulk Tag Resources by Subscription</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Tag all resources in a subscription with Department tag</span>
-<span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="s2">&quot;YOUR-SUBSCRIPTION-ID&quot;</span>
-<span class="nv">$departmentName</span> <span class="p">=</span> <span class="s2">&quot;Engineering&quot;</span>
+<span class="nv">$subscriptionId</span> <span class="p">=</span> <span class="s2">"YOUR-SUBSCRIPTION-ID"</span>
+<span class="nv">$departmentName</span> <span class="p">=</span> <span class="s2">"Engineering"</span>
 
 <span class="nb">Set-AzContext</span> <span class="n">-SubscriptionId</span> <span class="nv">$subscriptionId</span>
 
@@ -543,18 +543,18 @@ Department Budgets (Chargeback):
         <span class="nv">$tags</span> <span class="p">=</span> <span class="p">@{}</span>
     <span class="p">}</span>
 
-    <span class="c"># Only add if Department tag doesn&#39;t exist</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$tags</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="s2">&quot;Department&quot;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nv">$tags</span><span class="p">[</span><span class="s2">&quot;Department&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$departmentName</span>
+    <span class="c"># Only add if Department tag doesn't exist</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$tags</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="s2">"Department"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$tags</span><span class="p">[</span><span class="s2">"Department"</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$departmentName</span>
         <span class="nb">Set-AzResource</span> <span class="n">-ResourceId</span> <span class="nv">$resource</span><span class="p">.</span><span class="n">ResourceId</span> <span class="n">-Tag</span> <span class="nv">$tags</span> <span class="n">-Force</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;Tagged: </span><span class="p">$(</span><span class="nv">$resource</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+        <span class="nb">Write-Host</span> <span class="s2">"Tagged: </span><span class="p">$(</span><span class="nv">$resource</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <h3 id="find-untagged-resources">Find Untagged Resources</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Find resources missing required tags</span>
-<span class="nv">$requiredTags</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;CostCenter&quot;</span><span class="p">,</span> <span class="s2">&quot;Department&quot;</span><span class="p">,</span> <span class="s2">&quot;Owner&quot;</span><span class="p">)</span>
+<span class="nv">$requiredTags</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">"CostCenter"</span><span class="p">,</span> <span class="s2">"Department"</span><span class="p">,</span> <span class="s2">"Owner"</span><span class="p">)</span>
 
 <span class="nb">Get-AzResource</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
     <span class="nv">$missingTags</span> <span class="p">=</span> <span class="p">@()</span>
@@ -569,7 +569,7 @@ Department Budgets (Chargeback):
             <span class="n">ResourceName</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
             <span class="n">ResourceType</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ResourceType</span>
             <span class="n">ResourceGroup</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ResourceGroupName</span>
-            <span class="n">MissingTags</span> <span class="p">=</span> <span class="nv">$missingTags</span> <span class="n">-join</span> <span class="s2">&quot;, &quot;</span>
+            <span class="n">MissingTags</span> <span class="p">=</span> <span class="nv">$missingTags</span> <span class="n">-join</span> <span class="s2">", "</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
@@ -577,19 +577,19 @@ Department Budgets (Chargeback):
 
 <h3 id="monthly-cost-report-by-department">Monthly Cost Report by Department</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Generate CSV of costs by department for last month</span>
-<span class="nv">$startDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddMonths</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;yyyy-MM-01&quot;</span><span class="p">)</span>
-<span class="nv">$endDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;yyyy-MM-dd&quot;</span><span class="p">)</span>
+<span class="nv">$startDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddMonths</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">"yyyy-MM-01"</span><span class="p">)</span>
+<span class="nv">$endDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">1</span><span class="p">).</span><span class="n">ToString</span><span class="p">(</span><span class="s2">"yyyy-MM-dd"</span><span class="p">)</span>
 
 <span class="nv">$usage</span> <span class="p">=</span> <span class="nb">Get-AzConsumptionUsageDetail</span> <span class="n">-StartDate</span> <span class="nv">$startDate</span> <span class="n">-EndDate</span> <span class="nv">$endDate</span>
 
 <span class="nv">$usage</span> <span class="p">|</span> 
-    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span> <span class="o">-and</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Department&quot;</span><span class="p">]</span> <span class="p">}</span> <span class="p">|</span>
-    <span class="nb">Group-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;Department&quot;</span><span class="p">]</span> <span class="p">}</span> <span class="p">|</span>
-    <span class="nb">Select-Object</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;Department&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">}},</span> 
-                  <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">&#39;TotalCost&#39;</span><span class="p">;</span><span class="n">E</span><span class="p">={(</span><span class="nv">$_</span><span class="p">.</span><span class="nb">Group </span><span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">PretaxCost</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">}}</span> <span class="p">|</span>
-    <span class="nb">Export-Csv</span> <span class="s2">&quot;AzureCosts_</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">&#39;yyyy-MM&#39;</span><span class="p">)</span><span class="s2">.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span> <span class="o">-and</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">"Department"</span><span class="p">]</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Group-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">"Department"</span><span class="p">]</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">'Department'</span><span class="p">;</span><span class="n">E</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">}},</span> 
+                  <span class="p">@{</span><span class="n">N</span><span class="p">=</span><span class="s1">'TotalCost'</span><span class="p">;</span><span class="n">E</span><span class="p">={(</span><span class="nv">$_</span><span class="p">.</span><span class="nb">Group </span><span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">PretaxCost</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">}}</span> <span class="p">|</span>
+    <span class="nb">Export-Csv</span> <span class="s2">"AzureCosts_</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">'yyyy-MM'</span><span class="p">)</span><span class="s2">.csv"</span> <span class="n">-NoTypeInformation</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;Report saved to: AzureCosts_</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">&#39;yyyy-MM&#39;</span><span class="p">)</span><span class="s2">.csv&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"Report saved to: AzureCosts_</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">'yyyy-MM'</span><span class="p">)</span><span class="s2">.csv"</span>
 </code></pre></div>
 
 <hr />
@@ -607,8 +607,8 @@ Department Budgets (Chargeback):
 <strong>Right:</strong> Enforce values from approved list</p>
 <p><strong>Example Policy:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Department&#39;]&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;in&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Engineering&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Marketing&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Sales&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Finance&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;IT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Operations&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tags['Department']"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"in"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Engineering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Marketing"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sales"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Finance"</span><span class="p">,</span><span class="w"> </span><span class="s2">"IT"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Operations"</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -698,40 +698,40 @@ Department Budgets (Chargeback):
 <h2 id="ready-to-deploy-templates">Ready-to-Deploy Templates</h2>
 <h3 id="budget-alert-arm-template">Budget Alert (ARM Template)</h3>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;contentVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;budgetName&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DepartmentBudget&quot;</span>
+<span class="w">  </span><span class="nt">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"contentVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0.0"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"budgetName"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DepartmentBudget"</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;defaultValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span>
+<span class="w">    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"int"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;emailAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="nt">"emailAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Microsoft.Consumption/budgets&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;apiVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-10-01&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[parameters(&#39;budgetName&#39;)]&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cost&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[parameters(&#39;amount&#39;)]&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;timeGrain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;timePeriod&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;startDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[concat(utcNow(&#39;yyyy-MM&#39;), &#39;-01&#39;)]&quot;</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Microsoft.Consumption/budgets"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"apiVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-10-01"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[parameters('budgetName')]"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cost"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[parameters('amount')]"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"timeGrain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monthly"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"timePeriod"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"startDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[concat(utcNow('yyyy-MM'), '-01')]"</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;notifications&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;Actual_GreaterThan_80_Percent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GreaterThan&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;contactEmails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">              </span><span class="s2">&quot;[parameters(&#39;emailAddress&#39;)]&quot;</span>
+<span class="w">        </span><span class="nt">"notifications"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"Actual_GreaterThan_80_Percent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"operator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GreaterThan"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"threshold"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"contactEmails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="s2">"[parameters('emailAddress')]"</span>
 <span class="w">            </span><span class="p">]</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -751,7 +751,7 @@ Department Budgets (Chargeback):
 <span class="p">)</span>
 
 <span class="k">Where</span><span class="err">:</span>
-<span class="o">-</span><span class="w"> </span><span class="n">Tagged_Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Column</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">department</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">direct</span><span class="w"> </span><span class="n">costs</span>
+<span class="o">-</span><span class="w"> </span><span class="n">Tagged_Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Column</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">department</span><span class="err">'</span><span class="n">s</span><span class="w"> </span><span class="n">direct</span><span class="w"> </span><span class="n">costs</span>
 <span class="o">-</span><span class="w"> </span><span class="n">B20</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="n">tagged</span><span class="w"> </span><span class="n">costs</span><span class="w"> </span><span class="n">across</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">departments</span><span class="w">  </span>
 <span class="o">-</span><span class="w"> </span><span class="n">B21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="n">untagged</span><span class="w"> </span><span class="n">costs</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">distribute</span>
 </code></pre></div>

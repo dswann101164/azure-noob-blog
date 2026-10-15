@@ -167,7 +167,7 @@
   },
   "keywords": "automation, azure, git, kql, operations, productivity, resource-graph",
   "articleSection": "automation",
-  "wordCount": "3134",
+  "wordCount": "3130",
   "timeRequired": "PT16M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -381,7 +381,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="c">// Use Cases:</span>
 <span class="c">//   - Quarterly access review (required by SOC 2)</span>
 <span class="c">//   - Security incident investigation</span>
-<span class="c">//   - &quot;Who deleted my storage account?&quot; questions</span>
+<span class="c">//   - "Who deleted my storage account?" questions</span>
 <span class="c">//</span>
 <span class="c">// Output Columns:</span>
 <span class="c">//   - TimeGenerated: When the deletion occurred</span>
@@ -397,14 +397,14 @@ Last week, our security team asked: "Show me all resource deletions from August.
 
 <span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Caller</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ResourceId</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ResourceGroup</span><span class="p">,</span>
-<span class="w">    </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[</span><span class="mi">6</span><span class="p">],</span><span class="w">  </span><span class="c">// Extract type from ARM ID</span>
+<span class="w">    </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">"/"</span><span class="p">)[</span><span class="mi">6</span><span class="p">],</span><span class="w">  </span><span class="c">// Extract type from ARM ID</span>
 <span class="w">    </span><span class="n">SubscriptionId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -424,20 +424,20 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="c">// Query: Resource Deletions (Last 90 Days)</span>
 <span class="c">//=============================================================================</span>
 <span class="c">// Purpose: Audit trail of all deleted resources</span>
-<span class="c">// Use Cases: Quarterly reviews, incident response, &quot;who deleted this?&quot;</span>
+<span class="c">// Use Cases: Quarterly reviews, incident response, "who deleted this?"</span>
 <span class="c">// Last Updated: 2025-10-28</span>
 <span class="c">//=============================================================================</span>
 
 <span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Success&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ActivityStatusValue</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Success"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">"/"</span><span class="p">)[</span><span class="mi">6</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Caller</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ResourceType</span><span class="p">,</span>
-<span class="w">    </span><span class="n">ResourceName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)[-</span><span class="mi">1</span><span class="p">],</span>
+<span class="w">    </span><span class="n">ResourceName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">ResourceId</span><span class="p">,</span><span class="w"> </span><span class="s">"/"</span><span class="p">)[-</span><span class="mi">1</span><span class="p">],</span>
 <span class="w">    </span><span class="n">ResourceGroup</span><span class="p">,</span>
 <span class="w">    </span><span class="n">SubscriptionId</span><span class="p">,</span>
 <span class="w">    </span><span class="n">OperationName</span>
@@ -456,13 +456,13 @@ Last week, our security team asked: "Show me all resource deletions from August.
 
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add member to role&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Add member to role"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">RoleName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">UserAdded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">AddedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">RoleName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;Administrator&quot;</span><span class="w">  </span><span class="c">// Focus on admin roles</span>
+<span class="w">    </span><span class="n">RoleName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">UserAdded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AddedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">userPrincipalName</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">RoleName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"Administrator"</span><span class="w">  </span><span class="c">// Focus on admin roles</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">AddedBy</span><span class="p">,</span>
@@ -484,13 +484,13 @@ Last week, our security team asked: "Show me all resource deletions from August.
 
 <span class="n">AuditLogs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Add application&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;success&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Add application"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Result</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"success"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">displayName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">AppId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">id</span><span class="p">),</span>
-<span class="w">    </span><span class="n">CreatedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
-<span class="w">    </span><span class="n">CreatedByObjectId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="err">.</span><span class="n">user</span><span class="err">.</span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="n">AppName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">displayName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">AppId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">TargetResources</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CreatedBy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">userPrincipalName</span><span class="p">),</span>
+<span class="w">    </span><span class="n">CreatedByObjectId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">InitiatedBy</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">id</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TimeGenerated</span><span class="p">,</span>
 <span class="w">    </span><span class="n">CreatedBy</span><span class="p">,</span>
@@ -536,11 +536,11 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <span class="c">//=============================================================================</span>
 
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="err">!</span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;microsoft.resources/subscriptions&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;microsoft.resources/subscriptions/resourcegroups&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">!</span><span class="n">in</span><span class="w"> </span><span class="p">(</span><span class="s">"microsoft.resources/subscriptions"</span><span class="p">,</span><span class="w"> </span><span class="s">"microsoft.resources/subscriptions/resourcegroups"</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;CostCenter&#39;</span><span class="p">]),</span>
-<span class="w">    </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Environment&#39;</span><span class="p">]),</span>
-<span class="w">    </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Owner&#39;</span><span class="p">])</span>
+<span class="w">    </span><span class="n">CostCenter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'CostCenter'</span><span class="p">]),</span>
+<span class="w">    </span><span class="n">Environment</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'Environment'</span><span class="p">]),</span>
+<span class="w">    </span><span class="n">Owner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'Owner'</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">CostCenter</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">Environment</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">Owner</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">name</span><span class="p">,</span>
@@ -653,7 +653,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 <p><strong>Wrong:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
 </code></pre></div>
 
 <p><strong>Right:</strong></p>
@@ -663,7 +663,7 @@ Last week, our security team asked: "Show me all resource deletions from August.
 
 <span class="n">AzureActivity</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">90</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">&quot;DELETE&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="k">contains</span><span class="w"> </span><span class="s">"DELETE"</span>
 </code></pre></div>
 
 <p><strong>Why:</strong> Three months from now, you won't remember why you wrote this or when to use it.</p>
@@ -684,7 +684,7 @@ untagged-resources-by-subscription.kql
 <h3 id="mistake-4-not-committing-often">Mistake 4: Not Committing Often</h3>
 <p><strong>Wrong:</strong> Write 10 queries, commit once a month with message "updates"</p>
 <p><strong>Right:</strong> Write 1 query, commit immediately with descriptive message</p>
-<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add query to find VMs without backup enabled&quot;</span>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add query to find VMs without backup enabled"</span>
 </code></pre></div>
 
 <p><strong>Why:</strong> Git history becomes your documentation. Each commit explains what changed and why.</p>

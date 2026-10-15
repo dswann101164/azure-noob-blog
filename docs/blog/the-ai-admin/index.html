@@ -330,8 +330,8 @@
 <p>Install Claude Desktop (free tier works fine). You're going to use it as an AI pair programmer for Azure operations.</p>
 <p>First exercise: Export your Azure Resource Graph inventory and feed it to Claude.</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Export complete resource inventory</span>
-<span class="nv">$resources</span> <span class="p">=</span> <span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="s2">&quot;Resources | project id, name, type, resourceGroup, location, tags, subscriptionId&quot;</span>
-<span class="nv">$resources</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">&quot;azure-inventory.json&quot;</span>
+<span class="nv">$resources</span> <span class="p">=</span> <span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="s2">"Resources | project id, name, type, resourceGroup, location, tags, subscriptionId"</span>
+<span class="nv">$resources</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Depth</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">"azure-inventory.json"</span>
 </code></pre></div>
 
 <p>Upload <code>azure-inventory.json</code> to Claude Desktop. Ask:</p>
@@ -343,7 +343,7 @@
 <div class="codehilite"><pre><span></span><code><span class="c"># Last 30 days of cost data</span>
 <span class="nv">$costs</span> <span class="p">=</span> <span class="nb">Get-AzConsumptionUsageDetail</span> <span class="n">-StartDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">30</span><span class="p">)</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">)</span>
 <span class="nv">$costs</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">UsageStart</span><span class="p">,</span> <span class="n">ResourceGroup</span><span class="p">,</span> <span class="n">ResourceName</span><span class="p">,</span> <span class="n">MeterCategory</span><span class="p">,</span> <span class="n">PreTaxCost</span> <span class="p">|</span> 
-    <span class="nb">Export-Csv</span> <span class="s2">&quot;azure-costs-30days.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+    <span class="nb">Export-Csv</span> <span class="s2">"azure-costs-30days.csv"</span> <span class="n">-NoTypeInformation</span>
 </code></pre></div>
 
 <p>Upload to Claude. Ask:</p>
@@ -355,7 +355,7 @@
 <p>Now you're ready for AI to actually touch Azure - but only read operations.</p>
 <p><strong>Option 1: Claude Desktop with MCP Server (Easiest)</strong></p>
 <p>If you're on Windows with Claude Desktop, the fastest path is the Azure MCP server:</p>
-<div class="codehilite"><pre><span></span><code><span class="c"># Install Node.js if you don&#39;t have it</span>
+<div class="codehilite"><pre><span></span><code><span class="c"># Install Node.js if you don't have it</span>
 <span class="n">winget</span> <span class="n">install</span> <span class="n">OpenJS</span><span class="p">.</span><span class="n">NodeJS</span><span class="p">.</span><span class="n">LTS</span>
 
 <span class="c"># Clone and setup Azure MCP server</span>
@@ -370,14 +370,14 @@
 
 <p>Add this to your config:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;mcpServers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;azure&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;C:\\path\\to\\azure-mcp-server\\build\\index.js&quot;</span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;AZURE_TENANT_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-tenant-id&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;AZURE_CLIENT_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-client-id&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;AZURE_CLIENT_SECRET&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-client-secret&quot;</span>
+<span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"azure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"C:\\path\\to\\azure-mcp-server\\build\\index.js"</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"AZURE_TENANT_ID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-tenant-id"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"AZURE_CLIENT_ID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-client-id"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"AZURE_CLIENT_SECRET"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-client-secret"</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
@@ -399,41 +399,41 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
 <span class="n">credential</span> <span class="o">=</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span>
-<span class="n">subscription_id</span> <span class="o">=</span> <span class="s2">&quot;your-subscription-id&quot;</span>
+<span class="n">subscription_id</span> <span class="o">=</span> <span class="s2">"your-subscription-id"</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">ResourceManagementClient</span><span class="p">(</span><span class="n">credential</span><span class="p">,</span> <span class="n">subscription_id</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">list_resource_groups</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all resource groups with resource count&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""List all resource groups with resource count"""</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">rg</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">resource_groups</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
         <span class="n">resources</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">list_by_resource_group</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
         <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
-            <span class="s2">&quot;resource_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">resources</span><span class="p">),</span>
-            <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">tags</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">"location"</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+            <span class="s2">"resource_count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">resources</span><span class="p">),</span>
+            <span class="s2">"tags"</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">tags</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="p">})</span>
     <span class="k">return</span> <span class="n">result</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_resources_missing_tag</span><span class="p">(</span><span class="n">tag_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find resources missing a specific tag&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Find resources missing a specific tag"""</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">rg</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">resource_groups</span><span class="o">.</span><span class="n">list</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">list_by_resource_group</span><span class="p">(</span><span class="n">rg</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">resource</span><span class="o">.</span><span class="n">tags</span> <span class="ow">or</span> <span class="n">tag_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-                    <span class="s2">&quot;resourceGroup&quot;</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">name</span>
+                    <span class="s2">"id"</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s2">"name"</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">"type"</span><span class="p">:</span> <span class="n">resource</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                    <span class="s2">"resourceGroup"</span><span class="p">:</span> <span class="n">rg</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">})</span>
     <span class="k">return</span> <span class="n">result</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">command</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;list-rgs&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">"list-rgs"</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">list_resource_groups</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;missing-tag&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">"missing-tag"</span><span class="p">:</span>
         <span class="n">tag_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">get_resources_missing_tag</span><span class="p">(</span><span class="n">tag_name</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </code></pre></div>
@@ -482,32 +482,32 @@
 <span class="p">)</span>
 
 <span class="nv">$tags</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s2">&quot;CostCenter&quot;</span> <span class="p">=</span> <span class="s2">&quot;12345&quot;</span>
-    <span class="s2">&quot;Environment&quot;</span> <span class="p">=</span> <span class="s2">&quot;Production&quot;</span>
-    <span class="s2">&quot;Owner&quot;</span> <span class="p">=</span> <span class="s2">&quot;WebTeam&quot;</span>
+    <span class="s2">"CostCenter"</span> <span class="p">=</span> <span class="s2">"12345"</span>
+    <span class="s2">"Environment"</span> <span class="p">=</span> <span class="s2">"Production"</span>
+    <span class="s2">"Owner"</span> <span class="p">=</span> <span class="s2">"WebTeam"</span>
 <span class="p">}</span>
 
-<span class="nv">$logFile</span> <span class="p">=</span> <span class="s2">&quot;tag-operation-</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">&#39;yyyyMMdd-HHmmss&#39;</span><span class="p">)</span><span class="s2">.log&quot;</span>
+<span class="nv">$logFile</span> <span class="p">=</span> <span class="s2">"tag-operation-</span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s1">'yyyyMMdd-HHmmss'</span><span class="p">)</span><span class="s2">.log"</span>
 
 <span class="k">function</span> <span class="nb">Write-Log</span> <span class="p">{</span>
     <span class="k">param</span><span class="p">(</span><span class="nv">$Message</span><span class="p">)</span>
-    <span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>
-    <span class="s2">&quot;$timestamp - $Message&quot;</span> <span class="p">|</span> <span class="nb">Tee-Object</span> <span class="n">-FilePath</span> <span class="nv">$logFile</span> <span class="n">-Append</span>
+    <span class="nv">$timestamp</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">"yyyy-MM-dd HH:mm:ss"</span>
+    <span class="s2">"$timestamp - $Message"</span> <span class="p">|</span> <span class="nb">Tee-Object</span> <span class="n">-FilePath</span> <span class="nv">$logFile</span> <span class="n">-Append</span>
 <span class="p">}</span>
 
 <span class="k">try</span> <span class="p">{</span>
     <span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span> <span class="n">-ResourceGroupName</span> <span class="nv">$ResourceGroupName</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;Found </span><span class="p">$(</span><span class="nv">$vms</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> VMs in $ResourceGroupName&quot;</span>
+    <span class="nb">Write-Log</span> <span class="s2">"Found </span><span class="p">$(</span><span class="nv">$vms</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> VMs in $ResourceGroupName"</span>
 
     <span class="nv">$successCount</span> <span class="p">=</span> <span class="n">0</span>
     <span class="nv">$failureCount</span> <span class="p">=</span> <span class="n">0</span>
 
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$vm</span> <span class="k">in</span> <span class="nv">$vms</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">try</span> <span class="p">{</span>
-            <span class="nb">Write-Log</span> <span class="s2">&quot;Processing VM: </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+            <span class="nb">Write-Log</span> <span class="s2">"Processing VM: </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="nv">$DryRun</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nb">Write-Log</span> <span class="s2">&quot;[DRY RUN] Would apply tags: </span><span class="p">$(</span><span class="nv">$tags</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Compress</span><span class="p">)</span><span class="s2">&quot;</span>
+                <span class="nb">Write-Log</span> <span class="s2">"[DRY RUN] Would apply tags: </span><span class="p">$(</span><span class="nv">$tags</span> <span class="p">|</span> <span class="nb">ConvertTo-Json</span> <span class="n">-Compress</span><span class="p">)</span><span class="s2">"</span>
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                 <span class="nv">$resource</span> <span class="p">=</span> <span class="nb">Get-AzResource</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span>
                 <span class="nv">$existingTags</span> <span class="p">=</span> <span class="nv">$resource</span><span class="p">.</span><span class="n">Tags</span> <span class="p">??</span> <span class="p">@{}</span>
@@ -518,23 +518,23 @@
                 <span class="p">}</span>
 
                 <span class="nb">Set-AzResource</span> <span class="n">-ResourceId</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Id</span> <span class="n">-Tag</span> <span class="nv">$existingTags</span> <span class="n">-Force</span> <span class="p">|</span> <span class="nb">Out-Null</span>
-                <span class="nb">Write-Log</span> <span class="s2">&quot;[SUCCESS] Applied tags to </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+                <span class="nb">Write-Log</span> <span class="s2">"[SUCCESS] Applied tags to </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">"</span>
                 <span class="nv">$successCount</span><span class="p">++</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
-            <span class="nb">Write-Log</span> <span class="s2">&quot;[ERROR] Failed to tag </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span>
+            <span class="nb">Write-Log</span> <span class="s2">"[ERROR] Failed to tag </span><span class="p">$(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">"</span>
             <span class="nv">$failureCount</span><span class="p">++</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="nb">Write-Log</span> <span class="s2">&quot;=== SUMMARY ===&quot;</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;Total VMs: </span><span class="p">$(</span><span class="nv">$vms</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;Successful: $successCount&quot;</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;Failed: $failureCount&quot;</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;Mode: </span><span class="p">$(</span><span class="k">if</span> <span class="p">(</span><span class="nv">$DryRun</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;DRY RUN&#39;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s1">&#39;PRODUCTION&#39;</span> <span class="p">})</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Log</span> <span class="s2">"=== SUMMARY ==="</span>
+    <span class="nb">Write-Log</span> <span class="s2">"Total VMs: </span><span class="p">$(</span><span class="nv">$vms</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span>
+    <span class="nb">Write-Log</span> <span class="s2">"Successful: $successCount"</span>
+    <span class="nb">Write-Log</span> <span class="s2">"Failed: $failureCount"</span>
+    <span class="nb">Write-Log</span> <span class="s2">"Mode: </span><span class="p">$(</span><span class="k">if</span> <span class="p">(</span><span class="nv">$DryRun</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'DRY RUN'</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="s1">'PRODUCTION'</span> <span class="p">})</span><span class="s2">"</span>
 
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
-    <span class="nb">Write-Log</span> <span class="s2">&quot;[FATAL ERROR] </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Log</span> <span class="s2">"[FATAL ERROR] </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">"</span>
     <span class="k">throw</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -547,7 +547,7 @@
 - âœ… Merges with existing tags (doesn't overwrite everything)<br />
 - âœ… Uses -Force to avoid confirmation prompts</p>
 <p>Run with <code>-DryRun</code> first. Review logs. If clean, run production:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="n">Apply-Tags</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;RG-PROD-WEB-001&quot;</span> <span class="n">-DryRun</span><span class="p">:</span><span class="nv">$false</span>
+<div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="n">Apply-Tags</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-ResourceGroupName</span> <span class="s2">"RG-PROD-WEB-001"</span> <span class="n">-DryRun</span><span class="p">:</span><span class="nv">$false</span>
 </code></pre></div>
 
 <p><strong>This is the AI Admin workflow:</strong> AI generates, human reviews, human approves, system executes.</p>
@@ -559,15 +559,15 @@
 
 <span class="c"># Export overnight cost data</span>
 <span class="nv">$costs</span> <span class="p">=</span> <span class="nb">Get-AzConsumptionUsageDetail</span> <span class="n">-StartDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">1</span><span class="p">)</span> <span class="n">-EndDate</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">)</span>
-<span class="nv">$costs</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">&quot;daily-costs.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+<span class="nv">$costs</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">"daily-costs.csv"</span> <span class="n">-NoTypeInformation</span>
 
 <span class="c"># Export new resources created in last 24 hours</span>
-<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@"</span>
 <span class="sh">Resources</span>
 <span class="sh">| where todatetime(properties.createdTime) &gt;= ago(1d)</span>
 <span class="sh">| project name, type, resourceGroup, location, tags</span>
-<span class="sh">&quot;@</span>
-<span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="nv">$query</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">&quot;new-resources-24h.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+<span class="sh">"@</span>
+<span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="nv">$query</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">"new-resources-24h.csv"</span> <span class="n">-NoTypeInformation</span>
 </code></pre></div>
 
 <p>Upload both CSVs to Claude:</p>
@@ -631,31 +631,31 @@
 <span class="c1"># State stored in Azure Storage, managed via Azure DevOps service connection</span>
 
 <span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.5&quot;</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;= 1.5"</span>
 
 <span class="w">  </span><span class="nb">required_providers</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">azurerm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azurerm&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.80&quot;</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/azurerm"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~&gt; 3.80"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nb">azuread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hashicorp/azuread&quot;</span>
-<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 2.45&quot;</span>
+<span class="w">      </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"hashicorp/azuread"</span>
+<span class="w">      </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~&gt; 2.45"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 
-<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rg-terraform-state&quot;</span>
-<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;stterraformstate12345&quot;</span><span class="c1">  # Globally unique</span>
-<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tfstate&quot;</span>
-<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;governance/terraform.tfstate&quot;</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"rg-terraform-state"</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stterraformstate12345"</span><span class="c1">  # Globally unique</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"tfstate"</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"governance/terraform.tfstate"</span>
 
 <span class="c1">    # Authentication via service principal (Azure DevOps pipeline)</span>
 <span class="c1">    # Or via Azure CLI for local development: az login</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">provider</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
 
 <span class="c1">  # Service principal auth configured in Azure DevOps pipeline variables</span>
@@ -668,132 +668,132 @@
 <span class="c1"># Deploys subscription-level governance BEFORE any workload resources</span>
 
 <span class="nb">terraform</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.5&quot;</span>
+<span class="w">  </span><span class="na">required_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;= 1.5"</span>
 
-<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rg-terraform-state&quot;</span>
-<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;stterraformstate12345&quot;</span>
-<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tfstate&quot;</span>
-<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;governance/terraform.tfstate&quot;</span>
+<span class="w">  </span><span class="kr">backend</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">resource_group_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"rg-terraform-state"</span>
+<span class="w">    </span><span class="na">storage_account_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"stterraformstate12345"</span>
+<span class="w">    </span><span class="na">container_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"tfstate"</span>
+<span class="w">    </span><span class="na">key</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">"governance/terraform.tfstate"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">provider</span><span class="w"> </span><span class="nv">&quot;azurerm&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">provider</span><span class="w"> </span><span class="nv">"azurerm"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nb">features</span><span class="w"> </span><span class="p">{}</span>
 <span class="w">  </span><span class="na">subscription_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.subscription_id</span>
 <span class="p">}</span>
 
 <span class="c1"># Management resource group for governance resources</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_resource_group&quot;</span><span class="w"> </span><span class="nv">&quot;governance&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rg-management-governance&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_resource_group"</span><span class="w"> </span><span class="nv">"governance"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"rg-management-governance"</span>
 <span class="w">  </span><span class="na">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 
 <span class="w">  </span><span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
-<span class="w">    </span><span class="na">Purpose</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;governance&quot;</span>
+<span class="w">    </span><span class="na">ManagedBy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">"Terraform"</span>
+<span class="w">    </span><span class="na">Purpose</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"governance"</span>
 <span class="w">    </span><span class="na">CostCenter</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nv">var.governance_cost_center</span>
-<span class="w">    </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Management&quot;</span>
-<span class="w">    </span><span class="na">Owner</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;CloudOps&quot;</span>
+<span class="w">    </span><span class="na">Environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Management"</span>
+<span class="w">    </span><span class="na">Owner</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s2">"CloudOps"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># Log Analytics workspace for centralized logging</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_log_analytics_workspace&quot;</span><span class="w"> </span><span class="nv">&quot;governance&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;log-governance-${var.environment}&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_log_analytics_workspace"</span><span class="w"> </span><span class="nv">"governance"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="s2">"log-governance-${var.environment}"</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.governance.location</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.governance.name</span>
-<span class="w">  </span><span class="na">sku</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;PerGB2018&quot;</span>
+<span class="w">  </span><span class="na">sku</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">"PerGB2018"</span>
 <span class="w">  </span><span class="na">retention_in_days</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">90</span>
 
 <span class="w">  </span><span class="na">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.governance.tags</span>
 <span class="p">}</span>
 
 <span class="c1"># Custom policy: Require standard tags</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_policy_definition&quot;</span><span class="w"> </span><span class="nv">&quot;require_tags&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;require-standard-tags&quot;</span>
-<span class="w">  </span><span class="na">policy_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Custom&quot;</span>
-<span class="w">  </span><span class="na">mode</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Indexed&quot;</span>
-<span class="w">  </span><span class="na">display_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Require Standard Tags on All Resources&quot;</span>
-<span class="w">  </span><span class="na">description</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enforces CostCenter, Environment, and Owner tags on all resources&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_policy_definition"</span><span class="w"> </span><span class="nv">"require_tags"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"require-standard-tags"</span>
+<span class="w">  </span><span class="na">policy_type</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Custom"</span>
+<span class="w">  </span><span class="na">mode</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"Indexed"</span>
+<span class="w">  </span><span class="na">display_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Require Standard Tags on All Resources"</span>
+<span class="w">  </span><span class="na">description</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enforces CostCenter, Environment, and Owner tags on all resources"</span>
 
 <span class="w">  </span><span class="na">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">jsonencode</span><span class="p">({</span>
-<span class="w">    </span><span class="na">category</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Tags&quot;</span>
-<span class="w">    </span><span class="na">managedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tags"</span>
+<span class="w">    </span><span class="na">managedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Terraform"</span>
 <span class="w">  </span><span class="p">})</span>
 
 <span class="w">  </span><span class="na">policy_rule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">jsonencode</span><span class="p">({</span>
 <span class="w">    </span><span class="nb">if</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="na">anyOf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tags[&#39;CostCenter&#39;]&quot;</span>
-<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"tags['CostCenter']"</span>
+<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Environment&#39;]&quot;</span>
-<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"tags['Environment']"</span>
+<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tags[&#39;Owner&#39;]&quot;</span>
-<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;false&quot;</span>
+<span class="w">          </span><span class="na">field</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"tags['Owner']"</span>
+<span class="w">          </span><span class="na">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"false"</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nb">then</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="na">effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;deny&quot;</span>
+<span class="w">      </span><span class="na">effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"deny"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">})</span>
 <span class="p">}</span>
 
 <span class="c1"># Assign policy to subscription</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_subscription_policy_assignment&quot;</span><span class="w"> </span><span class="nv">&quot;require_tags&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;enforce-required-tags&quot;</span>
-<span class="w">  </span><span class="na">subscription_id</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/subscriptions/${var.subscription_id}&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_subscription_policy_assignment"</span><span class="w"> </span><span class="nv">"require_tags"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">"enforce-required-tags"</span>
+<span class="w">  </span><span class="na">subscription_id</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">"/subscriptions/${var.subscription_id}"</span>
 <span class="w">  </span><span class="na">policy_definition_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_policy_definition.require_tags.id</span>
-<span class="w">  </span><span class="na">display_name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Enforce Required Tags Subscription-Wide&quot;</span>
-<span class="w">  </span><span class="na">description</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Denies resource creation without required tags&quot;</span>
+<span class="w">  </span><span class="na">display_name</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"Enforce Required Tags Subscription-Wide"</span>
+<span class="w">  </span><span class="na">description</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s2">"Denies resource creation without required tags"</span>
 
 <span class="w">  </span><span class="na">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">jsonencode</span><span class="p">({</span>
-<span class="w">    </span><span class="na">managedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Terraform&quot;</span>
+<span class="w">    </span><span class="na">managedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Terraform"</span>
 <span class="w">  </span><span class="p">})</span>
 <span class="p">}</span>
 
 <span class="c1"># Activity log diagnostic settings</span>
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_diagnostic_setting&quot;</span><span class="w"> </span><span class="nv">&quot;subscription_logs&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;subscription-activity-logs&quot;</span>
-<span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/subscriptions/${var.subscription_id}&quot;</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_diagnostic_setting"</span><span class="w"> </span><span class="nv">"subscription_logs"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">"subscription-activity-logs"</span>
+<span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"/subscriptions/${var.subscription_id}"</span>
 <span class="w">  </span><span class="na">log_analytics_workspace_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_log_analytics_workspace.governance.id</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Administrative&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Administrative"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Security&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Security"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Policy&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Policy"</span>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="nb">enabled_log</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Alert&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Alert"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1"># Outputs for remote state reference</span>
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;log_analytics_workspace_id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Log Analytics workspace ID for diagnostic settings&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"log_analytics_workspace_id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log Analytics workspace ID for diagnostic settings"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_log_analytics_workspace.governance.id</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;log_analytics_workspace_key&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Log Analytics workspace key&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"log_analytics_workspace_key"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Log Analytics workspace key"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_log_analytics_workspace.governance.primary_shared_key</span>
 <span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
-<span class="kr">output</span><span class="w"> </span><span class="nv">&quot;resource_group_name&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Governance resource group name&quot;</span>
+<span class="kr">output</span><span class="w"> </span><span class="nv">"resource_group_name"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Governance resource group name"</span>
 <span class="w">  </span><span class="na">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_resource_group.governance.name</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -801,25 +801,25 @@
 <p><strong>Variables:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># environments/governance/variables.tf</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;subscription_id&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure subscription ID&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"subscription_id"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure subscription ID"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;location&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Azure region for governance resources&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"location"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Azure region for governance resources"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;eastus&quot;</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"eastus"</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;environment&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Environment name&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"environment"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Environment name"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
-<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;governance&quot;</span>
+<span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"governance"</span>
 <span class="p">}</span>
 
-<span class="kr">variable</span><span class="w"> </span><span class="nv">&quot;governance_cost_center&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Cost center for governance resources&quot;</span>
+<span class="kr">variable</span><span class="w"> </span><span class="nv">"governance_cost_center"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cost center for governance resources"</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -832,10 +832,10 @@
 <span class="n">terraform</span> <span class="n">init</span>
 
 <span class="c"># Plan</span>
-<span class="n">terraform</span> <span class="n">plan</span> <span class="n">-var</span><span class="o">-file</span><span class="p">=</span><span class="s2">&quot;governance.tfvars&quot;</span>
+<span class="n">terraform</span> <span class="n">plan</span> <span class="n">-var</span><span class="o">-file</span><span class="p">=</span><span class="s2">"governance.tfvars"</span>
 
 <span class="c"># Apply (requires approval in pipeline)</span>
-<span class="n">terraform</span> <span class="n">apply</span> <span class="n">-var</span><span class="o">-file</span><span class="p">=</span><span class="s2">&quot;governance.tfvars&quot;</span>
+<span class="n">terraform</span> <span class="n">apply</span> <span class="n">-var</span><span class="o">-file</span><span class="p">=</span><span class="s2">"governance.tfvars"</span>
 </code></pre></div>
 
 <p><strong>Now AI can't create resources without proper tags.</strong> Policy enforcement at subscription level, deployed before any workload resources exist.</p>

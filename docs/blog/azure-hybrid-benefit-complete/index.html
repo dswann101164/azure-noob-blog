@@ -744,28 +744,28 @@ Audit-ready package:<br />
 
     <span class="nv">$vms</span> <span class="p">=</span> <span class="nb">Get-AzVM</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$vm</span> <span class="k">in</span> <span class="nv">$vms</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-eq</span> <span class="s2">&quot;Windows_Server&quot;</span> <span class="o">-or</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-eq</span> <span class="s2">&quot;Windows_Client&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$vm</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-eq</span> <span class="s2">"Windows_Server"</span> <span class="o">-or</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-eq</span> <span class="s2">"Windows_Client"</span><span class="p">)</span> <span class="p">{</span>
             <span class="nv">$ahbReport</span> <span class="p">+=</span> <span class="no">[PSCustomObject]</span><span class="p">@{</span>
                 <span class="n">Subscription</span> <span class="p">=</span> <span class="nv">$sub</span><span class="p">.</span><span class="n">Name</span>
                 <span class="n">ResourceGroup</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">ResourceGroupName</span>
                 <span class="n">VMName</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Name</span>
                 <span class="n">VMSize</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">HardwareProfile</span><span class="p">.</span><span class="n">VmSize</span>
                 <span class="n">LicenseType</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">LicenseType</span>
-                <span class="n">LicenseTag</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">&quot;LicenseAssignment&quot;</span><span class="p">]</span>
+                <span class="n">LicenseTag</span> <span class="p">=</span> <span class="nv">$vm</span><span class="p">.</span><span class="n">Tags</span><span class="p">[</span><span class="s2">"LicenseAssignment"</span><span class="p">]</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c"># Export to CSV</span>
-<span class="nv">$ahbReport</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;AHB-Audit-Report.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+<span class="nv">$ahbReport</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">"AHB-Audit-Report.csv"</span> <span class="n">-NoTypeInformation</span>
 
 <span class="c"># Summary</span>
 <span class="nv">$totalVMs</span> <span class="p">=</span> <span class="nv">$ahbReport</span><span class="p">.</span><span class="n">Count</span>
 <span class="nv">$missingTag</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$ahbReport</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="o">-not</span> <span class="nv">$_</span><span class="p">.</span><span class="n">LicenseTag</span> <span class="p">}).</span><span class="n">Count</span>
 
-<span class="nb">Write-Output</span> <span class="s2">&quot;Total VMs using AHB: $totalVMs&quot;</span>
-<span class="nb">Write-Output</span> <span class="s2">&quot;Missing license assignment tag: $missingTag&quot;</span>
+<span class="nb">Write-Output</span> <span class="s2">"Total VMs using AHB: $totalVMs"</span>
+<span class="nb">Write-Output</span> <span class="s2">"Missing license assignment tag: $missingTag"</span>
 </code></pre></div>
 
 <p><strong>Run this monthly</strong> to catch compliance drift before audits.</p>
@@ -774,18 +774,18 @@ Audit-ready package:<br />
 <p>Run this PowerShell script to find VMs that have had Hybrid Benefit enabled for &gt;180 days. If you haven't decommissioned the on-prem host by then, you are in <strong>dual-use violation</strong>.</p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Audit Check: Find VMs using Hybrid Benefit that have been running &gt; 180 days</span>
 <span class="c"># (Risk: concurrent on-prem usage?)</span>
-<span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-like</span> <span class="s2">&quot;Windows_Server*&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">LicenseType</span><span class="p">,</span> <span class="n">TimeCreated</span>
+<span class="nb">Get-AzVM</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LicenseType</span> <span class="o">-like</span> <span class="s2">"Windows_Server*"</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">LicenseType</span><span class="p">,</span> <span class="n">TimeCreated</span>
 </code></pre></div>
 
 <hr />
 <h2 id="multi-subscription-ahb-tracking">Multi-Subscription AHB Tracking</h2>
 <p><strong>KQL query for enterprise-scale audit:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ahbEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tobool</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">licenseType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Windows_Server&quot;</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ahbEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tobool</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">licenseType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Windows_Server"</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ahbEnabled</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="n">true</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vCPUcount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="s">@&quot;Standard_[DEFHLMN](\d+)&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vmSize</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">hardwareProfile</span><span class="p">.</span><span class="n">vmSize</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">vCPUcount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="s">@"Standard_[DEFHLMN](\d+)"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">totalVMs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">totalvCPU</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">toint</span><span class="p">(</span><span class="n">vCPUcount</span><span class="p">))</span>

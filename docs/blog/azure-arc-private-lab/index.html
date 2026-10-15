@@ -393,9 +393,9 @@ cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>terraf
 <span class="c1"># Edit with your values</span>
 
 <span class="c1"># Set secrets</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_admin_password</span><span class="o">=</span><span class="s2">&quot;YourPassword123!&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_id</span><span class="o">=</span><span class="s2">&quot;your-sp-id&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_secret</span><span class="o">=</span><span class="s2">&quot;your-sp-secret&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_admin_password</span><span class="o">=</span><span class="s2">"YourPassword123!"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_id</span><span class="o">=</span><span class="s2">"your-sp-id"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_arc_service_principal_secret</span><span class="o">=</span><span class="s2">"your-sp-secret"</span>
 
 <span class="c1"># Deploy</span>
 terraform<span class="w"> </span>init
@@ -427,17 +427,17 @@ terraform<span class="w"> </span>apply
 <p>Now test hybrid management:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Apply Azure Policy to Arc servers</span>
 az<span class="w"> </span>policy<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;require-tags&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--scope<span class="w"> </span><span class="s2">&quot;/subscriptions/YOUR_SUB_ID&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--policy<span class="w"> </span><span class="s2">&quot;require-tag-and-value&quot;</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">"require-tags"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scope<span class="w"> </span><span class="s2">"/subscriptions/YOUR_SUB_ID"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--policy<span class="w"> </span><span class="s2">"require-tag-and-value"</span>
 
 <span class="c1"># Query across all infrastructure</span>
-az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;</span>
+az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>-q<span class="w"> </span><span class="s2">"</span>
 <span class="s2">  Resources</span>
-<span class="s2">  | where type in~ (&#39;microsoft.compute/virtualmachines&#39;,</span>
-<span class="s2">                    &#39;microsoft.hybridcompute/machines&#39;)</span>
+<span class="s2">  | where type in~ ('microsoft.compute/virtualmachines',</span>
+<span class="s2">                    'microsoft.hybridcompute/machines')</span>
 <span class="s2">  | project name, type, location</span>
-<span class="s2">&quot;</span>
+<span class="s2">"</span>
 </code></pre></div>
 
 <p>Your Arc-enabled servers appear alongside native Azure VMs. <strong>Single pane of glass for hybrid infrastructure.</strong></p>
@@ -455,11 +455,11 @@ az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </s
 - Storage/Network: ~$10/month<br />
 - <strong>Total: ~$66/month</strong></p>
 <p>Stop VMs between demos:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="n">deallocate</span> <span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[].id&quot;</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="n">deallocate</span> <span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">"[].id"</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Start for demos:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="nb">start </span><span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">&quot;[].id&quot;</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="n">az</span> <span class="n">vm</span> <span class="nb">start </span><span class="p">-</span><span class="n">-ids</span> <span class="p">$(</span><span class="n">az</span> <span class="n">vm</span> <span class="n">list</span> <span class="n">-g</span> <span class="n">rg-arc-private-lab</span> <span class="p">-</span><span class="n">-query</span> <span class="s2">"[].id"</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span>
 </code></pre></div>
 
 <h2 id="what-i-learned">What I Learned</h2>
@@ -479,7 +479,7 @@ az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </s
 <span class="n">nslookup</span> <span class="n">his</span><span class="p">.</span><span class="n">arc</span><span class="p">.</span><span class="n">azure</span><span class="p">.</span><span class="n">com</span>
 <span class="c"># Should return 10.0.2.x (private IP)</span>
 
-<span class="c"># If it returns public IP, Private DNS isn&#39;t working</span>
+<span class="c"># If it returns public IP, Private DNS isn't working</span>
 <span class="c"># Check: Private DNS zone linked to VNet?</span>
 </code></pre></div>
 
@@ -618,7 +618,7 @@ az<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </s
     
       <a href="/blog/azure-openai-pricing-real-costs/">
         <span style="opacity: 0.7; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">← Previous</span>
-        <strong>Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost</strong>
+        <strong>Azure OpenAI Pricing 2026: $10 Estimate vs $1,288 Real Cost</strong>
       </a>
     
     

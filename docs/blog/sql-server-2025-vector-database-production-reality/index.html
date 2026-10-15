@@ -309,19 +309,19 @@
 <p><strong>Old approach (keyword search):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">ArticleTitle</span><span class="p">,</span><span class="w"> </span><span class="n">Content</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">KnowledgeBase</span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%change%&#39;</span><span class="w"> </span>
-<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%email%&#39;</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">'%change%'</span><span class="w"> </span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">'%email%'</span>
 </code></pre></div>
 
 <p>Returns: Articles about changing email, changing passwords, email configuration, currency exchange rates (contains "change"), email servers, etc.</p>
 <p><strong>New approach (vector search):</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="k">DECLARE</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="w"> </span><span class="n">VECTOR</span><span class="p">(</span><span class="mi">1536</span><span class="p">);</span>
-<span class="k">SET</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbo</span><span class="p">.</span><span class="n">GetEmbedding</span><span class="p">(</span><span class="s1">&#39;How do I change my email?&#39;</span><span class="p">);</span>
+<span class="k">SET</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbo</span><span class="p">.</span><span class="n">GetEmbedding</span><span class="p">(</span><span class="s1">'How do I change my email?'</span><span class="p">);</span>
 
 <span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span>
 <span class="w">    </span><span class="n">ArticleTitle</span><span class="p">,</span>
 <span class="w">    </span><span class="n">Content</span><span class="p">,</span>
-<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ContentVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
+<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="n">ContentVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">KnowledgeBase</span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">ContentVector</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
 <span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Similarity</span><span class="p">;</span>
@@ -344,7 +344,7 @@
 <p>That VECTOR(1536) column stores 1,536 floating-point numbers representing the semantic meaning of the product description.</p>
 <p><strong>Built-in Vector Functions</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">-- Calculate distance between vectors</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">vector1</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">vector2</span><span class="p">);</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">vector1</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">vector2</span><span class="p">);</span>
 
 <span class="c1">-- Normalize vectors</span>
 <span class="k">SELECT</span><span class="w"> </span><span class="n">VECTOR_NORMALIZE</span><span class="p">(</span><span class="o">@</span><span class="n">vector1</span><span class="p">);</span>
@@ -361,7 +361,7 @@
 
 <span class="k">CREATE</span><span class="w"> </span><span class="n">VECTOR</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_product_vector</span><span class="w"> </span>
 <span class="k">ON</span><span class="w"> </span><span class="n">Products</span><span class="p">(</span><span class="n">DescriptionVector</span><span class="p">)</span>
-<span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;diskann&#39;</span><span class="p">);</span>
+<span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'diskann'</span><span class="p">);</span>
 </code></pre></div>
 
 <p>DiskANN (Disk-based Approximate Nearest Neighbor) can index billions of vectors without requiring massive memory. This is the technology that makes SQL Server 2025 viable at scale.</p>
@@ -369,7 +369,7 @@
 <p>Call AI models directly from T-SQL:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">-- Generate embeddings from text</span>
 <span class="k">DECLARE</span><span class="w"> </span><span class="o">@</span><span class="n">embedding</span><span class="w"> </span><span class="n">VECTOR</span><span class="p">(</span><span class="mi">1536</span><span class="p">);</span>
-<span class="k">SET</span><span class="w"> </span><span class="o">@</span><span class="n">embedding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AI_GENERATE_EMBEDDINGS</span><span class="p">(</span><span class="s1">&#39;Text to embed&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;MyAzureOpenAIModel&#39;</span><span class="p">);</span>
+<span class="k">SET</span><span class="w"> </span><span class="o">@</span><span class="n">embedding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AI_GENERATE_EMBEDDINGS</span><span class="p">(</span><span class="s1">'Text to embed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MyAzureOpenAIModel'</span><span class="p">);</span>
 
 <span class="c1">-- Store alongside data</span>
 <span class="k">UPDATE</span><span class="w"> </span><span class="n">Products</span>
@@ -552,7 +552,7 @@
 <span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span>
 <span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span>
 <span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">,</span>
-<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">DescriptionVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
+<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">DescriptionVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">Products</span><span class="w"> </span><span class="n">p</span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">CategoryID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
 <span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span>
@@ -708,8 +708,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyodbc</span>
 
 <span class="c1"># Connect to Pinecone</span>
-<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;your-key&#39;</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s1">&#39;us-west1-gcp&#39;</span><span class="p">)</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="s1">&#39;your-index&#39;</span><span class="p">)</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">'your-key'</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s1">'us-west1-gcp'</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="s1">'your-index'</span><span class="p">)</span>
 
 <span class="c1"># Fetch all vectors (batch approach for large indexes)</span>
 <span class="n">vectors</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
@@ -720,16 +720,16 @@
 <span class="p">)</span>
 
 <span class="c1"># Connect to SQL Server</span>
-<span class="n">conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;DSN=YourSQLMI;LongAsMax=yes&#39;</span><span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'DSN=YourSQLMI;LongAsMax=yes'</span><span class="p">)</span>
 <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 
 <span class="c1"># Insert into SQL Server</span>
-<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">[</span><span class="s1">&#39;matches&#39;</span><span class="p">]:</span>
-    <span class="n">vector_json</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>  <span class="c1"># Convert to JSON array format</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">[</span><span class="s1">'matches'</span><span class="p">]:</span>
+    <span class="n">vector_json</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">'values'</span><span class="p">])</span>  <span class="c1"># Convert to JSON array format</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
 <span class="s2">        INSERT INTO Products (ProductID, DescriptionVector)</span>
 <span class="s2">        VALUES (?, CAST(? AS VECTOR(1536)))</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">vector_json</span><span class="p">)</span>
+<span class="s2">    """</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">vector_json</span><span class="p">)</span>
 
 <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre></div>
@@ -738,7 +738,7 @@
 <div class="codehilite"><pre><span></span><code><span class="c1">-- After data load complete</span>
 <span class="k">CREATE</span><span class="w"> </span><span class="n">VECTOR</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_product_vector</span><span class="w"> </span>
 <span class="k">ON</span><span class="w"> </span><span class="n">Products</span><span class="p">(</span><span class="n">DescriptionVector</span><span class="p">)</span>
-<span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;diskann&#39;</span><span class="p">);</span>
+<span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'diskann'</span><span class="p">);</span>
 </code></pre></div>
 
 <p>Index creation time:<br />
@@ -747,11 +747,11 @@
 - 100M vectors: ~8 hours</p>
 <p><strong>Step 3: Test Query Performance</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">-- Compare query results with Pinecone</span>
-<span class="k">DECLARE</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="w"> </span><span class="n">VECTOR</span><span class="p">(</span><span class="mi">1536</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;[0.23, -0.15, ...]&#39;</span><span class="p">;</span>
+<span class="k">DECLARE</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="w"> </span><span class="n">VECTOR</span><span class="p">(</span><span class="mi">1536</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'[0.23, -0.15, ...]'</span><span class="p">;</span>
 
 <span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">10</span>
 <span class="w">    </span><span class="n">ProductID</span><span class="p">,</span>
-<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">DescriptionVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
+<span class="w">    </span><span class="n">VECTOR_DISTANCE</span><span class="p">(</span><span class="s1">'cosine'</span><span class="p">,</span><span class="w"> </span><span class="n">DescriptionVector</span><span class="p">,</span><span class="w"> </span><span class="o">@</span><span class="n">query_vector</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Similarity</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">Products</span>
 <span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Similarity</span><span class="p">;</span>
 </code></pre></div>
@@ -836,8 +836,8 @@
 - Plan upgrades before hitting limits</p>
 <h3 id="security-configuration">Security Configuration</h3>
 <p>✅ <strong>No public endpoints:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_mssql_managed_instance&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sqlmi-vector-prod&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_mssql_managed_instance"</span><span class="w"> </span><span class="nv">"main"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="s2">"sqlmi-vector-prod"</span>
 <span class="w">  </span><span class="na">public_data_endpoint_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="c1">  # ...</span>
 <span class="p">}</span>
@@ -851,7 +851,7 @@
 <div class="codehilite"><pre><span></span><code><span class="c1">-- Use managed identity instead of API keys</span>
 <span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="n">MODEL</span><span class="w"> </span><span class="n">MyAzureOpenAI</span>
 <span class="k">WITH</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="n">ENDPOINT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://your-openai.openai.azure.com/openai/deployments/text-embedding-3-small&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ENDPOINT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://your-openai.openai.azure.com/openai/deployments/text-embedding-3-small'</span><span class="p">,</span>
 <span class="w">    </span><span class="n">AUTHENTICATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MANAGED_IDENTITY</span>
 <span class="p">);</span>
 </code></pre></div>
@@ -875,13 +875,13 @@
 - Automatic failover available</p>
 <h3 id="monitoring-setup">Monitoring Setup</h3>
 <p>✅ <strong>Azure Monitor configured:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_monitor_diagnostic_setting&quot;</span><span class="w"> </span><span class="nv">&quot;sqlmi&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sqlmi-diagnostics&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_monitor_diagnostic_setting"</span><span class="w"> </span><span class="nv">"sqlmi"</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">"sqlmi-diagnostics"</span>
 <span class="w">  </span><span class="na">target_resource_id</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_mssql_managed_instance.main.id</span>
 <span class="w">  </span><span class="na">log_analytics_workspace_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">azurerm_log_analytics_workspace.main.id</span>
 
 <span class="w">  </span><span class="nb">metric</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;AllMetrics&quot;</span>
+<span class="w">    </span><span class="na">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"AllMetrics"</span>
 <span class="w">    </span><span class="na">enabled</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
@@ -894,9 +894,9 @@
 - Failed queries (alert on any auth failures)</p>
 <p>✅ <strong>Custom KQL query for vector costs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">AzureDiagnostics</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MICROSOFT.SQL&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;SQLInsights&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VectorQueryCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">column_ifexists</span><span class="p">(</span><span class="s">&quot;vector_query_count&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"MICROSOFT.SQL"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"SQLInsights"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">VectorQueryCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">column_ifexists</span><span class="p">(</span><span class="s">"vector_query_count"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">TotalVectorQueries</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">VectorQueryCount</span><span class="p">),</span>
 <span class="w">    </span><span class="n">AvgQueryDuration</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">avg</span><span class="p">(</span><span class="n">duration_s</span><span class="p">)</span>
@@ -1073,7 +1073,7 @@
       
       <li style="margin: 1rem 0;">
         <a href="/blog/azure-openai-pricing-real-costs/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost</span>
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure OpenAI Pricing 2026: $10 Estimate vs $1,288 Real Cost</span>
           <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-25</span>
         </a>
       </li>

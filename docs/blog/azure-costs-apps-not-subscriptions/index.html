@@ -329,10 +329,10 @@ Active Directory Team:
 </code></pre></div>
 
 <p><strong>Then tag every resource by application:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">Application</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CostReporting&quot;</span><span class="w">      </span><span class="c1"># Which app owns this resource</span>
-<span class="nt">Environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Production&quot;</span><span class="w">          </span><span class="c1"># Prod/Dev/Test</span>
-<span class="nt">Owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Finance&quot;</span><span class="w">                   </span><span class="c1"># Which team</span>
-<span class="nt">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1234&quot;</span><span class="w">                 </span><span class="c1"># Chargeback code</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">Application</span><span class="p">:</span><span class="w"> </span><span class="s">"CostReporting"</span><span class="w">      </span><span class="c1"># Which app owns this resource</span>
+<span class="nt">Environment</span><span class="p">:</span><span class="w"> </span><span class="s">"Production"</span><span class="w">          </span><span class="c1"># Prod/Dev/Test</span>
+<span class="nt">Owner</span><span class="p">:</span><span class="w"> </span><span class="s">"Finance"</span><span class="w">                   </span><span class="c1"># Which team</span>
+<span class="nt">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="s">"1234"</span><span class="w">                 </span><span class="c1"># Chargeback code</span>
 </code></pre></div>
 
 <p><strong>That's it.</strong> </p>
@@ -428,8 +428,8 @@ RBAC becomes impossible. Cost tracking is a nightmare. Everyone can see everyone
 <p>Run this query to find which resource groups are missing an application tag—these are your billing ghosts.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find Resources WITHOUT an Application Tag</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">&quot;Application&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="p">=</span><span class="k">count</span><span class="p">(),</span><span class="w"> </span><span class="n">EstimatedCost</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">todouble</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">billingDetails</span><span class="err">.</span><span class="n">resourceUsage</span><span class="p">))</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="k">!has</span><span class="w"> </span><span class="s">"Application"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">Count</span><span class="p">=</span><span class="k">count</span><span class="p">(),</span><span class="w"> </span><span class="n">EstimatedCost</span><span class="p">=</span><span class="n">sum</span><span class="p">(</span><span class="n">todouble</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">billingDetails</span><span class="p">.</span><span class="n">resourceUsage</span><span class="p">))</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 

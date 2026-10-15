@@ -333,7 +333,7 @@ drwx------<span class="w">  </span><span class="m">2</span><span class="w"> </sp
 <p><strong>Why it matters:</strong> Linux file paths are different from Windows. You need to know where you are.</p>
 <p><strong>Windows equivalent:</strong> <code>cd</code> (same command, different paths)</p>
 <p><strong>Real Azure scenario:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># You&#39;re lost in the filesystem</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># You're lost in the filesystem</span>
 <span class="nb">pwd</span>
 <span class="c1"># Output: /home/azureuser</span>
 
@@ -390,28 +390,28 @@ tail<span class="w"> </span>-f<span class="w"> </span>/var/log/webapp/*.log
 <p><strong>Why it matters:</strong> Finding specific errors in 50,000-line log files</p>
 <p><strong>Windows equivalent:</strong> <code>Select-String</code> (PowerShell) or <code>findstr</code> (cmd)</p>
 <p><strong>Real Azure scenario:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Find all &quot;ERROR&quot; lines in log</span>
-grep<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span>/var/log/webapp/app.log
+<div class="codehilite"><pre><span></span><code><span class="c1"># Find all "ERROR" lines in log</span>
+grep<span class="w"> </span><span class="s2">"ERROR"</span><span class="w"> </span>/var/log/webapp/app.log
 
 <span class="c1"># Case-insensitive search</span>
-grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="w"> </span>/var/log/webapp/app.log
+grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"error"</span><span class="w"> </span>/var/log/webapp/app.log
 
 <span class="c1"># Show 3 lines before and after match (context)</span>
-grep<span class="w"> </span>-C<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">&quot;Connection refused&quot;</span><span class="w"> </span>/var/log/syslog
+grep<span class="w"> </span>-C<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">"Connection refused"</span><span class="w"> </span>/var/log/syslog
 
 <span class="c1"># Search all logs in directory</span>
-grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;OutOfMemory&quot;</span><span class="w"> </span>/var/log/
+grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">"OutOfMemory"</span><span class="w"> </span>/var/log/
 
 <span class="c1"># Pipe output from other commands</span>
-tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;azure&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"azure"</span>
 </code></pre></div>
 
 <p><strong>The Azure admin power move:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Find all failed authentication attempts in the last 1000 log lines</span>
-tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Failed password&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>/var/log/auth.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Failed password"</span>
 
 <span class="c1"># Find when a specific service last restarted</span>
-grep<span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;start&quot;</span>
+grep<span class="w"> </span><span class="s2">"nginx"</span><span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"start"</span>
 </code></pre></div>
 
 <p><strong>Common mistake:</strong> Forgetting <code>-i</code> for case-insensitive search (Linux is case-sensitive by default)</p>
@@ -421,7 +421,7 @@ grep<span class="w"> </span><span class="s2">&quot;nginx&quot;</span><span class
 <p><strong>Why it matters:</strong> "Permission denied" errors are the #1 Linux gotcha for Windows admins</p>
 <p><strong>Windows equivalent:</strong> Right-click â†’ Properties â†’ Security (but completely different model)</p>
 <p><strong>Real Azure scenario:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Your deployment script won&#39;t run</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Your deployment script won't run</span>
 ./deploy.sh
 <span class="c1"># Error: Permission denied</span>
 
@@ -525,8 +525,8 @@ systemctl<span class="w"> </span>status<span class="w"> </span>myapp
 <p><strong>Why it matters:</strong> Runaway processes eating CPU, memory leaks, hung applications</p>
 <p><strong>Windows equivalent:</strong> Task Manager or <code>Get-Process</code> / <code>Stop-Process</code></p>
 <p><strong>Real Azure scenario:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># What&#39;s eating all my CPU?</span>
-ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;0.0&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k3<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
+<div class="codehilite"><pre><span></span><code><span class="c1"># What's eating all my CPU?</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">"0.0"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k3<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
 
 <span class="c1"># Find process by name</span>
 ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx
@@ -538,7 +538,7 @@ ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><sp
 <span class="c1"># Kill process by PID</span>
 sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span><span class="m">1234</span>
 
-<span class="c1"># Force kill if it won&#39;t die</span>
+<span class="c1"># Force kill if it won't die</span>
 sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span><span class="m">1234</span>
 
 <span class="c1"># Kill all processes matching name</span>
@@ -572,7 +572,7 @@ Filesystem<span class="w">      </span>Size<span class="w">  </span>Used<span cl
 
 <span class="c1"># PROBLEM: Root partition at 93%!</span>
 
-<span class="c1"># Find what&#39;s eating space</span>
+<span class="c1"># Find what's eating space</span>
 <span class="nb">cd</span><span class="w"> </span>/
 sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>*<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-hr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-10
 
@@ -593,7 +593,7 @@ sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span
 
 <span class="c1"># Found it! Logs are massive</span>
 <span class="c1"># Clean up old logs</span>
-sudo<span class="w"> </span>find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+sudo<span class="w"> </span>find<span class="w"> </span>/var/log<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.log"</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
 </code></pre></div>
 
 <p><strong>Common mistake:</strong> Not monitoring disk space until it's too late (VMs grind to a halt at 100%)</p>
@@ -636,7 +636,7 @@ sudo<span class="w"> </span>nano<span class="w"> </span>/etc/nginx/nginx.conf
 <span class="nb">history</span>
 
 <span class="c1"># Search history</span>
-<span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;nginx&quot;</span>
+<span class="nb">history</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"nginx"</span>
 
 <span class="c1"># Re-run command #342 from history</span>
 !342
@@ -649,8 +649,8 @@ sudo<span class="w"> </span>!!
 </code></pre></div>
 
 <p><strong>Pro tip:</strong> Add to <code>.bashrc</code> to make history unlimited:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;HISTSIZE=10000&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;HISTFILESIZE=10000&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">'HISTSIZE=10000'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s1">'HISTFILESIZE=10000'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </code></pre></div>
 
 <hr />
@@ -675,8 +675,8 @@ systemctl<span class="w"> </span>status<span class="w"> </span>nginx
 <span class="c1"># Not running!</span>
 
 <span class="c1"># Check logs for errors</span>
-tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>/var/log/nginx/error.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;error&quot;</span>
-<span class="c1"># Found: &quot;Permission denied on /var/www/html&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>/var/log/nginx/error.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">"error"</span>
+<span class="c1"># Found: "Permission denied on /var/www/html"</span>
 
 <span class="c1"># Check permissions</span>
 ls<span class="w"> </span>-la<span class="w"> </span>/var/www/html
@@ -707,7 +707,7 @@ sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span
 <span class="c1"># /var/log/containers is 30GB!</span>
 
 <span class="c1"># Clean up old container logs</span>
-sudo<span class="w"> </span>find<span class="w"> </span>/var/log/containers<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+7<span class="w"> </span>-delete
+sudo<span class="w"> </span>find<span class="w"> </span>/var/log/containers<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.log"</span><span class="w"> </span>-mtime<span class="w"> </span>+7<span class="w"> </span>-delete
 
 <span class="c1"># Verify space freed</span>
 df<span class="w"> </span>-h
@@ -724,11 +724,11 @@ chmod<span class="w"> </span>+x<span class="w"> </span>deploy-resources.sh
 
 <span class="c1"># Run again</span>
 ./deploy-resources.sh
-<span class="c1"># Error: &quot;az command not found&quot; inside script</span>
+<span class="c1"># Error: "az command not found" inside script</span>
 
 <span class="c1"># Check if Azure CLI is available</span>
 which<span class="w"> </span>az
-<span class="c1"># /usr/bin/az - it&#39;s there</span>
+<span class="c1"># /usr/bin/az - it's there</span>
 
 <span class="c1"># Edit script to debug</span>
 nano<span class="w"> </span>deploy-resources.sh
@@ -780,9 +780,9 @@ ls<span class="w"> </span>-la
 cat<span class="w"> </span>/etc/os-release
 
 <span class="c1"># Command 4: Search</span>
-grep<span class="w"> </span><span class="s2">&quot;azure&quot;</span><span class="w"> </span>/etc/os-release
+grep<span class="w"> </span><span class="s2">"azure"</span><span class="w"> </span>/etc/os-release
 
-<span class="c1"># Command 5: Check permissions (can&#39;t change in Cloud Shell, read-only filesystem)</span>
+<span class="c1"># Command 5: Check permissions (can't change in Cloud Shell, read-only filesystem)</span>
 ls<span class="w"> </span>-la<span class="w"> </span>~
 
 <span class="c1"># Command 6: Sudo (not needed in Cloud Shell)</span>
@@ -797,7 +797,7 @@ df<span class="w"> </span>-h
 
 <span class="c1"># Command 10: Edit file</span>
 <span class="nb">cd</span><span class="w"> </span>~
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello Azure&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>test.txt
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Hello Azure"</span><span class="w"> </span>&gt;<span class="w"> </span>test.txt
 nano<span class="w"> </span>test.txt
 cat<span class="w"> </span>test.txt
 </code></pre></div>

@@ -392,13 +392,13 @@ Total:                                  $3,473/month
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Azure AI Search supports hybrid search</span>
 <span class="n">search_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-    <span class="n">search_text</span><span class="o">=</span><span class="s2">&quot;PTO policy&quot;</span><span class="p">,</span>  <span class="c1"># Keyword search</span>
+    <span class="n">search_text</span><span class="o">=</span><span class="s2">"PTO policy"</span><span class="p">,</span>  <span class="c1"># Keyword search</span>
     <span class="n">vector_queries</span><span class="o">=</span><span class="p">[</span><span class="n">VectorizedQuery</span><span class="p">(</span>
         <span class="n">vector</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>       <span class="c1"># Vector search</span>
         <span class="n">k_nearest_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="n">fields</span><span class="o">=</span><span class="s2">&quot;contentVector&quot;</span>
+        <span class="n">fields</span><span class="o">=</span><span class="s2">"contentVector"</span>
     <span class="p">)],</span>
-    <span class="n">query_type</span><span class="o">=</span><span class="s2">&quot;semantic&quot;</span><span class="p">,</span>     <span class="c1"># Add semantic ranking</span>
+    <span class="n">query_type</span><span class="o">=</span><span class="s2">"semantic"</span><span class="p">,</span>     <span class="c1"># Add semantic ranking</span>
     <span class="n">top</span><span class="o">=</span><span class="mi">5</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -426,7 +426,7 @@ Total:                                  $3,473/month
 <div class="codehilite"><pre><span></span><code><span class="c1"># Filter search by document type</span>
 <span class="n">search_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
     <span class="n">search_text</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
-    <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;docType eq &#39;policy&#39; and department eq &#39;HR&#39;&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="s2">"docType eq 'policy' and department eq 'HR'"</span><span class="p">,</span>
     <span class="n">top</span><span class="o">=</span><span class="mi">5</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -457,10 +457,10 @@ Total:                                  $3,473/month
     <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">changes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;BlobCreated&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">"BlobCreated"</span><span class="p">:</span>
             <span class="c1"># Add new document to index</span>
             <span class="n">add_to_index</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">blob_path</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">change</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;BlobDeleted&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">change</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">"BlobDeleted"</span><span class="p">:</span>
             <span class="c1"># Remove from index</span>
             <span class="n">remove_from_index</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">blob_path</span><span class="p">)</span>
 </code></pre></div>
@@ -470,11 +470,11 @@ Total:                                  $3,473/month
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="c">// Alert when index is &gt;24 hours stale</span>
 <span class="n">AzureDiagnostics</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MICROSOFT.SEARCH&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;IndexUpdate&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"MICROSOFT.SEARCH"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"IndexUpdate"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">LastUpdate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">IndexName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">LastUpdate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">IndexName</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdate</span><span class="p">,</span><span class="w"> </span><span class="n">StalenessHours</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;hour&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">LastUpdate</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">IndexName</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdate</span><span class="p">,</span><span class="w"> </span><span class="n">StalenessHours</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'hour'</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">LastUpdate</span><span class="p">)</span>
 </code></pre></div>
 
 <ol>
@@ -482,16 +482,16 @@ Total:                                  $3,473/month
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Tag documents with version/timestamp</span>
 <span class="n">document</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">,</span>
-    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
-    <span class="s2">&quot;last_updated&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">,</span>
+    <span class="s2">"content"</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+    <span class="s2">"last_updated"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="p">}</span>
 
 <span class="c1"># Query includes freshness check</span>
 <span class="n">search_results</span> <span class="o">=</span> <span class="n">search_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
     <span class="n">search_text</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
-    <span class="nb">filter</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;last_updated ge </span><span class="si">{</span><span class="n">cutoff_date</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="sa">f</span><span class="s2">"last_updated ge </span><span class="si">{</span><span class="n">cutoff_date</span><span class="si">}</span><span class="s2">"</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -508,11 +508,11 @@ Total:                                  $3,473/month
 - Combined with system prompt + user question = overflow</p>
 <p><strong>The fix:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">smart_context_assembly</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">search_results</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">6000</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Assemble context intelligently within token budget</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
-    <span class="n">encoding</span> <span class="o">=</span> <span class="n">tiktoken</span><span class="o">.</span><span class="n">encoding_for_model</span><span class="p">(</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">)</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">tiktoken</span><span class="o">.</span><span class="n">encoding_for_model</span><span class="p">(</span><span class="s2">"gpt-4"</span><span class="p">)</span>
 
     <span class="n">context_parts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">token_count</span> <span class="o">=</span> <span class="mi">0</span>
@@ -534,12 +534,12 @@ Total:                                  $3,473/month
             <span class="n">summary_tokens</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoding</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">summary</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">token_count</span> <span class="o">+</span> <span class="n">summary_tokens</span> <span class="o">&lt;=</span> <span class="n">max_tokens</span><span class="p">:</span>
-                <span class="n">context_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Summary] </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">context_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[Summary] </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">token_count</span> <span class="o">+=</span> <span class="n">summary_tokens</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>  <span class="c1"># Budget exhausted</span>
 
-    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context_parts</span><span class="p">),</span> <span class="n">token_count</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">---</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context_parts</span><span class="p">),</span> <span class="n">token_count</span>
 </code></pre></div>
 
 <p><strong>Alternative approach - Re-ranking:</strong></p>
@@ -584,29 +584,29 @@ Total:                                  $3,473/month
 <span class="c1"># Azure OpenAI with managed identity</span>
 <span class="n">openai_client</span> <span class="o">=</span> <span class="n">AzureOpenAI</span><span class="p">(</span>
     <span class="n">azure_endpoint</span><span class="o">=</span><span class="n">openai_endpoint</span><span class="p">,</span>
-    <span class="n">api_version</span><span class="o">=</span><span class="s2">&quot;2024-08-01-preview&quot;</span><span class="p">,</span>
+    <span class="n">api_version</span><span class="o">=</span><span class="s2">"2024-08-01-preview"</span><span class="p">,</span>
     <span class="n">azure_ad_token_provider</span><span class="o">=</span><span class="n">credential</span><span class="o">.</span><span class="n">get_token</span>
 <span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Required RBAC roles:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Your app&#39;s managed identity needs these roles:</span>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Your app's managed identity needs these roles:</span>
 
 <span class="c1"># On Azure AI Search</span>
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Search Index Data Reader&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Search Index Data Reader"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$MANAGED_IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scope<span class="w"> </span><span class="nv">$SEARCH_RESOURCE_ID</span>
 
 <span class="c1"># On Azure OpenAI</span>
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Cognitive Services OpenAI User&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Cognitive Services OpenAI User"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$MANAGED_IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scope<span class="w"> </span><span class="nv">$OPENAI_RESOURCE_ID</span>
 
 <span class="c1"># On Blob Storage (for documents)</span>
 az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="w"> </span><span class="s2">&quot;Storage Blob Data Reader&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="w"> </span><span class="s2">"Storage Blob Data Reader"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--assignee<span class="w"> </span><span class="nv">$MANAGED_IDENTITY_ID</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--scope<span class="w"> </span><span class="nv">$STORAGE_ACCOUNT_ID</span>
 </code></pre></div>
@@ -812,8 +812,8 @@ az<span class="w"> </span>network<span class="w"> </span>private-endpoint<span c
 <p>Set up these alerts or you'll be blind:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Alert: Search query failures &gt;10%</span>
 <span class="n">AzureDiagnostics</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;SEARCHSERVICES&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Query.Search&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"SEARCHSERVICES"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Query.Search"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span>
 <span class="w">    </span><span class="n">Total</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">Failed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">countif</span><span class="p">(</span><span class="n">resultSignature_d</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="mi">400</span><span class="p">)</span>
@@ -824,8 +824,8 @@ az<span class="w"> </span>network<span class="w"> </span>private-endpoint<span c
 
 <div class="codehilite"><pre><span></span><code><span class="c">// Alert: Query latency &gt;2 seconds</span>
 <span class="n">AzureDiagnostics</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;SEARCHSERVICES&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Query.Search&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"SEARCHSERVICES"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Query.Search"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">LatencyMs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DurationMs</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">P95Latency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">percentile</span><span class="p">(</span><span class="n">LatencyMs</span><span class="p">,</span><span class="w"> </span><span class="mi">95</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="n">m</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">P95Latency</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">2000</span>
@@ -833,8 +833,8 @@ az<span class="w"> </span>network<span class="w"> </span>private-endpoint<span c
 
 <div class="codehilite"><pre><span></span><code><span class="c">// Alert: Index staleness &gt;24 hours</span>
 <span class="n">AzureDiagnostics</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;MICROSOFT.SEARCH&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;IndexUpdate&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceProvider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"MICROSOFT.SEARCH"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"IndexUpdate"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">LastUpdate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">IndexName</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">LastUpdate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">24</span><span class="n">h</span><span class="p">)</span>
 </code></pre></div>
@@ -921,7 +921,7 @@ az<span class="w"> </span>network<span class="w"> </span>private-endpoint<span c
       
       <li style="margin: 1rem 0;">
         <a href="/blog/azure-openai-pricing-real-costs/" style="display: block; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border); transition: all 0.2s ease;">
-          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure OpenAI Pricing 2026: $4 Estimate vs $1,906 Real Cost</span>
+          <span class="related-title" style="font-weight: 700; display: block; color: var(--text-dark);">Azure OpenAI Pricing 2026: $10 Estimate vs $1,288 Real Cost</span>
           <span class="related-meta" style="color: var(--text-muted); font-size: 0.9rem;">2025-11-25</span>
         </a>
       </li>

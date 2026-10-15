@@ -349,8 +349,8 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="w">    </span><span class="n">ResourceGroups</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">make_set</span><span class="p">(</span><span class="n">resourceGroup</span><span class="p">)</span>
 <span class="w">  </span><span class="k">by</span><span class="w"> </span><span class="n">type</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span>
-<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-<span class="w">    </span><span class="n">ServiceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">'/'</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="n">ServiceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">split</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="s">'/'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Provider</span><span class="p">,</span><span class="w"> </span><span class="n">ServiceType</span><span class="p">,</span><span class="w"> </span><span class="n">Count</span><span class="p">,</span><span class="w"> </span><span class="n">Subscriptions</span><span class="p">,</span><span class="w"> </span><span class="n">ResourceGroups</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Count</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
@@ -377,7 +377,7 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="cm">    Creates an Excel-compatible CSV with service counts, categories, and metadata.</span>
 <span class="sd">.EXAMPLE</span>
 <span class="cm">    .\Get-AzureServiceInventory.ps1</span>
-<span class="cm">    .\Get-AzureServiceInventory.ps1 -SubscriptionId &quot;sub-id-here&quot;</span>
+<span class="cm">    .\Get-AzureServiceInventory.ps1 -SubscriptionId "sub-id-here"</span>
 <span class="cm">#&gt;</span>
 
 <span class="k">param</span><span class="p">(</span>
@@ -385,12 +385,12 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
     <span class="no">[string]</span><span class="nv">$SubscriptionId</span><span class="p">,</span>
 
     <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$false</span><span class="p">)]</span>
-    <span class="no">[string]</span><span class="nv">$OutputPath</span> <span class="p">=</span> <span class="s2">&quot;.\AzureServiceInventory.csv&quot;</span>
+    <span class="no">[string]</span><span class="nv">$OutputPath</span> <span class="p">=</span> <span class="s2">".\AzureServiceInventory.csv"</span>
 <span class="p">)</span>
 
 <span class="c"># Ensure Az.ResourceGraph module</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Get-Module</span> <span class="n">-ListAvailable</span> <span class="n">Az</span><span class="p">.</span><span class="n">ResourceGraph</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Installing Az.ResourceGraph module...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Installing Az.ResourceGraph module..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="nb">Install-Module</span> <span class="n">Az</span><span class="p">.</span><span class="n">ResourceGraph</span> <span class="n">-Force</span> <span class="n">-AllowClobber</span>
 <span class="p">}</span>
 
@@ -399,23 +399,23 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="c"># Check if logged in</span>
 <span class="nv">$context</span> <span class="p">=</span> <span class="nb">Get-AzContext</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;Not logged in to Azure. Running Connect-AzAccount...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"Not logged in to Azure. Running Connect-AzAccount..."</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="nb">Connect-AzAccount</span>
 <span class="p">}</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">🔍 Querying Azure Resource Graph for service inventory...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">🔍 Querying Azure Resource Graph for service inventory..."</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 
 <span class="c"># Build subscription scope</span>
 <span class="nv">$subscriptionScope</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$SubscriptionId</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">@(</span><span class="nv">$SubscriptionId</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="p">(</span><span class="nb">Get-AzSubscription</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">State</span> <span class="o">-eq</span> <span class="s1">&#39;Enabled&#39;</span><span class="p">}).</span><span class="n">Id</span>
+    <span class="p">(</span><span class="nb">Get-AzSubscription</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">State</span> <span class="o">-eq</span> <span class="s1">'Enabled'</span><span class="p">}).</span><span class="n">Id</span>
 <span class="p">}</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;📊 Scanning </span><span class="p">$(</span><span class="nv">$subscriptionScope</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> subscription(s)...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"📊 Scanning </span><span class="p">$(</span><span class="nv">$subscriptionScope</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> subscription(s)..."</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 
 <span class="c"># Query all resource types</span>
-<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="nv">$query</span> <span class="p">=</span> <span class="sh">@"</span>
 <span class="sh">Resources</span>
 <span class="sh">| summarize </span>
 <span class="sh">    Count = count(),</span>
@@ -423,92 +423,92 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="sh">    Locations = make_set(location)</span>
 <span class="sh">  by type</span>
 <span class="sh">| extend </span>
-<span class="sh">    Provider = split(type, &#39;/&#39;)[0],</span>
-<span class="sh">    ServiceType = split(type, &#39;/&#39;)[1]</span>
+<span class="sh">    Provider = split(type, '/')[0],</span>
+<span class="sh">    ServiceType = split(type, '/')[1]</span>
 <span class="sh">| project Provider, ServiceType, Count, SubscriptionCount, Locations</span>
 <span class="sh">| order by Count desc</span>
-<span class="sh">&quot;@</span>
+<span class="sh">"@</span>
 
 <span class="nv">$results</span> <span class="p">=</span> <span class="nb">Search-AzGraph</span> <span class="n">-Query</span> <span class="nv">$query</span> <span class="n">-Subscription</span> <span class="nv">$subscriptionScope</span> <span class="n">-First</span> <span class="n">1000</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;✅ Found </span><span class="p">$(</span><span class="nv">$results</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> distinct Azure service types in use</span><span class="se">`n</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">"✅ Found </span><span class="p">$(</span><span class="nv">$results</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> distinct Azure service types in use</span><span class="se">`n</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 
 <span class="c"># Service category mapping</span>
 <span class="nv">$categoryMap</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s1">&#39;Microsoft.Compute&#39;</span> <span class="p">=</span> <span class="s1">&#39;Compute&#39;</span>
-    <span class="s1">&#39;Microsoft.Network&#39;</span> <span class="p">=</span> <span class="s1">&#39;Networking&#39;</span>
-    <span class="s1">&#39;Microsoft.Storage&#39;</span> <span class="p">=</span> <span class="s1">&#39;Storage&#39;</span>
-    <span class="s1">&#39;Microsoft.Web&#39;</span> <span class="p">=</span> <span class="s1">&#39;Web + Mobile&#39;</span>
-    <span class="s1">&#39;Microsoft.Sql&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
-    <span class="s1">&#39;Microsoft.DBforPostgreSQL&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
-    <span class="s1">&#39;Microsoft.DBforMySQL&#39;</span> <span class="p">=</span> <span class="s1">&#39;Databases&#39;</span>
-    <span class="s1">&#39;Microsoft.KeyVault&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
-    <span class="s1">&#39;Microsoft.ManagedIdentity&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
-    <span class="s1">&#39;Microsoft.Security&#39;</span> <span class="p">=</span> <span class="s1">&#39;Security&#39;</span>
-    <span class="s1">&#39;Microsoft.OperationalInsights&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
-    <span class="s1">&#39;Microsoft.Insights&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
-    <span class="s1">&#39;Microsoft.Monitor&#39;</span> <span class="p">=</span> <span class="s1">&#39;Monitoring&#39;</span>
-    <span class="s1">&#39;Microsoft.RecoveryServices&#39;</span> <span class="p">=</span> <span class="s1">&#39;Backup + DR&#39;</span>
-    <span class="s1">&#39;Microsoft.Backup&#39;</span> <span class="p">=</span> <span class="s1">&#39;Backup + DR&#39;</span>
-    <span class="s1">&#39;Microsoft.ContainerService&#39;</span> <span class="p">=</span> <span class="s1">&#39;Containers&#39;</span>
-    <span class="s1">&#39;Microsoft.ContainerRegistry&#39;</span> <span class="p">=</span> <span class="s1">&#39;Containers&#39;</span>
-    <span class="s1">&#39;Microsoft.Logic&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
-    <span class="s1">&#39;Microsoft.ServiceBus&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
-    <span class="s1">&#39;Microsoft.EventHub&#39;</span> <span class="p">=</span> <span class="s1">&#39;Integration&#39;</span>
-    <span class="s1">&#39;Microsoft.Automation&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
-    <span class="s1">&#39;Microsoft.Resources&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
-    <span class="s1">&#39;Microsoft.Authorization&#39;</span> <span class="p">=</span> <span class="s1">&#39;Management&#39;</span>
+    <span class="s1">'Microsoft.Compute'</span> <span class="p">=</span> <span class="s1">'Compute'</span>
+    <span class="s1">'Microsoft.Network'</span> <span class="p">=</span> <span class="s1">'Networking'</span>
+    <span class="s1">'Microsoft.Storage'</span> <span class="p">=</span> <span class="s1">'Storage'</span>
+    <span class="s1">'Microsoft.Web'</span> <span class="p">=</span> <span class="s1">'Web + Mobile'</span>
+    <span class="s1">'Microsoft.Sql'</span> <span class="p">=</span> <span class="s1">'Databases'</span>
+    <span class="s1">'Microsoft.DBforPostgreSQL'</span> <span class="p">=</span> <span class="s1">'Databases'</span>
+    <span class="s1">'Microsoft.DBforMySQL'</span> <span class="p">=</span> <span class="s1">'Databases'</span>
+    <span class="s1">'Microsoft.KeyVault'</span> <span class="p">=</span> <span class="s1">'Security'</span>
+    <span class="s1">'Microsoft.ManagedIdentity'</span> <span class="p">=</span> <span class="s1">'Security'</span>
+    <span class="s1">'Microsoft.Security'</span> <span class="p">=</span> <span class="s1">'Security'</span>
+    <span class="s1">'Microsoft.OperationalInsights'</span> <span class="p">=</span> <span class="s1">'Monitoring'</span>
+    <span class="s1">'Microsoft.Insights'</span> <span class="p">=</span> <span class="s1">'Monitoring'</span>
+    <span class="s1">'Microsoft.Monitor'</span> <span class="p">=</span> <span class="s1">'Monitoring'</span>
+    <span class="s1">'Microsoft.RecoveryServices'</span> <span class="p">=</span> <span class="s1">'Backup + DR'</span>
+    <span class="s1">'Microsoft.Backup'</span> <span class="p">=</span> <span class="s1">'Backup + DR'</span>
+    <span class="s1">'Microsoft.ContainerService'</span> <span class="p">=</span> <span class="s1">'Containers'</span>
+    <span class="s1">'Microsoft.ContainerRegistry'</span> <span class="p">=</span> <span class="s1">'Containers'</span>
+    <span class="s1">'Microsoft.Logic'</span> <span class="p">=</span> <span class="s1">'Integration'</span>
+    <span class="s1">'Microsoft.ServiceBus'</span> <span class="p">=</span> <span class="s1">'Integration'</span>
+    <span class="s1">'Microsoft.EventHub'</span> <span class="p">=</span> <span class="s1">'Integration'</span>
+    <span class="s1">'Microsoft.Automation'</span> <span class="p">=</span> <span class="s1">'Management'</span>
+    <span class="s1">'Microsoft.Resources'</span> <span class="p">=</span> <span class="s1">'Management'</span>
+    <span class="s1">'Microsoft.Authorization'</span> <span class="p">=</span> <span class="s1">'Management'</span>
 <span class="p">}</span>
 
 <span class="c"># Cost tier estimation (rough)</span>
 <span class="nv">$costTierMap</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s1">&#39;virtualmachines&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>
-    <span class="s1">&#39;disks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>
-    <span class="s1">&#39;snapshots&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
-    <span class="s1">&#39;storageaccounts&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>
-    <span class="s1">&#39;virtualnetworks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
-    <span class="s1">&#39;networkinterfaces&#39;</span> <span class="p">=</span> <span class="s1">&#39;Free&#39;</span>
-    <span class="s1">&#39;publicipaddresses&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
-    <span class="s1">&#39;loadbalancers&#39;</span> <span class="p">=</span> <span class="s1">&#39;Low&#39;</span>
-    <span class="s1">&#39;applicationgateways&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>
-    <span class="s1">&#39;vaults&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>  <span class="c"># Key Vault</span>
-    <span class="s1">&#39;servers&#39;</span> <span class="p">=</span> <span class="s1">&#39;High&#39;</span>   <span class="c"># SQL</span>
-    <span class="s1">&#39;workspaces&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>  <span class="c"># Log Analytics</span>
-    <span class="s1">&#39;sites&#39;</span> <span class="p">=</span> <span class="s1">&#39;Medium&#39;</span>   <span class="c"># App Service</span>
+    <span class="s1">'virtualmachines'</span> <span class="p">=</span> <span class="s1">'High'</span>
+    <span class="s1">'disks'</span> <span class="p">=</span> <span class="s1">'Medium'</span>
+    <span class="s1">'snapshots'</span> <span class="p">=</span> <span class="s1">'Low'</span>
+    <span class="s1">'storageaccounts'</span> <span class="p">=</span> <span class="s1">'Medium'</span>
+    <span class="s1">'virtualnetworks'</span> <span class="p">=</span> <span class="s1">'Low'</span>
+    <span class="s1">'networkinterfaces'</span> <span class="p">=</span> <span class="s1">'Free'</span>
+    <span class="s1">'publicipaddresses'</span> <span class="p">=</span> <span class="s1">'Low'</span>
+    <span class="s1">'loadbalancers'</span> <span class="p">=</span> <span class="s1">'Low'</span>
+    <span class="s1">'applicationgateways'</span> <span class="p">=</span> <span class="s1">'High'</span>
+    <span class="s1">'vaults'</span> <span class="p">=</span> <span class="s1">'Medium'</span>  <span class="c"># Key Vault</span>
+    <span class="s1">'servers'</span> <span class="p">=</span> <span class="s1">'High'</span>   <span class="c"># SQL</span>
+    <span class="s1">'workspaces'</span> <span class="p">=</span> <span class="s1">'Medium'</span>  <span class="c"># Log Analytics</span>
+    <span class="s1">'sites'</span> <span class="p">=</span> <span class="s1">'Medium'</span>   <span class="c"># App Service</span>
 <span class="p">}</span>
 
 <span class="c"># Deprecated services</span>
 <span class="nv">$deprecatedServices</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s1">&#39;Microsoft.ClassicCompute/virtualMachines&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to Azure Resource Manager VMs&#39;</span>
-    <span class="s1">&#39;Microsoft.ClassicStorage/storageAccounts&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to v2 Storage Accounts&#39;</span>
-    <span class="s1">&#39;Microsoft.ClassicNetwork/virtualNetworks&#39;</span> <span class="p">=</span> <span class="s1">&#39;Migrate to ARM Virtual Networks&#39;</span>
+    <span class="s1">'Microsoft.ClassicCompute/virtualMachines'</span> <span class="p">=</span> <span class="s1">'Migrate to Azure Resource Manager VMs'</span>
+    <span class="s1">'Microsoft.ClassicStorage/storageAccounts'</span> <span class="p">=</span> <span class="s1">'Migrate to v2 Storage Accounts'</span>
+    <span class="s1">'Microsoft.ClassicNetwork/virtualNetworks'</span> <span class="p">=</span> <span class="s1">'Migrate to ARM Virtual Networks'</span>
 <span class="p">}</span>
 
 <span class="c"># Build enriched inventory</span>
 <span class="nv">$inventory</span> <span class="p">=</span> <span class="nv">$results</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
     <span class="nv">$provider</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Provider</span>
     <span class="nv">$serviceType</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ServiceType</span>
-    <span class="nv">$fullType</span> <span class="p">=</span> <span class="s2">&quot;$provider/$serviceType&quot;</span>
+    <span class="nv">$fullType</span> <span class="p">=</span> <span class="s2">"$provider/$serviceType"</span>
 
     <span class="nv">$category</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$categoryMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$provider</span><span class="p">))</span> <span class="p">{</span>
         <span class="nv">$categoryMap</span><span class="p">[</span><span class="nv">$provider</span><span class="p">]</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="s1">&#39;Other&#39;</span>
+        <span class="s1">'Other'</span>
     <span class="p">}</span>
 
     <span class="nv">$costTier</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$costTierMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()))</span> <span class="p">{</span>
         <span class="nv">$costTierMap</span><span class="p">[</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()]</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="s1">&#39;Unknown&#39;</span>
+        <span class="s1">'Unknown'</span>
     <span class="p">}</span>
 
     <span class="nv">$deprecated</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$deprecatedServices</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$fullType</span><span class="p">))</span> <span class="p">{</span>
-        <span class="s2">&quot;YES - </span><span class="p">$(</span><span class="nv">$deprecatedServices</span><span class="p">[</span><span class="nv">$fullType</span><span class="p">])</span><span class="s2">&quot;</span>
+        <span class="s2">"YES - </span><span class="p">$(</span><span class="nv">$deprecatedServices</span><span class="p">[</span><span class="nv">$fullType</span><span class="p">])</span><span class="s2">"</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="s1">&#39;No&#39;</span>
+        <span class="s1">'No'</span>
     <span class="p">}</span>
 
-    <span class="nv">$docsLink</span> <span class="p">=</span> <span class="s2">&quot;https://learn.microsoft.com/azure/?product=</span><span class="p">$(</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span><span class="s2">&quot;</span>
+    <span class="nv">$docsLink</span> <span class="p">=</span> <span class="s2">"https://learn.microsoft.com/azure/?product=</span><span class="p">$(</span><span class="nv">$serviceType</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span><span class="s2">"</span>
 
     <span class="no">[PSCustomObject]</span><span class="p">@{</span>
         <span class="n">Provider</span> <span class="p">=</span> <span class="nv">$provider</span>
@@ -516,45 +516,45 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
         <span class="n">Category</span> <span class="p">=</span> <span class="nv">$category</span>
         <span class="n">Count</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Count</span>
         <span class="n">SubscriptionCount</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SubscriptionCount</span>
-        <span class="n">Locations</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Locations</span> <span class="n">-join</span> <span class="s1">&#39;, &#39;</span><span class="p">)</span>
+        <span class="n">Locations</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Locations</span> <span class="n">-join</span> <span class="s1">', '</span><span class="p">)</span>
         <span class="n">CostTier</span> <span class="p">=</span> <span class="nv">$costTier</span>
         <span class="n">Deprecated</span> <span class="p">=</span> <span class="nv">$deprecated</span>
         <span class="n">DocsLink</span> <span class="p">=</span> <span class="nv">$docsLink</span>
-        <span class="n">Notes</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>  <span class="c"># For manual entry</span>
-        <span class="n">Owner</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>  <span class="c"># For manual entry</span>
+        <span class="n">Notes</span> <span class="p">=</span> <span class="s1">''</span>  <span class="c"># For manual entry</span>
+        <span class="n">Owner</span> <span class="p">=</span> <span class="s1">''</span>  <span class="c"># For manual entry</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c"># Export to CSV</span>
 <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="nv">$OutputPath</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;✅ Service inventory exported to: $OutputPath&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">📊 Summary:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   Total Services in Use: </span><span class="p">$(</span><span class="nv">$inventory</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   Total Resources: </span><span class="p">$((</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">Count</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">"✅ Service inventory exported to: $OutputPath"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">📊 Summary:"</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"   Total Services in Use: </span><span class="p">$(</span><span class="nv">$inventory</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">"   Total Resources: </span><span class="p">$((</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Measure-Object</span> <span class="n">-Property</span> <span class="n">Count</span> <span class="n">-Sum</span><span class="p">).</span><span class="n">Sum</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
 
 <span class="c"># Category breakdown</span>
 <span class="nv">$categoryBreakdown</span> <span class="p">=</span> <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">Category</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Count</span> <span class="n">-Descending</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">📁 By Category:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">📁 By Category:"</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$cat</span> <span class="k">in</span> <span class="nv">$categoryBreakdown</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;   </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> service types&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+    <span class="nb">Write-Host</span> <span class="s2">"   </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$cat</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> service types"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
 <span class="p">}</span>
 
 <span class="c"># Check for deprecated services</span>
-<span class="nv">$deprecatedCount</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">&#39;No&#39;</span><span class="p">}).</span><span class="n">Count</span>
+<span class="nv">$deprecatedCount</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">'No'</span><span class="p">}).</span><span class="n">Count</span>
 <span class="k">if</span> <span class="p">(</span><span class="nv">$deprecatedCount</span> <span class="o">-gt</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">⚠️  Warning: $deprecatedCount deprecated service(s) found!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
-    <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">&#39;No&#39;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-        <span class="nb">Write-Host</span> <span class="s2">&quot;   - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">ServiceType</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">⚠️  Warning: $deprecatedCount deprecated service(s) found!"</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nv">$inventory</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span> <span class="o">-ne</span> <span class="s1">'No'</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">"   - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">ServiceType</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Deprecated</span><span class="p">)</span><span class="s2">"</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">💡 Next Steps:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   1. Open $OutputPath in Excel&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   2. Add Owner and Notes columns for your team&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   3. Filter by Category or CostTier&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;   4. Share with your team for service ownership mapping&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
-<span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
+<span class="nb">Write-Host</span> <span class="s2">"</span><span class="se">`n</span><span class="s2">💡 Next Steps:"</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">"   1. Open $OutputPath in Excel"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">"   2. Add Owner and Notes columns for your team"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">"   3. Filter by Category or CostTier"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">"   4. Share with your team for service ownership mapping"</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">""</span>
 </code></pre></div>
 
 <h3 id="running-the-script">Running the Script</h3>
@@ -562,10 +562,10 @@ Classic Storage Account   Storage         3      Medium       YES (migrate to v2
 <span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span>
 
 <span class="c"># Run against specific subscription</span>
-<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-SubscriptionId</span> <span class="s2">&quot;your-sub-id&quot;</span>
+<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-SubscriptionId</span> <span class="s2">"your-sub-id"</span>
 
 <span class="c"># Custom output location</span>
-<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutputPath</span> <span class="s2">&quot;C:\Reports\ServiceInventory.csv&quot;</span>
+<span class="p">.\</span><span class="nb">Get-AzureServiceInventory</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutputPath</span> <span class="s2">"C:\Reports\ServiceInventory.csv"</span>
 </code></pre></div>
 
 <h3 id="output-example">Output Example</h3>
@@ -720,27 +720,27 @@ MySQL Servers               4      centralus
 <p>The basic inventory shows <em>cost tier</em>. But you can add <strong>actual cost</strong>:</p>
 <h3 id="query-cost-management-api">Query Cost Management API</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Add this to the script after building inventory</span>
-<span class="nv">$costQuery</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="nv">$costQuery</span> <span class="p">=</span> <span class="sh">@"</span>
 <span class="sh">{</span>
-<span class="sh">  &quot;type&quot;: &quot;Usage&quot;,</span>
-<span class="sh">  &quot;timeframe&quot;: &quot;MonthToDate&quot;,</span>
-<span class="sh">  &quot;dataset&quot;: {</span>
-<span class="sh">    &quot;granularity&quot;: &quot;None&quot;,</span>
-<span class="sh">    &quot;aggregation&quot;: {</span>
-<span class="sh">      &quot;totalCost&quot;: {</span>
-<span class="sh">        &quot;name&quot;: &quot;Cost&quot;,</span>
-<span class="sh">        &quot;function&quot;: &quot;Sum&quot;</span>
+<span class="sh">  "type": "Usage",</span>
+<span class="sh">  "timeframe": "MonthToDate",</span>
+<span class="sh">  "dataset": {</span>
+<span class="sh">    "granularity": "None",</span>
+<span class="sh">    "aggregation": {</span>
+<span class="sh">      "totalCost": {</span>
+<span class="sh">        "name": "Cost",</span>
+<span class="sh">        "function": "Sum"</span>
 <span class="sh">      }</span>
 <span class="sh">    },</span>
-<span class="sh">    &quot;grouping&quot;: [</span>
+<span class="sh">    "grouping": [</span>
 <span class="sh">      {</span>
-<span class="sh">        &quot;type&quot;: &quot;Dimension&quot;,</span>
-<span class="sh">        &quot;name&quot;: &quot;ResourceType&quot;</span>
+<span class="sh">        "type": "Dimension",</span>
+<span class="sh">        "name": "ResourceType"</span>
 <span class="sh">      }</span>
 <span class="sh">    ]</span>
 <span class="sh">  }</span>
 <span class="sh">}</span>
-<span class="sh">&quot;@</span>
+<span class="sh">"@</span>
 
 <span class="c"># Call Cost Management API for each subscription</span>
 <span class="c"># (Implementation left as exercise - requires Cost Management permissions)</span>

@@ -481,16 +481,16 @@ Your environment evolves.</p>
 <p>Compliance dashboard: "95% compliant"</p>
 <p><strong>Reality check via KQL:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">PolicyResources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.policyinsights/policystates&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">complianceState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">complianceState</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">complianceState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Compliant&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">resourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">resourceType</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Microsoft.Compute/virtualMachines&quot;</span>
-<span class="c">// Filter to resources that are &quot;compliant&quot; but exempted</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.policyinsights/policystates"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">complianceState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">complianceState</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">complianceState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Compliant"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">resourceType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">resourceType</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">resourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Microsoft.Compute/virtualMachines"</span>
+<span class="c">// Filter to resources that are "compliant" but exempted</span>
 <span class="p">|</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">kind</span><span class="p">=</span><span class="n">inner</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">PolicyResources</span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.authorization/policyexemptions&quot;</span>
-<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">resourceId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">policyAssignmentId</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.authorization/policyexemptions"</span>
+<span class="p">)</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="err">$</span><span class="n">left</span><span class="p">.</span><span class="n">properties</span><span class="p">.</span><span class="n">resourceId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="err">$</span><span class="n">right</span><span class="p">.</span><span class="n">properties</span><span class="p">.</span><span class="n">policyAssignmentId</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">ExemptedButCompliant</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span>
 </code></pre></div>
 
@@ -596,16 +596,16 @@ Policies fail because you tried to govern a dynamic cloud environment using a st
 </ul>
 <p><strong>Exemption workflow that works:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;policyAssignmentId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/providers/Microsoft.Management/managementGroups/mg-prod/providers/Microsoft.Authorization/policyAssignments/enforce-encryption&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;exemptionCategory&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Waiver&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expiresOn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-15T00:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;requestedBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;john.doe@company.com&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;approvedBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jane.smith@company.com&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;justification&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Legacy app migration in progress, encryption enabled in Q2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;reviewDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-02-15&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;ticketNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INC123456&quot;</span>
+<span class="w">  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"policyAssignmentId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/providers/Microsoft.Management/managementGroups/mg-prod/providers/Microsoft.Authorization/policyAssignments/enforce-encryption"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exemptionCategory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiver"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"expiresOn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-03-15T00:00:00Z"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"requestedBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john.doe@company.com"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"approvedBy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jane.smith@company.com"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"justification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Legacy app migration in progress, encryption enabled in Q2"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"reviewDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-02-15"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"ticketNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INC123456"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>

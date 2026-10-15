@@ -388,8 +388,8 @@ OWNER | LAST UPDATED | CHANGELOG
 <span class="n">Heartbeat</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">lastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">AgentVersion</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">lastSeen</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">14</span><span class="n">d</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AgentVersion</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">&quot;MMA&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">AgentVersion</span><span class="p">,</span><span class="w"> </span><span class="n">DaysSinceLastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">lastSeen</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">AgentVersion</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">"MMA"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">Computer</span><span class="p">,</span><span class="w"> </span><span class="n">AgentVersion</span><span class="p">,</span><span class="w"> </span><span class="n">DaysSinceLastSeen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">lastSeen</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">DaysSinceLastSeen</span><span class="w"> </span><span class="n">desc</span>
 </code></pre></div>
 
@@ -405,7 +405,7 @@ OWNER | LAST UPDATED | CHANGELOG
 <span class="cm">ASSUMPTIONS:</span>
 <span class="cm">  - azurerm provider &gt;= 4.36</span>
 <span class="cm">  - Remote state configured (state.tf)</span>
-<span class="cm">  - Address space doesn&#39;t conflict with existing VNets</span>
+<span class="cm">  - Address space doesn't conflict with existing VNets</span>
 <span class="cm">OUTPUTS: vnet_id, subnet_ids</span>
 <span class="cm">RISKS &amp; LIMITS:</span>
 <span class="cm">  - CIDR changes force VNet replacement (destructive)</span>
@@ -420,7 +420,7 @@ OWNER | LAST UPDATED | CHANGELOG
 <span class="cm">LAST UPDATED: 2025-10-27</span>
 <span class="cm">*/</span>
 
-<span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;azurerm_virtual_network&quot;</span><span class="w"> </span><span class="nv">&quot;hub&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="kr">resource</span><span class="w"> </span><span class="nc">"azurerm_virtual_network"</span><span class="w"> </span><span class="nv">"hub"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="nv">var.vnet_name</span>
 <span class="w">  </span><span class="na">location</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="nv">var.location</span>
 <span class="w">  </span><span class="na">resource_group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.resource_group_name</span>
@@ -473,31 +473,31 @@ OWNER | LAST UPDATED | CHANGELOG
 <p>Add a <strong>global snippet</strong> (<code>crumbs</code>) so every file gets the same header in seconds.</p>
 <p><strong>File:</strong> <code>%APPDATA%\Code\User\snippets\global.code-snippets</code></p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;Breadcrumb Header&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;crumbs&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;TITLE: ${1:Short title}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;PURPOSE: ${2:What this does and why}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;CONTEXT:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${3:Key constraints/decisions}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;ASSUMPTIONS:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${4:Environment, versions, data}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;INPUTS:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${5:name=, example=}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;OUTPUTS:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${6:files/returns/side effects}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;RISKS &amp; LIMITS:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${7:Edge cases/gaps}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;VERIFICATION:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${8:Command or check to prove success}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;ROLLBACK:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${9:How to undo safely}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;RUNBOOK/LINKS:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${10:ADR-xxx / PR# / wiki}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;OWNER: ${11:Your Name}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;LAST UPDATED: ${12:YYYY-MM-DD}&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;CHANGELOG:&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;  - ${13:YYYY-MM-DD}: ${14:Initial} (${15:you})&quot;</span>
+<span class="w">  </span><span class="nt">"Breadcrumb Header"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"crumbs"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">"TITLE: ${1:Short title}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"PURPOSE: ${2:What this does and why}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"CONTEXT:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${3:Key constraints/decisions}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ASSUMPTIONS:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${4:Environment, versions, data}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"INPUTS:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${5:name=, example=}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"OUTPUTS:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${6:files/returns/side effects}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"RISKS &amp; LIMITS:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${7:Edge cases/gaps}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"VERIFICATION:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${8:Command or check to prove success}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"ROLLBACK:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${9:How to undo safely}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"RUNBOOK/LINKS:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${10:ADR-xxx / PR# / wiki}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"OWNER: ${11:Your Name}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"LAST UPDATED: ${12:YYYY-MM-DD}"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"CHANGELOG:"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"  - ${13:YYYY-MM-DD}: ${14:Initial} (${15:you})"</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>

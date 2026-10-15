@@ -167,8 +167,8 @@
   },
   "keywords": "azure, logic-apps, automation, operations, cost-management, governance, finops",
   "articleSection": "azure",
-  "wordCount": "4128",
-  "timeRequired": "PT21M",
+  "wordCount": "3816",
+  "timeRequired": "PT19M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -243,7 +243,7 @@
   <header class="post-header">
     <h1>4 Logic Apps That Save Azure Admins 10 Hours/Week (2025 Automation Guide)</h1>
     <p class="muted">
-      2025-10-29 · ~21 min read
+      2025-10-29 · ~19 min read
       
         · Updated 2025-12-18
       
@@ -343,14 +343,14 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 <h3 id="the-resource-graph-queries">The Resource Graph Queries</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// Orphaned Disks</span>
 <span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Unattached&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeGB</span><span class="p">,</span>
-<span class="w">         </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">sku</span><span class="err">.</span><span class="n">name</span><span class="p">,</span>
-<span class="w">         </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/disks'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskState</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'Unattached'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeGB</span><span class="p">,</span>
+<span class="w">         </span><span class="n">sku</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">sku</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+<span class="w">         </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">timeCreated</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">monthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
-<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;Premium_LRS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.16</span><span class="p">,</span>
-<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;StandardSSD_LRS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'Premium_LRS'</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.16</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sku</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'StandardSSD_LRS'</span><span class="p">,</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span>
 <span class="w">    </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.05</span>
 <span class="w">  </span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
@@ -359,28 +359,28 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 
 <span class="c">// Old Snapshots (&gt;90 days)</span>
 <span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/snapshots&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">timeCreated</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">createdTime</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/snapshots'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">createdTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">timeCreated</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">createdTime</span><span class="p">))</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">90</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">diskSizeBytes</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">1073741824</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">diskSizeBytes</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">1073741824</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">monthlyCost</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diskSizeGB</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.05</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">ageInDays</span><span class="p">,</span><span class="w"> </span><span class="n">monthlyCost</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ageInDays</span><span class="w"> </span><span class="n">desc</span>
 
 <span class="c">// Unattached NICs</span>
 <span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.network/networkinterfaces&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">virtualMachine</span><span class="p">)</span><span class="w"> </span>
-<span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">privateEndpoint</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.network/networkinterfaces'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">virtualMachine</span><span class="p">)</span><span class="w"> </span>
+<span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">privateEndpoint</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">subscriptionId</span><span class="p">,</span>
-<span class="w">          </span><span class="n">privateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">.</span><span class="n">properties</span><span class="err">.</span><span class="n">privateIPAddress</span>
+<span class="w">          </span><span class="n">privateIP</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">ipConfigurations</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">properties</span><span class="p">.</span><span class="n">privateIPAddress</span>
 </code></pre></div>
 
 <h3 id="deployment-steps">Deployment Steps</h3>
 <div class="codehilite"><pre><span></span><code><span class="c"># Create Logic App</span>
-<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">&quot;rg-automation&quot;</span>
-<span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-unused-resource-cleanup&quot;</span>
+<span class="nv">$resourceGroup</span> <span class="p">=</span> <span class="s2">"rg-automation"</span>
+<span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">"la-unused-resource-cleanup"</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
@@ -400,8 +400,8 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <h3 id="logic-app-flow">Logic App Flow</h3>
@@ -416,22 +416,22 @@ When you delete a VM, Azure doesn't delete its disk. Or NIC. Or snapshots from 6
 </ol>
 <h3 id="expected-output">Expected Output</h3>
 <p>Every Monday at 8 AM:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Weekly</span><span class="w"> </span><span class="n">Unused</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">Report</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Potential</span><span class="w"> </span><span class="n">Savings</span><span class="o">:</span><span class="w"> </span><span class="n">$4</span><span class="o">,</span><span class="mi">187</span>
+<div class="codehilite"><pre><span></span><code>Subject: Weekly Unused Resource Report - Potential Savings: $4,187
 
-<span class="n">SUMMARY</span>
-<span class="err">â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”</span>
-<span class="n">Resource</span><span class="w"> </span><span class="n">Type</span><span class="w">           </span><span class="n">Count</span><span class="w">    </span><span class="n">Monthly</span><span class="w"> </span><span class="n">Cost</span>
-<span class="err">â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”</span>
-<span class="n">Orphaned</span><span class="w"> </span><span class="n">Disks</span><span class="w">            </span><span class="mi">47</span><span class="w">       </span><span class="n">$3</span><span class="o">,</span><span class="mi">240</span>
-<span class="n">Old</span><span class="w"> </span><span class="n">Snapshots</span><span class="w"> </span><span class="o">(&gt;</span><span class="mi">90</span><span class="n">d</span><span class="o">)</span><span class="w">     </span><span class="mi">156</span><span class="w">         </span><span class="n">$892</span>
-<span class="n">Unattached</span><span class="w"> </span><span class="n">NICs</span><span class="w">           </span><span class="mi">23</span><span class="w">          </span><span class="n">N</span><span class="o">/</span><span class="n">A</span>
-<span class="err">â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”</span>
-<span class="n">TOTAL</span><span class="w">                    </span><span class="mi">226</span><span class="w">       </span><span class="n">$4</span><span class="o">,</span><span class="mi">132</span>
+SUMMARY
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+Resource Type           Count    Monthly Cost
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+Orphaned Disks            47       $3,240
+Old Snapshots (&gt;90d)     156         $892
+Unattached NICs           23          N/A
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+TOTAL                    226       $4,132
 
-<span class="n">TOP</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">ORPHANED</span><span class="w"> </span><span class="n">DISKS</span>
-<span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">old</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">vm</span><span class="o">-</span><span class="mi">01</span><span class="w">    </span><span class="mi">512</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Premium</span><span class="w">    </span><span class="n">$81</span><span class="o">.</span><span class="mi">92</span><span class="o">/</span><span class="n">mo</span>
-<span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">backup</span><span class="o">-</span><span class="mi">2023</span><span class="w">      </span><span class="mi">1024</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Standard</span><span class="w">   </span><span class="n">$51</span><span class="o">.</span><span class="mi">20</span><span class="o">/</span><span class="n">mo</span>
-<span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">disk</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">archive</span><span class="w">       </span><span class="mi">256</span><span class="w"> </span><span class="n">GB</span><span class="w"> </span><span class="n">Premium</span><span class="w">    </span><span class="n">$40</span><span class="o">.</span><span class="mi">96</span><span class="o">/</span><span class="n">mo</span>
+TOP 10 ORPHANED DISKS
+1. disk-old-prod-vm-01    512 GB Premium    $81.92/mo
+2. disk-backup-2023      1024 GB Standard   $51.20/mo
+3. disk-dev-archive       256 GB Premium    $40.96/mo
 </code></pre></div>
 
 <p><strong>Value:</strong> 3 hours/week saved, $4,000+/month recovered</p>
@@ -449,14 +449,14 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 <h3 id="the-certificate-query">The Certificate Query</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">// App Service Certificates</span>
 <span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.web/certificates&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">expirationDate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">properties</span><span class="err">.</span><span class="n">expirationDate</span><span class="p">)</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expirationDate</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.web/certificates'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">expirationDate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="n">expirationDate</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">expirationDate</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&gt;=</span><span class="w"> </span><span class="mi">0</span>
 <span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">severity</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
-<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Critical&#39;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;High&#39;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&#39;Medium&#39;</span>
+<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s">'Critical'</span><span class="p">,</span>
+<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">&lt;=</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="s">'High'</span><span class="p">,</span>
+<span class="w">    </span><span class="s">'Medium'</span>
 <span class="w">  </span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">expirationDate</span><span class="p">,</span>
 <span class="w">          </span><span class="n">daysUntilExpiry</span><span class="p">,</span><span class="w"> </span><span class="n">severity</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span>
@@ -464,7 +464,7 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 </code></pre></div>
 
 <h3 id="deployment">Deployment</h3>
-<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-certificate-monitor&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">"la-certificate-monitor"</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
@@ -483,14 +483,14 @@ Certificate expiration is the #1 cause of preventable outages.</p>
 <span class="c"># Reader role</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 
 <span class="c"># Key Vault Reader (if monitoring Key Vault certs)</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Key Vault Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Key Vault Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <h3 id="teams-webhook-setup">Teams Webhook Setup</h3>
@@ -542,10 +542,10 @@ Without tag enforcement, FinOps dies.</p>
 <p>At 31,000 resources, manual cleanup is impossible.</p>
 <h3 id="the-tag-query">The Tag Query</h3>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environmentTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Environment&#39;</span><span class="p">]),</span>
-<span class="w">         </span><span class="n">costCenterTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;CostCenter&#39;</span><span class="p">]),</span>
-<span class="w">         </span><span class="n">ownerTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Owner&#39;</span><span class="p">]),</span>
-<span class="w">         </span><span class="n">applicationTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Application&#39;</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">environmentTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'Environment'</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">costCenterTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'CostCenter'</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">ownerTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'Owner'</span><span class="p">]),</span>
+<span class="w">         </span><span class="n">applicationTag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">'Application'</span><span class="p">])</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">environmentTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">environmentTag</span><span class="p">)</span>
 <span class="w">     </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">costCenterTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">costCenterTag</span><span class="p">)</span>
 <span class="w">     </span><span class="k">or</span><span class="w"> </span><span class="n">isnull</span><span class="p">(</span><span class="n">ownerTag</span><span class="p">)</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">isempty</span><span class="p">(</span><span class="n">ownerTag</span><span class="p">)</span>
@@ -556,7 +556,7 @@ Without tag enforcement, FinOps dies.</p>
 </code></pre></div>
 
 <h3 id="deployment_1">Deployment</h3>
-<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-tag-compliance&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">"la-tag-compliance"</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
@@ -575,14 +575,14 @@ Without tag enforcement, FinOps dies.</p>
 <span class="c"># Reader for queries</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 
 <span class="c"># Optional: Tag Contributor for automated remediation</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Tag Contributor&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Tag Contributor"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <h3 id="logic-app-flow_2">Logic App Flow</h3>
@@ -628,7 +628,7 @@ Backups fail silently.</p>
 <p>You discover failures when you need to restore. Too late.</p>
 <p>This surfaces failures within 24 hours.</p>
 <h3 id="deployment_2">Deployment</h3>
-<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">&quot;la-rsv-backup-report&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">$logicAppName</span> <span class="p">=</span> <span class="s2">"la-rsv-backup-report"</span>
 
 <span class="n">az</span> <span class="n">logicapp</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-resource-group</span> <span class="nv">$resourceGroup</span> <span class="p">`</span>
@@ -647,13 +647,13 @@ Backups fail silently.</p>
 <span class="c"># Reader + Backup Reader roles</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Backup Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Backup Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <h3 id="logic-app-flow_3">Logic App Flow</h3>
@@ -672,31 +672,31 @@ Backups fail silently.</p>
 </ol>
 <h3 id="expected-output_3">Expected Output</h3>
 <p><strong>When failures occur:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="err">ðŸš¨</span><span class="w"> </span><span class="n">ALERT</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">Backup</span><span class="w"> </span><span class="n">Failures</span><span class="w"> </span><span class="o">(</span><span class="n">Last</span><span class="w"> </span><span class="mi">24</span><span class="n">h</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subject: ðŸš¨ ALERT: 3 Backup Failures (Last 24h)
 
-<span class="n">BACKUP</span><span class="w"> </span><span class="n">FAILURE</span><span class="w"> </span><span class="n">REPORT</span>
-<span class="err">â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”</span>
-<span class="n">Vault</span><span class="w">              </span><span class="n">VM</span><span class="w"> </span><span class="n">Name</span><span class="w">           </span><span class="n">Error</span><span class="w"> </span><span class="n">Code</span>
-<span class="err">â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”</span>
-<span class="n">rsv</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">backups</span><span class="w">   </span><span class="n">vm</span><span class="o">-</span><span class="n">sql</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="mi">01</span><span class="w">    </span><span class="n">UserErrorVmNotFound</span>
-<span class="n">rsv</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">backups</span><span class="w">   </span><span class="n">vm</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="mi">03</span><span class="w">    </span><span class="n">UserErrorDiskQuota</span>
-<span class="n">rsv</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">backups</span><span class="w">    </span><span class="n">vm</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">server</span><span class="w">    </span><span class="n">UserErrorVMAgentOffline</span>
+BACKUP FAILURE REPORT
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+Vault              VM Name           Error Code
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+rsv-prod-backups   vm-sql-prod-01    UserErrorVmNotFound
+rsv-prod-backups   vm-app-prod-03    UserErrorDiskQuota
+rsv-dev-backups    vm-test-server    UserErrorVMAgentOffline
 
-<span class="n">COMMON</span><span class="w"> </span><span class="n">FIXES</span>
-<span class="n">UserErrorVmNotFound</span><span class="w">     </span><span class="err">â†’</span><span class="w"> </span><span class="n">VM</span><span class="w"> </span><span class="n">deleted</span><span class="o">,</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">policy</span>
-<span class="n">UserErrorDiskQuota</span><span class="w">      </span><span class="err">â†’</span><span class="w"> </span><span class="n">Increase</span><span class="w"> </span><span class="n">storage</span><span class="o">,</span><span class="w"> </span><span class="n">review</span><span class="w"> </span><span class="n">retention</span>
-<span class="n">UserErrorVMAgentOffline</span><span class="w"> </span><span class="err">â†’</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">agent</span><span class="o">,</span><span class="w"> </span><span class="n">restart</span><span class="w"> </span><span class="n">VM</span>
+COMMON FIXES
+UserErrorVmNotFound     â†’ VM deleted, remove from policy
+UserErrorDiskQuota      â†’ Increase storage, review retention
+UserErrorVMAgentOffline â†’ Check agent, restart VM
 
-<span class="n">ACTION</span><span class="w"> </span><span class="n">REQUIRED</span><span class="o">:</span><span class="w"> </span><span class="n">Remediate</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="n">hours</span>
+ACTION REQUIRED: Remediate within 24 hours
 </code></pre></div>
 
 <p><strong>When successful:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="err">âœ…</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="n">Backups</span><span class="w"> </span><span class="n">Successful</span><span class="w"> </span><span class="o">(</span><span class="n">Last</span><span class="w"> </span><span class="mi">24</span><span class="n">h</span><span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>Subject: âœ… All Backups Successful (Last 24h)
 
-<span class="n">Total</span><span class="w"> </span><span class="n">Vaults</span><span class="o">:</span><span class="w"> </span><span class="mi">12</span>
-<span class="n">Total</span><span class="w"> </span><span class="n">Successful</span><span class="w"> </span><span class="n">Jobs</span><span class="o">:</span><span class="w"> </span><span class="mi">247</span>
+Total Vaults: 12
+Total Successful Jobs: 247
 
-<span class="n">No</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="n">required</span><span class="o">.</span>
+No action required.
 </code></pre></div>
 
 <p><strong>Value:</strong> 4+ hours per restore crisis avoided, compliance verified</p>
@@ -752,8 +752,8 @@ Backups fail silently.</p>
 <span class="c"># Re-assign role</span>
 <span class="n">az</span> <span class="n">role</span> <span class="n">assignment</span> <span class="n">create</span> <span class="p">`</span>
   <span class="p">-</span><span class="n">-assignee</span> <span class="nv">$identity</span><span class="p">.</span><span class="n">principalId</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-role</span> <span class="s2">&quot;Reader&quot;</span> <span class="p">`</span>
-  <span class="p">-</span><span class="n">-scope</span> <span class="s2">&quot;/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">&quot;</span>
+  <span class="p">-</span><span class="n">-role</span> <span class="s2">"Reader"</span> <span class="p">`</span>
+  <span class="p">-</span><span class="n">-scope</span> <span class="s2">"/subscriptions/</span><span class="p">$(</span><span class="n">az</span> <span class="n">account</span> <span class="n">show</span> <span class="p">-</span><span class="n">-query</span> <span class="n">id</span> <span class="n">-o</span> <span class="n">tsv</span><span class="p">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <p><strong>Issue 2: Email Not Sending</strong></p>
@@ -770,8 +770,8 @@ Backups fail silently.</p>
 <p>Split by subscription:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Query specific subscription</span>
 <span class="n">Resources</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">&#39;microsoft.compute/disks&#39;</span><span class="w"> </span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&#39;YOUR-SUB-ID&#39;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">=~</span><span class="w"> </span><span class="s">'microsoft.compute/disks'</span><span class="w"> </span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">'YOUR-SUB-ID'</span>
 </code></pre></div>
 
 <h2 id="bottom-line">Bottom Line</h2>

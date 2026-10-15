@@ -373,29 +373,29 @@ When they're missing? I may as well be reading hieroglyphics.</p>
 <p><img alt="DAX tag extraction demo" src="/static/images/hero/azure-dax-extract.png" /></p>
 <p><strong>Calculated column on <code>Resources</code>:</strong></p>
 <div class="codehilite"><pre><span></span><code>Tags.Application_clean =
-<span class="nb">VAR</span><span class="w"> </span>Key1     = &quot;Application=&quot;
-<span class="nb">VAR</span><span class="w"> </span>Key2     = &quot;ApplicationId=&quot;
+<span class="nb">VAR</span><span class="w"> </span>Key1     = "Application="
+<span class="nb">VAR</span><span class="w"> </span>Key2     = "ApplicationId="
 <span class="nb">VAR</span><span class="w"> </span>Src      = Resources[Tags]
 <span class="nb">VAR</span><span class="w"> </span>p1       = FIND(Key1, Src, 1, 0)
 <span class="nb">VAR</span><span class="w"> </span>p2       = FIND(Key2, Src, 1, 0)
 <span class="nb">VAR</span><span class="w"> </span>UseKey   = IF(p1 &gt; 0, Key1, IF(p2 &gt; 0, Key2, BLANK()))
 <span class="nb">VAR</span><span class="w"> </span>StartPos = IF(ISBLANK(UseKey), 0, FIND(UseKey, Src, 1, 0) + LEN(UseKey))
-<span class="nb">VAR</span><span class="w"> </span>EndSemi  = FIND(&quot;;&quot;, Src, StartPos, LEN(Src) + 1)
-<span class="nb">VAR</span><span class="w"> </span>EndComma = FIND(&quot;,&quot;, Src, StartPos, LEN(Src) + 1)
+<span class="nb">VAR</span><span class="w"> </span>EndSemi  = FIND(";", Src, StartPos, LEN(Src) + 1)
+<span class="nb">VAR</span><span class="w"> </span>EndComma = FIND(",", Src, StartPos, LEN(Src) + 1)
 <span class="nb">VAR</span><span class="w"> </span>EndPos   = MIN(EndSemi, EndComma)
 <span class="nb">VAR</span><span class="w"> </span>RawValue = IF(StartPos &gt; 0, MID(Src, StartPos, EndPos - StartPos), BLANK())
 <span class="nb">RETURN</span>
 
 <span class="c1">---</span>
 
-### 🔍 Find the &quot;Blank&quot; Tags
+### 🔍 Find the "Blank" Tags
 
 Dashboards hate blanks. Run this to find exactly which subscriptions are guilty.
 
 <span class="p">```</span>kusto
-<span class="c1">// Identify &quot;Blank&quot; Tags causing reporting gaps</span>
+<span class="c1">// Identify "Blank" Tags causing reporting gaps</span>
 Resources
-| where isnull(tags) or tags == &quot;{}&quot;
+| where isnull(tags) or tags == "{}"
 | summarize Count=count() by subscriptionId
 </code></pre></div>
 

@@ -316,7 +316,7 @@
 <h2 id="the-calendar-table-secret">The Calendar Table Secret</h2>
 <p>Open Chris's .pbix and look at the data model. The Calendar table isn't imported—<strong>it's calculated</strong>.</p>
 <p><strong>Here's the DAX:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nf">Calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">CALENDAR</span><span class="p">(</span><span class="nf">FIRSTDATE</span><span class="p">(</span><span class="na">&#39;Usage Details&#39;[Date]</span><span class="p">),</span><span class="nf">LASTDATE</span><span class="p">(</span><span class="na">&#39;Usage Details&#39;[Date]</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code><span class="nf">Calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">CALENDAR</span><span class="p">(</span><span class="nf">FIRSTDATE</span><span class="p">(</span><span class="na">'Usage Details'[Date]</span><span class="p">),</span><span class="nf">LASTDATE</span><span class="p">(</span><span class="na">'Usage Details'[Date]</span><span class="p">))</span>
 </code></pre></div>
 
 <p><strong>What's happening:</strong><br />
@@ -586,20 +586,20 @@ With 17+ tables and multiple relationships, filter context can be tricky. The Ca
 <p><strong>Tag Normalization with DAX:</strong></p>
 <p>I added calculated columns to the Usage Details table to clean up tag variations:</p>
 <div class="codehilite"><pre><span></span><code>Clean_CostCenter = 
-<span class="nb">VAR</span><span class="w"> </span>RawTag = UPPER(TRIM(&#39;Usage Details&#39;[Tags_CostCenter]))
+<span class="nb">VAR</span><span class="w"> </span>RawTag = UPPER(TRIM('Usage Details'[Tags_CostCenter]))
 <span class="nb">RETURN</span>
 <span class="w">    </span><span class="nf">SWITCH</span><span class="p">(</span>
 <span class="w">        </span>RawTag,
-<span class="w">        </span><span class="s">&quot;COSTCENTER1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CostCenter1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;COST CENTER 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CostCenter1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;CC1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CostCenter1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;COSTCENTER-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CostCenter1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;FINANCE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;FIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;FINANCE DEPT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Unassigned&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nf">BLANK</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Unassigned&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="na">&#39;Usage Details&#39;[Tags_CostCenter]</span><span class="w">  </span><span class="c1">// If no match, keep original</span>
+<span class="w">        </span><span class="s">"COSTCENTER1"</span><span class="p">,</span><span class="w"> </span><span class="s">"CostCenter1"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"COST CENTER 1"</span><span class="p">,</span><span class="w"> </span><span class="s">"CostCenter1"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"CC1"</span><span class="p">,</span><span class="w"> </span><span class="s">"CostCenter1"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"COSTCENTER-1"</span><span class="p">,</span><span class="w"> </span><span class="s">"CostCenter1"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"FINANCE"</span><span class="p">,</span><span class="w"> </span><span class="s">"Finance"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"FIN"</span><span class="p">,</span><span class="w"> </span><span class="s">"Finance"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"FINANCE DEPT"</span><span class="p">,</span><span class="w"> </span><span class="s">"Finance"</span><span class="p">,</span>
+<span class="w">        </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="s">"Unassigned"</span><span class="p">,</span>
+<span class="w">        </span><span class="nf">BLANK</span><span class="p">(),</span><span class="w"> </span><span class="s">"Unassigned"</span><span class="p">,</span>
+<span class="w">        </span><span class="na">'Usage Details'[Tags_CostCenter]</span><span class="w">  </span><span class="c1">// If no match, keep original</span>
 <span class="w">    </span><span class="p">)</span>
 </code></pre></div>
 
@@ -616,24 +616,24 @@ With 17+ tables and multiple relationships, filter context can be tricky. The Ca
 <p>If you only show resource-level costs, <strong>you're missing subscription-level charges</strong> like support plans and reservations.</p>
 <p><strong>The solution - fallback hierarchy:</strong></p>
 <div class="codehilite"><pre><span></span><code>Final_CostCenter = 
-<span class="nb">VAR</span><span class="w"> </span>ResourceTag = &#39;Usage Details&#39;[Clean_CostCenter]
-<span class="nb">VAR</span><span class="w"> </span>ResourceGroupName = &#39;Usage Details&#39;[ResourceGroup]
-<span class="nb">VAR</span><span class="w"> </span>SubscriptionName = &#39;Usage Details&#39;[SubscriptionName]
+<span class="nb">VAR</span><span class="w"> </span>ResourceTag = 'Usage Details'[Clean_CostCenter]
+<span class="nb">VAR</span><span class="w"> </span>ResourceGroupName = 'Usage Details'[ResourceGroup]
+<span class="nb">VAR</span><span class="w"> </span>SubscriptionName = 'Usage Details'[SubscriptionName]
 
 <span class="nb">RETURN</span>
 <span class="w">    </span><span class="nf">IF</span><span class="p">(</span>
-<span class="w">        </span>ResourceTag &lt;&gt; &quot;Unassigned&quot;,
+<span class="w">        </span>ResourceTag &lt;&gt; "Unassigned",
 <span class="w">        </span>ResourceTag,
 <span class="w">        </span><span class="nf">IF</span><span class="p">(</span>
-<span class="w">            </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>ResourceGroupName, &quot;Finance&quot;),
-<span class="w">            </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>ResourceGroupName, "Finance"),
+<span class="w">            </span><span class="s">"Finance"</span><span class="p">,</span>
 <span class="w">            </span><span class="nf">IF</span><span class="p">(</span>
-<span class="w">                </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>SubscriptionName, &quot;Finance&quot;),
-<span class="w">                </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>SubscriptionName, "Finance"),
+<span class="w">                </span><span class="s">"Finance"</span><span class="p">,</span>
 <span class="w">                </span><span class="nf">IF</span><span class="p">(</span>
-<span class="w">                    </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>SubscriptionName, &quot;Prod&quot;),
-<span class="w">                    </span><span class="s">&quot;Production-Shared&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="s">&quot;Unassigned&quot;</span>
+<span class="w">                    </span><span class="nf">CONTAINSSTRING</span><span class="p">(</span>SubscriptionName, "Prod"),
+<span class="w">                    </span><span class="s">"Production-Shared"</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">"Unassigned"</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">)</span>
@@ -668,13 +668,13 @@ You won't get this right the first time. Here's what I did:</p>
 <p><strong>Example DAX for business units:</strong></p>
 <div class="codehilite"><pre><span></span><code>Business_Unit = 
 <span class="nf">SWITCH</span><span class="p">(</span>
-<span class="w">    </span><span class="na">&#39;Usage Details&#39;[Final_CostCenter]</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Finance&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;Engineering&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Engineering&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;operations&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;operations&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;IT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IT Shared Services&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;Production-Shared&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IT Shared Services&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s">&quot;Unknown&quot;</span>
+<span class="w">    </span><span class="na">'Usage Details'[Final_CostCenter]</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"Finance"</span><span class="p">,</span><span class="w"> </span><span class="s">"Finance"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"Engineering"</span><span class="p">,</span><span class="w"> </span><span class="s">"Engineering"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s">"operations"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"IT"</span><span class="p">,</span><span class="w"> </span><span class="s">"IT Shared Services"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"Production-Shared"</span><span class="p">,</span><span class="w"> </span><span class="s">"IT Shared Services"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"Unknown"</span>
 <span class="p">)</span>
 </code></pre></div>
 

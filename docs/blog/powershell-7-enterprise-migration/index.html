@@ -607,10 +607,10 @@
 - Consistency with your workstation environment</p>
 <p><strong>How to install PS7 on VMs:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Via Azure VM Run Command</span>
-<span class="nb">Invoke-AzVMRunCommand</span> <span class="n">-ResourceGroupName</span> <span class="s2">&quot;rg-prod&quot;</span> <span class="n">-VMName</span> <span class="s2">&quot;vm-app-01&quot;</span> <span class="p">`</span>
-  <span class="n">-CommandId</span> <span class="s2">&quot;RunPowerShellScript&quot;</span> <span class="n">-ScriptString</span> <span class="sh">@&quot;</span>
+<span class="nb">Invoke-AzVMRunCommand</span> <span class="n">-ResourceGroupName</span> <span class="s2">"rg-prod"</span> <span class="n">-VMName</span> <span class="s2">"vm-app-01"</span> <span class="p">`</span>
+  <span class="n">-CommandId</span> <span class="s2">"RunPowerShellScript"</span> <span class="n">-ScriptString</span> <span class="sh">@"</span>
 <span class="sh">    winget install Microsoft.PowerShell</span>
-<span class="sh">&quot;@</span>
+<span class="sh">"@</span>
 
 <span class="c"># Or via Custom Script Extension during deployment</span>
 </code></pre></div>
@@ -705,7 +705,7 @@
 
 <span class="c"># âŒ Workflows (removed entirely in PS7)</span>
 <span class="n">workflow</span> <span class="nb">Get-AllVMs</span> <span class="p">{</span>
-    <span class="c"># This won&#39;t work in PS7</span>
+    <span class="c"># This won't work in PS7</span>
 <span class="p">}</span>
 
 <span class="c"># âŒ Old WMI cmdlets (use CIM instead)</span>
@@ -784,7 +784,7 @@
             <span class="nv">$results</span> <span class="p">+=</span> <span class="no">[PSCustomObject]</span><span class="p">@{</span>
                 <span class="n">Subscription</span> <span class="p">=</span> <span class="nv">$sub</span><span class="p">.</span><span class="n">Name</span>
                 <span class="n">Resource</span> <span class="p">=</span> <span class="nv">$resource</span><span class="p">.</span><span class="n">Name</span>
-                <span class="n">Issue</span> <span class="p">=</span> <span class="s2">&quot;Missing Environment tag&quot;</span>
+                <span class="n">Issue</span> <span class="p">=</span> <span class="s2">"Missing Environment tag"</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -807,7 +807,7 @@
         <span class="no">[PSCustomObject]</span><span class="p">@{</span>
             <span class="n">Subscription</span> <span class="p">=</span> <span class="nv">$using</span><span class="p">:</span><span class="n">_</span><span class="p">.</span><span class="n">Name</span>
             <span class="n">Resource</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
-            <span class="n">Issue</span> <span class="p">=</span> <span class="s2">&quot;Missing Environment tag&quot;</span>
+            <span class="n">Issue</span> <span class="p">=</span> <span class="s2">"Missing Environment tag"</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span> <span class="n">-ThrottleLimit</span> <span class="n">10</span>
@@ -821,7 +821,7 @@
 <span class="nv">$results</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="n">-Parallel</span> <span class="p">{</span>
     <span class="nv">$resource</span> <span class="p">=</span> <span class="nb">Get-AzResource</span> <span class="n">-ResourceId</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ResourceId</span>
     <span class="nv">$tags</span> <span class="p">=</span> <span class="nv">$resource</span><span class="p">.</span><span class="n">Tags</span> <span class="p">??</span> <span class="p">@{}</span>
-    <span class="nv">$tags</span><span class="p">[</span><span class="s1">&#39;Environment&#39;</span><span class="p">]</span> <span class="p">=</span> <span class="s1">&#39;Production&#39;</span>  <span class="c"># Default value</span>
+    <span class="nv">$tags</span><span class="p">[</span><span class="s1">'Environment'</span><span class="p">]</span> <span class="p">=</span> <span class="s1">'Production'</span>  <span class="c"># Default value</span>
     <span class="nb">Set-AzResource</span> <span class="n">-ResourceId</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ResourceId</span> <span class="n">-Tag</span> <span class="nv">$tags</span> <span class="n">-Force</span>
 <span class="p">}</span> <span class="n">-ThrottleLimit</span> <span class="n">5</span>
 </code></pre></div>

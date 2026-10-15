@@ -303,8 +303,8 @@
 <p>Here's what nobody tells you about Power BI files:</p>
 <p><strong>.pbix files are ZIP archives with JSON and XML inside.</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Try this yourself</span>
-<span class="nb">Copy-Item</span> <span class="s2">&quot;dashboard.pbix&quot;</span> <span class="s2">&quot;dashboard.zip&quot;</span>
-<span class="nb">Expand-Archive</span> <span class="s2">&quot;dashboard.zip&quot;</span> <span class="n">-DestinationPath</span> <span class="s2">&quot;extracted&quot;</span>
+<span class="nb">Copy-Item</span> <span class="s2">"dashboard.pbix"</span> <span class="s2">"dashboard.zip"</span>
+<span class="nb">Expand-Archive</span> <span class="s2">"dashboard.zip"</span> <span class="n">-DestinationPath</span> <span class="s2">"extracted"</span>
 </code></pre></div>
 
 <p><strong>What's inside:</strong></p>
@@ -327,11 +327,11 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">extract_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract .pbix file contents&quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Extract .pbix file contents"""</span>
+    <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
         <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Extracted </span><span class="si">{</span><span class="n">pbix_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Extracted </span><span class="si">{</span><span class="n">pbix_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>That's it.</strong> No special libraries needed. It's just a ZIP file.</p>
@@ -340,51 +340,51 @@
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_datamodel_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse DataModelSchema to extract tables and relationships&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parse DataModelSchema to extract tables and relationships"""</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
 
     <span class="c1"># Extract tables</span>
     <span class="n">tables</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Table&quot;</span><span class="p">):</span>
-        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">".//Table"</span><span class="p">):</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">)</span>
         <span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
 
     <span class="c1"># Extract relationships</span>
     <span class="n">relationships</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Relationship&quot;</span><span class="p">):</span>
-        <span class="n">from_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FromTable&#39;</span><span class="p">)</span>
-        <span class="n">to_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ToTable&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">".//Relationship"</span><span class="p">):</span>
+        <span class="n">from_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'FromTable'</span><span class="p">)</span>
+        <span class="n">to_table</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'ToTable'</span><span class="p">)</span>
         <span class="n">relationships</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">from_table</span><span class="p">,</span>
-            <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="n">to_table</span>
+            <span class="s1">'from'</span><span class="p">:</span> <span class="n">from_table</span><span class="p">,</span>
+            <span class="s1">'to'</span><span class="p">:</span> <span class="n">to_table</span>
         <span class="p">})</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;tables&#39;</span><span class="p">:</span> <span class="n">tables</span><span class="p">,</span>
-        <span class="s1">&#39;relationships&#39;</span><span class="p">:</span> <span class="n">relationships</span>
+        <span class="s1">'tables'</span><span class="p">:</span> <span class="n">tables</span><span class="p">,</span>
+        <span class="s1">'relationships'</span><span class="p">:</span> <span class="n">relationships</span>
     <span class="p">}</span>
 </code></pre></div>
 
 <h3 id="step-3-extract-power-query-m-code">Step 3: Extract Power Query (M) Code</h3>
 <p>Power BI stores Power Query code in the DataMashup file (binary format, but readable):</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_queries</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract Power Query M code from DataMashup&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extract Power Query M code from DataMashup"""</span>
     <span class="c1"># DataMashup is a binary format, but queries are readable</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="c1"># Find M query sections (they&#39;re embedded in the binary)</span>
+    <span class="c1"># Find M query sections (they're embedded in the binary)</span>
     <span class="c1"># This is simplified - actual implementation needs proper parsing</span>
     <span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Look for &quot;section&quot; keyword (M queries start with &quot;section&quot;)</span>
-    <span class="n">sections</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;section&#39;</span><span class="p">)</span>
+    <span class="c1"># Look for "section" keyword (M queries start with "section")</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s1">'section'</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>  <span class="c1"># Skip first (before any &quot;section&quot;)</span>
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>  <span class="c1"># Skip first (before any "section")</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Decode and extract readable query text</span>
-            <span class="n">query_text</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-16-le&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="n">query_text</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-16-le'</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">query_text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
                 <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_text</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>  <span class="c1"># First 500 chars</span>
         <span class="k">except</span><span class="p">:</span>
@@ -396,19 +396,19 @@
 <h3 id="step-4-parse-dax-measures">Step 4: Parse DAX Measures</h3>
 <p>DAX measures are in the DataModelSchema as well:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_dax_measures</span><span class="p">(</span><span class="n">schema_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract DAX measures from schema&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extract DAX measures from schema"""</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
 
     <span class="n">measures</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//Measure&quot;</span><span class="p">):</span>
-        <span class="n">measure_name</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">)</span>
-        <span class="n">dax_expression</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Expression&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">".//Measure"</span><span class="p">):</span>
+        <span class="n">measure_name</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">)</span>
+        <span class="n">dax_expression</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'Expression'</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">dax_expression</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">measures</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">measure_name</span><span class="p">,</span>
-                <span class="s1">&#39;expression&#39;</span><span class="p">:</span> <span class="n">dax_expression</span><span class="o">.</span><span class="n">text</span>
+                <span class="s1">'name'</span><span class="p">:</span> <span class="n">measure_name</span><span class="p">,</span>
+                <span class="s1">'expression'</span><span class="p">:</span> <span class="n">dax_expression</span><span class="o">.</span><span class="n">text</span>
             <span class="p">})</span>
 
     <span class="k">return</span> <span class="n">measures</span>
@@ -417,14 +417,14 @@
 <h3 id="step-5-generate-readable-report">Step 5: Generate Readable Report</h3>
 <p>Put it all together:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">analyze_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete analysis of .pbix file&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Complete analysis of .pbix file"""</span>
     <span class="c1"># Extract</span>
-    <span class="n">extract_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./extracted&quot;</span><span class="p">)</span>
+    <span class="n">extract_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"./extracted"</span><span class="p">)</span>
     <span class="n">extract_pbix</span><span class="p">(</span><span class="n">pbix_path</span><span class="p">,</span> <span class="n">extract_dir</span><span class="p">)</span>
 
     <span class="c1"># Parse components</span>
-    <span class="n">schema_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">&quot;DataModelSchema&quot;</span>
-    <span class="n">datamashup_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">&quot;DataMashup&quot;</span>
+    <span class="n">schema_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">"DataModelSchema"</span>
+    <span class="n">datamashup_path</span> <span class="o">=</span> <span class="n">extract_dir</span> <span class="o">/</span> <span class="s2">"DataMashup"</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">parse_datamodel_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
     <span class="n">queries</span> <span class="o">=</span> <span class="n">extract_queries</span><span class="p">(</span><span class="n">datamashup_path</span><span class="p">)</span>
@@ -432,18 +432,18 @@
 
     <span class="c1"># Generate report</span>
     <span class="n">report</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;tables&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">],</span>
-        <span class="s1">&#39;relationships&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;relationships&#39;</span><span class="p">],</span>
-        <span class="s1">&#39;query_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span>
-        <span class="s1">&#39;queries&#39;</span><span class="p">:</span> <span class="n">queries</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span>  <span class="c1"># First 10 queries</span>
-        <span class="s1">&#39;measure_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">measures</span><span class="p">),</span>
-        <span class="s1">&#39;measures&#39;</span><span class="p">:</span> <span class="n">measures</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>  <span class="c1"># First 20 measures</span>
+        <span class="s1">'tables'</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">'tables'</span><span class="p">],</span>
+        <span class="s1">'relationships'</span><span class="p">:</span> <span class="n">model</span><span class="p">[</span><span class="s1">'relationships'</span><span class="p">],</span>
+        <span class="s1">'query_count'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span>
+        <span class="s1">'queries'</span><span class="p">:</span> <span class="n">queries</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span>  <span class="c1"># First 10 queries</span>
+        <span class="s1">'measure_count'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">measures</span><span class="p">),</span>
+        <span class="s1">'measures'</span><span class="p">:</span> <span class="n">measures</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>  <span class="c1"># First 20 measures</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">report</span>
 
 <span class="c1"># Usage</span>
-<span class="n">report</span> <span class="o">=</span> <span class="n">analyze_pbix</span><span class="p">(</span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span><span class="p">)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">analyze_pbix</span><span class="p">(</span><span class="s2">"CCO_Dashboard.pbix"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </code></pre></div>
 
@@ -480,39 +480,39 @@
 <h2 id="the-actual-tool-output">The Actual Tool Output</h2>
 <p>Running PBIX Modernizer on the CCO Dashboard:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CCO_Dashboard_v8&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8.0&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-15&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Chris Bowman&quot;</span>
+<span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CCO_Dashboard_v8"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-03-15"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chris Bowman"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;statistics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;tables&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">52</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;relationships&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;queries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">63</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;dax_measures&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">147</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;visuals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">200+</span>
+<span class="w">  </span><span class="nt">"statistics"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="mi">52</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"queries"</span><span class="p">:</span><span class="w"> </span><span class="mi">63</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dax_measures"</span><span class="p">:</span><span class="w"> </span><span class="mi">147</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"visuals"</span><span class="p">:</span><span class="w"> </span><span class="mf">200+</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;sample_queries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"sample_queries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AzureVMs&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceGraph&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;preview&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type =~ &#39;microsoft.compute/virtualmachines&#39;...&quot;</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AzureVMs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ResourceGraph"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Resources | where type =~ 'microsoft.compute/virtualmachines'..."</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;StorageAccounts&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResourceGraph&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;preview&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Resources | where type =~ &#39;microsoft.storage/storageaccounts&#39;...&quot;</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"StorageAccounts"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ResourceGraph"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Resources | where type =~ 'microsoft.storage/storageaccounts'..."</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;sample_measures&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"sample_measures"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total VM Count&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dax&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;COUNTROWS(&#39;VirtualMachines&#39;)&quot;</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total VM Count"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"dax"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COUNTROWS('VirtualMachines')"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Running VMs&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dax&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CALCULATE([Total VM Count], VirtualMachines[PowerState] = \&quot;Running\&quot;)&quot;</span>
+<span class="w">      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running VMs"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"dax"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CALCULATE([Total VM Count], VirtualMachines[PowerState] = \"Running\")"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
@@ -554,10 +554,10 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/youru
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 
 <span class="c1"># Analyze a .pbix file</span>
-python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>analyze<span class="w"> </span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span><span class="w"> </span>--output<span class="w"> </span>report.json
+python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>analyze<span class="w"> </span><span class="s2">"CCO_Dashboard.pbix"</span><span class="w"> </span>--output<span class="w"> </span>report.json
 
 <span class="c1"># View summary</span>
-python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>summarize<span class="w"> </span><span class="s2">&quot;CCO_Dashboard.pbix&quot;</span>
+python<span class="w"> </span>pbix_modernizer.py<span class="w"> </span>summarize<span class="w"> </span><span class="s2">"CCO_Dashboard.pbix"</span>
 </code></pre></div>
 
 <p><strong>Output formats:</strong><br />

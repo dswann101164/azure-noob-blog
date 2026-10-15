@@ -163,7 +163,7 @@
   },
   "keywords": "azure, finops, cost-optimization, advisor, governance",
   "articleSection": "azure",
-  "wordCount": "949",
+  "wordCount": "948",
   "timeRequired": "PT5M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -318,22 +318,22 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 <p>The biggest savings come from <strong>killing zombie applications</strong>—not optimizing them.</p>
 <h3 id="tag-everything-no-really">Tag Everything (No, Really)</h3>
 <p>Without tags, you're flying blind:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Environment</span><span class="o">:</span><span class="w"> </span><span class="n">Production</span>
-<span class="n">CostCenter</span><span class="o">:</span><span class="w"> </span><span class="n">Finance</span><span class="w">  </span>
-<span class="n">Owner</span><span class="o">:</span><span class="w"> </span><span class="n">jane</span><span class="o">.</span><span class="na">smith</span><span class="err">@</span><span class="n">company</span><span class="o">.</span><span class="na">com</span>
-<span class="n">AppID</span><span class="o">:</span><span class="w"> </span><span class="n">SAP</span><span class="o">-</span><span class="n">ERP</span><span class="o">-</span><span class="n">PROD</span>
-<span class="n">EOL</span><span class="o">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="n">Q4</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Environment</span><span class="p">:</span><span class="w"> </span><span class="n">Production</span>
+<span class="nl">CostCenter</span><span class="p">:</span><span class="w"> </span><span class="n">Finance</span><span class="w">  </span>
+<span class="nl">Owner</span><span class="p">:</span><span class="w"> </span><span class="n">jane</span><span class="p">.</span><span class="n">smith</span><span class="nv">@company</span><span class="p">.</span><span class="n">com</span>
+<span class="nl">AppID</span><span class="p">:</span><span class="w"> </span><span class="n">SAP</span><span class="o">-</span><span class="n">ERP</span><span class="o">-</span><span class="n">PROD</span>
+<span class="nl">EOL</span><span class="p">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="n">Q4</span>
 </code></pre></div>
 
 <p>Tags enable the one thing Azure Advisor can't: <strong>Human judgment.</strong></p>
 <h3 id="build-your-own-optimization-logic">Build Your Own Optimization Logic</h3>
 <p>Azure Advisor is one-size-fits-all. You need <strong>business-context-aware</strong> logic:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.compute/virtualmachines&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Production&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">EOL</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">hardwareProfile</span><span class="err">.</span><span class="n">vmSize</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">&quot;Standard_D&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="err">.</span><span class="n">EOL</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.compute/virtualmachines"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Environment</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Production"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">EOL</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">hardwareProfile</span><span class="p">.</span><span class="n">vmSize</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">"Standard_D"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">resourceGroup</span><span class="p">,</span><span class="w"> </span><span class="n">vmSize</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">Owner</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">.</span><span class="n">EOL</span>
 </code></pre></div>
 
 <p>This finds oversized VMs in <strong>your context</strong>—not Microsoft's guesses.</p>
@@ -381,7 +381,7 @@ Ask <em>"Does this application still deliver business value?"</em></p>
 <p>Advisor guesses. This query proves it based on 30-day P95 CPU peaking under 5%.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Find REAL Oversized VMs (P95 CPU &lt; 5% for 30 days)</span>
 <span class="n">Perf</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ObjectName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;Processor&quot;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">CounterName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;% Processor Time&quot;</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ObjectName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"Processor"</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">CounterName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"% Processor Time"</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">P95</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">percentile</span><span class="p">(</span><span class="n">CounterValue</span><span class="p">,</span><span class="w"> </span><span class="mi">95</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Computer</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">P95</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">5</span>

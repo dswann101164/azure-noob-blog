@@ -167,8 +167,8 @@
   },
   "keywords": "azure, migration, azure-migrate, enterprise-reality, governance, compliance, certificate-management",
   "articleSection": "azure",
-  "wordCount": "2718",
-  "timeRequired": "PT14M",
+  "wordCount": "2575",
+  "timeRequired": "PT13M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
   "proficiencyLevel": "Intermediate",
@@ -243,7 +243,7 @@
   <header class="post-header">
     <h1>Azure Migrate&#39;s 18-Month Data Deletion: The Enterprise Migration Timer Microsoft Calls &#39;Expected Behavior&#39;</h1>
     <p class="muted">
-      2025-12-16 · ~14 min read
+      2025-12-16 · ~13 min read
       
     </p>
     
@@ -370,26 +370,26 @@
 <p><strong>We weren't looking for Azure Migrate appliances specifically.</strong></p>
 <p>The Logic App flagged them as part of its standard sweep of Entra ID applications with expiring certificates.</p>
 <p><strong>The alert that appeared:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">Subject</span><span class="o">:</span><span class="w"> </span><span class="n">Certificate</span><span class="w"> </span><span class="n">Expiration</span><span class="w"> </span><span class="n">Alert</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">Applications</span>
+<div class="codehilite"><pre><span></span><code>Subject: Certificate Expiration Alert - 15 Applications
 
-<span class="n">Applications</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">expiring</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">days</span><span class="o">:</span>
+Applications with certificates expiring within 30 days:
 
-<span class="o">...</span>
-<span class="o">-</span><span class="w"> </span><span class="n">Application</span><span class="o">:</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC1</span><span class="o">-</span><span class="n">Appliance</span>
-<span class="w">  </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="n">Principal</span>
-<span class="w">  </span><span class="n">Expires</span><span class="o">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span>
-<span class="w">  </span><span class="n">Certificate</span><span class="w"> </span><span class="n">Thumbprint</span><span class="o">:</span><span class="w"> </span><span class="n">A1B2C3D4</span><span class="o">...</span>
+...
+- Application: AzureMigrate-DC1-Appliance
+  Type: Service Principal
+  Expires: 2026-01-15
+  Certificate Thumbprint: A1B2C3D4...
 
-<span class="o">-</span><span class="w"> </span><span class="n">Application</span><span class="o">:</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DC2</span><span class="o">-</span><span class="n">Appliance</span><span class="w">  </span>
-<span class="w">  </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="n">Principal</span>
-<span class="w">  </span><span class="n">Expires</span><span class="o">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">15</span>
-<span class="w">  </span><span class="n">Certificate</span><span class="w"> </span><span class="n">Thumbprint</span><span class="o">:</span><span class="w"> </span><span class="n">E5F6G7H8</span><span class="o">...</span>
+- Application: AzureMigrate-DC2-Appliance  
+  Type: Service Principal
+  Expires: 2026-01-15
+  Certificate Thumbprint: E5F6G7H8...
 
-<span class="o">-</span><span class="w"> </span><span class="n">Application</span><span class="o">:</span><span class="w"> </span><span class="n">AzureMigrate</span><span class="o">-</span><span class="n">DR</span><span class="o">-</span><span class="n">Appliance</span>
-<span class="w">  </span><span class="n">Type</span><span class="o">:</span><span class="w"> </span><span class="n">Service</span><span class="w"> </span><span class="n">Principal</span>
-<span class="w">  </span><span class="n">Expires</span><span class="o">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">18</span>
-<span class="w">  </span><span class="n">Certificate</span><span class="w"> </span><span class="n">Thumbprint</span><span class="o">:</span><span class="w"> </span><span class="n">I9J0K1L2</span><span class="o">...</span>
-<span class="o">...</span>
+- Application: AzureMigrate-DR-Appliance
+  Type: Service Principal
+  Expires: 2026-01-18
+  Certificate Thumbprint: I9J0K1L2...
+...
 </code></pre></div>
 
 <p><strong>Our first reaction:</strong> "What are these? We don't manage applications named 'AzureMigrate'."</p>
@@ -410,17 +410,17 @@
 <p><strong>The query:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c">// Query all Entra ID applications with certificates</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;microsoft.aadiam/servicePrincipals&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">certDetails</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">keyCredentials</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"microsoft.aadiam/servicePrincipals"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">certDetails</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">keyCredentials</span>
 <span class="p">|</span><span class="w"> </span><span class="k">mv-expand</span><span class="w"> </span><span class="n">certDetails</span>
-<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">certDetails</span><span class="err">.</span><span class="n">endDate</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">todatetime</span><span class="p">(</span><span class="n">certDetails</span><span class="p">.</span><span class="n">endDate</span><span class="p">)</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">expiryDate</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="mi">30</span><span class="n">d</span>
 <span class="p">|</span><span class="w"> </span><span class="k">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">appName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
-<span class="w">    </span><span class="n">appId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="err">.</span><span class="n">appId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">appId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="n">appId</span><span class="p">,</span>
 <span class="w">    </span><span class="n">expiryDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">thumbprint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">certDetails</span><span class="err">.</span><span class="n">customKeyIdentifier</span><span class="p">),</span>
-<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">expiryDate</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
+<span class="w">    </span><span class="n">thumbprint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">certDetails</span><span class="p">.</span><span class="n">customKeyIdentifier</span><span class="p">),</span>
+<span class="w">    </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">datetime_diff</span><span class="p">(</span><span class="s">'day'</span><span class="p">,</span><span class="w"> </span><span class="n">expiryDate</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">())</span>
 <span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">daysUntilExpiry</span><span class="w"> </span><span class="n">asc</span>
 </code></pre></div>
 
@@ -453,7 +453,7 @@
 <h2 id="what-s-the-actual-certificate-rotation-process">What's the actual certificate rotation process?</h2>
 <p>Microsoft provides a PowerShell script for the 6-month extension. Here's what you run:</p>
 <p><strong>Step 1: Open elevated PowerShell on the appliance VM</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="s1">&#39;Program Files&#39;</span><span class="p">\</span><span class="s1">&#39;Microsoft Azure Appliance Configuration Manager&#39;</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">PowerShell</span><span class="p">\</span><span class="n">AzureMigrateCertificateRotation</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="s1">'Program Files'</span><span class="p">\</span><span class="s1">'Microsoft Azure Appliance Configuration Manager'</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">PowerShell</span><span class="p">\</span><span class="n">AzureMigrateCertificateRotation</span>
 </code></pre></div>
 
 <p><strong>Step 2: Run the rotation script</strong></p>
@@ -476,7 +476,7 @@
 <h2 id="what-happens-at-month-18-when-the-extension-expires">What happens at month 18 when the extension expires?</h2>
 <p><strong>Option 1: Re-register the appliance (lose all data)</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c"># Run on appliance VM</span>
-<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="s1">&#39;Program Files&#39;</span><span class="p">\</span><span class="s1">&#39;Microsoft Azure Appliance Configuration Manager&#39;</span><span class="p">\</span><span class="n">Scripts</span>
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="s1">'Program Files'</span><span class="p">\</span><span class="s1">'Microsoft Azure Appliance Configuration Manager'</span><span class="p">\</span><span class="n">Scripts</span>
 <span class="p">.\</span><span class="n">AzureMigrateInstaller</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Scenario</span> <span class="n">VMware</span>
 </code></pre></div>
 

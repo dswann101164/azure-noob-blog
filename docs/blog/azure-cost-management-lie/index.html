@@ -774,10 +774,10 @@
 <hr />
 <h3 id="find-the-shared-service-conflicts">🔍 Find the Shared Service Conflicts</h3>
 <p>Run this to see which "Shared" subscriptions are actually a mess of conflicting Cost Centers.</p>
-<div class="codehilite"><pre><span></span><code><span class="c">// Resources in &quot;Shared&quot; Subscriptions with disparate Cost Centers</span>
+<div class="codehilite"><pre><span></span><code><span class="c">// Resources in "Shared" Subscriptions with disparate Cost Centers</span>
 <span class="n">Resources</span>
-<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;SHARED-SUB-ID&quot;</span>
-<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DistinctCostCenters</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dcount</span><span class="p">(</span><span class="n">tags</span><span class="err">.</span><span class="n">CostCenter</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">subscriptionId</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"SHARED-SUB-ID"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">DistinctCostCenters</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dcount</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">CostCenter</span><span class="p">)</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">resourceGroup</span>
 <span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">DistinctCostCenters</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">1</span>
 </code></pre></div>
 
