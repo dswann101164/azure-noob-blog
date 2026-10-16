@@ -753,4 +753,4 @@ I'm building azure-noob.com and exploring NoobForge not because I love entrepren
 
 ---
 
-*David Swann is an Azure Architect managing enterprise infrastructure at scale. He writes about the operational reality of Azure at [azure-noob.com](https://azure-noob.com), where he documents the problems Microsoft's documentation doesn't adequately address.*
+*David Swann is an Azure Architect who has managed enterprise infrastructure at scale. He writes about the operational reality of Azure at [azure-noob.com](https://azure-noob.com), where he documents the problems Microsoft's documentation doesn't adequately address.*

@@ -550,4 +550,4 @@ That's how you build a consulting practice or SaaS business while still employed
 
 **Questions? Want to see other Azure automation tools? Check out [azure-noob.com](https://azure-noob.com) or hit me up on Twitter.**
 
-**Running a Synovus-scale Azure environment (31K+ resources, 44 subscriptions) and need rebranding help for your dashboards? Let's talk.**
+**Running an enterprise-scale Azure environment (31K+ resources, 44 subscriptions) and need rebranding help for your dashboards? Let's talk.**

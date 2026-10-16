@@ -427,7 +427,7 @@ Subject: .NET 6 Removal - Resource Requirements
 This work requires 40 hours of dedicated effort across a 2-week window.
 
 Current Azure team capacity:
-- Pinnacle merger work: 60% of capacity
+- Merger integration work: 60% of capacity
 - BAU operations: 30% of capacity  
 - Available: 10% of capacity
 

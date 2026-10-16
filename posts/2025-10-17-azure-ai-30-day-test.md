@@ -525,6 +525,6 @@ Try one. Time it. Compare to manual. Then decide if this is worth your time.
 
 ---
 
-*David Swann is a Cloud Architect at a regulated enterprise managing 31K+ Azure resources across 21 subscriptions in a PCI-DSS and HIPAA environment. He writes about Azure operations, FinOps, and compliance at azure-noob.com.*
+*David Swann is a Cloud Architect who managed 31K+ Azure resources across 21 subscriptions at a regulated enterprise in a PCI-DSS and HIPAA environment. He writes about Azure operations, FinOps, and compliance at azure-noob.com.*
 
 *This article represents personal experiences and opinions, not official guidance from Microsoft or his employer. Test everything in your own environment before production use.*

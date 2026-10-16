@@ -968,7 +968,7 @@ You've now completed the full Terraform + Azure DevOps CI/CD series:
 - **Part 5:** Production Best Practices
 - **Part 6:** Troubleshooting (this post)
 
-This is the exact setup I run in production at Synovus for deploying Azure infrastructure. It's battle-tested, audit-ready, and scalable.
+This is the exact setup I ran in production at a regional bank for deploying Azure infrastructure. It's battle-tested, audit-ready, and scalable.
 
 **Want to discuss Terraform pipelines?** My blog doesn't have comments (by design), but you can open an issue in my [GitHub repo](https://github.com/dswann101164) or tag me in your own blog posts.
 

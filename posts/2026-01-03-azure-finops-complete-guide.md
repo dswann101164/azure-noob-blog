@@ -24,15 +24,6 @@ faq_schema: true
   </ul>
 </div>
 
-<div style="background: linear-gradient(135deg, #fff3cd 0%, #fff 100%); border: 3px solid #ff6b35; padding: 2rem; margin: 2rem 0; border-radius: 8px;">
-  <h3 style="margin: 0 0 1rem 0; color: #333;">💎 Skip the Trial-and-Error: Get the Complete FinOps Pack</h3>
-  <p style="margin: 0 0 1rem 0; font-size: 1.05rem;">Stop building tag governance frameworks from scratch. Get production-tested templates, PowerShell scripts, and chargeback calculators used to manage $2.4M annual Azure spend.</p>
-  <div style="text-align: center; margin: 1.5rem 0;">
-    <a href="https://davidnoob.gumroad.com/l/syvej" style="display: inline-block; padding: 1rem 2.5rem; background: #ff6b35; color: white; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.2rem;">Get the FinOps Implementation Pack - $47 →</a>
-  </div>
-  <p style="margin: 0; font-size: 0.9rem; text-align: center; opacity: 0.8;">Tag schemas • Chargeback models • Budget alerts • PowerShell automation • Instant download</p>
-</div>
-
 ---
 
 ## Why Azure FinOps Fails (And How to Fix It)
@@ -494,21 +485,10 @@ Where:
 
 ---
 
-<div style="background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-left: 4px solid #0078d4; padding: 2rem; margin: 3rem 0; border-radius: 8px;">
-  <h2 style="margin: 0 0 1rem 0; color: #0078d4;">🎯 Skip 90 Days of Trial-and-Error</h2>
-  <p style="font-size: 1.1rem; margin: 0 0 1.5rem 0;">The Azure FinOps Implementation Pack includes everything in this guide, plus:</p>
-  <ul style="font-size: 1.05rem; margin: 0 0 1.5rem 0;">
-    <li>✅ <strong>Tag Governance Framework</strong> - Enforce cost center, department, owner tags via Azure Policy</li>
-    <li>✅ <strong>Chargeback Calculator</strong> - Department-level cost allocation in Excel with formulas</li>
-    <li>✅ <strong>Budget Alert Templates</strong> - ARM templates for Azure Monitor cost spike alerts</li>
-    <li>✅ <strong>Subscription Tagging Strategy</strong> - Handle security boundaries that aren't cost centers</li>
-    <li>✅ <strong>PowerShell Scripts</strong> - Automate tag enforcement, reporting, and remediation</li>
-    <li>✅ <strong>90-Day Rollout Plan</strong> - Week-by-week implementation checklist</li>
-  </ul>
-  <div style="text-align: center; margin: 1.5rem 0;">
-    <a href="https://davidnoob.gumroad.com/l/syvej" style="display: inline-block; padding: 1.25rem 3rem; background: #0078d4; color: white; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.3rem; box-shadow: 0 4px 12px rgba(0,120,212,0.3);">Get the Complete Pack - $47 →</a>
-  </div>
-  <p style="margin: 0; text-align: center; font-size: 0.95rem; opacity: 0.8;">💯 Full refund if it doesn't solve your tag governance headache</p>
+<div class="raci-cta" style="border: 2px solid #9C27B0; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; background: #faf5fc;">
+  <h3 style="margin-top: 0;">Azure Cloud Operations RACI Matrix</h3>
+  <p>End the "who owns this?" debate in Azure. An Excel RACI matrix with 58 pre-assigned operations tasks, so your team knows who handles Key Vault, NSGs, backups, certificates, and the rest of the recurring work.</p>
+  <a href="https://davidnoob.gumroad.com/l/ifojm" style="display: inline-block; padding: 0.875rem 2rem; background: #9C27B0; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Get the RACI Matrix - $49 →</a>
 </div>
 
 ---
@@ -548,9 +528,6 @@ A: Technically yes, but you'll fail. Manual tag compliance doesn't scale past 50
 2. Review your chargeback model (is it actually being used?)
 3. Add budget alerts for top 5 cost centers
 4. Schedule recurring monthly FinOps review meeting
-
-**If you want to skip the learning curve:**
-- [Get the FinOps Implementation Pack ($47)](https://davidnoob.gumroad.com/l/syvej) - Templates, scripts, and ready-to-deploy policies
 
 ---
 

@@ -311,8 +311,8 @@ The toolkit includes:
 **David Swann** is an Enterprise Azure Architect specializing in large-scale cloud infrastructure and FinOps optimization.
 
 **Experience:**
-- Managing 44 Azure subscriptions
-- 30,000+ resources under governance
+- Managed 44 Azure subscriptions
+- Governed 30,000+ resources
 - Enterprise-scale Azure OpenAI deployments
 - Financial services regulatory compliance
 

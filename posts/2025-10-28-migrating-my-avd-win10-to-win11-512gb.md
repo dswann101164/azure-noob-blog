@@ -20,7 +20,7 @@ This is the story of migrating my own daily driver AVD from Windows 10 to Window
 ## The Problem
 
 My current AVD session host:
-- **VM:** wvdsnvtestn-2.moonlab.local
+- **VM:** avd-vm-01.contoso.local
 - **OS:** Windows 10 Enterprise Multi-session
 - **Size:** Standard D8s v5 (8 vCPU, 32GB RAM)
 - **Disk:** 127GB total, **18GB free** (85% full)
@@ -218,18 +218,18 @@ With the VM ready, I tried to connect from my home computer.
 
 **Remote Desktop client â†’ Subscribe to workspace:**
 
-Entered: `dswann@moonlab.local`
+Entered: `user@contoso.local`
 
 **Error:** "We couldn't find any Workspaces."
 
 ### The Problem: Azure AD vs On-Premises AD
 
 **Inside the corporate network (via WVD):**
-- I authenticate with my on-premises AD account: `dswann@moonlab.local`
+- I authenticate with my on-premises AD account: `user@contoso.local`
 - Kerberos/NTLM to domain-joined machines
 
 **From the internet (connecting to AVD):**
-- I need to authenticate with my **Azure AD account**: `dswann@snvtest.com`
+- I need to authenticate with my **Azure AD account**: `user@contoso.com`
 - Modern authentication/OAuth to Azure
 
 **These are two different accounts.** AVD from the internet requires the Azure AD UPN, not the on-prem domain account.
@@ -246,7 +246,7 @@ This controls who can see and access the workspace.
 Azure Portal â†’ AVD â†’ Workspaces â†’ win11 â†’ Application groups 
 â†’ wvdhostpool1-win11-DAG â†’ Assignments â†’ Add
 
-Add user: dswann@snvtest.com
+Add user: user@contoso.com
 ```
 
 **2. VM Assignment**
@@ -257,7 +257,7 @@ This controls which specific VM you're assigned to.
 Azure Portal â†’ AVD â†’ Host pools â†’ wvdhostpool1-win11 
 â†’ Session hosts â†’ win1101-0.moonlab.local â†’ Assignment
 
-Add user: dswann@snvtest.com
+Add user: user@contoso.com
 ```
 
 **Both are required.** Miss either one and you can't connect.
@@ -266,7 +266,7 @@ After adding both assignments, I waited 2-5 minutes for propagation, then:
 
 **Remote Desktop client â†’ Subscribe:**
 
-Entered: `dswann@snvtest.com`
+Entered: `user@contoso.com`
 
 **Success.** The "win11" workspace appeared.
 
@@ -395,7 +395,7 @@ The cost of running both (~$50/month extra for a few weeks) was worth the peace 
 
 **For the upcoming enterprise merger:**
 - This migration pattern will scale to 300+ users
-- Win 11 ready when Pinnacle users need AVD access
+- Win 11 ready when the merged bank's users need AVD access
 - Proven playbook for Personal pool migrations
 - Documented all the gotchas
 

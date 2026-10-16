@@ -959,4 +959,4 @@ The admins who survive the next 5 years won't be the ones with the most Azure ce
 
 ---
 
-*I manage 44 Azure subscriptions with 31,000+ resources during a major bank merger. I publish my Azure operations learnings at [azure-noob.com](https://azure-noob.com). All Terraform code in this post is production-tested. Use it, modify it, ship it.*
+*I managed 44 Azure subscriptions with 31,000+ resources through a major bank merger. I publish my Azure operations learnings at [azure-noob.com](https://azure-noob.com). All Terraform code in this post is production-tested. Use it, modify it, ship it.*

@@ -787,20 +787,10 @@ Deploying Arc at enterprise scale? Download the complete pre-deployment checklis
 
 ---
 
-## 🎯 Ready for Production-Ready Queries?
-
-This guide covers the basics, but **scaling to 30,000+ resources requires battle-tested patterns.**
-
-**The Complete KQL Query Library includes:**
-- ✅ 48 copy-paste ready queries (VMs, networking, security, cost)
-- ✅ Advanced joins (VMs → NICs → Disks → Subnets → Subscriptions)
-- ✅ Enterprise-scale tested on 31,000+ resources
-- ✅ Performance optimization for massive environments
-- ✅ SQL to KQL translation guide
-- ✅ Lifetime updates
-
-**Launch price: $19** (regular $29)
-
-[Get the Complete KQL Library →](https://davidnoob.gumroad.com/l/hooih)
+<div class="raci-cta" style="border: 2px solid #9C27B0; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; background: #faf5fc;">
+  <h3 style="margin-top: 0;">Azure Cloud Operations RACI Matrix</h3>
+  <p>End the "who owns this?" debate in Azure. An Excel RACI matrix with 58 pre-assigned operations tasks, so your team knows who handles Key Vault, NSGs, backups, certificates, and the rest of the recurring work.</p>
+  <a href="https://davidnoob.gumroad.com/l/ifojm" style="display: inline-block; padding: 0.875rem 2rem; background: #9C27B0; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Get the RACI Matrix - $49 →</a>
+</div>
 
 ---

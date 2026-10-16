@@ -220,7 +220,7 @@ Browse the [Content Hubs](/hubs/) for practical Azure insights by topic.
 
 ## About These Resources
 
-I'm David Swann, an Azure Architect managing enterprise-scale Azure infrastructure (44 subscriptions, 31,000+ resources) in a highly-regulated enterprise environment.
+I'm David Swann, an Azure Architect who has managed enterprise-scale Azure infrastructure (44 subscriptions, 31,000+ resources) in a highly-regulated enterprise environment.
 
 These resources come from real production experience:
 

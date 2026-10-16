@@ -23,19 +23,6 @@ faq_schema: true
   <p style="margin-bottom: 0;"><strong>Hidden Costs:</strong> Fine-tuning hosting adds $1.70/hour (~$1,241/month) per deployed model. Infrastructure overhead adds $35-50/month. A $10 calculator estimate becomes $1,288 in production.</p>
 </div>
 
-<div style="text-align: center; margin: 2.5rem 0; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px;">
-  <h3 style="color: white; margin-top: 0; font-size: 1.75rem;">💰 Calculate Your Real Azure OpenAI ROI</h3>
-  <p style="color: white; font-size: 1.1rem; margin-bottom: 1.5rem;">
-    Get the <strong>2026 Azure OpenAI ROI & Cost Optimization Toolkit ($497)</strong><br>
-    <span style="font-size: 0.95rem; opacity: 0.9;">Interactive Excel calculator • TCO models • PTU analysis • No consulting needed</span>
-  </p>
-  <a href="https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit" 
-     style="display: inline-block; padding: 1rem 2.5rem; background: white; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease;"
-     target="_blank" rel="noopener">
-    Get the ROI Toolkit →
-  </a>
-</div>
-
 ## Azure OpenAI Pricing 2026: Complete Price Reference
 
 *Prices from the Azure Retail Prices API, Global Standard, short context (≤272K input tokens), checked 2026-10-15. Data Zone and Regional deployments run about 10% higher. "—" means Microsoft publishes no separate meter.*
@@ -225,46 +212,10 @@ Most organizations discover zombie fine-tuned models 3-6 months after deployment
 
 ---
 
-<div style="background: linear-gradient(135deg, #fff3cd 0%, #fff 50%, #fff3cd 100%); border: 3px solid #ff6b35; padding: 2.5rem; margin: 3rem 0; border-radius: 12px; box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);">
-
-### 🚨 The Reality Gap: Why the Lite Calculator Isn't Enough for Enterprise
-
-<div style="background: white; padding: 2rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #dc3545;">
-<p style="font-size: 1.2rem; font-weight: bold; color: #dc3545; margin: 0 0 1rem 0;">⚠️ What the FREE calculator shows you:</p>
-<ul style="font-size: 1.05rem; line-height: 1.8; margin: 0;">
-  <li>Basic token cost estimates</li>
-  <li>Simple PTU break-even (yes/no)</li>
-  <li>Static fine-tuning costs</li>
-</ul>
-</div>
-
-<div style="background: white; padding: 2rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
-<p style="font-size: 1.2rem; font-weight: bold; color: #28a745; margin: 0 0 1rem 0;">✅ What the ENTERPRISE toolkit prevents:</p>
-<ul style="font-size: 1.05rem; line-height: 1.8; margin: 0; font-weight: 600;">
-  <li><strong>The $7,344/month zombie model disaster</strong> (4 idle fine-tuned models found in 3 minutes)</li>
-  <li><strong>The 12,780% cost blowup</strong> (Output-to-input ratio detection)</li>
-  <li><strong>The $180K/year PTU mistake</strong> (Commitment calculator: 1-year vs 3-year ROI)</li>
-  <li><strong>The CFO rejection</strong> (Board-ready TCO models + Executive summary template)</li>
-  <li><strong>The 15-hour Excel nightmare</strong> (Pre-built scenarios for 20 common use cases)</li>
-</ul>
-</div>
-
-<div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; margin: 2rem 0;">
-<h3 style="color: white; margin: 0 0 1rem 0; font-size: 1.8rem;">💎 Enterprise ROI Toolkit - $497</h3>
-<p style="color: white; font-size: 1.15rem; margin: 0 0 1.5rem 0; opacity: 0.95;">The $497 that prevents $100K+ mistakes</p>
-<a href="https://davidnoob.gumroad.com/l/azure-openai-roi-toolkit" 
-   style="display: inline-block; padding: 1.25rem 3rem; background: white; color: #667eea; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.3rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: all 0.3s ease;"
-   onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.4)';" 
-   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.3)';">
-  Get Instant Access →
-</a>
-<p style="color: white; font-size: 0.95rem; margin: 1.5rem 0 0; opacity: 0.9;">🔒 Instant download • Lifetime updates • 14-day money-back guarantee</p>
-</div>
-
-<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 2px solid #6c757d;">
-<p style="font-size: 1.05rem; margin: 0; color: #495057;"><strong>💰 Real customer result:</strong> Healthcare CTO found $7,344/month in zombie costs in 3 minutes. <strong>ROI: 475× in month one.</strong></p>
-</div>
-
+<div class="raci-cta" style="border: 2px solid #9C27B0; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; background: #faf5fc;">
+  <h3 style="margin-top: 0;">Azure Cloud Operations RACI Matrix</h3>
+  <p>End the "who owns this?" debate in Azure. An Excel RACI matrix with 58 pre-assigned operations tasks, so your team knows who handles Key Vault, NSGs, backups, certificates, and the rest of the recurring work.</p>
+  <a href="https://davidnoob.gumroad.com/l/ifojm" style="display: inline-block; padding: 0.875rem 2rem; background: #9C27B0; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Get the RACI Matrix - $49 →</a>
 </div>
 
 ---

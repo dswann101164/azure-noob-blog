@@ -175,7 +175,7 @@ When this happens:
 
 You can enforce perfect tag compliance and still have an indefensible cost model.
 
-Example from our Synovus-Pinnacle merger:
+Example from a regional bank merger I worked on:
 - 21 Active Directory domains
 - Hybrid networking requires centralized connectivity subscription
 - ExpressRoute costs: $8,400/month

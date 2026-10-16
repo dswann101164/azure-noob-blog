@@ -216,7 +216,7 @@ All Terraform code, pipeline configurations, and scripts from this series are av
 
 ## My Background
 
-I'm an Azure Architect who builds and maintains production infrastructure for a financial services company. I can't use LinkedIn because of my employer (Synovus), so this blog is my portfolio.
+I'm an Azure Architect who built and maintained production infrastructure for a financial services company. This blog is my portfolio.
 
 **Why trust this guide?**
 - This is my actual production setup (not theoretical)

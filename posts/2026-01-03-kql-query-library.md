@@ -20,44 +20,11 @@ faq_schema: true
   <p style="margin: 0;"><strong>Real-world use:</strong> Find all VMs without backup in 5 seconds, track $100K+ monthly Azure spend by department, or identify compliance violations across 40+ subscriptions.</p>
 </div>
 
-<div style="background: linear-gradient(135deg, #fff3cd 0%, #fff 100%); border: 3px solid #0078d4; padding: 2rem; margin: 2rem 0; border-radius: 8px;">
-  <h3 style="margin: 0 0 1rem 0; color: #333;">📚 Complete KQL Query Library - $19 (Launch Price)</h3>
-  <p style="margin: 0 0 1rem 0; font-size: 1.05rem;">Stop building queries from scratch. Get 150+ production-tested KQL queries covering every Azure Resource Graph scenario.</p>
-  
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
-    <div>
-      <p style="font-weight: bold; margin: 0 0 0.5rem 0;">✅ What's Included:</p>
-      <ul style="margin: 0; padding-left: 1.5rem; font-size: 0.95rem;">
-        <li>150+ copy-paste ready queries</li>
-        <li>Advanced join patterns</li>
-        <li>Performance optimization guide</li>
-        <li>JSON query files</li>
-        <li>Lifetime updates</li>
-      </ul>
-    </div>
-    <div>
-      <p style="font-weight: bold; margin: 0 0 0.5rem 0;">🎯 Query Categories:</p>
-      <ul style="margin: 0; padding-left: 1.5rem; font-size: 0.95rem;">
-        <li>VM inventory & compliance</li>
-        <li>Cost analysis & optimization</li>
-        <li>Security & governance</li>
-        <li>Networking & connectivity</li>
-        <li>Storage & databases</li>
-      </ul>
-    </div>
-  </div>
-  
-  <div style="text-align: center; margin: 1.5rem 0;">
-    <a href="https://davidnoob.gumroad.com/l/hooih" style="display: inline-block; padding: 1rem 2.5rem; background: #0078d4; color: white; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1.2rem;">Get the Complete Library - $19 →</a>
-  </div>
-  <p style="margin: 0; font-size: 0.9rem; text-align: center; opacity: 0.8;">💯 Money-back guarantee if it doesn't save you 2+ hours in week one</p>
-</div>
-
 ---
 
 ## 10 Essential KQL Queries (Free Examples)
 
-Here are 10 production-ready queries you can use right now. **Want all 150+ queries?** [Get the complete library for $19 →](https://davidnoob.gumroad.com/l/hooih)
+Here are 10 production-ready queries you can use right now.
 
 ### 1. Find All Virtual Machines with Public IPs
 
@@ -293,7 +260,7 @@ Resources
 - [ ] Build executive dashboards
 - [ ] Train your team
 
-**Shortcut:** [Get 150+ production-ready queries ($19)](https://davidnoob.gumroad.com/l/hooih) and skip straight to Week 4.
+**Shortcut:** Use the 10 queries above as templates and you can move to Week 4 sooner.
 
 ---
 
@@ -373,43 +340,14 @@ Resources
 
 **Azure Noob Resources:**
 - [KQL Cheat Sheet (Free)](/blog/kql-cheat-sheet-complete/) - 15 essential queries
-- [Complete KQL Library ($19)](https://davidnoob.gumroad.com/l/hooih) - 150+ production queries
 - [Azure VM Inventory with KQL](/blog/azure-vm-inventory-kql/) - Step-by-step tutorial
 
 ---
 
-<div style="background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-left: 4px solid #0078d4; padding: 2rem; margin: 3rem 0; border-radius: 8px;">
-  <h2 style="margin: 0 0 1rem 0; color: #0078d4;">🚀 Skip the Learning Curve</h2>
-  <p style="font-size: 1.1rem; margin: 0 0 1.5rem 0;">The Complete KQL Query Library gives you 150+ production-tested queries that just work. No trial-and-error, no syntax debugging, no Stack Overflow searches.</p>
-  
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0;">
-    <div>
-      <p style="font-weight: bold; margin: 0 0 0.5rem 0; color: #0078d4;">📦 What You Get:</p>
-      <ul style="margin: 0; padding-left: 1.5rem;">
-        <li>150+ copy-paste ready queries</li>
-        <li>Advanced joins & aggregations</li>
-        <li>Performance optimization tips</li>
-        <li>JSON query files for automation</li>
-        <li>SQL to KQL translation guide</li>
-        <li>Lifetime updates (new queries added monthly)</li>
-      </ul>
-    </div>
-    <div>
-      <p style="font-weight: bold; margin: 0 0 0.5rem 0; color: #0078d4;">⚡ Time Saved:</p>
-      <ul style="margin: 0; padding-left: 1.5rem;">
-        <li><strong>Day 1:</strong> Start using queries immediately</li>
-        <li><strong>Week 1:</strong> Build your first dashboard</li>
-        <li><strong>Month 1:</strong> Automate compliance reporting</li>
-        <li><strong>Month 2:</strong> Train your team on proven patterns</li>
-      </ul>
-      <p style="margin-top: 1rem; font-size: 0.95rem;"><strong>ROI:</strong> 2+ hours saved in week one = $60-200 value (depending on your rate)</p>
-    </div>
-  </div>
-  
-  <div style="text-align: center; margin: 1.5rem 0;">
-    <a href="https://davidnoob.gumroad.com/l/hooih" style="display: inline-block; padding: 1.25rem 3rem; background: #0078d4; color: white; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.3rem; box-shadow: 0 4px 12px rgba(0,120,212,0.3);">Get the Complete Library - $19 →</a>
-  </div>
-  <p style="margin: 0; text-align: center; font-size: 0.95rem; opacity: 0.8;">💯 Instant download • PDF + JSON files • Money-back guarantee</p>
+<div class="raci-cta" style="border: 2px solid #9C27B0; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; background: #faf5fc;">
+  <h3 style="margin-top: 0;">Azure Cloud Operations RACI Matrix</h3>
+  <p>End the "who owns this?" debate in Azure. An Excel RACI matrix with 58 pre-assigned operations tasks, so your team knows who handles Key Vault, NSGs, backups, certificates, and the rest of the recurring work.</p>
+  <a href="https://davidnoob.gumroad.com/l/ifojm" style="display: inline-block; padding: 0.875rem 2rem; background: #9C27B0; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Get the RACI Matrix - $49 →</a>
 </div>
 
 ---
@@ -439,7 +377,7 @@ A: Email me the error and I'll fix it within 24 hours. Or just request a refund�
 ## Ready to Master KQL?
 
 **Free path:** Start with the [KQL Cheat Sheet](/blog/kql-cheat-sheet-complete/) (15 essential queries)  
-**Fast path:** [Get the Complete Library ($19)](https://davidnoob.gumroad.com/l/hooih) (150+ queries, instant access)
+**Fast path:** Paste the 10 queries above into Resource Graph Explorer and adapt them to your environment.
 
 **Either way, you'll be querying Azure like a pro within 30 days.**
 

@@ -386,55 +386,13 @@ Resources
 
 **Time saved:** 10-15 hours per application
 
-### Want All 48 Migration Discovery Queries?
-
-The [Complete KQL Query Library ($19)](https://davidnoob.gumroad.com/l/hooih) includes:
-- ✅ **Dependency mapping queries** - Find load balancers, VNets, NSGs per app
-- ✅ **Licensing audits** - SQL Server, Windows, Red Hat detection
-- ✅ **Cost allocation** - Tag-based resource grouping for cost estimates
-- ✅ **Security assessment** - Encryption status, public exposure, NSG rules
-
-**Maps directly to the Migration Assessment Pro questionnaire.**
-
 ---
 
-## 🚀 Want the Complete KQL Library?
-
-This free guide covers the **fundamentals** - 15 essential queries to get started.
-
-**Ready for production-level Azure administration?** 
-
-### Get the Complete KQL Query Library ($19)
-
-**What's included:**
-- ✅ **48 production-tested queries** (vs 15 basic queries here)
-- ✅ **Advanced joins** - Link VMs to NICs, disks, subnets, subscriptions
-- ✅ **Performance optimization guide** - Query 31,000+ resources efficiently
-- ✅ **SQL to KQL translation** - For SQL developers learning KQL
-- ✅ **Case-insensitive tag handling** - Handles tag variations automatically
-- ✅ **Power state detection** - Show IPs only for running VMs
-- ✅ **Real production scenarios** - From managing enterprise-scale Azure
-- ✅ **JSON query files** - Copy-paste ready for immediate use
-- ✅ **Complete reference guide** - All queries organized by category
-- ✅ **Troubleshooting guide** - Fix common KQL errors
-- ✅ **Future updates included** - Get new queries as Azure evolves
-
-**Used in production managing:**
-- 44 Azure subscriptions
-- 31,000+ resources
-- Enterprise-scale environments
-
-### Why Upgrade?
-
-**This free guide teaches you KQL basics** → Get started in 30 minutes
-
-**The complete library gives you production-ready queries** → Save 10+ hours/month
-
-**Price: $19** (one-time purchase, instant download)
-
-[Get the Complete KQL Library →](https://davidnoob.gumroad.com/l/hooih)
-
-*Money-back guarantee if it doesn't save you 2+ hours in the first week.*
+<div class="raci-cta" style="border: 2px solid #9C27B0; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; background: #faf5fc;">
+  <h3 style="margin-top: 0;">Azure Cloud Operations RACI Matrix</h3>
+  <p>End the "who owns this?" debate in Azure. An Excel RACI matrix with 58 pre-assigned operations tasks, so your team knows who handles Key Vault, NSGs, backups, certificates, and the rest of the recurring work.</p>
+  <a href="https://davidnoob.gumroad.com/l/ifojm" style="display: inline-block; padding: 0.875rem 2rem; background: #9C27B0; color: white; text-decoration: none; border-radius: 6px; font-weight: 700;">Get the RACI Matrix - $49 →</a>
+</div>
 
 ---
 

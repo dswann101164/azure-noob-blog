@@ -341,4 +341,4 @@ This repository is my contribution to that shift. Instead of hoarding operationa
 
 ---
 
-*Managing enterprise Azure infrastructure while documenting what vendor consultants won't tell you. Not on LinkedIn - connect via blog comments or GitHub issues.*
+*Lessons from managing enterprise Azure infrastructure, documenting what vendor consultants won't tell you. Not on LinkedIn - connect via blog comments or GitHub issues.*
