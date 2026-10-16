@@ -138,11 +138,7 @@
     "sameAs": [
       "https://github.com/dswann101164",
       "https://www.linkedin.com/in/intikiswann/"
-    ],
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Synovus"
-    }
+    ]
   },
   "publisher": {
     "@type": "Organization",
@@ -161,7 +157,7 @@
   },
   "keywords": "azure, avd, windows-11, operations",
   "articleSection": "azure",
-  "wordCount": "2551",
+  "wordCount": "2553",
   "timeRequired": "PT13M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -278,7 +274,7 @@
 <p>This is the story of migrating my own daily driver AVD from Windows 10 to Windows 11, complete with all the mistakes, fixes, and lessons learned along the way.</p>
 <h2 id="the-problem">The Problem</h2>
 <p>My current AVD session host:<br />
-- <strong>VM:</strong> wvdsnvtestn-2.moonlab.local<br />
+- <strong>VM:</strong> avd-vm-01.contoso.local<br />
 - <strong>OS:</strong> Windows 10 Enterprise Multi-session<br />
 - <strong>Size:</strong> Standard D8s v5 (8 vCPU, 32GB RAM)<br />
 - <strong>Disk:</strong> 127GB total, <strong>18GB free</strong> (85% full)</p>
@@ -431,14 +427,14 @@
 <h2 id="the-authentication-puzzle">The Authentication Puzzle</h2>
 <p>With the VM ready, I tried to connect from my home computer.</p>
 <p><strong>Remote Desktop client â†’ Subscribe to workspace:</strong></p>
-<p>Entered: <code>dswann@moonlab.local</code></p>
+<p>Entered: <code>user@contoso.local</code></p>
 <p><strong>Error:</strong> "We couldn't find any Workspaces."</p>
 <h3 id="the-problem-azure-ad-vs-on-premises-ad">The Problem: Azure AD vs On-Premises AD</h3>
 <p><strong>Inside the corporate network (via WVD):</strong><br />
-- I authenticate with my on-premises AD account: <code>dswann@moonlab.local</code><br />
+- I authenticate with my on-premises AD account: <code>user@contoso.local</code><br />
 - Kerberos/NTLM to domain-joined machines</p>
 <p><strong>From the internet (connecting to AVD):</strong><br />
-- I need to authenticate with my <strong>Azure AD account</strong>: <code>dswann@snvtest.com</code><br />
+- I need to authenticate with my <strong>Azure AD account</strong>: <code>user@contoso.com</code><br />
 - Modern authentication/OAuth to Azure</p>
 <p><strong>These are two different accounts.</strong> AVD from the internet requires the Azure AD UPN, not the on-prem domain account.</p>
 <h3 id="the-fix-correct-account-and-assignments">The Fix: Correct Account and Assignments</h3>
@@ -448,7 +444,7 @@
 <div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Workspaces</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">win11</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="n">groups</span><span class="w"> </span>
 <span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="o">-</span><span class="n">DAG</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Assignments</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Add</span>
 
-<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="n">dswann</span><span class="nv">@snvtest</span><span class="p">.</span><span class="n">com</span>
+<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="k">user</span><span class="nv">@contoso</span><span class="p">.</span><span class="n">com</span>
 </code></pre></div>
 
 <p><strong>2. VM Assignment</strong></p>
@@ -456,13 +452,13 @@
 <div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Host</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="w"> </span>
 <span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Session</span><span class="w"> </span><span class="n">hosts</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">win1101</span><span class="o">-</span><span class="mf">0.</span><span class="n">moonlab</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Assignment</span>
 
-<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="n">dswann</span><span class="nv">@snvtest</span><span class="p">.</span><span class="n">com</span>
+<span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="k">user</span><span class="nv">@contoso</span><span class="p">.</span><span class="n">com</span>
 </code></pre></div>
 
 <p><strong>Both are required.</strong> Miss either one and you can't connect.</p>
 <p>After adding both assignments, I waited 2-5 minutes for propagation, then:</p>
 <p><strong>Remote Desktop client â†’ Subscribe:</strong></p>
-<p>Entered: <code>dswann@snvtest.com</code></p>
+<p>Entered: <code>user@contoso.com</code></p>
 <p><strong>Success.</strong> The "win11" workspace appeared.</p>
 <h3 id="mfa-and-single-sign-on">MFA and Single Sign-On</h3>
 <p><strong>Interesting operational detail:</strong></p>
@@ -552,7 +548,7 @@
 - Plan broader Win 11 migration rollout</p>
 <p><strong>For the upcoming enterprise merger:</strong><br />
 - This migration pattern will scale to 300+ users<br />
-- Win 11 ready when Pinnacle users need AVD access<br />
+- Win 11 ready when the merged bank's users need AVD access<br />
 - Proven playbook for Personal pool migrations<br />
 - Documented all the gotchas</p>
 <h2 id="the-bottom-line">The Bottom Line</h2>
