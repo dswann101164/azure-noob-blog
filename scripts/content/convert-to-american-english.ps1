@@ -4,7 +4,11 @@
 $postsDir = ".\posts"
 $changesLog = @()
 
-# Define British → American replacements
+# Posts are UTF-8 without BOM. Plain Get-Content/Set-Content in PS 5.1 use the
+# ANSI code page instead, which is how posts got double-encoded in Dec 2025.
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
+# Define British -> American replacements
 $replacements = @{
     # Common British spellings
     'optimise' = 'optimize'
@@ -43,13 +47,13 @@ $replacements = @{
 
 # Currency and region replacements
 $contextReplacements = @{
-    '£' = '$'
+    ([string][char]0x00A3) = '$'   # pound sign; escaped so this file stays ASCII
     'UK South' = 'East US'
     'UK West' = 'West US'
     'UK regions' = 'US regions'
 }
 
-Write-Host "Starting British → American English conversion..." -ForegroundColor Cyan
+Write-Host "Starting British -> American English conversion..." -ForegroundColor Cyan
 Write-Host "Target directory: $postsDir" -ForegroundColor Cyan
 Write-Host ""
 
@@ -60,7 +64,7 @@ $filesChanged = 0
 Get-ChildItem -Path $postsDir -Filter "*.md" | ForEach-Object {
     $file = $_
     $totalFiles++
-    $content = Get-Content $file.FullName -Raw
+    $content = [System.IO.File]::ReadAllText($file.FullName, $utf8NoBom)
     $originalContent = $content
     $fileChanges = 0
     $changeDetails = @()
@@ -75,7 +79,7 @@ Get-ChildItem -Path $postsDir -Filter "*.md" | ForEach-Object {
             if ($count -gt 0) {
                 $content = $content -replace [regex]::Escape($british), $american
                 $fileChanges += $count
-                $changeDetails += "  - '$british' → '$american' ($count occurrences)"
+                $changeDetails += "  - '$british' -> '$american' ($count occurrences)"
             }
         }
         
@@ -87,7 +91,7 @@ Get-ChildItem -Path $postsDir -Filter "*.md" | ForEach-Object {
             if ($count -gt 0) {
                 $content = $content -replace [regex]::Escape($britishCap), $americanCap
                 $fileChanges += $count
-                $changeDetails += "  - '$britishCap' → '$americanCap' ($count occurrences)"
+                $changeDetails += "  - '$britishCap' -> '$americanCap' ($count occurrences)"
             }
         }
     }
@@ -100,18 +104,18 @@ Get-ChildItem -Path $postsDir -Filter "*.md" | ForEach-Object {
             if ($count -gt 0) {
                 $content = $content -replace [regex]::Escape($old), $new
                 $fileChanges += $count
-                $changeDetails += "  - '$old' → '$new' ($count occurrences)"
+                $changeDetails += "  - '$old' -> '$new' ($count occurrences)"
             }
         }
     }
     
     # Save if changes were made
-    if ($content -ne $originalContent) {
-        Set-Content -Path $file.FullName -Value $content -NoNewline
+    if ($content -cne $originalContent) {
+        [System.IO.File]::WriteAllText($file.FullName, $content, $utf8NoBom)
         $filesChanged++
         $totalChanges += $fileChanges
         
-        Write-Host "✓ $($file.Name)" -ForegroundColor Green
+        Write-Host "[OK] $($file.Name)" -ForegroundColor Green
         $changeDetails | ForEach-Object { Write-Host $_ -ForegroundColor Gray }
         Write-Host ""
         
@@ -143,7 +147,7 @@ if ($filesChanged -gt 0) {
     Write-Host "3. Commit: git add posts/ && git commit -m 'Fix: Convert British to American English (improves US CTR)'" -ForegroundColor White
     Write-Host "4. Deploy: git push" -ForegroundColor White
     Write-Host ""
-    Write-Host "Expected impact: US CTR 0.14% → 1.5% = +50-100 clicks/month" -ForegroundColor Green
+    Write-Host "Expected impact: US CTR 0.14% -> 1.5% = +50-100 clicks/month" -ForegroundColor Green
 }
 
 # Export detailed log

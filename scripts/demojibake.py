@@ -3,6 +3,7 @@
 Usage:
   python demojibake.py report <dir>      # per-file count of affected lines
   python demojibake.py fix <file>        # rewrite file in place (UTF-8, newlines preserved)
+  python demojibake.py check <dir>       # exit 1 if any post has mojibake, a BOM, or invalid UTF-8
 """
 import re, sys, pathlib
 
@@ -63,3 +64,21 @@ if __name__ == "__main__":
         print(f"lines changed: {len(affected_lines(before))}")
         with open(target, "w", encoding="utf-8", newline="") as f:
             f.write(after)
+    elif mode == "check":
+        problems = []
+        for p in sorted(target.glob("*.md")):
+            raw = p.read_bytes()
+            if raw.startswith(b"\xef\xbb\xbf"):
+                problems.append(f"{p.name}: UTF-8 BOM (breaks front matter parsing)")
+            try:
+                lines = affected_lines(raw.decode("utf-8"))
+            except UnicodeDecodeError as e:
+                problems.append(f"{p.name}: not valid UTF-8 at byte {e.start}")
+                continue
+            if lines:
+                shown = ", ".join(map(str, lines[:10])) + (" ..." if len(lines) > 10 else "")
+                problems.append(f"{p.name}: mojibake on {len(lines)} line(s): {shown}")
+        for line in problems:
+            print(line)
+        print(f"encoding check: {len(problems)} problem(s) in {target}")
+        sys.exit(1 if problems else 0)

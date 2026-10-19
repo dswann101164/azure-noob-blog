@@ -1,8 +1,12 @@
 $files = Get-ChildItem posts\*.md
 
+# Posts are UTF-8 without BOM; plain Get-Content/Set-Content in PS 5.1 use ANSI.
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
 foreach ($file in $files) {
-    $content = Get-Content $file.FullName -Raw
-    
+    $content = [System.IO.File]::ReadAllText($file.FullName, $utf8NoBom)
+    $originalContent = $content
+
     # Fix common capital letter tags
     $content = $content -replace '"Azure"', '"azure"'
     $content = $content -replace '"Migration"', '"migration"'
@@ -43,9 +47,11 @@ foreach ($file in $files) {
     $content = $content -replace '"Tools"', '"tools"'
     $content = $content -replace '"CCO Dashboard"', '"cco-dashboard"'
     
-    # Save the file
-    Set-Content -Path $file.FullName -Value $content -NoNewline
-    Write-Host "✅ Fixed: $($file.Name)"
+    # Save only if something changed (-cne: these edits are case-only, and -ne ignores case)
+    if ($content -cne $originalContent) {
+        [System.IO.File]::WriteAllText($file.FullName, $content, $utf8NoBom)
+        Write-Host "Fixed: $($file.Name)"
+    }
 }
 
-Write-Host "`n✅ All tags standardized to lowercase with hyphens!"
+Write-Host "`nAll tags standardized to lowercase with hyphens!"

@@ -34,7 +34,16 @@ if ($latestPost) {
     }
 }
 
-# Step 2: Freeze the site (unless -Quick)
+# Step 2: Encoding guard - refuse to publish posts with mojibake, a BOM, or invalid UTF-8
+Write-Host "`n[0/4] Checking post encoding..." -ForegroundColor Yellow
+& .\.venv\Scripts\python.exe -I .\scripts\demojibake.py check .\posts
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "`nENCODING CHECK FAILED - aborting publish" -ForegroundColor Red
+    Write-Host "Fix with: .\.venv\Scripts\python.exe -I .\scripts\demojibake.py fix <post>" -ForegroundColor Gray
+    exit 1
+}
+
+# Step 3: Freeze the site (unless -Quick)
 if (-not $Quick) {
     Write-Host "`n[1/4] Freezing site..." -ForegroundColor Yellow
     & .\.venv\Scripts\python.exe .\freeze.py
@@ -46,7 +55,7 @@ if (-not $Quick) {
     Write-Host "`n[1/4] Skipping freeze (-Quick mode)" -ForegroundColor Gray
 }
 
-# Step 3: Stage ALL publishable files
+# Step 4: Stage ALL publishable files
 Write-Host "`n[2/4] Staging files..." -ForegroundColor Yellow
 git add `
     posts `
@@ -70,7 +79,7 @@ git add `
     publish.ps1 `
     2>$null
 
-# Step 4: Build commit message
+# Step 5: Build commit message
 if (-not $Message) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
     if ($postTitle) {
@@ -90,7 +99,7 @@ if (-not $Message) {
     }
 }
 
-# Step 5: Commit
+# Step 6: Commit
 Write-Host "`n[3/4] Committing: $Message" -ForegroundColor Yellow
 git commit -m $Message
 
@@ -99,7 +108,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 0
 }
 
-# Step 6: Push
+# Step 7: Push
 Write-Host "`n[4/4] Pushing to GitHub..." -ForegroundColor Yellow
 git push
 
