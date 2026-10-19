@@ -350,7 +350,7 @@ Old blobs cost money. Delete them automatically.
 
 **Tactic 3: Orphaned resource cleanup**
 
-Unattached disks, unused NICs, old snapshotsâ€”nobody notices them until the bill arrives.
+Unattached disks, unused NICs, old snapshots—nobody notices them until the bill arrives.
 
 **KQL query to find orphaned disks:**
 
@@ -436,7 +436,7 @@ For Phase 1 inventory and application owner conversations
 
 ## What Doesn't Work (Don't Waste Time)
 
-### **âŒ Reserved Instances Without Governance**
+### **❌ Reserved Instances Without Governance**
 
 **Scenario:** You buy 3-year reserved instances. Savings: 40%.
 
@@ -447,7 +447,7 @@ For Phase 1 inventory and application owner conversations
 - Business commitment (not getting decommissioned)
 - Tag governance (you can track what it's for)
 
-### **âŒ Cost Optimization Without Tag Governance**
+### **❌ Cost Optimization Without Tag Governance**
 
 **Scenario:** You optimize costs by 20%. Finance asks "Which applications saved money?"
 
@@ -455,7 +455,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Phase 2 (cost allocation) enables Phase 3 (optimization). Don't skip it.
 
-### **âŒ Relying on Advisor Recommendations Alone**
+### **❌ Relying on Advisor Recommendations Alone**
 
 **Scenario:** Azure Advisor says "save $1,200/month with these 10 changes."
 
@@ -463,7 +463,7 @@ For Phase 1 inventory and application owner conversations
 
 **Lesson:** Advisor finds optimization opportunities. It doesn't implement them or assess risk. You need automation.
 
-### **âŒ Sending Email Surveys About Resource Usage**
+### **❌ Sending Email Surveys About Resource Usage**
 
 **Scenario:** You email 50 application owners: "Do you still need these VMs?"
 

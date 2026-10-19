@@ -17,7 +17,7 @@ related_posts:
 ---
 This isn't another "turn off unused VMs" guide.
 
-This is the **complete framework** I've used to reduce Azure spend by 30-40% across multiple enterprisesâ€”without breaking production, without political fallout, and with Finance actually thanking me.
+This is the **complete framework** I've used to reduce Azure spend by 30-40% across multiple enterprises—without breaking production, without political fallout, and with Finance actually thanking me.
 
 This guide is part of our [Azure FinOps hub](/hub/finops/) covering cost management, chargeback models, and tag governance at enterprise scale.
 
@@ -88,7 +88,7 @@ Resources
 | order by MonthlyCost desc
 ```
 
-Identifies **hot zones**â€”subscriptions with highest spend get optimization priority.
+Identifies **hot zones**—subscriptions with highest spend get optimization priority.
 
 ### Step 3: Resource Inventory
 
@@ -128,7 +128,7 @@ Resources
 | order by EstimatedMonthlyCost desc
 ```
 
-**Reality check**: This will find your real orphaned disksâ€”not the ones Azure Advisor flags (which are often DR/backup disks).
+**Reality check**: This will find your real orphaned disks—not the ones Azure Advisor flags (which are often DR/backup disks).
 
 ---
 
@@ -229,7 +229,7 @@ Resources
 2. Compute resources (VMs, App Services)
 3. Storage with high costs
 
-**Don't try to tag everything at once**â€”it's a 6-month project for large enterprises. For the complete tagging strategy including solving the 247 tag variations problem, see our [Azure tagging best practices guide](/blog/azure-resource-tags-guide/) and [tag governance policy implementation](/blog/azure-tag-governance-policy/).
+**Don't try to tag everything at once**—it's a 6-month project for large enterprises. For the complete tagging strategy including solving the 247 tag variations problem, see our [Azure tagging best practices guide](/blog/azure-resource-tags-guide/) and [tag governance policy implementation](/blog/azure-tag-governance-policy/).
 
 ---
 
@@ -252,7 +252,7 @@ Resources
 | order by TotalMonthlyCost desc
 ```
 
-Shows you **which applications cost the most**â€”not which subscriptions or resource types.
+Shows you **which applications cost the most**—not which subscriptions or resource types.
 
 ### Analysis 2: Dev/Test Overprovisioning
 
@@ -325,7 +325,7 @@ Resources
 
 ## Phase 4: Optimization Execution
 
-Now you executeâ€”carefully, with business context.
+Now you execute—carefully, with business context.
 
 ### Quick Win 1: Delete Orphaned Disks
 
@@ -350,7 +350,7 @@ foreach ($disk in $orphanedDisks) {
 # Remove-AzDisk -ResourceGroupName <rg> -DiskName <name> -Force
 ```
 
-**NEVER bulk-delete**â€”verify each disk individually with the owner.
+**NEVER bulk-delete**—verify each disk individually with the owner.
 
 ### Quick Win 2: Auto-Shutdown Dev/UAT VMs
 
@@ -387,11 +387,11 @@ This creates **auto-shutdown schedules** for all dev/UAT VMs with owner notifica
 
 ### Medium Win: Right-Size Production VMs
 
-**This is where people get burned**â€”don't just blindly downsize.
+**This is where people get burned**—don't just blindly downsize.
 
 **Process**:
 1. **Identify candidates** (high-spec VMs with low utilization)
-2. **Gather 30+ days of metrics** (not 7 daysâ€”that's too short)
+2. **Gather 30+ days of metrics** (not 7 days—that's too short)
 3. **Check with the application owner** (understand usage patterns)
 4. **Test in UAT first** (never right-size directly in production)
 5. **Schedule during maintenance window** (not Tuesday at 2 PM)
@@ -429,7 +429,7 @@ Perf
 
 ### Big Win: Decommission Zombie Applications
 
-**This is where real savings happen**â€”not optimization, elimination.
+**This is where real savings happen**—not optimization, elimination.
 
 **Zombie app checklist**:
 - [ ] No deployments in 6+ months
@@ -475,7 +475,7 @@ Resources
 
 ## Phase 5: Continuous Governance
 
-Optimization is ongoingâ€”implement these to prevent cost regression.
+Optimization is ongoing—implement these to prevent cost regression.
 
 ### Governance 1: Monthly Cost Review Meetings
 
@@ -578,7 +578,7 @@ Build a **Power BI dashboard** (or Azure Workbook) showing:
 - Orphaned disk count
 - Dev/UAT VMs without auto-shutdown
 
-**Make it visible**â€”email it to leadership weekly. Transparency drives action.
+**Make it visible**—email it to leadership weekly. Transparency drives action.
 
 ---
 
@@ -589,19 +589,19 @@ Cost optimization is 50% technical, 50% political. Here's how to navigate it.
 ### With Finance
 
 **What they care about**: Predictability, chargeback, accountability  
-**Your message**: "I can show you who's spending whatâ€”but I need tagging budget and time."  
+**Your message**: "I can show you who's spending what—but I need tagging budget and time."  
 **Win**: Get them to mandate tagging at the executive level
 
 ### With Application Owners
 
 **What they care about**: Uptime, performance, not getting blamed  
-**Your message**: "I'm here to help reduce *your* costsâ€”let's find waste together."  
+**Your message**: "I'm here to help reduce *your* costs—let's find waste together."  
 **Win**: Frame optimization as *their* budget win, not IT's mandate
 
 ### With Leadership
 
 **What they care about**: Big savings numbers, minimal risk  
-**Your message**: "We can save 30% over 6 monthsâ€”here's the phased plan with risk mitigation."  
+**Your message**: "We can save 30% over 6 months—here's the phased plan with risk mitigation."  
 **Win**: Get executive sponsorship for decommissioning zombie apps
 
 ### With InfoSec/Compliance
@@ -621,7 +621,7 @@ Cost optimization is 50% technical, 50% political. Here's how to navigate it.
 
 ### Pitfall 2: No Tagging Foundation
 **Symptom**: Can't answer "who owns this resource?"  
-**Result**: Paralysisâ€”too risky to change anything  
+**Result**: Paralysis—too risky to change anything  
 **Fix**: Stop all optimization until tagging is 80%+ complete
 
 ### Pitfall 3: One-Time Cleanup
@@ -674,7 +674,7 @@ Here's the realistic timeline for meaningful cost reduction:
 
 ## Final Reality Check
 
-**Azure cost optimization is not a sprintâ€”it's a marathon.**
+**Azure cost optimization is not a sprint—it's a marathon.**
 
 You won't save 40% in Month 1. Anyone who promises that is lying.
 
@@ -706,9 +706,9 @@ Skip any of these and you'll either:
 
 This isn't theory. This is the exact process I've used across multiple Azure environments.
 
-It worksâ€”if you commit to the full framework, not just cherry-picking the easy parts.
+It works—if you commit to the full framework, not just cherry-picking the easy parts.
 
-**Good luck. You've got this.** ðŸš€
+**Good luck. You've got this.** 🚀
 
 ---
 
@@ -724,7 +724,7 @@ You can identify waste, but can you delete it?
   </div>
 </div>
 
-**Want the KQL queries from this guide in a ready-to-use format?** Check out my [Azure Cost Optimization KQL Library on GitHub](#)â€”all queries organized, tested, and ready to copy/paste.
+**Want the KQL queries from this guide in a ready-to-use format?** Check out my [Azure Cost Optimization KQL Library on GitHub](#)—all queries organized, tested, and ready to copy/paste.
 
 ---
 

@@ -280,12 +280,12 @@
     <p>This is the guide I wish I had when I started running Terraform in production. These aren't hypothetical problems - these are <strong>real issues I've encountered</strong> with proven solutions.</p>
 <p>This guide is part of our <a href="/hub/automation/">Azure Automation hub</a> covering Infrastructure as Code, CI/CD pipelines, and DevOps practices.</p>
 <p><strong>What's covered:</strong><br />
-- ðŸ”¥ Pipeline failures and error codes<br />
-- ðŸ”’ Authentication and permission issues<br />
-- ðŸ’¾ State file corruption and locking<br />
-- ðŸ—ï¸ Resource drift and manual changes<br />
-- âš¡ Performance optimization<br />
-- ðŸ“Š Debugging strategies</p>
+- 🔥 Pipeline failures and error codes<br />
+- 🔒 Authentication and permission issues<br />
+- 💾 State file corruption and locking<br />
+- 🏗️ Resource drift and manual changes<br />
+- ⚡ Performance optimization<br />
+- 📊 Debugging strategies</p>
 <p>Skip to the section that matches your current fire.</p>
 <h2 id="quick-diagnostic-checklist">Quick Diagnostic Checklist</h2>
 <p>Before diving into specific issues, run this diagnostic checklist:</p>
@@ -687,10 +687,10 @@ Daily drift detection pipeline reports changes.</p>
 <p>If &gt; 10 MB, state is too large.</p>
 <p><strong>Solution:</strong> Split into multiple state files by logical boundaries:</p>
 <div class="codehilite"><pre><span></span><code>terraform/
-â”œâ”€â”€ core-infrastructure/     (VNets, NSGs, state: core.tfstate)
-â”œâ”€â”€ compute/                 (VMs, AVDs, state: compute.tfstate)
-â”œâ”€â”€ storage/                 (Storage accounts, state: storage.tfstate)
-â””â”€â”€ databases/               (SQL, CosmosDB, state: databases.tfstate)
+├── core-infrastructure/     (VNets, NSGs, state: core.tfstate)
+├── compute/                 (VMs, AVDs, state: compute.tfstate)
+├── storage/                 (Storage accounts, state: storage.tfstate)
+└── databases/               (SQL, CosmosDB, state: databases.tfstate)
 </code></pre></div>
 
 <p>Each has its own backend config:</p>
@@ -965,7 +965,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 </code></pre></div>
 
 <p><strong>Prevention implemented:</strong><br />
-- Provider version testing workflow: dev (1 week) â†’ test (1 week) â†’ prod<br />
+- Provider version testing workflow: dev (1 week) → test (1 week) → prod<br />
 - Never upgrade providers in prod without testing<br />
 - Always read provider changelogs: "BREAKING CHANGES" section</p>
 <h3 id="war-story-4-the-concurrent-apply">War Story 4: The Concurrent Apply</h3>
@@ -991,10 +991,10 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 <p>Print this and keep it handy:</p>
 <h3 id="emergency-pipeline-failing-in-prod">Emergency: Pipeline Failing in Prod</h3>
 <p><strong>Step 1: Assess Impact</strong><br />
-- Is prod currently down? â†’ Rollback immediately<br />
-- Is prod still working? â†’ Investigate before action</p>
+- Is prod currently down? → Rollback immediately<br />
+- Is prod still working? → Investigate before action</p>
 <p><strong>Step 2: Stop All Pipelines</strong><br />
-- Go to Pipelines â†’ Running<br />
+- Go to Pipelines → Running<br />
 - Cancel all Terraform pipelines</p>
 <p><strong>Step 3: Check Logs</strong><br />
 - Last successful pipeline run<br />
@@ -1003,7 +1003,7 @@ az<span class="w"> </span>deployment<span class="w"> </span>sub<span class="w"> 
 <div class="codehilite"><pre><span></span><code>terraform<span class="w"> </span>show
 </code></pre></div>
 
-<p>If this fails, state is corrupted â†’ Restore from backup.</p>
+<p>If this fails, state is corrupted → Restore from backup.</p>
 <p><strong>Step 5: Rollback Options</strong><br />
 1. Revert the last merged PR (if code issue)<br />
 2. Restore state from backup (if state corrupted)<br />

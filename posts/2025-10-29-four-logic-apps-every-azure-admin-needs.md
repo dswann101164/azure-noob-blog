@@ -176,13 +176,13 @@ Every Monday at 8 AM:
 Subject: Weekly Unused Resource Report - Potential Savings: $4,187
 
 SUMMARY
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Resource Type           Count    Monthly Cost
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Orphaned Disks            47       $3,240
 Old Snapshots (>90d)     156         $892
 Unattached NICs           23          N/A
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TOTAL                    226       $4,132
 
 TOP 10 ORPHANED DISKS
@@ -263,7 +263,7 @@ az role assignment create `
 
 ### Teams Webhook Setup
 
-1. Go to Teams channel â†’ Connectors
+1. Go to Teams channel → Connectors
 2. Add "Incoming Webhook"  
 3. Name: "Certificate Alerts"
 4. Copy webhook URL
@@ -283,19 +283,19 @@ az role assignment create `
 Daily Teams notification:
 
 ```
-ðŸ”´ CRITICAL - 7 certificates expiring within 30 days
+🔴 CRITICAL - 7 certificates expiring within 30 days
 
 CRITICAL (< 7 days):
-ðŸ”´ app-prod-ssl | App Service | 4 days | @john.smith
-ðŸ”´ api-auth-cert | Key Vault | 6 days | @jane.doe
+🔴 app-prod-ssl | App Service | 4 days | @john.smith
+🔴 api-auth-cert | Key Vault | 6 days | @jane.doe
 
 HIGH (< 15 days):
-ðŸŸ  api-backend | Key Vault | 12 days | @bob.jones
-ðŸŸ  auth-service | App Service | 13 days | @alice
+🟠 api-backend | Key Vault | 12 days | @bob.jones
+🟠 auth-service | App Service | 13 days | @alice
 
 MEDIUM (< 30 days):
-ðŸŸ¡ dev-wildcard | Key Vault | 25 days | @charlie
-ðŸŸ¡ test-ssl | App Service | 28 days | @diana
+🟡 dev-wildcard | Key Vault | 25 days | @charlie
+🟡 test-ssl | App Service | 28 days | @diana
 ```
 
 **Value:** Every cert-related outage prevented, 2-4 hours/incident saved
@@ -391,7 +391,7 @@ Hello John Smith,
 Resources missing required tags:
 
 RESOURCE          GROUP           MISSING TAGS           ACTION
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 vm-prod-app-01    rg-production   CostCenter, Owner      [Add Tags]
 storage-backups   rg-storage      Environment, App       [Add Tags]
 sql-prod-db       rg-databases    CostCenter             [Add Tags]
@@ -469,20 +469,20 @@ az role assignment create `
 **When failures occur:**
 
 ```
-Subject: ðŸš¨ ALERT: 3 Backup Failures (Last 24h)
+Subject: 🚨 ALERT: 3 Backup Failures (Last 24h)
 
 BACKUP FAILURE REPORT
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Vault              VM Name           Error Code
-â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 rsv-prod-backups   vm-sql-prod-01    UserErrorVmNotFound
 rsv-prod-backups   vm-app-prod-03    UserErrorDiskQuota
 rsv-dev-backups    vm-test-server    UserErrorVMAgentOffline
 
 COMMON FIXES
-UserErrorVmNotFound     â†’ VM deleted, remove from policy
-UserErrorDiskQuota      â†’ Increase storage, review retention
-UserErrorVMAgentOffline â†’ Check agent, restart VM
+UserErrorVmNotFound     → VM deleted, remove from policy
+UserErrorDiskQuota      → Increase storage, review retention
+UserErrorVMAgentOffline → Check agent, restart VM
 
 ACTION REQUIRED: Remediate within 24 hours
 ```
@@ -490,7 +490,7 @@ ACTION REQUIRED: Remediate within 24 hours
 **When successful:**
 
 ```
-Subject: âœ… All Backups Successful (Last 24h)
+Subject: ✅ All Backups Successful (Last 24h)
 
 Total Vaults: 12
 Total Successful Jobs: 247

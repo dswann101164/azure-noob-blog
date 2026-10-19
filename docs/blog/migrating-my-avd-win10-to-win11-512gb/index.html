@@ -157,7 +157,7 @@
   },
   "keywords": "azure, avd, windows-11, operations",
   "articleSection": "azure",
-  "wordCount": "2553",
+  "wordCount": "2539",
   "timeRequired": "PT13M",
   "inLanguage": "en-US",
   "isAccessibleForFree": "True",
@@ -329,7 +329,7 @@
 - Name prefix: win1101-
 - Image: Windows 11 Enterprise Multi-session (25H2)
 - VM size: Standard D8s v5 (8 vCPU, 32GB RAM)
-- OS disk size: 512GB Standard SSD  â† THE KEY REQUIREMENT
+- OS disk size: 512GB Standard SSD  ← THE KEY REQUIREMENT
 - Network: vnet-prod-onprem2azure
 - Subnet: snet-prod-onprem2azure-prod
 - Security: Trusted launch, secure boot, vTPM, integrity monitoring
@@ -337,16 +337,16 @@
 
 <p><strong>Critical: Domain Join Settings</strong></p>
 <p>The first time I tried to deploy, I missed this. The Azure portal has a setting buried in the VM configuration:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">Specify</span><span class="w"> </span><span class="nx">domain</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">unit</span><span class="p">:</span><span class="w"> </span><span class="nx">YES</span><span class="w">  </span><span class="nx">â</span><span class="err">†</span><span class="w"> </span><span class="nx">Must</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">Yes</span>
+<div class="codehilite"><pre><span></span><code><span class="nx">Specify</span><span class="w"> </span><span class="nx">domain</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">unit</span><span class="p">:</span><span class="w"> </span><span class="nx">YES</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="nx">Must</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">Yes</span>
 <span class="nx">Domain</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">join</span><span class="p">:</span><span class="w"> </span><span class="nx">moonlab</span><span class="p">.</span><span class="nx">local</span>
 <span class="nx">Domain</span><span class="w"> </span><span class="nx">join</span><span class="w"> </span><span class="k">type</span><span class="p">:</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Directory</span>
 <span class="nx">Domain</span><span class="w"> </span><span class="nx">admin</span><span class="w"> </span><span class="nx">credentials</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="nx">your</span><span class="w"> </span><span class="nx">account</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">join</span><span class="w"> </span><span class="nx">permissions</span><span class="p">)</span>
 </code></pre></div>
 
 <p>If you skip this, the VM deploys but:<br />
-- âŒ Not domain joined<br />
-- âŒ AVD agent not installed automatically<br />
-- âŒ Not registered to host pool</p>
+- ❌ Not domain joined<br />
+- ❌ AVD agent not installed automatically<br />
+- ❌ Not registered to host pool</p>
 <p><strong>You have to delete it and start over.</strong> Ask me how I know.</p>
 <h2 id="the-512gb-disk-mystery">The 512GB Disk Mystery</h2>
 <p>The deployment succeeded. I connected to the new Win 11 VM and checked disk space:</p>
@@ -361,18 +361,18 @@
 <p>The Azure portal clearly showed the disk as 512GB. But Windows only saw 127GB.</p>
 <h3 id="the-gotcha-unallocated-space">The Gotcha: Unallocated Space</h3>
 <p>I checked the disk properties in the Azure portal:</p>
-<p><strong>Disk size: 512 GiB</strong> âœ…</p>
+<p><strong>Disk size: 512 GiB</strong> ✅</p>
 <p>The disk WAS 512GB. But the partition was only 127GB. The remaining ~385GB was sitting there unallocated.</p>
 <p><strong>This is a common gotcha with Azure VMs.</strong> When you specify a larger disk size during deployment, Azure creates the disk at that size, but the partition inside Windows doesn't automatically expand to fill it.</p>
 <h3 id="the-fix-extend-the-partition">The Fix: Extend the Partition</h3>
 <p><strong>On the Win 11 VM:</strong></p>
 <ol>
 <li>Open Computer Management: <code>compmgmt.msc</code></li>
-<li>Go to Storage â†’ Disk Management</li>
+<li>Go to Storage → Disk Management</li>
 <li>You'll see:</li>
 <li>C: drive = 127GB (in use)</li>
 <li>Unallocated space = ~385GB (grayed out)</li>
-<li>Right-click C: drive â†’ <strong>Extend Volume</strong></li>
+<li>Right-click C: drive → <strong>Extend Volume</strong></li>
 <li>Walk through the wizard (use all available space)</li>
 <li>Done - C: drive now shows 512GB</li>
 </ol>
@@ -426,7 +426,7 @@
 <p>These can't be easily scripted due to licensing activation requirements in our environment.</p>
 <h2 id="the-authentication-puzzle">The Authentication Puzzle</h2>
 <p>With the VM ready, I tried to connect from my home computer.</p>
-<p><strong>Remote Desktop client â†’ Subscribe to workspace:</strong></p>
+<p><strong>Remote Desktop client → Subscribe to workspace:</strong></p>
 <p>Entered: <code>user@contoso.local</code></p>
 <p><strong>Error:</strong> "We couldn't find any Workspaces."</p>
 <h3 id="the-problem-azure-ad-vs-on-premises-ad">The Problem: Azure AD vs On-Premises AD</h3>
@@ -441,23 +441,23 @@
 <p><strong>Two assignments needed for Personal pools with Direct assignment:</strong></p>
 <p><strong>1. Application Group Assignment</strong></p>
 <p>This controls who can see and access the workspace.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Workspaces</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">win11</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="n">groups</span><span class="w"> </span>
-<span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="o">-</span><span class="n">DAG</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Assignments</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Add</span>
+<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Workspaces</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">win11</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="n">groups</span><span class="w"> </span>
+<span class="err">→</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="o">-</span><span class="n">DAG</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Assignments</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="k">Add</span>
 
 <span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="k">user</span><span class="nv">@contoso</span><span class="p">.</span><span class="n">com</span>
 </code></pre></div>
 
 <p><strong>2. VM Assignment</strong></p>
 <p>This controls which specific VM you're assigned to.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Host</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="w"> </span>
-<span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="k">Session</span><span class="w"> </span><span class="n">hosts</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">win1101</span><span class="o">-</span><span class="mf">0.</span><span class="n">moonlab</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="n">â</span><span class="err">†’</span><span class="w"> </span><span class="n">Assignment</span>
+<div class="codehilite"><pre><span></span><code><span class="n">Azure</span><span class="w"> </span><span class="n">Portal</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">AVD</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="k">Host</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">wvdhostpool1</span><span class="o">-</span><span class="n">win11</span><span class="w"> </span>
+<span class="err">→</span><span class="w"> </span><span class="k">Session</span><span class="w"> </span><span class="n">hosts</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">win1101</span><span class="o">-</span><span class="mf">0.</span><span class="n">moonlab</span><span class="p">.</span><span class="k">local</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Assignment</span>
 
 <span class="k">Add</span><span class="w"> </span><span class="k">user</span><span class="err">:</span><span class="w"> </span><span class="k">user</span><span class="nv">@contoso</span><span class="p">.</span><span class="n">com</span>
 </code></pre></div>
 
 <p><strong>Both are required.</strong> Miss either one and you can't connect.</p>
 <p>After adding both assignments, I waited 2-5 minutes for propagation, then:</p>
-<p><strong>Remote Desktop client â†’ Subscribe:</strong></p>
+<p><strong>Remote Desktop client → Subscribe:</strong></p>
 <p>Entered: <code>user@contoso.com</code></p>
 <p><strong>Success.</strong> The "win11" workspace appeared.</p>
 <h3 id="mfa-and-single-sign-on">MFA and Single Sign-On</h3>
@@ -469,7 +469,7 @@
 <p>Why? Once I was on the corporate network (via the first AVD connection), Conditional Access saw subsequent connections as "on corporate network" and didn't require MFA again.</p>
 <p>This is Azure AD single sign-on working as designed. If I'd connected directly to the Win 11 workspace from home (bypassing the old one), I would have hit MFA.</p>
 <h2 id="what-i-learned">What I Learned</h2>
-<h3 id="1-disk-size-â-partition-size">1. Disk Size â‰  Partition Size</h3>
+<h3 id="1-disk-size-partition-size">1. Disk Size ≠ Partition Size</h3>
 <p><strong>Azure creates the disk at the size you specify, but the partition doesn't auto-expand.</strong></p>
 <p>You must manually extend the partition in Disk Management. This is standard Windows behavior, but it catches people off guard because cloud VMs "should just work."</p>
 <p><strong>Pro tip:</strong> Check <code>Get-Volume</code> immediately after deployment to verify usable space matches expectations.</p>

@@ -1,7 +1,7 @@
 ---
 title: "Software Rationalization: The Step Zero That Works in a DevOps World"
 date: 2025-11-04
-summary: "Before you migrate, modernize, or even look at the cloud â€” you must know what you own, what it costs, and whether it should exist. This is not a migration step. It's a business survival step."
+summary: "Before you migrate, modernize, or even look at the cloud — you must know what you own, what it costs, and whether it should exist. This is not a migration step. It's a business survival step."
 tags: ["rationalization", "finops", "devops", "azure", "governance", "architecture", "security", "cost-allocation"]
 cover: "/static/images/hero/rationalization-devops.png"
 hub: governance
@@ -15,7 +15,7 @@ related_posts:
 
 This guide is part of our [Azure Governance hub](/hub/governance/) covering policy enforcement, compliance frameworks, and enterprise controls.
 
-> **"How many applications do we have â€” and how much do they *actually* cost us?"**
+> **"How many applications do we have — and how much do they *actually* cost us?"**
 
 Ask any enterprise.  
 You'll get the same four answers:
@@ -23,7 +23,7 @@ You'll get the same four answers:
 1. "Depends on who you ask."  
 2. "We think around 400."  
 3. "Maybe 700, counting Excel."  
-4. "We don't know â€” and the bill is split across 47 subscriptions."
+4. "We don't know — and the bill is split across 47 subscriptions."
 
 That last one?  
 **That's the killer.**
@@ -34,14 +34,14 @@ That last one?
 
 **This is a *portfolio hygiene* problem.**
 
-Azure just makes it **visible** â€” with **itemized, unmergeable, soul-crushing invoices**.
+Azure just makes it **visible** — with **itemized, unmergeable, soul-crushing invoices**.
 
 You don't rationalize *for* Azure.  
 You rationalize to decide **if Azure (or any platform) deserves your app**.
 
 ---
 
-## Step Zero: Rationalization â€” *Before Strategy, Before Budget, Before Cloud*
+## Step Zero: Rationalization — *Before Strategy, Before Budget, Before Cloud*
 
 **Software rationalization** is the disciplined process of deciding what to:
 
@@ -79,7 +79,7 @@ Microsoft says:
 
 ### The Bill Breaks Here:
 - **Cost Management** can't auto-roll-up by app
-- **Showback** fails: "Prod = $50k, Dev = $2k" â†’ no context
+- **Showback** fails: "Prod = $50k, Dev = $2k" → no context
 - **Rationalization** fails: You can't retire "ERP" when its cost is shredded
 
 ---
@@ -88,7 +88,7 @@ Microsoft says:
 
 > **Your technical architecture must map 1:1 to your financial accountability model.**
 
-### Required: The `AppID` â€” Your Atomic Unit of Truth
+### Required: The `AppID` — Your Atomic Unit of Truth
 
 ```yaml
 # Mandatory tags on EVERY resource
@@ -117,14 +117,14 @@ SunsetDate: 2027-12-31  # if applicable
 
 ---
 
-## The 7 R's â€” Reframed for DevOps + Multi-Subscription Reality
+## The 7 R's — Reframed for DevOps + Multi-Subscription Reality
 
 | R | Decision | DevOps Impact | Billing Impact | Execution |
 |---|--------|---------------|----------------|-----------|
 | **Retire** | Decommission | Delete from **all** envs | 100% savings | Runbook: `az resource delete` |
 | **Replace** | SaaS | Kill custom code | Per-seat cost | Decommission + license |
 | **Retain** | Keep on-prem | No cloud tax | Audit annually | Tag: `CloudEligible: No` |
-| **Replatform** | PaaS | One pipeline â†’ N subs | Predictable | Bicep/ARM per env |
+| **Replatform** | PaaS | One pipeline → N subs | Predictable | Bicep/ARM per env |
 | **Refactor** | Containers/AKS | GitOps | Lower TCO | Feature flags |
 | **Rehost** | IaaS VM | IaC deploy | +40% vs PaaS | **Require sunset plan** |
 | **Relocate** | Hybrid/DR | ASR | Temp only | Tag: `Temporary: true` |
@@ -136,8 +136,8 @@ SunsetDate: 2027-12-31  # if applicable
 | Sin | Symptom | Fix |
 |-----|---------|-----|
 | **Monolithic RG** | 200 resources in one RG | Split: `RG-{CostCenter}-{AppID}-{Env}` |
-| **Shared Storage** | 50 apps â†’ 1 account | One per `AppID` or `CostCenter` |
-| **Global Log Workspace** | All logs â†’ one bill | One per `SecurityZone` + retention caps |
+| **Shared Storage** | 50 apps → 1 account | One per `AppID` or `CostCenter` |
+| **Global Log Workspace** | All logs → one bill | One per `SecurityZone` + retention caps |
 | **Mixed App Service Plan** | Dev + Prod in one plan | One plan per `WorkloadTier` |
 
 ---
@@ -220,7 +220,7 @@ az resource delete --ids $resources
 **Results:**
 - **Retired**: 280 apps (zombie VMs, forgotten POCs)
 - **Replaced**: 120 apps (moved to SaaS - 50%+ cheaper)
-- **Replatformed**: 95 apps (IaaS â†’ PaaS)
+- **Replatformed**: 95 apps (IaaS → PaaS)
 - **Savings**: $800K/year
 
 ---
@@ -242,7 +242,7 @@ az resource delete --ids $resources
 ## The Manifesto: Print This and Nail It to Your CCoE Door
 
 > **"We don't migrate applications.**  
-> **We rationalize *decisions* â€” by `AppID`, across security zones, with full cost visibility.**
+> **We rationalize *decisions* — by `AppID`, across security zones, with full cost visibility.**
 >  
 > **Subscriptions are for security.**  
 > **`AppID` is for truth.**  
@@ -271,7 +271,7 @@ az resource delete --ids $resources
 - [ ] Plan replatforming roadmap
 
 ### Month 4+: Execute
-- [ ] Automate retirements (dev â†’ test â†’ prod)
+- [ ] Automate retirements (dev → test → prod)
 - [ ] Migrate apps to PaaS/SaaS
 - [ ] Track savings monthly
 - [ ] Celebrate wins (and share numbers)
@@ -290,18 +290,18 @@ az resource delete --ids $resources
 
 ---
 
-## âœ… NOW AVAILABLE: The Azure Rationalization Toolkit
+## ✅ NOW AVAILABLE: The Azure Rationalization Toolkit
 
 **Open-source, production-ready, tested at enterprise scale.**
 
-ðŸ‘‰ **[Get the toolkit on GitHub](https://github.com/dswann101164/azure-rationalization-toolkit)**
+👉 **[Get the toolkit on GitHub](https://github.com/dswann101164/azure-rationalization-toolkit)**
 
 **What's included:**
-- âœ… Azure Policy definitions (ready to deploy)
-- âœ… KQL queries (copy-paste into Resource Graph)
-- âœ… PowerShell automation scripts
-- âœ… Complete documentation with examples
-- âœ… Zero setup required â€” just copy/paste queries
+- ✅ Azure Policy definitions (ready to deploy)
+- ✅ KQL queries (copy-paste into Resource Graph)
+- ✅ PowerShell automation scripts
+- ✅ Complete documentation with examples
+- ✅ Zero setup required — just copy/paste queries
 
 **Tested at scale:**
 - 44 subscriptions

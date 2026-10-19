@@ -346,7 +346,7 @@
 <blockquote>
 <p>"Which resource groups are driving the most cost? Which resources have the highest daily cost? Which resource types should I investigate for optimization?"</p>
 </blockquote>
-<p>You're building muscle memory for <strong>"data export â†’ AI analysis â†’ human decision"</strong> workflow. This is the foundation.</p>
+<p>You're building muscle memory for <strong>"data export → AI analysis → human decision"</strong> workflow. This is the foundation.</p>
 <h3 id="week-2-read-only-automation">Week 2: Read-Only Automation</h3>
 <p>Now you're ready for AI to actually touch Azure - but only read operations.</p>
 <p><strong>Option 1: Claude Desktop with MCP Server (Easiest)</strong></p>
@@ -536,12 +536,12 @@
 </code></pre></div>
 
 <p><strong>Your review checklist:</strong><br />
-- âœ… Dry-run mode by default<br />
-- âœ… Error handling per resource<br />
-- âœ… Logging implemented<br />
-- âœ… Summary output<br />
-- âœ… Merges with existing tags (doesn't overwrite everything)<br />
-- âœ… Uses -Force to avoid confirmation prompts</p>
+- ✅ Dry-run mode by default<br />
+- ✅ Error handling per resource<br />
+- ✅ Logging implemented<br />
+- ✅ Summary output<br />
+- ✅ Merges with existing tags (doesn't overwrite everything)<br />
+- ✅ Uses -Force to avoid confirmation prompts</p>
 <p>Run with <code>-DryRun</code> first. Review logs. If clean, run production:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">.\</span><span class="n">Apply-Tags</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-ResourceGroupName</span> <span class="s2">"RG-PROD-WEB-001"</span> <span class="n">-DryRun</span><span class="p">:</span><span class="nv">$false</span>
 </code></pre></div>
@@ -595,31 +595,31 @@
 <p>You're starting fresh. New subscription, blank canvas, or you're the first person bringing Azure into your organization. <strong>This is your chance to build it right from the start.</strong></p>
 <p>Most Azure admins inherit technical debt. You get to architect for AI-first operations from day zero.</p>
 <h3 id="foundation-ai-native-azure-architecture">Foundation: AI-Native Azure Architecture</h3>
-<p>Traditional approach: Deploy resources â†’ realize you need governance â†’ retrofit policies and tags â†’ fight with existing workloads.</p>
-<p>AI-first approach: Deploy governance â†’ let AI enforce it â†’ deploy resources within guardrails.</p>
+<p>Traditional approach: Deploy resources → realize you need governance → retrofit policies and tags → fight with existing workloads.</p>
+<p>AI-first approach: Deploy governance → let AI enforce it → deploy resources within guardrails.</p>
 <p><strong>Your Terraform structure:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="o">/</span><span class="n">terraform</span><span class="o">-</span><span class="n">azure</span><span class="o">-</span><span class="n">foundation</span>
-<span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">modules</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">governance</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">policy</span><span class="o">-</span><span class="n">definitions</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">policy</span><span class="o">-</span><span class="n">assignments</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="nb">log</span><span class="o">-</span><span class="n">analytics</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">compute</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">windows</span><span class="o">-</span><span class="n">vm</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="n">linux</span><span class="o">-</span><span class="n">vm</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">networking</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">vnet</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”‚</span><span class="w">   </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="n">nsg</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">data</span>
-<span class="err">â”‚</span><span class="w">       </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">sql</span><span class="o">-</span><span class="n">database</span><span class="o">/</span>
-<span class="err">â”‚</span><span class="w">       </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="n">storage</span><span class="o">-</span><span class="n">account</span><span class="o">/</span>
-<span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">environments</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">governance</span><span class="w"> </span><span class="p">(</span><span class="n">subscription</span><span class="o">-</span><span class="n">level</span><span class="w"> </span><span class="n">resources</span><span class="p">)</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">prod</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">staging</span>
-<span class="err">â”‚</span><span class="w">   </span><span class="err">â””â”€â”€</span><span class="w"> </span><span class="o">/</span><span class="n">dev</span>
-<span class="err">â”œâ”€â”€</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span>
-<span class="err">â””â”€â”€</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">Azure</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">state</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">modules</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">governance</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">policy</span><span class="o">-</span><span class="n">definitions</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">policy</span><span class="o">-</span><span class="n">assignments</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nb">log</span><span class="o">-</span><span class="n">analytics</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">compute</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">windows</span><span class="o">-</span><span class="n">vm</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">linux</span><span class="o">-</span><span class="n">vm</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">networking</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">vnet</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">nsg</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">/</span><span class="n">data</span>
+<span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">sql</span><span class="o">-</span><span class="n">database</span><span class="o">/</span>
+<span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="n">storage</span><span class="o">-</span><span class="n">account</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">environments</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">governance</span><span class="w"> </span><span class="p">(</span><span class="n">subscription</span><span class="o">-</span><span class="n">level</span><span class="w"> </span><span class="n">resources</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">prod</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">/</span><span class="n">staging</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">/</span><span class="n">dev</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">terraform</span><span class="o">.</span><span class="n">tfvars</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">backend</span><span class="o">.</span><span class="n">tf</span><span class="w"> </span><span class="p">(</span><span class="n">Azure</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">state</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Backend configuration (Enterprise Pattern):</strong></p>
@@ -997,7 +997,7 @@
 "I've integrated Claude Desktop with MCP servers to automate our Azure resource tagging pipeline. We reduced tag compliance issues from 40% to 5% because AI validates tags before resources deploy. I also use AI to generate Terraform modules from requirements, which cut our environment provisioning time from 3 days to 6 hours."</p>
 <p><strong>Best answer:</strong><br />
 "I built an AI-assisted Azure operations platform that reduced manual administration by 60%. Here's my internal documentation showing the architecture, the Terraform module structure, and the before/after metrics. I trained three other admins on this approach and we're expanding it across the organization. I can implement this in your environment in four weeks."</p>
-<h3 id="rã-sumã-positioning">RÃ©sumÃ© Positioning</h3>
+<h3 id="résumé-positioning">Résumé Positioning</h3>
 <p>Don't write:<br />
 "Experienced Azure administrator familiar with AI tools"</p>
 <p>Write:<br />
@@ -1055,7 +1055,7 @@ Career path: CTO, consulting, board advisory</p>
 <p><strong>Month 3:</strong><br />
 - Train a colleague on your AI operations workflow<br />
 - Measure team productivity impact<br />
-- Update rÃ©sumÃ© with specific metrics</p>
+- Update résumé with specific metrics</p>
 <p><strong>Month 6:</strong><br />
 - Launch consulting offering OR apply for AI Operations Engineer roles OR pitch your company on expanding this internally</p>
 <p><strong>Critical: Document everything.</strong> Whether that's internal SharePoint pages or public blog posts, your documentation is your moat against AI commoditization.</p>
