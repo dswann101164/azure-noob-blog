@@ -316,7 +316,7 @@
 </tr>
 <tr>
 <td>"Who broke prod"</td>
-<td>Â¯\<em>(ãƒ„)</em>/Â¯</td>
+<td>¯\<em>(ツ)</em>/¯</td>
 <td><strong>Full audit logs</strong></td>
 </tr>
 <tr>
@@ -335,10 +335,10 @@
 <h2 id="the-architecture-keep-it-simple">The Architecture (Keep It Simple)</h2>
 <p>Here's what we're building:</p>
 <div class="codehilite"><pre><span></span><code>Azure Storage Account (one-time setup)
-  â””â”€â”€ Container: tfstate
-      â”œâ”€â”€ project1/terraform.tfstate
-      â”œâ”€â”€ project2/terraform.tfstate  
-      â””â”€â”€ project3/terraform.tfstate
+  └── Container: tfstate
+      ├── project1/terraform.tfstate
+      ├── project2/terraform.tfstate  
+      └── project3/terraform.tfstate
 </code></pre></div>
 
 <p>That's it. One storage account. Multiple projects store their state as blobs. Azure handles locking, versioning, and encryption automatically.</p>
@@ -394,10 +394,10 @@ terraform<span class="w"> </span>apply
 </code></pre></div>
 
 <p>That's it. You now have:<br />
-- âœ… Resource group: <code>rg-tfstate-dev</code><br />
-- âœ… Storage account with encryption<br />
-- âœ… Container for state files<br />
-- âœ… RBAC configured for your service principal</p>
+- ✅ Resource group: <code>rg-tfstate-dev</code><br />
+- ✅ Storage account with encryption<br />
+- ✅ Container for state files<br />
+- ✅ RBAC configured for your service principal</p>
 <h3 id="phase-3-configure-your-project-5-minutes">Phase 3: Configure Your Project (5 minutes)</h3>
 <p>Now make your actual Terraform project use remote state.</p>
 <p><strong>Create <code>backend.tf</code> in your project:</strong></p>
@@ -454,11 +454,11 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 <h3 id="pattern-1-multi-environment">Pattern 1: Multi-Environment</h3>
 <p>Don't create separate storage accounts per environment. Use one storage account with different blob paths:</p>
 <div class="codehilite"><pre><span></span><code>tfstate container:
-â”œâ”€â”€ web-app/dev/terraform.tfstate
-â”œâ”€â”€ web-app/staging/terraform.tfstate  
-â”œâ”€â”€ web-app/prod/terraform.tfstate
-â”œâ”€â”€ database/dev/terraform.tfstate
-â””â”€â”€ database/prod/terraform.tfstate
+├── web-app/dev/terraform.tfstate
+├── web-app/staging/terraform.tfstate  
+├── web-app/prod/terraform.tfstate
+├── database/dev/terraform.tfstate
+└── database/prod/terraform.tfstate
 </code></pre></div>
 
 <p><strong>In your backend.tf:</strong></p>
@@ -516,12 +516,12 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 4. Postmortem about "lessons learned"</p>
 <p>Just add it to <code>.gitignore</code> from day one.</p>
 <p><strong>Other security things:</strong><br />
-- âœ… Enable "Secure transfer required" on storage account<br />
-- âœ… Configure storage firewall rules<br />
-- âœ… Enable soft delete (90-day retention)<br />
-- âœ… Enable versioning<br />
-- âœ… Rotate SP secrets quarterly<br />
-- âœ… Use least-privilege RBAC (Contributor, not Owner)</p>
+- ✅ Enable "Secure transfer required" on storage account<br />
+- ✅ Configure storage firewall rules<br />
+- ✅ Enable soft delete (90-day retention)<br />
+- ✅ Enable versioning<br />
+- ✅ Rotate SP secrets quarterly<br />
+- ✅ Use least-privilege RBAC (Contributor, not Owner)</p>
 <h2 id="troubleshooting-what-will-actually-break">Troubleshooting (What Will Actually Break)</h2>
 <h3 id="problem-failed-to-get-existing-workspaces">Problem: "Failed to get existing workspaces"</h3>
 <div class="codehilite"><pre><span></span><code>Error: storage: service returned error: StatusCode=403
@@ -563,11 +563,11 @@ terraform<span class="w"> </span>plan<span class="w">  </span><span class="c1">#
 <p>I've put everything on GitHub so you don't have to figure this out:</p>
 <p><strong>Repository:</strong> <a href="https://github.com/dswann101164/terraform-remote-state">github.com/dswann101164/terraform-remote-state</a></p>
 <p><strong>What's included:</strong><br />
-- âœ… Complete working templates<br />
-- âœ… Step-by-step checklist<br />
-- âœ… Security best practices<br />
-- âœ… Troubleshooting guide<br />
-- âœ… Copy-paste commands</p>
+- ✅ Complete working templates<br />
+- ✅ Step-by-step checklist<br />
+- ✅ Security best practices<br />
+- ✅ Troubleshooting guide<br />
+- ✅ Copy-paste commands</p>
 <p>Just clone it and follow the README.</p>
 <h2 id="what-s-next">What's Next</h2>
 <p>Once you have remote state working:</p>
