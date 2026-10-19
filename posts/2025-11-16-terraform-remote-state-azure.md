@@ -117,8 +117,8 @@ You'll need this for RBAC.
 I've created templates you can literally copy-paste. They're on GitHub:
 
 ```bash
-git clone https://github.com/dswann101164/-terraform-remote-state
-cd -terraform-remote-state/templates/storacct
+git clone https://github.com/dswann101164/terraform-remote-state
+cd terraform-remote-state/templates/storacct
 ```
 
 **Create your secrets file:**
@@ -359,7 +359,7 @@ Yeah, set up remote state.
 
 I've put everything on GitHub so you don't have to figure this out:
 
-**Repository:** [github.com/dswann101164/-terraform-remote-state](https://github.com/dswann101164/-terraform-remote-state)
+**Repository:** [github.com/dswann101164/terraform-remote-state](https://github.com/dswann101164/terraform-remote-state)
 
 **What's included:**
 - âœ… Complete working templates
@@ -400,10 +400,10 @@ The fourth time? You'll wonder why you didn't do this on day one.
 
 Get everything you need to set this up:
 
-- **Complete Guide:** [README.md](https://github.com/dswann101164/-terraform-remote-state/blob/main/README.md)
-- **Quick Start:** [QUICKSTART.md](https://github.com/dswann101164/-terraform-remote-state/blob/main/QUICKSTART.md)  
-- **Step-by-Step Checklist:** [CHECKLIST.md](https://github.com/dswann101164/-terraform-remote-state/blob/main/CHECKLIST.md)
-- **ROI Calculator:** [DECISION_MATRIX.md](https://github.com/dswann101164/-terraform-remote-state/blob/main/DECISION_MATRIX.md)
+- **Complete Guide:** [README.md](https://github.com/dswann101164/terraform-remote-state/blob/main/README.md)
+- **Quick Start:** [QUICKSTART.md](https://github.com/dswann101164/terraform-remote-state/blob/main/QUICKSTART.md)  
+- **Step-by-Step Checklist:** [CHECKLIST.md](https://github.com/dswann101164/terraform-remote-state/blob/main/CHECKLIST.md)
+- **ROI Calculator:** [DECISION_MATRIX.md](https://github.com/dswann101164/terraform-remote-state/blob/main/DECISION_MATRIX.md)
 
 ---
 

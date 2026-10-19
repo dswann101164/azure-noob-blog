@@ -40,7 +40,7 @@ These repos support the blog content:
 
 - **[azure-inventory-workbook-enhanced](https://github.com/dswann101164/azure-inventory-workbook-enhanced)** - Azure Monitor inventory for 200+ service types
 - **[azure-ipam](https://github.com/dswann101164/azure-ipam)** - IP address management for multi-subscription hybrid Azure
-- **[-terraform-remote-state](https://github.com/dswann101164/-terraform-remote-state)** - Production Terraform remote state templates
+- **[terraform-remote-state](https://github.com/dswann101164/terraform-remote-state)** - Production Terraform remote state templates
 - **[azure-admin-workstation-setup](https://github.com/dswann101164/azure-admin-workstation-setup)** - Automated Azure admin workstation configuration
 - **[azure-enterprise-ops](https://github.com/dswann101164/azure-enterprise-ops)** - Enterprise operational templates and documentation
 
